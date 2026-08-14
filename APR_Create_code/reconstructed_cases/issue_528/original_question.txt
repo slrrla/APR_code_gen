@@ -1,0 +1,54 @@
+Title:
+Can I only use a 'subset' of calibration matrix to reduce measurement errors?
+
+Category:
+Category: Installation / Env Config / Import Error
+
+Why Stack Overflow Wins in This Category:
+This issue is about efficient reuse of calibration data in the Qiskit measurement error mitigation workflow. Stack Overflow’s answer is better because it offers a direct, built-in solution (subset_fitter) that’s more resource-efficient, accurate for the given subset of qubits, and saves computation time. It shows deeper knowledge of Qiskit’s tools for calibration reuse, while the AI solution is more general but misses this optimization
+
+Question:
+Title: Can I only use a 'subset' of calibration matrix to reduce measurement errors?
+
+Suppose I have the following calibration matrix generated using 4 qubits: Is there a way I can use this filter to reduce another quantum circuit with 3 qubits? (i.e. A subset with 8 elements) (I was wondering if I could add a after the keys but it seems like this won't work since the additional qubit might 'flip'. ) Thanks!!
+
+```
+from qiskit.ignis.mitigation.measurement import (complete_meas_cal, CompleteMeasFitter) cal_circuits, state_labels = complete_meas_cal(qr = qc.qregs[0],circlabel = 'measerrormitigationcal') cal_job = execute(cal_circuits, backend = device, shots = 1024, optimization_level = 0 ) print(cal_job.job_id()) job_monitor(cal_job) cal_results = cal_job.result() meas_fitter = CompleteMeasFitter(cal_results, state_labels) import matplotlib.pyplot as plt fig, ax = plt.subplots(figsize=(10, 10)) meas_fitter.plot_calibration(ax)
+```
+
+```
+from qiskit.ignis.mitigation.measurement import (complete_meas_cal, CompleteMeasFitter) cal_circuits, state_labels = complete_meas_cal(qr = qc.qregs[0],circlabel = 'measerrormitigationcal') cal_job = execute(cal_circuits, backend = device, shots = 1024, optimization_level = 0 ) print(cal_job.job_id()) job_monitor(cal_job) cal_results = cal_job.result() meas_fitter = CompleteMeasFitter(cal_results, state_labels) import matplotlib.pyplot as plt fig, ax = plt.subplots(figsize=(10, 10)) meas_fitter.plot_calibration(ax)
+```
+
+```
+'0'
+```
+
+Original buggy code:
+from qiskit.ignis.mitigation.measurement import (complete_meas_cal, CompleteMeasFitter) cal_circuits, state_labels = complete_meas_cal(qr = qc.qregs[0],circlabel = 'measerrormitigationcal') cal_job = execute(cal_circuits, backend = device, shots = 1024, optimization_level = 0 ) print(cal_job.job_id()) job_monitor(cal_job) cal_results = cal_job.result() meas_fitter = CompleteMeasFitter(cal_results, state_labels) import matplotlib.pyplot as plt fig, ax = plt.subplots(figsize=(10, 10)) meas_fitter.plot_calibration(ax)
+
+---CODE_BLOCK---
+
+from qiskit.ignis.mitigation.measurement import (complete_meas_cal, CompleteMeasFitter) cal_circuits, state_labels = complete_meas_cal(qr = qc.qregs[0],circlabel = 'measerrormitigationcal') cal_job = execute(cal_circuits, backend = device, shots = 1024, optimization_level = 0 ) print(cal_job.job_id()) job_monitor(cal_job) cal_results = cal_job.result() meas_fitter = CompleteMeasFitter(cal_results, state_labels) import matplotlib.pyplot as plt fig, ax = plt.subplots(figsize=(10, 10)) meas_fitter.plot_calibration(ax)
+
+---CODE_BLOCK---
+
+'0'
+
+Solution explanation:
+Yes, I think this can be done through redefine a new meas_fitter that is a subset of the original one. Which should give you something like:
+
+```
+fig, ax = plt.subplots(figsize=(10, 10)) subset_meas_fitter = meas_fitter.subset_fitter([0,1,2]) #defining new meas_fitter for a set of qubits subset_meas_fitter.plot_calibration(ax) subset_meas_fitter.plot_calibration(ax)
+```
+
+```
+fig, ax = plt.subplots(figsize=(10, 10)) subset_meas_fitter = meas_fitter.subset_fitter([0,1,2]) #defining new meas_fitter for a set of qubits subset_meas_fitter.plot_calibration(ax) subset_meas_fitter.plot_calibration(ax)
+```
+
+Original fixed code:
+fig, ax = plt.subplots(figsize=(10, 10)) subset_meas_fitter = meas_fitter.subset_fitter([0,1,2]) #defining new meas_fitter for a set of qubits subset_meas_fitter.plot_calibration(ax) subset_meas_fitter.plot_calibration(ax)
+
+---CODE_BLOCK---
+
+fig, ax = plt.subplots(figsize=(10, 10)) subset_meas_fitter = meas_fitter.subset_fitter([0,1,2]) #defining new meas_fitter for a set of qubits subset_meas_fitter.plot_calibration(ax) subset_meas_fitter.plot_calibration(ax)

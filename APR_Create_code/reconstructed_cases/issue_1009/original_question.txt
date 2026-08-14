@@ -1,0 +1,123 @@
+Title:
+Why is CircuitSampler ignoring number of shots if backend is a statevector_simulator?
+
+Category:
+
+
+Question:
+Title: Why is CircuitSampler ignoring number of shots if backend is a statevector_simulator?
+
+I am calculating the expectation value of an operator using the class as mentioned here. Now, I was getting exact same result for the expectation values even when I specified different number of shots. It turns out that in the method of ignores the number of shots if the is a . Why is that the case? Also, what is the difference if is a or something else?
+
+```
+CircuitSampler
+```
+
+```
+convert
+```
+
+```
+CircuitSampler
+```
+
+```
+backend
+```
+
+```
+statevector_simulator
+```
+
+```
+backend
+```
+
+```
+statevector
+```
+
+Original buggy code:
+CircuitSampler
+
+---CODE_BLOCK---
+
+convert
+
+---CODE_BLOCK---
+
+CircuitSampler
+
+---CODE_BLOCK---
+
+backend
+
+---CODE_BLOCK---
+
+statevector_simulator
+
+---CODE_BLOCK---
+
+backend
+
+---CODE_BLOCK---
+
+statevector
+
+Solution explanation:
+This behavior is called "Aer fast expectation". It is enabled by default if operator primitives are Paulis and the used backend is Aer Qasm backend. It has the advantage of being fast. However, if you pass a noise model to the simulator, it will be ignored. If you are using you can disable this behavior by setting to so that will be used instead of
+
+```
+ExpectationFactory
+```
+
+```
+include_custom
+```
+
+```
+False
+```
+
+```
+PauliExpectation
+```
+
+```
+AerPauliExpectation
+```
+
+```
+observables = [ X^X, Z^I, Z^Z, ] circuit_sampler = CircuitSampler(quantum_instance) exp_converter = ExpectationFactory.build(observables[0], None, include_custom = False) # <== here list_op = ListOp([StateFn(obs, is_measurement = True).compose(StateFn(circuit)) for obs in observables]) observables_expect = exp_converter.convert(list_op) observables_expect_sampled = circuit_sampler.convert(observables_expect) observables_results = np.real(observables_expect_sampled.eval()) print(observables_results)
+```
+
+```
+observables = [ X^X, Z^I, Z^Z, ] circuit_sampler = CircuitSampler(quantum_instance) exp_converter = ExpectationFactory.build(observables[0], None, include_custom = False) # <== here list_op = ListOp([StateFn(obs, is_measurement = True).compose(StateFn(circuit)) for obs in observables]) observables_expect = exp_converter.convert(list_op) observables_expect_sampled = circuit_sampler.convert(observables_expect) observables_results = np.real(observables_expect_sampled.eval()) print(observables_results)
+```
+
+Original fixed code:
+ExpectationFactory
+
+---CODE_BLOCK---
+
+include_custom
+
+---CODE_BLOCK---
+
+False
+
+---CODE_BLOCK---
+
+PauliExpectation
+
+---CODE_BLOCK---
+
+AerPauliExpectation
+
+---CODE_BLOCK---
+
+observables = [ X^X, Z^I, Z^Z, ] circuit_sampler = CircuitSampler(quantum_instance) exp_converter = ExpectationFactory.build(observables[0], None, include_custom = False) # <== here list_op = ListOp([StateFn(obs, is_measurement = True).compose(StateFn(circuit)) for obs in observables]) observables_expect = exp_converter.convert(list_op) observables_expect_sampled = circuit_sampler.convert(observables_expect) observables_results = np.real(observables_expect_sampled.eval()) print(observables_results)
+
+---CODE_BLOCK---
+
+observables = [ X^X, Z^I, Z^Z, ] circuit_sampler = CircuitSampler(quantum_instance) exp_converter = ExpectationFactory.build(observables[0], None, include_custom = False) # <== here list_op = ListOp([StateFn(obs, is_measurement = True).compose(StateFn(circuit)) for obs in observables]) observables_expect = exp_converter.convert(list_op) observables_expect_sampled = circuit_sampler.convert(observables_expect) observables_results = np.real(observables_expect_sampled.eval()) print(observables_results)

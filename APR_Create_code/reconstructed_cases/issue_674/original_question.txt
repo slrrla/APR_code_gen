@@ -1,0 +1,100 @@
+Title:
+Qiskit - CircuitError Index 1 out of range for size 1
+
+Category:
+Category:
+Circuit 
+Why Stack Overflow Wins in This Category:
+For small circuit errors like incorrect index usage, concise syntax correction is ideal.
+Stack Overflow avoids ambiguity by showing exactly which line to replace, which aligns with practical debugging.
+AI explanation is more descriptive, but adds minor confusion by slicing the state vector (initial_state[1]) when the full 2D vector [0, 1] is valid.
+
+Question:
+Title: Qiskit - CircuitError Index 1 out of range for size 1
+
+Below Qiskit snippet throws error - . What's wrong? Error trace:
+
+```
+CircuitError: 'Index 1 out of range for size 1.
+```
+
+```
+import qiskit number_of_qubits = 1 initial_state = [0,1] qc = qiskit.QuantumCircuit(number_of_qubits) qc.initialize(initial_state) qc.x(initial_state) qc.draw()
+```
+
+```
+import qiskit number_of_qubits = 1 initial_state = [0,1] qc = qiskit.QuantumCircuit(number_of_qubits) qc.initialize(initial_state) qc.x(initial_state) qc.draw()
+```
+
+```
+--------------------------------------------------------------------------- IndexError Traceback (most recent call last) File ~\AppData\Local\Programs\Python\my_custom_virtualenvs\qiskit_env\lib\site-packages\qiskit\circuit\quantumcircuit.py:4939, in _bit_argument_conversion_scalar(specifier, bit_sequence, bit_set, type_) 4938 try: -> 4939 return bit_sequence[specifier] 4940 except IndexError as ex: IndexError: list index out of range The above exception was the direct cause of the following exception: CircuitError Traceback (most recent call last) Input In [15], in <cell line: 6>() 4 qc = qiskit.QuantumCircuit(number_of_qubits) 5 qc.initialize(initial_state[1]) ----> 6 qc.x(initial_state) 7 qc.draw() ... CircuitError: 'Index 1 out of range for size 1.' ```
+```
+
+```
+--------------------------------------------------------------------------- IndexError Traceback (most recent call last) File ~\AppData\Local\Programs\Python\my_custom_virtualenvs\qiskit_env\lib\site-packages\qiskit\circuit\quantumcircuit.py:4939, in _bit_argument_conversion_scalar(specifier, bit_sequence, bit_set, type_) 4938 try: -> 4939 return bit_sequence[specifier] 4940 except IndexError as ex: IndexError: list index out of range The above exception was the direct cause of the following exception: CircuitError Traceback (most recent call last) Input In [15], in <cell line: 6>() 4 qc = qiskit.QuantumCircuit(number_of_qubits) 5 qc.initialize(initial_state[1]) ----> 6 qc.x(initial_state) 7 qc.draw() ... CircuitError: 'Index 1 out of range for size 1.' ```
+```
+
+Original buggy code:
+CircuitError: 'Index 1 out of range for size 1.
+
+---CODE_BLOCK---
+
+import qiskit number_of_qubits = 1 initial_state = [0,1] qc = qiskit.QuantumCircuit(number_of_qubits) qc.initialize(initial_state) qc.x(initial_state) qc.draw()
+
+---CODE_BLOCK---
+
+import qiskit number_of_qubits = 1 initial_state = [0,1] qc = qiskit.QuantumCircuit(number_of_qubits) qc.initialize(initial_state) qc.x(initial_state) qc.draw()
+
+---CODE_BLOCK---
+
+--------------------------------------------------------------------------- IndexError Traceback (most recent call last) File ~\AppData\Local\Programs\Python\my_custom_virtualenvs\qiskit_env\lib\site-packages\qiskit\circuit\quantumcircuit.py:4939, in _bit_argument_conversion_scalar(specifier, bit_sequence, bit_set, type_) 4938 try: -> 4939 return bit_sequence[specifier] 4940 except IndexError as ex: IndexError: list index out of range The above exception was the direct cause of the following exception: CircuitError Traceback (most recent call last) Input In [15], in <cell line: 6>() 4 qc = qiskit.QuantumCircuit(number_of_qubits) 5 qc.initialize(initial_state[1]) ----> 6 qc.x(initial_state) 7 qc.draw() ... CircuitError: 'Index 1 out of range for size 1.'
+
+Solution explanation:
+You are applying to two qubits, . However, your circuit has only one. You can change your code to:
+
+```
+X
+```
+
+```
+[0,1]
+```
+
+```
+import qiskit number_of_qubits = 1 initial_state = [0,1] qc = qiskit.QuantumCircuit(number_of_qubits) qc.initialize(initial_state) qc.x(0) qc.draw()
+```
+
+```
+import qiskit number_of_qubits = 1 initial_state = [0,1] qc = qiskit.QuantumCircuit(number_of_qubits) qc.initialize(initial_state) qc.x(0) qc.draw()
+```
+
+```
+┌─────────────────┐┌───┐ q: ┤ Initialize(0,1) ├┤ X ├ └─────────────────┘└───┘
+```
+
+```
+┌─────────────────┐┌───┐ q: ┤ Initialize(0,1) ├┤ X ├ └─────────────────┘└───┘
+```
+
+Original fixed code:
+X
+
+---CODE_BLOCK---
+
+[0,1]
+
+---CODE_BLOCK---
+
+import qiskit number_of_qubits = 1 initial_state = [0,1] qc = qiskit.QuantumCircuit(number_of_qubits) qc.initialize(initial_state) qc.x(0) qc.draw()
+
+---CODE_BLOCK---
+
+import qiskit number_of_qubits = 1 initial_state = [0,1] qc = qiskit.QuantumCircuit(number_of_qubits) qc.initialize(initial_state) qc.x(0) qc.draw()
+
+---CODE_BLOCK---
+
+┌─────────────────┐┌───┐ q: ┤ Initialize(0,1) ├┤ X ├ └─────────────────┘└───┘
+
+---CODE_BLOCK---
+
+┌─────────────────┐┌───┐ q: ┤ Initialize(0,1) ├┤ X ├ └─────────────────┘└───┘

@@ -1,0 +1,339 @@
+Title:
+TranspilerError: 'Number of qubits (40) in QAOA is greater than maximum (30) in the coupling_map'
+
+Category:
+
+
+Question:
+Title: TranspilerError: 'Number of qubits (40) in QAOA is greater than maximum (30) in the coupling_map'
+
+Hi Ive been trying to solve a custom PO problem using QAOA and I ran into this particular error. As per my understanding,this is due to the limitation of the simulation hardware. But as per the documentation the new QAOA package does not support to inject a quantum instance () but the old implementation did. (). Given below is my code implementation. Can someone help me fix this issue. Ive tried getting the backend using but there isnt a specific method to provide that to the QAOA.
+
+```
+from qiskit_algorithms import QAOA
+```
+
+```
+from qiskit.algorithms import QAOA
+```
+
+```
+from qiskit_algorithms import QAOA from qiskit_optimization.algorithms import MinimumEigenOptimizer from qiskit_algorithms.optimizers import COBYLA from qiskit_aer.primitives import Sampler qp = from_docplex_mp(mdl) print(qp.export_as_lp_string()) cobyla = COBYLA() cobyla.set_options(maxiter=250) qaoa_mes = QAOA(sampler=Sampler(), optimizer=cobyla, reps=1) qaoa = MinimumEigenOptimizer(qaoa_mes) result = qaoa.solve(qp)
+```
+
+```
+from qiskit_algorithms import QAOA from qiskit_optimization.algorithms import MinimumEigenOptimizer from qiskit_algorithms.optimizers import COBYLA from qiskit_aer.primitives import Sampler qp = from_docplex_mp(mdl) print(qp.export_as_lp_string()) cobyla = COBYLA() cobyla.set_options(maxiter=250) qaoa_mes = QAOA(sampler=Sampler(), optimizer=cobyla, reps=1) qaoa = MinimumEigenOptimizer(qaoa_mes) result = qaoa.solve(qp)
+```
+
+```
+service = QiskitRuntimeService(channel="ibm_quantum",token="TOKEN") backend = service.least_busy(operational=True, simulator=False)
+```
+
+```
+service = QiskitRuntimeService(channel="ibm_quantum",token="TOKEN") backend = service.least_busy(operational=True, simulator=False)
+```
+
+Original buggy code:
+from qiskit_algorithms import QAOA
+
+---CODE_BLOCK---
+
+from qiskit.algorithms import QAOA
+
+---CODE_BLOCK---
+
+from qiskit_algorithms import QAOA from qiskit_optimization.algorithms import MinimumEigenOptimizer from qiskit_algorithms.optimizers import COBYLA from qiskit_aer.primitives import Sampler qp = from_docplex_mp(mdl) print(qp.export_as_lp_string()) cobyla = COBYLA() cobyla.set_options(maxiter=250) qaoa_mes = QAOA(sampler=Sampler(), optimizer=cobyla, reps=1) qaoa = MinimumEigenOptimizer(qaoa_mes) result = qaoa.solve(qp)
+
+---CODE_BLOCK---
+
+from qiskit_algorithms import QAOA from qiskit_optimization.algorithms import MinimumEigenOptimizer from qiskit_algorithms.optimizers import COBYLA from qiskit_aer.primitives import Sampler qp = from_docplex_mp(mdl) print(qp.export_as_lp_string()) cobyla = COBYLA() cobyla.set_options(maxiter=250) qaoa_mes = QAOA(sampler=Sampler(), optimizer=cobyla, reps=1) qaoa = MinimumEigenOptimizer(qaoa_mes) result = qaoa.solve(qp)
+
+---CODE_BLOCK---
+
+service = QiskitRuntimeService(channel="ibm_quantum",token="TOKEN") backend = service.least_busy(operational=True, simulator=False)
+
+---CODE_BLOCK---
+
+service = QiskitRuntimeService(channel="ibm_quantum",token="TOKEN") backend = service.least_busy(operational=True, simulator=False)
+
+Solution explanation:
+The error is because the number of qubits in the hardware you are selecting, is less than what your QAOA circuit has (in this case 40). All you have to do is change the backend importing code, and assert that you want a backend with at least this many qubits. You can do this via or in your code, you have to do the following: For updated QAOA implementation, follow this The backend is assigned in the and using , like this: Recent Implementation As per your recent comments, that error can be rectified by doing follows: I'm following your code till this line: Selecting the backend and importing Since you are using a QAOA function, I'll write how it is done in the updated version: Convert QUBO to a SparsePauliOp Make a QAOA Ansatz Optimize problem for quantum execution Observables Execute Quantum Backend Initial Parameters and minimization Post Process and if your problem instance is small, you can view it as well System Versions Python: 3.11.7 Qiskit: 1.0.2 and the all the other Qiskit dependencies in their latest version as of today.
+
+```
+least_busy(min_num_qubits=None, instance=None, filters=None, **kwargs)
+```
+
+```
+least_busy(min_num_qubits=None, instance=None, filters=None, **kwargs)
+```
+
+```
+service = QiskitRuntimeService(channel="ibm_quantum",token="TOKEN") backend = service.least_busy(min_num_qubits = 40,operational=True, simulator=False)
+```
+
+```
+service = QiskitRuntimeService(channel="ibm_quantum",token="TOKEN") backend = service.least_busy(min_num_qubits = 40,operational=True, simulator=False)
+```
+
+```
+sampler
+```
+
+```
+estimator
+```
+
+```
+options
+```
+
+```
+# To run on local simulator: # 1. Use the Estimator from qiskit.primitives instead. # 2. Remove the Session context manager below. options = Options() options.transpilation.skip_transpilation = True options.execution.shots = 10000 session = Session(backend=backend) estimator = Estimator(session=session, options={"shots": int(1e4)}) sampler = Sampler(session=session, options={"shots": int(1e4)})
+```
+
+```
+# To run on local simulator: # 1. Use the Estimator from qiskit.primitives instead. # 2. Remove the Session context manager below. options = Options() options.transpilation.skip_transpilation = True options.execution.shots = 10000 session = Session(backend=backend) estimator = Estimator(session=session, options={"shots": int(1e4)}) sampler = Sampler(session=session, options={"shots": int(1e4)})
+```
+
+```
+print(qp.export_as_lp_string())
+```
+
+```
+print(qp.export_as_lp_string())
+```
+
+```
+# General imports import numpy as np import warnings warnings.filterwarnings("ignore") # Pre-defined ansatz circuit, operator class and visualization tools from qiskit.circuit.library import QAOAAnsatz from qiskit.quantum_info import SparsePauliOp from qiskit.visualization import plot_distribution # Qiskit Runtime from qiskit_ibm_runtime import QiskitRuntimeService, Session from qiskit_ibm_runtime import EstimatorV2 as Estimator from qiskit_ibm_runtime import SamplerV2 as Sampler # SciPy minimizer routine from scipy.optimize import minimize # rustworkx graph library import rustworkx as rx from rustworkx.visualization import mpl_draw # To run on hardware, select the backend with the fewest number of jobs in the queue service = QiskitRuntimeService(channel="ibm_quantum") backend = service.least_busy(min_num_qubits=40,operational=True, simulator=False) backend.name
+```
+
+```
+# General imports import numpy as np import warnings warnings.filterwarnings("ignore") # Pre-defined ansatz circuit, operator class and visualization tools from qiskit.circuit.library import QAOAAnsatz from qiskit.quantum_info import SparsePauliOp from qiskit.visualization import plot_distribution # Qiskit Runtime from qiskit_ibm_runtime import QiskitRuntimeService, Session from qiskit_ibm_runtime import EstimatorV2 as Estimator from qiskit_ibm_runtime import SamplerV2 as Sampler # SciPy minimizer routine from scipy.optimize import minimize # rustworkx graph library import rustworkx as rx from rustworkx.visualization import mpl_draw # To run on hardware, select the backend with the fewest number of jobs in the queue service = QiskitRuntimeService(channel="ibm_quantum") backend = service.least_busy(min_num_qubits=40,operational=True, simulator=False) backend.name
+```
+
+```
+op,offset = qp.to_ising() print("offset: {}".format(offset)) print("operator:") print(op)
+```
+
+```
+op,offset = qp.to_ising() print("offset: {}".format(offset)) print("operator:") print(op)
+```
+
+```
+from qiskit.circuit.library import QAOAAnsatz ansatz = QAOAAnsatz(op, reps=2) ansatz.decompose(reps=3).draw(output="mpl", style="iqp")
+```
+
+```
+from qiskit.circuit.library import QAOAAnsatz ansatz = QAOAAnsatz(op, reps=2) ansatz.decompose(reps=3).draw(output="mpl", style="iqp")
+```
+
+```
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager target = backend.target pm = generate_preset_pass_manager(target=target, optimization_level=3) ansatz_isa = pm.run(ansatz) ansatz_isa.draw(output="mpl", idle_wires=False, style="iqp")
+```
+
+```
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager target = backend.target pm = generate_preset_pass_manager(target=target, optimization_level=3) ansatz_isa = pm.run(ansatz) ansatz_isa.draw(output="mpl", idle_wires=False, style="iqp")
+```
+
+```
+hamiltonian_isa = op.apply_layout(ansatz_isa.layout) hamiltonian_isa
+```
+
+```
+hamiltonian_isa = op.apply_layout(ansatz_isa.layout) hamiltonian_isa
+```
+
+```
+def cost_func(params, ansatz, hamiltonian, estimator): """Return estimate of energy from estimator Parameters: params (ndarray): Array of ansatz parameters ansatz (QuantumCircuit): Parameterized ansatz circuit hamiltonian (SparsePauliOp): Operator representation of Hamiltonian estimator (EstimatorV2): Estimator primitive instance Returns: float: Energy estimate """ pub = (ansatz, [hamiltonian], [params]) result = estimator.run(pubs=[pub]).result() cost = result[0].data.evs[0] return cost
+```
+
+```
+def cost_func(params, ansatz, hamiltonian, estimator): """Return estimate of energy from estimator Parameters: params (ndarray): Array of ansatz parameters ansatz (QuantumCircuit): Parameterized ansatz circuit hamiltonian (SparsePauliOp): Operator representation of Hamiltonian estimator (EstimatorV2): Estimator primitive instance Returns: float: Energy estimate """ pub = (ansatz, [hamiltonian], [params]) result = estimator.run(pubs=[pub]).result() cost = result[0].data.evs[0] return cost
+```
+
+```
+# To run on local simulator: # 1. Use the StatevectorEstimator from qiskit.primitives instead. # 2. Remove the Session instantiation below. session = Session(backend=backend) # Configure estimator estimator = Estimator(session=session) estimator.options.default_shots = 10_000 estimator.options.dynamical_decoupling.enable = True # Configure sampler sampler = Sampler(session=session) sampler.options.default_shots = 10_000 sampler.options.dynamical_decoupling.enable = True
+```
+
+```
+# To run on local simulator: # 1. Use the StatevectorEstimator from qiskit.primitives instead. # 2. Remove the Session instantiation below. session = Session(backend=backend) # Configure estimator estimator = Estimator(session=session) estimator.options.default_shots = 10_000 estimator.options.dynamical_decoupling.enable = True # Configure sampler sampler = Sampler(session=session) sampler.options.default_shots = 10_000 sampler.options.dynamical_decoupling.enable = True
+```
+
+```
+x0 = 2 * np.pi * np.random.rand(ansatz_isa.num_parameters)
+```
+
+```
+x0 = 2 * np.pi * np.random.rand(ansatz_isa.num_parameters)
+```
+
+```
+res = minimize(cost_func, x0, args=(ansatz_isa, hamiltonian_isa, estimator), method="COBYLA") res
+```
+
+```
+res = minimize(cost_func, x0, args=(ansatz_isa, hamiltonian_isa, estimator), method="COBYLA") res
+```
+
+```
+# Assign solution parameters to ansatz qc = ansatz.assign_parameters(res.x) # Add measurements to our circuit qc.measure_all() qc_isa = pm.run(qc) qc_isa.draw(output="mpl", idle_wires=False, style="iqp")
+```
+
+```
+# Assign solution parameters to ansatz qc = ansatz.assign_parameters(res.x) # Add measurements to our circuit qc.measure_all() qc_isa = pm.run(qc) qc_isa.draw(output="mpl", idle_wires=False, style="iqp")
+```
+
+```
+result = sampler.run([qc_isa]).result() samp_dist = result[0].data.meas.get_counts() # Close the session since we are now done with it session.close()
+```
+
+```
+result = sampler.run([qc_isa]).result() samp_dist = result[0].data.meas.get_counts() # Close the session since we are now done with it session.close()
+```
+
+```
+plot_distribution(samp_dist, figsize=(15, 5))
+```
+
+```
+plot_distribution(samp_dist, figsize=(15, 5))
+```
+
+Original fixed code:
+least_busy(min_num_qubits=None, instance=None, filters=None, **kwargs)
+
+---CODE_BLOCK---
+
+least_busy(min_num_qubits=None, instance=None, filters=None, **kwargs)
+
+---CODE_BLOCK---
+
+service = QiskitRuntimeService(channel="ibm_quantum",token="TOKEN") backend = service.least_busy(min_num_qubits = 40,operational=True, simulator=False)
+
+---CODE_BLOCK---
+
+service = QiskitRuntimeService(channel="ibm_quantum",token="TOKEN") backend = service.least_busy(min_num_qubits = 40,operational=True, simulator=False)
+
+---CODE_BLOCK---
+
+sampler
+
+---CODE_BLOCK---
+
+estimator
+
+---CODE_BLOCK---
+
+options
+
+---CODE_BLOCK---
+
+# To run on local simulator: # 1. Use the Estimator from qiskit.primitives instead. # 2. Remove the Session context manager below. options = Options() options.transpilation.skip_transpilation = True options.execution.shots = 10000 session = Session(backend=backend) estimator = Estimator(session=session, options={"shots": int(1e4)}) sampler = Sampler(session=session, options={"shots": int(1e4)})
+
+---CODE_BLOCK---
+
+# To run on local simulator: # 1. Use the Estimator from qiskit.primitives instead. # 2. Remove the Session context manager below. options = Options() options.transpilation.skip_transpilation = True options.execution.shots = 10000 session = Session(backend=backend) estimator = Estimator(session=session, options={"shots": int(1e4)}) sampler = Sampler(session=session, options={"shots": int(1e4)})
+
+---CODE_BLOCK---
+
+print(qp.export_as_lp_string())
+
+---CODE_BLOCK---
+
+print(qp.export_as_lp_string())
+
+---CODE_BLOCK---
+
+# General imports import numpy as np import warnings warnings.filterwarnings("ignore") # Pre-defined ansatz circuit, operator class and visualization tools from qiskit.circuit.library import QAOAAnsatz from qiskit.quantum_info import SparsePauliOp from qiskit.visualization import plot_distribution # Qiskit Runtime from qiskit_ibm_runtime import QiskitRuntimeService, Session from qiskit_ibm_runtime import EstimatorV2 as Estimator from qiskit_ibm_runtime import SamplerV2 as Sampler # SciPy minimizer routine from scipy.optimize import minimize # rustworkx graph library import rustworkx as rx from rustworkx.visualization import mpl_draw # To run on hardware, select the backend with the fewest number of jobs in the queue service = QiskitRuntimeService(channel="ibm_quantum") backend = service.least_busy(min_num_qubits=40,operational=True, simulator=False) backend.name
+
+---CODE_BLOCK---
+
+# General imports import numpy as np import warnings warnings.filterwarnings("ignore") # Pre-defined ansatz circuit, operator class and visualization tools from qiskit.circuit.library import QAOAAnsatz from qiskit.quantum_info import SparsePauliOp from qiskit.visualization import plot_distribution # Qiskit Runtime from qiskit_ibm_runtime import QiskitRuntimeService, Session from qiskit_ibm_runtime import EstimatorV2 as Estimator from qiskit_ibm_runtime import SamplerV2 as Sampler # SciPy minimizer routine from scipy.optimize import minimize # rustworkx graph library import rustworkx as rx from rustworkx.visualization import mpl_draw # To run on hardware, select the backend with the fewest number of jobs in the queue service = QiskitRuntimeService(channel="ibm_quantum") backend = service.least_busy(min_num_qubits=40,operational=True, simulator=False) backend.name
+
+---CODE_BLOCK---
+
+op,offset = qp.to_ising() print("offset: {}".format(offset)) print("operator:") print(op)
+
+---CODE_BLOCK---
+
+op,offset = qp.to_ising() print("offset: {}".format(offset)) print("operator:") print(op)
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import QAOAAnsatz ansatz = QAOAAnsatz(op, reps=2) ansatz.decompose(reps=3).draw(output="mpl", style="iqp")
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import QAOAAnsatz ansatz = QAOAAnsatz(op, reps=2) ansatz.decompose(reps=3).draw(output="mpl", style="iqp")
+
+---CODE_BLOCK---
+
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager target = backend.target pm = generate_preset_pass_manager(target=target, optimization_level=3) ansatz_isa = pm.run(ansatz) ansatz_isa.draw(output="mpl", idle_wires=False, style="iqp")
+
+---CODE_BLOCK---
+
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager target = backend.target pm = generate_preset_pass_manager(target=target, optimization_level=3) ansatz_isa = pm.run(ansatz) ansatz_isa.draw(output="mpl", idle_wires=False, style="iqp")
+
+---CODE_BLOCK---
+
+hamiltonian_isa = op.apply_layout(ansatz_isa.layout) hamiltonian_isa
+
+---CODE_BLOCK---
+
+hamiltonian_isa = op.apply_layout(ansatz_isa.layout) hamiltonian_isa
+
+---CODE_BLOCK---
+
+def cost_func(params, ansatz, hamiltonian, estimator): """Return estimate of energy from estimator Parameters: params (ndarray): Array of ansatz parameters ansatz (QuantumCircuit): Parameterized ansatz circuit hamiltonian (SparsePauliOp): Operator representation of Hamiltonian estimator (EstimatorV2): Estimator primitive instance Returns: float: Energy estimate """ pub = (ansatz, [hamiltonian], [params]) result = estimator.run(pubs=[pub]).result() cost = result[0].data.evs[0] return cost
+
+---CODE_BLOCK---
+
+def cost_func(params, ansatz, hamiltonian, estimator): """Return estimate of energy from estimator Parameters: params (ndarray): Array of ansatz parameters ansatz (QuantumCircuit): Parameterized ansatz circuit hamiltonian (SparsePauliOp): Operator representation of Hamiltonian estimator (EstimatorV2): Estimator primitive instance Returns: float: Energy estimate """ pub = (ansatz, [hamiltonian], [params]) result = estimator.run(pubs=[pub]).result() cost = result[0].data.evs[0] return cost
+
+---CODE_BLOCK---
+
+# To run on local simulator: # 1. Use the StatevectorEstimator from qiskit.primitives instead. # 2. Remove the Session instantiation below. session = Session(backend=backend) # Configure estimator estimator = Estimator(session=session) estimator.options.default_shots = 10_000 estimator.options.dynamical_decoupling.enable = True # Configure sampler sampler = Sampler(session=session) sampler.options.default_shots = 10_000 sampler.options.dynamical_decoupling.enable = True
+
+---CODE_BLOCK---
+
+# To run on local simulator: # 1. Use the StatevectorEstimator from qiskit.primitives instead. # 2. Remove the Session instantiation below. session = Session(backend=backend) # Configure estimator estimator = Estimator(session=session) estimator.options.default_shots = 10_000 estimator.options.dynamical_decoupling.enable = True # Configure sampler sampler = Sampler(session=session) sampler.options.default_shots = 10_000 sampler.options.dynamical_decoupling.enable = True
+
+---CODE_BLOCK---
+
+x0 = 2 * np.pi * np.random.rand(ansatz_isa.num_parameters)
+
+---CODE_BLOCK---
+
+x0 = 2 * np.pi * np.random.rand(ansatz_isa.num_parameters)
+
+---CODE_BLOCK---
+
+res = minimize(cost_func, x0, args=(ansatz_isa, hamiltonian_isa, estimator), method="COBYLA") res
+
+---CODE_BLOCK---
+
+res = minimize(cost_func, x0, args=(ansatz_isa, hamiltonian_isa, estimator), method="COBYLA") res
+
+---CODE_BLOCK---
+
+# Assign solution parameters to ansatz qc = ansatz.assign_parameters(res.x) # Add measurements to our circuit qc.measure_all() qc_isa = pm.run(qc) qc_isa.draw(output="mpl", idle_wires=False, style="iqp")
+
+---CODE_BLOCK---
+
+# Assign solution parameters to ansatz qc = ansatz.assign_parameters(res.x) # Add measurements to our circuit qc.measure_all() qc_isa = pm.run(qc) qc_isa.draw(output="mpl", idle_wires=False, style="iqp")
+
+---CODE_BLOCK---
+
+result = sampler.run([qc_isa]).result() samp_dist = result[0].data.meas.get_counts() # Close the session since we are now done with it session.close()
+
+---CODE_BLOCK---
+
+result = sampler.run([qc_isa]).result() samp_dist = result[0].data.meas.get_counts() # Close the session since we are now done with it session.close()
+
+---CODE_BLOCK---
+
+plot_distribution(samp_dist, figsize=(15, 5))
+
+---CODE_BLOCK---
+
+plot_distribution(samp_dist, figsize=(15, 5))

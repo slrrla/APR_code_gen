@@ -1,0 +1,63 @@
+Title:
+Expectation value of a given observable computed manually using qiskit.Sampler is different as with qiskit.Estimator
+
+Category:
+
+
+Question:
+Title: Expectation value of a given observable computed manually using qiskit.Sampler is different as with qiskit.Estimator
+
+I am trying to calculate the expectation value of a given observable for a certain state $\psi$ using qiskit primitives Sampler (using Sampler requires some further calculations) and Estimator. I expect the two values to be the same. However, I notice they differ significantly for nearly all test cases. I probably calculated something wrong, but I cannot figure out what or where? I would appreciate it if someone could shed some light on the subject. According to qiskit documentation, the Estimator calculates expectation value using the following formula: $$\left\langle\hat{H}\right\rangle_\psi=\sum_{\lambda} p_\lambda\lambda=\left\langle\psi\left|\hat{H}\right|\psi\right\rangle$$ Where $\hat{H}$ is expressed as a linear combination of Pauli operators. Here is an example: Defining $\hat{H}=X+Z$, I will calculate for $\left\langle\hat{H}\right\rangle_+=\left\langle+\left|\hat{H}\right|+\right\rangle$. Using Sampler primitive: Using Estimator primitive: Note that the two values are vastly different. However, I expect the result to be that indicated by the Sampler method: $$\left(\frac{1}{\sqrt2}\right)^2\left[\begin{matrix}1&1\\\end{matrix}\right]\left[\begin{matrix}1&1\\1&-1\\\end{matrix}\right]\left[\begin{matrix}1\\1\\\end{matrix}\right]=1$$ My question is : why does the Estimator output 0?
+
+```
+observable = SparsePauliOp.from_list( [ ("X", 1), ("Z", 1) ] ) circuit = QuantumCircuit(1) circuit.rx(np.pi/2, 0)
+```
+
+```
+observable = SparsePauliOp.from_list( [ ("X", 1), ("Z", 1) ] ) circuit = QuantumCircuit(1) circuit.rx(np.pi/2, 0)
+```
+
+```
+cir = circuit.copy() cir.measure_all() sampler = Sampler() job = sampler.run(cir) probabilities = job.result().quasi_dists[0] observableMat = observable.to_matrix() probabilitiesAr = np.sqrt( np.array([probabilities.get(i, 0) for i in range(observable.num_qubits+1)]) ) expectationValue = np.inner(np.conj(probabilitiesAr), np.dot(observableMat, probabilitiesAr)) print(expectationValue.real) #outputs 1.0
+```
+
+```
+cir = circuit.copy() cir.measure_all() sampler = Sampler() job = sampler.run(cir) probabilities = job.result().quasi_dists[0] observableMat = observable.to_matrix() probabilitiesAr = np.sqrt( np.array([probabilities.get(i, 0) for i in range(observable.num_qubits+1)]) ) expectationValue = np.inner(np.conj(probabilitiesAr), np.dot(observableMat, probabilitiesAr)) print(expectationValue.real) #outputs 1.0
+```
+
+```
+Estimator().run(circuit, observable).result().values[0].real #outputs 2.220446049250313e-16
+```
+
+```
+Estimator().run(circuit, observable).result().values[0].real #outputs 2.220446049250313e-16
+```
+
+Original buggy code:
+observable = SparsePauliOp.from_list( [ ("X", 1), ("Z", 1) ] ) circuit = QuantumCircuit(1) circuit.rx(np.pi/2, 0)
+
+---CODE_BLOCK---
+
+observable = SparsePauliOp.from_list( [ ("X", 1), ("Z", 1) ] ) circuit = QuantumCircuit(1) circuit.rx(np.pi/2, 0)
+
+---CODE_BLOCK---
+
+cir = circuit.copy() cir.measure_all() sampler = Sampler() job = sampler.run(cir) probabilities = job.result().quasi_dists[0] observableMat = observable.to_matrix() probabilitiesAr = np.sqrt( np.array([probabilities.get(i, 0) for i in range(observable.num_qubits+1)]) ) expectationValue = np.inner(np.conj(probabilitiesAr), np.dot(observableMat, probabilitiesAr)) print(expectationValue.real) #outputs 1.0
+
+---CODE_BLOCK---
+
+cir = circuit.copy() cir.measure_all() sampler = Sampler() job = sampler.run(cir) probabilities = job.result().quasi_dists[0] observableMat = observable.to_matrix() probabilitiesAr = np.sqrt( np.array([probabilities.get(i, 0) for i in range(observable.num_qubits+1)]) ) expectationValue = np.inner(np.conj(probabilitiesAr), np.dot(observableMat, probabilitiesAr)) print(expectationValue.real) #outputs 1.0
+
+---CODE_BLOCK---
+
+Estimator().run(circuit, observable).result().values[0].real #outputs 2.220446049250313e-16
+
+---CODE_BLOCK---
+
+Estimator().run(circuit, observable).result().values[0].real #outputs 2.220446049250313e-16
+
+Solution explanation:
+Note that you are actually calculating the expectation value with respect to the state $$R_x\left(\frac{\pi}{2}\right)|0\rangle=\frac{1}{\sqrt{2}}\left(|0\rangle - i|1\rangle\right) \equiv |-i\rangle,$$ instead of with respect to your intended state $R_y(\pi/2)|0\rangle=|+\rangle$. The expectation value of your operator with respect to $|-i\rangle$ is in fact 0: $$\langle-i|\hat{H}|-i\rangle = \left(\frac{1}{\sqrt{2}}\right)^2\begin{bmatrix}1 & i\end{bmatrix}\begin{bmatrix}1 & 1 \\ 1 & -1\end{bmatrix}\begin{bmatrix}1 \\ -i\end{bmatrix} = 0,$$ so the Estimator primitive is actually returning the correct result. If you calculate $\langle+|\hat{H}|+\rangle$ by replacing the $R_x$ gate with the $R_y$ gate in your code it will correctly output 1. The real issue here is that your method using the Sampler primitive is not correct since in general you cannot simply calculate the coefficients of your quantum state by taking the square root of the probabilities. By doing this you're losing all of the relative phases in the coefficients, so this will only work if you happen to be calculating an expectation value with respect to a state whose coefficients are all positive real numbers up to a global phase factor (which is the case for the $|+\rangle$ state, but not for the $|-i\rangle$ state).
+
+Original fixed code:
+Note that you are actually calculating the expectation value with respect to the state $$R_x\left(\frac{\pi}{2}\right)|0\rangle=\frac{1}{\sqrt{2}}\left(|0\rangle - i|1\rangle\right) \equiv |-i\rangle,$$ instead of with respect to your intended state $R_y(\pi/2)|0\rangle=|+\rangle$. The expectation value of your operator with respect to $|-i\rangle$ is in fact 0: $$\langle-i|\hat{H}|-i\rangle = \left(\frac{1}{\sqrt{2}}\right)^2\begin{bmatrix}1 & i\end{bmatrix}\begin{bmatrix}1 & 1 \\ 1 & -1\end{bmatrix}\begin{bmatrix}1 \\ -i\end{bmatrix} = 0,$$ so the Estimator primitive is actually returning the correct result. If you calculate $\langle+|\hat{H}|+\rangle$ by replacing the $R_x$ gate with the $R_y$ gate in your code it will correctly output 1. The real issue here is that your method using the Sampler primitive is not correct since in general you cannot simply calculate the coefficients of your quantum state by taking the square root of the probabilities. By doing this you're losing all of the relative phases in the coefficients, so this will only work if you happen to be calculating an expectation value with respect to a state whose coefficients are all positive real numbers up to a global phase factor (which is the case for the $|+\rangle$ state, but not for the $|-i\rangle$ state).

@@ -1,0 +1,35 @@
+Title:
+What is the time zone for the time returned by backend.properties()?
+
+Category:
+
+
+Question:
+Title: What is the time zone for the time returned by backend.properties()?
+
+For example, backend.properties() returns following: Is the above time UTC or local time(although in Essex it is the same value)?
+
+```
+{'last_update_date': '2019-11-11T07:16:13+00:00', 'backend_name': 'ibmq_essex', 'general': [], 'qubits': ...
+```
+
+```
+{'last_update_date': '2019-11-11T07:16:13+00:00', 'backend_name': 'ibmq_essex', 'general': [], 'qubits': ...
+```
+
+Original buggy code:
+{'last_update_date': '2019-11-11T07:16:13+00:00', 'backend_name': 'ibmq_essex', 'general': [], 'qubits': ...
+
+---CODE_BLOCK---
+
+{'last_update_date': '2019-11-11T07:16:13+00:00', 'backend_name': 'ibmq_essex', 'general': [], 'qubits': ...
+
+Solution explanation:
+The time you are looking at there, , shows when the properties dict was last updated, so you can see whether it is a recent dict or an older one. This is why you are getting the same value for multiple backends. This time is set here and so it shows the local date and time with the UTC offset, +0:00 in this case. All the times returned for the different properties are in UTC.
+
+```
+last_update_time
+```
+
+Original fixed code:
+last_update_time

@@ -1,0 +1,79 @@
+Title:
+How to do a partial trace over registers (rather than individual qubits) in Qiskit
+
+Category:
+Category:
+Backend Usage / Simulation / Output
+
+Why Stack Overflow Wins in This Category:
+For simulation-related debugging, precision is key. The Stack Overflow answer provides the exact transformation (qc.qubits.index(qubit)) needed to make partial_trace work correctly, directly solving the error. The AI solution, although helpful for learning, could fail without converting to indices, so the Stack Overflow answer is superior in this category.
+
+Question:
+Title: How to do a partial trace over registers (rather than individual qubits) in Qiskit
+
+In Qiskit, is the partial_trace function able to do a partial trace over registers, as opposed to over individual qubits? In the code example below, I have four registers (reg1 thru reg4) and I am trying to call partial_trace with a list of register to trace out. This does not work; the code throws the following exception: Note: I know how to do a partial trace over individual qubits (see for example this question or this question. I am asking specifically how to trace out entire registers rather than individual qubits. The code:
+
+```
+Traceback (most recent call last): File "stack_overflow_question.py", line 34, in <module> density_matrix = partial_trace(result.get_statevector(), traced_over_registers) File "/Users/brunorijsman/git-personal/quantum-internet-hackathon-2022/venv/lib/python3.8/site-packages/qiskit/quantum_info/states/utils.py", line 45, in partial_trace traced_shape = state._op_shape.remove(qargs=qargs) File "/Users/brunorijsman/git-personal/quantum-internet-hackathon-2022/venv/lib/python3.8/site-packages/qiskit/quantum_info/operators/op_shape.py", line 354, in remove if qargs_l and max(qargs_l) >= self._num_qargs_l: TypeError: '>' not supported between instances of 'QuantumRegister' and 'QuantumRegister'
+```
+
+```
+Traceback (most recent call last): File "stack_overflow_question.py", line 34, in <module> density_matrix = partial_trace(result.get_statevector(), traced_over_registers) File "/Users/brunorijsman/git-personal/quantum-internet-hackathon-2022/venv/lib/python3.8/site-packages/qiskit/quantum_info/states/utils.py", line 45, in partial_trace traced_shape = state._op_shape.remove(qargs=qargs) File "/Users/brunorijsman/git-personal/quantum-internet-hackathon-2022/venv/lib/python3.8/site-packages/qiskit/quantum_info/operators/op_shape.py", line 354, in remove if qargs_l and max(qargs_l) >= self._num_qargs_l: TypeError: '>' not supported between instances of 'QuantumRegister' and 'QuantumRegister'
+```
+
+```
+from qiskit import Aer, QuantumCircuit, QuantumRegister, transpile from qiskit.quantum_info import partial_trace qc = QuantumCircuit() reg1 = QuantumRegister(2) qc.add_register(reg1) reg2 = QuantumRegister(2) qc.add_register(reg2) reg3 = QuantumRegister(2) qc.add_register(reg3) reg4 = QuantumRegister(2) qc.add_register(reg4) # It's not relevant to the question what exactly is done in the circuit qc.h(reg1[0]) qc.cnot(reg1[0], reg2[0]) qc.h(reg3[0]) qc.x(reg4[0]) qc.cnot(reg3[0], reg4[0]) simulator = Aer.get_backend("aer_simulator") qc.save_statevector() transpiled_qc = transpile(qc, simulator) result = simulator.run(transpiled_qc).result() traced_over_registers = [reg2, reg4 ] density_matrix = partial_trace(result.get_statevector(), traced_over_registers)
+```
+
+```
+from qiskit import Aer, QuantumCircuit, QuantumRegister, transpile from qiskit.quantum_info import partial_trace qc = QuantumCircuit() reg1 = QuantumRegister(2) qc.add_register(reg1) reg2 = QuantumRegister(2) qc.add_register(reg2) reg3 = QuantumRegister(2) qc.add_register(reg3) reg4 = QuantumRegister(2) qc.add_register(reg4) # It's not relevant to the question what exactly is done in the circuit qc.h(reg1[0]) qc.cnot(reg1[0], reg2[0]) qc.h(reg3[0]) qc.x(reg4[0]) qc.cnot(reg3[0], reg4[0]) simulator = Aer.get_backend("aer_simulator") qc.save_statevector() transpiled_qc = transpile(qc, simulator) result = simulator.run(transpiled_qc).result() traced_over_registers = [reg2, reg4 ] density_matrix = partial_trace(result.get_statevector(), traced_over_registers)
+```
+
+Original buggy code:
+Traceback (most recent call last): File "stack_overflow_question.py", line 34, in <module> density_matrix = partial_trace(result.get_statevector(), traced_over_registers) File "/Users/brunorijsman/git-personal/quantum-internet-hackathon-2022/venv/lib/python3.8/site-packages/qiskit/quantum_info/states/utils.py", line 45, in partial_trace traced_shape = state._op_shape.remove(qargs=qargs) File "/Users/brunorijsman/git-personal/quantum-internet-hackathon-2022/venv/lib/python3.8/site-packages/qiskit/quantum_info/operators/op_shape.py", line 354, in remove if qargs_l and max(qargs_l) >= self._num_qargs_l: TypeError: '>' not supported between instances of 'QuantumRegister' and 'QuantumRegister'
+
+---CODE_BLOCK---
+
+Traceback (most recent call last): File "stack_overflow_question.py", line 34, in <module> density_matrix = partial_trace(result.get_statevector(), traced_over_registers) File "/Users/brunorijsman/git-personal/quantum-internet-hackathon-2022/venv/lib/python3.8/site-packages/qiskit/quantum_info/states/utils.py", line 45, in partial_trace traced_shape = state._op_shape.remove(qargs=qargs) File "/Users/brunorijsman/git-personal/quantum-internet-hackathon-2022/venv/lib/python3.8/site-packages/qiskit/quantum_info/operators/op_shape.py", line 354, in remove if qargs_l and max(qargs_l) >= self._num_qargs_l: TypeError: '>' not supported between instances of 'QuantumRegister' and 'QuantumRegister'
+
+---CODE_BLOCK---
+
+from qiskit import Aer, QuantumCircuit, QuantumRegister, transpile from qiskit.quantum_info import partial_trace qc = QuantumCircuit() reg1 = QuantumRegister(2) qc.add_register(reg1) reg2 = QuantumRegister(2) qc.add_register(reg2) reg3 = QuantumRegister(2) qc.add_register(reg3) reg4 = QuantumRegister(2) qc.add_register(reg4) # It's not relevant to the question what exactly is done in the circuit qc.h(reg1[0]) qc.cnot(reg1[0], reg2[0]) qc.h(reg3[0]) qc.x(reg4[0]) qc.cnot(reg3[0], reg4[0]) simulator = Aer.get_backend("aer_simulator") qc.save_statevector() transpiled_qc = transpile(qc, simulator) result = simulator.run(transpiled_qc).result() traced_over_registers = [reg2, reg4 ] density_matrix = partial_trace(result.get_statevector(), traced_over_registers)
+
+---CODE_BLOCK---
+
+from qiskit import Aer, QuantumCircuit, QuantumRegister, transpile from qiskit.quantum_info import partial_trace qc = QuantumCircuit() reg1 = QuantumRegister(2) qc.add_register(reg1) reg2 = QuantumRegister(2) qc.add_register(reg2) reg3 = QuantumRegister(2) qc.add_register(reg3) reg4 = QuantumRegister(2) qc.add_register(reg4) # It's not relevant to the question what exactly is done in the circuit qc.h(reg1[0]) qc.cnot(reg1[0], reg2[0]) qc.h(reg3[0]) qc.x(reg4[0]) qc.cnot(reg3[0], reg4[0]) simulator = Aer.get_backend("aer_simulator") qc.save_statevector() transpiled_qc = transpile(qc, simulator) result = simulator.run(transpiled_qc).result() traced_over_registers = [reg2, reg4 ] density_matrix = partial_trace(result.get_statevector(), traced_over_registers)
+
+Solution explanation:
+In Qiskit, a knows nothing about the circuit it belongs to. So, can't accept a register to trace over, because it can't identify the subsystem in the given state which corresponds to this register. However, you can easily get the list of circuit qubits which belong to a quantum register or more as follows:
+
+```
+QuantumRegister
+```
+
+```
+partial_trace
+```
+
+```
+traced_over_qubits = [ qc.qubits.index(qubit) for qubit in reg2[:] + reg4[:] ] density_matrix = partial_trace(result.get_statevector(), traced_over_qubits)
+```
+
+```
+traced_over_qubits = [ qc.qubits.index(qubit) for qubit in reg2[:] + reg4[:] ] density_matrix = partial_trace(result.get_statevector(), traced_over_qubits)
+```
+
+Original fixed code:
+QuantumRegister
+
+---CODE_BLOCK---
+
+partial_trace
+
+---CODE_BLOCK---
+
+traced_over_qubits = [ qc.qubits.index(qubit) for qubit in reg2[:] + reg4[:] ] density_matrix = partial_trace(result.get_statevector(), traced_over_qubits)
+
+---CODE_BLOCK---
+
+traced_over_qubits = [ qc.qubits.index(qubit) for qubit in reg2[:] + reg4[:] ] density_matrix = partial_trace(result.get_statevector(), traced_over_qubits)

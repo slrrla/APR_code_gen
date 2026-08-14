@@ -1,0 +1,171 @@
+Title:
+What exacly is passManager and passes in qiskit?
+
+Category:
+
+
+Question:
+Title: What exacly is passManager and passes in qiskit?
+
+I am trying to understand what exactly is , what exactly it its use, where exactly we need to use it? https://github.com/Qiskit/qiskit-tutorials/blob/master/tutorials/circuits_advanced/04_transpiler_passes_and_passmanager.ipynb The link above provide some information about . The have provided some code also as shown below: It would be great if I can be helped in this. Not sure whether is it the which has changed this gate into some kind of random circuit?
+
+```
+passManager
+```
+
+```
+passManager
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.compiler import transpile from qiskit.transpiler import PassManager circ = QuantumCircuit(3) circ.ccx(0, 1, 2) print(circ.draw())
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.compiler import transpile from qiskit.transpiler import PassManager circ = QuantumCircuit(3) circ.ccx(0, 1, 2) print(circ.draw())
+```
+
+```
+from qiskit.transpiler.passes import Unroller # NOTE: Unroller is not supported by qiskit_1.0 pass_ = Unroller(['u1', 'u2', 'u3', 'cx']) pm = PassManager(pass_) new_circ = pm.run(circ) print(new_circ.draw())
+```
+
+```
+from qiskit.transpiler.passes import Unroller # NOTE: Unroller is not supported by qiskit_1.0 pass_ = Unroller(['u1', 'u2', 'u3', 'cx']) pm = PassManager(pass_) new_circ = pm.run(circ) print(new_circ.draw())
+```
+
+```
+passManager
+```
+
+```
+ccx
+```
+
+Original buggy code:
+passManager
+
+---CODE_BLOCK---
+
+passManager
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.compiler import transpile from qiskit.transpiler import PassManager circ = QuantumCircuit(3) circ.ccx(0, 1, 2) print(circ.draw())
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.compiler import transpile from qiskit.transpiler import PassManager circ = QuantumCircuit(3) circ.ccx(0, 1, 2) print(circ.draw())
+
+---CODE_BLOCK---
+
+from qiskit.transpiler.passes import Unroller # NOTE: Unroller is not supported by qiskit_1.0 pass_ = Unroller(['u1', 'u2', 'u3', 'cx']) pm = PassManager(pass_) new_circ = pm.run(circ) print(new_circ.draw())
+
+---CODE_BLOCK---
+
+from qiskit.transpiler.passes import Unroller # NOTE: Unroller is not supported by qiskit_1.0 pass_ = Unroller(['u1', 'u2', 'u3', 'cx']) pm = PassManager(pass_) new_circ = pm.run(circ) print(new_circ.draw())
+
+---CODE_BLOCK---
+
+passManager
+
+---CODE_BLOCK---
+
+ccx
+
+Solution explanation:
+allows us to manage and schedule the execution of transpiler passes on quantum circuits. Transpiler passes are transformations or optimizations applied to the circuit to improve its complexity (e.g., gate count, circuit connectivity, etc.) or make it more suitable for a specific hardware platform. In your case, the pass reexpresses a three-qubit gate in terms of one- and two-qubit gates. This is often done because a compiler wants only one- and two-qubit gates. For example, we could define two passes: one pass removes redundant gates in a circuit, and another pass may merge multiple gates into a single gate. Then, we create a to determine which passes are executed and in which order. One of many applications of is in Hamiltonian simulation. In this application venue, quantum circuits may contain a sequence of gates that could be merged into a single gate, or a circuit may contain multi-qubit gates that need to be reexpressed with one- and two-qubit gates. To achieve the desired changes and optimizations, we use passes and a . For example, consider the following toy circuit: Those $CX$ gates are cancelling each other out. Also, two Hadamard gates are redundant because $HH=I$. If we now setup with passes that do clean up, we get the optimized circuit: Of course, the circuit above was trivial, but in a practical scenario, e.g., a Hamiltonian simulation, we will have a circuit with millions of gates on dozens of qubits, and it may hide lots of redundancies. Those circuits may need many different optimization and transformation passes, which can take hours to run. For this, we want a way to manage our passes, and this is what can do. Here is the toy code with comments to reproduce the figures above: Qiskit version: The code should also work with later versions 1.0 and 1.1. PS: as for the circuit screenshots you posted, I hope you can figure it out now. You are given a three-qubit gate CCX, and then you run a pass to reexpress it in terms of other gates such as This transformation could be necessitated by a compiler which requires single- and two-qubit gates .
+
+```
+passManager
+```
+
+```
+passManager
+```
+
+```
+passManager
+```
+
+```
+passManager
+```
+
+```
+passManager
+```
+
+```
+passManager
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.transpiler import PassManager from qiskit.transpiler.passes import CXCancellation, CommutativeCancellation, Optimize1qGates # Create a quantum circuit qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.cx(0, 1) # These CNOTs are redundant qc.h(0) qc.h(0) # These Hadamards should ideally cancel to identity # Create a PassManager pass_manager = PassManager() # Add optimization passes # CXCancellation(): A pass that cancels consecutive CNOT gates. # CommutativeCancellation(): A pass that cancels adjacent gates that commute. # Optimize1qGates(): A pass that optimizes consecutive single-qubit gates. # First, cancel CNOTs, then cancel Hadamards pass_manager.append([CXCancellation(), CommutativeCancellation()]) # Run the PassManager on the quantum circuit optimized_qc = pass_manager.run(qc) # Print the original and optimized circuits print("Original Quantum Circuit:") print(qc.draw()) print("\nOptimized Quantum Circuit:") print(optimized_qc.draw())
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.transpiler import PassManager from qiskit.transpiler.passes import CXCancellation, CommutativeCancellation, Optimize1qGates # Create a quantum circuit qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.cx(0, 1) # These CNOTs are redundant qc.h(0) qc.h(0) # These Hadamards should ideally cancel to identity # Create a PassManager pass_manager = PassManager() # Add optimization passes # CXCancellation(): A pass that cancels consecutive CNOT gates. # CommutativeCancellation(): A pass that cancels adjacent gates that commute. # Optimize1qGates(): A pass that optimizes consecutive single-qubit gates. # First, cancel CNOTs, then cancel Hadamards pass_manager.append([CXCancellation(), CommutativeCancellation()]) # Run the PassManager on the quantum circuit optimized_qc = pass_manager.run(qc) # Print the original and optimized circuits print("Original Quantum Circuit:") print(qc.draw()) print("\nOptimized Quantum Circuit:") print(optimized_qc.draw())
+```
+
+```
+{'qiskit-terra': '0.25.1', 'qiskit': '0.44.1'}
+```
+
+```
+{'qiskit-terra': '0.25.1', 'qiskit': '0.44.1'}
+```
+
+```
+['u1', 'u2', 'u3', 'cx'].
+```
+
+```
+['u1', 'u2', 'u3', 'cx']
+```
+
+Original fixed code:
+passManager
+
+---CODE_BLOCK---
+
+passManager
+
+---CODE_BLOCK---
+
+passManager
+
+---CODE_BLOCK---
+
+passManager
+
+---CODE_BLOCK---
+
+passManager
+
+---CODE_BLOCK---
+
+passManager
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.transpiler import PassManager from qiskit.transpiler.passes import CXCancellation, CommutativeCancellation, Optimize1qGates # Create a quantum circuit qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.cx(0, 1) # These CNOTs are redundant qc.h(0) qc.h(0) # These Hadamards should ideally cancel to identity # Create a PassManager pass_manager = PassManager() # Add optimization passes # CXCancellation(): A pass that cancels consecutive CNOT gates. # CommutativeCancellation(): A pass that cancels adjacent gates that commute. # Optimize1qGates(): A pass that optimizes consecutive single-qubit gates. # First, cancel CNOTs, then cancel Hadamards pass_manager.append([CXCancellation(), CommutativeCancellation()]) # Run the PassManager on the quantum circuit optimized_qc = pass_manager.run(qc) # Print the original and optimized circuits print("Original Quantum Circuit:") print(qc.draw()) print("\nOptimized Quantum Circuit:") print(optimized_qc.draw())
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.transpiler import PassManager from qiskit.transpiler.passes import CXCancellation, CommutativeCancellation, Optimize1qGates # Create a quantum circuit qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.cx(0, 1) # These CNOTs are redundant qc.h(0) qc.h(0) # These Hadamards should ideally cancel to identity # Create a PassManager pass_manager = PassManager() # Add optimization passes # CXCancellation(): A pass that cancels consecutive CNOT gates. # CommutativeCancellation(): A pass that cancels adjacent gates that commute. # Optimize1qGates(): A pass that optimizes consecutive single-qubit gates. # First, cancel CNOTs, then cancel Hadamards pass_manager.append([CXCancellation(), CommutativeCancellation()]) # Run the PassManager on the quantum circuit optimized_qc = pass_manager.run(qc) # Print the original and optimized circuits print("Original Quantum Circuit:") print(qc.draw()) print("\nOptimized Quantum Circuit:") print(optimized_qc.draw())
+
+---CODE_BLOCK---
+
+{'qiskit-terra': '0.25.1', 'qiskit': '0.44.1'}
+
+---CODE_BLOCK---
+
+{'qiskit-terra': '0.25.1', 'qiskit': '0.44.1'}
+
+---CODE_BLOCK---
+
+['u1', 'u2', 'u3', 'cx'].
+
+---CODE_BLOCK---
+
+['u1', 'u2', 'u3', 'cx']

@@ -1,0 +1,62 @@
+Title:
+Different QFT and classical FFT result
+
+Category:
+Category: Backend Usage / Simulation / Output
+
+Why AI Wins in This Category:
+Simulation-based mismatches require clear explanations of circuit-level behaviors and transformation math. The AI solution directly compares QFT vs FFT, handles swaps, explains normalization, and gives working corrected code—all essential for proper understanding and debugging.
+
+Question:
+Title: Different QFT and classical FFT result
+
+I tried to create a PoC that QFT and classical (np.fft) are the same; however, the result confuses me. I use the same input for both QFT and np.fft. I used simulator circuit and directly measured the vector so there shouldn't be any noise. Here is my code. The result: I understand that there may be different in scaling but the result doesn't look like an effect from scaling. I have also tried with do_swaps=True/False but it doesn't help either. The vectors I got from the snapshot also don't look similar. (And not just the conjugate part) I'm actually a beginner in both QFT and FFT but I have read many sources, the result from both QFT and FFT should be similar? Even the matrix is only different in the complex conjugate part. Qiskit QFT matrix does not match with DFT matrix Any help is appreciated.
+
+```
+import qiskit from qiskit.providers.aer.extensions.snapshot_statevector import * import numpy as np import matplotlib.pyplot as plt import math sample_norm = [0.5, 0, 0.5, 0, 0.5, 0, 0.5, 0] n = len(sample_norm) q = int(math.log(n,2)) # Start the QFT circuit circuit = qiskit.QuantumCircuit(q) circuit.initialize(sample_norm, range(q)) circuit.snapshot_statevector('init') # This vector is correct circuit += qiskit.circuit.library.QFT(num_qubits=q, do_swaps=False, approximation_degree=0) circuit.snapshot_statevector('qft') circuit.measure_all() aer_sim = qiskit.Aer.get_backend('qasm_simulator') qobj = qiskit.assemble(circuit) result = aer_sim.run(qobj, shots=1).result() init_vec = result.data()["snapshots"]["statevector"]["init"][0] qft_vec = result.data()["snapshots"]["statevector"]["qft"][0] PSD_q = np.real(qft_vec * np.conj(qft_vec)) # Classical np.fft f = sample_norm fhat = np.fft.fft(f,n) PSD = np.real(fhat * np.conj(fhat) / n) plt.plot(PSD_q, color='r', linewidth=2, label='QTF') plt.plot(PSD, color='c', linestyle='dashed', linewidth=2, label='npFFT') plt.xlim(0, n) plt.legend() plt.show()
+```
+
+```
+import qiskit from qiskit.providers.aer.extensions.snapshot_statevector import * import numpy as np import matplotlib.pyplot as plt import math sample_norm = [0.5, 0, 0.5, 0, 0.5, 0, 0.5, 0] n = len(sample_norm) q = int(math.log(n,2)) # Start the QFT circuit circuit = qiskit.QuantumCircuit(q) circuit.initialize(sample_norm, range(q)) circuit.snapshot_statevector('init') # This vector is correct circuit += qiskit.circuit.library.QFT(num_qubits=q, do_swaps=False, approximation_degree=0) circuit.snapshot_statevector('qft') circuit.measure_all() aer_sim = qiskit.Aer.get_backend('qasm_simulator') qobj = qiskit.assemble(circuit) result = aer_sim.run(qobj, shots=1).result() init_vec = result.data()["snapshots"]["statevector"]["init"][0] qft_vec = result.data()["snapshots"]["statevector"]["qft"][0] PSD_q = np.real(qft_vec * np.conj(qft_vec)) # Classical np.fft f = sample_norm fhat = np.fft.fft(f,n) PSD = np.real(fhat * np.conj(fhat) / n) plt.plot(PSD_q, color='r', linewidth=2, label='QTF') plt.plot(PSD, color='c', linestyle='dashed', linewidth=2, label='npFFT') plt.xlim(0, n) plt.legend() plt.show()
+```
+
+```
+eps = 0.000000001 qft_vec.real[np.abs(qft_vec.real) < eps] = 0 qft_vec.imag[np.abs(qft_vec.imag) < eps] = 0 fhat.real[np.abs(fhat.real) < eps] = 0 fhat.imag[np.abs(fhat.imag) < eps] = 0 qft_vec array([0.70710678+0.j , 0.1767767 +0.4267767j, 0. +0.j , 0.1767767 +0.0732233j, 0. +0.j , 0.1767767 -0.0732233j, 0. +0.j , 0.1767767 -0.4267767j]) fhat array([2.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 2.+0.j, 0.+0.j, 0.+0.j, 0.+0.j])
+```
+
+```
+eps = 0.000000001 qft_vec.real[np.abs(qft_vec.real) < eps] = 0 qft_vec.imag[np.abs(qft_vec.imag) < eps] = 0 fhat.real[np.abs(fhat.real) < eps] = 0 fhat.imag[np.abs(fhat.imag) < eps] = 0 qft_vec array([0.70710678+0.j , 0.1767767 +0.4267767j, 0. +0.j , 0.1767767 +0.0732233j, 0. +0.j , 0.1767767 -0.0732233j, 0. +0.j , 0.1767767 -0.4267767j]) fhat array([2.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 2.+0.j, 0.+0.j, 0.+0.j, 0.+0.j])
+```
+
+Original buggy code:
+import qiskit from qiskit.providers.aer.extensions.snapshot_statevector import * import numpy as np import matplotlib.pyplot as plt import math sample_norm = [0.5, 0, 0.5, 0, 0.5, 0, 0.5, 0] n = len(sample_norm) q = int(math.log(n,2)) # Start the QFT circuit circuit = qiskit.QuantumCircuit(q) circuit.initialize(sample_norm, range(q)) circuit.snapshot_statevector('init') # This vector is correct circuit += qiskit.circuit.library.QFT(num_qubits=q, do_swaps=False, approximation_degree=0) circuit.snapshot_statevector('qft') circuit.measure_all() aer_sim = qiskit.Aer.get_backend('qasm_simulator') qobj = qiskit.assemble(circuit) result = aer_sim.run(qobj, shots=1).result() init_vec = result.data()["snapshots"]["statevector"]["init"][0] qft_vec = result.data()["snapshots"]["statevector"]["qft"][0] PSD_q = np.real(qft_vec * np.conj(qft_vec)) # Classical np.fft f = sample_norm fhat = np.fft.fft(f,n) PSD = np.real(fhat * np.conj(fhat) / n) plt.plot(PSD_q, color='r', linewidth=2, label='QTF') plt.plot(PSD, color='c', linestyle='dashed', linewidth=2, label='npFFT') plt.xlim(0, n) plt.legend() plt.show()
+
+---CODE_BLOCK---
+
+import qiskit from qiskit.providers.aer.extensions.snapshot_statevector import * import numpy as np import matplotlib.pyplot as plt import math sample_norm = [0.5, 0, 0.5, 0, 0.5, 0, 0.5, 0] n = len(sample_norm) q = int(math.log(n,2)) # Start the QFT circuit circuit = qiskit.QuantumCircuit(q) circuit.initialize(sample_norm, range(q)) circuit.snapshot_statevector('init') # This vector is correct circuit += qiskit.circuit.library.QFT(num_qubits=q, do_swaps=False, approximation_degree=0) circuit.snapshot_statevector('qft') circuit.measure_all() aer_sim = qiskit.Aer.get_backend('qasm_simulator') qobj = qiskit.assemble(circuit) result = aer_sim.run(qobj, shots=1).result() init_vec = result.data()["snapshots"]["statevector"]["init"][0] qft_vec = result.data()["snapshots"]["statevector"]["qft"][0] PSD_q = np.real(qft_vec * np.conj(qft_vec)) # Classical np.fft f = sample_norm fhat = np.fft.fft(f,n) PSD = np.real(fhat * np.conj(fhat) / n) plt.plot(PSD_q, color='r', linewidth=2, label='QTF') plt.plot(PSD, color='c', linestyle='dashed', linewidth=2, label='npFFT') plt.xlim(0, n) plt.legend() plt.show()
+
+---CODE_BLOCK---
+
+eps = 0.000000001 qft_vec.real[np.abs(qft_vec.real) < eps] = 0 qft_vec.imag[np.abs(qft_vec.imag) < eps] = 0 fhat.real[np.abs(fhat.real) < eps] = 0 fhat.imag[np.abs(fhat.imag) < eps] = 0 qft_vec array([0.70710678+0.j , 0.1767767 +0.4267767j, 0. +0.j , 0.1767767 +0.0732233j, 0. +0.j , 0.1767767 -0.0732233j, 0. +0.j , 0.1767767 -0.4267767j]) fhat array([2.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 2.+0.j, 0.+0.j, 0.+0.j, 0.+0.j])
+
+---CODE_BLOCK---
+
+eps = 0.000000001 qft_vec.real[np.abs(qft_vec.real) < eps] = 0 qft_vec.imag[np.abs(qft_vec.imag) < eps] = 0 fhat.real[np.abs(fhat.real) < eps] = 0 fhat.imag[np.abs(fhat.imag) < eps] = 0 qft_vec array([0.70710678+0.j , 0.1767767 +0.4267767j, 0. +0.j , 0.1767767 +0.0732233j, 0. +0.j , 0.1767767 -0.0732233j, 0. +0.j , 0.1767767 -0.4267767j]) fhat array([2.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 2.+0.j, 0.+0.j, 0.+0.j, 0.+0.j])
+
+Solution explanation:
+I tested your code with different vectors like $[0.3, 0.4, 0.3, 0.4, 0.3, 0.4, 0.3, 0.4]$ and $[0.4, 0, 0.5, 0.3, 0.4, 0, 0.5, 0.3]$ and it worked without any issue. Upgrading Qiskit to the latest version fixes this issue. I have also tried with do_swaps=True/False but it doesn't help either. You need to set to .
+
+```
+do_swaps
+```
+
+```
+True
+```
+
+Original fixed code:
+do_swaps
+
+---CODE_BLOCK---
+
+True

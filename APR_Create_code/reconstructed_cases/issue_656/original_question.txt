@@ -1,0 +1,83 @@
+Title:
+Qiskit error on get_backend()
+
+Category:
+
+
+Question:
+Title: Qiskit error on get_backend()
+
+Im trying to use IBM quantum machine instead of qiskit aer simulator with the following command: It's giving me the following error: What syntax I should try to submit the job to designated quantum machine?
+
+```
+backend = IBMQ.get_backend('ibmq_16_melbourne', 'ibm-q')
+```
+
+```
+backend = IBMQ.get_backend('ibmq_16_melbourne', 'ibm-q')
+```
+
+```
+AttributeError Traceback (most recent call last) <ipython-input-22-39269ac2204d> in <module> ----> 1 backend = IBMQ.get_backend('ibmq_16_melbourne', 'ibm-q') AttributeError: 'IBMQFactory' object has no attribute 'get_backend'
+```
+
+```
+AttributeError Traceback (most recent call last) <ipython-input-22-39269ac2204d> in <module> ----> 1 backend = IBMQ.get_backend('ibmq_16_melbourne', 'ibm-q') AttributeError: 'IBMQFactory' object has no attribute 'get_backend'
+```
+
+Original buggy code:
+backend = IBMQ.get_backend('ibmq_16_melbourne', 'ibm-q')
+
+---CODE_BLOCK---
+
+backend = IBMQ.get_backend('ibmq_16_melbourne', 'ibm-q')
+
+---CODE_BLOCK---
+
+AttributeError Traceback (most recent call last) <ipython-input-22-39269ac2204d> in <module> ----> 1 backend = IBMQ.get_backend('ibmq_16_melbourne', 'ibm-q') AttributeError: 'IBMQFactory' object has no attribute 'get_backend'
+
+---CODE_BLOCK---
+
+AttributeError Traceback (most recent call last) <ipython-input-22-39269ac2204d> in <module> ----> 1 backend = IBMQ.get_backend('ibmq_16_melbourne', 'ibm-q') AttributeError: 'IBMQFactory' object has no attribute 'get_backend'
+
+Solution explanation:
+First, check the IBM Quantum Services page to see if you have access to any additional systems. Make sure you are logged in with your IBMid to see what your account can access. By default, basic users have access to the 5 qubit machines, but do not have access to 15 qubit machines like . Also, it looks like the snippet you provided is in an older syntax. Check the IBM Quantum Provider page on GitHub for information for the modern syntax. The new syntax would look like this: Keep in mind that you can always use the simulators provided in Aer: More information about Aer's simulators is available in the relevant tutorial.
+
+```
+ibmq_16_melbourne
+```
+
+```
+provider = IBMQ.get_provider('ibm-q') backend = provider.get_backend('ibmq_16_melbourne')
+```
+
+```
+provider = IBMQ.get_provider('ibm-q') backend = provider.get_backend('ibmq_16_melbourne')
+```
+
+```
+from qiskit import Aer Aer.backends() # lists the available simulators backend = Aer.get_backend('aer_simulator')
+```
+
+```
+from qiskit import Aer Aer.backends() # lists the available simulators backend = Aer.get_backend('aer_simulator')
+```
+
+Original fixed code:
+ibmq_16_melbourne
+
+---CODE_BLOCK---
+
+provider = IBMQ.get_provider('ibm-q') backend = provider.get_backend('ibmq_16_melbourne')
+
+---CODE_BLOCK---
+
+provider = IBMQ.get_provider('ibm-q') backend = provider.get_backend('ibmq_16_melbourne')
+
+---CODE_BLOCK---
+
+from qiskit import Aer Aer.backends() # lists the available simulators backend = Aer.get_backend('aer_simulator')
+
+---CODE_BLOCK---
+
+from qiskit import Aer Aer.backends() # lists the available simulators backend = Aer.get_backend('aer_simulator')

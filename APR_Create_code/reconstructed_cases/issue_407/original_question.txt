@@ -1,0 +1,122 @@
+Title:
+How can I run a set of circuits, each of which has 100 shots?
+
+Category:
+Category:
+Import / Backend Execution Optimization
+Why AI Wins in This Category:
+In backend execution scenarios, AI's approach excels because:
+It is complete and ready-to-use without external dependencies.
+It ensures reproducibility and clarity (randomized input + parameter variation).
+It explains execution and result mapping well — crucial for users new to execute() batching.
+It considers performance, correctness, and usability for analysis.
+
+Question:
+Title: How can I run a set of circuits, each of which has 100 shots?
+
+I'm running simulations of my quantum circuit, which includes both parametrized variables and random numbers. The question I'm trying to solve is that for each parameterized variable, I will generate a set of quantum circuits, each element of which contains different random numbers. I'm hoping to run each quantum circuit in the set with 100 shots, then carry out some analyses on the counts. I'm not exactly sure how I can do that, here's part of the code I have: My current code doesn't quite work, I'm wondering am I on the right track? How can I fix my code? Thanks a lot for your help:) Update: My code works, but it takes a really long time to run. I'm still wondering if there's a simpler way to carry out the experiment? Thanks!
+
+```
+from qiskit import IBMQ provider = IBMQ.load_account() sim = provider.backends.ibmq_qasm_simulator backend = provider.get_backend('ibmq_qasm_simulator') E = np.linspace(-5,5,10) # Parameters circuits = [] nuni = 10. # Number of the circuits in each set. for i in range(10): circuitsi = [] for j in range (nuni): circuit = QuantumCircuit(qrz,crz) circuit = qc(E[i]) # qc is a function with both parameters and random numbers. circuitsi.append(circuit) circuits.append(circuitsi) for i in range (len(circuits)): for j in range (nuni): circuits[i][j] = transpile(circuits[i][j],backend=backend) for i in range (10): job_manager = IBMQJobManager() MExperiments = job_manager.run(circuits[i], backend=backend, shots = nshot) results = MExperiments.results() for j in range (nuni): counts = results.get_counts(circuits[i][j])
+```
+
+```
+from qiskit import IBMQ provider = IBMQ.load_account() sim = provider.backends.ibmq_qasm_simulator backend = provider.get_backend('ibmq_qasm_simulator') E = np.linspace(-5,5,10) # Parameters circuits = [] nuni = 10. # Number of the circuits in each set. for i in range(10): circuitsi = [] for j in range (nuni): circuit = QuantumCircuit(qrz,crz) circuit = qc(E[i]) # qc is a function with both parameters and random numbers. circuitsi.append(circuit) circuits.append(circuitsi) for i in range (len(circuits)): for j in range (nuni): circuits[i][j] = transpile(circuits[i][j],backend=backend) for i in range (10): job_manager = IBMQJobManager() MExperiments = job_manager.run(circuits[i], backend=backend, shots = nshot) results = MExperiments.results() for j in range (nuni): counts = results.get_counts(circuits[i][j])
+```
+
+Original buggy code:
+from qiskit import IBMQ provider = IBMQ.load_account() sim = provider.backends.ibmq_qasm_simulator backend = provider.get_backend('ibmq_qasm_simulator') E = np.linspace(-5,5,10) # Parameters circuits = [] nuni = 10. # Number of the circuits in each set. for i in range(10): circuitsi = [] for j in range (nuni): circuit = QuantumCircuit(qrz,crz) circuit = qc(E[i]) # qc is a function with both parameters and random numbers. circuitsi.append(circuit) circuits.append(circuitsi) for i in range (len(circuits)): for j in range (nuni): circuits[i][j] = transpile(circuits[i][j],backend=backend) for i in range (10): job_manager = IBMQJobManager() MExperiments = job_manager.run(circuits[i], backend=backend, shots = nshot) results = MExperiments.results() for j in range (nuni): counts = results.get_counts(circuits[i][j])
+
+---CODE_BLOCK---
+
+from qiskit import IBMQ provider = IBMQ.load_account() sim = provider.backends.ibmq_qasm_simulator backend = provider.get_backend('ibmq_qasm_simulator') E = np.linspace(-5,5,10) # Parameters circuits = [] nuni = 10. # Number of the circuits in each set. for i in range(10): circuitsi = [] for j in range (nuni): circuit = QuantumCircuit(qrz,crz) circuit = qc(E[i]) # qc is a function with both parameters and random numbers. circuitsi.append(circuit) circuits.append(circuitsi) for i in range (len(circuits)): for j in range (nuni): circuits[i][j] = transpile(circuits[i][j],backend=backend) for i in range (10): job_manager = IBMQJobManager() MExperiments = job_manager.run(circuits[i], backend=backend, shots = nshot) results = MExperiments.results() for j in range (nuni): counts = results.get_counts(circuits[i][j])
+
+Solution explanation:
+In your code, is an array of array of quantum circuits and each element of is an array of quantum circuits. In the code, you are using a for loop to run each element of the array individually using the for loop. This runs each of the 10 array of circuits one after the other. However, you can run all the quantum circuits of all the arrays all at once. All you have to do is to construct an array say and append all the quantum circuits of each of the . Then you can run the simulation using this array of circuits. Once the results are out, you can then post process it to get an array of array of results. So the code after creating all the circuits will be more like the below: Since you execute all the circuits at one, this would reduce the time of execution quite a lot. Also, if you are using , you could also skip since will also be performed as a part of . This might not decrease the run time but might help in writing the code simpler. I hope this helps.
+
+```
+circuits
+```
+
+```
+circuits
+```
+
+```
+circuits
+```
+
+```
+all_circuits
+```
+
+```
+circuitsi
+```
+
+```
+all_circuits = [] for i in range(10): all_circuits += circuits[i][:] from qiskit.tools.monitor import job_monitor qjob = execute(all_circuits,shots=shots,backend=backend) job_monitor(qjob) result = qjob.result() counts = [] for i in range(10): count_i = [] for j in range(nuni): count_i.append(result.get_counts(all_circuits[(nuni*i)+j])) counts.append(count_i)
+```
+
+```
+all_circuits = [] for i in range(10): all_circuits += circuits[i][:] from qiskit.tools.monitor import job_monitor qjob = execute(all_circuits,shots=shots,backend=backend) job_monitor(qjob) result = qjob.result() counts = [] for i in range(10): count_i = [] for j in range(nuni): count_i.append(result.get_counts(all_circuits[(nuni*i)+j])) counts.append(count_i)
+```
+
+```
+execute
+```
+
+```
+transpile
+```
+
+```
+transpile
+```
+
+```
+execute
+```
+
+Original fixed code:
+circuits
+
+---CODE_BLOCK---
+
+circuits
+
+---CODE_BLOCK---
+
+circuits
+
+---CODE_BLOCK---
+
+all_circuits
+
+---CODE_BLOCK---
+
+circuitsi
+
+---CODE_BLOCK---
+
+all_circuits = [] for i in range(10): all_circuits += circuits[i][:] from qiskit.tools.monitor import job_monitor qjob = execute(all_circuits,shots=shots,backend=backend) job_monitor(qjob) result = qjob.result() counts = [] for i in range(10): count_i = [] for j in range(nuni): count_i.append(result.get_counts(all_circuits[(nuni*i)+j])) counts.append(count_i)
+
+---CODE_BLOCK---
+
+all_circuits = [] for i in range(10): all_circuits += circuits[i][:] from qiskit.tools.monitor import job_monitor qjob = execute(all_circuits,shots=shots,backend=backend) job_monitor(qjob) result = qjob.result() counts = [] for i in range(10): count_i = [] for j in range(nuni): count_i.append(result.get_counts(all_circuits[(nuni*i)+j])) counts.append(count_i)
+
+---CODE_BLOCK---
+
+execute
+
+---CODE_BLOCK---
+
+transpile
+
+---CODE_BLOCK---
+
+transpile
+
+---CODE_BLOCK---
+
+execute

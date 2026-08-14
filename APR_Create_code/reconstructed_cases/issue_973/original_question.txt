@@ -1,0 +1,91 @@
+Title:
+How to repeat the same Qiskit instruction $N$ times (no for loop)?
+
+Category:
+
+
+Question:
+Title: How to repeat the same Qiskit instruction $N$ times (no for loop)?
+
+I need to build the following 1-qubit in Qiskit, repeating the pair ($X$ gate, barrier) for $N$ times: The most straightforward way to do this is by using a loop in Python: But this could become very slow if you try to build hundreds/thousands of very deep circuits. So here's my question: is there a way to do it without looping?
+
+```
+QuantumCircuit
+```
+
+```
+for
+```
+
+```
+from qiskit import QuantumCircuit N = 10000 qc = QuantumCircuit(1) for i in range(N): qc.x(0) qc.barrier()
+```
+
+```
+from qiskit import QuantumCircuit N = 10000 qc = QuantumCircuit(1) for i in range(N): qc.x(0) qc.barrier()
+```
+
+Original buggy code:
+QuantumCircuit
+
+---CODE_BLOCK---
+
+for
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit N = 10000 qc = QuantumCircuit(1) for i in range(N): qc.x(0) qc.barrier()
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit N = 10000 qc = QuantumCircuit(1) for i in range(N): qc.x(0) qc.barrier()
+
+Solution explanation:
+To achieve what you have asked for, it is possible to use either the or methods of a instance: If you try now to draw you circuit the output would be $N$ circuits-blocks in a row. You can overcome that using .
+
+```
+repeat
+```
+
+```
+power
+```
+
+```
+QuantumCircuit
+```
+
+```
+from qiskit import QuantumCircuit N = 10000 qc = QuantumCircuit(1) qc.x(0) qc.barrier() qc = qc.repeat(N)
+```
+
+```
+from qiskit import QuantumCircuit N = 10000 qc = QuantumCircuit(1) qc.x(0) qc.barrier() qc = qc.repeat(N)
+```
+
+```
+qc.decompose(reps=2).draw()
+```
+
+Original fixed code:
+repeat
+
+---CODE_BLOCK---
+
+power
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit N = 10000 qc = QuantumCircuit(1) qc.x(0) qc.barrier() qc = qc.repeat(N)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit N = 10000 qc = QuantumCircuit(1) qc.x(0) qc.barrier() qc = qc.repeat(N)
+
+---CODE_BLOCK---
+
+qc.decompose(reps=2).draw()

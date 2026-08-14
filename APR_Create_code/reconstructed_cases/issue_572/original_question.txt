@@ -1,0 +1,47 @@
+Title:
+XY Hamiltonian in a 1D Heisenberg Chain
+
+Category:
+
+
+Question:
+Title: XY Hamiltonian in a 1D Heisenberg Chain
+
+I've been trying to implement the 1D Heisenberg chain (i.e. the XXZ model) on Qiskit but have been having trouble. To recap, the Heisenberg hamiltonian is as follows: $$H_{XXZ} = \sum^{N}_{i = 1} [J(S^{x}_{i}S^{x}_{i+1} + S^{y}_{i}S^{y}_{i+1} + \Delta S^{z}_{i}S^{z}_{i+1})] $$ and we can take the XY hamiltonian to be $$H_{XY} = \sum^{N}_{i = 1} [J(S^{x}_{i}S^{x}_{i+1} + S^{y}_{i}S^{y}_{i+1})]$$ as I understand. I know that the matrix representation of this hamiltonian's time evolution takes the form $$XY(\theta) = \begin{pmatrix} 1 & 0 & 0 & 0\\ 0 & \cos[{\theta}/2] & i\sin[{\theta}/2] & 0\\ 0 & i\sin[{\theta}/2] & \cos[{\theta}/2] & 0\\ 0 & 0 & 0 & 1 \end{pmatrix}$$ however, I'm not exactly sure how to implement it on Qiskit with the available Quantum logic gates. I do know that a special case to this problem is the iSwapGate, where it is equal to $XY(\theta = \pi)$, but is there a way to implement $XY(\theta)$ for arbitrary angles?
+
+Original buggy code:
+I've been trying to implement the 1D Heisenberg chain (i.e. the XXZ model) on Qiskit but have been having trouble. To recap, the Heisenberg hamiltonian is as follows: $$H_{XXZ} = \sum^{N}_{i = 1} [J(S^{x}_{i}S^{x}_{i+1} + S^{y}_{i}S^{y}_{i+1} + \Delta S^{z}_{i}S^{z}_{i+1})] $$ and we can take the XY hamiltonian to be $$H_{XY} = \sum^{N}_{i = 1} [J(S^{x}_{i}S^{x}_{i+1} + S^{y}_{i}S^{y}_{i+1})]$$ as I understand. I know that the matrix representation of this hamiltonian's time evolution takes the form $$XY(\theta) = \begin{pmatrix} 1 & 0 & 0 & 0\\ 0 & \cos[{\theta}/2] & i\sin[{\theta}/2] & 0\\ 0 & i\sin[{\theta}/2] & \cos[{\theta}/2] & 0\\ 0 & 0 & 0 & 1 \end{pmatrix}$$ however, I'm not exactly sure how to implement it on Qiskit with the available Quantum logic gates. I do know that a special case to this problem is the iSwapGate, where it is equal to $XY(\theta = \pi)$, but is there a way to implement $XY(\theta)$ for arbitrary angles?
+
+Solution explanation:
+Here is an implementation and to evaluate that it works:
+
+```
+from qiskit.circuit import QuantumCircuit, Parameter theta = Parameter('θ') qc = QuantumCircuit(2) qc.cx(0, 1) qc.crx(-1 * theta, 1, 0) qc.cx(0, 1) print(qc) --- ┌────────┐ q_0: ──■──┤ RX(-θ) ├──■── ┌─┴─┐└───┬────┘┌─┴─┐ q_1: ┤ X ├────■─────┤ X ├ └───┘ └───┘
+```
+
+```
+from qiskit.circuit import QuantumCircuit, Parameter theta = Parameter('θ') qc = QuantumCircuit(2) qc.cx(0, 1) qc.crx(-1 * theta, 1, 0) qc.cx(0, 1) print(qc) --- ┌────────┐ q_0: ──■──┤ RX(-θ) ├──■── ┌─┴─┐└───┬────┘┌─┴─┐ q_1: ┤ X ├────■─────┤ X ├ └───┘ └───┘
+```
+
+```
+from qiskit.quantum_info import Operator def XY(theta): c = np.cos(theta / 2) s = 1j * np.sin(theta / 2) return np.array([[1, 0, 0, 0], [0, c, s, 0], [0, s, c, 0], [0, 0, 0, 1]]) val = pi / 14 circ = qc.bind_parameters({theta: val}) np.allclose(Operator(circ).data, XY(val)) --- True
+```
+
+```
+from qiskit.quantum_info import Operator def XY(theta): c = np.cos(theta / 2) s = 1j * np.sin(theta / 2) return np.array([[1, 0, 0, 0], [0, c, s, 0], [0, s, c, 0], [0, 0, 0, 1]]) val = pi / 14 circ = qc.bind_parameters({theta: val}) np.allclose(Operator(circ).data, XY(val)) --- True
+```
+
+Original fixed code:
+from qiskit.circuit import QuantumCircuit, Parameter theta = Parameter('θ') qc = QuantumCircuit(2) qc.cx(0, 1) qc.crx(-1 * theta, 1, 0) qc.cx(0, 1) print(qc) --- ┌────────┐ q_0: ──■──┤ RX(-θ) ├──■── ┌─┴─┐└───┬────┘┌─┴─┐ q_1: ┤ X ├────■─────┤ X ├ └───┘ └───┘
+
+---CODE_BLOCK---
+
+from qiskit.circuit import QuantumCircuit, Parameter theta = Parameter('θ') qc = QuantumCircuit(2) qc.cx(0, 1) qc.crx(-1 * theta, 1, 0) qc.cx(0, 1) print(qc) --- ┌────────┐ q_0: ──■──┤ RX(-θ) ├──■── ┌─┴─┐└───┬────┘┌─┴─┐ q_1: ┤ X ├────■─────┤ X ├ └───┘ └───┘
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Operator def XY(theta): c = np.cos(theta / 2) s = 1j * np.sin(theta / 2) return np.array([[1, 0, 0, 0], [0, c, s, 0], [0, s, c, 0], [0, 0, 0, 1]]) val = pi / 14 circ = qc.bind_parameters({theta: val}) np.allclose(Operator(circ).data, XY(val)) --- True
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Operator def XY(theta): c = np.cos(theta / 2) s = 1j * np.sin(theta / 2) return np.array([[1, 0, 0, 0], [0, c, s, 0], [0, s, c, 0], [0, 0, 0, 1]]) val = pi / 14 circ = qc.bind_parameters({theta: val}) np.allclose(Operator(circ).data, XY(val)) --- True

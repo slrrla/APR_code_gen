@@ -1,0 +1,99 @@
+Title:
+What is difference between qasm_simulator and ibmq_qasm_simulator?
+
+Category:
+
+
+Question:
+Title: What is difference between qasm_simulator and ibmq_qasm_simulator?
+
+There are many ways how to simulate a quantum circuit on IBM Q. However, in partiuclar I am interested in a difference between and . In Qiskit, the former can be called with statement while the latter with I realized that sends jobs similarly to a real quantum processor, i.e. I see the job in Job pane in IBM Q environment. But this is not the case for . In list of services on IBM Q page I found out only one . So, my question is how these two simulators differ?
+
+```
+qasm_simulator
+```
+
+```
+ibmq_qasm_simulator
+```
+
+```
+processor = Aer.backends(name = 'qasm_simulator')[0]
+```
+
+```
+processor = Aer.backends(name = 'qasm_simulator')[0]
+```
+
+```
+provider = IBMQ.load_account() processor = provider.backends(name='ibmq_qasm_simulator')[0]
+```
+
+```
+provider = IBMQ.load_account() processor = provider.backends(name='ibmq_qasm_simulator')[0]
+```
+
+```
+ibmq_qasm_simulator
+```
+
+```
+qasm_simulator
+```
+
+```
+qasm_simulator
+```
+
+Original buggy code:
+qasm_simulator
+
+---CODE_BLOCK---
+
+ibmq_qasm_simulator
+
+---CODE_BLOCK---
+
+processor = Aer.backends(name = 'qasm_simulator')[0]
+
+---CODE_BLOCK---
+
+processor = Aer.backends(name = 'qasm_simulator')[0]
+
+---CODE_BLOCK---
+
+provider = IBMQ.load_account() processor = provider.backends(name='ibmq_qasm_simulator')[0]
+
+---CODE_BLOCK---
+
+provider = IBMQ.load_account() processor = provider.backends(name='ibmq_qasm_simulator')[0]
+
+---CODE_BLOCK---
+
+ibmq_qasm_simulator
+
+---CODE_BLOCK---
+
+qasm_simulator
+
+---CODE_BLOCK---
+
+qasm_simulator
+
+Solution explanation:
+performs the simulation on a classic computer on that resides on the cloud, whereas does it locally on your computer and consumes your CPU.
+
+```
+ibmq_qasm_simulator
+```
+
+```
+qasm_simulator
+```
+
+Original fixed code:
+ibmq_qasm_simulator
+
+---CODE_BLOCK---
+
+qasm_simulator

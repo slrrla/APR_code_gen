@@ -1,0 +1,59 @@
+Title:
+How to make sense of `Pauli observables` in the gate cutting code here?
+
+Category:
+
+
+Question:
+Title: How to make sense of `Pauli observables` in the gate cutting code here?
+
+I am following the tutorial mentioned in the circuit-knitting-toolbox. This tutorial explains how you can replace non-local gates with local operations in the superoperator representations and effectively cut the gates, reducing the number of qubits required to run the circuit. From the tutorial, I see they just make a random circuit : Then they want it to be cut into two subcircuits of two-qubit each and then they wrote the code: They are calculating the expectation value of the circuit, but I still don't understand the choice of these Pauli matrices, the order in which they are, and the fashion they are chosen. Can anyone point me in the right direction to understand how this is done?
+
+```
+from qiskit.quantum_info import PauliList observables = PauliList(["ZZII", "IZZI", "IIZZ", "XIXI", "ZIZZ", "IXIX"])
+```
+
+```
+from qiskit.quantum_info import PauliList observables = PauliList(["ZZII", "IZZI", "IIZZ", "XIXI", "ZIZZ", "IXIX"])
+```
+
+Original buggy code:
+from qiskit.quantum_info import PauliList observables = PauliList(["ZZII", "IZZI", "IIZZ", "XIXI", "ZIZZ", "IXIX"])
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import PauliList observables = PauliList(["ZZII", "IZZI", "IIZZ", "XIXI", "ZIZZ", "IXIX"])
+
+Solution explanation:
+The Pauli list says the operator or the basis on which you want to measure the quantum state. Whenever you implement a QAOA, or any other code that requires you to find the expectation value of an operator, it does so by measuring the state on some basis. Like this: $$\langle\psi|A|\psi\rangle$$ The measurement is mostly on a computational basis, which is the $Z$ basis, but you can measure on another basis as well, like the other Pauli Operators. That is what is mentioned here. Like in QAOA when you have to minimize the energy, you do : $$E = \langle\psi|O|\psi\rangle.$$ You need to define the operator 𝑂 you're interested in and the state |𝜓⟩ concerning which you want to compute the expectation value. Using the code like this: and then just straightforward calculating the expectation value, gives you your result. The same operators are here, you can keep them all $Z$ , or all $X$, it's for you to decide in which basis you want to measure, just keep in mind that they should be equal to the number of qubits in your quantum circuit, one for each.
+
+```
+# you can define your operator as circuit circuit = QuantumCircuit(2) circuit.z(0) circuit.z(1) op = CircuitOp(circuit) # and convert to an operator # or if you have a WeightedPauliOperator, do op = weighted_pauli_op.to_opflow() # but here we'll use the H2-molecule Hamiltonian from qiskit.aqua.operators import X, Y, Z, I op = (-1.0523732 * I^I) + (0.39793742 * I^Z) + (-0.3979374 * Z^I) \ + (-0.0112801 * Z^Z) + (0.18093119 * X^X) # define the state you w.r.t. which you want the expectation value psi = QuantumCircuit(2) psi.x(0) psi.x(1) # convert to a state psi = CircuitStateFn(psi)
+```
+
+```
+# you can define your operator as circuit circuit = QuantumCircuit(2) circuit.z(0) circuit.z(1) op = CircuitOp(circuit) # and convert to an operator # or if you have a WeightedPauliOperator, do op = weighted_pauli_op.to_opflow() # but here we'll use the H2-molecule Hamiltonian from qiskit.aqua.operators import X, Y, Z, I op = (-1.0523732 * I^I) + (0.39793742 * I^Z) + (-0.3979374 * Z^I) \ + (-0.0112801 * Z^Z) + (0.18093119 * X^X) # define the state you w.r.t. which you want the expectation value psi = QuantumCircuit(2) psi.x(0) psi.x(1) # convert to a state psi = CircuitStateFn(psi)
+```
+
+```
+# easy expectation value, use for small systems only! print('Math:', psi.adjoint().compose(op).compose(psi).eval().real)
+```
+
+```
+# easy expectation value, use for small systems only! print('Math:', psi.adjoint().compose(op).compose(psi).eval().real)
+```
+
+Original fixed code:
+# you can define your operator as circuit circuit = QuantumCircuit(2) circuit.z(0) circuit.z(1) op = CircuitOp(circuit) # and convert to an operator # or if you have a WeightedPauliOperator, do op = weighted_pauli_op.to_opflow() # but here we'll use the H2-molecule Hamiltonian from qiskit.aqua.operators import X, Y, Z, I op = (-1.0523732 * I^I) + (0.39793742 * I^Z) + (-0.3979374 * Z^I) \ + (-0.0112801 * Z^Z) + (0.18093119 * X^X) # define the state you w.r.t. which you want the expectation value psi = QuantumCircuit(2) psi.x(0) psi.x(1) # convert to a state psi = CircuitStateFn(psi)
+
+---CODE_BLOCK---
+
+# you can define your operator as circuit circuit = QuantumCircuit(2) circuit.z(0) circuit.z(1) op = CircuitOp(circuit) # and convert to an operator # or if you have a WeightedPauliOperator, do op = weighted_pauli_op.to_opflow() # but here we'll use the H2-molecule Hamiltonian from qiskit.aqua.operators import X, Y, Z, I op = (-1.0523732 * I^I) + (0.39793742 * I^Z) + (-0.3979374 * Z^I) \ + (-0.0112801 * Z^Z) + (0.18093119 * X^X) # define the state you w.r.t. which you want the expectation value psi = QuantumCircuit(2) psi.x(0) psi.x(1) # convert to a state psi = CircuitStateFn(psi)
+
+---CODE_BLOCK---
+
+# easy expectation value, use for small systems only! print('Math:', psi.adjoint().compose(op).compose(psi).eval().real)
+
+---CODE_BLOCK---
+
+# easy expectation value, use for small systems only! print('Math:', psi.adjoint().compose(op).compose(psi).eval().real)

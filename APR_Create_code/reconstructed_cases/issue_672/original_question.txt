@@ -1,0 +1,91 @@
+Title:
+A StabilizerState's result doesn't look right
+
+Category:
+
+
+Question:
+Title: A StabilizerState's result doesn't look right
+
+When I ran the code the resulting stabilizer doesn't look right, it outputs: $S = \langle I_2I_1X_0, I_2Z_1I_0, Z_2Z_1X_0\rangle$ Instead of : $S = \langle I_2I_1X_0, X_2X_1I_0, Z_2Z_1X_0\rangle$. $|\psi\rangle = \frac{1}{2}(|000\rangle)+|001\rangle+|110\rangle + |111\rangle)$ $Z_1|\psi\rangle=\frac{1}{2}(|000\rangle)+|001\rangle-|110\rangle-|111\rangle \neq |\psi\rangle$ Is this a bug or am I missing something..? Result:
+
+```
+from qiskit import QuantumCircuit, __version__ from qiskit.quantum_info import StabilizerState qc = QuantumCircuit(3) qc.h(0) qc.cx(1, 2) stab = StabilizerState(qc) print(stab) print("qiskit ver", __version__) qc.draw("mpl")
+```
+
+```
+from qiskit import QuantumCircuit, __version__ from qiskit.quantum_info import StabilizerState qc = QuantumCircuit(3) qc.h(0) qc.cx(1, 2) stab = StabilizerState(qc) print(stab) print("qiskit ver", __version__) qc.draw("mpl")
+```
+
+```
+StabilizerState(['+IIX', '+IZI', '+ZZI']) qiskit ver 1.3.1
+```
+
+```
+StabilizerState(['+IIX', '+IZI', '+ZZI']) qiskit ver 1.3.1
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit, __version__ from qiskit.quantum_info import StabilizerState qc = QuantumCircuit(3) qc.h(0) qc.cx(1, 2) stab = StabilizerState(qc) print(stab) print("qiskit ver", __version__) qc.draw("mpl")
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, __version__ from qiskit.quantum_info import StabilizerState qc = QuantumCircuit(3) qc.h(0) qc.cx(1, 2) stab = StabilizerState(qc) print(stab) print("qiskit ver", __version__) qc.draw("mpl")
+
+---CODE_BLOCK---
+
+StabilizerState(['+IIX', '+IZI', '+ZZI']) qiskit ver 1.3.1
+
+---CODE_BLOCK---
+
+StabilizerState(['+IIX', '+IZI', '+ZZI']) qiskit ver 1.3.1
+
+Solution explanation:
+The state you create isn't $$|\psi\rangle=\frac12(|000\rangle+|001\rangle+|110\rangle+|111\rangle)$$ but rather $$|\psi\rangle=\frac{1}{\sqrt{2}}(|000\rangle+|001\rangle)\,.$$ In order to get the state you want, you should first apply an gate on the second qubit before your gate, resulting in which prints as expected (when you note that $I_2I_1X_0\times Z_2Z_1X_0=Z_2Z_1I_0$).
+
+```
+h
+```
+
+```
+cx
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import StabilizerState qc = QuantumCircuit(3) qc.h(0) qc.h(1) qc.cx(1, 2) stab = StabilizerState(qc) print(stab)
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import StabilizerState qc = QuantumCircuit(3) qc.h(0) qc.h(1) qc.cx(1, 2) stab = StabilizerState(qc) print(stab)
+```
+
+```
+StabilizerState(['+IIX', '+XXI', '+ZZI'])
+```
+
+```
+StabilizerState(['+IIX', '+XXI', '+ZZI'])
+```
+
+Original fixed code:
+h
+
+---CODE_BLOCK---
+
+cx
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import StabilizerState qc = QuantumCircuit(3) qc.h(0) qc.h(1) qc.cx(1, 2) stab = StabilizerState(qc) print(stab)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import StabilizerState qc = QuantumCircuit(3) qc.h(0) qc.h(1) qc.cx(1, 2) stab = StabilizerState(qc) print(stab)
+
+---CODE_BLOCK---
+
+StabilizerState(['+IIX', '+XXI', '+ZZI'])
+
+---CODE_BLOCK---
+
+StabilizerState(['+IIX', '+XXI', '+ZZI'])

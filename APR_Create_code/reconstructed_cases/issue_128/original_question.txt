@@ -1,0 +1,95 @@
+Title:
+Can Qiskit decompose circuits into non-IBMQ basis gate sets?
+
+Category:
+Category:
+Circuit Compilation / Transpilation / Backend Compatibility
+
+Why AI Wins in This Category:
+The AI answer is more comprehensive and adaptable, especially for researchers or developers working with non-IBMQ architectures. It anticipates and explains the gap in Qiskit's current built-in gate sets and offers actionable solutions, while Stack Overflow only covers the first step.
+
+Question:
+Title: Can Qiskit decompose circuits into non-IBMQ basis gate sets?
+
+Let be a object. Running returns a circuit that consists entirely of gates native to IBMQ computers (single-qubit operations + CNOT). I'm interested in decomposing into a circuit consisting of gates native to ion-trap quantum computers (that is, single-qubit gates + Mølmer–Sørensen). Is there a way to do this in Qiskit?
+
+```
+circ
+```
+
+```
+QuantumCircuit
+```
+
+```
+circ.decompose()
+```
+
+```
+circ
+```
+
+Original buggy code:
+circ
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+circ.decompose()
+
+---CODE_BLOCK---
+
+circ
+
+Solution explanation:
+You can specify the target basis for instance using : Note that the target basis should be complete (e.g. ). For high optimization levels (2 or 3) you might have to include and so all optimization passes work correctly. I don't think the Molmer-Sorensen gate is currently supported as basis gate
+
+```
+transpile
+```
+
+```
+from qiskit import transpile target_basis = ['rx', 'ry', 'rz', 'h', 'cx'] decomposed = transpile(circuit, basis_gates=target_basis, optimization_level=0) # 0 for no optimization, 3 is max
+```
+
+```
+from qiskit import transpile target_basis = ['rx', 'ry', 'rz', 'h', 'cx'] decomposed = transpile(circuit, basis_gates=target_basis, optimization_level=0) # 0 for no optimization, 3 is max
+```
+
+```
+rz h cx
+```
+
+```
+u
+```
+
+```
+cx
+```
+
+Original fixed code:
+transpile
+
+---CODE_BLOCK---
+
+from qiskit import transpile target_basis = ['rx', 'ry', 'rz', 'h', 'cx'] decomposed = transpile(circuit, basis_gates=target_basis, optimization_level=0) # 0 for no optimization, 3 is max
+
+---CODE_BLOCK---
+
+from qiskit import transpile target_basis = ['rx', 'ry', 'rz', 'h', 'cx'] decomposed = transpile(circuit, basis_gates=target_basis, optimization_level=0) # 0 for no optimization, 3 is max
+
+---CODE_BLOCK---
+
+rz h cx
+
+---CODE_BLOCK---
+
+u
+
+---CODE_BLOCK---
+
+cx

@@ -1,0 +1,191 @@
+Title:
+QPE example on Qiskit
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+Stack Overflow provides a complete working example using Qiskit Aqua's QPE API. It addresses multiple user errors directly and ensures compatibility with Aqua's expected types (WeightedPauliOperator, Custom, QFT). The AI solution is forward-looking but incomplete and incompatible without further corrections. Therefore, SO wins due to execution correctness, clarity, and completeness of guidance.
+
+Question:
+Title: QPE example on Qiskit
+
+I am learning to do QPE on qiskit. I wanted to choose a simple example to learn, and hence began with the state $|+\rangle$ and operator $X$. I initialized $|+\rangle$ this way: I then defined $X$ this way: Finally, I gave the QPE commands: However, when I try running QPE, I run into this error: If I define my operator instead this way: I get the error: I also tried: but ran into: Can someone help me with defining the state and operator correctly?
+
+```
+circ = QuantumCircuit(1) circ.h(0) a = Custom(num_qubits=1, state='zero', state_vector=None, circuit=circ) blah = a.construct_circuit(mode='circuit', register=None) statevec = Statevector.from_instruction(circ).data
+```
+
+```
+circ = QuantumCircuit(1) circ.h(0) a = Custom(num_qubits=1, state='zero', state_vector=None, circuit=circ) blah = a.construct_circuit(mode='circuit', register=None) statevec = Statevector.from_instruction(circ).data
+```
+
+```
+b = MatrixOperator(np.array([[0,1],[1,0]]), basis=None, z2_symmetries=None, atol=1e-12, name=None)
+```
+
+```
+b = MatrixOperator(np.array([[0,1],[1,0]]), basis=None, z2_symmetries=None, atol=1e-12, name=None)
+```
+
+```
+backend = Aer.get_backend('statevector_simulator') qpe = QPE(operator=b, state_in=statevec, iqft=None, num_time_slices=1, num_ancillae=1, expansion_mode='trotter', expansion_order=1, shallow_circuit_concat=False) quantum_instance = QuantumInstance(backend=backend) results = qpe.run(quantum_instance)
+```
+
+```
+backend = Aer.get_backend('statevector_simulator') qpe = QPE(operator=b, state_in=statevec, iqft=None, num_time_slices=1, num_ancillae=1, expansion_mode='trotter', expansion_order=1, shallow_circuit_concat=False) quantum_instance = QuantumInstance(backend=backend) results = qpe.run(quantum_instance)
+```
+
+```
+AttributeError: 'numpy.ndarray' object has no attribute 'construct_circuit'
+```
+
+```
+AttributeError: 'numpy.ndarray' object has no attribute 'construct_circuit'
+```
+
+```
+b = Operator([[0,1],[1,0]])
+```
+
+```
+b = Operator([[0,1],[1,0]])
+```
+
+```
+AquaError: "Unsupported type to convert to WeightedPauliOperator: <class 'qiskit.quantum_info.operators.operator.Operator'>"
+```
+
+```
+AquaError: "Unsupported type to convert to WeightedPauliOperator: <class 'qiskit.quantum_info.operators.operator.Operator'>"
+```
+
+```
+b = Pauli.x
+```
+
+```
+b = Pauli.x
+```
+
+```
+AttributeError: 'property' object has no attribute 'copy'
+```
+
+```
+AttributeError: 'property' object has no attribute 'copy'
+```
+
+Original buggy code:
+circ = QuantumCircuit(1) circ.h(0) a = Custom(num_qubits=1, state='zero', state_vector=None, circuit=circ) blah = a.construct_circuit(mode='circuit', register=None) statevec = Statevector.from_instruction(circ).data
+
+---CODE_BLOCK---
+
+circ = QuantumCircuit(1) circ.h(0) a = Custom(num_qubits=1, state='zero', state_vector=None, circuit=circ) blah = a.construct_circuit(mode='circuit', register=None) statevec = Statevector.from_instruction(circ).data
+
+---CODE_BLOCK---
+
+b = MatrixOperator(np.array([[0,1],[1,0]]), basis=None, z2_symmetries=None, atol=1e-12, name=None)
+
+---CODE_BLOCK---
+
+b = MatrixOperator(np.array([[0,1],[1,0]]), basis=None, z2_symmetries=None, atol=1e-12, name=None)
+
+---CODE_BLOCK---
+
+backend = Aer.get_backend('statevector_simulator') qpe = QPE(operator=b, state_in=statevec, iqft=None, num_time_slices=1, num_ancillae=1, expansion_mode='trotter', expansion_order=1, shallow_circuit_concat=False) quantum_instance = QuantumInstance(backend=backend) results = qpe.run(quantum_instance)
+
+---CODE_BLOCK---
+
+backend = Aer.get_backend('statevector_simulator') qpe = QPE(operator=b, state_in=statevec, iqft=None, num_time_slices=1, num_ancillae=1, expansion_mode='trotter', expansion_order=1, shallow_circuit_concat=False) quantum_instance = QuantumInstance(backend=backend) results = qpe.run(quantum_instance)
+
+---CODE_BLOCK---
+
+AttributeError: 'numpy.ndarray' object has no attribute 'construct_circuit'
+
+---CODE_BLOCK---
+
+AttributeError: 'numpy.ndarray' object has no attribute 'construct_circuit'
+
+---CODE_BLOCK---
+
+b = Operator([[0,1],[1,0]])
+
+---CODE_BLOCK---
+
+b = Operator([[0,1],[1,0]])
+
+---CODE_BLOCK---
+
+AquaError: "Unsupported type to convert to WeightedPauliOperator: <class 'qiskit.quantum_info.operators.operator.Operator'>"
+
+---CODE_BLOCK---
+
+AquaError: "Unsupported type to convert to WeightedPauliOperator: <class 'qiskit.quantum_info.operators.operator.Operator'>"
+
+---CODE_BLOCK---
+
+b = Pauli.x
+
+---CODE_BLOCK---
+
+b = Pauli.x
+
+---CODE_BLOCK---
+
+AttributeError: 'property' object has no attribute 'copy'
+
+---CODE_BLOCK---
+
+AttributeError: 'property' object has no attribute 'copy'
+
+Solution explanation:
+You should try to insert your code so that it is more readable. Take the code in your notebook, and entered it in with the Preformatted text option. This way it is easier to produce the errors you get and make it easier for people to help you to find a solution In regard to your issue of defining the operator, as I mentioned in another answer sometime earlier, you can define the operator as: Now you can try to pass in the UPDATE: Try to run this: Running the above code I get the following:
+
+```
+from qiskit.aqua.operators import WeightedPauliOperator dict = { 'paulis': [{"coeff": {"imag": 0.00, "real": 1 }, "label": "X" }}] } b = WeightedPauliOperator.from_dict(dict)
+```
+
+```
+from qiskit.aqua.operators import WeightedPauliOperator dict = { 'paulis': [{"coeff": {"imag": 0.00, "real": 1 }, "label": "X" }}] } b = WeightedPauliOperator.from_dict(dict)
+```
+
+```
+b
+```
+
+```
+QPE(operator = b, , …)
+```
+
+```
+import qiskit from qiskit import __qiskit_version__ from qiskit.aqua.algorithms import QPE from qiskit.aqua.operators import WeightedPauliOperator from qiskit.aqua.components.initial_states import Custom from qiskit import IBMQ, BasicAer, Aer from qiskit import QuantumCircuit from qiskit.aqua import QuantumInstance from qiskit.circuit.library import QFT print(qiskit.__qiskit_version__) a = Custom(1,state = 'uniform') #Initial state as you wanted. dict = { 'paulis': [{"coeff": {"imag": 0.00, "real": 1 }, "label": "X" }] } b = WeightedPauliOperator.from_dict(dict) #Operator for input into QPE #-------- Setting up Backend --------# provider = IBMQ.load_account() quantum_instance = QuantumInstance(backend=Aer.get_backend("statevector_simulator"), shots=1) #------------------------------------# n_ancillae = 3 iqft = QFT(n_ancillae).inverse() qpe = QPE(b, a, iqft, num_time_slices=1, num_ancillae=n_ancillae, expansion_mode='trotter', expansion_order=1, shallow_circuit_concat=False) qpe_result = qpe.run(quantum_instance) qc = qpe.construct_circuit(measurement = True) qc.draw( )
+```
+
+```
+import qiskit from qiskit import __qiskit_version__ from qiskit.aqua.algorithms import QPE from qiskit.aqua.operators import WeightedPauliOperator from qiskit.aqua.components.initial_states import Custom from qiskit import IBMQ, BasicAer, Aer from qiskit import QuantumCircuit from qiskit.aqua import QuantumInstance from qiskit.circuit.library import QFT print(qiskit.__qiskit_version__) a = Custom(1,state = 'uniform') #Initial state as you wanted. dict = { 'paulis': [{"coeff": {"imag": 0.00, "real": 1 }, "label": "X" }] } b = WeightedPauliOperator.from_dict(dict) #Operator for input into QPE #-------- Setting up Backend --------# provider = IBMQ.load_account() quantum_instance = QuantumInstance(backend=Aer.get_backend("statevector_simulator"), shots=1) #------------------------------------# n_ancillae = 3 iqft = QFT(n_ancillae).inverse() qpe = QPE(b, a, iqft, num_time_slices=1, num_ancillae=n_ancillae, expansion_mode='trotter', expansion_order=1, shallow_circuit_concat=False) qpe_result = qpe.run(quantum_instance) qc = qpe.construct_circuit(measurement = True) qc.draw( )
+```
+
+Original fixed code:
+from qiskit.aqua.operators import WeightedPauliOperator dict = { 'paulis': [{"coeff": {"imag": 0.00, "real": 1 }, "label": "X" }}] } b = WeightedPauliOperator.from_dict(dict)
+
+---CODE_BLOCK---
+
+from qiskit.aqua.operators import WeightedPauliOperator dict = { 'paulis': [{"coeff": {"imag": 0.00, "real": 1 }, "label": "X" }}] } b = WeightedPauliOperator.from_dict(dict)
+
+---CODE_BLOCK---
+
+b
+
+---CODE_BLOCK---
+
+QPE(operator = b, , …)
+
+---CODE_BLOCK---
+
+import qiskit from qiskit import __qiskit_version__ from qiskit.aqua.algorithms import QPE from qiskit.aqua.operators import WeightedPauliOperator from qiskit.aqua.components.initial_states import Custom from qiskit import IBMQ, BasicAer, Aer from qiskit import QuantumCircuit from qiskit.aqua import QuantumInstance from qiskit.circuit.library import QFT print(qiskit.__qiskit_version__) a = Custom(1,state = 'uniform') #Initial state as you wanted. dict = { 'paulis': [{"coeff": {"imag": 0.00, "real": 1 }, "label": "X" }] } b = WeightedPauliOperator.from_dict(dict) #Operator for input into QPE #-------- Setting up Backend --------# provider = IBMQ.load_account() quantum_instance = QuantumInstance(backend=Aer.get_backend("statevector_simulator"), shots=1) #------------------------------------# n_ancillae = 3 iqft = QFT(n_ancillae).inverse() qpe = QPE(b, a, iqft, num_time_slices=1, num_ancillae=n_ancillae, expansion_mode='trotter', expansion_order=1, shallow_circuit_concat=False) qpe_result = qpe.run(quantum_instance) qc = qpe.construct_circuit(measurement = True) qc.draw( )
+
+---CODE_BLOCK---
+
+import qiskit from qiskit import __qiskit_version__ from qiskit.aqua.algorithms import QPE from qiskit.aqua.operators import WeightedPauliOperator from qiskit.aqua.components.initial_states import Custom from qiskit import IBMQ, BasicAer, Aer from qiskit import QuantumCircuit from qiskit.aqua import QuantumInstance from qiskit.circuit.library import QFT print(qiskit.__qiskit_version__) a = Custom(1,state = 'uniform') #Initial state as you wanted. dict = { 'paulis': [{"coeff": {"imag": 0.00, "real": 1 }, "label": "X" }] } b = WeightedPauliOperator.from_dict(dict) #Operator for input into QPE #-------- Setting up Backend --------# provider = IBMQ.load_account() quantum_instance = QuantumInstance(backend=Aer.get_backend("statevector_simulator"), shots=1) #------------------------------------# n_ancillae = 3 iqft = QFT(n_ancillae).inverse() qpe = QPE(b, a, iqft, num_time_slices=1, num_ancillae=n_ancillae, expansion_mode='trotter', expansion_order=1, shallow_circuit_concat=False) qpe_result = qpe.run(quantum_instance) qc = qpe.construct_circuit(measurement = True) qc.draw( )

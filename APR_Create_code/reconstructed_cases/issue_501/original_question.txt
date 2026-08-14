@@ -1,0 +1,199 @@
+Title:
+Can I use `job_manager` to get memories for 3 parts of the experiment?
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+In the circuit execution category, precision in API usage is critical. The Stack Overflow answer directly addressed how to work with ManagedResults, indexing, and metadata in Qiskit, while the AI answer introduced unsupported functionality. Therefore, Stack Overflow provides the correct and reliable guidance for practitioners.
+
+Question:
+Title: Can I use `job_manager` to get memories for 3 parts of the experiment?
+
+Here's part of the code I'm working on: I have a list of quantum circuits composed of the repeating circuit sequence and I'm trying to run them using qiskit job_manager. I applied the readout error mitigation to the results and I want to get the memories of each quantum circuit in , and combine the memories with the same label on their associated circuits. I wonder is there a way I can get the memory for each circuit that I submitted in a bundle using job manager? Thanks for the help!!
+
+```
+all_circuits = [] for _ in range(100): all_circuits.extend([quanc_z,quanc_x,quanc_y]) all_circuits = transpile(all_circuits, backend=backend) MExperiments = job_manager.run(all_circuits, backend=backend, shots = 1024) results = meas_filter.apply(MExperiments.results()) memory_z = results.get_memory() memory_x = results.get_memory() memory_y = results.get_memory() # Question
+```
+
+```
+all_circuits = [] for _ in range(100): all_circuits.extend([quanc_z,quanc_x,quanc_y]) all_circuits = transpile(all_circuits, backend=backend) MExperiments = job_manager.run(all_circuits, backend=backend, shots = 1024) results = meas_filter.apply(MExperiments.results()) memory_z = results.get_memory() memory_x = results.get_memory() memory_y = results.get_memory() # Question
+```
+
+```
+all_circuits
+```
+
+```
+quanc_z(,x,y)
+```
+
+```
+all_circuits
+```
+
+```
+z,x,y
+```
+
+Original buggy code:
+all_circuits = [] for _ in range(100): all_circuits.extend([quanc_z,quanc_x,quanc_y]) all_circuits = transpile(all_circuits, backend=backend) MExperiments = job_manager.run(all_circuits, backend=backend, shots = 1024) results = meas_filter.apply(MExperiments.results()) memory_z = results.get_memory() memory_x = results.get_memory() memory_y = results.get_memory() # Question
+
+---CODE_BLOCK---
+
+all_circuits = [] for _ in range(100): all_circuits.extend([quanc_z,quanc_x,quanc_y]) all_circuits = transpile(all_circuits, backend=backend) MExperiments = job_manager.run(all_circuits, backend=backend, shots = 1024) results = meas_filter.apply(MExperiments.results()) memory_z = results.get_memory() memory_x = results.get_memory() memory_y = results.get_memory() # Question
+
+---CODE_BLOCK---
+
+all_circuits
+
+---CODE_BLOCK---
+
+quanc_z(,x,y)
+
+---CODE_BLOCK---
+
+all_circuits
+
+---CODE_BLOCK---
+
+z,x,y
+
+Solution explanation:
+Yes, but it has more to do with extracting data from the result and not so much with job manager. Method 1, use the circuit index. If your circuits are always in the z, x, y order, then you can do something like Method 2, assign metadata to each circuit and use that to differentiate individual result data, something like 2 additional things to note: You need a lower measurement level or in your to get memory data. See the doc for more details. Measurement correction fitters in qiskit-ignis, if that's what you're using, usually takes a object as an input. Job manager, on the other hand, returns a object. But you can use the method to convert a to a : This was needed in method 2 above because doesn't have the attributes.
+
+```
+memory_z = [] memory_x = [] memory_y = [] for i in range(len(all_circuits)): mem = results.get_memory(i) if i % 3 == 0: memory_z.append(mem) # or however you want to combine them elif i % 3 == 1: memory_x.append(mem) else: memory_y.append(mem)
+```
+
+```
+memory_z = [] memory_x = [] memory_y = [] for i in range(len(all_circuits)): mem = results.get_memory(i) if i % 3 == 0: memory_z.append(mem) # or however you want to combine them elif i % 3 == 1: memory_x.append(mem) else: memory_y.append(mem)
+```
+
+```
+quanc_z.metadata = {"tag": "z"} quanc_x.metadata = {"tag": "x"} quanc_y.metadata = {"tag": "y"} combined = results.combine_results() for i, r in enumerate(combined.results): if r.header.metadata["tag"] == "z": memory_z.append(results.get_memory(i)) ... # repeat for the other 2
+```
+
+```
+quanc_z.metadata = {"tag": "z"} quanc_x.metadata = {"tag": "x"} quanc_y.metadata = {"tag": "y"} combined = results.combine_results() for i, r in enumerate(combined.results): if r.header.metadata["tag"] == "z": memory_z.append(results.get_memory(i)) ... # repeat for the other 2
+```
+
+```
+memory=True
+```
+
+```
+job_manager.run()
+```
+
+```
+get_memory
+```
+
+```
+Result
+```
+
+```
+ManagedResults
+```
+
+```
+combine_results()
+```
+
+```
+ManagedResults
+```
+
+```
+Result
+```
+
+```
+managed_result = job_manager.run(...).results() result_to_fitter = managed_result.combine_results()
+```
+
+```
+managed_result = job_manager.run(...).results() result_to_fitter = managed_result.combine_results()
+```
+
+```
+combine_results()
+```
+
+```
+ManagedResults
+```
+
+```
+results
+```
+
+Original fixed code:
+memory_z = [] memory_x = [] memory_y = [] for i in range(len(all_circuits)): mem = results.get_memory(i) if i % 3 == 0: memory_z.append(mem) # or however you want to combine them elif i % 3 == 1: memory_x.append(mem) else: memory_y.append(mem)
+
+---CODE_BLOCK---
+
+memory_z = [] memory_x = [] memory_y = [] for i in range(len(all_circuits)): mem = results.get_memory(i) if i % 3 == 0: memory_z.append(mem) # or however you want to combine them elif i % 3 == 1: memory_x.append(mem) else: memory_y.append(mem)
+
+---CODE_BLOCK---
+
+quanc_z.metadata = {"tag": "z"} quanc_x.metadata = {"tag": "x"} quanc_y.metadata = {"tag": "y"} combined = results.combine_results() for i, r in enumerate(combined.results): if r.header.metadata["tag"] == "z": memory_z.append(results.get_memory(i)) ... # repeat for the other 2
+
+---CODE_BLOCK---
+
+quanc_z.metadata = {"tag": "z"} quanc_x.metadata = {"tag": "x"} quanc_y.metadata = {"tag": "y"} combined = results.combine_results() for i, r in enumerate(combined.results): if r.header.metadata["tag"] == "z": memory_z.append(results.get_memory(i)) ... # repeat for the other 2
+
+---CODE_BLOCK---
+
+memory=True
+
+---CODE_BLOCK---
+
+job_manager.run()
+
+---CODE_BLOCK---
+
+get_memory
+
+---CODE_BLOCK---
+
+Result
+
+---CODE_BLOCK---
+
+ManagedResults
+
+---CODE_BLOCK---
+
+combine_results()
+
+---CODE_BLOCK---
+
+ManagedResults
+
+---CODE_BLOCK---
+
+Result
+
+---CODE_BLOCK---
+
+managed_result = job_manager.run(...).results() result_to_fitter = managed_result.combine_results()
+
+---CODE_BLOCK---
+
+managed_result = job_manager.run(...).results() result_to_fitter = managed_result.combine_results()
+
+---CODE_BLOCK---
+
+combine_results()
+
+---CODE_BLOCK---
+
+ManagedResults
+
+---CODE_BLOCK---
+
+results

@@ -1,0 +1,55 @@
+Title:
+unexpected effect of coherent unitary error in qiskit
+
+Category:
+
+
+Question:
+Title: unexpected effect of coherent unitary error in qiskit
+
+I'm trying to simulate the effect of a coherent unitary Z rotation at an arbitrary angle of a single qubit on the fidelity of a quantum circuit. I am using the qiskit Aer noisy simulator. More specifically, my goal is to quantify the loss of fidelity associated with the fact that when attempting to apply any gate with a unitary $U$, I apply instead the gate $$ V = R_{i,z}^\dagger(\epsilon)UR_{i,z}(\epsilon) $$ where $i$ is an index of a single qubit. As a sanity check, I am trying the single qubit case first, where I expect this error to not have any effect, since the initial state of the qubit is $|0\rangle$ and the measurement is in the Z basis. Thus, assuming that the coherent unitary channel acts on the state as $\mathcal{E}(\rho) = U\rho U^\dagger$, this error should get absorbed into the preperation and measurement and not have any effect on the fidelity. When I simulate this circuit however, I find that the fidelity does go below 1 as I increase the error. It seems like the qiskit method function from qiskit does not return a QuantumError object which has the effect of applying $\mathcal{E}(\rho)$ as defined above. Does that make sense? I am including here a self-contained code sample which shows this behavior. One easy way to trigger this effect on and off is to change the parameter in line 21 of the attached code. If it is 0, then the two Hadamards don't get merged into one and we see an error. If it is 1 or larger, they get merged and no error appears. Of course, manually adding the Z rotations to the circuit does not lead to an error. Any ideas? Did I misunderstand how the noise model works, or is there a more fundamental issue here? Thanks a lot in advance!!
+
+```
+coherent_unitary_error
+```
+
+```
+optimization_level
+```
+
+```
+import qiskit from qiskit import QuantumCircuit, transpile from qiskit.providers.aer import AerSimulator from qiskit.providers.aer.noise import NoiseModel, coherent_unitary_error epsilon = 0.1 z_rot = qiskit.circuit.library.U1Gate(epsilon) z_rot_dg = qiskit.circuit.library.U1Gate(-epsilon) noise_model = NoiseModel() noise_model.add_all_qubit_quantum_error(coherent_unitary_error(z_rot), 'u2') noise_model.add_all_qubit_quantum_error(coherent_unitary_error(z_rot), 'u3') print(noise_model) noise_sim = AerSimulator(noise_model=noise_model) circ = QuantumCircuit(1, 1) circ.h(0) circ.h(0) circ.measure(0, 0) # change optimization level to 1 to turn off effect of channel ct = transpile(circ, noise_sim, optimization_level=0) print(ct.draw()) nshots=10000 job = noise_sim.run(ct, shots=nshots) print(job.result().get_counts()['0']/nshots) ```
+```
+
+```
+import qiskit from qiskit import QuantumCircuit, transpile from qiskit.providers.aer import AerSimulator from qiskit.providers.aer.noise import NoiseModel, coherent_unitary_error epsilon = 0.1 z_rot = qiskit.circuit.library.U1Gate(epsilon) z_rot_dg = qiskit.circuit.library.U1Gate(-epsilon) noise_model = NoiseModel() noise_model.add_all_qubit_quantum_error(coherent_unitary_error(z_rot), 'u2') noise_model.add_all_qubit_quantum_error(coherent_unitary_error(z_rot), 'u3') print(noise_model) noise_sim = AerSimulator(noise_model=noise_model) circ = QuantumCircuit(1, 1) circ.h(0) circ.h(0) circ.measure(0, 0) # change optimization level to 1 to turn off effect of channel ct = transpile(circ, noise_sim, optimization_level=0) print(ct.draw()) nshots=10000 job = noise_sim.run(ct, shots=nshots) print(job.result().get_counts()['0']/nshots) ```
+```
+
+Original buggy code:
+coherent_unitary_error
+
+---CODE_BLOCK---
+
+optimization_level
+
+---CODE_BLOCK---
+
+import qiskit from qiskit import QuantumCircuit, transpile from qiskit.providers.aer import AerSimulator from qiskit.providers.aer.noise import NoiseModel, coherent_unitary_error epsilon = 0.1 z_rot = qiskit.circuit.library.U1Gate(epsilon) z_rot_dg = qiskit.circuit.library.U1Gate(-epsilon) noise_model = NoiseModel() noise_model.add_all_qubit_quantum_error(coherent_unitary_error(z_rot), 'u2') noise_model.add_all_qubit_quantum_error(coherent_unitary_error(z_rot), 'u3') print(noise_model) noise_sim = AerSimulator(noise_model=noise_model) circ = QuantumCircuit(1, 1) circ.h(0) circ.h(0) circ.measure(0, 0) # change optimization level to 1 to turn off effect of channel ct = transpile(circ, noise_sim, optimization_level=0) print(ct.draw()) nshots=10000 job = noise_sim.run(ct, shots=nshots) print(job.result().get_counts()['0']/nshots)
+
+Solution explanation:
+after finding this: What are examples of Kraus operators describing the process of control error? I think I understand the issue - I incorrectly assumed that the error operator is applied to the unitary and not to the state. Once I use the definition from the link above I get the correct result, here's an example:
+
+```
+import qiskit from qiskit import QuantumCircuit, transpile from qiskit.providers.aer import AerSimulator from qiskit.providers.aer.noise import NoiseModel, coherent_unitary_error import qiskit.quantum_info as qi from qiskit.visualization import array_to_latex epsilon = 0.1 err_h = QuantumCircuit(1, 1) err_h.h(0) err_h.p(epsilon, 0) err_h.h(0) err_h.p(-epsilon, 0) u_err_h = qi.Operator(err_h) noise_model = NoiseModel() noise_model.add_all_qubit_quantum_error(coherent_unitary_error(u_err_h), 'h') print(noise_model) noise_sim = AerSimulator(noise_model=noise_model) circ = QuantumCircuit(1, 1) circ.h(0) circ.h(0) circ.measure(0, 0) nshots = 10000 job = noise_sim.run(circ, shots=nshots) job.result().get_counts()['0']/nshots
+```
+
+```
+import qiskit from qiskit import QuantumCircuit, transpile from qiskit.providers.aer import AerSimulator from qiskit.providers.aer.noise import NoiseModel, coherent_unitary_error import qiskit.quantum_info as qi from qiskit.visualization import array_to_latex epsilon = 0.1 err_h = QuantumCircuit(1, 1) err_h.h(0) err_h.p(epsilon, 0) err_h.h(0) err_h.p(-epsilon, 0) u_err_h = qi.Operator(err_h) noise_model = NoiseModel() noise_model.add_all_qubit_quantum_error(coherent_unitary_error(u_err_h), 'h') print(noise_model) noise_sim = AerSimulator(noise_model=noise_model) circ = QuantumCircuit(1, 1) circ.h(0) circ.h(0) circ.measure(0, 0) nshots = 10000 job = noise_sim.run(circ, shots=nshots) job.result().get_counts()['0']/nshots
+```
+
+Original fixed code:
+import qiskit from qiskit import QuantumCircuit, transpile from qiskit.providers.aer import AerSimulator from qiskit.providers.aer.noise import NoiseModel, coherent_unitary_error import qiskit.quantum_info as qi from qiskit.visualization import array_to_latex epsilon = 0.1 err_h = QuantumCircuit(1, 1) err_h.h(0) err_h.p(epsilon, 0) err_h.h(0) err_h.p(-epsilon, 0) u_err_h = qi.Operator(err_h) noise_model = NoiseModel() noise_model.add_all_qubit_quantum_error(coherent_unitary_error(u_err_h), 'h') print(noise_model) noise_sim = AerSimulator(noise_model=noise_model) circ = QuantumCircuit(1, 1) circ.h(0) circ.h(0) circ.measure(0, 0) nshots = 10000 job = noise_sim.run(circ, shots=nshots) job.result().get_counts()['0']/nshots
+
+---CODE_BLOCK---
+
+import qiskit from qiskit import QuantumCircuit, transpile from qiskit.providers.aer import AerSimulator from qiskit.providers.aer.noise import NoiseModel, coherent_unitary_error import qiskit.quantum_info as qi from qiskit.visualization import array_to_latex epsilon = 0.1 err_h = QuantumCircuit(1, 1) err_h.h(0) err_h.p(epsilon, 0) err_h.h(0) err_h.p(-epsilon, 0) u_err_h = qi.Operator(err_h) noise_model = NoiseModel() noise_model.add_all_qubit_quantum_error(coherent_unitary_error(u_err_h), 'h') print(noise_model) noise_sim = AerSimulator(noise_model=noise_model) circ = QuantumCircuit(1, 1) circ.h(0) circ.h(0) circ.measure(0, 0) nshots = 10000 job = noise_sim.run(circ, shots=nshots) job.result().get_counts()['0']/nshots

@@ -1,0 +1,107 @@
+Title:
+Qiskit: PauliTrotterEvolution for Hamiltonian simulation
+
+Category:
+
+
+Question:
+Title: Qiskit: PauliTrotterEvolution for Hamiltonian simulation
+
+Context: I have H (in qiskit.opflow notation). I want a circuit which does exp(-itH) Solution attempt: I think qiskit.opflow.evolutions.PauliTrotterEvolution should do the trick. Also, I found this nice tutorial https://nahumsa.github.io/n-blog/2021-05-11-quantum_simulation/ Minimalistic example: My output: Problem: (a) the Hamiltonian doesn't seem to get trotterized (split up) (b) the circuit doesn't show the individual gates Compare that to the nice output of the tutorial quoted above: My questions: Is PauliTrotterEvolution the right tool in the first place? Why does the circuit look different for me than in the linked tutorial? Solution using shows the gates for single-term-hamiltonians and multiple-term-hamiltonians are split up, but not decomposed into gates: To decompose multiple-term-hamiltonians into gates, decompose can be called repeatedly:
+
+```
+from qiskit.opflow import X, Y, Z, I, PauliTrotterEvolution from qiskit.circuit import Parameter hamiltonian = 3*(X^X^Z) - 1*(Z^X^Z) # evolution operator evo_time = Parameter('t') evolution_op = (evo_time*hamiltonian).exp_i() print(evolution_op) # into circuit num_time_slices = 1 trotterized_op = PauliTrotterEvolution( trotter_mode='trotter', reps=num_time_slices).convert(evolution_op) trotterized_op.to_circuit().draw('mpl')
+```
+
+```
+from qiskit.opflow import X, Y, Z, I, PauliTrotterEvolution from qiskit.circuit import Parameter hamiltonian = 3*(X^X^Z) - 1*(Z^X^Z) # evolution operator evo_time = Parameter('t') evolution_op = (evo_time*hamiltonian).exp_i() print(evolution_op) # into circuit num_time_slices = 1 trotterized_op = PauliTrotterEvolution( trotter_mode='trotter', reps=num_time_slices).convert(evolution_op) trotterized_op.to_circuit().draw('mpl')
+```
+
+```
+decompose()
+```
+
+```
+hamiltonian = (X^X^Z) evo_time = Parameter('t') evolution_op = (evo_time*hamiltonian).exp_i() num_time_slices = 1 trotterized_op = PauliTrotterEvolution( trotter_mode='trotter', reps=num_time_slices).convert(evolution_op) trot_op_circ = trotterized_op.to_circuit() trot_op_circ_decomp = trot_op_circ.decompose() trot_op_circ_decomp.draw('mpl')
+```
+
+```
+hamiltonian = (X^X^Z) evo_time = Parameter('t') evolution_op = (evo_time*hamiltonian).exp_i() num_time_slices = 1 trotterized_op = PauliTrotterEvolution( trotter_mode='trotter', reps=num_time_slices).convert(evolution_op) trot_op_circ = trotterized_op.to_circuit() trot_op_circ_decomp = trot_op_circ.decompose() trot_op_circ_decomp.draw('mpl')
+```
+
+```
+hamiltonian = (X^X^Z) + (Z^X^Z) evo_time = Parameter('t') evolution_op = (evo_time*hamiltonian).exp_i() num_time_slices = 1 trotterized_op = PauliTrotterEvolution( trotter_mode='trotter', reps=num_time_slices).convert(evolution_op) trot_op_circ = trotterized_op.to_circuit() trot_op_circ_decomp = trot_op_circ.decompose() trot_op_circ_decomp.draw('mpl')
+```
+
+```
+hamiltonian = (X^X^Z) + (Z^X^Z) evo_time = Parameter('t') evolution_op = (evo_time*hamiltonian).exp_i() num_time_slices = 1 trotterized_op = PauliTrotterEvolution( trotter_mode='trotter', reps=num_time_slices).convert(evolution_op) trot_op_circ = trotterized_op.to_circuit() trot_op_circ_decomp = trot_op_circ.decompose() trot_op_circ_decomp.draw('mpl')
+```
+
+```
+trot_op_circ_decomp = trot_op_circ.decompose() trot_op_circ_decomp = trot_op_circ_decomp.decompose() trot_op_circ_decomp.draw('mpl')
+```
+
+```
+trot_op_circ_decomp = trot_op_circ.decompose() trot_op_circ_decomp = trot_op_circ_decomp.decompose() trot_op_circ_decomp.draw('mpl')
+```
+
+Original buggy code:
+from qiskit.opflow import X, Y, Z, I, PauliTrotterEvolution from qiskit.circuit import Parameter hamiltonian = 3*(X^X^Z) - 1*(Z^X^Z) # evolution operator evo_time = Parameter('t') evolution_op = (evo_time*hamiltonian).exp_i() print(evolution_op) # into circuit num_time_slices = 1 trotterized_op = PauliTrotterEvolution( trotter_mode='trotter', reps=num_time_slices).convert(evolution_op) trotterized_op.to_circuit().draw('mpl')
+
+---CODE_BLOCK---
+
+from qiskit.opflow import X, Y, Z, I, PauliTrotterEvolution from qiskit.circuit import Parameter hamiltonian = 3*(X^X^Z) - 1*(Z^X^Z) # evolution operator evo_time = Parameter('t') evolution_op = (evo_time*hamiltonian).exp_i() print(evolution_op) # into circuit num_time_slices = 1 trotterized_op = PauliTrotterEvolution( trotter_mode='trotter', reps=num_time_slices).convert(evolution_op) trotterized_op.to_circuit().draw('mpl')
+
+---CODE_BLOCK---
+
+decompose()
+
+---CODE_BLOCK---
+
+hamiltonian = (X^X^Z) evo_time = Parameter('t') evolution_op = (evo_time*hamiltonian).exp_i() num_time_slices = 1 trotterized_op = PauliTrotterEvolution( trotter_mode='trotter', reps=num_time_slices).convert(evolution_op) trot_op_circ = trotterized_op.to_circuit() trot_op_circ_decomp = trot_op_circ.decompose() trot_op_circ_decomp.draw('mpl')
+
+---CODE_BLOCK---
+
+hamiltonian = (X^X^Z) evo_time = Parameter('t') evolution_op = (evo_time*hamiltonian).exp_i() num_time_slices = 1 trotterized_op = PauliTrotterEvolution( trotter_mode='trotter', reps=num_time_slices).convert(evolution_op) trot_op_circ = trotterized_op.to_circuit() trot_op_circ_decomp = trot_op_circ.decompose() trot_op_circ_decomp.draw('mpl')
+
+---CODE_BLOCK---
+
+hamiltonian = (X^X^Z) + (Z^X^Z) evo_time = Parameter('t') evolution_op = (evo_time*hamiltonian).exp_i() num_time_slices = 1 trotterized_op = PauliTrotterEvolution( trotter_mode='trotter', reps=num_time_slices).convert(evolution_op) trot_op_circ = trotterized_op.to_circuit() trot_op_circ_decomp = trot_op_circ.decompose() trot_op_circ_decomp.draw('mpl')
+
+---CODE_BLOCK---
+
+hamiltonian = (X^X^Z) + (Z^X^Z) evo_time = Parameter('t') evolution_op = (evo_time*hamiltonian).exp_i() num_time_slices = 1 trotterized_op = PauliTrotterEvolution( trotter_mode='trotter', reps=num_time_slices).convert(evolution_op) trot_op_circ = trotterized_op.to_circuit() trot_op_circ_decomp = trot_op_circ.decompose() trot_op_circ_decomp.draw('mpl')
+
+---CODE_BLOCK---
+
+trot_op_circ_decomp = trot_op_circ.decompose() trot_op_circ_decomp = trot_op_circ_decomp.decompose() trot_op_circ_decomp.draw('mpl')
+
+---CODE_BLOCK---
+
+trot_op_circ_decomp = trot_op_circ.decompose() trot_op_circ_decomp = trot_op_circ_decomp.decompose() trot_op_circ_decomp.draw('mpl')
+
+Solution explanation:
+You have to decompose the circuit produced by the to see what gates are applied inside In Qiskit we often wrap subcircuits into a block so that you can see what's going on on a higher level of abstraction. But you can still have a look inside those blocks by decomposing :)
+
+```
+PauliTrotterEvolution
+```
+
+```
+# your code from above circuit = trotterized_op.to_circuit() decomposed = circuit.decompose() decomposed.draw('mpl')
+```
+
+```
+# your code from above circuit = trotterized_op.to_circuit() decomposed = circuit.decompose() decomposed.draw('mpl')
+```
+
+Original fixed code:
+PauliTrotterEvolution
+
+---CODE_BLOCK---
+
+# your code from above circuit = trotterized_op.to_circuit() decomposed = circuit.decompose() decomposed.draw('mpl')
+
+---CODE_BLOCK---
+
+# your code from above circuit = trotterized_op.to_circuit() decomposed = circuit.decompose() decomposed.draw('mpl')

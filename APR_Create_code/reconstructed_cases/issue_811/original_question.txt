@@ -1,0 +1,31 @@
+Title:
+Does qiskit perform linear algebra for each shot?
+
+Category:
+
+
+Question:
+Title: Does qiskit perform linear algebra for each shot?
+
+If the noise of the hardware is not considered, and measurements are performed at the end of the circuit, can the final state be obtained by performing linear algebra only once? And then, Monte Carlo simulations are used to obtain multiple samples? I'm not sure if Qiskit supports this method. If it does, how can I write the code? I want to set a large shotnum, it's time-consuming right now.
+
+Original buggy code:
+If the noise of the hardware is not considered, and measurements are performed at the end of the circuit, can the final state be obtained by performing linear algebra only once? And then, Monte Carlo simulations are used to obtain multiple samples? I'm not sure if Qiskit supports this method. If it does, how can I write the code? I want to set a large shotnum, it's time-consuming right now.
+
+Solution explanation:
+You can certainly ask Qiskit to return you a statevector, a $2^n$ length vector giving the probability of each result. You can then get the samples yourself. I wrote this helper function once.
+
+```
+from qiskit.quantum_info import Statevector from qiskit import Aer def get_statevector(qc, show=True) -> Statevector: sim = Aer.get_backend('aer_simulator') qc = qc.copy() qc.save_statevector() result = execute(qc, sim).result() vector = result.get_statevector() if show: display(Statevector(vector).draw('latex')) return vector
+```
+
+```
+from qiskit.quantum_info import Statevector from qiskit import Aer def get_statevector(qc, show=True) -> Statevector: sim = Aer.get_backend('aer_simulator') qc = qc.copy() qc.save_statevector() result = execute(qc, sim).result() vector = result.get_statevector() if show: display(Statevector(vector).draw('latex')) return vector
+```
+
+Original fixed code:
+from qiskit.quantum_info import Statevector from qiskit import Aer def get_statevector(qc, show=True) -> Statevector: sim = Aer.get_backend('aer_simulator') qc = qc.copy() qc.save_statevector() result = execute(qc, sim).result() vector = result.get_statevector() if show: display(Statevector(vector).draw('latex')) return vector
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Statevector from qiskit import Aer def get_statevector(qc, show=True) -> Statevector: sim = Aer.get_backend('aer_simulator') qc = qc.copy() qc.save_statevector() result = execute(qc, sim).result() vector = result.get_statevector() if show: display(Statevector(vector).draw('latex')) return vector

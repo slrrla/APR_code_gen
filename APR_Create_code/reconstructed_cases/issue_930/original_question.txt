@@ -1,0 +1,51 @@
+Title:
+Error "too many subscripts in einsum", UnitaryGate()
+
+Category:
+
+
+Question:
+Title: Error "too many subscripts in einsum", UnitaryGate()
+
+I'd like to build a multi qubit controlled gate in the following way. The circuit has $n+1$ qubits, the first qubit is the control qubit, and the operation on the rest $n$ qubits is the tensor product of $n$ phase rotations $R^{\otimes n}$. For $n\geq10$, I get the following error message: I understand the problem lies in the size of the matrix when it has phase in it. I tried to build a gate for $n=10$ when the operation has no phase, and it worked without any problem! My question is, is there any workaround to fix this problem? What does the comment in the source code mean?
+
+```
+from qiskit import * from qiskit.extensions import * import qiskit.extensions.unitary import cmath as cm import numpy as np import math as m from qiskit.aqua.utils import tensorproduct n=10 c = QuantumRegister(1, "c") q = QuantumRegister(n, "q") cl = ClassicalRegister(2, "cl") circ = QuantumCircuit( c, q, cl) phase=cm.exp(cm.pi*complex(0,1)*(1/4)) matrixR=np.array([[phase,0],[0,1]]) matrixTe= matrixR for _ in range(n-1): matrixTe=tensorproduct(matrixTe,matrixR) matrixOp=matrixTe gateCR=UnitaryGate(matrixOp).control(num_ctrl_qubits=1) qubits=[m for m in reversed(q)] circ.append(gateCR, qubits)
+```
+
+```
+from qiskit import * from qiskit.extensions import * import qiskit.extensions.unitary import cmath as cm import numpy as np import math as m from qiskit.aqua.utils import tensorproduct n=10 c = QuantumRegister(1, "c") q = QuantumRegister(n, "q") cl = ClassicalRegister(2, "cl") circ = QuantumCircuit( c, q, cl) phase=cm.exp(cm.pi*complex(0,1)*(1/4)) matrixR=np.array([[phase,0],[0,1]]) matrixTe= matrixR for _ in range(n-1): matrixTe=tensorproduct(matrixTe,matrixR) matrixOp=matrixTe gateCR=UnitaryGate(matrixOp).control(num_ctrl_qubits=1) qubits=[m for m in reversed(q)] circ.append(gateCR, qubits)
+```
+
+```
+hack to correct global phase; should fix to prevent need for correction here
+```
+
+Original buggy code:
+from qiskit import * from qiskit.extensions import * import qiskit.extensions.unitary import cmath as cm import numpy as np import math as m from qiskit.aqua.utils import tensorproduct n=10 c = QuantumRegister(1, "c") q = QuantumRegister(n, "q") cl = ClassicalRegister(2, "cl") circ = QuantumCircuit( c, q, cl) phase=cm.exp(cm.pi*complex(0,1)*(1/4)) matrixR=np.array([[phase,0],[0,1]]) matrixTe= matrixR for _ in range(n-1): matrixTe=tensorproduct(matrixTe,matrixR) matrixOp=matrixTe gateCR=UnitaryGate(matrixOp).control(num_ctrl_qubits=1) qubits=[m for m in reversed(q)] circ.append(gateCR, qubits)
+
+---CODE_BLOCK---
+
+from qiskit import * from qiskit.extensions import * import qiskit.extensions.unitary import cmath as cm import numpy as np import math as m from qiskit.aqua.utils import tensorproduct n=10 c = QuantumRegister(1, "c") q = QuantumRegister(n, "q") cl = ClassicalRegister(2, "cl") circ = QuantumCircuit( c, q, cl) phase=cm.exp(cm.pi*complex(0,1)*(1/4)) matrixR=np.array([[phase,0],[0,1]]) matrixTe= matrixR for _ in range(n-1): matrixTe=tensorproduct(matrixTe,matrixR) matrixOp=matrixTe gateCR=UnitaryGate(matrixOp).control(num_ctrl_qubits=1) qubits=[m for m in reversed(q)] circ.append(gateCR, qubits)
+
+---CODE_BLOCK---
+
+hack to correct global phase; should fix to prevent need for correction here
+
+Solution explanation:
+You can use Qiskit's MatrixOp, and TensoredOp classes:
+
+```
+_list = [] for _ in range(n): _list.append(MatrixOp(matrixR)) tensored_op = TensoredOp(_list) gateCR=tensored_op.to_circuit().to_gate().control(num_ctrl_qubits = 1)
+```
+
+```
+_list = [] for _ in range(n): _list.append(MatrixOp(matrixR)) tensored_op = TensoredOp(_list) gateCR=tensored_op.to_circuit().to_gate().control(num_ctrl_qubits = 1)
+```
+
+Original fixed code:
+_list = [] for _ in range(n): _list.append(MatrixOp(matrixR)) tensored_op = TensoredOp(_list) gateCR=tensored_op.to_circuit().to_gate().control(num_ctrl_qubits = 1)
+
+---CODE_BLOCK---
+
+_list = [] for _ in range(n): _list.append(MatrixOp(matrixR)) tensored_op = TensoredOp(_list) gateCR=tensored_op.to_circuit().to_gate().control(num_ctrl_qubits = 1)

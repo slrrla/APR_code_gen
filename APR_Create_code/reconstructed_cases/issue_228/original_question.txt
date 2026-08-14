@@ -1,0 +1,70 @@
+Title:
+How is a linear combination of pauli operators applied to a quantum circuit in qiskit?
+
+Category:
+Category: Circuit Construction / Logic / Gates
+Why Stack Overflow Wins in This Category:
+
+The Stack Overflow answer uses the most precise and efficient approach (SparsePauliOp) and avoids the unnecessary use of higher-level abstractions, which can introduce compatibility or version issues. It is also closer to how Qiskit handles matrix-based gates internally.
+
+Question:
+Title: How is a linear combination of pauli operators applied to a quantum circuit in qiskit?
+
+Consider a quantum circuit of 2 qubit: If one wishes to apply a Pauli-X operator to the first qubit, one writes: But how should it be written programmatically if the wish is to apply a Bell measurement bases $\frac{1}{\sqrt{2}}[X - Z]$?
+
+```
+quantumcircuit = QuantumCircuit(2)
+```
+
+```
+quantumcircuit.x(0)
+```
+
+Original buggy code:
+quantumcircuit = QuantumCircuit(2)
+
+---CODE_BLOCK---
+
+quantumcircuit.x(0)
+
+Solution explanation:
+The operation $\frac{1}{\sqrt{2}}[X - Z]$ is unitary. You can easily check that: So, you can add it to your circuit using method:
+
+```
+from qiskit.quantum_info import SparsePauliOp import numpy as np op = SparsePauliOp(['X', 'Z'], [1 / np.sqrt(2), -1 / np.sqrt(2)]) print(op.is_unitary())
+```
+
+```
+from qiskit.quantum_info import SparsePauliOp import numpy as np op = SparsePauliOp(['X', 'Z'], [1 / np.sqrt(2), -1 / np.sqrt(2)]) print(op.is_unitary())
+```
+
+```
+QuantumCircuit.unitary()
+```
+
+```
+quantumcircuit.unitary(op, [0])
+```
+
+```
+quantumcircuit.unitary(op, [0])
+```
+
+Original fixed code:
+from qiskit.quantum_info import SparsePauliOp import numpy as np op = SparsePauliOp(['X', 'Z'], [1 / np.sqrt(2), -1 / np.sqrt(2)]) print(op.is_unitary())
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import SparsePauliOp import numpy as np op = SparsePauliOp(['X', 'Z'], [1 / np.sqrt(2), -1 / np.sqrt(2)]) print(op.is_unitary())
+
+---CODE_BLOCK---
+
+QuantumCircuit.unitary()
+
+---CODE_BLOCK---
+
+quantumcircuit.unitary(op, [0])
+
+---CODE_BLOCK---
+
+quantumcircuit.unitary(op, [0])

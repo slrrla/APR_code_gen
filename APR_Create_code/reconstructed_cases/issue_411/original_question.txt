@@ -1,0 +1,190 @@
+Title:
+QV circuits fail to execute in real devices
+
+Category:
+Category: Backend Usage / Simulation / Output
+
+Why Stack Overflow Wins in This Category:
+The Stack Overflow answer not only fixes the user’s immediate error but also aligns with modern Qiskit practices, avoids deprecated functions like assemble() with IBMQJobManager, and provides a more forward-compatible solution. The AI fix is partial and still includes a now-unnecessary assemble step. For backend usage and job management, staying current with Qiskit’s API evolution is critical—hence Stack Overflow is better here.
+
+Question:
+Title: QV circuits fail to execute in real devices
+
+I tried to change a little the code here for running the quantum volume circuits in real devices. My code is But I get I don't understand how this can fail,since must contain the necessary attributes. Note that I wrote instead of . If I do the latter I obtain EDIT: Some information about the objects:
+
+```
+backend = provider.get_backend('ibmq_bogota') shots = 1000 for trial in range(ntrials): clear_output(wait=True) t_qcs = transpile(qv_circs[trial], backend=backend, initial_layout=qubit_lists[0]) qobj = [assemble(t_qcs)] job_manager = IBMQJobManager() job_set_foo = job_manager.run(qobj, backend=backend, shots=shots, name='QV trial %d'%(trial)) print(job_set_foo.report(detailed=True)) print(f'Completed trial {trial+1}/{ntrials}')
+```
+
+```
+backend = provider.get_backend('ibmq_bogota') shots = 1000 for trial in range(ntrials): clear_output(wait=True) t_qcs = transpile(qv_circs[trial], backend=backend, initial_layout=qubit_lists[0]) qobj = [assemble(t_qcs)] job_manager = IBMQJobManager() job_set_foo = job_manager.run(qobj, backend=backend, shots=shots, name='QV trial %d'%(trial)) print(job_set_foo.report(detailed=True)) print(f'Completed trial {trial+1}/{ntrials}')
+```
+
+```
+status: job submit failed: 'bad input to assemble() function; must be either circuits or schedules'
+```
+
+```
+status: job submit failed: 'bad input to assemble() function; must be either circuits or schedules'
+```
+
+```
+qv_circs
+```
+
+```
+qobj = [assemble(t_qcs)]
+```
+
+```
+qobj = assemble(t_qcs)
+```
+
+```
+'QasmQobj' object is not iterable
+```
+
+```
+'QasmQobj' object is not iterable
+```
+
+```
+print(t_qcs) [<qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2398698a0>] print(type(t_qcs)) <class 'list'>
+```
+
+```
+print(t_qcs) [<qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2398698a0>] print(type(t_qcs)) <class 'list'>
+```
+
+Original buggy code:
+backend = provider.get_backend('ibmq_bogota') shots = 1000 for trial in range(ntrials): clear_output(wait=True) t_qcs = transpile(qv_circs[trial], backend=backend, initial_layout=qubit_lists[0]) qobj = [assemble(t_qcs)] job_manager = IBMQJobManager() job_set_foo = job_manager.run(qobj, backend=backend, shots=shots, name='QV trial %d'%(trial)) print(job_set_foo.report(detailed=True)) print(f'Completed trial {trial+1}/{ntrials}')
+
+---CODE_BLOCK---
+
+backend = provider.get_backend('ibmq_bogota') shots = 1000 for trial in range(ntrials): clear_output(wait=True) t_qcs = transpile(qv_circs[trial], backend=backend, initial_layout=qubit_lists[0]) qobj = [assemble(t_qcs)] job_manager = IBMQJobManager() job_set_foo = job_manager.run(qobj, backend=backend, shots=shots, name='QV trial %d'%(trial)) print(job_set_foo.report(detailed=True)) print(f'Completed trial {trial+1}/{ntrials}')
+
+---CODE_BLOCK---
+
+status: job submit failed: 'bad input to assemble() function; must be either circuits or schedules'
+
+---CODE_BLOCK---
+
+status: job submit failed: 'bad input to assemble() function; must be either circuits or schedules'
+
+---CODE_BLOCK---
+
+qv_circs
+
+---CODE_BLOCK---
+
+qobj = [assemble(t_qcs)]
+
+---CODE_BLOCK---
+
+qobj = assemble(t_qcs)
+
+---CODE_BLOCK---
+
+'QasmQobj' object is not iterable
+
+---CODE_BLOCK---
+
+'QasmQobj' object is not iterable
+
+---CODE_BLOCK---
+
+print(t_qcs) [<qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2398698a0>] print(type(t_qcs)) <class 'list'>
+
+---CODE_BLOCK---
+
+print(t_qcs) [<qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2398698a0>] print(type(t_qcs)) <class 'list'>
+
+Solution explanation:
+As per Qiskit's release notes, under "IBM Q Provider 0.12.0"[1] method now takes one or more or . Use of and is now deprecated. So, you shouldn't call . Just pass the transpiled circuits to method: I tested this code using the latest Qiskit version and it worked without any problem. The backend was (it is the backend returned by function when I called it)
+
+```
+qiskit.providers.ibmq.IBMQBackend.run()
+```
+
+```
+QuantumCircuit
+```
+
+```
+Schedule
+```
+
+```
+QasmQobj
+```
+
+```
+PulseQobj
+```
+
+```
+assemble
+```
+
+```
+IBMQJobManager.run()
+```
+
+```
+shots = 1000 for trial in range(ntrials): clear_output(wait=True) t_qcs = transpile(qv_circs[trial], backend=backend, initial_layout=qubit_lists) job_manager = IBMQJobManager() job_set_foo = job_manager.run(t_qcs, backend=backend, shots=shots, name='QV trial %d'%(trial)) print(job_set_foo.report(detailed=True)) print(f'Completed trial {trial+1}/{ntrials}')
+```
+
+```
+shots = 1000 for trial in range(ntrials): clear_output(wait=True) t_qcs = transpile(qv_circs[trial], backend=backend, initial_layout=qubit_lists) job_manager = IBMQJobManager() job_set_foo = job_manager.run(t_qcs, backend=backend, shots=shots, name='QV trial %d'%(trial)) print(job_set_foo.report(detailed=True)) print(f'Completed trial {trial+1}/{ntrials}')
+```
+
+```
+ibmq_santiago
+```
+
+```
+least_busy()
+```
+
+Original fixed code:
+qiskit.providers.ibmq.IBMQBackend.run()
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+Schedule
+
+---CODE_BLOCK---
+
+QasmQobj
+
+---CODE_BLOCK---
+
+PulseQobj
+
+---CODE_BLOCK---
+
+assemble
+
+---CODE_BLOCK---
+
+IBMQJobManager.run()
+
+---CODE_BLOCK---
+
+shots = 1000 for trial in range(ntrials): clear_output(wait=True) t_qcs = transpile(qv_circs[trial], backend=backend, initial_layout=qubit_lists) job_manager = IBMQJobManager() job_set_foo = job_manager.run(t_qcs, backend=backend, shots=shots, name='QV trial %d'%(trial)) print(job_set_foo.report(detailed=True)) print(f'Completed trial {trial+1}/{ntrials}')
+
+---CODE_BLOCK---
+
+shots = 1000 for trial in range(ntrials): clear_output(wait=True) t_qcs = transpile(qv_circs[trial], backend=backend, initial_layout=qubit_lists) job_manager = IBMQJobManager() job_set_foo = job_manager.run(t_qcs, backend=backend, shots=shots, name='QV trial %d'%(trial)) print(job_set_foo.report(detailed=True)) print(f'Completed trial {trial+1}/{ntrials}')
+
+---CODE_BLOCK---
+
+ibmq_santiago
+
+---CODE_BLOCK---
+
+least_busy()

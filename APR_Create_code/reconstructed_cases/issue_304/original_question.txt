@@ -1,0 +1,87 @@
+Title:
+Get the inverse of a Hermitian operator for measurement in qiskit
+
+Category:
+Category:
+Other (General Questions)
+
+Why Stack Overflow Wins in This Category:
+For operator manipulation tasks, the best answer is one that directly works with current Qiskit APIs. The Stack Overflow solution leverages built-in conversions (.to_matrix(), MatrixOp) and NumPy for inversion, producing a usable operator in a few lines. The AI answer, while pedagogically interesting, is not readily applicable with the current Qiskit release.
+
+Question:
+Title: Get the inverse of a Hermitian operator for measurement in qiskit
+
+I am using Qiskit to measure the Hamiltonian , which isbasically sum of Pauli strings, say something like . For one variable, I need to get the analytically form of the inverse of . It seems that there is no easy way to directly get the inverse observable. So, I am wondering that how can I get this done by using qiskit?
+
+```
+H
+```
+
+```
+2*X^X+0.5*Z^Y
+```
+
+```
+H
+```
+
+Original buggy code:
+H
+
+---CODE_BLOCK---
+
+2*X^X+0.5*Z^Y
+
+---CODE_BLOCK---
+
+H
+
+Solution explanation:
+It seems that Qiskit does not have this feature. However, you can get the matrix, inverse it using , then convert it to operator object again: And to get a :
+
+```
+numpy.linalg.inv()
+```
+
+```
+from qiskit.opflow import X, Y, Z from qiskit.opflow.primitive_ops import MatrixOp import numpy as np op = 2*(X^X)+0.5*(Z^Y) inv_matrix = np.linalg.inv(op.to_matrix()) operator = MatrixOp(inv_matrix) print(operator.to_pauli_op())
+```
+
+```
+from qiskit.opflow import X, Y, Z from qiskit.opflow.primitive_ops import MatrixOp import numpy as np op = 2*(X^X)+0.5*(Z^Y) inv_matrix = np.linalg.inv(op.to_matrix()) operator = MatrixOp(inv_matrix) print(operator.to_pauli_op())
+```
+
+```
+PauliSumOp
+```
+
+```
+pauli_list = [(p.primitive.to_label(), p.coeff) for p in operator.to_pauli_op().oplist] pauli_sum_op = PauliSumOp.from_list(pauli_list)
+```
+
+```
+pauli_list = [(p.primitive.to_label(), p.coeff) for p in operator.to_pauli_op().oplist] pauli_sum_op = PauliSumOp.from_list(pauli_list)
+```
+
+Original fixed code:
+numpy.linalg.inv()
+
+---CODE_BLOCK---
+
+from qiskit.opflow import X, Y, Z from qiskit.opflow.primitive_ops import MatrixOp import numpy as np op = 2*(X^X)+0.5*(Z^Y) inv_matrix = np.linalg.inv(op.to_matrix()) operator = MatrixOp(inv_matrix) print(operator.to_pauli_op())
+
+---CODE_BLOCK---
+
+from qiskit.opflow import X, Y, Z from qiskit.opflow.primitive_ops import MatrixOp import numpy as np op = 2*(X^X)+0.5*(Z^Y) inv_matrix = np.linalg.inv(op.to_matrix()) operator = MatrixOp(inv_matrix) print(operator.to_pauli_op())
+
+---CODE_BLOCK---
+
+PauliSumOp
+
+---CODE_BLOCK---
+
+pauli_list = [(p.primitive.to_label(), p.coeff) for p in operator.to_pauli_op().oplist] pauli_sum_op = PauliSumOp.from_list(pauli_list)
+
+---CODE_BLOCK---
+
+pauli_list = [(p.primitive.to_label(), p.coeff) for p in operator.to_pauli_op().oplist] pauli_sum_op = PauliSumOp.from_list(pauli_list)

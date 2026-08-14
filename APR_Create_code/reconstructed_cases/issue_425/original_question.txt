@@ -1,0 +1,143 @@
+Title:
+Why is circuit inverse not working for EfficientSU2?
+
+Category:
+Category:
+Error / Debugging
+
+Why Stack Overflow Wins in This Category:
+In debugging-related issues, understanding exact root causes of errors is crucial. Stack Overflow correctly identifies that the issue lies in Qiskit’s lazy circuit construction (_build() not called). The AI suggests valid but indirect workarounds without addressing the actual source of the NoneType exception.
+
+Question:
+Title: Why is circuit inverse not working for EfficientSU2?
+
+For some reason I get the following error when attempting to find the inverse of the VQE variational form: TypeError: 'NoneType' object is not reversible My code is as follows: Is there a bug in the implementation of the method? and if so how can I implement a working function? Note :
+
+```
+EfficientSU2
+```
+
+```
+var_form = EfficientSU2(6, entanglement="linear") var_form_inv = var_form.inverse() # error thrown of this line
+```
+
+```
+var_form = EfficientSU2(6, entanglement="linear") var_form_inv = var_form.inverse() # error thrown of this line
+```
+
+```
+inverse
+```
+
+```
+inverse
+```
+
+```
+qiskit.__qiskit_version__
+```
+
+```
+{'qiskit-terra': '0.15.2', 'qiskit-aer': '0.6.1', 'qiskit-ignis': '0.4.0', 'qiskit-ibmq-provider': '0.9.0', 'qiskit-aqua': '0.7.5', 'qiskit': '0.21.0'}
+```
+
+```
+{'qiskit-terra': '0.15.2', 'qiskit-aer': '0.6.1', 'qiskit-ignis': '0.4.0', 'qiskit-ibmq-provider': '0.9.0', 'qiskit-aqua': '0.7.5', 'qiskit': '0.21.0'}
+```
+
+Original buggy code:
+EfficientSU2
+
+---CODE_BLOCK---
+
+var_form = EfficientSU2(6, entanglement="linear") var_form_inv = var_form.inverse() # error thrown of this line
+
+---CODE_BLOCK---
+
+var_form = EfficientSU2(6, entanglement="linear") var_form_inv = var_form.inverse() # error thrown of this line
+
+---CODE_BLOCK---
+
+inverse
+
+---CODE_BLOCK---
+
+inverse
+
+---CODE_BLOCK---
+
+qiskit.__qiskit_version__
+
+---CODE_BLOCK---
+
+{'qiskit-terra': '0.15.2', 'qiskit-aer': '0.6.1', 'qiskit-ignis': '0.4.0', 'qiskit-ibmq-provider': '0.9.0', 'qiskit-aqua': '0.7.5', 'qiskit': '0.21.0'}
+
+---CODE_BLOCK---
+
+{'qiskit-terra': '0.15.2', 'qiskit-aer': '0.6.1', 'qiskit-ignis': '0.4.0', 'qiskit-ibmq-provider': '0.9.0', 'qiskit-aqua': '0.7.5', 'qiskit': '0.21.0'}
+
+Solution explanation:
+is a and does not populates its internal field until you try to access them. In this case, when you are calling the function the are still empty () and this is the error you are getting. It is probably a bug and should be fixed. Nevertheless, as a workaround for now you can try:
+
+```
+EfficientSU2
+```
+
+```
+BlueprintCircuit
+```
+
+```
+data
+```
+
+```
+inverse
+```
+
+```
+data
+```
+
+```
+None
+```
+
+```
+var_form = EfficientSU2(6, entanglement="linear") # build the circuit var_form._build() # or just print it print(var_form) var_form_inv = var_form.inverse()
+```
+
+```
+var_form = EfficientSU2(6, entanglement="linear") # build the circuit var_form._build() # or just print it print(var_form) var_form_inv = var_form.inverse()
+```
+
+Original fixed code:
+EfficientSU2
+
+---CODE_BLOCK---
+
+BlueprintCircuit
+
+---CODE_BLOCK---
+
+data
+
+---CODE_BLOCK---
+
+inverse
+
+---CODE_BLOCK---
+
+data
+
+---CODE_BLOCK---
+
+None
+
+---CODE_BLOCK---
+
+var_form = EfficientSU2(6, entanglement="linear") # build the circuit var_form._build() # or just print it print(var_form) var_form_inv = var_form.inverse()
+
+---CODE_BLOCK---
+
+var_form = EfficientSU2(6, entanglement="linear") # build the circuit var_form._build() # or just print it print(var_form) var_form_inv = var_form.inverse()

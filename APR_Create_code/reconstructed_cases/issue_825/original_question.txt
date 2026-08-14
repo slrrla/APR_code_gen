@@ -1,0 +1,59 @@
+Title:
+CCCRY gate creation
+
+Category:
+
+
+Question:
+Title: CCCRY gate creation
+
+I'm aware there's a few questions about CCCRY gate composition on here but I still have a few questions. I'm following Frank Zickert's book on qiskit and he has defined a CCRY gate as This makes sense to me given the circuit diagram of what's going on: Taking Zickert's approach, could I construct a CCCRY gate? I'm aware I'm now needing 3 control qubits but I'm struggling beyond that. I did also see another answer that used but I don't know how to implement that because I haven't been using . For those unfamiliar with his book, it's going through the Titanic dataset and using qubits for ML; I wanted to try and add another category which means going from a CCRY gate to a CCCRY gate. Thank you!
+
+```
+def ccry(qc, theta, control1, control2, controlled): qc.cry(theta/2, control2, controlled) qc.cx(control1, control2) qc.cry(-theta/2, control2, controlled) qc.cx(control1, control2) qc.cry(theta/2, control1, controlled)
+```
+
+```
+def ccry(qc, theta, control1, control2, controlled): qc.cry(theta/2, control2, controlled) qc.cx(control1, control2) qc.cry(-theta/2, control2, controlled) qc.cx(control1, control2) qc.cry(theta/2, control1, controlled)
+```
+
+```
+CCCRY = RYGate(a).control(3)
+```
+
+```
+qc.append()
+```
+
+Original buggy code:
+def ccry(qc, theta, control1, control2, controlled): qc.cry(theta/2, control2, controlled) qc.cx(control1, control2) qc.cry(-theta/2, control2, controlled) qc.cx(control1, control2) qc.cry(theta/2, control1, controlled)
+
+---CODE_BLOCK---
+
+def ccry(qc, theta, control1, control2, controlled): qc.cry(theta/2, control2, controlled) qc.cx(control1, control2) qc.cry(-theta/2, control2, controlled) qc.cx(control1, control2) qc.cry(theta/2, control1, controlled)
+
+---CODE_BLOCK---
+
+CCCRY = RYGate(a).control(3)
+
+---CODE_BLOCK---
+
+qc.append()
+
+Solution explanation:
+Here is how to create and append $CCCRY(\theta)$:
+
+```
+from numpy import pi from qiskit import QuantumCircuit from qiskit.circuit import Parameter from qiskit.circuit.library import RYGate theta = Parameter('theta') CCCRY = RYGate(theta).control(3) circuit = QuantumCircuit(4) circuit.append(CCCRY, [0,1,2,3]) circuit.draw('mpl')
+```
+
+```
+from numpy import pi from qiskit import QuantumCircuit from qiskit.circuit import Parameter from qiskit.circuit.library import RYGate theta = Parameter('theta') CCCRY = RYGate(theta).control(3) circuit = QuantumCircuit(4) circuit.append(CCCRY, [0,1,2,3]) circuit.draw('mpl')
+```
+
+Original fixed code:
+from numpy import pi from qiskit import QuantumCircuit from qiskit.circuit import Parameter from qiskit.circuit.library import RYGate theta = Parameter('theta') CCCRY = RYGate(theta).control(3) circuit = QuantumCircuit(4) circuit.append(CCCRY, [0,1,2,3]) circuit.draw('mpl')
+
+---CODE_BLOCK---
+
+from numpy import pi from qiskit import QuantumCircuit from qiskit.circuit import Parameter from qiskit.circuit.library import RYGate theta = Parameter('theta') CCCRY = RYGate(theta).control(3) circuit = QuantumCircuit(4) circuit.append(CCCRY, [0,1,2,3]) circuit.draw('mpl')

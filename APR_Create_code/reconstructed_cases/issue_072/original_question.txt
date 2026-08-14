@@ -1,0 +1,79 @@
+Title:
+Real-device error mitigation with qiskit
+
+Category:
+Category:
+Circuit
+
+Why Stack Overflow Wins in This Category:
+In the Circuit category, when a user faces a specific implementation error, precise diagnosis of the root cause is most valuable. The Stack Overflow answer:
+
+Correctly identifies overlapping virtual-to-physical mapping.
+
+Directly links this to the DAGCircuitError.
+
+Avoids unnecessary general suggestions and focuses on the bug.
+
+This kind of focused troubleshooting is critical in quantum circuit development, especially when running on real devices with limited qubit connectivity.
+
+Question:
+Title: Real-device error mitigation with qiskit
+
+I'm trying to do error mitigation in IBM-Q quantum computers with qiskit. I followed the tutorial here. My thought was that in order to make sure that I'm correcting the qubits that I'm actually using in my circuits, I should specify the backend and qubits to make sure that the qubits used in my actual circuit and obtaining the correcting matrix are the same. I asked this question and followed along, but I have encountered some problems. Here is the part that is causing problem: I receive the error whenever I specify the layout. I googled about this error but found nothing. So my question is, what does this error mean? What have I done wrong and how can I fix it? Thank you in advance.
+
+```
+qreg = qk.QuantumRegister(7) layout = {qreg[0]: 12, qreg[1]: 11, qreg[2]: 13, qreg[3]: 17, qreg[4]: 14, qreg[5]: 12, qreg[6]: 6} ########## error mitigation ########## meas_calibs, state_labels = complete_meas_cal( qubit_list=[0, 1, 2], qr=qreg, circlabel='mcal') print(meas_calibs[0]) # This line below is causing error if I add "initial_layout" in both qk.compiler.transpile and qk.execute qk.compiler.transpile(meas_calibs, backend=_backend, initial_layout=layout)
+```
+
+```
+qreg = qk.QuantumRegister(7) layout = {qreg[0]: 12, qreg[1]: 11, qreg[2]: 13, qreg[3]: 17, qreg[4]: 14, qreg[5]: 12, qreg[6]: 6} ########## error mitigation ########## meas_calibs, state_labels = complete_meas_cal( qubit_list=[0, 1, 2], qr=qreg, circlabel='mcal') print(meas_calibs[0]) # This line below is causing error if I add "initial_layout" in both qk.compiler.transpile and qk.execute qk.compiler.transpile(meas_calibs, backend=_backend, initial_layout=layout)
+```
+
+```
+qiskit.dagcircuit.exceptions.DAGCircuitError: 'not a DAG'
+```
+
+```
+qiskit.dagcircuit.exceptions.DAGCircuitError: 'not a DAG'
+```
+
+Original buggy code:
+qreg = qk.QuantumRegister(7) layout = {qreg[0]: 12, qreg[1]: 11, qreg[2]: 13, qreg[3]: 17, qreg[4]: 14, qreg[5]: 12, qreg[6]: 6} ########## error mitigation ########## meas_calibs, state_labels = complete_meas_cal( qubit_list=[0, 1, 2], qr=qreg, circlabel='mcal') print(meas_calibs[0]) # This line below is causing error if I add "initial_layout" in both qk.compiler.transpile and qk.execute qk.compiler.transpile(meas_calibs, backend=_backend, initial_layout=layout)
+
+---CODE_BLOCK---
+
+qreg = qk.QuantumRegister(7) layout = {qreg[0]: 12, qreg[1]: 11, qreg[2]: 13, qreg[3]: 17, qreg[4]: 14, qreg[5]: 12, qreg[6]: 6} ########## error mitigation ########## meas_calibs, state_labels = complete_meas_cal( qubit_list=[0, 1, 2], qr=qreg, circlabel='mcal') print(meas_calibs[0]) # This line below is causing error if I add "initial_layout" in both qk.compiler.transpile and qk.execute qk.compiler.transpile(meas_calibs, backend=_backend, initial_layout=layout)
+
+---CODE_BLOCK---
+
+qiskit.dagcircuit.exceptions.DAGCircuitError: 'not a DAG'
+
+---CODE_BLOCK---
+
+qiskit.dagcircuit.exceptions.DAGCircuitError: 'not a DAG'
+
+Solution explanation:
+You have assigned 2 virtual qubits to the same physical qubit, both and are assigned to physical qubit . If you change one of these to be a different physical qubit, it should work.
+
+```
+qreg[0]
+```
+
+```
+qreg[5]
+```
+
+```
+12
+```
+
+Original fixed code:
+qreg[0]
+
+---CODE_BLOCK---
+
+qreg[5]
+
+---CODE_BLOCK---
+
+12

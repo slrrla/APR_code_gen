@@ -1,0 +1,163 @@
+Title:
+Qiskit VQE output
+
+Category:
+
+
+Question:
+Title: Qiskit VQE output
+
+When running Qiskit a dictionary of various values are returned. Within this dictionary are two parameters called and . The first always contains some number whereas . My question is, are these two the same? In the source code I see no place where the value optimizer_evals is actually updated, but cost_function_evals is. Here is the source code: https://qiskit.org/documentation/_modules/qiskit/algorithms/minimum_eigen_solvers/vqe.html
+
+```
+vqe.compute_minumum_eigenvalue()
+```
+
+```
+cost_function_evals
+```
+
+```
+optimizer_evals
+```
+
+```
+optimizer_evals = None
+```
+
+Original buggy code:
+vqe.compute_minumum_eigenvalue()
+
+---CODE_BLOCK---
+
+cost_function_evals
+
+---CODE_BLOCK---
+
+optimizer_evals
+
+---CODE_BLOCK---
+
+optimizer_evals = None
+
+Solution explanation:
+I think you are right that these two attributes are supposed to the same. Looking at the git history, was used prior to this PR: https://github.com/Qiskit/qiskit-terra/pull/6418 but the usage was removed during the refactoring in that PR. Prior to #6418, was set by which in turn was set by . in https://github.com/Qiskit/qiskit-terra/blob/5ec42789171b001780239d9e03e5dba4e077aa40/qiskit/algorithms/minimum_eigen_solvers/vqe.py in https://github.com/Qiskit/qiskit-terra/blob/5ec42789171b001780239d9e03e5dba4e077aa40/qiskit/algorithms/variational_algorithm.py#L229-L239 After #6418, are directly set by and therefore the intermediate are no longer used. https://github.com/Qiskit/qiskit-terra/blob/dd7f9390cf076f9545fa6086de486f2c06764ea5/qiskit/algorithms/minimum_eigen_solvers/vqe.py#L546-L556
+
+```
+optimizer_evals
+```
+
+```
+cost_function_evals
+```
+
+```
+_eval_count
+```
+
+```
+optimizer_evals
+```
+
+```
+L460 self._ret.cost_function_evals = self._eval_count
+```
+
+```
+L460 self._ret.cost_function_evals = self._eval_count
+```
+
+```
+L443 if vqresult.optimizer_evals is not None and self._eval_count >= vqresult.optimizer_evals: L444 self._eval_count = vqresult.optimizer_evals
+```
+
+```
+L443 if vqresult.optimizer_evals is not None and self._eval_count >= vqresult.optimizer_evals: L444 self._eval_count = vqresult.optimizer_evals
+```
+
+```
+opt_params, opt_val, num_optimizer_evals = optimizer.optimize( nparms, cost_fn, variable_bounds=bounds, initial_point=initial_point, gradient_function=gradient_fn, ) eval_time = time.time() - start result = VariationalResult() result.optimizer_evals = num_optimizer_evals
+```
+
+```
+opt_params, opt_val, num_optimizer_evals = optimizer.optimize( nparms, cost_fn, variable_bounds=bounds, initial_point=initial_point, gradient_function=gradient_fn, ) eval_time = time.time() - start result = VariationalResult() result.optimizer_evals = num_optimizer_evals
+```
+
+```
+cost_functions_evals
+```
+
+```
+optimizer.nfev
+```
+
+```
+optimizer_evals
+```
+
+```
+opt_result = self.optimizer.minimize( fun=energy_evaluation, x0=initial_point, jac=gradient, bounds=bounds ) eval_time = time() - start_time result = VQEResult() result.optimal_point = opt_result.x result.optimal_parameters = dict(zip(self.ansatz.parameters, opt_result.x)) result.optimal_value = opt_result.fun result.cost_function_evals = opt_result.nfev
+```
+
+```
+opt_result = self.optimizer.minimize( fun=energy_evaluation, x0=initial_point, jac=gradient, bounds=bounds ) eval_time = time() - start_time result = VQEResult() result.optimal_point = opt_result.x result.optimal_parameters = dict(zip(self.ansatz.parameters, opt_result.x)) result.optimal_value = opt_result.fun result.cost_function_evals = opt_result.nfev
+```
+
+Original fixed code:
+optimizer_evals
+
+---CODE_BLOCK---
+
+cost_function_evals
+
+---CODE_BLOCK---
+
+_eval_count
+
+---CODE_BLOCK---
+
+optimizer_evals
+
+---CODE_BLOCK---
+
+L460 self._ret.cost_function_evals = self._eval_count
+
+---CODE_BLOCK---
+
+L460 self._ret.cost_function_evals = self._eval_count
+
+---CODE_BLOCK---
+
+L443 if vqresult.optimizer_evals is not None and self._eval_count >= vqresult.optimizer_evals: L444 self._eval_count = vqresult.optimizer_evals
+
+---CODE_BLOCK---
+
+L443 if vqresult.optimizer_evals is not None and self._eval_count >= vqresult.optimizer_evals: L444 self._eval_count = vqresult.optimizer_evals
+
+---CODE_BLOCK---
+
+opt_params, opt_val, num_optimizer_evals = optimizer.optimize( nparms, cost_fn, variable_bounds=bounds, initial_point=initial_point, gradient_function=gradient_fn, ) eval_time = time.time() - start result = VariationalResult() result.optimizer_evals = num_optimizer_evals
+
+---CODE_BLOCK---
+
+opt_params, opt_val, num_optimizer_evals = optimizer.optimize( nparms, cost_fn, variable_bounds=bounds, initial_point=initial_point, gradient_function=gradient_fn, ) eval_time = time.time() - start result = VariationalResult() result.optimizer_evals = num_optimizer_evals
+
+---CODE_BLOCK---
+
+cost_functions_evals
+
+---CODE_BLOCK---
+
+optimizer.nfev
+
+---CODE_BLOCK---
+
+optimizer_evals
+
+---CODE_BLOCK---
+
+opt_result = self.optimizer.minimize( fun=energy_evaluation, x0=initial_point, jac=gradient, bounds=bounds ) eval_time = time() - start_time result = VQEResult() result.optimal_point = opt_result.x result.optimal_parameters = dict(zip(self.ansatz.parameters, opt_result.x)) result.optimal_value = opt_result.fun result.cost_function_evals = opt_result.nfev
+
+---CODE_BLOCK---
+
+opt_result = self.optimizer.minimize( fun=energy_evaluation, x0=initial_point, jac=gradient, bounds=bounds ) eval_time = time() - start_time result = VQEResult() result.optimal_point = opt_result.x result.optimal_parameters = dict(zip(self.ansatz.parameters, opt_result.x)) result.optimal_value = opt_result.fun result.cost_function_evals = opt_result.nfev

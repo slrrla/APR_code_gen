@@ -1,0 +1,211 @@
+Title:
+How to calculate the Von Neuman entropy on qiskit with the module quantum_info?
+
+Category:
+Category:
+Import / Quantum Information Theory
+
+Why AI Wins in This Category:
+For tasks involving entropy and quantum state validation, precision and compatibility with Qiskit's evolving API are essential. The AI solution excels by showing full context, modern syntax, proper validation, and how to fix the bug by using DensityMatrix.entropy(). It is clearer and easier to implement than the Stack Overflow answer.
+
+Question:
+Title: How to calculate the Von Neuman entropy on qiskit with the module quantum_info?
+
+I am trying to wrap my head around he module on qiskit, since most of the functions on are going to be deprecated, but I am very confused with the Statevector and DensityMatrix objects. For example, with this snippet of code: I get: as expected but then I get the error on : How can I solve this?
+
+```
+quantum_info
+```
+
+```
+qiskit.tools
+```
+
+```
+simulator = BasicAer.get_backend('statevector_simulator') # the device to run on result6 = execute(circuit6, simulator).result() outputstate6 = result6.get_statevector(circuit6, decimals=3) probability = np.abs(np.array(outputstate6))**2 outstatevector=quantum_info.states.Statevector(outputstate6) print(type(outstatevector)) print(type(outputstate6)) print(outputstate6) print(quantum_info.entropy(outputstate6))
+```
+
+```
+simulator = BasicAer.get_backend('statevector_simulator') # the device to run on result6 = execute(circuit6, simulator).result() outputstate6 = result6.get_statevector(circuit6, decimals=3) probability = np.abs(np.array(outputstate6))**2 outstatevector=quantum_info.states.Statevector(outputstate6) print(type(outstatevector)) print(type(outputstate6)) print(outputstate6) print(quantum_info.entropy(outputstate6))
+```
+
+```
+<class 'qiskit.quantum_info.states.statevector.Statevector'> <class 'numpy.ndarray'> [0.447+0.j 0. +0.j 0.632+0.j 0.632+0.j]
+```
+
+```
+<class 'qiskit.quantum_info.states.statevector.Statevector'> <class 'numpy.ndarray'> [0.447+0.j 0. +0.j 0.632+0.j 0.632+0.j]
+```
+
+```
+quantum_info.entropy(outputstate6)
+```
+
+```
+QiskitError: 'Input quantum state is not a valid'
+```
+
+```
+QiskitError: 'Input quantum state is not a valid'
+```
+
+Original buggy code:
+quantum_info
+
+---CODE_BLOCK---
+
+qiskit.tools
+
+---CODE_BLOCK---
+
+simulator = BasicAer.get_backend('statevector_simulator') # the device to run on result6 = execute(circuit6, simulator).result() outputstate6 = result6.get_statevector(circuit6, decimals=3) probability = np.abs(np.array(outputstate6))**2 outstatevector=quantum_info.states.Statevector(outputstate6) print(type(outstatevector)) print(type(outputstate6)) print(outputstate6) print(quantum_info.entropy(outputstate6))
+
+---CODE_BLOCK---
+
+simulator = BasicAer.get_backend('statevector_simulator') # the device to run on result6 = execute(circuit6, simulator).result() outputstate6 = result6.get_statevector(circuit6, decimals=3) probability = np.abs(np.array(outputstate6))**2 outstatevector=quantum_info.states.Statevector(outputstate6) print(type(outstatevector)) print(type(outputstate6)) print(outputstate6) print(quantum_info.entropy(outputstate6))
+
+---CODE_BLOCK---
+
+<class 'qiskit.quantum_info.states.statevector.Statevector'> <class 'numpy.ndarray'> [0.447+0.j 0. +0.j 0.632+0.j 0.632+0.j]
+
+---CODE_BLOCK---
+
+<class 'qiskit.quantum_info.states.statevector.Statevector'> <class 'numpy.ndarray'> [0.447+0.j 0. +0.j 0.632+0.j 0.632+0.j]
+
+---CODE_BLOCK---
+
+quantum_info.entropy(outputstate6)
+
+---CODE_BLOCK---
+
+QiskitError: 'Input quantum state is not a valid'
+
+---CODE_BLOCK---
+
+QiskitError: 'Input quantum state is not a valid'
+
+Solution explanation:
+Short answer You are getting that error because your example does not use a valid (normalized) statevector. If you remove the kwarg where you call it will work. Long Answer The Von-Neuman function in the works with either or object inputs, or inputs that can be implicitly converted to those objects (ie a list or np.array for a vector or a square matrix). So you can do any of the following for example: As for your specific issue: the entropy is only well-defined for a valid quantum state, so the function checks the input state is valid. In the case of a statevector this is checking it has norm 1, in the case of a density matrix that it is trace 1 and postive-semidefinite. Your example does not have a norm-1 input state because you truncated the decimals when you got the output state from the simulator. You can check this using the statevector object for example: Entropy base: Another thing you should keep in mind if you didn't already notice is that the function takes logarithms in base 2 by default (and you can use a different base using the kwarg). The deprecated function was always taken in log base :
+
+```
+decimals=3
+```
+
+```
+result.get_statevector
+```
+
+```
+entropy
+```
+
+```
+qiskit.quantum_info
+```
+
+```
+Statevector
+```
+
+```
+DensityMatrix
+```
+
+```
+import numpy as np from qiskit.quantum_info import entropy, Statevector, DensityMatrix # Pure state entropy (Note this is always 0) # The following are equivalent: s1 = entropy([1, 0, 0, 0]) # Statevector as list s2 = entropy(np.array([1, 0, 0, 0])) # Statevector as array s3 = entropy(Statevector([1, 0, 0, 0])) # Statevector object print(s1, s2, s3) # Mixed state entropy # The following are equivalent s1 = entropy([[0.75, 0], [0, 0.25]]) # Density matrix as list s2 = entropy(np.array([[0.75, 0], [0, 0.25]])) # density matrix as array s3 = entropy(DensityMatrix([[0.75, 0], [0, 0.25]])) # Density matrix object print(s1, s2, s3)
+```
+
+```
+import numpy as np from qiskit.quantum_info import entropy, Statevector, DensityMatrix # Pure state entropy (Note this is always 0) # The following are equivalent: s1 = entropy([1, 0, 0, 0]) # Statevector as list s2 = entropy(np.array([1, 0, 0, 0])) # Statevector as array s3 = entropy(Statevector([1, 0, 0, 0])) # Statevector object print(s1, s2, s3) # Mixed state entropy # The following are equivalent s1 = entropy([[0.75, 0], [0, 0.25]]) # Density matrix as list s2 = entropy(np.array([[0.75, 0], [0, 0.25]])) # density matrix as array s3 = entropy(DensityMatrix([[0.75, 0], [0, 0.25]])) # Density matrix object print(s1, s2, s3)
+```
+
+```
+# Returns True: Statevector([1 / np.sqrt(2), 1 / np.sqrt(2)]).is_valid() # Returns False: Statevector([0.707, 0.707]).is_valid()
+```
+
+```
+# Returns True: Statevector([1 / np.sqrt(2), 1 / np.sqrt(2)]).is_valid() # Returns False: Statevector([0.707, 0.707]).is_valid()
+```
+
+```
+qiskit.quantum_info.entropy
+```
+
+```
+base
+```
+
+```
+qiskit.tools.qi.entropy
+```
+
+```
+e
+```
+
+```
+import numpy as np from qiskit.quantum_info import entropy from qiskit.tools.qi import entropy as old_entropy rho = [[0.75, 0], [0, 0.25]] s1 = entropy(rho) # base-2 s2 = entropy(rho, base=np.e) # base-e s3 = old_entropy(rho) # base-e print(s1, s2, s3, s2 == s3) ```
+```
+
+```
+import numpy as np from qiskit.quantum_info import entropy from qiskit.tools.qi import entropy as old_entropy rho = [[0.75, 0], [0, 0.25]] s1 = entropy(rho) # base-2 s2 = entropy(rho, base=np.e) # base-e s3 = old_entropy(rho) # base-e print(s1, s2, s3, s2 == s3) ```
+```
+
+Original fixed code:
+decimals=3
+
+---CODE_BLOCK---
+
+result.get_statevector
+
+---CODE_BLOCK---
+
+entropy
+
+---CODE_BLOCK---
+
+qiskit.quantum_info
+
+---CODE_BLOCK---
+
+Statevector
+
+---CODE_BLOCK---
+
+DensityMatrix
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit.quantum_info import entropy, Statevector, DensityMatrix # Pure state entropy (Note this is always 0) # The following are equivalent: s1 = entropy([1, 0, 0, 0]) # Statevector as list s2 = entropy(np.array([1, 0, 0, 0])) # Statevector as array s3 = entropy(Statevector([1, 0, 0, 0])) # Statevector object print(s1, s2, s3) # Mixed state entropy # The following are equivalent s1 = entropy([[0.75, 0], [0, 0.25]]) # Density matrix as list s2 = entropy(np.array([[0.75, 0], [0, 0.25]])) # density matrix as array s3 = entropy(DensityMatrix([[0.75, 0], [0, 0.25]])) # Density matrix object print(s1, s2, s3)
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit.quantum_info import entropy, Statevector, DensityMatrix # Pure state entropy (Note this is always 0) # The following are equivalent: s1 = entropy([1, 0, 0, 0]) # Statevector as list s2 = entropy(np.array([1, 0, 0, 0])) # Statevector as array s3 = entropy(Statevector([1, 0, 0, 0])) # Statevector object print(s1, s2, s3) # Mixed state entropy # The following are equivalent s1 = entropy([[0.75, 0], [0, 0.25]]) # Density matrix as list s2 = entropy(np.array([[0.75, 0], [0, 0.25]])) # density matrix as array s3 = entropy(DensityMatrix([[0.75, 0], [0, 0.25]])) # Density matrix object print(s1, s2, s3)
+
+---CODE_BLOCK---
+
+# Returns True: Statevector([1 / np.sqrt(2), 1 / np.sqrt(2)]).is_valid() # Returns False: Statevector([0.707, 0.707]).is_valid()
+
+---CODE_BLOCK---
+
+# Returns True: Statevector([1 / np.sqrt(2), 1 / np.sqrt(2)]).is_valid() # Returns False: Statevector([0.707, 0.707]).is_valid()
+
+---CODE_BLOCK---
+
+qiskit.quantum_info.entropy
+
+---CODE_BLOCK---
+
+base
+
+---CODE_BLOCK---
+
+qiskit.tools.qi.entropy
+
+---CODE_BLOCK---
+
+e
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit.quantum_info import entropy from qiskit.tools.qi import entropy as old_entropy rho = [[0.75, 0], [0, 0.25]] s1 = entropy(rho) # base-2 s2 = entropy(rho, base=np.e) # base-e s3 = old_entropy(rho) # base-e print(s1, s2, s3, s2 == s3)

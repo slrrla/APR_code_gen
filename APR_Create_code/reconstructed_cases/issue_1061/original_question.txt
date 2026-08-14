@@ -1,0 +1,155 @@
+Title:
+What are the differences between the two Estimator in the qiskit
+
+Category:
+
+
+Question:
+Title: What are the differences between the two Estimator in the qiskit
+
+Recently, I have been completing a VQE code and implementing the VQE algorithm for noisy models. However, during this process, I discovered that there are two types of Estimators provided in different tutorials. I tested them separately and encountered the following confusion: A shortened version of my code is as follows: If this is the setting, the result is relatively good. I calculated LiH with a molecular spacing of 2.8, and the returned result is as follows: You can find time is approximately 25 seconds, and the error from the reference value is also within 0.00000008. When I switch the simulator "from qiskit_aer.primitives import Estimator", my setting is： The rest of the code remains unchanged. I have two pieces of NVIDIA GTX3090Ti, but the results after modifying this code are very poor. You can see that not only has the running time of the program increased, but also the accuracy has decreased. My question is: Why does this phenomenon occur? How can I set it up to fix this problem? My Virtual Environment Settings： Thanks!!
+
+```
+from qiskit_aer.primitives import Estimator as AerEstimator from qiskit.primitives import Estimator
+```
+
+```
+from qiskit_aer.primitives import Estimator as AerEstimator from qiskit.primitives import Estimator
+```
+
+```
+def UCCSD_VQE(hamiltonian, n_particles, num_qubits....): seed = 170 algorithm_globals.random_seed = seed num_particles = [n_particles // 2, n_particles // 2] mapper = JordanWignerMapper() converter = QubitConverter(mapper=mapper) hf = HartreeFock(qubit_converter=converter, num_particles=num_particles, num_spatial_orbitals=num_qubits // 2) ansatz = UCCSD(qubit_converter=converter, num_particles=num_particles, num_spatial_orbitals=num_qubits // 2, initial_state=hf, generalized=False, preserve_spin=True) optimizer = COBYLA(maxiter=1000) estimator = Estimator() vqe = VQE(estimator, ansatz=ansatz, optimizer=optimizer) vqe.initial_point = np.zeros(ansatz.num_parameters) result = vqe.compute_minimum_eigenvalue(hamiltonian) circ = result.optimal_circuit.bind_parameters(result.optimal_parameters) print(result) print(f"VQE on Aer qasm simulator (no noise): {result.optimal_value.real:.8f}") print(f"Delta from reference energy value is {(result.optimal_value.real - ref_value):.8f}")
+```
+
+```
+def UCCSD_VQE(hamiltonian, n_particles, num_qubits....): seed = 170 algorithm_globals.random_seed = seed num_particles = [n_particles // 2, n_particles // 2] mapper = JordanWignerMapper() converter = QubitConverter(mapper=mapper) hf = HartreeFock(qubit_converter=converter, num_particles=num_particles, num_spatial_orbitals=num_qubits // 2) ansatz = UCCSD(qubit_converter=converter, num_particles=num_particles, num_spatial_orbitals=num_qubits // 2, initial_state=hf, generalized=False, preserve_spin=True) optimizer = COBYLA(maxiter=1000) estimator = Estimator() vqe = VQE(estimator, ansatz=ansatz, optimizer=optimizer) vqe.initial_point = np.zeros(ansatz.num_parameters) result = vqe.compute_minimum_eigenvalue(hamiltonian) circ = result.optimal_circuit.bind_parameters(result.optimal_parameters) print(result) print(f"VQE on Aer qasm simulator (no noise): {result.optimal_value.real:.8f}") print(f"Delta from reference energy value is {(result.optimal_value.real - ref_value):.8f}")
+```
+
+```
+'optimizer_time': 25.174492597579956} VQE on Aer qasm simulator (no noise): -7.80622948 Delta from reference energy value is 0.00000008
+```
+
+```
+'optimizer_time': 25.174492597579956} VQE on Aer qasm simulator (no noise): -7.80622948 Delta from reference energy value is 0.00000008
+```
+
+```
+try: noiseless_estimator = AerEstimator( run_options={"seed": seed}, transpile_options={"seed_transpiler": seed},) noiseless_estimator.set_options(device='GPU') except AerError as e: print("Failed to initialize GPU estimator in creating no_Real_Noisy_model:", str(e)) noiseless_estimator = AerEstimator( run_options={"seed": seed}, transpile_options={"seed_transpiler": seed},) vqe = VQE(noiseless_estimator, ansatz=ansatz, optimizer=optimizer)
+```
+
+```
+try: noiseless_estimator = AerEstimator( run_options={"seed": seed}, transpile_options={"seed_transpiler": seed},) noiseless_estimator.set_options(device='GPU') except AerError as e: print("Failed to initialize GPU estimator in creating no_Real_Noisy_model:", str(e)) noiseless_estimator = AerEstimator( run_options={"seed": seed}, transpile_options={"seed_transpiler": seed},) vqe = VQE(noiseless_estimator, ansatz=ansatz, optimizer=optimizer)
+```
+
+```
+'optimizer_time': 899.3149755001068} VQE on Aer qasm simulator (no noise): -7.81485699 Delta from reference energy value is -0.00862743
+```
+
+```
+'optimizer_time': 899.3149755001068} VQE on Aer qasm simulator (no noise): -7.81485699 Delta from reference energy value is -0.00862743
+```
+
+```
+qiskit 0.39.2 qiskit-aer 0.11.1 qiskit-aer-gpu 0.11.2 qiskit-ibmq-provider 0.19.2 qiskit-nature 0.5.0 qiskit-terra 0.22.2
+```
+
+```
+qiskit 0.39.2 qiskit-aer 0.11.1 qiskit-aer-gpu 0.11.2 qiskit-ibmq-provider 0.19.2 qiskit-nature 0.5.0 qiskit-terra 0.22.2
+```
+
+Original buggy code:
+from qiskit_aer.primitives import Estimator as AerEstimator from qiskit.primitives import Estimator
+
+---CODE_BLOCK---
+
+from qiskit_aer.primitives import Estimator as AerEstimator from qiskit.primitives import Estimator
+
+---CODE_BLOCK---
+
+def UCCSD_VQE(hamiltonian, n_particles, num_qubits....): seed = 170 algorithm_globals.random_seed = seed num_particles = [n_particles // 2, n_particles // 2] mapper = JordanWignerMapper() converter = QubitConverter(mapper=mapper) hf = HartreeFock(qubit_converter=converter, num_particles=num_particles, num_spatial_orbitals=num_qubits // 2) ansatz = UCCSD(qubit_converter=converter, num_particles=num_particles, num_spatial_orbitals=num_qubits // 2, initial_state=hf, generalized=False, preserve_spin=True) optimizer = COBYLA(maxiter=1000) estimator = Estimator() vqe = VQE(estimator, ansatz=ansatz, optimizer=optimizer) vqe.initial_point = np.zeros(ansatz.num_parameters) result = vqe.compute_minimum_eigenvalue(hamiltonian) circ = result.optimal_circuit.bind_parameters(result.optimal_parameters) print(result) print(f"VQE on Aer qasm simulator (no noise): {result.optimal_value.real:.8f}") print(f"Delta from reference energy value is {(result.optimal_value.real - ref_value):.8f}")
+
+---CODE_BLOCK---
+
+def UCCSD_VQE(hamiltonian, n_particles, num_qubits....): seed = 170 algorithm_globals.random_seed = seed num_particles = [n_particles // 2, n_particles // 2] mapper = JordanWignerMapper() converter = QubitConverter(mapper=mapper) hf = HartreeFock(qubit_converter=converter, num_particles=num_particles, num_spatial_orbitals=num_qubits // 2) ansatz = UCCSD(qubit_converter=converter, num_particles=num_particles, num_spatial_orbitals=num_qubits // 2, initial_state=hf, generalized=False, preserve_spin=True) optimizer = COBYLA(maxiter=1000) estimator = Estimator() vqe = VQE(estimator, ansatz=ansatz, optimizer=optimizer) vqe.initial_point = np.zeros(ansatz.num_parameters) result = vqe.compute_minimum_eigenvalue(hamiltonian) circ = result.optimal_circuit.bind_parameters(result.optimal_parameters) print(result) print(f"VQE on Aer qasm simulator (no noise): {result.optimal_value.real:.8f}") print(f"Delta from reference energy value is {(result.optimal_value.real - ref_value):.8f}")
+
+---CODE_BLOCK---
+
+'optimizer_time': 25.174492597579956} VQE on Aer qasm simulator (no noise): -7.80622948 Delta from reference energy value is 0.00000008
+
+---CODE_BLOCK---
+
+'optimizer_time': 25.174492597579956} VQE on Aer qasm simulator (no noise): -7.80622948 Delta from reference energy value is 0.00000008
+
+---CODE_BLOCK---
+
+try: noiseless_estimator = AerEstimator( run_options={"seed": seed}, transpile_options={"seed_transpiler": seed},) noiseless_estimator.set_options(device='GPU') except AerError as e: print("Failed to initialize GPU estimator in creating no_Real_Noisy_model:", str(e)) noiseless_estimator = AerEstimator( run_options={"seed": seed}, transpile_options={"seed_transpiler": seed},) vqe = VQE(noiseless_estimator, ansatz=ansatz, optimizer=optimizer)
+
+---CODE_BLOCK---
+
+try: noiseless_estimator = AerEstimator( run_options={"seed": seed}, transpile_options={"seed_transpiler": seed},) noiseless_estimator.set_options(device='GPU') except AerError as e: print("Failed to initialize GPU estimator in creating no_Real_Noisy_model:", str(e)) noiseless_estimator = AerEstimator( run_options={"seed": seed}, transpile_options={"seed_transpiler": seed},) vqe = VQE(noiseless_estimator, ansatz=ansatz, optimizer=optimizer)
+
+---CODE_BLOCK---
+
+'optimizer_time': 899.3149755001068} VQE on Aer qasm simulator (no noise): -7.81485699 Delta from reference energy value is -0.00862743
+
+---CODE_BLOCK---
+
+'optimizer_time': 899.3149755001068} VQE on Aer qasm simulator (no noise): -7.81485699 Delta from reference energy value is -0.00862743
+
+---CODE_BLOCK---
+
+qiskit 0.39.2 qiskit-aer 0.11.1 qiskit-aer-gpu 0.11.2 qiskit-ibmq-provider 0.19.2 qiskit-nature 0.5.0 qiskit-terra 0.22.2
+
+---CODE_BLOCK---
+
+qiskit 0.39.2 qiskit-aer 0.11.1 qiskit-aer-gpu 0.11.2 qiskit-ibmq-provider 0.19.2 qiskit-nature 0.5.0 qiskit-terra 0.22.2
+
+Solution explanation:
+You might like to read this article What are Qiskit Primitives? which describes the primitives. Qiskit IBM Runtime also has an Estimator. How each Estimator behaves can be configured. By default the qiskit.primitives Estimator produces an ideal result (no sampling/shot noise). The Aer Estimator however defaults to using a sampling mode so will incur shot noise and the way the expectation value is computed is different too - a circuit will be run for each pauli or group thereof in the operator (see the parameter in the above API ref link). To have a similar behavior outcome to the default configured Estimator you would set Aer Estimator parameter to and to . If so, it calculates the exact expectation values. Otherwise, it calculates expectation values with sampling.
+
+```
+abelian_grouping
+```
+
+```
+qiskit.primitives
+```
+
+```
+approximation
+```
+
+```
+True
+```
+
+```
+shots
+```
+
+```
+None
+```
+
+Original fixed code:
+abelian_grouping
+
+---CODE_BLOCK---
+
+qiskit.primitives
+
+---CODE_BLOCK---
+
+approximation
+
+---CODE_BLOCK---
+
+True
+
+---CODE_BLOCK---
+
+shots
+
+---CODE_BLOCK---
+
+None

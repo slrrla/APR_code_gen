@@ -1,0 +1,59 @@
+Title:
+Long execution time to create controlled version of custom unitary gate in Qiskit
+
+Category:
+
+
+Question:
+Title: Long execution time to create controlled version of custom unitary gate in Qiskit
+
+I am having troubles with the creation of controlled custom gates in Qiskit. I am using the object but the execution time to create the controlled version of the gate becomes extremely long as the number on controls increase. The example code below shows the problem : it takes about 70 seconds just to create the gate Why is it taking so long ? Is this the right way to create controlled custom gate in Qiskit ? Is there another qiskit tool that does a similar thing in less time ?
+
+```
+qiskit.extensions.UnitaryGate
+```
+
+```
+import time import numpy as np from qiskit.extensions import UnitaryGate Dmatrix = np.array([[-1/3, 2/3, 0, 2/3], [ 2/3, -1/3, 0, 2/3], [ 0, 0, -1, 0], [ 2/3, 2/3, 0, -1/3]]) Dgate = UnitaryGate(Dmatrix) st = time.time() C6Dgate = Dgate.control(6) # Step that takes a long time print(round(time.time() - st, 2)) # print ~70 secs
+```
+
+```
+import time import numpy as np from qiskit.extensions import UnitaryGate Dmatrix = np.array([[-1/3, 2/3, 0, 2/3], [ 2/3, -1/3, 0, 2/3], [ 0, 0, -1, 0], [ 2/3, 2/3, 0, -1/3]]) Dgate = UnitaryGate(Dmatrix) st = time.time() C6Dgate = Dgate.control(6) # Step that takes a long time print(round(time.time() - st, 2)) # print ~70 secs
+```
+
+Original buggy code:
+qiskit.extensions.UnitaryGate
+
+---CODE_BLOCK---
+
+import time import numpy as np from qiskit.extensions import UnitaryGate Dmatrix = np.array([[-1/3, 2/3, 0, 2/3], [ 2/3, -1/3, 0, 2/3], [ 0, 0, -1, 0], [ 2/3, 2/3, 0, -1/3]]) Dgate = UnitaryGate(Dmatrix) st = time.time() C6Dgate = Dgate.control(6) # Step that takes a long time print(round(time.time() - st, 2)) # print ~70 secs
+
+---CODE_BLOCK---
+
+import time import numpy as np from qiskit.extensions import UnitaryGate Dmatrix = np.array([[-1/3, 2/3, 0, 2/3], [ 2/3, -1/3, 0, 2/3], [ 0, 0, -1, 0], [ 2/3, 2/3, 0, -1/3]]) Dgate = UnitaryGate(Dmatrix) st = time.time() C6Dgate = Dgate.control(6) # Step that takes a long time print(round(time.time() - st, 2)) # print ~70 secs
+
+Solution explanation:
+I took a quick look at this and ran your script under to see where it's spending most of the time. I then used snakeviz to visualize the profile: Looking at this we can see it's spending most of the time computing the isometry decomposition of the matrix to create a definition of custom instruction which will be controlled. Then the second most amount of time is spent computing the operator of the inverse of isometry decomposed circuit to correct the global phase of the definition. There might be some tuning we can do here in the future to improve the performance of this code path. For example, there is a better decomposition method being added for > 2 qubit unitaries being added in the next release which I think will improve the runtime performance here. If you could open an issue here: https://github.com/Qiskit/qiskit-terra/issues/new/choose about this we can work together on improving the performance of this code path. As for a better way to do this, I'm not sure if there is currently a better method to go from an arbitrary unitary matrix and creating a controlled version of that gate. I do think if you make a custom gate object that is defined via a circuit instead of a matrix that would be faster to build the controlled version of that gate. But, that's obviously not doing the same thing. However, since your unitary is only 2q you can use the built in 2q decomposition to do define a custom gate class and then control that: When I ran this code it created the controlled gate instance in < 1 second. But it's also worth checking that this is correct for your use case. I think it should be equivalent but it's definitely worth checking. This also doesn't work if your unitary is more than 2 qubits.
+
+```
+cprofile
+```
+
+```
+from qiskit.circuit.gate import Gate from qiskit.quantum_info.synthesis import two_qubit_cnot_decompose decomp = two_qubit_cnot_decompose(Dmatrix) class CustomDGate(Gate): def __init__(self, label=None): super().__init__("dgate", 2, [], label=label) def _define(self): self.definition = decomp.copy() def __array__(self, dtype=None): return np.asarray(DMatrix, dtype=dtype) Dgate = CustomDGate() C6Dgate = Dgate.control(6)
+```
+
+```
+from qiskit.circuit.gate import Gate from qiskit.quantum_info.synthesis import two_qubit_cnot_decompose decomp = two_qubit_cnot_decompose(Dmatrix) class CustomDGate(Gate): def __init__(self, label=None): super().__init__("dgate", 2, [], label=label) def _define(self): self.definition = decomp.copy() def __array__(self, dtype=None): return np.asarray(DMatrix, dtype=dtype) Dgate = CustomDGate() C6Dgate = Dgate.control(6)
+```
+
+Original fixed code:
+cprofile
+
+---CODE_BLOCK---
+
+from qiskit.circuit.gate import Gate from qiskit.quantum_info.synthesis import two_qubit_cnot_decompose decomp = two_qubit_cnot_decompose(Dmatrix) class CustomDGate(Gate): def __init__(self, label=None): super().__init__("dgate", 2, [], label=label) def _define(self): self.definition = decomp.copy() def __array__(self, dtype=None): return np.asarray(DMatrix, dtype=dtype) Dgate = CustomDGate() C6Dgate = Dgate.control(6)
+
+---CODE_BLOCK---
+
+from qiskit.circuit.gate import Gate from qiskit.quantum_info.synthesis import two_qubit_cnot_decompose decomp = two_qubit_cnot_decompose(Dmatrix) class CustomDGate(Gate): def __init__(self, label=None): super().__init__("dgate", 2, [], label=label) def _define(self): self.definition = decomp.copy() def __array__(self, dtype=None): return np.asarray(DMatrix, dtype=dtype) Dgate = CustomDGate() C6Dgate = Dgate.control(6)

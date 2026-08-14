@@ -1,0 +1,31 @@
+Title:
+How do I change the number of max_shots of Aer qasm_simulator in Qiskit running on my computer?
+
+Category:
+Category:
+Backend Limit Workaround / Execution Strategy
+
+Why AI Wins in This Category:
+The AI gives a practical engineering workaround with code, avoids internal tampering, and preserves simulator stability. It anticipates edge cases (e.g., remainder shots) and provides a reusable template for high-shot quantum circuit execution.
+
+Question:
+Title: How do I change the number of max_shots of Aer qasm_simulator in Qiskit running on my computer?
+
+I want to do a circuit with more than 1 million shots. How do I change the number of max_shots of Aer qasm_simulator in Qiskit? When I run it, it said . Can someone help me? Thanks!
+
+```
+Number of shots specified: 1000001 exceeds max_shots property of the backend: 1000000.'
+```
+
+Original buggy code:
+Number of shots specified: 1000001 exceeds max_shots property of the backend: 1000000.'
+
+Solution explanation:
+Will do what you want.
+
+```
+backend._configuration.max_shots= ...
+```
+
+Original fixed code:
+backend._configuration.max_shots= ...

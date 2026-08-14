@@ -1,0 +1,79 @@
+Title:
+How good is basic_device_noise_model() simulating the noise in the quantum computer?
+
+Category:
+Category:
+Version Compatibility / Deprecated API
+
+Why AI Wins in This Category:
+The AI performs better because it:
+
+Provides up-to-date, modular import paths aligned with Qiskit 1.x.
+
+Explains the cause of the import failures and how to future-proof the code.
+
+Offers helpful links and command-line guidance for package management.
+
+Prepares the user to move forward instead of sticking to legacy code.
+
+Question:
+Title: How good is basic_device_noise_model() simulating the noise in the quantum computer?
+
+Is there any paper or article about the performance of the noise model using ? For example, like the noise model in the code below. I used that model to test some short-depth circuits and the results are pretty good actually. But I do not think IBM provide any paper or similar thing in the documentation or tutorial about this part. I wonder how they valid their model.
+
+```
+basic_device_noise_model()
+```
+
+```
+device = IBMQ.get_backend('ibmq_16_melbourne') properties = device.properties() noise_model = noise.device.basic_device_noise_model(properties)
+```
+
+```
+device = IBMQ.get_backend('ibmq_16_melbourne') properties = device.properties() noise_model = noise.device.basic_device_noise_model(properties)
+```
+
+Original buggy code:
+basic_device_noise_model()
+
+---CODE_BLOCK---
+
+device = IBMQ.get_backend('ibmq_16_melbourne') properties = device.properties() noise_model = noise.device.basic_device_noise_model(properties)
+
+---CODE_BLOCK---
+
+device = IBMQ.get_backend('ibmq_16_melbourne') properties = device.properties() noise_model = noise.device.basic_device_noise_model(properties)
+
+Solution explanation:
+There is no specific paper for this, though information on the model can be found in the Qiskit Aer API documentation and is based on the research of IBMQ quantum computing group. As examples you can read some of the following papers for more information about errors in IBMQ devices: arXiv:1410.6419 -- The Methods section at the end has a summary of gate calibration and readout error characterization arXiv:1603.04821 -- Described types of errors which occur in the way IBMQ devices implement the CNOT gate TL,DR This noise model is a greatly simplified approximate error model and you should not expect it to exactly reproduce errors from a real device. This is because the model is derived from a very small set of parameters which are obtained from device calibration experiments. For example: For gates errors are derived from a single parameter along with the gate length and the $T_1$ and $T_2$ relaxation time constants for the qubits involved. General 1 and 2 qubit error maps are described by 4x4 matrix and 16x16 complex matrices (CPTP Choi-matrix), which require a lot more than the given parameters to specify in general. More details To summarize the documentation the basic noise model consists of: Single qubit readout errors Single qubit gate errors on u1, u2, u3 gatese Two-qubit gate errors on cx. I'll go into more detail below for each case Readout Errors Readout errors are based on two parameters: The probability of recording an outcome as 0 given it was actually 1 The probability of recording an outcome as 1 given it was actually 0 This assumes readout error are not correlated between qubits for multi-qubit measurements. It also means that measure errors are purely classical (no back action on qubit state), which is accurate for the case where measurements occur at the end of a circuit (which they must currently for actual devices). In practice these errors are quite a good approximation for the readout errors of IBMQ devices. Gate errors The 1 and 2-qubit gate errors are derived from following parameters: The length of the specific gate The $T_1$, $T_2$ relaxation time values for each qubit in the gate A parameter obtained from 1 or 2-qubit randomized benchmarking The represents the overall error of the gate as is defined as $1 - F$ where $F$ is the average gate fidelity. The gate error model assumes this error is described by an error channel $\cal{E} = \cal{E}_{\text{depol}} \circ \cal{E}_{\text{relax}}$ where $\cal{E}_{\text{depol}}$ is a n-qubit depolarizing-error channel and $\cal{E}_{\text{relax}}$ is a tensor product of 1-qubit thermal relaxation error channels on each qubit. The main limitations/approximations of this model are: It approximates all non-relaxation gate errors as depolarizing errors (so there are no coherent errors) Errors are only applied to gates, so it does not automatically include relaxation errors on idle qubits It does not include any non-local errors such as cross-talk The thermal relaxation error channel used is very standard and a good model for relaxation errors during gates, so if gate error is completely due to $T_1$ relaxation (we call this $T_1$-limited) the model is very good. If gate error is only partially due to to relaxation then it becomes much more approximate. In practice this model is quite good for 1-qubit gate errors where error rates are quite low and close to being $T_1$-limited, but it will not be for CNOT gates which are not $T_1$ limited. CNOT gates also tend to have higher levels of cross-talk errors which are not captured in this model. Another limitation is if you circuit has a lot of idle qubits (qubits not participating in a gate during any point in time) it will underestimate $T_1$ relaxation errors unless you add idle () gates to those qubits. This is partially a limitation of thee quantum circuit format (since it has no notion of gate scheduling) and is something I hope to address in future updates to Qiskit Aer. References Sources: The Qiskit Aer API documentation and source code, and myself (I wrote the code in question).
+
+```
+gate_error
+```
+
+```
+gate_error
+```
+
+```
+gate_error
+```
+
+```
+"id"
+```
+
+Original fixed code:
+gate_error
+
+---CODE_BLOCK---
+
+gate_error
+
+---CODE_BLOCK---
+
+gate_error
+
+---CODE_BLOCK---
+
+"id"

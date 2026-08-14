@@ -1,0 +1,87 @@
+Title:
+How to differientate the noise functions in qiskit?
+
+Category:
+Category:
+Error / Debugging
+
+Why Stack Overflow Wins in This Category:
+In error modeling, precision in terminology is critical. The Stack Overflow solution directly tied each Qiskit noise function to its formal definition (Pauli probabilities, special-case depolarizing, Kraus operators for damping). The AI answer added useful context but contained a slight conceptual inaccuracy and extra fluff. Thus, Stack Overflow is more reliable for practitioners needing accurate error channel definitions.
+
+Question:
+Title: How to differientate the noise functions in qiskit?
+
+In Qiskit, there are many different Quantum Error Functions. From my understanding, represents the error rate of $X, Y, Z$ independently, and is a combination of these Pauli operators. Is it correct? Are the two channels belong to incoherent errors? Moreover, can and be regarded as $Z$ and $X$ errors respectively? Are they coherent or incoherent errors?
+
+```
+pauli_error
+```
+
+```
+deplolarizing_error
+```
+
+```
+phase_damping_error
+```
+
+```
+amplitude_damping_error
+```
+
+Original buggy code:
+pauli_error
+
+---CODE_BLOCK---
+
+deplolarizing_error
+
+---CODE_BLOCK---
+
+phase_damping_error
+
+---CODE_BLOCK---
+
+amplitude_damping_error
+
+Solution explanation:
+I suggest to read the literature about these errors, they are not restricted to Qiskit. The textbook of Nielsen and Chuang has a very good chapter. In essence: Pauli error: if you assign this error to some gate (e.g. Hadamard), and you attach probabilities to it, then after that gate is simulated, with probability , an X gate will run, with probability , a Y gate will run, and with probability , a Z gate will run. Note that it's not the error rate of the X gate etc. Depolarizing: a special case of a Pauli error, where . Amplitude damping and phase damping are not X and Z and are incoherent.
+
+```
+(p_x, p_y, p_z)
+```
+
+```
+p_x
+```
+
+```
+p_y
+```
+
+```
+p_z
+```
+
+```
+p_x = p_y = p_z
+```
+
+Original fixed code:
+(p_x, p_y, p_z)
+
+---CODE_BLOCK---
+
+p_x
+
+---CODE_BLOCK---
+
+p_y
+
+---CODE_BLOCK---
+
+p_z
+
+---CODE_BLOCK---
+
+p_x = p_y = p_z

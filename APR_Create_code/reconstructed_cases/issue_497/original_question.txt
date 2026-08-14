@@ -1,0 +1,111 @@
+Title:
+How to find the expectation value of several circuits using Qiskit aqua operator logic?
+
+Category:
+Category:
+Other (General Questions)
+
+Why Stack Overflow Wins in This Category:
+This category requires conceptual clarity about how Aqua operator flow handles batching. The Stack Overflow answer directly leverages Qiskit’s design (ListOp, automatic splitting by backend) and avoids reinventing scheduling logic. It is both more efficient and more aligned with Qiskit practices, whereas the AI solution misleads by unnecessarily involving IBMQJobManager.
+
+Question:
+Title: How to find the expectation value of several circuits using Qiskit aqua operator logic?
+
+I am using the method from this SE answer to calculate the expectation value using qiskit aqua operator logic which works well for a single circuit. Here is a simplified code snippet to demonstrate how it works. However, I am applying it to a VQE application and for each iteration I have $x>1$ circuits. There is no issue when I run on my local machine because there is no queue time, but on the IBMQ machines I would like to submit a batch of the aqua expectation value circuits for each iteration to reduce queue times. For a list of circuits I can submit a batch using the function, however, the method I am using does not store circuits as a list. My question is, can I use the jobmanager with the aqua expectation value to submit a batch of jobs to IBMQ? If not, is there a different way to submit a batch of the aqua expectation value circuits?
+
+```
+import qiskit from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, Aer import numpy as np from qiskit.aqua import QuantumInstance from qiskit.aqua.operators import PauliExpectation, CircuitSampler, StateFn, CircuitOp, CircuitStateFn qctl = QuantumRegister(1) psi = QuantumCircuit(qctl) psi = CircuitStateFn(psi) qctl = QuantumRegister(2) op = QuantumCircuit(qctl) op.z(0) op.ry(np.pi/4,0) op = CircuitOp(op) backend = Aer.get_backend('qasm_simulator') q_instance = QuantumInstance(backend, shots=1024) measurable_expression = StateFn(op, is_measurement=True).compose(psi) expectation = PauliExpectation().convert(measurable_expression) sampler = CircuitSampler(q_instance).convert(expectation) print('Expectation Value = ', sampler.eval())
+```
+
+```
+import qiskit from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, Aer import numpy as np from qiskit.aqua import QuantumInstance from qiskit.aqua.operators import PauliExpectation, CircuitSampler, StateFn, CircuitOp, CircuitStateFn qctl = QuantumRegister(1) psi = QuantumCircuit(qctl) psi = CircuitStateFn(psi) qctl = QuantumRegister(2) op = QuantumCircuit(qctl) op.z(0) op.ry(np.pi/4,0) op = CircuitOp(op) backend = Aer.get_backend('qasm_simulator') q_instance = QuantumInstance(backend, shots=1024) measurable_expression = StateFn(op, is_measurement=True).compose(psi) expectation = PauliExpectation().convert(measurable_expression) sampler = CircuitSampler(q_instance).convert(expectation) print('Expectation Value = ', sampler.eval())
+```
+
+```
+IBMQJobManager()
+```
+
+Original buggy code:
+import qiskit from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, Aer import numpy as np from qiskit.aqua import QuantumInstance from qiskit.aqua.operators import PauliExpectation, CircuitSampler, StateFn, CircuitOp, CircuitStateFn qctl = QuantumRegister(1) psi = QuantumCircuit(qctl) psi = CircuitStateFn(psi) qctl = QuantumRegister(2) op = QuantumCircuit(qctl) op.z(0) op.ry(np.pi/4,0) op = CircuitOp(op) backend = Aer.get_backend('qasm_simulator') q_instance = QuantumInstance(backend, shots=1024) measurable_expression = StateFn(op, is_measurement=True).compose(psi) expectation = PauliExpectation().convert(measurable_expression) sampler = CircuitSampler(q_instance).convert(expectation) print('Expectation Value = ', sampler.eval())
+
+---CODE_BLOCK---
+
+import qiskit from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, Aer import numpy as np from qiskit.aqua import QuantumInstance from qiskit.aqua.operators import PauliExpectation, CircuitSampler, StateFn, CircuitOp, CircuitStateFn qctl = QuantumRegister(1) psi = QuantumCircuit(qctl) psi = CircuitStateFn(psi) qctl = QuantumRegister(2) op = QuantumCircuit(qctl) op.z(0) op.ry(np.pi/4,0) op = CircuitOp(op) backend = Aer.get_backend('qasm_simulator') q_instance = QuantumInstance(backend, shots=1024) measurable_expression = StateFn(op, is_measurement=True).compose(psi) expectation = PauliExpectation().convert(measurable_expression) sampler = CircuitSampler(q_instance).convert(expectation) print('Expectation Value = ', sampler.eval())
+
+---CODE_BLOCK---
+
+IBMQJobManager()
+
+Solution explanation:
+There is no need to use as will do the necessary work for you. Just add your s to a then pass it to StateFn constructor: This way, will assemble these circuits into a single and pass it to the backend. Note that if the number of circuits is larger than , it will be splitted into multiple payloads.
+
+```
+IBMQJobManager
+```
+
+```
+QuantumInstance
+```
+
+```
+CircuitOp
+```
+
+```
+ListOp
+```
+
+```
+ops = [] # ... Construct your first circuit ... # Now, add it to the list: ops.append(op1) # ... Construct your second circuit ... # Now, add it to the list: ops.append(op2) measurable_expression = StateFn(ListOp(ops), is_measurement=True).compose(psi)
+```
+
+```
+ops = [] # ... Construct your first circuit ... # Now, add it to the list: ops.append(op1) # ... Construct your second circuit ... # Now, add it to the list: ops.append(op2) measurable_expression = StateFn(ListOp(ops), is_measurement=True).compose(psi)
+```
+
+```
+QuantumInstance
+```
+
+```
+Qobj
+```
+
+```
+backend.configuration().max_experiments
+```
+
+Original fixed code:
+IBMQJobManager
+
+---CODE_BLOCK---
+
+QuantumInstance
+
+---CODE_BLOCK---
+
+CircuitOp
+
+---CODE_BLOCK---
+
+ListOp
+
+---CODE_BLOCK---
+
+ops = [] # ... Construct your first circuit ... # Now, add it to the list: ops.append(op1) # ... Construct your second circuit ... # Now, add it to the list: ops.append(op2) measurable_expression = StateFn(ListOp(ops), is_measurement=True).compose(psi)
+
+---CODE_BLOCK---
+
+ops = [] # ... Construct your first circuit ... # Now, add it to the list: ops.append(op1) # ... Construct your second circuit ... # Now, add it to the list: ops.append(op2) measurable_expression = StateFn(ListOp(ops), is_measurement=True).compose(psi)
+
+---CODE_BLOCK---
+
+QuantumInstance
+
+---CODE_BLOCK---
+
+Qobj
+
+---CODE_BLOCK---
+
+backend.configuration().max_experiments

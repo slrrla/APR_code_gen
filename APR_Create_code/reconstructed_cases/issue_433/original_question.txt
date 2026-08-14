@@ -1,0 +1,246 @@
+Title:
+Operator qubit ordering not matching circuit qubit ordering
+
+Category:
+Category: Circuit Construction / Logic / Gates
+
+Why AI Solution Wins in This Category:
+The AI directly targets the user's problem: how to enforce specific qubit ordering when converting circuits to operators. It uses Qiskit’s layout argument effectively, which is under-documented and non-intuitive. While the SO solution is broader and conceptually rich, the AI provides a more actionable, minimal, and targeted fix for the circuit-operator mismatch, making it more helpful for debugging and reproducibility in the circuit logic domain.
+
+Question:
+Title: Operator qubit ordering not matching circuit qubit ordering
+
+I tried constructing a gate manually using tensor products and one using in qiskit followed by converting it to an . The matrix from does not match the manual construction, I believe this is due to the swap in the ordering of the qubits. Is there a way to force the layout to match the ordering of my choice? I did look into the parameter of the method but I do not understand how to use it, there isn't any relevant documentation attached to the interface document either. Any leads would be helpful.
+
+```
+cx
+```
+
+```
+QuantumCircuit
+```
+
+```
+Operator
+```
+
+```
+Operator
+```
+
+```
+def test1(): oneone = np.array([[0, 0], [0, 1]]) zerozero = np.array([[1, 0], [0, 0]]) eye = np.identity(2) unitary = np.array([[0, 1], [1, 0]]) cx = np.kron(zerozero, eye) + np.kron(oneone, unitary) op_auto = UnitaryGate(unitary).control(1, ctrl_state='1') qc1 = QuantumCircuit(2) # Passes only due to reversed ordering of qubits. qc1.append(op_auto, [1, 0]) op_auto = Operator.from_circuit(qc1) op_manual = UnitaryGate(cx) qc2 = QuantumCircuit(2) qc2.append(op_manual, [0, 1]) op_manual = Operator.from_circuit(qc2) npt.assert_array_almost_equal(op_auto.data, op_manual.data)
+```
+
+```
+def test1(): oneone = np.array([[0, 0], [0, 1]]) zerozero = np.array([[1, 0], [0, 0]]) eye = np.identity(2) unitary = np.array([[0, 1], [1, 0]]) cx = np.kron(zerozero, eye) + np.kron(oneone, unitary) op_auto = UnitaryGate(unitary).control(1, ctrl_state='1') qc1 = QuantumCircuit(2) # Passes only due to reversed ordering of qubits. qc1.append(op_auto, [1, 0]) op_auto = Operator.from_circuit(qc1) op_manual = UnitaryGate(cx) qc2 = QuantumCircuit(2) qc2.append(op_manual, [0, 1]) op_manual = Operator.from_circuit(qc2) npt.assert_array_almost_equal(op_auto.data, op_manual.data)
+```
+
+```
+layout
+```
+
+```
+Operator.from_circuit
+```
+
+Original buggy code:
+cx
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+Operator
+
+---CODE_BLOCK---
+
+Operator
+
+---CODE_BLOCK---
+
+def test1(): oneone = np.array([[0, 0], [0, 1]]) zerozero = np.array([[1, 0], [0, 0]]) eye = np.identity(2) unitary = np.array([[0, 1], [1, 0]]) cx = np.kron(zerozero, eye) + np.kron(oneone, unitary) op_auto = UnitaryGate(unitary).control(1, ctrl_state='1') qc1 = QuantumCircuit(2) # Passes only due to reversed ordering of qubits. qc1.append(op_auto, [1, 0]) op_auto = Operator.from_circuit(qc1) op_manual = UnitaryGate(cx) qc2 = QuantumCircuit(2) qc2.append(op_manual, [0, 1]) op_manual = Operator.from_circuit(qc2) npt.assert_array_almost_equal(op_auto.data, op_manual.data)
+
+---CODE_BLOCK---
+
+def test1(): oneone = np.array([[0, 0], [0, 1]]) zerozero = np.array([[1, 0], [0, 0]]) eye = np.identity(2) unitary = np.array([[0, 1], [1, 0]]) cx = np.kron(zerozero, eye) + np.kron(oneone, unitary) op_auto = UnitaryGate(unitary).control(1, ctrl_state='1') qc1 = QuantumCircuit(2) # Passes only due to reversed ordering of qubits. qc1.append(op_auto, [1, 0]) op_auto = Operator.from_circuit(qc1) op_manual = UnitaryGate(cx) qc2 = QuantumCircuit(2) qc2.append(op_manual, [0, 1]) op_manual = Operator.from_circuit(qc2) npt.assert_array_almost_equal(op_auto.data, op_manual.data)
+
+---CODE_BLOCK---
+
+layout
+
+---CODE_BLOCK---
+
+Operator.from_circuit
+
+Solution explanation:
+Instead of using numpy's Kronecker product, you can use Operator's tensor product. (Not better, just another way to do it): Where the output is correct: $$\begin{split}CX = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 1 & 0 \end{pmatrix}\end{split}$$ Note that your way is also correct. I think the problem is on op_auto (its output is weird). You can do: Note: this is in little endian convention, so we need to change the definition of CX: $$\begin{split}CX\ q_0, q_1 = I \otimes |0\rangle\langle0| + X \otimes |1\rangle\langle1| = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \end{pmatrix}\end{split}$$ And so, our code: And the output: I recomend you also to change some name variables, such as unitary (being a Pauli X gate) and so. So, the final code: If, somehow, I do not understand the question, please comment the issue and I'll try to answer again the best I can :) . Edit Hi! I just see your comment and here is the edit. First of all, the UnitaryGate: Nevertheless, you can use other formats: If we want to check on big endian notation, we can make use of , a QuantumCircuit method, so here is the code (with the CX class): Where the output:
+
+```
+oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) eye : Operator = Operator(np.identity(2)) unitary : Operator = Operator(np.array([[0, 1], [1, 0]])) cx_UGate : UnitaryGate = zerozero.tensor(eye) + oneone.tensor(unitary) qc2 = QuantumCircuit(2) qc2.append(cx_UGate, [0, 1]) op_manual = Operator.from_circuit(qc2) print(op_manual)
+```
+
+```
+oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) eye : Operator = Operator(np.identity(2)) unitary : Operator = Operator(np.array([[0, 1], [1, 0]])) cx_UGate : UnitaryGate = zerozero.tensor(eye) + oneone.tensor(unitary) qc2 = QuantumCircuit(2) qc2.append(cx_UGate, [0, 1]) op_manual = Operator.from_circuit(qc2) print(op_manual)
+```
+
+```
+Operator([[1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j], [0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j], [0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j]], input_dims=(2, 2), output_dims=(2, 2))
+```
+
+```
+Operator([[1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j], [0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j], [0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j]], input_dims=(2, 2), output_dims=(2, 2))
+```
+
+```
+CXGate().to_matrix()
+```
+
+```
+CXGate().to_matrix()
+```
+
+```
+oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) eye : Operator = Operator(np.identity(2)) unitary : Operator = Operator(np.array([[0, 1], [1, 0]])) cx_UGate : UnitaryGate = eye.tensor(zerozero) + unitary.tensor(oneone) qc2 = QuantumCircuit(2) qc2.append(cx_UGate, [0, 1]) op_manual = Operator.from_circuit(qc2) print(CXGate().to_matrix()==op_manual.data)
+```
+
+```
+oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) eye : Operator = Operator(np.identity(2)) unitary : Operator = Operator(np.array([[0, 1], [1, 0]])) cx_UGate : UnitaryGate = eye.tensor(zerozero) + unitary.tensor(oneone) qc2 = QuantumCircuit(2) qc2.append(cx_UGate, [0, 1]) op_manual = Operator.from_circuit(qc2) print(CXGate().to_matrix()==op_manual.data)
+```
+
+```
+[[ True True True True] [ True True True True] [ True True True True] [ True True True True]]
+```
+
+```
+[[ True True True True] [ True True True True] [ True True True True] [ True True True True]]
+```
+
+```
+import numpy as np from qiskit import QuantumCircuit from qiskit.quantum_info.operators import Operator, Pauli from qiskit.extensions import CXGate, UnitaryGate class CX: oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) def __cx_little_endian(self) -> UnitaryGate: return Operator(Pauli('I')).tensor(self.zerozero) + Operator(Pauli('X')).tensor(self.oneone) def __cx_big_endian(self) -> UnitaryGate: return self.zerozero.tensor(Operator(Pauli('I'))) + self.oneone.tensor(Operator(Pauli('X'))) def cx(self, is_little_endian = True) -> UnitaryGate: return self.__cx_little_endian() if is_little_endian else self.__cx_big_endian() cx_obj : CX = CX() qc2 = QuantumCircuit(2) qc2.append(cx_obj.cx(), [0, 1]) op_manual = Operator.from_circuit(qc2) print(cx_obj.cx(True)) print(cx_obj.cx(False)) print(CXGate().to_matrix()==op_manual.data)
+```
+
+```
+import numpy as np from qiskit import QuantumCircuit from qiskit.quantum_info.operators import Operator, Pauli from qiskit.extensions import CXGate, UnitaryGate class CX: oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) def __cx_little_endian(self) -> UnitaryGate: return Operator(Pauli('I')).tensor(self.zerozero) + Operator(Pauli('X')).tensor(self.oneone) def __cx_big_endian(self) -> UnitaryGate: return self.zerozero.tensor(Operator(Pauli('I'))) + self.oneone.tensor(Operator(Pauli('X'))) def cx(self, is_little_endian = True) -> UnitaryGate: return self.__cx_little_endian() if is_little_endian else self.__cx_big_endian() cx_obj : CX = CX() qc2 = QuantumCircuit(2) qc2.append(cx_obj.cx(), [0, 1]) op_manual = Operator.from_circuit(qc2) print(cx_obj.cx(True)) print(cx_obj.cx(False)) print(CXGate().to_matrix()==op_manual.data)
+```
+
+```
+cx_gate = UnitaryGate(XGate()).control(1)
+```
+
+```
+cx_gate = UnitaryGate(XGate()).control(1)
+```
+
+```
+cx_gate = XGate().control(1)
+```
+
+```
+cx_gate = XGate().control(1)
+```
+
+```
+reverse_bits()
+```
+
+```
+class CX: oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) def __cx_little_endian(self) -> UnitaryGate: return Operator(Pauli('I')).tensor(self.zerozero) + Operator(Pauli('X')).tensor(self.oneone) def __cx_big_endian(self) -> UnitaryGate: return self.zerozero.tensor(Operator(Pauli('I'))) + self.oneone.tensor(Operator(Pauli('X'))) #NEW def is_cx(self, op_cx: Operator, is_little_endian = True) -> bool: return op_cx == self.cx(is_little_endian) def cx(self, is_little_endian = True) -> UnitaryGate: return self.__cx_little_endian() if is_little_endian else self.__cx_big_endian() # CODE EXAMPLE cx_obj : CX = CX() cx_gate = UnitaryGate(XGate()).control(1) qc : QuantumCircuit = QuantumCircuit(2) qc.append(cx_gate, [0,1]) print(cx_obj.is_cx(Operator.from_circuit(qc.reverse_bits()),is_little_endian=False))
+```
+
+```
+class CX: oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) def __cx_little_endian(self) -> UnitaryGate: return Operator(Pauli('I')).tensor(self.zerozero) + Operator(Pauli('X')).tensor(self.oneone) def __cx_big_endian(self) -> UnitaryGate: return self.zerozero.tensor(Operator(Pauli('I'))) + self.oneone.tensor(Operator(Pauli('X'))) #NEW def is_cx(self, op_cx: Operator, is_little_endian = True) -> bool: return op_cx == self.cx(is_little_endian) def cx(self, is_little_endian = True) -> UnitaryGate: return self.__cx_little_endian() if is_little_endian else self.__cx_big_endian() # CODE EXAMPLE cx_obj : CX = CX() cx_gate = UnitaryGate(XGate()).control(1) qc : QuantumCircuit = QuantumCircuit(2) qc.append(cx_gate, [0,1]) print(cx_obj.is_cx(Operator.from_circuit(qc.reverse_bits()),is_little_endian=False))
+```
+
+```
+True
+```
+
+```
+True
+```
+
+Original fixed code:
+oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) eye : Operator = Operator(np.identity(2)) unitary : Operator = Operator(np.array([[0, 1], [1, 0]])) cx_UGate : UnitaryGate = zerozero.tensor(eye) + oneone.tensor(unitary) qc2 = QuantumCircuit(2) qc2.append(cx_UGate, [0, 1]) op_manual = Operator.from_circuit(qc2) print(op_manual)
+
+---CODE_BLOCK---
+
+oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) eye : Operator = Operator(np.identity(2)) unitary : Operator = Operator(np.array([[0, 1], [1, 0]])) cx_UGate : UnitaryGate = zerozero.tensor(eye) + oneone.tensor(unitary) qc2 = QuantumCircuit(2) qc2.append(cx_UGate, [0, 1]) op_manual = Operator.from_circuit(qc2) print(op_manual)
+
+---CODE_BLOCK---
+
+Operator([[1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j], [0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j], [0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j]], input_dims=(2, 2), output_dims=(2, 2))
+
+---CODE_BLOCK---
+
+Operator([[1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j], [0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j], [0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j]], input_dims=(2, 2), output_dims=(2, 2))
+
+---CODE_BLOCK---
+
+CXGate().to_matrix()
+
+---CODE_BLOCK---
+
+CXGate().to_matrix()
+
+---CODE_BLOCK---
+
+oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) eye : Operator = Operator(np.identity(2)) unitary : Operator = Operator(np.array([[0, 1], [1, 0]])) cx_UGate : UnitaryGate = eye.tensor(zerozero) + unitary.tensor(oneone) qc2 = QuantumCircuit(2) qc2.append(cx_UGate, [0, 1]) op_manual = Operator.from_circuit(qc2) print(CXGate().to_matrix()==op_manual.data)
+
+---CODE_BLOCK---
+
+oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) eye : Operator = Operator(np.identity(2)) unitary : Operator = Operator(np.array([[0, 1], [1, 0]])) cx_UGate : UnitaryGate = eye.tensor(zerozero) + unitary.tensor(oneone) qc2 = QuantumCircuit(2) qc2.append(cx_UGate, [0, 1]) op_manual = Operator.from_circuit(qc2) print(CXGate().to_matrix()==op_manual.data)
+
+---CODE_BLOCK---
+
+[[ True True True True] [ True True True True] [ True True True True] [ True True True True]]
+
+---CODE_BLOCK---
+
+[[ True True True True] [ True True True True] [ True True True True] [ True True True True]]
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumCircuit from qiskit.quantum_info.operators import Operator, Pauli from qiskit.extensions import CXGate, UnitaryGate class CX: oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) def __cx_little_endian(self) -> UnitaryGate: return Operator(Pauli('I')).tensor(self.zerozero) + Operator(Pauli('X')).tensor(self.oneone) def __cx_big_endian(self) -> UnitaryGate: return self.zerozero.tensor(Operator(Pauli('I'))) + self.oneone.tensor(Operator(Pauli('X'))) def cx(self, is_little_endian = True) -> UnitaryGate: return self.__cx_little_endian() if is_little_endian else self.__cx_big_endian() cx_obj : CX = CX() qc2 = QuantumCircuit(2) qc2.append(cx_obj.cx(), [0, 1]) op_manual = Operator.from_circuit(qc2) print(cx_obj.cx(True)) print(cx_obj.cx(False)) print(CXGate().to_matrix()==op_manual.data)
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumCircuit from qiskit.quantum_info.operators import Operator, Pauli from qiskit.extensions import CXGate, UnitaryGate class CX: oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) def __cx_little_endian(self) -> UnitaryGate: return Operator(Pauli('I')).tensor(self.zerozero) + Operator(Pauli('X')).tensor(self.oneone) def __cx_big_endian(self) -> UnitaryGate: return self.zerozero.tensor(Operator(Pauli('I'))) + self.oneone.tensor(Operator(Pauli('X'))) def cx(self, is_little_endian = True) -> UnitaryGate: return self.__cx_little_endian() if is_little_endian else self.__cx_big_endian() cx_obj : CX = CX() qc2 = QuantumCircuit(2) qc2.append(cx_obj.cx(), [0, 1]) op_manual = Operator.from_circuit(qc2) print(cx_obj.cx(True)) print(cx_obj.cx(False)) print(CXGate().to_matrix()==op_manual.data)
+
+---CODE_BLOCK---
+
+cx_gate = UnitaryGate(XGate()).control(1)
+
+---CODE_BLOCK---
+
+cx_gate = UnitaryGate(XGate()).control(1)
+
+---CODE_BLOCK---
+
+cx_gate = XGate().control(1)
+
+---CODE_BLOCK---
+
+cx_gate = XGate().control(1)
+
+---CODE_BLOCK---
+
+reverse_bits()
+
+---CODE_BLOCK---
+
+class CX: oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) def __cx_little_endian(self) -> UnitaryGate: return Operator(Pauli('I')).tensor(self.zerozero) + Operator(Pauli('X')).tensor(self.oneone) def __cx_big_endian(self) -> UnitaryGate: return self.zerozero.tensor(Operator(Pauli('I'))) + self.oneone.tensor(Operator(Pauli('X'))) #NEW def is_cx(self, op_cx: Operator, is_little_endian = True) -> bool: return op_cx == self.cx(is_little_endian) def cx(self, is_little_endian = True) -> UnitaryGate: return self.__cx_little_endian() if is_little_endian else self.__cx_big_endian() # CODE EXAMPLE cx_obj : CX = CX() cx_gate = UnitaryGate(XGate()).control(1) qc : QuantumCircuit = QuantumCircuit(2) qc.append(cx_gate, [0,1]) print(cx_obj.is_cx(Operator.from_circuit(qc.reverse_bits()),is_little_endian=False))
+
+---CODE_BLOCK---
+
+class CX: oneone : Operator = Operator(np.array([[0, 0], [0, 1]])) zerozero : Operator = Operator(np.array([[1, 0], [0, 0]])) def __cx_little_endian(self) -> UnitaryGate: return Operator(Pauli('I')).tensor(self.zerozero) + Operator(Pauli('X')).tensor(self.oneone) def __cx_big_endian(self) -> UnitaryGate: return self.zerozero.tensor(Operator(Pauli('I'))) + self.oneone.tensor(Operator(Pauli('X'))) #NEW def is_cx(self, op_cx: Operator, is_little_endian = True) -> bool: return op_cx == self.cx(is_little_endian) def cx(self, is_little_endian = True) -> UnitaryGate: return self.__cx_little_endian() if is_little_endian else self.__cx_big_endian() # CODE EXAMPLE cx_obj : CX = CX() cx_gate = UnitaryGate(XGate()).control(1) qc : QuantumCircuit = QuantumCircuit(2) qc.append(cx_gate, [0,1]) print(cx_obj.is_cx(Operator.from_circuit(qc.reverse_bits()),is_little_endian=False))
+
+---CODE_BLOCK---
+
+True
+
+---CODE_BLOCK---
+
+True

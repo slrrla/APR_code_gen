@@ -1,0 +1,123 @@
+Title:
+Raising Pauli Gate to power gives TypeError: unsupported operand type(s) for ** or pow(): 'complex' and 'ParameterVectorElement'
+
+Category:
+
+
+Question:
+Title: Raising Pauli Gate to power gives TypeError: unsupported operand type(s) for ** or pow(): 'complex' and 'ParameterVectorElement'
+
+I am trying to implement a parameterised circuit in qiskit. Part of the circuit includes the operation $(X \otimes X)^\alpha$ where $X$ is the standard Pauli-X gate, $\otimes$ is the tensor product, and $\alpha$ is any real number. Someone was so kind to help me implement this operation in another question: Raise tensor product to float power in qiskit and when I run it the way it was suggested, it works fine. However, when I paste it into a class, I get an error. This is my implementation: The error that I get is For information, the lists of parameters that I used are Any ideas how to circumvent this problem?
+
+```
+class QuantumCircuit: def __init__(self, backend, shots=100): self._q = qiskit.QuantumRegister(3, 'q') self._c = qiskit.ClassicalRegister(1, 'c') self._circuit = qiskit.QuantumCircuit(self._q, self._c) self.inp = qiskit.circuit.ParameterVector('inp', 2) self.param = qiskit.circuit.ParameterVector('param', 2) #encoding self.phase_gate = Ph(self.inp[0], [0]) self._circuit.append(self.phase_gate, [0]) self._circuit.rx(self.inp[0], 0) self.phase_gate = Ph(self.inp[1], [0]) self._circuit.append(self.phase_gate, [1]) self._circuit.rx(self.inp[1], 1) for param in self.param: xx10 = PauliGate('XX').power(self.param[0]) xx11 = PauliGate('XX').power(self.param[1]) self._circuit.append(xx10, [0, 2]) self._circuit.append(xx11, [1, 2]) yy10 = PauliGate('YY').power(self.param[2]) yy11 = PauliGate('YY').power(self.param[3]) self._circuit.append(yy10, [0, 2]) self._circuit.append(yy11, [1, 2]) zz10 = PauliGate('ZZ').power(self.param[4]) zz11 = PauliGate('ZZ').power(self.param[5]) self._circuit.append(zz10, [0, 2]) self._circuit.append(zz11, [1, 2]) self._circuit.measure(2, 0) self.backend = backend self.shots = shots def run(self, inp, theta): qc = transpile(self._circuit, self.backend) #parameter assignment bind_dict = {} j = 0 k = 0 for key in qc.parameters: if j <= 1: #this is the number of inputs, at the moment we have two inputs bind_dict[key] = inp[j] j+=1 else: bind_dict[key] = theta[k] k+=1 qc.assign_parameters(bind_dict, inplace=True) #run the circuit job = execute(qc, self.backend, shots=self.shots) result = job.result() c = result.get_counts() states = np.array(list(c.keys())).astype(float) counts = np.array(list(c.values())).astype(int) dist = counts/self.shots E = np.array([np.sum(states * dist)]) return E
+```
+
+```
+class QuantumCircuit: def __init__(self, backend, shots=100): self._q = qiskit.QuantumRegister(3, 'q') self._c = qiskit.ClassicalRegister(1, 'c') self._circuit = qiskit.QuantumCircuit(self._q, self._c) self.inp = qiskit.circuit.ParameterVector('inp', 2) self.param = qiskit.circuit.ParameterVector('param', 2) #encoding self.phase_gate = Ph(self.inp[0], [0]) self._circuit.append(self.phase_gate, [0]) self._circuit.rx(self.inp[0], 0) self.phase_gate = Ph(self.inp[1], [0]) self._circuit.append(self.phase_gate, [1]) self._circuit.rx(self.inp[1], 1) for param in self.param: xx10 = PauliGate('XX').power(self.param[0]) xx11 = PauliGate('XX').power(self.param[1]) self._circuit.append(xx10, [0, 2]) self._circuit.append(xx11, [1, 2]) yy10 = PauliGate('YY').power(self.param[2]) yy11 = PauliGate('YY').power(self.param[3]) self._circuit.append(yy10, [0, 2]) self._circuit.append(yy11, [1, 2]) zz10 = PauliGate('ZZ').power(self.param[4]) zz11 = PauliGate('ZZ').power(self.param[5]) self._circuit.append(zz10, [0, 2]) self._circuit.append(zz11, [1, 2]) self._circuit.measure(2, 0) self.backend = backend self.shots = shots def run(self, inp, theta): qc = transpile(self._circuit, self.backend) #parameter assignment bind_dict = {} j = 0 k = 0 for key in qc.parameters: if j <= 1: #this is the number of inputs, at the moment we have two inputs bind_dict[key] = inp[j] j+=1 else: bind_dict[key] = theta[k] k+=1 qc.assign_parameters(bind_dict, inplace=True) #run the circuit job = execute(qc, self.backend, shots=self.shots) result = job.result() c = result.get_counts() states = np.array(list(c.keys())).astype(float) counts = np.array(list(c.values())).astype(int) dist = counts/self.shots E = np.array([np.sum(states * dist)]) return E
+```
+
+```
+Traceback (most recent call last): Input In [48] in <cell line: 2> circ = QuantumCircuit(backend, shots=10) Input In [47] in __init__ xx10 = PauliGate('XX').power(self.param[0]) File /opt/conda/lib/python3.8/site-packages/qiskit/circuit/gate.py:85 in power decomposition_power.append(pow(element, exponent)) TypeError: unsupported operand type(s) for ** or pow(): 'complex' and 'ParameterVectorElement' Use %tb to get the full traceback.
+```
+
+```
+Traceback (most recent call last): Input In [48] in <cell line: 2> circ = QuantumCircuit(backend, shots=10) Input In [47] in __init__ xx10 = PauliGate('XX').power(self.param[0]) File /opt/conda/lib/python3.8/site-packages/qiskit/circuit/gate.py:85 in power decomposition_power.append(pow(element, exponent)) TypeError: unsupported operand type(s) for ** or pow(): 'complex' and 'ParameterVectorElement' Use %tb to get the full traceback.
+```
+
+```
+inp = array([0.50002703, 0.56683592]) theta = array([2.37624305, 5.00052773, 1.60817906, 1.01813369, 1.36693303, 2.58211921])
+```
+
+```
+inp = array([0.50002703, 0.56683592]) theta = array([2.37624305, 5.00052773, 1.60817906, 1.01813369, 1.36693303, 2.58211921])
+```
+
+Original buggy code:
+class QuantumCircuit: def __init__(self, backend, shots=100): self._q = qiskit.QuantumRegister(3, 'q') self._c = qiskit.ClassicalRegister(1, 'c') self._circuit = qiskit.QuantumCircuit(self._q, self._c) self.inp = qiskit.circuit.ParameterVector('inp', 2) self.param = qiskit.circuit.ParameterVector('param', 2) #encoding self.phase_gate = Ph(self.inp[0], [0]) self._circuit.append(self.phase_gate, [0]) self._circuit.rx(self.inp[0], 0) self.phase_gate = Ph(self.inp[1], [0]) self._circuit.append(self.phase_gate, [1]) self._circuit.rx(self.inp[1], 1) for param in self.param: xx10 = PauliGate('XX').power(self.param[0]) xx11 = PauliGate('XX').power(self.param[1]) self._circuit.append(xx10, [0, 2]) self._circuit.append(xx11, [1, 2]) yy10 = PauliGate('YY').power(self.param[2]) yy11 = PauliGate('YY').power(self.param[3]) self._circuit.append(yy10, [0, 2]) self._circuit.append(yy11, [1, 2]) zz10 = PauliGate('ZZ').power(self.param[4]) zz11 = PauliGate('ZZ').power(self.param[5]) self._circuit.append(zz10, [0, 2]) self._circuit.append(zz11, [1, 2]) self._circuit.measure(2, 0) self.backend = backend self.shots = shots def run(self, inp, theta): qc = transpile(self._circuit, self.backend) #parameter assignment bind_dict = {} j = 0 k = 0 for key in qc.parameters: if j <= 1: #this is the number of inputs, at the moment we have two inputs bind_dict[key] = inp[j] j+=1 else: bind_dict[key] = theta[k] k+=1 qc.assign_parameters(bind_dict, inplace=True) #run the circuit job = execute(qc, self.backend, shots=self.shots) result = job.result() c = result.get_counts() states = np.array(list(c.keys())).astype(float) counts = np.array(list(c.values())).astype(int) dist = counts/self.shots E = np.array([np.sum(states * dist)]) return E
+
+---CODE_BLOCK---
+
+class QuantumCircuit: def __init__(self, backend, shots=100): self._q = qiskit.QuantumRegister(3, 'q') self._c = qiskit.ClassicalRegister(1, 'c') self._circuit = qiskit.QuantumCircuit(self._q, self._c) self.inp = qiskit.circuit.ParameterVector('inp', 2) self.param = qiskit.circuit.ParameterVector('param', 2) #encoding self.phase_gate = Ph(self.inp[0], [0]) self._circuit.append(self.phase_gate, [0]) self._circuit.rx(self.inp[0], 0) self.phase_gate = Ph(self.inp[1], [0]) self._circuit.append(self.phase_gate, [1]) self._circuit.rx(self.inp[1], 1) for param in self.param: xx10 = PauliGate('XX').power(self.param[0]) xx11 = PauliGate('XX').power(self.param[1]) self._circuit.append(xx10, [0, 2]) self._circuit.append(xx11, [1, 2]) yy10 = PauliGate('YY').power(self.param[2]) yy11 = PauliGate('YY').power(self.param[3]) self._circuit.append(yy10, [0, 2]) self._circuit.append(yy11, [1, 2]) zz10 = PauliGate('ZZ').power(self.param[4]) zz11 = PauliGate('ZZ').power(self.param[5]) self._circuit.append(zz10, [0, 2]) self._circuit.append(zz11, [1, 2]) self._circuit.measure(2, 0) self.backend = backend self.shots = shots def run(self, inp, theta): qc = transpile(self._circuit, self.backend) #parameter assignment bind_dict = {} j = 0 k = 0 for key in qc.parameters: if j <= 1: #this is the number of inputs, at the moment we have two inputs bind_dict[key] = inp[j] j+=1 else: bind_dict[key] = theta[k] k+=1 qc.assign_parameters(bind_dict, inplace=True) #run the circuit job = execute(qc, self.backend, shots=self.shots) result = job.result() c = result.get_counts() states = np.array(list(c.keys())).astype(float) counts = np.array(list(c.values())).astype(int) dist = counts/self.shots E = np.array([np.sum(states * dist)]) return E
+
+---CODE_BLOCK---
+
+Traceback (most recent call last): Input In [48] in <cell line: 2> circ = QuantumCircuit(backend, shots=10) Input In [47] in __init__ xx10 = PauliGate('XX').power(self.param[0]) File /opt/conda/lib/python3.8/site-packages/qiskit/circuit/gate.py:85 in power decomposition_power.append(pow(element, exponent)) TypeError: unsupported operand type(s) for ** or pow(): 'complex' and 'ParameterVectorElement' Use %tb to get the full traceback.
+
+---CODE_BLOCK---
+
+Traceback (most recent call last): Input In [48] in <cell line: 2> circ = QuantumCircuit(backend, shots=10) Input In [47] in __init__ xx10 = PauliGate('XX').power(self.param[0]) File /opt/conda/lib/python3.8/site-packages/qiskit/circuit/gate.py:85 in power decomposition_power.append(pow(element, exponent)) TypeError: unsupported operand type(s) for ** or pow(): 'complex' and 'ParameterVectorElement' Use %tb to get the full traceback.
+
+---CODE_BLOCK---
+
+inp = array([0.50002703, 0.56683592]) theta = array([2.37624305, 5.00052773, 1.60817906, 1.01813369, 1.36693303, 2.58211921])
+
+---CODE_BLOCK---
+
+inp = array([0.50002703, 0.56683592]) theta = array([2.37624305, 5.00052773, 1.60817906, 1.01813369, 1.36693303, 2.58211921])
+
+Solution explanation:
+You can't use because it does not accept . You can, however, implement $(X \otimes X)^\alpha$ using the parameterized gate $R_{xx}(\theta)$ $$R_{xx}(\theta)=\exp(-i\frac{\theta}{2}X \otimes X)$$ We have, $R_{xx}(\pi)=iX \otimes X$. So, $(X \otimes X)^\alpha$ is equivalent to $R_{xx}(\pi\alpha)$ up to a global phase. Hence, instead of: which causes the error, you can write: Or, if you don't want to have a global phase difference: Similarly, you can use $R_{yy}$ and $R_{zz}$ to implement $(Y \otimes Y)^\alpha$ and $(Z \otimes Z)^\alpha$ respectively using the fact that, $R_{yy}(\pi)=iY \otimes Y$, and $R_{zz}(\pi)=-Z \otimes Z$
+
+```
+Gate.power()
+```
+
+```
+qiskit.circuit.Parameter
+```
+
+```
+xx10 = PauliGate('XX').power(self.param[0]) self._circuit.append(xx10, [0, 2])
+```
+
+```
+xx10 = PauliGate('XX').power(self.param[0]) self._circuit.append(xx10, [0, 2])
+```
+
+```
+self._circuit.rxx(np.pi * self.param[0], 0, 2)
+```
+
+```
+self._circuit.rxx(np.pi * self.param[0], 0, 2)
+```
+
+```
+self._circuit.rxx(np.pi * self.param[0], 0, 2) self._circuit.x(0) self._circuit.u(np.pi, np.pi * self.param[0] / 2, np.pi + np.pi * self.param[0] / 2, 0)
+```
+
+```
+self._circuit.rxx(np.pi * self.param[0], 0, 2) self._circuit.x(0) self._circuit.u(np.pi, np.pi * self.param[0] / 2, np.pi + np.pi * self.param[0] / 2, 0)
+```
+
+Original fixed code:
+Gate.power()
+
+---CODE_BLOCK---
+
+qiskit.circuit.Parameter
+
+---CODE_BLOCK---
+
+xx10 = PauliGate('XX').power(self.param[0]) self._circuit.append(xx10, [0, 2])
+
+---CODE_BLOCK---
+
+xx10 = PauliGate('XX').power(self.param[0]) self._circuit.append(xx10, [0, 2])
+
+---CODE_BLOCK---
+
+self._circuit.rxx(np.pi * self.param[0], 0, 2)
+
+---CODE_BLOCK---
+
+self._circuit.rxx(np.pi * self.param[0], 0, 2)
+
+---CODE_BLOCK---
+
+self._circuit.rxx(np.pi * self.param[0], 0, 2) self._circuit.x(0) self._circuit.u(np.pi, np.pi * self.param[0] / 2, np.pi + np.pi * self.param[0] / 2, 0)
+
+---CODE_BLOCK---
+
+self._circuit.rxx(np.pi * self.param[0], 0, 2) self._circuit.x(0) self._circuit.u(np.pi, np.pi * self.param[0] / 2, np.pi + np.pi * self.param[0] / 2, 0)

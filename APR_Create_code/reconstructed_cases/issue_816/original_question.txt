@@ -1,0 +1,99 @@
+Title:
+What does Qiskit AerSimulator(memory=True) do?
+
+Category:
+
+
+Question:
+Title: What does Qiskit AerSimulator(memory=True) do?
+
+I followed this Qiskit course through Deutsch's algorithm and all seems clear to me except the use of the optional parameter when making the call to . The context of this call is as follows: The documentation for does not seem to cover this parameter, since there are so many backed options that most are briefly mentioned and the details are unavailable. My assumption is that this parameter enables the collection of classical bits from measurements, but I would like to know for certain what happens here.
+
+```
+memory=true
+```
+
+```
+AerSimulator().run(...)
+```
+
+```
+def deutsch_algorithm(function: QuantumCircuit): """ Determine if a Deutsch function is constant or balanced. """ qc = compile_circuit(function) result = AerSimulator().run(qc, shots=1, memory=True).result() measurements = result.get_memory() if measurements[0] == "0": return "constant" return "balanced"
+```
+
+```
+def deutsch_algorithm(function: QuantumCircuit): """ Determine if a Deutsch function is constant or balanced. """ qc = compile_circuit(function) result = AerSimulator().run(qc, shots=1, memory=True).result() measurements = result.get_memory() if measurements[0] == "0": return "constant" return "balanced"
+```
+
+```
+AerSimulator
+```
+
+Original buggy code:
+memory=true
+
+---CODE_BLOCK---
+
+AerSimulator().run(...)
+
+---CODE_BLOCK---
+
+def deutsch_algorithm(function: QuantumCircuit): """ Determine if a Deutsch function is constant or balanced. """ qc = compile_circuit(function) result = AerSimulator().run(qc, shots=1, memory=True).result() measurements = result.get_memory() if measurements[0] == "0": return "constant" return "balanced"
+
+---CODE_BLOCK---
+
+def deutsch_algorithm(function: QuantumCircuit): """ Determine if a Deutsch function is constant or balanced. """ qc = compile_circuit(function) result = AerSimulator().run(qc, shots=1, memory=True).result() measurements = result.get_memory() if measurements[0] == "0": return "constant" return "balanced"
+
+---CODE_BLOCK---
+
+AerSimulator
+
+Solution explanation:
+The parameter is used to record and return the measurement outcomes for each shot of the simulation. When you set , it tells the simulator to save the measurement result from each shot as a separate item in a list. For example, you can set and then retrieve the data from memory like so: This will print out the list of measurement results, e.g., . See this documentation for a complete example.
+
+```
+memory
+```
+
+```
+memory=True
+```
+
+```
+memory=True
+```
+
+```
+# Run and get memory result = simulator.run(circ, shots=10, memory=True).result() memory = result.get_memory(circ) print(memory)
+```
+
+```
+# Run and get memory result = simulator.run(circ, shots=10, memory=True).result() memory = result.get_memory(circ) print(memory)
+```
+
+```
+['11', '00', '11',...,'11']
+```
+
+Original fixed code:
+memory
+
+---CODE_BLOCK---
+
+memory=True
+
+---CODE_BLOCK---
+
+memory=True
+
+---CODE_BLOCK---
+
+# Run and get memory result = simulator.run(circ, shots=10, memory=True).result() memory = result.get_memory(circ) print(memory)
+
+---CODE_BLOCK---
+
+# Run and get memory result = simulator.run(circ, shots=10, memory=True).result() memory = result.get_memory(circ) print(memory)
+
+---CODE_BLOCK---
+
+['11', '00', '11',...,'11']

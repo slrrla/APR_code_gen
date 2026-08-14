@@ -1,0 +1,40 @@
+Title:
+Error : Cannot unroll the circuit to the given basis
+
+Category:
+Category: Installation / Env Config / Import Error
+Why AI Wins in This Category:
+This category requires not just identifying the problem, but resolving compatibility or package-level issues. The AI:
+Diagnosed the problem precisely.
+Suggested multiple fixes.
+Provided ready-to-run code for manual testing.
+
+Question:
+Title: Error : Cannot unroll the circuit to the given basis
+
+I want to run the circuit given below, but I am getting the following error. QiskitError: "Cannot unroll the circuit to the given basis, ['u1', 'u2', 'u3', 'cx', 'id', 'unitary']. Instruction cphi_0 not found in equivalence library and no rule found to expand." Why do you think I am encountering this error? I am sharing the codes below. What should I do to run the circuit?
+
+```
+from qiskit_quantum_knn.qknn.qknn_construction import create_oracle, initialise_qknn, state_transformation, add_measurements from qiskit import BasicAer, execute n_dim_qubits = 1 # must be log(len(test_state)) n_samps_qubits = 1 # must be log(len(train_data)) test_state = [0, 1] train_data = [ [1, 0], [0, 1] ] oracle = create_oracle(train_data) init_circ = initialise_qknn(n_dim_qubits, n_samps_qubits, test_state) state_circ = state_transformation(init_circ, oracle) final_circ = add_measurements(state_circ) display(final_circ.draw(output="mpl")) backend = BasicAer.get_backend('qasm_simulator') job = execute(final_circ, backend, shots=1024)
+```
+
+```
+from qiskit_quantum_knn.qknn.qknn_construction import create_oracle, initialise_qknn, state_transformation, add_measurements from qiskit import BasicAer, execute n_dim_qubits = 1 # must be log(len(test_state)) n_samps_qubits = 1 # must be log(len(train_data)) test_state = [0, 1] train_data = [ [1, 0], [0, 1] ] oracle = create_oracle(train_data) init_circ = initialise_qknn(n_dim_qubits, n_samps_qubits, test_state) state_circ = state_transformation(init_circ, oracle) final_circ = add_measurements(state_circ) display(final_circ.draw(output="mpl")) backend = BasicAer.get_backend('qasm_simulator') job = execute(final_circ, backend, shots=1024)
+```
+
+Original buggy code:
+from qiskit_quantum_knn.qknn.qknn_construction import create_oracle, initialise_qknn, state_transformation, add_measurements from qiskit import BasicAer, execute n_dim_qubits = 1 # must be log(len(test_state)) n_samps_qubits = 1 # must be log(len(train_data)) test_state = [0, 1] train_data = [ [1, 0], [0, 1] ] oracle = create_oracle(train_data) init_circ = initialise_qknn(n_dim_qubits, n_samps_qubits, test_state) state_circ = state_transformation(init_circ, oracle) final_circ = add_measurements(state_circ) display(final_circ.draw(output="mpl")) backend = BasicAer.get_backend('qasm_simulator') job = execute(final_circ, backend, shots=1024)
+
+---CODE_BLOCK---
+
+from qiskit_quantum_knn.qknn.qknn_construction import create_oracle, initialise_qknn, state_transformation, add_measurements from qiskit import BasicAer, execute n_dim_qubits = 1 # must be log(len(test_state)) n_samps_qubits = 1 # must be log(len(train_data)) test_state = [0, 1] train_data = [ [1, 0], [0, 1] ] oracle = create_oracle(train_data) init_circ = initialise_qknn(n_dim_qubits, n_samps_qubits, test_state) state_circ = state_transformation(init_circ, oracle) final_circ = add_measurements(state_circ) display(final_circ.draw(output="mpl")) backend = BasicAer.get_backend('qasm_simulator') job = execute(final_circ, backend, shots=1024)
+
+Solution explanation:
+You are creating a gate from a manually-inputed unitary, and Qiskit does not know how such unitary can be decomposed out of the box. You can either tell Qiskit transpiler not to decompose your unitary, or extend the Equivalence Library (basically, class that stores information on how gates are decomposed) to know how to decompose your gate. The answer to this question is a fantastic resource: Transpilation into custom gate set in qiskit Since in your specific case appears to be a basic identity, consider not using a custom gate at all. This way you can rely on already existing gates and you do not need to explain to transpiler how to decompose them.
+
+```
+train_data
+```
+
+Original fixed code:
+train_data

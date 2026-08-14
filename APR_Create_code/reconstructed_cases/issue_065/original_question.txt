@@ -1,0 +1,131 @@
+Title:
+Atribute error when running the Qiskit VQE Alogrithum
+
+Category:
+Category: Version Compatibility / Deprecated Features  
+Winner: Stack Overflow  
+Why Stack Overflow Is Better: It correctly identifies that the error is due to legacy Aqua-style code and offers a precise fix using the new VQE API. It links to the official Aqua migration guide, making it easy for users to update all deprecated components.
+Why Stack Overflow Performs Well in This Category: Stack Overflow often excels at flagging deprecated features because many contributors actively track Qiskit version changes. The advice tends to be concise, targeted, and accompanied by links to migration paths or release notes.
+
+
+Question:
+Title: Atribute error when running the Qiskit VQE Alogrithum
+
+I'm trying to run the VQE algorithm using an Aer backend simulator. However, whenever I run the algorithm I Receive this error: "AttributeError: 'TwoLocal' object has no attribute 'set_max_evals_grouped'" 
+ Could anyone explain what this error means and how I can fix It? 
+ This is the code I am using: 
+ driver = PySCFDriver(atom='Li .0 .0 .0; H .0 .0 1.5049', unit=UnitsType.ANGSTROM, charge=0, spin=0, basis='sto3g')
+
+#create second quantiesed operator 
+es_problem= ElectronicStructureProblem(driver)
+seconded_quanitsied_oprator= es_problem.second_q_ops() 
+print(seconded_quanitsied_oprator)
+
+#convert to qubit operator 
+
+qubit_transformation = QubitConverter(JordanWignerMapper())
+qubit_operator = qubit_transformation.convert(seconded_quanitsied_oprator[0])
+print(qubit_operator) 
+
+#set up simulator 
+backend = BasicAer.get_backend('statevector_simulator')
+quantum_instance=QuantumInstance(backend=backend)
+
+# VEQ algothiums 
+groundstate_energies = []
+classical_optimizer = SLSQP(maxiter = 1000)
+
+ansatz = TwoLocal(rotation_blocks='ry', entanglement_blocks='cz')
+
+Vqe = VQE(qubit_operator,ansatz,SLSQP,quantum_instance )
+
+```
+driver = PySCFDriver(atom='Li .0 .0 .0; H .0 .0 1.5049', unit=UnitsType.ANGSTROM, charge=0, spin=0, basis='sto3g')
+
+
+
+#create  second quantiesed operator 
+es_problem= ElectronicStructureProblem(driver)
+seconded_quanitsied_oprator= es_problem.second_q_ops() 
+print(seconded_quanitsied_oprator)
+
+
+
+#convert to qubit operator 
+
+
+qubit_transformation = QubitConverter(JordanWignerMapper())
+qubit_operator = qubit_transformation.convert(seconded_quanitsied_oprator[0])
+print(qubit_operator) 
+
+
+#set up simulator 
+backend = BasicAer.get_backend('statevector_simulator')
+quantum_instance=QuantumInstance(backend=backend)
+
+# VEQ algothiums 
+groundstate_energies = []
+classical_optimizer = SLSQP(maxiter = 1000)
+
+
+ansatz = TwoLocal(rotation_blocks='ry', entanglement_blocks='cz')
+
+
+Vqe = VQE(qubit_operator,ansatz,SLSQP,quantum_instance )
+```
+
+Original buggy code:
+driver = PySCFDriver(atom='Li .0 .0 .0; H .0 .0 1.5049', unit=UnitsType.ANGSTROM, charge=0, spin=0, basis='sto3g')
+
+
+
+#create  second quantiesed operator 
+es_problem= ElectronicStructureProblem(driver)
+seconded_quanitsied_oprator= es_problem.second_q_ops() 
+print(seconded_quanitsied_oprator)
+
+
+
+#convert to qubit operator 
+
+
+qubit_transformation = QubitConverter(JordanWignerMapper())
+qubit_operator = qubit_transformation.convert(seconded_quanitsied_oprator[0])
+print(qubit_operator) 
+
+
+#set up simulator 
+backend = BasicAer.get_backend('statevector_simulator')
+quantum_instance=QuantumInstance(backend=backend)
+
+# VEQ algothiums 
+groundstate_energies = []
+classical_optimizer = SLSQP(maxiter = 1000)
+
+
+ansatz = TwoLocal(rotation_blocks='ry', entanglement_blocks='cz')
+
+
+Vqe = VQE(qubit_operator,ansatz,SLSQP,quantum_instance )
+
+Solution explanation:
+You are using VQE the old way (when it was in Aqua), so it doesn't work anymore. What you should do instead is this : 
+ vqe = VQE(ansatz = ansatz,
+ optimizer = SLSQP, 
+ quantum_instance=quantum_instance)
+vqe_result = vqe.compute_minimum_eigenvalue(qubit_operator)
+
+ Just in case, everything you need to know about how to move from Aqua is available here : https://qiskit.org/documentation/aqua_migration.html
+
+```
+vqe = VQE(ansatz = ansatz,
+          optimizer = SLSQP, 
+          quantum_instance=quantum_instance)
+vqe_result = vqe.compute_minimum_eigenvalue(qubit_operator)
+```
+
+Original fixed code:
+vqe = VQE(ansatz = ansatz,
+          optimizer = SLSQP, 
+          quantum_instance=quantum_instance)
+vqe_result = vqe.compute_minimum_eigenvalue(qubit_operator)

@@ -1,0 +1,446 @@
+Title:
+Python Multiprocessing Error with IBM API (Q Experience)
+
+Category:
+Category: Backend/Simulation
+Why Both Are Valid: Stack Overflow gives the correct and concise solution to the multiprocessing error using the `__main__` guard. AI expands on that by also updating deprecated Qiskit syntax for modern compatibility. Both help solve the issue effectively — one with a direct fix, the other with broader modernization advice.
+
+
+Question:
+Title: Python Multiprocessing Error with IBM API (Q Experience)
+
+I'm trying to use the IBM Q Experience API and I installed the library and wrote a quick test code. At first, it couldn't find the module. Then, I added the whole sys thing. Admittedly, I just copied that from a stackoverflow post so that may be the problem. Anyways, I got "RunTime Error" which leads to the python multiprocessing lib. The IBM Q doesn't have a big community, so I couldn't find anything after researching a little while. I'm completely unfamiliar with multiprocessing, threading, etc, so I imagine just seeing the code and error will be better than anything I can do to explain. Thanks in advance. 
+
+ import sys
+sys.path.append("../../")
+
+from qiskit import QuantumProgram
+
+#visualization
+from tools.visualization import plot_histogram
+
+#set up registers
+qp = QuantumProgram()
+q = qp.create_quantum_register("q", 3)
+c = qp.create_classical_register("c", 3)
+
+#define our circuit
+threeQ = qp.create_circuit("threeQ", [q], [c])
+threeQ.measure(q[0], c[0])
+threeQ.measure(q[1], c[1])
+threeQ.measure(q[2], c[2])
+
+#run
+result = qp.execute(["threeQ"])
+
+#plot
+plot_histogram(result.get_counts("threeQ"))
+
+ The error I get (sorry, it's long): 
+
+ Traceback (most recent call last):
+ File "<string>", line 1, in <module>
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 106, in spawn_main
+ exitcode = _main(fd)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 115, in _main
+ prepare(preparation_data)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 226, in prepare
+ _fixup_main_from_path(data['init_main_from_path'])
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 278, in _fixup_main_from_path
+ run_name="__mp_main__")
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 254, in run_path
+ pkg_name=pkg_name, script_name=fname)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 96, in _run_module_code
+ mod_name, mod_spec, pkg_name, script_name)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 85, in _run_code
+ exec(code, run_globals)
+ File "C:\Users\Everybody\firstquantum.py", line 21, in <module>
+ print(qp.execute(["threeQ"]))
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1413, in execute
+ result = self.run(qobj, wait=wait, timeout=timeout)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1232, in run
+ timeout=timeout)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1315, in _run_internal
+ job_processor.submit()
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_jobprocessor.py", line 118, in submit
+ future = executor.submit(run_backend, q_job)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 454, in submit
+ self._start_queue_management_thread()
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 415, in _start_queue_management_thread
+ self._adjust_process_count()
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 434, in _adjust_process_count
+ p.start()
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\process.py", line 105, in start
+ self._popen = self._Popen(self)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\context.py", line 212, in _Popen
+ return _default_context.get_context().Process._Popen(process_obj)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\context.py", line 313, in _Popen
+ return Popen(process_obj)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\popen_spawn_win32.py", line 34, in __init__
+ prep_data = spawn.get_preparation_data(process_obj._name)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 144, in get_preparation_data
+ _check_not_importing_main()
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 137, in _check_not_importing_main
+ is not going to be frozen to produce an executable.''')
+RuntimeError:
+ An attempt has been made to start a new process before the
+ current process has finished its bootstrapping phase.
+
+ This probably means that you are not using fork to start your
+ child processes and you have forgotten to use the proper idiom
+ in the main module:
+
+ if __name__ == '__main__':
+ freeze_support()
+ ...
+
+ The "freeze_support()" line can be omitted if the program
+ is not going to be frozen to produce an executable.
+Traceback (most recent call last):
+ File "<string>", line 1, in <module>
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 106, in spawn_main
+ exitcode = _main(fd)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 115, in _main
+ prepare(preparation_data)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 226, in prepare
+ _fixup_main_from_path(data['init_main_from_path'])
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 278, in _fixup_main_from_path
+ run_name="__mp_main__")
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 254, in run_path
+ pkg_name=pkg_name, script_name=fname)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 96, in _run_module_code
+ mod_name, mod_spec, pkg_name, script_name)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 85, in _run_code
+ exec(code, run_globals)
+ File "C:\Users\Everybody\firstquantum.py", line 21, in <module>
+ print(qp.execute(["threeQ"]))
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1413, in execute
+ result = self.run(qobj, wait=wait, timeout=timeout)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1232, in run
+ timeout=timeout)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1315, in _run_internal
+ job_processor.submit()
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_jobprocessor.py", line 118, in submit
+ future = executor.submit(run_backend, q_job)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 454, in submit
+ self._start_queue_management_thread()
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 415, in _start_queue_management_thread
+ self._adjust_process_count()
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 434, in _adjust_process_count
+ p.start()
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\process.py", line 105, in start
+ self._popen = self._Popen(self)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\context.py", line 212, in _Popen
+ return _default_context.get_context().Process._Popen(process_obj)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\context.py", line 313, in _Popen
+ return Popen(process_obj)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\popen_spawn_win32.py", line 34, in __init__
+ prep_data = spawn.get_preparation_data(process_obj._name)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 144, in get_preparation_data
+ _check_not_importing_main()
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 137, in _check_not_importing_main
+ is not going to be frozen to produce an executable.''')
+RuntimeError:
+ An attempt has been made to start a new process before the
+ current process has finished its bootstrapping phase.
+
+ This probably means that you are not using fork to start your
+ child processes and you have forgotten to use the proper idiom
+ in the main module:
+
+ if __name__ == '__main__':
+ freeze_support()
+ ...
+
+ The "freeze_support()" line can be omitted if the program
+ is not going to be frozen to produce an executable.
+Traceback (most recent call last):
+ File "<string>", line 1, in <module>
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 106, in spawn_main
+ exitcode = _main(fd)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 115, in _main
+ prepare(preparation_data)
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 226, in prepare
+ _fixup_main_from_path(data['init_main_from_path'])
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 278, in _fixup_main_from_path
+ run_name="__mp_main__")
+ File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 254, in run_path
+ERROR
+
+```
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 106, in spawn_main
+    exitcode = _main(fd)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 115, in _main
+    prepare(preparation_data)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 226, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 278, in _fixup_main_from_path
+    run_name="__mp_main__")
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 254, in run_path
+    pkg_name=pkg_name, script_name=fname)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 96, in _run_module_code
+    mod_name, mod_spec, pkg_name, script_name)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Everybody\firstquantum.py", line 21, in <module>
+    print(qp.execute(["threeQ"]))
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1413, in execute
+    result = self.run(qobj, wait=wait, timeout=timeout)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1232, in run
+    timeout=timeout)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1315, in _run_internal
+    job_processor.submit()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_jobprocessor.py", line 118, in submit
+    future = executor.submit(run_backend, q_job)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 454, in submit
+    self._start_queue_management_thread()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 415, in _start_queue_management_thread
+    self._adjust_process_count()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 434, in _adjust_process_count
+    p.start()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\process.py", line 105, in start
+    self._popen = self._Popen(self)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\context.py", line 212, in _Popen
+    return _default_context.get_context().Process._Popen(process_obj)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\context.py", line 313, in _Popen
+    return Popen(process_obj)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\popen_spawn_win32.py", line 34, in __init__
+    prep_data = spawn.get_preparation_data(process_obj._name)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 144, in get_preparation_data
+    _check_not_importing_main()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 137, in _check_not_importing_main
+    is not going to be frozen to produce an executable.''')
+RuntimeError:
+        An attempt has been made to start a new process before the
+        current process has finished its bootstrapping phase.
+
+        This probably means that you are not using fork to start your
+        child processes and you have forgotten to use the proper idiom
+        in the main module:
+
+            if __name__ == '__main__':
+                freeze_support()
+                ...
+
+        The "freeze_support()" line can be omitted if the program
+        is not going to be frozen to produce an executable.
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 106, in spawn_main
+    exitcode = _main(fd)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 115, in _main
+    prepare(preparation_data)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 226, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 278, in _fixup_main_from_path
+    run_name="__mp_main__")
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 254, in run_path
+    pkg_name=pkg_name, script_name=fname)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 96, in _run_module_code
+    mod_name, mod_spec, pkg_name, script_name)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Everybody\firstquantum.py", line 21, in <module>
+    print(qp.execute(["threeQ"]))
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1413, in execute
+    result = self.run(qobj, wait=wait, timeout=timeout)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1232, in run
+    timeout=timeout)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1315, in _run_internal
+    job_processor.submit()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_jobprocessor.py", line 118, in submit
+    future = executor.submit(run_backend, q_job)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 454, in submit
+    self._start_queue_management_thread()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 415, in _start_queue_management_thread
+    self._adjust_process_count()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 434, in _adjust_process_count
+    p.start()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\process.py", line 105, in start
+    self._popen = self._Popen(self)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\context.py", line 212, in _Popen
+    return _default_context.get_context().Process._Popen(process_obj)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\context.py", line 313, in _Popen
+    return Popen(process_obj)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\popen_spawn_win32.py", line 34, in __init__
+    prep_data = spawn.get_preparation_data(process_obj._name)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 144, in get_preparation_data
+    _check_not_importing_main()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 137, in _check_not_importing_main
+    is not going to be frozen to produce an executable.''')
+RuntimeError:
+        An attempt has been made to start a new process before the
+        current process has finished its bootstrapping phase.
+
+        This probably means that you are not using fork to start your
+        child processes and you have forgotten to use the proper idiom
+        in the main module:
+
+            if __name__ == '__main__':
+                freeze_support()
+                ...
+
+        The "freeze_support()" line can be omitted if the program
+        is not going to be frozen to produce an executable.
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 106, in spawn_main
+    exitcode = _main(fd)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 115, in _main
+    prepare(preparation_data)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 226, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 278, in _fixup_main_from_path
+    run_name="__mp_main__")
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 254, in run_path
+ERROR
+```
+
+Original buggy code:
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 106, in spawn_main
+    exitcode = _main(fd)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 115, in _main
+    prepare(preparation_data)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 226, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 278, in _fixup_main_from_path
+    run_name="__mp_main__")
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 254, in run_path
+    pkg_name=pkg_name, script_name=fname)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 96, in _run_module_code
+    mod_name, mod_spec, pkg_name, script_name)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Everybody\firstquantum.py", line 21, in <module>
+    print(qp.execute(["threeQ"]))
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1413, in execute
+    result = self.run(qobj, wait=wait, timeout=timeout)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1232, in run
+    timeout=timeout)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1315, in _run_internal
+    job_processor.submit()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_jobprocessor.py", line 118, in submit
+    future = executor.submit(run_backend, q_job)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 454, in submit
+    self._start_queue_management_thread()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 415, in _start_queue_management_thread
+    self._adjust_process_count()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 434, in _adjust_process_count
+    p.start()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\process.py", line 105, in start
+    self._popen = self._Popen(self)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\context.py", line 212, in _Popen
+    return _default_context.get_context().Process._Popen(process_obj)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\context.py", line 313, in _Popen
+    return Popen(process_obj)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\popen_spawn_win32.py", line 34, in __init__
+    prep_data = spawn.get_preparation_data(process_obj._name)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 144, in get_preparation_data
+    _check_not_importing_main()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 137, in _check_not_importing_main
+    is not going to be frozen to produce an executable.''')
+RuntimeError:
+        An attempt has been made to start a new process before the
+        current process has finished its bootstrapping phase.
+
+        This probably means that you are not using fork to start your
+        child processes and you have forgotten to use the proper idiom
+        in the main module:
+
+            if __name__ == '__main__':
+                freeze_support()
+                ...
+
+        The "freeze_support()" line can be omitted if the program
+        is not going to be frozen to produce an executable.
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 106, in spawn_main
+    exitcode = _main(fd)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 115, in _main
+    prepare(preparation_data)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 226, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 278, in _fixup_main_from_path
+    run_name="__mp_main__")
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 254, in run_path
+    pkg_name=pkg_name, script_name=fname)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 96, in _run_module_code
+    mod_name, mod_spec, pkg_name, script_name)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Everybody\firstquantum.py", line 21, in <module>
+    print(qp.execute(["threeQ"]))
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1413, in execute
+    result = self.run(qobj, wait=wait, timeout=timeout)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1232, in run
+    timeout=timeout)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_quantumprogram.py", line 1315, in _run_internal
+    job_processor.submit()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\site-packages\qiskit\_jobprocessor.py", line 118, in submit
+    future = executor.submit(run_backend, q_job)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 454, in submit
+    self._start_queue_management_thread()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 415, in _start_queue_management_thread
+    self._adjust_process_count()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\concurrent\futures\process.py", line 434, in _adjust_process_count
+    p.start()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\process.py", line 105, in start
+    self._popen = self._Popen(self)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\context.py", line 212, in _Popen
+    return _default_context.get_context().Process._Popen(process_obj)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\context.py", line 313, in _Popen
+    return Popen(process_obj)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\popen_spawn_win32.py", line 34, in __init__
+    prep_data = spawn.get_preparation_data(process_obj._name)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 144, in get_preparation_data
+    _check_not_importing_main()
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 137, in _check_not_importing_main
+    is not going to be frozen to produce an executable.''')
+RuntimeError:
+        An attempt has been made to start a new process before the
+        current process has finished its bootstrapping phase.
+
+        This probably means that you are not using fork to start your
+        child processes and you have forgotten to use the proper idiom
+        in the main module:
+
+            if __name__ == '__main__':
+                freeze_support()
+                ...
+
+        The "freeze_support()" line can be omitted if the program
+        is not going to be frozen to produce an executable.
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 106, in spawn_main
+    exitcode = _main(fd)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 115, in _main
+    prepare(preparation_data)
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 226, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\multiprocessing\spawn.py", line 278, in _fixup_main_from_path
+    run_name="__mp_main__")
+  File "C:\Users\Everybody\AppData\Local\Programs\Python\Python35\lib\runpy.py", line 254, in run_path
+ERROR
+
+Solution explanation:
+This is a general issue with multi-threading in Python on Windows. The solution is to put your top-level code in an if __name__ == "__main__" block, as in: 
+
+ if __name__ == '__main__':
+ <your code here>
+
+ Hope that helps!
+
+```
+if __name__ == '__main__':
+    <your code here>
+```
+
+Original fixed code:
+if __name__ == '__main__':
+    <your code here>

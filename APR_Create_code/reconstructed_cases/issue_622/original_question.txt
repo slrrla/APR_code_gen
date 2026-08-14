@@ -1,0 +1,51 @@
+Title:
+Transpiler Error: Number of qubits greater than maximum in coupling map [closed]
+
+Category:
+
+
+Question:
+Title: Transpiler Error: Number of qubits greater than maximum in coupling map [closed]
+
+Closed. This question needs details or clarity. It is not currently accepting answers. Want to improve this question? As written, this question is lacking some of the information it needs to be answered. If the author adds details in comments, consider editing them into the question. Once there's sufficient detail to answer, vote to reopen the question. Closed 5 years ago. Improve this question Transpiler Error: Number of qubits (2) in circuit11 is greater than maximum (1) in the couplings map Error:
+
+```
+# Initialize two qubits and create Entanglement using Hadamard and CX/CNOT Gate q = qiskit.QuantumRegister(2) c = qiskit.ClassicalRegister(2) qc = qiskit.QuantumCircuit(q, c) qc.h(q[0]) qc.cx(q[0], q[1]) qc.measure(q, c) job_exp = qiskit.execute(qc, backend=backend, shots=1024, max_credits=3)
+```
+
+```
+# Initialize two qubits and create Entanglement using Hadamard and CX/CNOT Gate q = qiskit.QuantumRegister(2) c = qiskit.ClassicalRegister(2) qc = qiskit.QuantumCircuit(q, c) qc.h(q[0]) qc.cx(q[0], q[1]) qc.measure(q, c) job_exp = qiskit.execute(qc, backend=backend, shots=1024, max_credits=3)
+```
+
+```
+--------------------------------------------------------------------------- TranspilerError Traceback (most recent call last) <ipython-input-11-7b13276b10ae> in <module>() 9 qc.cx(q[0], q[1]) 10 qc.measure(q, c) ---> 11 job_exp = qiskit.execute(qc, backend=backend, shots=1024, max_credits=3) 2 frames /usr/local/lib/python3.6/dist-packages/qiskit/execute.py in execute(experiments, backend, basis_gates, coupling_map, backend_properties, initial_layout, seed_transpiler, optimization_level, pass_manager, qobj_id, qobj_header, shots, memory, max_credits, seed_simulator, default_qubit_los, default_meas_los, schedule_los, meas_level, meas_return, memory_slots, memory_slot_size, rep_time, parameter_binds, schedule_circuit, inst_map, meas_map, scheduling_method, **run_config) 249 seed_transpiler=seed_transpiler, 250 optimization_level=optimization_level, --> 251 backend=backend) 252 253 if schedule_circuit: /usr/local/lib/python3.6/dist-packages/qiskit/compiler/transpile.py in transpile(circuits, backend, basis_gates, coupling_map, backend_properties, initial_layout, layout_method, routing_method, seed_transpiler, optimization_level, pass_manager, callback, output_name) 205 callback, output_name) 206 --> 207 _check_circuits_coupling_map(circuits, transpile_args, backend) 208 209 # Transpile circuits in parallel /usr/local/lib/python3.6/dist-packages/qiskit/compiler/transpile.py in _check_circuits_coupling_map(circuits, transpile_args, backend) 245 'in {} '.format(circuit.name) + 246 'is greater than maximum ({}) '.format(max_qubits) + --> 247 'in the coupling_map') 248 249 TranspilerError: 'Number of qubits (2) in circuit11 is greater than maximum (1) in the coupling_map'
+```
+
+```
+--------------------------------------------------------------------------- TranspilerError Traceback (most recent call last) <ipython-input-11-7b13276b10ae> in <module>() 9 qc.cx(q[0], q[1]) 10 qc.measure(q, c) ---> 11 job_exp = qiskit.execute(qc, backend=backend, shots=1024, max_credits=3) 2 frames /usr/local/lib/python3.6/dist-packages/qiskit/execute.py in execute(experiments, backend, basis_gates, coupling_map, backend_properties, initial_layout, seed_transpiler, optimization_level, pass_manager, qobj_id, qobj_header, shots, memory, max_credits, seed_simulator, default_qubit_los, default_meas_los, schedule_los, meas_level, meas_return, memory_slots, memory_slot_size, rep_time, parameter_binds, schedule_circuit, inst_map, meas_map, scheduling_method, **run_config) 249 seed_transpiler=seed_transpiler, 250 optimization_level=optimization_level, --> 251 backend=backend) 252 253 if schedule_circuit: /usr/local/lib/python3.6/dist-packages/qiskit/compiler/transpile.py in transpile(circuits, backend, basis_gates, coupling_map, backend_properties, initial_layout, layout_method, routing_method, seed_transpiler, optimization_level, pass_manager, callback, output_name) 205 callback, output_name) 206 --> 207 _check_circuits_coupling_map(circuits, transpile_args, backend) 208 209 # Transpile circuits in parallel /usr/local/lib/python3.6/dist-packages/qiskit/compiler/transpile.py in _check_circuits_coupling_map(circuits, transpile_args, backend) 245 'in {} '.format(circuit.name) + 246 'is greater than maximum ({}) '.format(max_qubits) + --> 247 'in the coupling_map') 248 249 TranspilerError: 'Number of qubits (2) in circuit11 is greater than maximum (1) in the coupling_map'
+```
+
+Original buggy code:
+# Initialize two qubits and create Entanglement using Hadamard and CX/CNOT Gate q = qiskit.QuantumRegister(2) c = qiskit.ClassicalRegister(2) qc = qiskit.QuantumCircuit(q, c) qc.h(q[0]) qc.cx(q[0], q[1]) qc.measure(q, c) job_exp = qiskit.execute(qc, backend=backend, shots=1024, max_credits=3)
+
+---CODE_BLOCK---
+
+# Initialize two qubits and create Entanglement using Hadamard and CX/CNOT Gate q = qiskit.QuantumRegister(2) c = qiskit.ClassicalRegister(2) qc = qiskit.QuantumCircuit(q, c) qc.h(q[0]) qc.cx(q[0], q[1]) qc.measure(q, c) job_exp = qiskit.execute(qc, backend=backend, shots=1024, max_credits=3)
+
+---CODE_BLOCK---
+
+--------------------------------------------------------------------------- TranspilerError Traceback (most recent call last) <ipython-input-11-7b13276b10ae> in <module>() 9 qc.cx(q[0], q[1]) 10 qc.measure(q, c) ---> 11 job_exp = qiskit.execute(qc, backend=backend, shots=1024, max_credits=3) 2 frames /usr/local/lib/python3.6/dist-packages/qiskit/execute.py in execute(experiments, backend, basis_gates, coupling_map, backend_properties, initial_layout, seed_transpiler, optimization_level, pass_manager, qobj_id, qobj_header, shots, memory, max_credits, seed_simulator, default_qubit_los, default_meas_los, schedule_los, meas_level, meas_return, memory_slots, memory_slot_size, rep_time, parameter_binds, schedule_circuit, inst_map, meas_map, scheduling_method, **run_config) 249 seed_transpiler=seed_transpiler, 250 optimization_level=optimization_level, --> 251 backend=backend) 252 253 if schedule_circuit: /usr/local/lib/python3.6/dist-packages/qiskit/compiler/transpile.py in transpile(circuits, backend, basis_gates, coupling_map, backend_properties, initial_layout, layout_method, routing_method, seed_transpiler, optimization_level, pass_manager, callback, output_name) 205 callback, output_name) 206 --> 207 _check_circuits_coupling_map(circuits, transpile_args, backend) 208 209 # Transpile circuits in parallel /usr/local/lib/python3.6/dist-packages/qiskit/compiler/transpile.py in _check_circuits_coupling_map(circuits, transpile_args, backend) 245 'in {} '.format(circuit.name) + 246 'is greater than maximum ({}) '.format(max_qubits) + --> 247 'in the coupling_map') 248 249 TranspilerError: 'Number of qubits (2) in circuit11 is greater than maximum (1) in the coupling_map'
+
+---CODE_BLOCK---
+
+--------------------------------------------------------------------------- TranspilerError Traceback (most recent call last) <ipython-input-11-7b13276b10ae> in <module>() 9 qc.cx(q[0], q[1]) 10 qc.measure(q, c) ---> 11 job_exp = qiskit.execute(qc, backend=backend, shots=1024, max_credits=3) 2 frames /usr/local/lib/python3.6/dist-packages/qiskit/execute.py in execute(experiments, backend, basis_gates, coupling_map, backend_properties, initial_layout, seed_transpiler, optimization_level, pass_manager, qobj_id, qobj_header, shots, memory, max_credits, seed_simulator, default_qubit_los, default_meas_los, schedule_los, meas_level, meas_return, memory_slots, memory_slot_size, rep_time, parameter_binds, schedule_circuit, inst_map, meas_map, scheduling_method, **run_config) 249 seed_transpiler=seed_transpiler, 250 optimization_level=optimization_level, --> 251 backend=backend) 252 253 if schedule_circuit: /usr/local/lib/python3.6/dist-packages/qiskit/compiler/transpile.py in transpile(circuits, backend, basis_gates, coupling_map, backend_properties, initial_layout, layout_method, routing_method, seed_transpiler, optimization_level, pass_manager, callback, output_name) 205 callback, output_name) 206 --> 207 _check_circuits_coupling_map(circuits, transpile_args, backend) 208 209 # Transpile circuits in parallel /usr/local/lib/python3.6/dist-packages/qiskit/compiler/transpile.py in _check_circuits_coupling_map(circuits, transpile_args, backend) 245 'in {} '.format(circuit.name) + 246 'is greater than maximum ({}) '.format(max_qubits) + --> 247 'in the coupling_map') 248 249 TranspilerError: 'Number of qubits (2) in circuit11 is greater than maximum (1) in the coupling_map'
+
+Solution explanation:
+This error means that you are trying to execute a circuit on a backend that has fewer qubits than used in your circuit. In this case you are trying to execute a 2 qubit circuit on a device that only has one qubit. To fix this I would use a different backend which has 2 or more qubits. You can see how many qubits a backend has by looking at it on the IBM Quantum website or by calling
+
+```
+backend.configuration()
+```
+
+Original fixed code:
+backend.configuration()

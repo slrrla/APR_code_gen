@@ -1,0 +1,23 @@
+Title:
+Is it possible to express $U_1(\lambda)$ through the gates $R_x, R_y, R_z$ while maintaining the phase? In Qiskit for example
+
+Category:
+
+
+Question:
+Title: Is it possible to express $U_1(\lambda)$ through the gates $R_x, R_y, R_z$ while maintaining the phase? In Qiskit for example
+
+Is it possible to express gate $U_1(\lambda)$ through the gates $R_x, R_y, R_z$ while maintaining the phase? Both in principle and in practice (in Qiskit for example)? The single gate $R_z(\lambda)$ is not suitable, because it loses phase. In qiskit the function throws an error: Cannot unroll the circuit to the given basis, ['rx', 'ry', 'rz']. No rule to expand instruction u1.
+
+```
+transpile
+```
+
+Original buggy code:
+transpile
+
+Solution explanation:
+Unless we ignore the unobservable global phase, it is not possible to express qiskit's $U_1(\lambda)$ gate $$\begin{pmatrix}1 & 0 \\ 0 & e^{i\lambda}\end{pmatrix}$$ for arbitrary $\lambda$ in terms of $R_x$, $R_y$ and $R_z$. Note that the three rotation gates have unit determinant $$ \det R_x(\theta) = \det \begin{pmatrix} \cos\frac{\theta}{2} & -i\sin\frac{\theta}{2} \\ -i\sin\frac{\theta}{2} & \cos\frac{\theta}{2}\end{pmatrix} = 1\\ \det R_y(\theta) = \det \begin{pmatrix} \cos\frac{\theta}{2} & -\sin\frac{\theta}{2} \\ \sin\frac{\theta}{2} & \cos\frac{\theta}{2}\end{pmatrix} = 1\\ \det R_z(\theta) = \det \begin{pmatrix} e^{-i\theta/2} & 0 \\ 0 & e^{i\theta/2}\end{pmatrix} = 1 $$ for all $\theta$. Since determinant of a product is a product of determinants, any product of $R_x$, $R_y$ and $R_z$ also has unit determinant. On the other hand, $\det U_1(\lambda) = e^{i\lambda}$. In other words, $R_x(\theta), R_y(\theta), R_z(\theta)\in SU(2)$ for all $\theta$, but $U_1(\lambda)\notin SU(2)$ unless $\lambda = 2\pi k$ for some $k\in\mathbb{Z}$ (in which case $U_1(2\pi k) = I$). However, if we ignore the global phase then $U_1(\lambda) = e^{i\lambda/2} R_z(\lambda)$ is equivalent to $R_z(\lambda)$.
+
+Original fixed code:
+Unless we ignore the unobservable global phase, it is not possible to express qiskit's $U_1(\lambda)$ gate $$\begin{pmatrix}1 & 0 \\ 0 & e^{i\lambda}\end{pmatrix}$$ for arbitrary $\lambda$ in terms of $R_x$, $R_y$ and $R_z$. Note that the three rotation gates have unit determinant $$ \det R_x(\theta) = \det \begin{pmatrix} \cos\frac{\theta}{2} & -i\sin\frac{\theta}{2} \\ -i\sin\frac{\theta}{2} & \cos\frac{\theta}{2}\end{pmatrix} = 1\\ \det R_y(\theta) = \det \begin{pmatrix} \cos\frac{\theta}{2} & -\sin\frac{\theta}{2} \\ \sin\frac{\theta}{2} & \cos\frac{\theta}{2}\end{pmatrix} = 1\\ \det R_z(\theta) = \det \begin{pmatrix} e^{-i\theta/2} & 0 \\ 0 & e^{i\theta/2}\end{pmatrix} = 1 $$ for all $\theta$. Since determinant of a product is a product of determinants, any product of $R_x$, $R_y$ and $R_z$ also has unit determinant. On the other hand, $\det U_1(\lambda) = e^{i\lambda}$. In other words, $R_x(\theta), R_y(\theta), R_z(\theta)\in SU(2)$ for all $\theta$, but $U_1(\lambda)\notin SU(2)$ unless $\lambda = 2\pi k$ for some $k\in\mathbb{Z}$ (in which case $U_1(2\pi k) = I$). However, if we ignore the global phase then $U_1(\lambda) = e^{i\lambda/2} R_z(\lambda)$ is equivalent to $R_z(\lambda)$.

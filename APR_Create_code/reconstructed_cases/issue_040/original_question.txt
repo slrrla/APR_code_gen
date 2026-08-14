@@ -1,0 +1,151 @@
+Title:
+How to extract per shots measurement result from ionq device using qiskit_braket_provider?
+
+Category:
+Category:
+Backend Usage / Simulation / Output
+
+Why AI Wins in This Category:
+The AI provides a seamless workaround using only the qiskit_braket_provider, which is the user's current framework. The SO solution, while insightful, moves away from Qiskit and requires use of Braket-native APIs, making integration harder for Qiskit users. The AI response maintains compatibility, includes execution timing, and respects Qiskit’s abstraction layer — ideal for this category.
+
+Question:
+Title: How to extract per shots measurement result from ionq device using qiskit_braket_provider?
+
+I'm running a circuit on using . I want to extract per shot measurement results. While running on , it can be accessed by setting in execute function and then running . I'm trying to similar thing for , but getting the following error. Code: Error: One more thing, how to extract execution time for job on ? In simply returns it.
+
+```
+ionq device
+```
+
+```
+qiskit_braket_provider
+```
+
+```
+IBMQ backends
+```
+
+```
+memory=True
+```
+
+```
+job.result().get_memory(qc)
+```
+
+```
+ionq device
+```
+
+```
+job = ionq.run(tqc,shots=1024,memory=True) job.status() job.wait_for_final_state() result = job.result() m = job.result().get_memory(tqc) print(m)
+```
+
+```
+job = ionq.run(tqc,shots=1024,memory=True) job.status() job.wait_for_final_state() result = job.result() m = job.result().get_memory(tqc) print(m)
+```
+
+```
+--------------------------------------------------------------------------- QiskitError Traceback (most recent call last) Input In [70], in <cell line: 1>() ----> 1 m = job.result().get_memory(tqc) 2 m File ~/anaconda3/envs/qlab/lib/python3.10/site-packages/qiskit/result/result.py:217, in Result.get_memory(self, experiment) 191 def get_memory(self, experiment=None): 192 """Get the sequence of memory states (readouts) for each shot 193 The data from the experiment is a list of format 194 ['00000', '01000', '10100', '10100', '11101', '11100', '00101', ..., '01010'] (...) 215 QiskitError: if there is no memory data for the circuit. 216 """ --> 217 exp_result = self._get_experiment(experiment) 218 try: 219 try: # header is not available File ~/anaconda3/envs/qlab/lib/python3.10/site-packages/qiskit/result/result.py:380, in Result._get_experiment(self, key) 373 exp = [ 374 result 375 for result in self.results 376 if getattr(getattr(result, "header", None), "name", "") == key 377 ] 379 if len(exp) == 0: --> 380 raise QiskitError('Data for experiment "%s" could not be found.' % key) 381 if len(exp) == 1: 382 exp = exp[0] QiskitError: 'Data for experiment "circuit-7034" could not be found.'
+```
+
+```
+--------------------------------------------------------------------------- QiskitError Traceback (most recent call last) Input In [70], in <cell line: 1>() ----> 1 m = job.result().get_memory(tqc) 2 m File ~/anaconda3/envs/qlab/lib/python3.10/site-packages/qiskit/result/result.py:217, in Result.get_memory(self, experiment) 191 def get_memory(self, experiment=None): 192 """Get the sequence of memory states (readouts) for each shot 193 The data from the experiment is a list of format 194 ['00000', '01000', '10100', '10100', '11101', '11100', '00101', ..., '01010'] (...) 215 QiskitError: if there is no memory data for the circuit. 216 """ --> 217 exp_result = self._get_experiment(experiment) 218 try: 219 try: # header is not available File ~/anaconda3/envs/qlab/lib/python3.10/site-packages/qiskit/result/result.py:380, in Result._get_experiment(self, key) 373 exp = [ 374 result 375 for result in self.results 376 if getattr(getattr(result, "header", None), "name", "") == key 377 ] 379 if len(exp) == 0: --> 380 raise QiskitError('Data for experiment "%s" could not be found.' % key) 381 if len(exp) == 1: 382 exp = exp[0] QiskitError: 'Data for experiment "circuit-7034" could not be found.'
+```
+
+```
+ionq device
+```
+
+```
+IBMQ
+```
+
+```
+job.result().time_taken
+```
+
+Original buggy code:
+ionq device
+
+---CODE_BLOCK---
+
+qiskit_braket_provider
+
+---CODE_BLOCK---
+
+IBMQ backends
+
+---CODE_BLOCK---
+
+memory=True
+
+---CODE_BLOCK---
+
+job.result().get_memory(qc)
+
+---CODE_BLOCK---
+
+ionq device
+
+---CODE_BLOCK---
+
+job = ionq.run(tqc,shots=1024,memory=True) job.status() job.wait_for_final_state() result = job.result() m = job.result().get_memory(tqc) print(m)
+
+---CODE_BLOCK---
+
+job = ionq.run(tqc,shots=1024,memory=True) job.status() job.wait_for_final_state() result = job.result() m = job.result().get_memory(tqc) print(m)
+
+---CODE_BLOCK---
+
+--------------------------------------------------------------------------- QiskitError Traceback (most recent call last) Input In [70], in <cell line: 1>() ----> 1 m = job.result().get_memory(tqc) 2 m File ~/anaconda3/envs/qlab/lib/python3.10/site-packages/qiskit/result/result.py:217, in Result.get_memory(self, experiment) 191 def get_memory(self, experiment=None): 192 """Get the sequence of memory states (readouts) for each shot 193 The data from the experiment is a list of format 194 ['00000', '01000', '10100', '10100', '11101', '11100', '00101', ..., '01010'] (...) 215 QiskitError: if there is no memory data for the circuit. 216 """ --> 217 exp_result = self._get_experiment(experiment) 218 try: 219 try: # header is not available File ~/anaconda3/envs/qlab/lib/python3.10/site-packages/qiskit/result/result.py:380, in Result._get_experiment(self, key) 373 exp = [ 374 result 375 for result in self.results 376 if getattr(getattr(result, "header", None), "name", "") == key 377 ] 379 if len(exp) == 0: --> 380 raise QiskitError('Data for experiment "%s" could not be found.' % key) 381 if len(exp) == 1: 382 exp = exp[0] QiskitError: 'Data for experiment "circuit-7034" could not be found.'
+
+---CODE_BLOCK---
+
+--------------------------------------------------------------------------- QiskitError Traceback (most recent call last) Input In [70], in <cell line: 1>() ----> 1 m = job.result().get_memory(tqc) 2 m File ~/anaconda3/envs/qlab/lib/python3.10/site-packages/qiskit/result/result.py:217, in Result.get_memory(self, experiment) 191 def get_memory(self, experiment=None): 192 """Get the sequence of memory states (readouts) for each shot 193 The data from the experiment is a list of format 194 ['00000', '01000', '10100', '10100', '11101', '11100', '00101', ..., '01010'] (...) 215 QiskitError: if there is no memory data for the circuit. 216 """ --> 217 exp_result = self._get_experiment(experiment) 218 try: 219 try: # header is not available File ~/anaconda3/envs/qlab/lib/python3.10/site-packages/qiskit/result/result.py:380, in Result._get_experiment(self, key) 373 exp = [ 374 result 375 for result in self.results 376 if getattr(getattr(result, "header", None), "name", "") == key 377 ] 379 if len(exp) == 0: --> 380 raise QiskitError('Data for experiment "%s" could not be found.' % key) 381 if len(exp) == 1: 382 exp = exp[0] QiskitError: 'Data for experiment "circuit-7034" could not be found.'
+
+---CODE_BLOCK---
+
+ionq device
+
+---CODE_BLOCK---
+
+IBMQ
+
+---CODE_BLOCK---
+
+job.result().time_taken
+
+Solution explanation:
+From what I can tell, this information isn't available from the provider because the parameter isn't supplied to the constructor. This might be worth submitting an issue or PR for! In the meantime, you can get per-shot results by getting the Amazon Braket task result directly:
+
+```
+header
+```
+
+```
+ExperimentResult
+```
+
+```
+from braket.aws import AwsQuantumTask task = AwsQuantumTask(job.job_id()) measurements = task.result().measurements
+```
+
+```
+from braket.aws import AwsQuantumTask task = AwsQuantumTask(job.job_id()) measurements = task.result().measurements
+```
+
+Original fixed code:
+header
+
+---CODE_BLOCK---
+
+ExperimentResult
+
+---CODE_BLOCK---
+
+from braket.aws import AwsQuantumTask task = AwsQuantumTask(job.job_id()) measurements = task.result().measurements
+
+---CODE_BLOCK---
+
+from braket.aws import AwsQuantumTask task = AwsQuantumTask(job.job_id()) measurements = task.result().measurements

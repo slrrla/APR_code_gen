@@ -1,0 +1,87 @@
+Title:
+Can I access device specifications of IBMQ paying devices?
+
+Category:
+Category:
+Backend Usage / Simulation / Output
+
+Why Stack Overflow Wins in This Category:
+In backend simulation scenarios, pre-access evaluation tools are essential for users working with circuit constraints, especially when dealing with commercial restrictions. The Stack Overflow solution:
+
+Enables realistic analysis before device access
+
+Offers a frictionless way to simulate real hardware
+
+Supports transpilation and depth/gate count evaluation
+
+AI’s account-based approach is valid but only applies after credential setup, making it less practical for the user’s stated problem context.
+
+Question:
+Title: Can I access device specifications of IBMQ paying devices?
+
+I need to perform some tests for my thesis in real quantum computers, however, I only have access to IBM's free quantum devices (the maximum number of qubits I can use is 15, in ). I mainly have two problems: To factor N=15 using Shor's algorithm using the class provided by Qiskit, I'd need 18 qubits. Using this version of the algorithm, I only need 11 qubits, but when I try to execute it in , I get the following error message: Circuit runtime is greater than the device repetition rate. Error code: 8020. Which basically means I'm using too many gates. I know that I can see data about the circuit by writing However, if I want to know about the depth and gate number of a circuit in another computer, first I need to have access to it. Is there any way I could at least find device specifications for the more powerful, paying devices? I might get access to them in the near future through the company that's financing my PhD, but I've been asked to analyze whether Shor's algorithm might be tested in those devices.
+
+```
+ibmq_16_melbourne
+```
+
+```
+Shor
+```
+
+```
+ibmq_16_melbourne
+```
+
+```
+shor_compiled = transpile(result['circuit'], backend=server, optimization_level=3) print('gates = ', shor_compiled.count_ops()) print('depth = ', shor_compiled.depth())
+```
+
+```
+shor_compiled = transpile(result['circuit'], backend=server, optimization_level=3) print('gates = ', shor_compiled.count_ops()) print('depth = ', shor_compiled.depth())
+```
+
+Original buggy code:
+ibmq_16_melbourne
+
+---CODE_BLOCK---
+
+Shor
+
+---CODE_BLOCK---
+
+ibmq_16_melbourne
+
+---CODE_BLOCK---
+
+shor_compiled = transpile(result['circuit'], backend=server, optimization_level=3) print('gates = ', shor_compiled.count_ops()) print('depth = ', shor_compiled.depth())
+
+---CODE_BLOCK---
+
+shor_compiled = transpile(result['circuit'], backend=server, optimization_level=3) print('gates = ', shor_compiled.count_ops()) print('depth = ', shor_compiled.depth())
+
+Solution explanation:
+The first thing that comes to my mind with your problem is the fake devices available in Qiskit. Here is how to use it, the main idea is that Qiskit stored device properties in Terra and with it, you create simulators that will mimic exactly what the devices would do. Basically, you can call them the same way you would a real device in , for example and then you havee your fake device just with . Here is a list of every fake provider available in Qiskit. If you need more explanation, you can also check this Qiskit video. Hope this helps, feel free to ask if you need anything else ;)
+
+```
+qiskit.test.mock
+```
+
+```
+from qiskit.test.mock import FakeVigo
+```
+
+```
+fake_vigo = FakeVigo()
+```
+
+Original fixed code:
+qiskit.test.mock
+
+---CODE_BLOCK---
+
+from qiskit.test.mock import FakeVigo
+
+---CODE_BLOCK---
+
+fake_vigo = FakeVigo()

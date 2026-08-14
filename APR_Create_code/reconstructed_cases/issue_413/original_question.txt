@@ -1,0 +1,88 @@
+Title:
+Is the combine_results method deprecated in qiskit v0.20.0
+
+Category:
+Category: Installation / Env Config / Import Error
+Why AI Wins in This Category:
+
+Environment-related errors need not only identification of the cause (deprecated API) but also practical fixes compatible with the current environment.
+
+AI goes beyond debugging to provide an alternative solution that doesn't rely on updating or downgrading libraries.
+
+Question:
+Title: Is the combine_results method deprecated in qiskit v0.20.0
+
+According to the ManagedResults Documentation the class has a method, however when attempting to use it as follows: I get the following error: AttributeError: 'ManagedResults' object has no attribute 'combine_results' Furthermore, the method is not listed under : Does this mean that the method has been deprecated? If so how can I overcome this?
+
+```
+combine_results
+```
+
+```
+job_set = IBMQJobManager().run(circs, backend=ibmq_backend, name='job-set-abc') job_results = job_set.results() job_results_combined = job_results.combine_results() # fails on this line job_counts_combined = job_results_combined.get_counts()
+```
+
+```
+job_set = IBMQJobManager().run(circs, backend=ibmq_backend, name='job-set-abc') job_results = job_set.results() job_results_combined = job_results.combine_results() # fails on this line job_counts_combined = job_results_combined.get_counts()
+```
+
+```
+combine_results
+```
+
+```
+help(type(job_results))
+```
+
+Original buggy code:
+combine_results
+
+---CODE_BLOCK---
+
+job_set = IBMQJobManager().run(circs, backend=ibmq_backend, name='job-set-abc') job_results = job_set.results() job_results_combined = job_results.combine_results() # fails on this line job_counts_combined = job_results_combined.get_counts()
+
+---CODE_BLOCK---
+
+job_set = IBMQJobManager().run(circs, backend=ibmq_backend, name='job-set-abc') job_results = job_set.results() job_results_combined = job_results.combine_results() # fails on this line job_counts_combined = job_results_combined.get_counts()
+
+---CODE_BLOCK---
+
+combine_results
+
+---CODE_BLOCK---
+
+help(type(job_results))
+
+Solution explanation:
+It's still there. See the source code: https://github.com/Qiskit/qiskit-ibmq-provider/blob/stable/0.8/qiskit/providers/ibmq/managed/managedresults.py#L178 Are you using the right version of ? was introduced in 0.8. If you do it'll show you the version of each element.
+
+```
+qiskit-ibmq-provider
+```
+
+```
+combine_results
+```
+
+```
+import qiskit print(qiskit.__qiskit_version__)
+```
+
+```
+import qiskit print(qiskit.__qiskit_version__)
+```
+
+Original fixed code:
+qiskit-ibmq-provider
+
+---CODE_BLOCK---
+
+combine_results
+
+---CODE_BLOCK---
+
+import qiskit print(qiskit.__qiskit_version__)
+
+---CODE_BLOCK---
+
+import qiskit print(qiskit.__qiskit_version__)

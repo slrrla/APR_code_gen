@@ -1,0 +1,95 @@
+Title:
+Evaluate a gradient with a specific backend (Qiskit)
+
+Category:
+Category:
+Circuit Execution / Gradient Evaluation
+Why AI Wins in This Category:
+
+In gradient evaluation or circuit execution topics, especially with parameterized circuits, success depends on:
+
+Providing a complete and working script.
+
+Supporting noisy backend integration.
+
+Giving clarity around parameter binding, opflow objects, and backend evaluation.
+
+The AI solution does all of this with minimal assumptions, helping the user execute real-world simulations with parameter shift gradients on noisy simulators.
+
+Question:
+Title: Evaluate a gradient with a specific backend (Qiskit)
+
+I'm following the tutorial on gradients in Qiskit. Suppose I have the following: Here is an object of type . If I call , it will return the exact gradient vector of $\langle \psi(a, b) | H | \psi(a, b) \rangle$. However, I would like to evaluate that expression using a noisy backend, e.g. one from . How would I do that?
+
+```
+# Instantiate the quantum state a = Parameter('a') b = Parameter('b') q = QuantumRegister(1) qc = QuantumCircuit(q) qc.h(q) qc.rz(a, q[0]) qc.rx(b, q[0]) params = [a, b] # Instantiate the Hamiltonian observable H = 0.5 * X - 1 * Z # Combine the Hamiltonian observable and the state op = ~StateFn(H) @ CircuitStateFn(primitive=qc, coeff=1.) value_dict = { a: np.pi / 4, b: np.pi} state_grad = Gradient(grad_method='param_shift').convert(operator=op, params=params) state_grad_assigned = state_grad.assign_parameters(value_dict)
+```
+
+```
+# Instantiate the quantum state a = Parameter('a') b = Parameter('b') q = QuantumRegister(1) qc = QuantumCircuit(q) qc.h(q) qc.rz(a, q[0]) qc.rx(b, q[0]) params = [a, b] # Instantiate the Hamiltonian observable H = 0.5 * X - 1 * Z # Combine the Hamiltonian observable and the state op = ~StateFn(H) @ CircuitStateFn(primitive=qc, coeff=1.) value_dict = { a: np.pi / 4, b: np.pi} state_grad = Gradient(grad_method='param_shift').convert(operator=op, params=params) state_grad_assigned = state_grad.assign_parameters(value_dict)
+```
+
+```
+state_grad_assigned
+```
+
+```
+ListOp
+```
+
+```
+state_grad_assigned.eval()
+```
+
+```
+AerSimulator
+```
+
+Original buggy code:
+# Instantiate the quantum state a = Parameter('a') b = Parameter('b') q = QuantumRegister(1) qc = QuantumCircuit(q) qc.h(q) qc.rz(a, q[0]) qc.rx(b, q[0]) params = [a, b] # Instantiate the Hamiltonian observable H = 0.5 * X - 1 * Z # Combine the Hamiltonian observable and the state op = ~StateFn(H) @ CircuitStateFn(primitive=qc, coeff=1.) value_dict = { a: np.pi / 4, b: np.pi} state_grad = Gradient(grad_method='param_shift').convert(operator=op, params=params) state_grad_assigned = state_grad.assign_parameters(value_dict)
+
+---CODE_BLOCK---
+
+# Instantiate the quantum state a = Parameter('a') b = Parameter('b') q = QuantumRegister(1) qc = QuantumCircuit(q) qc.h(q) qc.rz(a, q[0]) qc.rx(b, q[0]) params = [a, b] # Instantiate the Hamiltonian observable H = 0.5 * X - 1 * Z # Combine the Hamiltonian observable and the state op = ~StateFn(H) @ CircuitStateFn(primitive=qc, coeff=1.) value_dict = { a: np.pi / 4, b: np.pi} state_grad = Gradient(grad_method='param_shift').convert(operator=op, params=params) state_grad_assigned = state_grad.assign_parameters(value_dict)
+
+---CODE_BLOCK---
+
+state_grad_assigned
+
+---CODE_BLOCK---
+
+ListOp
+
+---CODE_BLOCK---
+
+state_grad_assigned.eval()
+
+---CODE_BLOCK---
+
+AerSimulator
+
+Solution explanation:
+To run on a simulator (or backend) you can use the . For the details of how that class can be used you can check out this related question: Evaluating expectation values of operators in Qiskit In your case, your code would need to be modified something like
+
+```
+CircuitSampler
+```
+
+```
+from qiskit_aer.backends import AerSimulator from qiskit.opflow import CircuitSampler, AerPauliExpectation simulator = AerSimulator() sampler = CircuitSampler(simulator) state_grad = # ... like you had it before # now use the CircuitSampler to evaluate the gradient # for efficiency: don't manually bind the parameters, but let the sampler do it! sampled = sampler.convert(state_grad, value_dict) # now call eval to evaluate the sampled circuits result = sampled.eval()
+```
+
+```
+from qiskit_aer.backends import AerSimulator from qiskit.opflow import CircuitSampler, AerPauliExpectation simulator = AerSimulator() sampler = CircuitSampler(simulator) state_grad = # ... like you had it before # now use the CircuitSampler to evaluate the gradient # for efficiency: don't manually bind the parameters, but let the sampler do it! sampled = sampler.convert(state_grad, value_dict) # now call eval to evaluate the sampled circuits result = sampled.eval()
+```
+
+Original fixed code:
+CircuitSampler
+
+---CODE_BLOCK---
+
+from qiskit_aer.backends import AerSimulator from qiskit.opflow import CircuitSampler, AerPauliExpectation simulator = AerSimulator() sampler = CircuitSampler(simulator) state_grad = # ... like you had it before # now use the CircuitSampler to evaluate the gradient # for efficiency: don't manually bind the parameters, but let the sampler do it! sampled = sampler.convert(state_grad, value_dict) # now call eval to evaluate the sampled circuits result = sampled.eval()
+
+---CODE_BLOCK---
+
+from qiskit_aer.backends import AerSimulator from qiskit.opflow import CircuitSampler, AerPauliExpectation simulator = AerSimulator() sampler = CircuitSampler(simulator) state_grad = # ... like you had it before # now use the CircuitSampler to evaluate the gradient # for efficiency: don't manually bind the parameters, but let the sampler do it! sampled = sampler.convert(state_grad, value_dict) # now call eval to evaluate the sampled circuits result = sampled.eval()

@@ -1,0 +1,37 @@
+Title:
+Given this code fragment, what is the probability that a measurement would result in $|0\rangle$?
+
+Category:
+Category:
+Circuit
+Why Both Win in This Category:
+This problem is a fundamental quantum circuit interpretation scenario. Accuracy and clarity matter more than novelty.
+Stack Overflow nails the linear algebra formulation.
+AI gives a beginner-friendly walkthrough plus runnable code and numerical reasoning.
+Since they complement each other and both reach the correct conclusion, they are equally valuable in the Circuit category.
+
+Question:
+Title: Given this code fragment, what is the probability that a measurement would result in $|0\rangle$?
+
+Trying to understand below probability how it occured? A. 0.8536 B. 0.5 C. 0.1464 D. 1.0 And the answer is C. But I can't understand the calculation behind it. Can someone please explain?
+
+```
+qc = QuantumCircuit(1) qc.ry(3 * math.pi/4, 0)
+```
+
+```
+qc = QuantumCircuit(1) qc.ry(3 * math.pi/4, 0)
+```
+
+Original buggy code:
+qc = QuantumCircuit(1) qc.ry(3 * math.pi/4, 0)
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(1) qc.ry(3 * math.pi/4, 0)
+
+Solution explanation:
+We have, $$\begin{align}\begin{aligned}\newcommand{\th}{\frac{\theta}{2}}\\\begin{split}Ry(\theta) = \exp\Big(-i \th Y\Big) = \begin{pmatrix} \cos{\th} & -\sin{\th} \\ \sin{\th} & \cos{\th} \end{pmatrix}\end{split}\end{aligned}\end{align}$$ If the input state is $|0\rangle$, then the probability of getting $|0\rangle$ as a measurement result is the square of the absolute value of the entry in the first row and first column. That is, $\cos^2\big({\th}\big)$. Now, $\theta = 3 \pi/4$, so the probability equals $\cos^2(3 \pi/8) = 0.1464$.
+
+Original fixed code:
+We have, $$\begin{align}\begin{aligned}\newcommand{\th}{\frac{\theta}{2}}\\\begin{split}Ry(\theta) = \exp\Big(-i \th Y\Big) = \begin{pmatrix} \cos{\th} & -\sin{\th} \\ \sin{\th} & \cos{\th} \end{pmatrix}\end{split}\end{aligned}\end{align}$$ If the input state is $|0\rangle$, then the probability of getting $|0\rangle$ as a measurement result is the square of the absolute value of the entry in the first row and first column. That is, $\cos^2\big({\th}\big)$. Now, $\theta = 3 \pi/4$, so the probability equals $\cos^2(3 \pi/8) = 0.1464$.

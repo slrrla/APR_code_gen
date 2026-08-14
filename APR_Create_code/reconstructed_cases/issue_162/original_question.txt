@@ -1,0 +1,127 @@
+Title:
+Qiskit BasicAer simulator options
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Both Win in This Category:
+For this type of circuit/simulator question, clarity and correctness about available backends is essential. Both answers correctly identify BasicAer’s limitations. The Stack Overflow solution is minimal and demonstrative, while the AI solution is explanatory and comparative. Together, they cover both practical and conceptual aspects, making them equally valid.
+
+Question:
+Title: Qiskit BasicAer simulator options
+
+I usually use Qiskit "Aer" to simulate quantum circuit with several methods such as , , , , and . Recenlty I came across another simulator called "BasicAer" and I wonder if the qiskit BasicAer supports above methods.
+
+```
+statevector
+```
+
+```
+density_matrix
+```
+
+```
+stabilizer
+```
+
+```
+extended_stabilizer
+```
+
+```
+matrix_product_state
+```
+
+Original buggy code:
+statevector
+
+---CODE_BLOCK---
+
+density_matrix
+
+---CODE_BLOCK---
+
+stabilizer
+
+---CODE_BLOCK---
+
+extended_stabilizer
+
+---CODE_BLOCK---
+
+matrix_product_state
+
+Solution explanation:
+For any provider, you can check the backends with : Check the doc for each of them:
+
+```
+backends()
+```
+
+```
+from qiskit import BasicAer BasicAer.backends()
+```
+
+```
+from qiskit import BasicAer BasicAer.backends()
+```
+
+```
+[<QasmSimulatorPy('qasm_simulator') from BasicAer()>, <StatevectorSimulatorPy('statevector_simulator') from BasicAer()>, <UnitarySimulatorPy('unitary_simulator') from BasicAer()>]
+```
+
+```
+[<QasmSimulatorPy('qasm_simulator') from BasicAer()>, <StatevectorSimulatorPy('statevector_simulator') from BasicAer()>, <UnitarySimulatorPy('unitary_simulator') from BasicAer()>]
+```
+
+```
+for backend in BasicAer.backends(): print("%s: %s" % (backend.name(), backend.__doc__))
+```
+
+```
+for backend in BasicAer.backends(): print("%s: %s" % (backend.name(), backend.__doc__))
+```
+
+```
+qasm_simulator: Python implementation of a qasm simulator. statevector_simulator: Python statevector simulator. unitary_simulator: Python implementation of a unitary simulator.
+```
+
+```
+qasm_simulator: Python implementation of a qasm simulator. statevector_simulator: Python statevector simulator. unitary_simulator: Python implementation of a unitary simulator.
+```
+
+Original fixed code:
+backends()
+
+---CODE_BLOCK---
+
+from qiskit import BasicAer BasicAer.backends()
+
+---CODE_BLOCK---
+
+from qiskit import BasicAer BasicAer.backends()
+
+---CODE_BLOCK---
+
+[<QasmSimulatorPy('qasm_simulator') from BasicAer()>, <StatevectorSimulatorPy('statevector_simulator') from BasicAer()>, <UnitarySimulatorPy('unitary_simulator') from BasicAer()>]
+
+---CODE_BLOCK---
+
+[<QasmSimulatorPy('qasm_simulator') from BasicAer()>, <StatevectorSimulatorPy('statevector_simulator') from BasicAer()>, <UnitarySimulatorPy('unitary_simulator') from BasicAer()>]
+
+---CODE_BLOCK---
+
+for backend in BasicAer.backends(): print("%s: %s" % (backend.name(), backend.__doc__))
+
+---CODE_BLOCK---
+
+for backend in BasicAer.backends(): print("%s: %s" % (backend.name(), backend.__doc__))
+
+---CODE_BLOCK---
+
+qasm_simulator: Python implementation of a qasm simulator. statevector_simulator: Python statevector simulator. unitary_simulator: Python implementation of a unitary simulator.
+
+---CODE_BLOCK---
+
+qasm_simulator: Python implementation of a qasm simulator. statevector_simulator: Python statevector simulator. unitary_simulator: Python implementation of a unitary simulator.

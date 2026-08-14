@@ -1,0 +1,56 @@
+Title:
+Can't import Aer from Qiskit
+
+Category:
+Category: Installation/Import
+Winner: Both  
+Why Both Are Valid: Stack Overflow gives a direct and correct fix, while AI adds helpful version context. Both lead to the same working solution.  
+Why AI Slightly Enhances This Category: AI tends to include compatibility notes and explains version-related changes, which is helpful for long-term clarity, but in this case, both answers are equally functional.
+
+
+Question:
+Title: Can't import Aer from Qiskit
+
+When running the following code: 
+ from qiskit import Aer
+
+ I encountered the following error: 
+ ImportError
+Traceback (most recent call last)
+Cell In[50], line 1
+----> 1 from qiskit import Aer
+
+ImportError: cannot import name 'Aer' from 'qiskit'
+
+ Why is that the case?
+
+```
+ImportError
+Traceback (most recent call last)
+Cell In[50], line 1
+----> 1 from qiskit import Aer
+
+ImportError: cannot import name 'Aer' from 'qiskit'
+```
+
+Original buggy code:
+ImportError
+Traceback (most recent call last)
+Cell In[50], line 1
+----> 1 from qiskit import Aer
+
+ImportError: cannot import name 'Aer' from 'qiskit'
+
+Solution explanation:
+The qiskit.Aer object has been deprecated in Qiskit 1.0 . You have to install the qiskit-aer package like this: 
+ pip install qiskit-aer
+
+ and then simply modify your code into: 
+ from qiskit_aer import Aer
+
+```
+pip install qiskit-aer
+```
+
+Original fixed code:
+pip install qiskit-aer

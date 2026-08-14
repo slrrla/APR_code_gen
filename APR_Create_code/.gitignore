@@ -1,0 +1,27 @@
+# Secrets - never commit credentials
+.env
+.env.*
+*.key
+*.pem
+secrets.json
+credentials.json
+
+# Per-version Qiskit test environments (large, reproducible from envs/spec.json)
+envs/
+!envs/spec.json
+!envs/README.md
+
+# Pipeline state (checkpoints, cached model responses, worklists)
+tools/reconstruction/.state/
+tools/execution/.state/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+~$*.xlsx

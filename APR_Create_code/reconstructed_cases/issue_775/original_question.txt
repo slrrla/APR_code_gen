@@ -1,0 +1,83 @@
+Title:
+Simulating OpenQASM 2.0 in Qiskit?
+
+Category:
+
+
+Question:
+Title: Simulating OpenQASM 2.0 in Qiskit?
+
+I'm just getting started with OpenQASM, but I'm feeling a bit confused. Is there a way to run the file I've written in Qiskit (i.e. in Python), or is OpenQasm only meant to be used within the IBM Quantum experience?
+
+```
+.qasm
+```
+
+Original buggy code:
+.qasm
+
+Solution explanation:
+You can use qasm files to create a quantum circuit, two ways : via the methods or on a . See the documentation about this. For example : This will create a from the str . The same syntax work with the other method, just replace with the path to the qasm file. Hope this helps! :)
+
+```
+from_qasm_str
+```
+
+```
+from_qasm_file
+```
+
+```
+QuantumCircuit
+```
+
+```
+test = ''' OPENQASM 2.0; include "qelib1.inc"; qreg q[2]; creg c[2]; h q[0]; cx q[0],q[1]; ''' from qiskit import QuantumCircuit qc = QuantumCircuit.from_qasm_str(test)
+```
+
+```
+test = ''' OPENQASM 2.0; include "qelib1.inc"; qreg q[2]; creg c[2]; h q[0]; cx q[0],q[1]; ''' from qiskit import QuantumCircuit qc = QuantumCircuit.from_qasm_str(test)
+```
+
+```
+QuantumCircuit
+```
+
+```
+test
+```
+
+```
+test
+```
+
+Original fixed code:
+from_qasm_str
+
+---CODE_BLOCK---
+
+from_qasm_file
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+test = ''' OPENQASM 2.0; include "qelib1.inc"; qreg q[2]; creg c[2]; h q[0]; cx q[0],q[1]; ''' from qiskit import QuantumCircuit qc = QuantumCircuit.from_qasm_str(test)
+
+---CODE_BLOCK---
+
+test = ''' OPENQASM 2.0; include "qelib1.inc"; qreg q[2]; creg c[2]; h q[0]; cx q[0],q[1]; ''' from qiskit import QuantumCircuit qc = QuantumCircuit.from_qasm_str(test)
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+test
+
+---CODE_BLOCK---
+
+test

@@ -1,0 +1,129 @@
+Title:
+Is Qiskit's Estimator Primitive running PauliStrings in Parallel?
+
+Category:
+Category:
+
+Backend Usage / Simulation / Output
+
+Why Stack Overflow Wins in This Category:
+
+In the Backend Usage category, clarity about how internal mechanics affect performance is key. Stack Overflow:
+
+Provides a direct and specific answer to the root cause (Pauli grouping).
+
+Includes useful keywords like abelian_grouping, maxiter, and ties back to expected behavior of Qiskit primitives.
+
+Avoids unnecessary detail and keeps the focus on why runtime doesn’t scale linearly, which is the user’s core concern.
+
+While the AI explanation is educational and implementation-focused, the Stack Overflow response better resolves the user’s core confusion efficiently.
+
+Question:
+Title: Is Qiskit's Estimator Primitive running PauliStrings in Parallel?
+
+I am trying to run the following code: In this code I want to compare the time it takes to compute the eigenvalue for the two Hamiltonians. If I understand correctly, the VQE algorithm calculates a circuit for each of the PauliStrings, then sums the different expectation values and finally changes the parameters and repeats the whole process. So for the $(H_0=I\otimes I\otimes I \otimes I )$ the VQE shall make $1\times 100$ calculations and for that has 16 Paulistrings $(H_1=\sum_{i=0}^{15} P_i )$ , the VQE shall make $16\times 100$ calculations. Whenever I run it , the of the VQEResult is the same for both and , roughly $1000~s$ .I would expect (maybe naively) , for the to be 16 times faster than . I have also made several tests with similar, up to 8 qubit Hamiltonians using the primitives, but with . I get the same for Hamiltonians with $1$ term and with $2^8$ terms. Does anyone know why this happens? Is it because the estimator primitive has a parallelization procedure?
+
+```
+import numpy as np from qiskit import * from qiskit_ibm_runtime import Options from qiskit_ibm_runtime import QiskitRuntimeService, Estimator from qiskit.algorithms.optimizers import NFT from qiskit.circuit.library import TwoLocal from qiskit.quantum_info import SparsePauliOp from qiskit.algorithms.minimum_eigensolvers import VQE from qiskit.opflow import X, Y, Z, I from qiskit.opflow import PauliSumOp service = QiskitRuntimeService(token="YOUR-TOKEN",channel="ibm_quantum") options = Options() options.optimization_level=3 options.execution.shots=100 #backend = service.backend("ibm_lagos") backend = service.backend("ibmq_qasm_simulator") estimator = Estimator(session=backend,options=options) hamiltonian_0= SparsePauliOp(['IIII'] ) hamiltonian_1=PauliSumOp(SparsePauliOp(['IIII', 'IIIZ', 'IIZI', 'IIZZ', 'IZII', 'IZIZ', 'IZZI', 'IZZZ', 'ZIII', 'ZIIZ', 'ZIZI', 'ZIZZ', 'ZZII', 'ZZIZ', 'ZZZI', 'ZZZZ'], coeffs=[ 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j]), coeff=1.0) dim=hamiltonian_0.num_qubits ansatz = TwoLocal(dim, rotation_blocks=["ry"],entanglement='reverse_linear',entanglement_blocks="cx", reps=1) optimizer = NFT(maxiter=100) vqe = VQE(estimator=estimator, ansatz=ansatz, optimizer=optimizer ) result = vqe.compute_minimum_eigenvalue(hamiltonian_0)
+```
+
+```
+import numpy as np from qiskit import * from qiskit_ibm_runtime import Options from qiskit_ibm_runtime import QiskitRuntimeService, Estimator from qiskit.algorithms.optimizers import NFT from qiskit.circuit.library import TwoLocal from qiskit.quantum_info import SparsePauliOp from qiskit.algorithms.minimum_eigensolvers import VQE from qiskit.opflow import X, Y, Z, I from qiskit.opflow import PauliSumOp service = QiskitRuntimeService(token="YOUR-TOKEN",channel="ibm_quantum") options = Options() options.optimization_level=3 options.execution.shots=100 #backend = service.backend("ibm_lagos") backend = service.backend("ibmq_qasm_simulator") estimator = Estimator(session=backend,options=options) hamiltonian_0= SparsePauliOp(['IIII'] ) hamiltonian_1=PauliSumOp(SparsePauliOp(['IIII', 'IIIZ', 'IIZI', 'IIZZ', 'IZII', 'IZIZ', 'IZZI', 'IZZZ', 'ZIII', 'ZIIZ', 'ZIZI', 'ZIZZ', 'ZZII', 'ZZIZ', 'ZZZI', 'ZZZZ'], coeffs=[ 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j]), coeff=1.0) dim=hamiltonian_0.num_qubits ansatz = TwoLocal(dim, rotation_blocks=["ry"],entanglement='reverse_linear',entanglement_blocks="cx", reps=1) optimizer = NFT(maxiter=100) vqe = VQE(estimator=estimator, ansatz=ansatz, optimizer=optimizer ) result = vqe.compute_minimum_eigenvalue(hamiltonian_0)
+```
+
+```
+hamiltonian_0
+```
+
+```
+hamiltonian_1
+```
+
+```
+optimizer_time
+```
+
+```
+hamiltonian_0
+```
+
+```
+hamiltonian_1
+```
+
+```
+hamiltonian_0
+```
+
+```
+hamiltonian_1
+```
+
+```
+qasm_simulator
+```
+
+```
+optimizer_time
+```
+
+Original buggy code:
+import numpy as np from qiskit import * from qiskit_ibm_runtime import Options from qiskit_ibm_runtime import QiskitRuntimeService, Estimator from qiskit.algorithms.optimizers import NFT from qiskit.circuit.library import TwoLocal from qiskit.quantum_info import SparsePauliOp from qiskit.algorithms.minimum_eigensolvers import VQE from qiskit.opflow import X, Y, Z, I from qiskit.opflow import PauliSumOp service = QiskitRuntimeService(token="YOUR-TOKEN",channel="ibm_quantum") options = Options() options.optimization_level=3 options.execution.shots=100 #backend = service.backend("ibm_lagos") backend = service.backend("ibmq_qasm_simulator") estimator = Estimator(session=backend,options=options) hamiltonian_0= SparsePauliOp(['IIII'] ) hamiltonian_1=PauliSumOp(SparsePauliOp(['IIII', 'IIIZ', 'IIZI', 'IIZZ', 'IZII', 'IZIZ', 'IZZI', 'IZZZ', 'ZIII', 'ZIIZ', 'ZIZI', 'ZIZZ', 'ZZII', 'ZZIZ', 'ZZZI', 'ZZZZ'], coeffs=[ 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j]), coeff=1.0) dim=hamiltonian_0.num_qubits ansatz = TwoLocal(dim, rotation_blocks=["ry"],entanglement='reverse_linear',entanglement_blocks="cx", reps=1) optimizer = NFT(maxiter=100) vqe = VQE(estimator=estimator, ansatz=ansatz, optimizer=optimizer ) result = vqe.compute_minimum_eigenvalue(hamiltonian_0)
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import * from qiskit_ibm_runtime import Options from qiskit_ibm_runtime import QiskitRuntimeService, Estimator from qiskit.algorithms.optimizers import NFT from qiskit.circuit.library import TwoLocal from qiskit.quantum_info import SparsePauliOp from qiskit.algorithms.minimum_eigensolvers import VQE from qiskit.opflow import X, Y, Z, I from qiskit.opflow import PauliSumOp service = QiskitRuntimeService(token="YOUR-TOKEN",channel="ibm_quantum") options = Options() options.optimization_level=3 options.execution.shots=100 #backend = service.backend("ibm_lagos") backend = service.backend("ibmq_qasm_simulator") estimator = Estimator(session=backend,options=options) hamiltonian_0= SparsePauliOp(['IIII'] ) hamiltonian_1=PauliSumOp(SparsePauliOp(['IIII', 'IIIZ', 'IIZI', 'IIZZ', 'IZII', 'IZIZ', 'IZZI', 'IZZZ', 'ZIII', 'ZIIZ', 'ZIZI', 'ZIZZ', 'ZZII', 'ZZIZ', 'ZZZI', 'ZZZZ'], coeffs=[ 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j, 1.+0.j]), coeff=1.0) dim=hamiltonian_0.num_qubits ansatz = TwoLocal(dim, rotation_blocks=["ry"],entanglement='reverse_linear',entanglement_blocks="cx", reps=1) optimizer = NFT(maxiter=100) vqe = VQE(estimator=estimator, ansatz=ansatz, optimizer=optimizer ) result = vqe.compute_minimum_eigenvalue(hamiltonian_0)
+
+---CODE_BLOCK---
+
+hamiltonian_0
+
+---CODE_BLOCK---
+
+hamiltonian_1
+
+---CODE_BLOCK---
+
+optimizer_time
+
+---CODE_BLOCK---
+
+hamiltonian_0
+
+---CODE_BLOCK---
+
+hamiltonian_1
+
+---CODE_BLOCK---
+
+hamiltonian_0
+
+---CODE_BLOCK---
+
+hamiltonian_1
+
+---CODE_BLOCK---
+
+qasm_simulator
+
+---CODE_BLOCK---
+
+optimizer_time
+
+Solution explanation:
+The Runtime Estimator you used groups Paulis into commuting groups that can be measured simultaneously which is why you are seeing that result since the operator you have the paulis will group together. The Estimator from Aer has an parameter where for local simulation that grouping can be disabled, but the Runtime has no such option since if you can measure them simultaneously it's more performant to do so. I will observe that on the optimizer just limits how many iterations it can do. If it finds a minimum before that, according to its tolerances etc. it will stop, but the result will say how many iterations it did so you can factor that into account if needed.
+
+```
+abelian_grouping
+```
+
+```
+maxiter
+```
+
+Original fixed code:
+abelian_grouping
+
+---CODE_BLOCK---
+
+maxiter

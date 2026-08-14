@@ -1,0 +1,106 @@
+Title:
+How to obtain the state vector of a certain number of fixed bits in the output of a multi-bit circuit?
+
+Category:
+Category:
+Backend
+Why Stack Overflow Wins in This Category:
+In the Backend category, understanding internal simulator limitations and quantum properties like entanglement is critical. Stack Overflow's answer:
+Accurately applies the density matrix approach,
+Handles simulator details properly (e.g., using AerSimulator),
+Includes purity checks before conversion,
+Avoids incorrect assumptions about qubit independence.
+
+Question:
+Title: How to obtain the state vector of a certain number of fixed bits in the output of a multi-bit circuit?
+
+I have a 26 bit output, but I only want to get 8 bit statevector in 26 bit. If I use , the output is $2^{26}$ outputs, and I want to get $2^8$ output. How can I do in qiskit?
+
+```
+backend = Aer.get_backend('statevector_simulator') statevector = execute(qc, backend=backend).result().get_statevector(qc)
+```
+
+Original buggy code:
+backend = Aer.get_backend('statevector_simulator') statevector = execute(qc, backend=backend).result().get_statevector(qc)
+
+Solution explanation:
+In general, you can't get the state vector for a subset of circuit qubits because they can be entangled with the other qubits. However, you can always use density matrices to represent the state of the qubits (entangled with other qubits or not). An easy way to get the density matrix for some qubits is to use method. And if the density matrix represents a pure state, you can use method to get the state vector. As an example, let's create a 5-qubit circuit and get the density matrix of the first two qubits: To display the density matrix: To get the state vector: And to display it:
+
+```
+save_density_matrix
+```
+
+```
+DensityMatrix.to_statevector()
+```
+
+```
+circ = QuantumCircuit(5) circ.h(range(5)) circ.save_density_matrix(qubits=[0, 1]) # <== here circ.measure_all() simulator = AerSimulator() circ = transpile(circ, backend=simulator) job = simulator.run(circ) state = job.result().data()['density_matrix']
+```
+
+```
+circ = QuantumCircuit(5) circ.h(range(5)) circ.save_density_matrix(qubits=[0, 1]) # <== here circ.measure_all() simulator = AerSimulator() circ = transpile(circ, backend=simulator) job = simulator.run(circ) state = job.result().data()['density_matrix']
+```
+
+```
+state.draw('latex')
+```
+
+```
+state.draw('latex')
+```
+
+```
+# Check state purity: if math.isclose(state.purity().real, 1): # Get the state vector sv = state.to_statevector()
+```
+
+```
+# Check state purity: if math.isclose(state.purity().real, 1): # Get the state vector sv = state.to_statevector()
+```
+
+```
+sv.draw('latex')
+```
+
+```
+sv.draw('latex')
+```
+
+Original fixed code:
+save_density_matrix
+
+---CODE_BLOCK---
+
+DensityMatrix.to_statevector()
+
+---CODE_BLOCK---
+
+circ = QuantumCircuit(5) circ.h(range(5)) circ.save_density_matrix(qubits=[0, 1]) # <== here circ.measure_all() simulator = AerSimulator() circ = transpile(circ, backend=simulator) job = simulator.run(circ) state = job.result().data()['density_matrix']
+
+---CODE_BLOCK---
+
+circ = QuantumCircuit(5) circ.h(range(5)) circ.save_density_matrix(qubits=[0, 1]) # <== here circ.measure_all() simulator = AerSimulator() circ = transpile(circ, backend=simulator) job = simulator.run(circ) state = job.result().data()['density_matrix']
+
+---CODE_BLOCK---
+
+state.draw('latex')
+
+---CODE_BLOCK---
+
+state.draw('latex')
+
+---CODE_BLOCK---
+
+# Check state purity: if math.isclose(state.purity().real, 1): # Get the state vector sv = state.to_statevector()
+
+---CODE_BLOCK---
+
+# Check state purity: if math.isclose(state.purity().real, 1): # Get the state vector sv = state.to_statevector()
+
+---CODE_BLOCK---
+
+sv.draw('latex')
+
+---CODE_BLOCK---
+
+sv.draw('latex')

@@ -1,0 +1,91 @@
+Title:
+Using the qiskit_textbook Package
+
+Category:
+Category:
+
+Installation
+
+Why AI Wins in This Category:
+
+Installation issues are often experienced by beginners. In this category, clarity, usability, and step-by-step guidance matter most. The AI-generated answer:
+
+Offers specific instructions tailored for Anaconda and Windows.
+
+Explains what the installation does and does not do.
+
+Provides fallback options (e.g., clone the repo manually).
+
+Uses natural language to guide the user rather than only assuming technical familiarity.
+
+Therefore, it's more practical and beginner-appropriate than the Stack Overflow answer.
+
+Question:
+Title: Using the qiskit_textbook Package
+
+I've installed the qiskit_textbook package in Anaconda on Windows 10 using based on the instructions at https://qiskit.org/textbook/ch-prerequisites/setting-the-environment.html . But I don't see any jupyter notebooks to open. How do you begin working with the qiskit tutorial notebooks? Thanks for any guidance.
+
+```
+pip install git+https://github.com/qiskit-community/qiskit-textbook.git#subdirectory=qiskit-textbook-src
+```
+
+```
+pip install git+https://github.com/qiskit-community/qiskit-textbook.git#subdirectory=qiskit-textbook-src
+```
+
+Original buggy code:
+pip install git+https://github.com/qiskit-community/qiskit-textbook.git#subdirectory=qiskit-textbook-src
+
+---CODE_BLOCK---
+
+pip install git+https://github.com/qiskit-community/qiskit-textbook.git#subdirectory=qiskit-textbook-src
+
+Solution explanation:
+I would recommend trying the other way that they suggest, which is You can find the juptyer notebooks with the content of the qiskit textbook in . There, you will find many different folders, each corresponding to a given chapter in the qiskit textbook. If you would rather have access to the qiskit tutorials, you can access them on qiskit.org/documentation under the tab Tutorials, or download them locally with the command and in the folder you will find a folder corresponding to each category of tutorials.
+
+```
+git clone https://github.com/qiskit-community/qiskit-textbook.git cd qiskit-textbook pip install ./qiskit-textbook-src
+```
+
+```
+git clone https://github.com/qiskit-community/qiskit-textbook.git cd qiskit-textbook pip install ./qiskit-textbook-src
+```
+
+```
+qiskit-textbook/content
+```
+
+```
+git clone https://github.com/Qiskit/qiskit-tutorials.git
+```
+
+```
+git clone https://github.com/Qiskit/qiskit-tutorials.git
+```
+
+```
+tutorials
+```
+
+Original fixed code:
+git clone https://github.com/qiskit-community/qiskit-textbook.git cd qiskit-textbook pip install ./qiskit-textbook-src
+
+---CODE_BLOCK---
+
+git clone https://github.com/qiskit-community/qiskit-textbook.git cd qiskit-textbook pip install ./qiskit-textbook-src
+
+---CODE_BLOCK---
+
+qiskit-textbook/content
+
+---CODE_BLOCK---
+
+git clone https://github.com/Qiskit/qiskit-tutorials.git
+
+---CODE_BLOCK---
+
+git clone https://github.com/Qiskit/qiskit-tutorials.git
+
+---CODE_BLOCK---
+
+tutorials

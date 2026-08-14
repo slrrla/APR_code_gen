@@ -1,0 +1,291 @@
+Title:
+ibmq_16_melbourne system of Qiskit giving wrong result for Bernstein-Vazirani Algorithm
+
+Category:
+
+
+Question:
+Title: ibmq_16_melbourne system of Qiskit giving wrong result for Bernstein-Vazirani Algorithm
+
+I have just started learning Qiskit and to begin I tried running the Bernstein Vazirani Algorithm(secret number detector) on and the system and compared their results. My results on the Qasm simulator exactly matches the secret number, but I am getting wrong result on the real system. Please review my codes, circuits and results below: The histogram and circuit obtained are for Qasm simulator are as below: Python Code executed on ibmq_16_melbourne system using Pycharm IDE- The histogram and circuit obtained are for ibmq_16_melbourne system are as below: Please help, I am completely stuck. I could not find what is going wrong.
+
+```
+qasm_simulator
+```
+
+```
+ibmq_16_melbourne
+```
+
+```
+import qiskit from qiskit import IBMQ import time from qiskit import * from qiskit.tools.visualization import plot_histogram from qiskit.tools.visualization import plot_bloch_multivector import matplotlib.pyplot as plt from qiskit.tools.monitor import job_monitor #IBMQ.save_account('Account key',overwrite=True) # Run it for once # 6 bit secret number secretNumber= '101001' circuit= QuantumCircuit(6+1,6) # 6 qubit for secret no. +1 qubit circuit. h([0,1,2,3,4,5]) circuit.x(6) circuit.h(6) circuit.barrier() # splitting the string into char splitSecretNumber= list(secretNumber) lengthofSecretNumber= len(splitSecretNumber) x=0 while(x< lengthofSecretNumber): if(str(splitSecretNumber[x])=='1'): circuit.cx(int(x),6) x=x+1 circuit.barrier() circuit.h([0,1,2,3,4,5]) circuit.barrier() circuit.measure([0,1,2,3,4,5],[0,1,2,3,4,5]) circuit.draw(output="mpl") simulator= Aer.get_backend('qasm_simulator') simulationResult = execute(circuit,simulator, shots=1).result() counts= simulationResult.get_counts() print(counts) plot_histogram(simulationResult.get_counts(circuit)) plt.show()
+```
+
+```
+import qiskit from qiskit import IBMQ import time from qiskit import * from qiskit.tools.visualization import plot_histogram from qiskit.tools.visualization import plot_bloch_multivector import matplotlib.pyplot as plt from qiskit.tools.monitor import job_monitor #IBMQ.save_account('Account key',overwrite=True) # Run it for once # 6 bit secret number secretNumber= '101001' circuit= QuantumCircuit(6+1,6) # 6 qubit for secret no. +1 qubit circuit. h([0,1,2,3,4,5]) circuit.x(6) circuit.h(6) circuit.barrier() # splitting the string into char splitSecretNumber= list(secretNumber) lengthofSecretNumber= len(splitSecretNumber) x=0 while(x< lengthofSecretNumber): if(str(splitSecretNumber[x])=='1'): circuit.cx(int(x),6) x=x+1 circuit.barrier() circuit.h([0,1,2,3,4,5]) circuit.barrier() circuit.measure([0,1,2,3,4,5],[0,1,2,3,4,5]) circuit.draw(output="mpl") simulator= Aer.get_backend('qasm_simulator') simulationResult = execute(circuit,simulator, shots=1).result() counts= simulationResult.get_counts() print(counts) plot_histogram(simulationResult.get_counts(circuit)) plt.show()
+```
+
+```
+import qiskit from qiskit import IBMQ import time from qiskit import * from qiskit.tools.visualization import plot_histogram from qiskit.tools.visualization import plot_bloch_multivector import matplotlib.pyplot as plt from qiskit.tools.monitor import job_monitor #IBMQ.save_account('Account key',overwrite=True) # Run it for once # 6 bit secret number secretNumber= '101001' circuit= QuantumCircuit(6+1,6) # 6 qubit for secret no. +1 qubit circuit. h([0,1,2,3,4,5]) circuit.x(6) circuit.h(6) circuit.barrier() # splitting the string into char splitSecretNumber= list(secretNumber) lengthofSecretNumber= len(splitSecretNumber) x=0 while(x< lengthofSecretNumber): if(str(splitSecretNumber[x])=='1'): circuit.cx(int(x),6) x=x+1 circuit.barrier() circuit.h([0,1,2,3,4,5]) circuit.barrier() circuit.measure([0,1,2,3,4,5],[0,1,2,3,4,5]) circuit.draw(output="mpl") IBMQ.load_account() provider=IBMQ.get_provider('ibm-q') realMachine= provider.get_backend('ibmq_16_melbourne') result = execute(circuit,realMachine, shots=1000).result() counts= result.get_counts() print(counts) plot_histogram(counts) plt.show()
+```
+
+```
+import qiskit from qiskit import IBMQ import time from qiskit import * from qiskit.tools.visualization import plot_histogram from qiskit.tools.visualization import plot_bloch_multivector import matplotlib.pyplot as plt from qiskit.tools.monitor import job_monitor #IBMQ.save_account('Account key',overwrite=True) # Run it for once # 6 bit secret number secretNumber= '101001' circuit= QuantumCircuit(6+1,6) # 6 qubit for secret no. +1 qubit circuit. h([0,1,2,3,4,5]) circuit.x(6) circuit.h(6) circuit.barrier() # splitting the string into char splitSecretNumber= list(secretNumber) lengthofSecretNumber= len(splitSecretNumber) x=0 while(x< lengthofSecretNumber): if(str(splitSecretNumber[x])=='1'): circuit.cx(int(x),6) x=x+1 circuit.barrier() circuit.h([0,1,2,3,4,5]) circuit.barrier() circuit.measure([0,1,2,3,4,5],[0,1,2,3,4,5]) circuit.draw(output="mpl") IBMQ.load_account() provider=IBMQ.get_provider('ibm-q') realMachine= provider.get_backend('ibmq_16_melbourne') result = execute(circuit,realMachine, shots=1000).result() counts= result.get_counts() print(counts) plot_histogram(counts) plt.show()
+```
+
+Original buggy code:
+qasm_simulator
+
+---CODE_BLOCK---
+
+ibmq_16_melbourne
+
+---CODE_BLOCK---
+
+import qiskit from qiskit import IBMQ import time from qiskit import * from qiskit.tools.visualization import plot_histogram from qiskit.tools.visualization import plot_bloch_multivector import matplotlib.pyplot as plt from qiskit.tools.monitor import job_monitor #IBMQ.save_account('Account key',overwrite=True) # Run it for once # 6 bit secret number secretNumber= '101001' circuit= QuantumCircuit(6+1,6) # 6 qubit for secret no. +1 qubit circuit. h([0,1,2,3,4,5]) circuit.x(6) circuit.h(6) circuit.barrier() # splitting the string into char splitSecretNumber= list(secretNumber) lengthofSecretNumber= len(splitSecretNumber) x=0 while(x< lengthofSecretNumber): if(str(splitSecretNumber[x])=='1'): circuit.cx(int(x),6) x=x+1 circuit.barrier() circuit.h([0,1,2,3,4,5]) circuit.barrier() circuit.measure([0,1,2,3,4,5],[0,1,2,3,4,5]) circuit.draw(output="mpl") simulator= Aer.get_backend('qasm_simulator') simulationResult = execute(circuit,simulator, shots=1).result() counts= simulationResult.get_counts() print(counts) plot_histogram(simulationResult.get_counts(circuit)) plt.show()
+
+---CODE_BLOCK---
+
+import qiskit from qiskit import IBMQ import time from qiskit import * from qiskit.tools.visualization import plot_histogram from qiskit.tools.visualization import plot_bloch_multivector import matplotlib.pyplot as plt from qiskit.tools.monitor import job_monitor #IBMQ.save_account('Account key',overwrite=True) # Run it for once # 6 bit secret number secretNumber= '101001' circuit= QuantumCircuit(6+1,6) # 6 qubit for secret no. +1 qubit circuit. h([0,1,2,3,4,5]) circuit.x(6) circuit.h(6) circuit.barrier() # splitting the string into char splitSecretNumber= list(secretNumber) lengthofSecretNumber= len(splitSecretNumber) x=0 while(x< lengthofSecretNumber): if(str(splitSecretNumber[x])=='1'): circuit.cx(int(x),6) x=x+1 circuit.barrier() circuit.h([0,1,2,3,4,5]) circuit.barrier() circuit.measure([0,1,2,3,4,5],[0,1,2,3,4,5]) circuit.draw(output="mpl") simulator= Aer.get_backend('qasm_simulator') simulationResult = execute(circuit,simulator, shots=1).result() counts= simulationResult.get_counts() print(counts) plot_histogram(simulationResult.get_counts(circuit)) plt.show()
+
+---CODE_BLOCK---
+
+import qiskit from qiskit import IBMQ import time from qiskit import * from qiskit.tools.visualization import plot_histogram from qiskit.tools.visualization import plot_bloch_multivector import matplotlib.pyplot as plt from qiskit.tools.monitor import job_monitor #IBMQ.save_account('Account key',overwrite=True) # Run it for once # 6 bit secret number secretNumber= '101001' circuit= QuantumCircuit(6+1,6) # 6 qubit for secret no. +1 qubit circuit. h([0,1,2,3,4,5]) circuit.x(6) circuit.h(6) circuit.barrier() # splitting the string into char splitSecretNumber= list(secretNumber) lengthofSecretNumber= len(splitSecretNumber) x=0 while(x< lengthofSecretNumber): if(str(splitSecretNumber[x])=='1'): circuit.cx(int(x),6) x=x+1 circuit.barrier() circuit.h([0,1,2,3,4,5]) circuit.barrier() circuit.measure([0,1,2,3,4,5],[0,1,2,3,4,5]) circuit.draw(output="mpl") IBMQ.load_account() provider=IBMQ.get_provider('ibm-q') realMachine= provider.get_backend('ibmq_16_melbourne') result = execute(circuit,realMachine, shots=1000).result() counts= result.get_counts() print(counts) plot_histogram(counts) plt.show()
+
+---CODE_BLOCK---
+
+import qiskit from qiskit import IBMQ import time from qiskit import * from qiskit.tools.visualization import plot_histogram from qiskit.tools.visualization import plot_bloch_multivector import matplotlib.pyplot as plt from qiskit.tools.monitor import job_monitor #IBMQ.save_account('Account key',overwrite=True) # Run it for once # 6 bit secret number secretNumber= '101001' circuit= QuantumCircuit(6+1,6) # 6 qubit for secret no. +1 qubit circuit. h([0,1,2,3,4,5]) circuit.x(6) circuit.h(6) circuit.barrier() # splitting the string into char splitSecretNumber= list(secretNumber) lengthofSecretNumber= len(splitSecretNumber) x=0 while(x< lengthofSecretNumber): if(str(splitSecretNumber[x])=='1'): circuit.cx(int(x),6) x=x+1 circuit.barrier() circuit.h([0,1,2,3,4,5]) circuit.barrier() circuit.measure([0,1,2,3,4,5],[0,1,2,3,4,5]) circuit.draw(output="mpl") IBMQ.load_account() provider=IBMQ.get_provider('ibm-q') realMachine= provider.get_backend('ibmq_16_melbourne') result = execute(circuit,realMachine, shots=1000).result() counts= result.get_counts() print(counts) plot_histogram(counts) plt.show()
+
+Solution explanation:
+The @epelaaez explanation is on the spot on how noise works. In this answer I would like to focus more on how to reduce that noise. For that, let's introduce the notion of the Qiskit transpiler. The transpiler adapts the circuit to run it in the backend. The circuit that you are running in is the following: The depth of this circuit (check ) is 22 layers, which has the T1 and T2 noise effect described by @epelaaez. Also has the following amount of gates(check ): More gates means more single (for and ) and 2-qubit (for ) gates error. Therefore, for reducing noise, the option is to reduce the depth of the circuit and the amount of gates used in the circuit. The easier way to do this is to tell the transpiler to spend more computational resources in optimization. You can do that with the parameter , which maxim number is . Here, the result: This results in a better circuit: Other aspect to consider is the effect of . While I understand you put them there for pedagogic reasons, they do have meaning for the transpiler. The transpiler does not optimize gates across barriers. So you can remove them before transpiling like this: Now, with all this together, let's execute in real hardware to see the result: Now, the correct result is "more evident". Here is the most frequent result (in this case, matching the simulation):
+
+```
+ibmq_16_melbourne
+```
+
+```
+from qiskit import transpile realMachine_circuit = transpile(circuit, realMachine) realMachine_circuit.draw('mpl', idle_wires=False)
+```
+
+```
+from qiskit import transpile realMachine_circuit = transpile(circuit, realMachine) realMachine_circuit.draw('mpl', idle_wires=False)
+```
+
+```
+realMachine_circuit.depth()
+```
+
+```
+realMachine_circuit.count_ops()
+```
+
+```
+OrderedDict([('rz', 26), ('cx', 18), ('sx', 13), ('measure', 6), ('barrier', 3)])
+```
+
+```
+OrderedDict([('rz', 26), ('cx', 18), ('sx', 13), ('measure', 6), ('barrier', 3)])
+```
+
+```
+rz
+```
+
+```
+sx
+```
+
+```
+cx
+```
+
+```
+optimization_level
+```
+
+```
+3
+```
+
+```
+realMachine_circuit = transpile(circuit, realMachine, optimization_level=3) realMachine_circuit.draw('mpl', idle_wires=False)
+```
+
+```
+realMachine_circuit = transpile(circuit, realMachine, optimization_level=3) realMachine_circuit.draw('mpl', idle_wires=False)
+```
+
+```
+print('depth: ', realMachine_circuit.depth()) print('count_ops: ', list(realMachine_circuit.count_ops().items()))
+```
+
+```
+print('depth: ', realMachine_circuit.depth()) print('count_ops: ', list(realMachine_circuit.count_ops().items()))
+```
+
+```
+depth: 10 count_ops: [('rz', 26), ('sx', 13), ('measure', 6), ('barrier', 3), ('cx', 3)]
+```
+
+```
+depth: 10 count_ops: [('rz', 26), ('sx', 13), ('measure', 6), ('barrier', 3), ('cx', 3)]
+```
+
+```
+barrier
+```
+
+```
+from qiskit.transpiler.passes import RemoveBarriers realMachine_circuit = transpile(RemoveBarriers()(circuit), realMachine, optimization_level=3) print('depth: ', realMachine_circuit.depth()) print('count_ops: ', list(realMachine_circuit.count_ops().items())) realMachine_circuit.draw('mpl', idle_wires=False)
+```
+
+```
+from qiskit.transpiler.passes import RemoveBarriers realMachine_circuit = transpile(RemoveBarriers()(circuit), realMachine, optimization_level=3) print('depth: ', realMachine_circuit.depth()) print('count_ops: ', list(realMachine_circuit.count_ops().items())) realMachine_circuit.draw('mpl', idle_wires=False)
+```
+
+```
+depth: 9 count_ops: [('rz', 11), ('sx', 7), ('measure', 6), ('cx', 3)]
+```
+
+```
+depth: 9 count_ops: [('rz', 11), ('sx', 7), ('measure', 6), ('cx', 3)]
+```
+
+```
+job = execute(RemoveBarriers()(circuit), realMachine, optimization_level=3) counts= job.result().get_counts() plot_histogram(counts)
+```
+
+```
+job = execute(RemoveBarriers()(circuit), realMachine, optimization_level=3) counts= job.result().get_counts() plot_histogram(counts)
+```
+
+```
+counts.most_frequent()
+```
+
+```
+counts.most_frequent()
+```
+
+```
+'100101'
+```
+
+```
+'100101'
+```
+
+Original fixed code:
+ibmq_16_melbourne
+
+---CODE_BLOCK---
+
+from qiskit import transpile realMachine_circuit = transpile(circuit, realMachine) realMachine_circuit.draw('mpl', idle_wires=False)
+
+---CODE_BLOCK---
+
+from qiskit import transpile realMachine_circuit = transpile(circuit, realMachine) realMachine_circuit.draw('mpl', idle_wires=False)
+
+---CODE_BLOCK---
+
+realMachine_circuit.depth()
+
+---CODE_BLOCK---
+
+realMachine_circuit.count_ops()
+
+---CODE_BLOCK---
+
+OrderedDict([('rz', 26), ('cx', 18), ('sx', 13), ('measure', 6), ('barrier', 3)])
+
+---CODE_BLOCK---
+
+OrderedDict([('rz', 26), ('cx', 18), ('sx', 13), ('measure', 6), ('barrier', 3)])
+
+---CODE_BLOCK---
+
+rz
+
+---CODE_BLOCK---
+
+sx
+
+---CODE_BLOCK---
+
+cx
+
+---CODE_BLOCK---
+
+optimization_level
+
+---CODE_BLOCK---
+
+3
+
+---CODE_BLOCK---
+
+realMachine_circuit = transpile(circuit, realMachine, optimization_level=3) realMachine_circuit.draw('mpl', idle_wires=False)
+
+---CODE_BLOCK---
+
+realMachine_circuit = transpile(circuit, realMachine, optimization_level=3) realMachine_circuit.draw('mpl', idle_wires=False)
+
+---CODE_BLOCK---
+
+print('depth: ', realMachine_circuit.depth()) print('count_ops: ', list(realMachine_circuit.count_ops().items()))
+
+---CODE_BLOCK---
+
+print('depth: ', realMachine_circuit.depth()) print('count_ops: ', list(realMachine_circuit.count_ops().items()))
+
+---CODE_BLOCK---
+
+depth: 10 count_ops: [('rz', 26), ('sx', 13), ('measure', 6), ('barrier', 3), ('cx', 3)]
+
+---CODE_BLOCK---
+
+depth: 10 count_ops: [('rz', 26), ('sx', 13), ('measure', 6), ('barrier', 3), ('cx', 3)]
+
+---CODE_BLOCK---
+
+barrier
+
+---CODE_BLOCK---
+
+from qiskit.transpiler.passes import RemoveBarriers realMachine_circuit = transpile(RemoveBarriers()(circuit), realMachine, optimization_level=3) print('depth: ', realMachine_circuit.depth()) print('count_ops: ', list(realMachine_circuit.count_ops().items())) realMachine_circuit.draw('mpl', idle_wires=False)
+
+---CODE_BLOCK---
+
+from qiskit.transpiler.passes import RemoveBarriers realMachine_circuit = transpile(RemoveBarriers()(circuit), realMachine, optimization_level=3) print('depth: ', realMachine_circuit.depth()) print('count_ops: ', list(realMachine_circuit.count_ops().items())) realMachine_circuit.draw('mpl', idle_wires=False)
+
+---CODE_BLOCK---
+
+depth: 9 count_ops: [('rz', 11), ('sx', 7), ('measure', 6), ('cx', 3)]
+
+---CODE_BLOCK---
+
+depth: 9 count_ops: [('rz', 11), ('sx', 7), ('measure', 6), ('cx', 3)]
+
+---CODE_BLOCK---
+
+job = execute(RemoveBarriers()(circuit), realMachine, optimization_level=3) counts= job.result().get_counts() plot_histogram(counts)
+
+---CODE_BLOCK---
+
+job = execute(RemoveBarriers()(circuit), realMachine, optimization_level=3) counts= job.result().get_counts() plot_histogram(counts)
+
+---CODE_BLOCK---
+
+counts.most_frequent()
+
+---CODE_BLOCK---
+
+counts.most_frequent()
+
+---CODE_BLOCK---
+
+'100101'
+
+---CODE_BLOCK---
+
+'100101'

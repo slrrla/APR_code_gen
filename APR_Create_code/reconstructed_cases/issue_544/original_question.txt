@@ -1,0 +1,59 @@
+Title:
+How to get the density matrix from a stabilizer table in qiskit
+
+Category:
+Category:
+Circuit
+
+Why Stack Overflow Wins in This Category:
+In circuit-level stabilizer work, efficiency and correct use of Qiskit’s API matter. The Stack Overflow answer uses the DensityMatrix.evolve(stabilizer) pathway, which is the most natural and efficient in Qiskit. The AI solution adds extra steps (statevector conversion) that, while correct, are unnecessary
+
+Question:
+Title: How to get the density matrix from a stabilizer table in qiskit
+
+I am new to qiskit and quantum computing in general, so bear with me please. For my bachelor's thesis, I am programming qiskit to first generate a random Clifford circuit (qc) and to then measure the output state once. For that I am using $\texttt{measurement = StabilizerState(qc).measure()}$ which returns a tuple, containing the measurement outcome and its stabilizer table, For example $\texttt{(011, StabilizerTable: ['ZII', '-IZI', '-IIZ']).}$ Now I would like to apply the inverse Clifford circuit to the outcome state (thereby transforming the stabilizer table to [U†$\cdot$ZII$\cdot$U, -U†$\cdot$IZI$\cdot$U, -U†$\cdot$IIZ$\cdot$U], where U† is the global unitary representing the inverse Clifford circuit.) For that I am using $\texttt{measurement[1].evolve(StabilizerState(qc.inverse())}$ which returns a new stabilizer table describing the transformed stabilizer state. I would now like to know some sort of representation of the new state, like its density matrix. My question is: is there some way to get the underlying state vector or density matrix from a stabilizer table? My first idea, reading through the documentation was $\texttt{StabilizerState(input).to_operator}$ which did not work since it only returns the input in form of an operator (for example qc). I guess I could always just convert the first measurement result (011) into an array and calculate U† |011> <011| U the old fashioned way, which doesn't seem very efficient to me though.
+
+Original buggy code:
+I am new to qiskit and quantum computing in general, so bear with me please. For my bachelor's thesis, I am programming qiskit to first generate a random Clifford circuit (qc) and to then measure the output state once. For that I am using $\texttt{measurement = StabilizerState(qc).measure()}$ which returns a tuple, containing the measurement outcome and its stabilizer table, For example $\texttt{(011, StabilizerTable: ['ZII', '-IZI', '-IIZ']).}$ Now I would like to apply the inverse Clifford circuit to the outcome state (thereby transforming the stabilizer table to [U†$\cdot$ZII$\cdot$U, -U†$\cdot$IZI$\cdot$U, -U†$\cdot$IIZ$\cdot$U], where U† is the global unitary representing the inverse Clifford circuit.) For that I am using $\texttt{measurement[1].evolve(StabilizerState(qc.inverse())}$ which returns a new stabilizer table describing the transformed stabilizer state. I would now like to know some sort of representation of the new state, like its density matrix. My question is: is there some way to get the underlying state vector or density matrix from a stabilizer table? My first idea, reading through the documentation was $\texttt{StabilizerState(input).to_operator}$ which did not work since it only returns the input in form of an operator (for example qc). I guess I could always just convert the first measurement result (011) into an array and calculate U† |011> <011| U the old fashioned way, which doesn't seem very efficient to me though.
+
+Solution explanation:
+EDIT: you can build the desired starting from an empty $n$-qubits circuit (in the state $| \psi \rangle = | 0 \rangle^{\otimes n}$) and then use the method passing your object: $$ \begin{bmatrix} 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & \tfrac{1}{2} & \tfrac{1}{2} \\ 0 & 0 & \tfrac{1}{2} & \tfrac{1}{2} \\ \end{bmatrix} $$
+
+```
+DensityMatrix
+```
+
+```
+DensityMatrix.evolve
+```
+
+```
+StabilizerState
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import DensityMatrix, StabilizerState from qiskit.visualization import array_to_latex qc = QuantumCircuit(2) rho = DensityMatrix(qc) qc.h(0) qc.x(1) stabstate = StabilizerState(qc) rho = rho.evolve(stabstate) array_to_latex(rho)
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import DensityMatrix, StabilizerState from qiskit.visualization import array_to_latex qc = QuantumCircuit(2) rho = DensityMatrix(qc) qc.h(0) qc.x(1) stabstate = StabilizerState(qc) rho = rho.evolve(stabstate) array_to_latex(rho)
+```
+
+Original fixed code:
+DensityMatrix
+
+---CODE_BLOCK---
+
+DensityMatrix.evolve
+
+---CODE_BLOCK---
+
+StabilizerState
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import DensityMatrix, StabilizerState from qiskit.visualization import array_to_latex qc = QuantumCircuit(2) rho = DensityMatrix(qc) qc.h(0) qc.x(1) stabstate = StabilizerState(qc) rho = rho.evolve(stabstate) array_to_latex(rho)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import DensityMatrix, StabilizerState from qiskit.visualization import array_to_latex qc = QuantumCircuit(2) rho = DensityMatrix(qc) qc.h(0) qc.x(1) stabstate = StabilizerState(qc) rho = rho.evolve(stabstate) array_to_latex(rho)

@@ -1,0 +1,251 @@
+Title:
+generate_preset_pass_manager and Sampler API usage in IBM-Qiskit
+
+Category:
+
+
+Question:
+Title: generate_preset_pass_manager and Sampler API usage in IBM-Qiskit
+
+I am trying to migrate my code to the latest version of . Below is the sample code I made using the package. Although the code is hopefully working fine, it has two , which is kind of strange. Also, there is something new called a . Is this sampler the same as in previous versions? Also, there is something new called . Is this same as in previous versions? The code is as below:
+
+```
+qiskit>=1.0
+```
+
+```
+qiskit-ibm-runtime
+```
+
+```
+run
+```
+
+```
+sampler
+```
+
+```
+backend.run
+```
+
+```
+generate_preset_pass_manager
+```
+
+```
+transpile
+```
+
+```
+from qiskit import QuantumCircuit, transpile, assemble from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager # https://github.com/Qiskit/qiskit-ibm-runtime from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler # Save an IBM Cloud account. QiskitRuntimeService.save_account(channel="ibm_quantum", token="Add_your_key", overwrite=True) # Read default credentials from disk service = QiskitRuntimeService(channel = 'ibm_quantum', instance="ibm-q/open/main") qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.measure_all() print(qc.draw()) # Optimize problem for quantum execution backend = service.least_busy(operational=True, simulator=False) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) isa_circuit = pm.run(qc) sampler = Sampler(mode=backend) sampler.options.default_shots = 100000 job = sampler.run([isa_circuit]) print(f"Job ID is {job.job_id()}") pub_result = job.result()[0] print(f"Counts for the meas output register: {pub_result.data.meas.get_counts()}")
+```
+
+```
+from qiskit import QuantumCircuit, transpile, assemble from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager # https://github.com/Qiskit/qiskit-ibm-runtime from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler # Save an IBM Cloud account. QiskitRuntimeService.save_account(channel="ibm_quantum", token="Add_your_key", overwrite=True) # Read default credentials from disk service = QiskitRuntimeService(channel = 'ibm_quantum', instance="ibm-q/open/main") qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.measure_all() print(qc.draw()) # Optimize problem for quantum execution backend = service.least_busy(operational=True, simulator=False) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) isa_circuit = pm.run(qc) sampler = Sampler(mode=backend) sampler.options.default_shots = 100000 job = sampler.run([isa_circuit]) print(f"Job ID is {job.job_id()}") pub_result = job.result()[0] print(f"Counts for the meas output register: {pub_result.data.meas.get_counts()}")
+```
+
+Original buggy code:
+qiskit>=1.0
+
+---CODE_BLOCK---
+
+qiskit-ibm-runtime
+
+---CODE_BLOCK---
+
+run
+
+---CODE_BLOCK---
+
+sampler
+
+---CODE_BLOCK---
+
+backend.run
+
+---CODE_BLOCK---
+
+generate_preset_pass_manager
+
+---CODE_BLOCK---
+
+transpile
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, transpile, assemble from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager # https://github.com/Qiskit/qiskit-ibm-runtime from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler # Save an IBM Cloud account. QiskitRuntimeService.save_account(channel="ibm_quantum", token="Add_your_key", overwrite=True) # Read default credentials from disk service = QiskitRuntimeService(channel = 'ibm_quantum', instance="ibm-q/open/main") qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.measure_all() print(qc.draw()) # Optimize problem for quantum execution backend = service.least_busy(operational=True, simulator=False) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) isa_circuit = pm.run(qc) sampler = Sampler(mode=backend) sampler.options.default_shots = 100000 job = sampler.run([isa_circuit]) print(f"Job ID is {job.job_id()}") pub_result = job.result()[0] print(f"Counts for the meas output register: {pub_result.data.meas.get_counts()}")
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, transpile, assemble from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager # https://github.com/Qiskit/qiskit-ibm-runtime from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler # Save an IBM Cloud account. QiskitRuntimeService.save_account(channel="ibm_quantum", token="Add_your_key", overwrite=True) # Read default credentials from disk service = QiskitRuntimeService(channel = 'ibm_quantum', instance="ibm-q/open/main") qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.measure_all() print(qc.draw()) # Optimize problem for quantum execution backend = service.least_busy(operational=True, simulator=False) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) isa_circuit = pm.run(qc) sampler = Sampler(mode=backend) sampler.options.default_shots = 100000 job = sampler.run([isa_circuit]) print(f"Job ID is {job.job_id()}") pub_result = job.result()[0] print(f"Counts for the meas output register: {pub_result.data.meas.get_counts()}")
+
+Solution explanation:
+As far as I can tell, your code is the correct way to run a Qiskit >= 1.0 program. The philosophy Qiskit wants to enforce is that of Qiskit patterns: So, this part of your code corresponds to the mapping between the problem and the circuits and operators: You then optimize it for target hardware using : You execute it on quantum hardware: And finally you post-process the results: So, everything looks fine here. Concerning your questions: Although the code is hopefully working fine, it has two , which is kind of strange The first one is used to transpile the circuit. On that regard: Also, there is something new called . Is this the same as in previous versions? Kind of. The way you're using it, it totally is. Basically, this function allows you to have more control on the process of transpilation by specifying options at each stage of it. I encourage you to read this IBM Quantum Challenge notebook to learn more about it. The takeaway is that if you leave everything be default except the backend and the optimization level, it behaves like the former function. The second method is that of the . On that regard: Also, there is something new called a sampler. Is this sampler the same as in previous versions? Though I think the API slightly changed (notably in the way you retrieve the results), the functionality is the same yes. The simply takes a list of ISA circuits (i.e. transpiled ones) and a bunch of options and samples from the resulting output distribution in the computational basis. is one of the two Qiskit primitives, the other one being the . You can read more about them here. The takeaway is that you can use the similarly to how you were using previously.
+
+```
+qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.measure_all() print(qc.draw())
+```
+
+```
+qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.measure_all() print(qc.draw())
+```
+
+```
+generate_preset_pass_manager
+```
+
+```
+backend = service.least_busy(operational=True, simulator=False) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) isa_circuit = pm.run(qc)
+```
+
+```
+backend = service.least_busy(operational=True, simulator=False) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) isa_circuit = pm.run(qc)
+```
+
+```
+sampler = Sampler(mode=backend) sampler.options.default_shots = 100000 job = sampler.run([isa_circuit])
+```
+
+```
+sampler = Sampler(mode=backend) sampler.options.default_shots = 100000 job = sampler.run([isa_circuit])
+```
+
+```
+pub_result = job.result()[0] print(f"Counts for the meas output register: {pub_result.data.meas.get_counts()}")
+```
+
+```
+pub_result = job.result()[0] print(f"Counts for the meas output register: {pub_result.data.meas.get_counts()}")
+```
+
+```
+run
+```
+
+```
+generate_preset_pass_manager
+```
+
+```
+transpile
+```
+
+```
+transpile
+```
+
+```
+run
+```
+
+```
+Sampler
+```
+
+```
+backend.run
+```
+
+```
+Sampler
+```
+
+```
+Sampler
+```
+
+```
+Estimator
+```
+
+```
+Sampler
+```
+
+```
+backend.run
+```
+
+Original fixed code:
+qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.measure_all() print(qc.draw())
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.measure_all() print(qc.draw())
+
+---CODE_BLOCK---
+
+generate_preset_pass_manager
+
+---CODE_BLOCK---
+
+backend = service.least_busy(operational=True, simulator=False) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) isa_circuit = pm.run(qc)
+
+---CODE_BLOCK---
+
+backend = service.least_busy(operational=True, simulator=False) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) isa_circuit = pm.run(qc)
+
+---CODE_BLOCK---
+
+sampler = Sampler(mode=backend) sampler.options.default_shots = 100000 job = sampler.run([isa_circuit])
+
+---CODE_BLOCK---
+
+sampler = Sampler(mode=backend) sampler.options.default_shots = 100000 job = sampler.run([isa_circuit])
+
+---CODE_BLOCK---
+
+pub_result = job.result()[0] print(f"Counts for the meas output register: {pub_result.data.meas.get_counts()}")
+
+---CODE_BLOCK---
+
+pub_result = job.result()[0] print(f"Counts for the meas output register: {pub_result.data.meas.get_counts()}")
+
+---CODE_BLOCK---
+
+run
+
+---CODE_BLOCK---
+
+generate_preset_pass_manager
+
+---CODE_BLOCK---
+
+transpile
+
+---CODE_BLOCK---
+
+transpile
+
+---CODE_BLOCK---
+
+run
+
+---CODE_BLOCK---
+
+Sampler
+
+---CODE_BLOCK---
+
+backend.run
+
+---CODE_BLOCK---
+
+Sampler
+
+---CODE_BLOCK---
+
+Sampler
+
+---CODE_BLOCK---
+
+Estimator
+
+---CODE_BLOCK---
+
+Sampler
+
+---CODE_BLOCK---
+
+backend.run

@@ -1,0 +1,126 @@
+Title:
+How to get angles optimized by classical optimizer from QisKit's QAOA Module?
+
+Category:
+**Category:** Backend Usage / Simulation / Output
+**Why Both are Same in This Category:**
+Both solutions access QAOA’s internal optimization results via `min_eigen_solver_result`, matching the current Qiskit API design. Their effectiveness in revealing β and γ reflects solid understanding of QAOA output structure. The AI-generated code offers a clean, executable version, while the SO answer reinforces correctness through direct attribute references.
+
+
+Question:
+Title: How to get angles optimized by classical optimizer from QisKit's QAOA Module?
+
+I have the following simple optimization in QAOA: I want to get the actual angles found by QAOA, the $\beta, \gamma$. How do I get these from the results of this algorithm? I'm not seeing it in the docs: https://qiskit.org/documentation/stubs/qiskit.algorithms.minimum_eigensolvers.QAOA.html#qiskit.algorithms.minimum_eigensolvers.QAOA
+
+```
+from qiskit_optimization.algorithms import MinimumEigenOptimizer # from qiskit_aer import Aer from qiskit.algorithms.minimum_eigensolvers import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.primitives import Sampler n_qubits = len(G.nodes()) problem = QuadraticProgram() _ = [problem.binary_var("x{}".format(i)) for i in range(n_qubits)] problem.maximize( linear=nx.adjacency_matrix(G).dot(np.ones(n_qubits)), quadratic=-nx.adjacency_matrix(G), ) meo = MinimumEigenOptimizer(QAOA(sampler=Sampler(), optimizer=COBYLA(maxiter=100))) result = meo.solve(problem) print(result.prettyprint()) print("\ndisplay the best 5 solution samples") for sample in result.samples[:5]: print(sample)
+```
+
+```
+from qiskit_optimization.algorithms import MinimumEigenOptimizer # from qiskit_aer import Aer from qiskit.algorithms.minimum_eigensolvers import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.primitives import Sampler n_qubits = len(G.nodes()) problem = QuadraticProgram() _ = [problem.binary_var("x{}".format(i)) for i in range(n_qubits)] problem.maximize( linear=nx.adjacency_matrix(G).dot(np.ones(n_qubits)), quadratic=-nx.adjacency_matrix(G), ) meo = MinimumEigenOptimizer(QAOA(sampler=Sampler(), optimizer=COBYLA(maxiter=100))) result = meo.solve(problem) print(result.prettyprint()) print("\ndisplay the best 5 solution samples") for sample in result.samples[:5]: print(sample)
+```
+
+Original buggy code:
+from qiskit_optimization.algorithms import MinimumEigenOptimizer # from qiskit_aer import Aer from qiskit.algorithms.minimum_eigensolvers import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.primitives import Sampler n_qubits = len(G.nodes()) problem = QuadraticProgram() _ = [problem.binary_var("x{}".format(i)) for i in range(n_qubits)] problem.maximize( linear=nx.adjacency_matrix(G).dot(np.ones(n_qubits)), quadratic=-nx.adjacency_matrix(G), ) meo = MinimumEigenOptimizer(QAOA(sampler=Sampler(), optimizer=COBYLA(maxiter=100))) result = meo.solve(problem) print(result.prettyprint()) print("\ndisplay the best 5 solution samples") for sample in result.samples[:5]: print(sample)
+
+---CODE_BLOCK---
+
+from qiskit_optimization.algorithms import MinimumEigenOptimizer # from qiskit_aer import Aer from qiskit.algorithms.minimum_eigensolvers import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.primitives import Sampler n_qubits = len(G.nodes()) problem = QuadraticProgram() _ = [problem.binary_var("x{}".format(i)) for i in range(n_qubits)] problem.maximize( linear=nx.adjacency_matrix(G).dot(np.ones(n_qubits)), quadratic=-nx.adjacency_matrix(G), ) meo = MinimumEigenOptimizer(QAOA(sampler=Sampler(), optimizer=COBYLA(maxiter=100))) result = meo.solve(problem) print(result.prettyprint()) print("\ndisplay the best 5 solution samples") for sample in result.samples[:5]: print(sample)
+
+Solution explanation:
+To get optimized parameters from you can also do this. The returns a MinimumEigenOptimizationResult which has a field which is as the API ref linked states Now extends and provides an identical result object, a SamplingVQEResult. The final β,γ can be in that field which is just the list of floats the optimizer was working with, or in which is a dictionary of the β,γ parameters to the values. Your code sample did not run, I edited it to add a G taken from the Optimization MaxCut tutorial and other imports. the extra prints I added printed this for me
+
+```
+QAOA
+```
+
+```
+MinimumEigenOptimizer
+```
+
+```
+min_eigen_solver_result
+```
+
+```
+the result obtained from the underlying algorithm.
+```
+
+```
+QAOA
+```
+
+```
+SamplingVQE
+```
+
+```
+optimal_point
+```
+
+```
+optimal_parameter
+```
+
+```
+from qiskit_optimization import QuadraticProgram from qiskit_optimization.algorithms import MinimumEigenOptimizer from qiskit.algorithms.minimum_eigensolvers import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.primitives import Sampler import numpy as np import networkx as nx n = 4 G = nx.Graph() G.add_nodes_from(np.arange(0, n, 1)) elist = [(0, 1, 1.0), (0, 2, 1.0), (0, 3, 1.0), (1, 2, 1.0), (2, 3, 1.0)] G.add_weighted_edges_from(elist) n_qubits = len(G.nodes()) problem = QuadraticProgram() _ = [problem.binary_var("x{}".format(i)) for i in range(n_qubits)] problem.maximize( linear=nx.adjacency_matrix(G).dot(np.ones(n_qubits)), quadratic=-nx.adjacency_matrix(G), ) meo = MinimumEigenOptimizer(QAOA(sampler=Sampler(), optimizer=COBYLA(maxiter=100))) result = meo.solve(problem) print(result.prettyprint()) print("\ndisplay the best 5 solution samples") for sample in result.samples[:5]: print(sample) # Print the final QAOA parameters print(result.min_eigen_solver_result.optimal_point) print(result.min_eigen_solver_result.optimal_parameters)
+```
+
+```
+from qiskit_optimization import QuadraticProgram from qiskit_optimization.algorithms import MinimumEigenOptimizer from qiskit.algorithms.minimum_eigensolvers import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.primitives import Sampler import numpy as np import networkx as nx n = 4 G = nx.Graph() G.add_nodes_from(np.arange(0, n, 1)) elist = [(0, 1, 1.0), (0, 2, 1.0), (0, 3, 1.0), (1, 2, 1.0), (2, 3, 1.0)] G.add_weighted_edges_from(elist) n_qubits = len(G.nodes()) problem = QuadraticProgram() _ = [problem.binary_var("x{}".format(i)) for i in range(n_qubits)] problem.maximize( linear=nx.adjacency_matrix(G).dot(np.ones(n_qubits)), quadratic=-nx.adjacency_matrix(G), ) meo = MinimumEigenOptimizer(QAOA(sampler=Sampler(), optimizer=COBYLA(maxiter=100))) result = meo.solve(problem) print(result.prettyprint()) print("\ndisplay the best 5 solution samples") for sample in result.samples[:5]: print(sample) # Print the final QAOA parameters print(result.min_eigen_solver_result.optimal_point) print(result.min_eigen_solver_result.optimal_parameters)
+```
+
+```
+[5.60276426 4.22978775] {ParameterVectorElement(β[0]): 5.602764261565667, ParameterVectorElement(γ[0]): 4.229787753395598}
+```
+
+```
+[5.60276426 4.22978775] {ParameterVectorElement(β[0]): 5.602764261565667, ParameterVectorElement(γ[0]): 4.229787753395598}
+```
+
+Original fixed code:
+QAOA
+
+---CODE_BLOCK---
+
+MinimumEigenOptimizer
+
+---CODE_BLOCK---
+
+min_eigen_solver_result
+
+---CODE_BLOCK---
+
+the result obtained from the underlying algorithm.
+
+---CODE_BLOCK---
+
+QAOA
+
+---CODE_BLOCK---
+
+SamplingVQE
+
+---CODE_BLOCK---
+
+optimal_point
+
+---CODE_BLOCK---
+
+optimal_parameter
+
+---CODE_BLOCK---
+
+from qiskit_optimization import QuadraticProgram from qiskit_optimization.algorithms import MinimumEigenOptimizer from qiskit.algorithms.minimum_eigensolvers import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.primitives import Sampler import numpy as np import networkx as nx n = 4 G = nx.Graph() G.add_nodes_from(np.arange(0, n, 1)) elist = [(0, 1, 1.0), (0, 2, 1.0), (0, 3, 1.0), (1, 2, 1.0), (2, 3, 1.0)] G.add_weighted_edges_from(elist) n_qubits = len(G.nodes()) problem = QuadraticProgram() _ = [problem.binary_var("x{}".format(i)) for i in range(n_qubits)] problem.maximize( linear=nx.adjacency_matrix(G).dot(np.ones(n_qubits)), quadratic=-nx.adjacency_matrix(G), ) meo = MinimumEigenOptimizer(QAOA(sampler=Sampler(), optimizer=COBYLA(maxiter=100))) result = meo.solve(problem) print(result.prettyprint()) print("\ndisplay the best 5 solution samples") for sample in result.samples[:5]: print(sample) # Print the final QAOA parameters print(result.min_eigen_solver_result.optimal_point) print(result.min_eigen_solver_result.optimal_parameters)
+
+---CODE_BLOCK---
+
+from qiskit_optimization import QuadraticProgram from qiskit_optimization.algorithms import MinimumEigenOptimizer from qiskit.algorithms.minimum_eigensolvers import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.primitives import Sampler import numpy as np import networkx as nx n = 4 G = nx.Graph() G.add_nodes_from(np.arange(0, n, 1)) elist = [(0, 1, 1.0), (0, 2, 1.0), (0, 3, 1.0), (1, 2, 1.0), (2, 3, 1.0)] G.add_weighted_edges_from(elist) n_qubits = len(G.nodes()) problem = QuadraticProgram() _ = [problem.binary_var("x{}".format(i)) for i in range(n_qubits)] problem.maximize( linear=nx.adjacency_matrix(G).dot(np.ones(n_qubits)), quadratic=-nx.adjacency_matrix(G), ) meo = MinimumEigenOptimizer(QAOA(sampler=Sampler(), optimizer=COBYLA(maxiter=100))) result = meo.solve(problem) print(result.prettyprint()) print("\ndisplay the best 5 solution samples") for sample in result.samples[:5]: print(sample) # Print the final QAOA parameters print(result.min_eigen_solver_result.optimal_point) print(result.min_eigen_solver_result.optimal_parameters)
+
+---CODE_BLOCK---
+
+[5.60276426 4.22978775] {ParameterVectorElement(β[0]): 5.602764261565667, ParameterVectorElement(γ[0]): 4.229787753395598}
+
+---CODE_BLOCK---
+
+[5.60276426 4.22978775] {ParameterVectorElement(β[0]): 5.602764261565667, ParameterVectorElement(γ[0]): 4.229787753395598}

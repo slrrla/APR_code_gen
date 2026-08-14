@@ -1,0 +1,207 @@
+Title:
+How to implement Cx mod N unitary
+
+Category:
+Category:
+Visualization / Drawing / Layout
+ 
+Why AI Wins in This Category:
+Visualization-related tasks in Qiskit often require not just theoretical background, but hands-on code examples to perform simulations, execute on backends, and reconstruct quantum states.
+While the Stack Overflow answer shares helpful references and theory, the AI solution translates the concept into working Qiskit code, fulfilling the user's need for a practical, example-driven explanation.
+
+
+
+
+Question:
+Title: How to implement Cx mod N unitary
+
+The following links provides circuts for $a\in\{2,7,8,11,13\}$ and $N=15$: https://qiskit.org/textbook/ch-algorithms/shor.html#3.-Qiskit-Implementation https://arxiv.org/abs/1202.6614v3. I am interested in implementing circuts for the case when $a=2$, $N=21$ and $a=3$, $N=14$ or a generic way to generate them. I've tried to generate the unitary matrix by classical computation classically, but I don't know how to fill remaining space and when input state 0 is treat it as state 15 output.
+
+Original buggy code:
+The following links provides circuts for $a\in\{2,7,8,11,13\}$ and $N=15$: https://qiskit.org/textbook/ch-algorithms/shor.html#3.-Qiskit-Implementation https://arxiv.org/abs/1202.6614v3. I am interested in implementing circuts for the case when $a=2$, $N=21$ and $a=3$, $N=14$ or a generic way to generate them. I've tried to generate the unitary matrix by classical computation classically, but I don't know how to fill remaining space and when input state 0 is treat it as state 15 output.
+
+Solution explanation:
+Firstly, these circuits only need to work for states $C^k \pmod{N}$ since these are the only states used in Shor's algorithm. I do not think you could have a circuit that works for the states 0 and $N \bmod N$ without outputting to a different register since this would not be reversible. Below is how I came to an answer for your specific question (not a general method): For the specific cases you stated, you can find a circuit analytically. I'll create $2x \bmod 21$. Start with a working circuit, for example the $2x \bmod 15$ circuit from the paper you linked. I have added one qubit since we'll need it later to create $2x \bmod 21$. I have also included a function that cycles through the states and checks everything works correctly. Output: We can see the state of the state of the register follows the sequence with successvie applications of the circuit. To make $2x \bmod 21$ we want the sequence to be: Next, we want the state 8 to be transformed to the state 16 upon running the circuit, we can accomplish this with a single swap gate to get $2x \bmod 31$: Output: We need to modify our circuit to do the transformation: 16 -> 11. In binary, this is the transformation: and leave the states 1, 2, 4 and 8 unchanged. Since the most significant qubit will only be on when our register is in the state 16, we can use this to recognise the special case: Output: Here I have used the fact that the $2x\bmod 31$ circuit is simply a bit-shift along the register to work out which qubits to conditionally flip. Notice though that this circuit is incomplete as it does not do the transformation: 11 -> 1. It does however do: 21 -> 1. To complete our circuit, we must prepend a circuit that does the transformation: 11 -> 21, or in binary: and must leave the states 1, 2, 4, 8 and 16 unchanged. We can use controlled swap gates to do this. Since 11 is the only state in our cycle that has multiple qubits in the state $|1\rangle$, we know this will not adversely affect any of the other states in the cycle: Output: Above is a complete circuit for $2x \bmod 21$ that uses no extra qubits. It is probably not the most efficient circuit that accomplishes this, but it does work. This method is not generalisable, and will become unmanageable for larger circuits. For general circuits I believe you must take the extra qubit 'hit' and turn to this paper.
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector def test_cycles(circuit, cycles): i = 1 for application in range(cycles): print("Apply %s, %i times: %i" % (circuit.name, application, i)) sv = Statevector.from_int(i, 32) # 32 is no. of elements in vector (dimension) sv = sv.evolve(circuit) output = sv.sample_memory(1)[0] # simulate one shot (circuit is deterministic) i = int(output, 2) # convert binary output to int tm15 = QuantumCircuit(5) # 2x mod 15 tm15.name = "2x (mod 15)" tm15.swap(0,3) tm15.swap(3,2) tm15.swap(2,1) test_cycles(tm15, 6) tm15.draw()
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector def test_cycles(circuit, cycles): i = 1 for application in range(cycles): print("Apply %s, %i times: %i" % (circuit.name, application, i)) sv = Statevector.from_int(i, 32) # 32 is no. of elements in vector (dimension) sv = sv.evolve(circuit) output = sv.sample_memory(1)[0] # simulate one shot (circuit is deterministic) i = int(output, 2) # convert binary output to int tm15 = QuantumCircuit(5) # 2x mod 15 tm15.name = "2x (mod 15)" tm15.swap(0,3) tm15.swap(3,2) tm15.swap(2,1) test_cycles(tm15, 6) tm15.draw()
+```
+
+```
+Apply 2x (mod 15), 0 times: 1 Apply 2x (mod 15), 1 times: 2 Apply 2x (mod 15), 2 times: 4 Apply 2x (mod 15), 3 times: 8 Apply 2x (mod 15), 4 times: 1 Apply 2x (mod 15), 5 times: 2
+```
+
+```
+Apply 2x (mod 15), 0 times: 1 Apply 2x (mod 15), 1 times: 2 Apply 2x (mod 15), 2 times: 4 Apply 2x (mod 15), 3 times: 8 Apply 2x (mod 15), 4 times: 1 Apply 2x (mod 15), 5 times: 2
+```
+
+```
+1, 2, 4, 8, 1...
+```
+
+```
+1, 2, 4, 8, 16, 11, 1...
+```
+
+```
+1, 2, 4, 8, 16, 11, 1...
+```
+
+```
+tm31 = QuantumCircuit(5) tm31.name = "2x mod 31" tm31.swap(3,4) tm31 += tm15 test_cycles(tm31, 6) tm31.draw()
+```
+
+```
+tm31 = QuantumCircuit(5) tm31.name = "2x mod 31" tm31.swap(3,4) tm31 += tm15 test_cycles(tm31, 6) tm31.draw()
+```
+
+```
+Apply 2x mod 31, 0 times: 1 Apply 2x mod 31, 1 times: 2 Apply 2x mod 31, 2 times: 4 Apply 2x mod 31, 3 times: 8 Apply 2x mod 31, 4 times: 16 Apply 2x mod 31, 5 times: 1
+```
+
+```
+Apply 2x mod 31, 0 times: 1 Apply 2x mod 31, 1 times: 2 Apply 2x mod 31, 2 times: 4 Apply 2x mod 31, 3 times: 8 Apply 2x mod 31, 4 times: 16 Apply 2x mod 31, 5 times: 1
+```
+
+```
+10000 -> 01011
+```
+
+```
+10000 -> 01011
+```
+
+```
+tm21 = QuantumCircuit(5) tm21.name = "2x mod 21" tm21.cx(4, 2) tm21.cx(4, 0) tm21 += tm32 test_cycles(tm21, 16) tm21.draw()
+```
+
+```
+tm21 = QuantumCircuit(5) tm21.name = "2x mod 21" tm21.cx(4, 2) tm21.cx(4, 0) tm21 += tm32 test_cycles(tm21, 16) tm21.draw()
+```
+
+```
+Apply 2x mod 21, 0 times: 1 Apply 2x mod 21, 1 times: 2 Apply 2x mod 21, 2 times: 4 Apply 2x mod 21, 3 times: 8 Apply 2x mod 21, 4 times: 16 Apply 2x mod 21, 5 times: 11 Apply 2x mod 21, 6 times: 22 Apply 2x mod 21, 7 times: 7 Apply 2x mod 21, 8 times: 14 Apply 2x mod 21, 9 times: 28 Apply 2x mod 21, 10 times: 19 Apply 2x mod 21, 11 times: 13 Apply 2x mod 21, 12 times: 26 Apply 2x mod 21, 13 times: 31 Apply 2x mod 21, 14 times: 21 Apply 2x mod 21, 15 times: 1
+```
+
+```
+Apply 2x mod 21, 0 times: 1 Apply 2x mod 21, 1 times: 2 Apply 2x mod 21, 2 times: 4 Apply 2x mod 21, 3 times: 8 Apply 2x mod 21, 4 times: 16 Apply 2x mod 21, 5 times: 11 Apply 2x mod 21, 6 times: 22 Apply 2x mod 21, 7 times: 7 Apply 2x mod 21, 8 times: 14 Apply 2x mod 21, 9 times: 28 Apply 2x mod 21, 10 times: 19 Apply 2x mod 21, 11 times: 13 Apply 2x mod 21, 12 times: 26 Apply 2x mod 21, 13 times: 31 Apply 2x mod 21, 14 times: 21 Apply 2x mod 21, 15 times: 1
+```
+
+```
+01011 -> 10101
+```
+
+```
+01011 -> 10101
+```
+
+```
+tm21 = QuantumCircuit(5) tm21.name = "2x mod 21" tm21.cswap(0,3,4) tm21.cswap(0,1,2) tm21.cx(4, 2) tm21.cx(4, 0) tm21 += tm31 test_cycles(tm21, 8) tm21.draw()
+```
+
+```
+tm21 = QuantumCircuit(5) tm21.name = "2x mod 21" tm21.cswap(0,3,4) tm21.cswap(0,1,2) tm21.cx(4, 2) tm21.cx(4, 0) tm21 += tm31 test_cycles(tm21, 8) tm21.draw()
+```
+
+```
+Apply 2x mod 21, 0 times: 1 Apply 2x mod 21, 1 times: 2 Apply 2x mod 21, 2 times: 4 Apply 2x mod 21, 3 times: 8 Apply 2x mod 21, 4 times: 16 Apply 2x mod 21, 5 times: 11 Apply 2x mod 21, 6 times: 1 Apply 2x mod 21, 7 times: 2
+```
+
+```
+Apply 2x mod 21, 0 times: 1 Apply 2x mod 21, 1 times: 2 Apply 2x mod 21, 2 times: 4 Apply 2x mod 21, 3 times: 8 Apply 2x mod 21, 4 times: 16 Apply 2x mod 21, 5 times: 11 Apply 2x mod 21, 6 times: 1 Apply 2x mod 21, 7 times: 2
+```
+
+Original fixed code:
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector def test_cycles(circuit, cycles): i = 1 for application in range(cycles): print("Apply %s, %i times: %i" % (circuit.name, application, i)) sv = Statevector.from_int(i, 32) # 32 is no. of elements in vector (dimension) sv = sv.evolve(circuit) output = sv.sample_memory(1)[0] # simulate one shot (circuit is deterministic) i = int(output, 2) # convert binary output to int tm15 = QuantumCircuit(5) # 2x mod 15 tm15.name = "2x (mod 15)" tm15.swap(0,3) tm15.swap(3,2) tm15.swap(2,1) test_cycles(tm15, 6) tm15.draw()
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector def test_cycles(circuit, cycles): i = 1 for application in range(cycles): print("Apply %s, %i times: %i" % (circuit.name, application, i)) sv = Statevector.from_int(i, 32) # 32 is no. of elements in vector (dimension) sv = sv.evolve(circuit) output = sv.sample_memory(1)[0] # simulate one shot (circuit is deterministic) i = int(output, 2) # convert binary output to int tm15 = QuantumCircuit(5) # 2x mod 15 tm15.name = "2x (mod 15)" tm15.swap(0,3) tm15.swap(3,2) tm15.swap(2,1) test_cycles(tm15, 6) tm15.draw()
+
+---CODE_BLOCK---
+
+Apply 2x (mod 15), 0 times: 1 Apply 2x (mod 15), 1 times: 2 Apply 2x (mod 15), 2 times: 4 Apply 2x (mod 15), 3 times: 8 Apply 2x (mod 15), 4 times: 1 Apply 2x (mod 15), 5 times: 2
+
+---CODE_BLOCK---
+
+Apply 2x (mod 15), 0 times: 1 Apply 2x (mod 15), 1 times: 2 Apply 2x (mod 15), 2 times: 4 Apply 2x (mod 15), 3 times: 8 Apply 2x (mod 15), 4 times: 1 Apply 2x (mod 15), 5 times: 2
+
+---CODE_BLOCK---
+
+1, 2, 4, 8, 1...
+
+---CODE_BLOCK---
+
+1, 2, 4, 8, 16, 11, 1...
+
+---CODE_BLOCK---
+
+1, 2, 4, 8, 16, 11, 1...
+
+---CODE_BLOCK---
+
+tm31 = QuantumCircuit(5) tm31.name = "2x mod 31" tm31.swap(3,4) tm31 += tm15 test_cycles(tm31, 6) tm31.draw()
+
+---CODE_BLOCK---
+
+tm31 = QuantumCircuit(5) tm31.name = "2x mod 31" tm31.swap(3,4) tm31 += tm15 test_cycles(tm31, 6) tm31.draw()
+
+---CODE_BLOCK---
+
+Apply 2x mod 31, 0 times: 1 Apply 2x mod 31, 1 times: 2 Apply 2x mod 31, 2 times: 4 Apply 2x mod 31, 3 times: 8 Apply 2x mod 31, 4 times: 16 Apply 2x mod 31, 5 times: 1
+
+---CODE_BLOCK---
+
+Apply 2x mod 31, 0 times: 1 Apply 2x mod 31, 1 times: 2 Apply 2x mod 31, 2 times: 4 Apply 2x mod 31, 3 times: 8 Apply 2x mod 31, 4 times: 16 Apply 2x mod 31, 5 times: 1
+
+---CODE_BLOCK---
+
+10000 -> 01011
+
+---CODE_BLOCK---
+
+10000 -> 01011
+
+---CODE_BLOCK---
+
+tm21 = QuantumCircuit(5) tm21.name = "2x mod 21" tm21.cx(4, 2) tm21.cx(4, 0) tm21 += tm32 test_cycles(tm21, 16) tm21.draw()
+
+---CODE_BLOCK---
+
+tm21 = QuantumCircuit(5) tm21.name = "2x mod 21" tm21.cx(4, 2) tm21.cx(4, 0) tm21 += tm32 test_cycles(tm21, 16) tm21.draw()
+
+---CODE_BLOCK---
+
+Apply 2x mod 21, 0 times: 1 Apply 2x mod 21, 1 times: 2 Apply 2x mod 21, 2 times: 4 Apply 2x mod 21, 3 times: 8 Apply 2x mod 21, 4 times: 16 Apply 2x mod 21, 5 times: 11 Apply 2x mod 21, 6 times: 22 Apply 2x mod 21, 7 times: 7 Apply 2x mod 21, 8 times: 14 Apply 2x mod 21, 9 times: 28 Apply 2x mod 21, 10 times: 19 Apply 2x mod 21, 11 times: 13 Apply 2x mod 21, 12 times: 26 Apply 2x mod 21, 13 times: 31 Apply 2x mod 21, 14 times: 21 Apply 2x mod 21, 15 times: 1
+
+---CODE_BLOCK---
+
+Apply 2x mod 21, 0 times: 1 Apply 2x mod 21, 1 times: 2 Apply 2x mod 21, 2 times: 4 Apply 2x mod 21, 3 times: 8 Apply 2x mod 21, 4 times: 16 Apply 2x mod 21, 5 times: 11 Apply 2x mod 21, 6 times: 22 Apply 2x mod 21, 7 times: 7 Apply 2x mod 21, 8 times: 14 Apply 2x mod 21, 9 times: 28 Apply 2x mod 21, 10 times: 19 Apply 2x mod 21, 11 times: 13 Apply 2x mod 21, 12 times: 26 Apply 2x mod 21, 13 times: 31 Apply 2x mod 21, 14 times: 21 Apply 2x mod 21, 15 times: 1
+
+---CODE_BLOCK---
+
+01011 -> 10101
+
+---CODE_BLOCK---
+
+01011 -> 10101
+
+---CODE_BLOCK---
+
+tm21 = QuantumCircuit(5) tm21.name = "2x mod 21" tm21.cswap(0,3,4) tm21.cswap(0,1,2) tm21.cx(4, 2) tm21.cx(4, 0) tm21 += tm31 test_cycles(tm21, 8) tm21.draw()
+
+---CODE_BLOCK---
+
+tm21 = QuantumCircuit(5) tm21.name = "2x mod 21" tm21.cswap(0,3,4) tm21.cswap(0,1,2) tm21.cx(4, 2) tm21.cx(4, 0) tm21 += tm31 test_cycles(tm21, 8) tm21.draw()
+
+---CODE_BLOCK---
+
+Apply 2x mod 21, 0 times: 1 Apply 2x mod 21, 1 times: 2 Apply 2x mod 21, 2 times: 4 Apply 2x mod 21, 3 times: 8 Apply 2x mod 21, 4 times: 16 Apply 2x mod 21, 5 times: 11 Apply 2x mod 21, 6 times: 1 Apply 2x mod 21, 7 times: 2
+
+---CODE_BLOCK---
+
+Apply 2x mod 21, 0 times: 1 Apply 2x mod 21, 1 times: 2 Apply 2x mod 21, 2 times: 4 Apply 2x mod 21, 3 times: 8 Apply 2x mod 21, 4 times: 16 Apply 2x mod 21, 5 times: 11 Apply 2x mod 21, 6 times: 1 Apply 2x mod 21, 7 times: 2

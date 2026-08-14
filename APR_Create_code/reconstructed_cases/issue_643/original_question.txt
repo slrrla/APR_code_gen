@@ -1,0 +1,139 @@
+Title:
+AttributeError: 'QuantumCircuit' object has no attribute 'ucry'. Did you mean: 'cry'?
+
+Category:
+
+
+Question:
+Title: AttributeError: 'QuantumCircuit' object has no attribute 'ucry'. Did you mean: 'cry'?
+
+I am trying to update my code to latest version of Earlier we used to have a gate called as , but now I am getting an error as below: Please help me in resolving this Error? Edit1 Earlier my below syntax used to work. Now, I have changed it to as below: But this syntax is giving me an Error as below:
+
+```
+qiskit==1.1.1
+```
+
+```
+qc.ucry
+```
+
+```
+AttributeError: 'QuantumCircuit' object has no attribute 'ucry'. Did you mean: 'cry'?
+```
+
+```
+AttributeError: 'QuantumCircuit' object has no attribute 'ucry'. Did you mean: 'cry'?
+```
+
+```
+qc.ucry(theta_j.tolist(), qc.qubits[j+1:], qc.qubits[j])
+```
+
+```
+qc.ucry(theta_j.tolist(), qc.qubits[j+1:], qc.qubits[j])
+```
+
+```
+qc.append(UCRYGate(theta_j.tolist(), qc.qubits[j+1:] + qc.qubits[j] ))
+```
+
+```
+qc.append(UCRYGate(theta_j.tolist(), qc.qubits[j+1:] + qc.qubits[j] ))
+```
+
+```
+qc.append(UCRYGate(theta_j.tolist(), qc.qubits[j+1:] + qc.qubits[j] )) TypeError: can only concatenate list (not "Qubit") to list
+```
+
+```
+qc.append(UCRYGate(theta_j.tolist(), qc.qubits[j+1:] + qc.qubits[j] )) TypeError: can only concatenate list (not "Qubit") to list
+```
+
+Original buggy code:
+qiskit==1.1.1
+
+---CODE_BLOCK---
+
+qc.ucry
+
+---CODE_BLOCK---
+
+AttributeError: 'QuantumCircuit' object has no attribute 'ucry'. Did you mean: 'cry'?
+
+---CODE_BLOCK---
+
+AttributeError: 'QuantumCircuit' object has no attribute 'ucry'. Did you mean: 'cry'?
+
+---CODE_BLOCK---
+
+qc.ucry(theta_j.tolist(), qc.qubits[j+1:], qc.qubits[j])
+
+---CODE_BLOCK---
+
+qc.ucry(theta_j.tolist(), qc.qubits[j+1:], qc.qubits[j])
+
+---CODE_BLOCK---
+
+qc.append(UCRYGate(theta_j.tolist(), qc.qubits[j+1:] + qc.qubits[j] ))
+
+---CODE_BLOCK---
+
+qc.append(UCRYGate(theta_j.tolist(), qc.qubits[j+1:] + qc.qubits[j] ))
+
+---CODE_BLOCK---
+
+qc.append(UCRYGate(theta_j.tolist(), qc.qubits[j+1:] + qc.qubits[j] )) TypeError: can only concatenate list (not "Qubit") to list
+
+---CODE_BLOCK---
+
+qc.append(UCRYGate(theta_j.tolist(), qc.qubits[j+1:] + qc.qubits[j] )) TypeError: can only concatenate list (not "Qubit") to list
+
+Solution explanation:
+The methods , , and have been removed from since version 1.0 Now, to add a uniformly-controlled Pauli-Y rotation to your circuit, you have to do it as follows:
+
+```
+ucrx()
+```
+
+```
+ucry()
+```
+
+```
+ucrz()
+```
+
+```
+QuantumCircuit
+```
+
+```
+from qiskit.circuit.library import UCRYGate angles = [np.pi / 4, np.pi / 2, 3 * np.pi / 4, np.pi] controls = [0, 1] target = [2] circ.append(UCRYGate(angles), controls + target)
+```
+
+```
+from qiskit.circuit.library import UCRYGate angles = [np.pi / 4, np.pi / 2, 3 * np.pi / 4, np.pi] controls = [0, 1] target = [2] circ.append(UCRYGate(angles), controls + target)
+```
+
+Original fixed code:
+ucrx()
+
+---CODE_BLOCK---
+
+ucry()
+
+---CODE_BLOCK---
+
+ucrz()
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import UCRYGate angles = [np.pi / 4, np.pi / 2, 3 * np.pi / 4, np.pi] controls = [0, 1] target = [2] circ.append(UCRYGate(angles), controls + target)
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import UCRYGate angles = [np.pi / 4, np.pi / 2, 3 * np.pi / 4, np.pi] controls = [0, 1] target = [2] circ.append(UCRYGate(angles), controls + target)

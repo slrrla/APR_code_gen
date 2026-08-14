@@ -1,0 +1,71 @@
+Title:
+Trotterizing a Pauli sum in Qiskit
+
+Category:
+Category:
+Import / Hamiltonian Simulation
+
+Why AI Wins in This Category:
+In the Hamiltonian evolution and import-related category, users benefit from:
+
+Up-to-date Qiskit modules (opflow, PauliSumOp, etc.).
+
+Parameterized evolution strategies.
+
+Well-structured, educational examples.
+
+The AI’s solution is scalable, clear, and adheres to modern Qiskit practices, making it more practical for implementation and learning.
+
+Question:
+Title: Trotterizing a Pauli sum in Qiskit
+
+In Qiskit, how do I construct a circuit corresponding to the Trotter expansion of a Pauli sum $A+B+C+\ldots$ given as a object? $$ \operatorname{e}^{A + B + C + \ldots } \overset{?}{\mapsto} \left\{\begin{alignedat}{9} U &= \operatorname{e}^{A}\operatorname{e}^{B}\operatorname{e}^{C}\ldots \ &&, \quad &&\text{(first order)}\\ U &= \operatorname{e}^{A/2}\operatorname{e}^{B/2}\operatorname{e}^{C/2}\ldots\operatorname{e}^{C/2}\operatorname{e}^{B/2}\operatorname{e}^{A/2} \ &&, \quad &&\text{(second order)}\\ & \ldots \end{alignedat}\right. $$ I guess, should do the job, but I have not found a tutorial.
+
+```
+WightedPauliSum
+```
+
+```
+PauliTrotterEvolution
+```
+
+Original buggy code:
+WightedPauliSum
+
+---CODE_BLOCK---
+
+PauliTrotterEvolution
+
+Solution explanation:
+Looks like this works: where is an object of type , see here. Be mindful though that using circuits generated in this way may sometimes result in errors, as reported here.
+
+```
+qc_trotter = paulistring.evolve( evo_time = 1, expansion_order = 2)
+```
+
+```
+qc_trotter = paulistring.evolve( evo_time = 1, expansion_order = 2)
+```
+
+```
+qc_trotter
+```
+
+```
+WeightedPauliOperator
+```
+
+Original fixed code:
+qc_trotter = paulistring.evolve( evo_time = 1, expansion_order = 2)
+
+---CODE_BLOCK---
+
+qc_trotter = paulistring.evolve( evo_time = 1, expansion_order = 2)
+
+---CODE_BLOCK---
+
+qc_trotter
+
+---CODE_BLOCK---
+
+WeightedPauliOperator

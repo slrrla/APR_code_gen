@@ -1,0 +1,95 @@
+Title:
+Tuning hyperparameters of QSVM
+
+Category:
+
+
+Question:
+Title: Tuning hyperparameters of QSVM
+
+While implementing QSVM algorithm and I am facing some problems. I followed this tutorial: https://qiskit.org/documentation/stable/0.24/tutorials/machine_learning/01_qsvm_classification.html While training using the breast cancer dataset, I got a 80% testing success ratio. Can I enhance this ratio by fine tuning the training parameters? and if yes what parameters to edit? The training takes forever with the full dataset. Is there a way to speed it up while implementing full datasets.
+
+Original buggy code:
+While implementing QSVM algorithm and I am facing some problems. I followed this tutorial: https://qiskit.org/documentation/stable/0.24/tutorials/machine_learning/01_qsvm_classification.html While training using the breast cancer dataset, I got a 80% testing success ratio. Can I enhance this ratio by fine tuning the training parameters? and if yes what parameters to edit? The training takes forever with the full dataset. Is there a way to speed it up while implementing full datasets.
+
+Solution explanation:
+Training a support vector machine (SVM) on $n$ datapoints typically involves solving a constrained minimization problem resembling one of the following: \begin{align} \min& \left(\frac{1}{2}\lVert \mathbf{w}\rVert^2 + C \sum_{i=1}^n \zeta_i \tag{1}\right)\\ \min& \left(\frac{\lambda}{2}\lVert \mathbf{w}\rVert^2 + \sum_{i=1}^n \zeta_i \tag{2}\right) \end{align} where the minimum is over various parameters that you can find in just about any treatment of the soft margin SVM problem (Wikipedia, scikit-learn). The main point is that $\lambda$ is a regularization parameter that increases the penalty for having a small margin (i.e. large $\lVert \mathbf{w}\rVert$), and that $C$ acts like $1/\lambda$ in most optimizers. By decreasing $\lambda$ (increasing $C$) you allow for a smaller margin which allows for more overfitting but often sacrifices generalization. Conversely, increasing $\lambda$ (decreasing $C$) enforces a wide margin, less overfitting by a "complicated" decision boundary, and tends to improve generalization to a test set. The has a hyperparameter that you can tune to observe a tradeoff between overfitting/underfitting and typically you will settle on a good balance using cross validation to maximize expected generalization. I mention the $C$ parameter because it is the (inverse) regularization hyperparameter used by other popular libraries, e.g. . Otherwise, one will typically tune the feature map being used. In SVMs with classical kernels this is typically just another hyperparameter (e.g. bandwidth for the RBF kernel), but in quantum kernels there's a whole host of properties of the data encoding to change. If you're using the , you'll notice it has keyword arguments , , - modifying any/all of these will also change the performance of the QSVM in general, but oftentimes in an unpredictable way, since there's not actually any intuitive connection between the properties of this feature map and its performance on any given dataset besides the contrived "ad hoc" dataset described in that tutorial. The training takes forever with the full dataset. Is there a way to speed it up while implementing full datasets. Sure, just decrease and when you load the data using the function . Of course you should be careful not to use too small a data sample that's no longer representative of the underlying data, or too small a test set that you can no longer effectively generalize.
+
+```
+QSVM
+```
+
+```
+lambda2
+```
+
+```
+scikit-learn
+```
+
+```
+ZZFeatureMap
+```
+
+```
+reps
+```
+
+```
+entanglement
+```
+
+```
+data_map_func
+```
+
+```
+training_size
+```
+
+```
+test_size
+```
+
+```
+qiskit.ml.datasets.breast_cancer
+```
+
+Original fixed code:
+QSVM
+
+---CODE_BLOCK---
+
+lambda2
+
+---CODE_BLOCK---
+
+scikit-learn
+
+---CODE_BLOCK---
+
+ZZFeatureMap
+
+---CODE_BLOCK---
+
+reps
+
+---CODE_BLOCK---
+
+entanglement
+
+---CODE_BLOCK---
+
+data_map_func
+
+---CODE_BLOCK---
+
+training_size
+
+---CODE_BLOCK---
+
+test_size
+
+---CODE_BLOCK---
+
+qiskit.ml.datasets.breast_cancer

@@ -1,0 +1,83 @@
+Title:
+Can I initialize only one qubit in a 4-qubit circuit?
+
+Category:
+
+
+Question:
+Title: Can I initialize only one qubit in a 4-qubit circuit?
+
+I wonder if there's a way we can initialize the quantum state only for part of the qubits in a quantum circuit. Say if I have a quantum circuit defined as , can we only initialize the first qubit (qubit 0) to a particular quantum state, and leave other qubits unchanged (i.e. $|0\rangle$)? I tried to follow a documentation on qiskit, but am still confused about how to do that. I tried to initialize all the qubits by generating a statevector from the tensor product of each qubit: , but it returns me . Is there an easier way I can do that by specifying which qubit I want to initialize? Thanks for the help!!
+
+```
+qc = QuantumCircuit(4)
+```
+
+```
+qc.initialize(np.kron(...))
+```
+
+```
+LinAlgError: Last 2 dimensions of the array must be square
+```
+
+Original buggy code:
+qc = QuantumCircuit(4)
+
+---CODE_BLOCK---
+
+qc.initialize(np.kron(...))
+
+---CODE_BLOCK---
+
+LinAlgError: Last 2 dimensions of the array must be square
+
+Solution explanation:
+Adding to Frank's answer, you can also create an Instruction for the state vector initialization, using the class, which you can construct passing different arguments (vector, statevectors, etc.). You could then this instruction to your circuit:
+
+```
+Initialize
+```
+
+```
+append
+```
+
+```
+qc = QuantumCircuit(4) init_gate = Initialize([0.8, 0.6]) qc.append(init_gate, [0])
+```
+
+```
+qc = QuantumCircuit(4) init_gate = Initialize([0.8, 0.6]) qc.append(init_gate, [0])
+```
+
+```
+┌─────────────────────┐ q_0: ┤ Initialize(0.8,0.6) ├ └─────────────────────┘ q_1: ─────────────────────── q_2: ─────────────────────── q_3: ───────────────────────
+```
+
+```
+┌─────────────────────┐ q_0: ┤ Initialize(0.8,0.6) ├ └─────────────────────┘ q_1: ─────────────────────── q_2: ─────────────────────── q_3: ───────────────────────
+```
+
+Original fixed code:
+Initialize
+
+---CODE_BLOCK---
+
+append
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(4) init_gate = Initialize([0.8, 0.6]) qc.append(init_gate, [0])
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(4) init_gate = Initialize([0.8, 0.6]) qc.append(init_gate, [0])
+
+---CODE_BLOCK---
+
+┌─────────────────────┐ q_0: ┤ Initialize(0.8,0.6) ├ └─────────────────────┘ q_1: ─────────────────────── q_2: ─────────────────────── q_3: ───────────────────────
+
+---CODE_BLOCK---
+
+┌─────────────────────┐ q_0: ┤ Initialize(0.8,0.6) ├ └─────────────────────┘ q_1: ─────────────────────── q_2: ─────────────────────── q_3: ───────────────────────

@@ -1,0 +1,75 @@
+Title:
+Qiskit's PauliTrotterEvolution yields weird gates
+
+Category:
+
+
+Question:
+Title: Qiskit's PauliTrotterEvolution yields weird gates
+
+I am trying to work with Qiskit's PauliTrotterEvolution() module, but the resulting circuits contain weird gates that I know nothing about. Here is a simple example: I want to implement the fermionic creation operator on one of two qubits The fermionic operator is mapped to a sum of Pauli gates using the Bravyi-Kitaev mapper: Now we apply the PauliTrotterEvolution to the exponential of the bosonic operator: I have no clue what these "circuit" gates are. Has anyone seen something similar before?
+
+```
+from qiskit_nature.mappers.second_quantization import BravyiKitaevMapper from qiskit_nature.operators.second_quantization import FermionicOp from qiskit.opflow.evolutions import PauliTrotterEvolution fermi_op = FermionicOp("+I", display_format="dense")
+```
+
+```
+from qiskit_nature.mappers.second_quantization import BravyiKitaevMapper from qiskit_nature.operators.second_quantization import FermionicOp from qiskit.opflow.evolutions import PauliTrotterEvolution fermi_op = FermionicOp("+I", display_format="dense")
+```
+
+```
+mapper = BravyiKitaevMapper() bosonic_op = mapper.map(fermi_op)
+```
+
+```
+mapper = BravyiKitaevMapper() bosonic_op = mapper.map(fermi_op)
+```
+
+```
+pauli_trotter = PauliTrotterEvolution("trotter", reps=1) conv = pauli_trotter.convert(bosonic_op.exp_i()) circ = conv.to_circuit() circ.draw("latex")
+```
+
+```
+pauli_trotter = PauliTrotterEvolution("trotter", reps=1) conv = pauli_trotter.convert(bosonic_op.exp_i()) circ = conv.to_circuit() circ.draw("latex")
+```
+
+Original buggy code:
+from qiskit_nature.mappers.second_quantization import BravyiKitaevMapper from qiskit_nature.operators.second_quantization import FermionicOp from qiskit.opflow.evolutions import PauliTrotterEvolution fermi_op = FermionicOp("+I", display_format="dense")
+
+---CODE_BLOCK---
+
+from qiskit_nature.mappers.second_quantization import BravyiKitaevMapper from qiskit_nature.operators.second_quantization import FermionicOp from qiskit.opflow.evolutions import PauliTrotterEvolution fermi_op = FermionicOp("+I", display_format="dense")
+
+---CODE_BLOCK---
+
+mapper = BravyiKitaevMapper() bosonic_op = mapper.map(fermi_op)
+
+---CODE_BLOCK---
+
+mapper = BravyiKitaevMapper() bosonic_op = mapper.map(fermi_op)
+
+---CODE_BLOCK---
+
+pauli_trotter = PauliTrotterEvolution("trotter", reps=1) conv = pauli_trotter.convert(bosonic_op.exp_i()) circ = conv.to_circuit() circ.draw("latex")
+
+---CODE_BLOCK---
+
+pauli_trotter = PauliTrotterEvolution("trotter", reps=1) conv = pauli_trotter.convert(bosonic_op.exp_i()) circ = conv.to_circuit() circ.draw("latex")
+
+Solution explanation:
+These "circuit" gates are empty, if you transpile the circuit to a basis gate set they will disappear: As the answer of @viwosh points out, that behavior is also fixed in the newer versions of Qiskit.
+
+```
+from qiskit import transpile circ = # your circuit transpiled = transpile(circ, basis_gates=["h", "s", "sdg", "rz", "cx"]) print(transpiled.draw())
+```
+
+```
+from qiskit import transpile circ = # your circuit transpiled = transpile(circ, basis_gates=["h", "s", "sdg", "rz", "cx"]) print(transpiled.draw())
+```
+
+Original fixed code:
+from qiskit import transpile circ = # your circuit transpiled = transpile(circ, basis_gates=["h", "s", "sdg", "rz", "cx"]) print(transpiled.draw())
+
+---CODE_BLOCK---
+
+from qiskit import transpile circ = # your circuit transpiled = transpile(circ, basis_gates=["h", "s", "sdg", "rz", "cx"]) print(transpiled.draw())

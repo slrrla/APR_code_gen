@@ -1,0 +1,128 @@
+Title:
+qiskit: How to get an operator acting on a certain qubit?
+
+Category:
+Category: Circuit Construction / Logic / Gates
+Why AI Wins in This Category:
+
+Constructing custom multi-qubit operators is a frequent task in circuit design and simulation. The AI solution excels because it:
+
+Uses Qiskit’s recommended modern tools (SparsePauliOp)
+
+Avoids private/internal methods
+
+Produces scalable and readable code
+
+Works well with larger systems and performance-critical applications
+
+StackOverflow provided a workaround, but the AI solution is the correct way forward.
+
+Question:
+Title: qiskit: How to get an operator acting on a certain qubit?
+
+I have a system of $N$ qubits and want to construct a quantum operator $Z_i Z_j + Z_k$, where $Z_i$ denotes the Pauli-Z operator acting on the $i$th qubit. Is there any direct way in qiskit, how I could implement this? I know that I can construct an operator by e.g. saying , if I have a system of 2 qubits and want the operator being the Pauli-Z on each qubit. But I would like to tell qiskit the indices of the qubits that $Z$ should act on (such that on all the other qubits Identity is applied). My way so far consists of constructing a Quantum Circuit and converting this to an operator by But that means I have to create quantum circuits everytime I want to get this operator. Is there any shorter and more elegant way to create such an operator?
+
+```
+op = Z^Z
+```
+
+```
+circZZ = QuantumCircuit(N) # circuit for Z_i Z_j circZ = QuantumCircuit(N) # circuit for Z_k circZZ.z(i) circZZ.z(j) circZ.z(k) opZZ = CircuitOp(circZZ) # convert circuit to operator opZ = CircuitOp(circZ) # convert circuit to operator op = opZZ + opZ
+```
+
+```
+circZZ = QuantumCircuit(N) # circuit for Z_i Z_j circZ = QuantumCircuit(N) # circuit for Z_k circZZ.z(i) circZZ.z(j) circZ.z(k) opZZ = CircuitOp(circZZ) # convert circuit to operator opZ = CircuitOp(circZ) # convert circuit to operator op = opZZ + opZ
+```
+
+Original buggy code:
+op = Z^Z
+
+---CODE_BLOCK---
+
+circZZ = QuantumCircuit(N) # circuit for Z_i Z_j circZ = QuantumCircuit(N) # circuit for Z_k circZZ.z(i) circZZ.z(j) circZ.z(k) opZZ = CircuitOp(circZZ) # convert circuit to operator opZ = CircuitOp(circZ) # convert circuit to operator op = opZZ + opZ
+
+---CODE_BLOCK---
+
+circZZ = QuantumCircuit(N) # circuit for Z_i Z_j circZ = QuantumCircuit(N) # circuit for Z_k circZZ.z(i) circZZ.z(j) circZ.z(k) opZZ = CircuitOp(circZZ) # convert circuit to operator opZ = CircuitOp(circZ) # convert circuit to operator op = opZZ + opZ
+
+Solution explanation:
+The class has a method: https://qiskit.org/documentation/stubs/qiskit.quantum_info.Operator.html?highlight=operator%20from_label#qiskit.quantum_info.Operator.from_label That means you could do something like this: It's possible to add and into N-sized . However, you have to call the by hand:
+
+```
+Operator
+```
+
+```
+from_label
+```
+
+```
+opZZ = Operator.from_label('ZZ') opZ = Operator.from_label('Z')
+```
+
+```
+opZZ = Operator.from_label('ZZ') opZ = Operator.from_label('Z')
+```
+
+```
+opZZ
+```
+
+```
+opZ
+```
+
+```
+op
+```
+
+```
+_add
+```
+
+```
+op = 0 * Operator.from_label('I' * N) # Set the initial operator to zero op = op._add(opZZ, qargs=[i,j]) op = op._add(opZ, qargs=[k])
+```
+
+```
+op = 0 * Operator.from_label('I' * N) # Set the initial operator to zero op = op._add(opZZ, qargs=[i,j]) op = op._add(opZ, qargs=[k])
+```
+
+Original fixed code:
+Operator
+
+---CODE_BLOCK---
+
+from_label
+
+---CODE_BLOCK---
+
+opZZ = Operator.from_label('ZZ') opZ = Operator.from_label('Z')
+
+---CODE_BLOCK---
+
+opZZ = Operator.from_label('ZZ') opZ = Operator.from_label('Z')
+
+---CODE_BLOCK---
+
+opZZ
+
+---CODE_BLOCK---
+
+opZ
+
+---CODE_BLOCK---
+
+op
+
+---CODE_BLOCK---
+
+_add
+
+---CODE_BLOCK---
+
+op = 0 * Operator.from_label('I' * N) # Set the initial operator to zero op = op._add(opZZ, qargs=[i,j]) op = op._add(opZ, qargs=[k])
+
+---CODE_BLOCK---
+
+op = 0 * Operator.from_label('I' * N) # Set the initial operator to zero op = op._add(opZZ, qargs=[i,j]) op = op._add(opZ, qargs=[k])

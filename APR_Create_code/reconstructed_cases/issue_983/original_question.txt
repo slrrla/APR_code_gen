@@ -1,0 +1,67 @@
+Title:
+Expectation values of non-local operators in Qiskit
+
+Category:
+
+
+Question:
+Title: Expectation values of non-local operators in Qiskit
+
+Is there a convenient way in Qiskit to calculate the expectation value for a non-local operator, i.e. I would like to calculate: $$ \langle \Psi|O|\Psi \rangle $$ More precisely, I would like to calculate the expectation value for an Operator that can be described by the following circuit: I am currently doing the following to calculate the expectation value: But I am afraid, that this is not what I want since when I look into the decomposition of the Operator it consists of some multiplexers that in turn consists of $CCX$ gates and a gate called . However, what I would like is to calculate the expectation value w.r.t. the decomposition of the operator circuit into summed weighted local Pauli. Ideally some function expresses the $CZ$ gate like so: $$ CZ_{12} = \frac{1}{2} (I_1 \otimes I_2 + I_1 \otimes Z_2 + Z_1 \otimes I_2 - Z_1 \otimes Z_2) $$ and then calculates the expectation value over the sums of weighted Paulis on the right hand side. Or is it the same as just using the afformentioned code? What would be the best practice in Qiskit in this case?
+
+```
+operator_circ = QuantumCircuit(4) operator_circ.x(0) operator_circ.cz([1, 1, 2], [2, 3, 3])
+```
+
+```
+operator_circ = QuantumCircuit(4) operator_circ.x(0) operator_circ.cz([1, 1, 2], [2, 3, 3])
+```
+
+```
+operator = Operator(operator_circ) #Where psi is some quantumstate/quantumcircuit psi.save_expectation_value(operator, range(4))
+```
+
+```
+operator = Operator(operator_circ) #Where psi is some quantumstate/quantumcircuit psi.save_expectation_value(operator, range(4))
+```
+
+```
+squ_dg
+```
+
+Original buggy code:
+operator_circ = QuantumCircuit(4) operator_circ.x(0) operator_circ.cz([1, 1, 2], [2, 3, 3])
+
+---CODE_BLOCK---
+
+operator_circ = QuantumCircuit(4) operator_circ.x(0) operator_circ.cz([1, 1, 2], [2, 3, 3])
+
+---CODE_BLOCK---
+
+operator = Operator(operator_circ) #Where psi is some quantumstate/quantumcircuit psi.save_expectation_value(operator, range(4))
+
+---CODE_BLOCK---
+
+operator = Operator(operator_circ) #Where psi is some quantumstate/quantumcircuit psi.save_expectation_value(operator, range(4))
+
+---CODE_BLOCK---
+
+squ_dg
+
+Solution explanation:
+Looking deeper into the source code I found out that any always gets internally transformed into a , i.e. a representation of weighted (sparse) Paulis which is exactly what I wanted.
+
+```
+Operator
+```
+
+```
+SparsePauliOp
+```
+
+Original fixed code:
+Operator
+
+---CODE_BLOCK---
+
+SparsePauliOp

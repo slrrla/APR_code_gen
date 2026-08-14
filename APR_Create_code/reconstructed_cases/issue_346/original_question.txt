@@ -1,0 +1,95 @@
+Title:
+Is it possible to perform $z$ rotation in Qiskit with just $x$ and $y$ rotations?
+
+Category:
+Category:
+Import / Gate Decomposition
+
+Why Stack Overflow Wins in This Category:
+This category requires mathematical precision and correct decomposition identities. The Stack Overflow answer uses the canonical textbook identity, implements it correctly, and validates it using Qiskit’s matrix representation. The AI answer uses an incorrect decomposition, which makes it unsuitable for users trying to implement or understand proper gate transformations in quantum circuits.
+
+Question:
+Title: Is it possible to perform $z$ rotation in Qiskit with just $x$ and $y$ rotations?
+
+Is it possible to perform $z$ rotation in Qiskit with just $x$ and $y$ rotations? I tried the following: The code is based on (Realization of High-Fidelity CZ and ZZ-Free iSWAP Gates with a Tunable Coupler) (page 26), but it seems that I do something wrong.
+
+```
+from qiskit import * qc = QuantumCircuit(1) theta = 0.5*np.pi qc.ry(np.pi/2,0) qc.rx(-np.pi/2,0) qc.ry(theta,0) qc.rx(np.pi/2,0) qc.ry(-np.pi/2,0)
+```
+
+```
+from qiskit import * qc = QuantumCircuit(1) theta = 0.5*np.pi qc.ry(np.pi/2,0) qc.rx(-np.pi/2,0) qc.ry(theta,0) qc.rx(np.pi/2,0) qc.ry(-np.pi/2,0)
+```
+
+Original buggy code:
+from qiskit import * qc = QuantumCircuit(1) theta = 0.5*np.pi qc.ry(np.pi/2,0) qc.rx(-np.pi/2,0) qc.ry(theta,0) qc.rx(np.pi/2,0) qc.ry(-np.pi/2,0)
+
+---CODE_BLOCK---
+
+from qiskit import * qc = QuantumCircuit(1) theta = 0.5*np.pi qc.ry(np.pi/2,0) qc.rx(-np.pi/2,0) qc.ry(theta,0) qc.rx(np.pi/2,0) qc.ry(-np.pi/2,0)
+
+Solution explanation:
+The decomposition they give is the following: $$ R_z(\theta) = R_x\left(\pi / 2\right) R_y(\theta) R_x\left(-\pi / 2\right) $$ Therefore, the Qiskit code would look like: Which gives output: And we can see it is equivalent to $R_z(\theta)$:
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Operator import numpy as np theta = np.pi / 4 qc = QuantumCircuit(1) qc.rx(-np.pi / 2, 0) qc.ry(theta, 0) qc.rx(np.pi / 2, 0) Operator(qc).data
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Operator import numpy as np theta = np.pi / 4 qc = QuantumCircuit(1) qc.rx(-np.pi / 2, 0) qc.ry(theta, 0) qc.rx(np.pi / 2, 0) Operator(qc).data
+```
+
+```
+array([[0.92387953-0.38268343j, 0. +0.j ], [0. +0.j , 0.92387953+0.38268343j]])
+```
+
+```
+array([[0.92387953-0.38268343j, 0. +0.j ], [0. +0.j , 0.92387953+0.38268343j]])
+```
+
+```
+qc = QuantumCircuit(1) qc.rz(theta, 0) Operator(qc).data
+```
+
+```
+qc = QuantumCircuit(1) qc.rz(theta, 0) Operator(qc).data
+```
+
+```
+array([[0.92387953-0.38268343j, 0. +0.j ], [0. +0.j , 0.92387953+0.38268343j]])
+```
+
+```
+array([[0.92387953-0.38268343j, 0. +0.j ], [0. +0.j , 0.92387953+0.38268343j]])
+```
+
+Original fixed code:
+from qiskit import QuantumCircuit from qiskit.quantum_info import Operator import numpy as np theta = np.pi / 4 qc = QuantumCircuit(1) qc.rx(-np.pi / 2, 0) qc.ry(theta, 0) qc.rx(np.pi / 2, 0) Operator(qc).data
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import Operator import numpy as np theta = np.pi / 4 qc = QuantumCircuit(1) qc.rx(-np.pi / 2, 0) qc.ry(theta, 0) qc.rx(np.pi / 2, 0) Operator(qc).data
+
+---CODE_BLOCK---
+
+array([[0.92387953-0.38268343j, 0. +0.j ], [0. +0.j , 0.92387953+0.38268343j]])
+
+---CODE_BLOCK---
+
+array([[0.92387953-0.38268343j, 0. +0.j ], [0. +0.j , 0.92387953+0.38268343j]])
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(1) qc.rz(theta, 0) Operator(qc).data
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(1) qc.rz(theta, 0) Operator(qc).data
+
+---CODE_BLOCK---
+
+array([[0.92387953-0.38268343j, 0. +0.j ], [0. +0.j , 0.92387953+0.38268343j]])
+
+---CODE_BLOCK---
+
+array([[0.92387953-0.38268343j, 0. +0.j ], [0. +0.j , 0.92387953+0.38268343j]])

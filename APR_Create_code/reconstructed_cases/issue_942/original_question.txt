@@ -1,0 +1,123 @@
+Title:
+What does circuit-xxx accomplish after circuit gets decomposed by qiskit?
+
+Category:
+
+
+Question:
+Title: What does circuit-xxx accomplish after circuit gets decomposed by qiskit?
+
+as mentioned in the title, i have a problem with the qiskit decompose function. In my code i defined an AND gate like this. An AND Operator is actually just a CCX Gate, but i defined the matrix and then applied the unitary function with the Operator and the qubit list as parameters. After transpiling on the qasm_simulator, i get the result added in the picture below In this example i tried to calculate q_2 AND q_1. After Measuring the result is measured at q_0. It works just fine. My question is what are these circuit mean in the picture, i found nothing about circuit-140 for example. What i think should be expected is the decomposed toffoli gate or ccx gate.
+
+```
+AND=Operator([ [1,0,0,0,0,0,0,0], [0,1,0,0,0,0,0,0], [0,0,1,0,0,0,0,0], [0,0,0,1,0,0,0,0], [0,0,0,0,1,0,0,0], [0,0,0,0,0,1,0,0], [0,0,0,0,0,0,0,1], [0,0,0,0,0,0,1,0], ])
+```
+
+```
+AND=Operator([ [1,0,0,0,0,0,0,0], [0,1,0,0,0,0,0,0], [0,0,1,0,0,0,0,0], [0,0,0,1,0,0,0,0], [0,0,0,0,1,0,0,0], [0,0,0,0,0,1,0,0], [0,0,0,0,0,0,0,1], [0,0,0,0,0,0,1,0], ])
+```
+
+```
+circ.unitary(AND,[0,1,2],label="AND")
+```
+
+```
+circ.unitary(AND,[0,1,2],label="AND")
+```
+
+Original buggy code:
+AND=Operator([ [1,0,0,0,0,0,0,0], [0,1,0,0,0,0,0,0], [0,0,1,0,0,0,0,0], [0,0,0,1,0,0,0,0], [0,0,0,0,1,0,0,0], [0,0,0,0,0,1,0,0], [0,0,0,0,0,0,0,1], [0,0,0,0,0,0,1,0], ])
+
+---CODE_BLOCK---
+
+AND=Operator([ [1,0,0,0,0,0,0,0], [0,1,0,0,0,0,0,0], [0,0,1,0,0,0,0,0], [0,0,0,1,0,0,0,0], [0,0,0,0,1,0,0,0], [0,0,0,0,0,1,0,0], [0,0,0,0,0,0,0,1], [0,0,0,0,0,0,1,0], ])
+
+---CODE_BLOCK---
+
+circ.unitary(AND,[0,1,2],label="AND")
+
+---CODE_BLOCK---
+
+circ.unitary(AND,[0,1,2],label="AND")
+
+Solution explanation:
+The result of the transpilation you are looking at is the consequence of unitary synthesis, which runs as part of the transpilation process: There are many algorithm to convert a unitary matrix into gates. However, in general, they do not guarantee that conversion is optimal in terms of the target gates. They preserve the result, as you notice, but the "meaning" is lost. The gate have no specific meaning, they are two-qubits gates that the synthesis algorithm calculated. If you want to decompose that even further as rotations, run . In general, it is hard to "recover semantics" (the fact that matrix was describing an ) once you are lower in the abstraction (a matrix, in this case). If you want to preserve that, I recommend you to use less abstract constructors. In this case, :
+
+```
+from qiskit.transpiler.passes import UnitarySynthesis UnitarySynthesis()(circ).draw("mpl")
+```
+
+```
+from qiskit.transpiler.passes import UnitarySynthesis UnitarySynthesis()(circ).draw("mpl")
+```
+
+```
+<similar output than your>
+```
+
+```
+<similar output than your>
+```
+
+```
+circuit-XXX
+```
+
+```
+transpile(circ, basis_gates=["cx", "u"])
+```
+
+```
+AND
+```
+
+```
+BooleanExpression
+```
+
+```
+from qiskit.circuit.classicalfunction import BooleanExpression AND = BooleanExpression('x & y', name='AND') circ = QuantumCircuit(3) circ.append(AND, [0,1,2]) transpile(circ, basis_gates=["ccx"]).draw('mpl')
+```
+
+```
+from qiskit.circuit.classicalfunction import BooleanExpression AND = BooleanExpression('x & y', name='AND') circ = QuantumCircuit(3) circ.append(AND, [0,1,2]) transpile(circ, basis_gates=["ccx"]).draw('mpl')
+```
+
+Original fixed code:
+from qiskit.transpiler.passes import UnitarySynthesis UnitarySynthesis()(circ).draw("mpl")
+
+---CODE_BLOCK---
+
+from qiskit.transpiler.passes import UnitarySynthesis UnitarySynthesis()(circ).draw("mpl")
+
+---CODE_BLOCK---
+
+<similar output than your>
+
+---CODE_BLOCK---
+
+<similar output than your>
+
+---CODE_BLOCK---
+
+circuit-XXX
+
+---CODE_BLOCK---
+
+transpile(circ, basis_gates=["cx", "u"])
+
+---CODE_BLOCK---
+
+AND
+
+---CODE_BLOCK---
+
+BooleanExpression
+
+---CODE_BLOCK---
+
+from qiskit.circuit.classicalfunction import BooleanExpression AND = BooleanExpression('x & y', name='AND') circ = QuantumCircuit(3) circ.append(AND, [0,1,2]) transpile(circ, basis_gates=["ccx"]).draw('mpl')
+
+---CODE_BLOCK---
+
+from qiskit.circuit.classicalfunction import BooleanExpression AND = BooleanExpression('x & y', name='AND') circ = QuantumCircuit(3) circ.append(AND, [0,1,2]) transpile(circ, basis_gates=["ccx"]).draw('mpl')

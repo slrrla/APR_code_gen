@@ -1,0 +1,131 @@
+Title:
+How to order results after multi-circuit qiskit.execute parallel run?
+
+Category:
+
+
+Question:
+Title: How to order results after multi-circuit qiskit.execute parallel run?
+
+I'm kinda new to qiskit and I find really fascinating its parallelization capabilities, then I'm trying to creating all the needed circuits for my application at once and transpile, assemble and execute them all at once using the execute method. Basically, Nevertheless, I noticed that the output is not deterministic as, I guess, it runs all the circuits using a and appends in the returned list in the order they finish. Is there any way to force the method respecting the order of ? If it is not the case, is there any way to label the execution results so that I can sort them myself afterwards ? Thanks in advance.
+
+```
+qcircuits = [] # construct my circuits and append to qcircuits # ... backend: backend: BaseBackend = qiskit.Aer.get_backend('qasm_simulator') n_shots = 1024 job = qiskit.execute( qcircuits, backend, optimization_level=optimization_level, shots=n_shots ) counts = job.result().get_counts()
+```
+
+```
+qcircuits = [] # construct my circuits and append to qcircuits # ... backend: backend: BaseBackend = qiskit.Aer.get_backend('qasm_simulator') n_shots = 1024 job = qiskit.execute( qcircuits, backend, optimization_level=optimization_level, shots=n_shots ) counts = job.result().get_counts()
+```
+
+```
+job.result().get_couts()
+```
+
+```
+parallel_map
+```
+
+```
+execute
+```
+
+```
+qcircuits
+```
+
+Original buggy code:
+qcircuits = [] # construct my circuits and append to qcircuits # ... backend: backend: BaseBackend = qiskit.Aer.get_backend('qasm_simulator') n_shots = 1024 job = qiskit.execute( qcircuits, backend, optimization_level=optimization_level, shots=n_shots ) counts = job.result().get_counts()
+
+---CODE_BLOCK---
+
+qcircuits = [] # construct my circuits and append to qcircuits # ... backend: backend: BaseBackend = qiskit.Aer.get_backend('qasm_simulator') n_shots = 1024 job = qiskit.execute( qcircuits, backend, optimization_level=optimization_level, shots=n_shots ) counts = job.result().get_counts()
+
+---CODE_BLOCK---
+
+job.result().get_couts()
+
+---CODE_BLOCK---
+
+parallel_map
+
+---CODE_BLOCK---
+
+execute
+
+---CODE_BLOCK---
+
+qcircuits
+
+Solution explanation:
+Each has a attribute that is also accessible through each . So, you can do the following to match the circuits to the measurement counts after running in parallel: Before running your circuits, you could also assign your own descriptive names, e.g. Edit: Combining the ideas above to show how to order the results:
+
+```
+qiskit.QuantumCircuit
+```
+
+```
+name
+```
+
+```
+qiskit.result.Result
+```
+
+```
+for circuit in qcircuits: print(circuit.name) result_dict = jobs.result().to_dict()["results"] result_counts = jobs.result().get_counts() for i in range(len(qcircuits)): name = result_dict[i]["header"]["name"] counts = result_counts[i] print(f"{name}: {counts}")
+```
+
+```
+for circuit in qcircuits: print(circuit.name) result_dict = jobs.result().to_dict()["results"] result_counts = jobs.result().get_counts() for i in range(len(qcircuits)): name = result_dict[i]["header"]["name"] counts = result_counts[i] print(f"{name}: {counts}")
+```
+
+```
+for i in range(len(qcircuits)): qcircuits[i].name = "mycircuit"+str(i)
+```
+
+```
+for i in range(len(qcircuits)): qcircuits[i].name = "mycircuit"+str(i)
+```
+
+```
+# number input circuits in ascending order for i in range(len(qcircuits)): qcircuits[i].name = "circuit_"+str(i) job = qiskit.execute(qcircuits, backend, ...) result_dict = job.result().to_dict()["results"] result_counts = job.result().get_counts() # initialize list to store ordered results results_ordered = [None] * len(qcircuits) for i in range(len(qcircuits)): name = result_dict[i]["header"]["name"] n = int(name.split('_')[1]) # index of circuit in input list results_ordered[n] = result_counts[i] # add to result list at same index
+```
+
+```
+# number input circuits in ascending order for i in range(len(qcircuits)): qcircuits[i].name = "circuit_"+str(i) job = qiskit.execute(qcircuits, backend, ...) result_dict = job.result().to_dict()["results"] result_counts = job.result().get_counts() # initialize list to store ordered results results_ordered = [None] * len(qcircuits) for i in range(len(qcircuits)): name = result_dict[i]["header"]["name"] n = int(name.split('_')[1]) # index of circuit in input list results_ordered[n] = result_counts[i] # add to result list at same index
+```
+
+Original fixed code:
+qiskit.QuantumCircuit
+
+---CODE_BLOCK---
+
+name
+
+---CODE_BLOCK---
+
+qiskit.result.Result
+
+---CODE_BLOCK---
+
+for circuit in qcircuits: print(circuit.name) result_dict = jobs.result().to_dict()["results"] result_counts = jobs.result().get_counts() for i in range(len(qcircuits)): name = result_dict[i]["header"]["name"] counts = result_counts[i] print(f"{name}: {counts}")
+
+---CODE_BLOCK---
+
+for circuit in qcircuits: print(circuit.name) result_dict = jobs.result().to_dict()["results"] result_counts = jobs.result().get_counts() for i in range(len(qcircuits)): name = result_dict[i]["header"]["name"] counts = result_counts[i] print(f"{name}: {counts}")
+
+---CODE_BLOCK---
+
+for i in range(len(qcircuits)): qcircuits[i].name = "mycircuit"+str(i)
+
+---CODE_BLOCK---
+
+for i in range(len(qcircuits)): qcircuits[i].name = "mycircuit"+str(i)
+
+---CODE_BLOCK---
+
+# number input circuits in ascending order for i in range(len(qcircuits)): qcircuits[i].name = "circuit_"+str(i) job = qiskit.execute(qcircuits, backend, ...) result_dict = job.result().to_dict()["results"] result_counts = job.result().get_counts() # initialize list to store ordered results results_ordered = [None] * len(qcircuits) for i in range(len(qcircuits)): name = result_dict[i]["header"]["name"] n = int(name.split('_')[1]) # index of circuit in input list results_ordered[n] = result_counts[i] # add to result list at same index
+
+---CODE_BLOCK---
+
+# number input circuits in ascending order for i in range(len(qcircuits)): qcircuits[i].name = "circuit_"+str(i) job = qiskit.execute(qcircuits, backend, ...) result_dict = job.result().to_dict()["results"] result_counts = job.result().get_counts() # initialize list to store ordered results results_ordered = [None] * len(qcircuits) for i in range(len(qcircuits)): name = result_dict[i]["header"]["name"] n = int(name.split('_')[1]) # index of circuit in input list results_ordered[n] = result_counts[i] # add to result list at same index

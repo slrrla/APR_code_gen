@@ -1,0 +1,41 @@
+Title:
+ModuleNotFoundError: No module named 'qiskit.monitor'
+
+Category:
+Category: Deprecated Features / Version Compatibility  
+Winner: AI  
+Why AI Is Better: AI explains that the removal of `qiskit.monitor` is due to Qiskit 1.0 restructuring and gives a direct replacement using `qiskit_ibm_provider`. It includes install instructions and updated imports, unlike Stack Overflow.  
+Why AI Performs Well in This Category: AI handles version transitions effectively by recognizing deprecated modules and offering modern equivalents—essential for users migrating to Qiskit 1.0+.
+
+
+Question:
+Title: ModuleNotFoundError: No module named 'qiskit.monitor'
+
+I am trying to run BB84 protocol code on latest Qiskit version 1.0.2 and getting this error. 
+
+ ModuleNotFoundError: No module named 'qiskit.monitor' 
+
+ from qiskit import *
+import numpy as np
+from qiskit.visualization import plot_histogram
+from qiskit.monitor import job_monitor
+%matplotlib inline
+from tabulate import tabulate
+
+Original buggy code:
+from qiskit import *
+import numpy as np
+from qiskit.visualization import plot_histogram
+from qiskit.monitor import job_monitor
+from tabulate import tabulate
+
+Solution explanation:
+That module has been removed since version 1.0. 
+ On the Qiskit feature changes pages, there is this particular section : 
+
+ The qiskit.tools.monitor submodule has been removed as it was tied to the legacy qiskit-ibmq-provider package, which is no longer supported (it also only supported BackendV1 interface and not the newer BackendV2 interface). There is no alternative provided for this functionality. 
+
+ While this is called qiskit.tools.monitor , I'm guessing this is the same, and that qiskit.monitor was just a shortcut to this particular module.
+
+Original fixed code:
+While this is called qiskit.tools.monitor , I'm guessing this is the same, and that qiskit.monitor was just a shortcut to this particular module.

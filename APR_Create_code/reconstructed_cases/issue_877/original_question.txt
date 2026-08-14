@@ -1,0 +1,59 @@
+Title:
+How to import noise model from IBM qiskit real device?
+
+Category:
+
+
+Question:
+Title: How to import noise model from IBM qiskit real device?
+
+I am trying to import the noise model of an IBM 'large' device. I don't have access to the devices with more than 7 qubits so it doesn't allow me to import the backend and then do Is there another way I can import the noise model from those devices?
+
+```
+noise_model = NoiseModel.from_backend(backend)
+```
+
+Original buggy code:
+noise_model = NoiseModel.from_backend(backend)
+
+Solution explanation:
+Qiskit includes calibration data for many IBM Quantum devices, they are called and you can find them in . For example, for (27 qubits):
+
+```
+Fake*
+```
+
+```
+qiskit.providers.fake_provider
+```
+
+```
+ibmq_kolkata
+```
+
+```
+from qiskit.providers.fake_provider import FakeKolkata from qiskit_aer.noise import NoiseModel backend = FakeKolkata() noise_model = NoiseModel.from_backend(backend)
+```
+
+```
+from qiskit.providers.fake_provider import FakeKolkata from qiskit_aer.noise import NoiseModel backend = FakeKolkata() noise_model = NoiseModel.from_backend(backend)
+```
+
+Original fixed code:
+Fake*
+
+---CODE_BLOCK---
+
+qiskit.providers.fake_provider
+
+---CODE_BLOCK---
+
+ibmq_kolkata
+
+---CODE_BLOCK---
+
+from qiskit.providers.fake_provider import FakeKolkata from qiskit_aer.noise import NoiseModel backend = FakeKolkata() noise_model = NoiseModel.from_backend(backend)
+
+---CODE_BLOCK---
+
+from qiskit.providers.fake_provider import FakeKolkata from qiskit_aer.noise import NoiseModel backend = FakeKolkata() noise_model = NoiseModel.from_backend(backend)

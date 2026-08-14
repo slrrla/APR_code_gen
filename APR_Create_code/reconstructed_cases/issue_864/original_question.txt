@@ -1,0 +1,107 @@
+Title:
+Quantum Circuit evaluation Qiskit vs. AWS Braket SDK
+
+Category:
+
+
+Question:
+Title: Quantum Circuit evaluation Qiskit vs. AWS Braket SDK
+
+I am examining a simple circuit using both Qiskit and the AWS Braket SDK (Python). The circuit is very simple. I trying to find the equivalent unitary operator for this circuit. I get different answers from Qiskit and AWS Braket SDK and I don't know why. Here is my Qiskit code: The Qiskit result is: This is what I expected from my hand-calculations. However, when using AWS Braket SDK I get something different. The Braket code: The result is: I believe the Qiskit answer is correct because it is consistent with "I kron CZ" for the first operation. If I do "CZ kron I" for the first operation I get the Braket answer. I am new to quantum computing and would find an explanation valuable.
+
+```
+T : |0|1| q0 : -C-C- | | q1 : -Z-|- | q2 : ---Z-
+```
+
+```
+T : |0|1| q0 : -C-C- | | q1 : -Z-|- | q2 : ---Z-
+```
+
+```
+from qiskit import * qr = QuantumRegister(3, 'q') cr = ClassicalRegister(0, 'c') circuit = QuantumCircuit(qr, cr) circuit.cz(qr[0], qr[1]) circuit.cz(qr[0], qr[2]) simulator = Aer.get_backend('unitary_simulator') result = execute(circuit, backend = simulator).result() matprint(result.get_unitary().data) def matprint(mat, fmt="g"): col_maxes = [max([len(("{:"+fmt+"}").format(x)) for x in col]) for col in mat.T] for x in mat: for i, y in enumerate(x): print(("{:"+str(col_maxes[i])+fmt+"}").format(y), end=" ") print("")
+```
+
+```
+from qiskit import * qr = QuantumRegister(3, 'q') cr = ClassicalRegister(0, 'c') circuit = QuantumCircuit(qr, cr) circuit.cz(qr[0], qr[1]) circuit.cz(qr[0], qr[2]) simulator = Aer.get_backend('unitary_simulator') result = execute(circuit, backend = simulator).result() matprint(result.get_unitary().data) def matprint(mat, fmt="g"): col_maxes = [max([len(("{:"+fmt+"}").format(x)) for x in col]) for col in mat.T] for x in mat: for i, y in enumerate(x): print(("{:"+str(col_maxes[i])+fmt+"}").format(y), end=" ") print("")
+```
+
+```
+1+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0+0j 0+0j 0+0j 0+0j -0+0j -0+0j -0+0j -1+0j -0+0j -0+0j -0+0j -0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0+0j 0+0j -0+0j -0+0j -0+0j -0+0j -0+0j -1+0j -0+0j -0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0-0j 0-0j 0-0j 0-0j 0-0j 0-0j 0-0j 1-0j
+```
+
+```
+1+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0+0j 0+0j 0+0j 0+0j -0+0j -0+0j -0+0j -1+0j -0+0j -0+0j -0+0j -0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0+0j 0+0j -0+0j -0+0j -0+0j -0+0j -0+0j -1+0j -0+0j -0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0-0j 0-0j 0-0j 0-0j 0-0j 0-0j 0-0j 1-0j
+```
+
+```
+from braket.circuits import Circuit db=Circuit().cz(0,1).cz(0,2) print(db.to_unitary())
+```
+
+```
+from braket.circuits import Circuit db=Circuit().cz(0,1).cz(0,2) print(db.to_unitary())
+```
+
+```
+[[ 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 1.+0.j]]
+```
+
+```
+[[ 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 1.+0.j]]
+```
+
+Original buggy code:
+T : |0|1| q0 : -C-C- | | q1 : -Z-|- | q2 : ---Z-
+
+---CODE_BLOCK---
+
+T : |0|1| q0 : -C-C- | | q1 : -Z-|- | q2 : ---Z-
+
+---CODE_BLOCK---
+
+from qiskit import * qr = QuantumRegister(3, 'q') cr = ClassicalRegister(0, 'c') circuit = QuantumCircuit(qr, cr) circuit.cz(qr[0], qr[1]) circuit.cz(qr[0], qr[2]) simulator = Aer.get_backend('unitary_simulator') result = execute(circuit, backend = simulator).result() matprint(result.get_unitary().data) def matprint(mat, fmt="g"): col_maxes = [max([len(("{:"+fmt+"}").format(x)) for x in col]) for col in mat.T] for x in mat: for i, y in enumerate(x): print(("{:"+str(col_maxes[i])+fmt+"}").format(y), end=" ") print("")
+
+---CODE_BLOCK---
+
+from qiskit import * qr = QuantumRegister(3, 'q') cr = ClassicalRegister(0, 'c') circuit = QuantumCircuit(qr, cr) circuit.cz(qr[0], qr[1]) circuit.cz(qr[0], qr[2]) simulator = Aer.get_backend('unitary_simulator') result = execute(circuit, backend = simulator).result() matprint(result.get_unitary().data) def matprint(mat, fmt="g"): col_maxes = [max([len(("{:"+fmt+"}").format(x)) for x in col]) for col in mat.T] for x in mat: for i, y in enumerate(x): print(("{:"+str(col_maxes[i])+fmt+"}").format(y), end=" ") print("")
+
+---CODE_BLOCK---
+
+1+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0+0j 0+0j 0+0j 0+0j -0+0j -0+0j -0+0j -1+0j -0+0j -0+0j -0+0j -0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0+0j 0+0j -0+0j -0+0j -0+0j -0+0j -0+0j -1+0j -0+0j -0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0-0j 0-0j 0-0j 0-0j 0-0j 0-0j 0-0j 1-0j
+
+---CODE_BLOCK---
+
+1+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0+0j 0+0j 0+0j 0+0j -0+0j -0+0j -0+0j -1+0j -0+0j -0+0j -0+0j -0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0+0j 0+0j -0+0j -0+0j -0+0j -0+0j -0+0j -1+0j -0+0j -0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 0+0j 1+0j 0+0j 0-0j 0-0j 0-0j 0-0j 0-0j 0-0j 0-0j 1-0j
+
+---CODE_BLOCK---
+
+from braket.circuits import Circuit db=Circuit().cz(0,1).cz(0,2) print(db.to_unitary())
+
+---CODE_BLOCK---
+
+from braket.circuits import Circuit db=Circuit().cz(0,1).cz(0,2) print(db.to_unitary())
+
+---CODE_BLOCK---
+
+[[ 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 1.+0.j]]
+
+---CODE_BLOCK---
+
+[[ 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j] [ 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 1.+0.j]]
+
+Solution explanation:
+The reason for the difference is that Qiskit and Braket use different endianness for their qubits; Qiskit is little endian: $$ | q_{n - 1} \ldots q_2 q_1 q_0 \rangle $$ while Braket is big-endian: $$ | q_0 q_1 q_2 \ldots q_{n - 1} \rangle $$ You can show this by reversing the endianness of the Qiskit unitary:
+
+```
+from qiskit.quantum_info import Operator Operator(circuit).reverse_qargs().to_matrix()
+```
+
+```
+from qiskit.quantum_info import Operator Operator(circuit).reverse_qargs().to_matrix()
+```
+
+Original fixed code:
+from qiskit.quantum_info import Operator Operator(circuit).reverse_qargs().to_matrix()
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Operator Operator(circuit).reverse_qargs().to_matrix()

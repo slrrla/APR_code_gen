@@ -1,0 +1,75 @@
+Title:
+ModuleNotFoundError: No module named 'qiskit_aer'
+
+Category:
+
+
+Question:
+Title: ModuleNotFoundError: No module named 'qiskit_aer'
+
+I am trying to perform some noise simulations using the Aer Provider. I read through a tutorials here, but I am not able to really implement the . When I tried , it shows me the error message . I tried but it returns . How can I implement this module? Thanks!
+
+```
+qiskit_aer
+```
+
+```
+import qiskit_aer.noise as noise
+```
+
+```
+ModuleNotFoundError: No module named 'qiskit_aer'
+```
+
+```
+pip install qiskit_aer
+```
+
+```
+Requirement already satisfied
+```
+
+Original buggy code:
+qiskit_aer
+
+---CODE_BLOCK---
+
+import qiskit_aer.noise as noise
+
+---CODE_BLOCK---
+
+ModuleNotFoundError: No module named 'qiskit_aer'
+
+---CODE_BLOCK---
+
+pip install qiskit_aer
+
+---CODE_BLOCK---
+
+Requirement already satisfied
+
+Solution explanation:
+The namespace was introduced in 0.11. Try or .
+
+```
+qiskit_aer
+```
+
+```
+pip install "qiskit-aer>=0.11.0"
+```
+
+```
+pip install -U qiskit-aer
+```
+
+Original fixed code:
+qiskit_aer
+
+---CODE_BLOCK---
+
+pip install "qiskit-aer>=0.11.0"
+
+---CODE_BLOCK---
+
+pip install -U qiskit-aer

@@ -1,0 +1,67 @@
+Title:
+How to download historical calibration data from IBM quantum devices?
+
+Category:
+
+
+Question:
+Title: How to download historical calibration data from IBM quantum devices?
+
+I want to download the data tables from either the current QPUs or the previous ones (that have fewer qubits) from IBMQuantum. However, when I try to look at answers like Is there an archive of IBMQ calibration data? or How to get pulse-level historical calibration data for OpenPulse devices? I always get errors. I don't know much Python and having to learn a whole new framework (on top of the language) just to get the data is taking too much time. The only thing I need is the data. The ideal would be to select the time interval as well. Can someone help me with this? By asking this I'm hoping to get an up-to-date answer to be displayed in this site, since there are probably other people struggling with this, so this will most likely help others as well. Edit: since my question was already answered, I'd figured that it would be nice for me to put here some important information. The parts of the code for getting the data and saving it are:
+
+```
+def fetch_qubit_properties(service, backend_name, date): # Fetch qubit properties for a specific backend and date backend = service.backend(backend_name) properties = backend.properties(datetime=date) # Check which backends are available for you # available_backends = service.backends() # print(f"Available backends: {[backend.name for backend in available_backends]}") return properties def extract_qubit_data(properties): # Extract qubit data from the properties and return it as a list of dictionaries. qubit_data = [] # Define the expected keys # expected_keys = [ # "Qubit", "T1", "T2", "frequency", "anharmonicity", # "readout_error", "prob_meas0_prep1", "prob_meas1_prep0", "readout_length" # ] expected_keys = [prop.name for prop in properties.qubits[0]] # Loop through each qubit's properties for idx in range(len(properties.qubits)): qubit_info = {key: None for key in expected_keys} # Initialize all keys with None qubit_info["Qubit"] = idx # Set the qubit index # Get the properties for the current qubit qubit = properties.qubits[idx] if qubit: for prop in qubit: prop_name = prop.name # Get property name prop_value = prop.value # Get property value # Only update existing keys with actual values if prop_name in expected_keys: qubit_info[prop_name] = prop_value # Check the collected info for the current qubit # print(f"Collected data for Qubit {idx}: {qubit_info}") qubit_data.append(qubit_info) # Return the complete list of qubit data return qubit_data def save_qubit_data_to_csv(qubit_data, date_str, directory): # Saves the qubit data to a CSV file for a given date. # Ensure the directory exists os.makedirs(directory, exist_ok=True) # Create the file path for the CSV file file_path = os.path.join(directory, f"qubit_data_{date_str}.csv") # Create a DataFrame from the list of dictionaries df = pd.DataFrame(qubit_data) # Debugging output to check the DataFrame before saving # print(f"DataFrame to save:\n{df}") # Save the DataFrame to a CSV file df.to_csv(file_path, index=False, encoding='utf-8') print(f"Data successfully saved to {file_path}")
+```
+
+```
+def fetch_qubit_properties(service, backend_name, date): # Fetch qubit properties for a specific backend and date backend = service.backend(backend_name) properties = backend.properties(datetime=date) # Check which backends are available for you # available_backends = service.backends() # print(f"Available backends: {[backend.name for backend in available_backends]}") return properties def extract_qubit_data(properties): # Extract qubit data from the properties and return it as a list of dictionaries. qubit_data = [] # Define the expected keys # expected_keys = [ # "Qubit", "T1", "T2", "frequency", "anharmonicity", # "readout_error", "prob_meas0_prep1", "prob_meas1_prep0", "readout_length" # ] expected_keys = [prop.name for prop in properties.qubits[0]] # Loop through each qubit's properties for idx in range(len(properties.qubits)): qubit_info = {key: None for key in expected_keys} # Initialize all keys with None qubit_info["Qubit"] = idx # Set the qubit index # Get the properties for the current qubit qubit = properties.qubits[idx] if qubit: for prop in qubit: prop_name = prop.name # Get property name prop_value = prop.value # Get property value # Only update existing keys with actual values if prop_name in expected_keys: qubit_info[prop_name] = prop_value # Check the collected info for the current qubit # print(f"Collected data for Qubit {idx}: {qubit_info}") qubit_data.append(qubit_info) # Return the complete list of qubit data return qubit_data def save_qubit_data_to_csv(qubit_data, date_str, directory): # Saves the qubit data to a CSV file for a given date. # Ensure the directory exists os.makedirs(directory, exist_ok=True) # Create the file path for the CSV file file_path = os.path.join(directory, f"qubit_data_{date_str}.csv") # Create a DataFrame from the list of dictionaries df = pd.DataFrame(qubit_data) # Debugging output to check the DataFrame before saving # print(f"DataFrame to save:\n{df}") # Save the DataFrame to a CSV file df.to_csv(file_path, index=False, encoding='utf-8') print(f"Data successfully saved to {file_path}")
+```
+
+Original buggy code:
+def fetch_qubit_properties(service, backend_name, date): # Fetch qubit properties for a specific backend and date backend = service.backend(backend_name) properties = backend.properties(datetime=date) # Check which backends are available for you # available_backends = service.backends() # print(f"Available backends: {[backend.name for backend in available_backends]}") return properties def extract_qubit_data(properties): # Extract qubit data from the properties and return it as a list of dictionaries. qubit_data = [] # Define the expected keys # expected_keys = [ # "Qubit", "T1", "T2", "frequency", "anharmonicity", # "readout_error", "prob_meas0_prep1", "prob_meas1_prep0", "readout_length" # ] expected_keys = [prop.name for prop in properties.qubits[0]] # Loop through each qubit's properties for idx in range(len(properties.qubits)): qubit_info = {key: None for key in expected_keys} # Initialize all keys with None qubit_info["Qubit"] = idx # Set the qubit index # Get the properties for the current qubit qubit = properties.qubits[idx] if qubit: for prop in qubit: prop_name = prop.name # Get property name prop_value = prop.value # Get property value # Only update existing keys with actual values if prop_name in expected_keys: qubit_info[prop_name] = prop_value # Check the collected info for the current qubit # print(f"Collected data for Qubit {idx}: {qubit_info}") qubit_data.append(qubit_info) # Return the complete list of qubit data return qubit_data def save_qubit_data_to_csv(qubit_data, date_str, directory): # Saves the qubit data to a CSV file for a given date. # Ensure the directory exists os.makedirs(directory, exist_ok=True) # Create the file path for the CSV file file_path = os.path.join(directory, f"qubit_data_{date_str}.csv") # Create a DataFrame from the list of dictionaries df = pd.DataFrame(qubit_data) # Debugging output to check the DataFrame before saving # print(f"DataFrame to save:\n{df}") # Save the DataFrame to a CSV file df.to_csv(file_path, index=False, encoding='utf-8') print(f"Data successfully saved to {file_path}")
+
+---CODE_BLOCK---
+
+def fetch_qubit_properties(service, backend_name, date): # Fetch qubit properties for a specific backend and date backend = service.backend(backend_name) properties = backend.properties(datetime=date) # Check which backends are available for you # available_backends = service.backends() # print(f"Available backends: {[backend.name for backend in available_backends]}") return properties def extract_qubit_data(properties): # Extract qubit data from the properties and return it as a list of dictionaries. qubit_data = [] # Define the expected keys # expected_keys = [ # "Qubit", "T1", "T2", "frequency", "anharmonicity", # "readout_error", "prob_meas0_prep1", "prob_meas1_prep0", "readout_length" # ] expected_keys = [prop.name for prop in properties.qubits[0]] # Loop through each qubit's properties for idx in range(len(properties.qubits)): qubit_info = {key: None for key in expected_keys} # Initialize all keys with None qubit_info["Qubit"] = idx # Set the qubit index # Get the properties for the current qubit qubit = properties.qubits[idx] if qubit: for prop in qubit: prop_name = prop.name # Get property name prop_value = prop.value # Get property value # Only update existing keys with actual values if prop_name in expected_keys: qubit_info[prop_name] = prop_value # Check the collected info for the current qubit # print(f"Collected data for Qubit {idx}: {qubit_info}") qubit_data.append(qubit_info) # Return the complete list of qubit data return qubit_data def save_qubit_data_to_csv(qubit_data, date_str, directory): # Saves the qubit data to a CSV file for a given date. # Ensure the directory exists os.makedirs(directory, exist_ok=True) # Create the file path for the CSV file file_path = os.path.join(directory, f"qubit_data_{date_str}.csv") # Create a DataFrame from the list of dictionaries df = pd.DataFrame(qubit_data) # Debugging output to check the DataFrame before saving # print(f"DataFrame to save:\n{df}") # Save the DataFrame to a CSV file df.to_csv(file_path, index=False, encoding='utf-8') print(f"Data successfully saved to {file_path}")
+
+Solution explanation:
+Using (released on Sep 23, 2024), say you want to get the calibration data () from on April 15th, 2023:
+
+```
+qiskit-ibm-runtime 0.30
+```
+
+```
+IBMBackend.properties
+```
+
+```
+ibmq_manila
+```
+
+```
+from qiskit_ibm_runtime import __version__ print(__version__) # 0.30.0 # get the backend instance from qiskit_ibm_runtime import QiskitRuntimeService service = QiskitRuntimeService() ibmq_manila = service.backend('ibmq_manila') # fetch properties from datetime import datetime when = datetime(day=15, month=4, year=2023) # April 15th, 2023 properties_20230415 = ibmq_manila.properties(datetime=when) print(properties_20230415.last_update_date) # 2023-04-14 22:46:47+02:00
+```
+
+```
+from qiskit_ibm_runtime import __version__ print(__version__) # 0.30.0 # get the backend instance from qiskit_ibm_runtime import QiskitRuntimeService service = QiskitRuntimeService() ibmq_manila = service.backend('ibmq_manila') # fetch properties from datetime import datetime when = datetime(day=15, month=4, year=2023) # April 15th, 2023 properties_20230415 = ibmq_manila.properties(datetime=when) print(properties_20230415.last_update_date) # 2023-04-14 22:46:47+02:00
+```
+
+Original fixed code:
+qiskit-ibm-runtime 0.30
+
+---CODE_BLOCK---
+
+IBMBackend.properties
+
+---CODE_BLOCK---
+
+ibmq_manila
+
+---CODE_BLOCK---
+
+from qiskit_ibm_runtime import __version__ print(__version__) # 0.30.0 # get the backend instance from qiskit_ibm_runtime import QiskitRuntimeService service = QiskitRuntimeService() ibmq_manila = service.backend('ibmq_manila') # fetch properties from datetime import datetime when = datetime(day=15, month=4, year=2023) # April 15th, 2023 properties_20230415 = ibmq_manila.properties(datetime=when) print(properties_20230415.last_update_date) # 2023-04-14 22:46:47+02:00
+
+---CODE_BLOCK---
+
+from qiskit_ibm_runtime import __version__ print(__version__) # 0.30.0 # get the backend instance from qiskit_ibm_runtime import QiskitRuntimeService service = QiskitRuntimeService() ibmq_manila = service.backend('ibmq_manila') # fetch properties from datetime import datetime when = datetime(day=15, month=4, year=2023) # April 15th, 2023 properties_20230415 = ibmq_manila.properties(datetime=when) print(properties_20230415.last_update_date) # 2023-04-14 22:46:47+02:00

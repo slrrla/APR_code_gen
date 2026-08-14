@@ -1,0 +1,158 @@
+Title:
+Qubit Connectivity of IBM Quantum Computer
+
+Category:
+Category: Circuit Construction / Logic / Gates
+
+Why AI Wins in This Category:
+In circuit construction tasks, theoretical understanding must be matched with working Qiskit code. The AI offers a full workflow using IBMQ.get_backend(), transpile(), and execute(), aligned with modern Qiskit practices. The Stack Overflow solution, while correct conceptually, doesn't bridge theory and practice effectively.
+
+Question:
+Title: Qubit Connectivity of IBM Quantum Computer
+
+When simulating a quantum circuit using the , the qubits that you assign to the quantum circuit may be connected to all other qubits. In other words, if there are $n$ qubits in the quantum circuit, a single qubit can interact with all other $n-1$ qubits. This is quite an unpractical hypothesis for real quantum computation. k-locality is a common criterion for a quantum computer and the only quantum computer I know of that has full qubit-connectivity is this one(I omitted the trivial cases of single- or two-qubit quantum computer). In the case of quantum devices that IBM provides via cloud access, e.g., 5-qubit ibmq_santiago, 5-qubit ibmq_5_yorktown, and 15-qubit ibmq_16_melbourne, all provide limited qubit connectivity. So here arises my question: when designing a quantum circuit we have to take qubit connectivity into consideration, but how does handle this? Does it assign the job automatically (such that the quantum circuit can still work), or should I pre-assign my logical qubits to the real qubits of the IBM quantum computer by hand? And if so, how do I do that?
+
+```
+qiskit
+```
+
+```
+qasm_simulator
+```
+
+```
+qiskit
+```
+
+Original buggy code:
+qiskit
+
+---CODE_BLOCK---
+
+qasm_simulator
+
+---CODE_BLOCK---
+
+qiskit
+
+Solution explanation:
+You can pass the parameter to or . This allows simulating a specific connectivity scheme as a list of edges. The transpiling process (implicit during the execution process) takes care of adapting your circuit to the specific limitations of the backend or to the given limitations such as the parameter. You can also control parts of that adaptation with parameters like (you can define to which physical qubits you want to allocate your circuit). Consider the following example: This circuit requires a directed circular connectivity map. By default, transpiling this circuit takes a fully connected map, so it has no changes: If you want to add the restriction of a particular connectivity map, you can do so with the argument . In this case, it is a directed linear connectivity $ 0 \rightarrow 1 \rightarrow 2$: Notice that a SWAP gate was added and the direction of CNOT was corrected. Also, the qubit allocation is showed on the left-hand side (e.g. logical qubit $q_0$ was allocated to physical qubit $2$. You can control the qubit allocation with the parameter . In the following example, logical $q_0$ is forced to be allocated to physical qubit 0 and so on:
+
+```
+coupling_map
+```
+
+```
+execute
+```
+
+```
+transpile
+```
+
+```
+coupling_map
+```
+
+```
+initial_layout
+```
+
+```
+from qiskit import * circuit = QuantumCircuit(3) circuit.cx(0, 1) circuit.cx(1, 2) circuit.cx(2, 0) circuit.draw('mpl')
+```
+
+```
+from qiskit import * circuit = QuantumCircuit(3) circuit.cx(0, 1) circuit.cx(1, 2) circuit.cx(2, 0) circuit.draw('mpl')
+```
+
+```
+transpiled = transpile(circuit) transpiled.draw('mpl')
+```
+
+```
+transpiled = transpile(circuit) transpiled.draw('mpl')
+```
+
+```
+coupling_map
+```
+
+```
+transpiled = transpile(circuit, coupling_map=[[0,1], [1,2]]) transpiled.draw('mpl')
+```
+
+```
+transpiled = transpile(circuit, coupling_map=[[0,1], [1,2]]) transpiled.draw('mpl')
+```
+
+```
+initial_layout
+```
+
+```
+transpiled = transpile(circuit, coupling_map=[[0,1], [1,2]], initial_layout=[0, 1, 2]) transpiled.draw('mpl')
+```
+
+```
+transpiled = transpile(circuit, coupling_map=[[0,1], [1,2]], initial_layout=[0, 1, 2]) transpiled.draw('mpl')
+```
+
+Original fixed code:
+coupling_map
+
+---CODE_BLOCK---
+
+execute
+
+---CODE_BLOCK---
+
+transpile
+
+---CODE_BLOCK---
+
+coupling_map
+
+---CODE_BLOCK---
+
+initial_layout
+
+---CODE_BLOCK---
+
+from qiskit import * circuit = QuantumCircuit(3) circuit.cx(0, 1) circuit.cx(1, 2) circuit.cx(2, 0) circuit.draw('mpl')
+
+---CODE_BLOCK---
+
+from qiskit import * circuit = QuantumCircuit(3) circuit.cx(0, 1) circuit.cx(1, 2) circuit.cx(2, 0) circuit.draw('mpl')
+
+---CODE_BLOCK---
+
+transpiled = transpile(circuit) transpiled.draw('mpl')
+
+---CODE_BLOCK---
+
+transpiled = transpile(circuit) transpiled.draw('mpl')
+
+---CODE_BLOCK---
+
+coupling_map
+
+---CODE_BLOCK---
+
+transpiled = transpile(circuit, coupling_map=[[0,1], [1,2]]) transpiled.draw('mpl')
+
+---CODE_BLOCK---
+
+transpiled = transpile(circuit, coupling_map=[[0,1], [1,2]]) transpiled.draw('mpl')
+
+---CODE_BLOCK---
+
+initial_layout
+
+---CODE_BLOCK---
+
+transpiled = transpile(circuit, coupling_map=[[0,1], [1,2]], initial_layout=[0, 1, 2]) transpiled.draw('mpl')
+
+---CODE_BLOCK---
+
+transpiled = transpile(circuit, coupling_map=[[0,1], [1,2]], initial_layout=[0, 1, 2]) transpiled.draw('mpl')

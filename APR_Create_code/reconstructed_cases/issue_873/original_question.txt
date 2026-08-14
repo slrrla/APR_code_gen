@@ -1,0 +1,227 @@
+Title:
+Difference between qiskit SPSA optimize and minimize in runtime program
+
+Category:
+
+
+Question:
+Title: Difference between qiskit SPSA optimize and minimize in runtime program
+
+I use this tutorial with pennylane-qiskit.vqe_runtime_runner to familiarize myself with qiskit runtime using pennylane. Thereby, I wonder: What is the difference between qiskit.algorithms.optimizers.SPSA optimize and minimize? More precise, what is the difference between and ? Both return a SciPy OptimizerResult object, but one works in the tutorial (optimize) and the other (minimize) gives an error message stating . Edit: Update on workaround to make minimize work: Gives mentioned error message: (using minimize) Works: (using optimize) Works: (using minimize, converting to its values and back to a OptimizerResults object) Edit: The answer supplementary to .. on why the second example using minimize is needed is because the pennylane runtime code assumes the output of the optimizer to be a SciPy object which differs from the Qiskit object (output of the method) (thanks to rmoyard on Github).
+
+```
+spsa = SPSA(**optimizer_config, callback=callback) res=spsa.minimize(vqe_func,x0)
+```
+
+```
+spsa = SPSA(**optimizer_config, callback=callback) res=spsa.minimize(vqe_func,x0)
+```
+
+```
+spsa = SPSA(**optimizer_config, callback=callback) x, loss, nfev = spsa.optimize(num_params, vqe_func, initial_point=x0) res = OptimizeResult( fun=loss, x=x, nit=optimizer_config["maxiter"], nfev=nfev, message="Optimization terminated successfully.", success=True, )
+```
+
+```
+spsa = SPSA(**optimizer_config, callback=callback) x, loss, nfev = spsa.optimize(num_params, vqe_func, initial_point=x0) res = OptimizeResult( fun=loss, x=x, nit=optimizer_config["maxiter"], nfev=nfev, message="Optimization terminated successfully.", success=True, )
+```
+
+```
+Òbject of type Optimizer Result is not serializable
+```
+
+```
+spsa = SPSA(**optimizer_config, callback=callback) res=spsa.minimize(vqe_func,x0)
+```
+
+```
+spsa = SPSA(**optimizer_config, callback=callback) res=spsa.minimize(vqe_func,x0)
+```
+
+```
+spsa = SPSA(**optimizer_config, callback=callback) x, loss, nfev = spsa.optimize(num_params, vqe_func, initial_point=x0) res = OptimizeResult( fun=loss, x=x, nit=optimizer_config["maxiter"], nfev=nfev, message="Optimization terminated successfully.", success=True, )
+```
+
+```
+spsa = SPSA(**optimizer_config, callback=callback) x, loss, nfev = spsa.optimize(num_params, vqe_func, initial_point=x0) res = OptimizeResult( fun=loss, x=x, nit=optimizer_config["maxiter"], nfev=nfev, message="Optimization terminated successfully.", success=True, )
+```
+
+```
+spsa = SPSA(**optimizer_config, callback=callback) result_obj=spsa.minimize(vqe_func,x0) loss=result_obj.fun x= result_obj.x nfev=result_obj.nfev res = OptimizeResult( fun=loss, x=x, nit=optimizer_config["maxiter"], nfev=nfev, message="Optimization terminated successfully.", success=True, )
+```
+
+```
+spsa = SPSA(**optimizer_config, callback=callback) result_obj=spsa.minimize(vqe_func,x0) loss=result_obj.fun x= result_obj.x nfev=result_obj.nfev res = OptimizeResult( fun=loss, x=x, nit=optimizer_config["maxiter"], nfev=nfev, message="Optimization terminated successfully.", success=True, )
+```
+
+```
+OptimizerResult
+```
+
+```
+OptimizerResult
+```
+
+```
+minimize
+```
+
+Original buggy code:
+spsa = SPSA(**optimizer_config, callback=callback) res=spsa.minimize(vqe_func,x0)
+
+---CODE_BLOCK---
+
+spsa = SPSA(**optimizer_config, callback=callback) res=spsa.minimize(vqe_func,x0)
+
+---CODE_BLOCK---
+
+spsa = SPSA(**optimizer_config, callback=callback) x, loss, nfev = spsa.optimize(num_params, vqe_func, initial_point=x0) res = OptimizeResult( fun=loss, x=x, nit=optimizer_config["maxiter"], nfev=nfev, message="Optimization terminated successfully.", success=True, )
+
+---CODE_BLOCK---
+
+spsa = SPSA(**optimizer_config, callback=callback) x, loss, nfev = spsa.optimize(num_params, vqe_func, initial_point=x0) res = OptimizeResult( fun=loss, x=x, nit=optimizer_config["maxiter"], nfev=nfev, message="Optimization terminated successfully.", success=True, )
+
+---CODE_BLOCK---
+
+Òbject of type Optimizer Result is not serializable
+
+---CODE_BLOCK---
+
+spsa = SPSA(**optimizer_config, callback=callback) res=spsa.minimize(vqe_func,x0)
+
+---CODE_BLOCK---
+
+spsa = SPSA(**optimizer_config, callback=callback) res=spsa.minimize(vqe_func,x0)
+
+---CODE_BLOCK---
+
+spsa = SPSA(**optimizer_config, callback=callback) x, loss, nfev = spsa.optimize(num_params, vqe_func, initial_point=x0) res = OptimizeResult( fun=loss, x=x, nit=optimizer_config["maxiter"], nfev=nfev, message="Optimization terminated successfully.", success=True, )
+
+---CODE_BLOCK---
+
+spsa = SPSA(**optimizer_config, callback=callback) x, loss, nfev = spsa.optimize(num_params, vqe_func, initial_point=x0) res = OptimizeResult( fun=loss, x=x, nit=optimizer_config["maxiter"], nfev=nfev, message="Optimization terminated successfully.", success=True, )
+
+---CODE_BLOCK---
+
+spsa = SPSA(**optimizer_config, callback=callback) result_obj=spsa.minimize(vqe_func,x0) loss=result_obj.fun x= result_obj.x nfev=result_obj.nfev res = OptimizeResult( fun=loss, x=x, nit=optimizer_config["maxiter"], nfev=nfev, message="Optimization terminated successfully.", success=True, )
+
+---CODE_BLOCK---
+
+spsa = SPSA(**optimizer_config, callback=callback) result_obj=spsa.minimize(vqe_func,x0) loss=result_obj.fun x= result_obj.x nfev=result_obj.nfev res = OptimizeResult( fun=loss, x=x, nit=optimizer_config["maxiter"], nfev=nfev, message="Optimization terminated successfully.", success=True, )
+
+---CODE_BLOCK---
+
+OptimizerResult
+
+---CODE_BLOCK---
+
+OptimizerResult
+
+---CODE_BLOCK---
+
+minimize
+
+Solution explanation:
+The method is deprecated since Qiskit 0.37 (Terra 0.21). You should always use . Both methods support the same arguments but follows the interface of and returns object where returns where, : is a one-dimensional containing the solution, : is a float with the objective function value, and : number of objective function calls made if available or None. The current implementation of method just calls and extract these values from its result (see here)
+
+```
+SPSA.optimize()
+```
+
+```
+SPSA.minimize()
+```
+
+```
+minimize()
+```
+
+```
+scipy.optimize
+```
+
+```
+OptimizerResult
+```
+
+```
+optimize()
+```
+
+```
+point, value, nfev
+```
+
+```
+point
+```
+
+```
+numpy.ndarray[float]
+```
+
+```
+value
+```
+
+```
+nfev
+```
+
+```
+optimize()
+```
+
+```
+minimize()
+```
+
+Original fixed code:
+SPSA.optimize()
+
+---CODE_BLOCK---
+
+SPSA.minimize()
+
+---CODE_BLOCK---
+
+minimize()
+
+---CODE_BLOCK---
+
+scipy.optimize
+
+---CODE_BLOCK---
+
+OptimizerResult
+
+---CODE_BLOCK---
+
+optimize()
+
+---CODE_BLOCK---
+
+point, value, nfev
+
+---CODE_BLOCK---
+
+point
+
+---CODE_BLOCK---
+
+numpy.ndarray[float]
+
+---CODE_BLOCK---
+
+value
+
+---CODE_BLOCK---
+
+nfev
+
+---CODE_BLOCK---
+
+optimize()
+
+---CODE_BLOCK---
+
+minimize()

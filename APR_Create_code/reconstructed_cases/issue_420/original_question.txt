@@ -1,0 +1,182 @@
+Title:
+CNOT chain vs CNOT fountain in qiskit
+
+Category:
+Category: Circuit Synthesis / CX Structure
+
+Why This Answer Wins in This Category:
+This category rewards understanding how synthesis options map to hardware constraints. The AI’s explanation makes it clear when and why "chain" vs "fountain" matters, while the Stack Overflow code snippet shows how to test it empirically. Combining both perspectives gives a complete, actionable picture for Qiskit users
+
+Question:
+Title: CNOT chain vs CNOT fountain in qiskit
+
+I was going through qiskit's synthesis module, their methods take an argument called which has two possible values, & . Their source code has the following examples: and for : One of the comparison points mentioned was reduces the evolution the top qubit has to go through, but apart from that, is there any advantage in terms of circuit depth or any other relevant parameters?
+
+```
+cx_structure
+```
+
+```
+cnot_chain
+```
+
+```
+cnot_fountain
+```
+
+```
+"""CX chain. For example, for the Pauli with the label 'XYZIX'. ┌───┐ q_0: ──────────┤ X ├ └─┬─┘ q_1: ────────────┼── ┌───┐ │ q_2: ─────┤ X ├──■── ┌───┐└─┬─┘ q_3: ┤ X ├──■─────── └─┬─┘ q_4: ──■────────────
+```
+
+```
+"""CX chain. For example, for the Pauli with the label 'XYZIX'. ┌───┐ q_0: ──────────┤ X ├ └─┬─┘ q_1: ────────────┼── ┌───┐ │ q_2: ─────┤ X ├──■── ┌───┐└─┬─┘ q_3: ┤ X ├──■─────── └─┬─┘ q_4: ──■────────────
+```
+
+```
+cnot_fountain
+```
+
+```
+"""CX chain in the fountain shape. For example, for the Pauli with the label 'XYZIX'. ┌───┐┌───┐┌───┐ q_0: ┤ X ├┤ X ├┤ X ├ └─┬─┘└─┬─┘└─┬─┘ q_1: ──┼────┼────┼── │ │ │ q_2: ──■────┼────┼── │ │ q_3: ───────■────┼── │ q_4: ────────────■──
+```
+
+```
+"""CX chain in the fountain shape. For example, for the Pauli with the label 'XYZIX'. ┌───┐┌───┐┌───┐ q_0: ┤ X ├┤ X ├┤ X ├ └─┬─┘└─┬─┘└─┬─┘ q_1: ──┼────┼────┼── │ │ │ q_2: ──■────┼────┼── │ │ q_3: ───────■────┼── │ q_4: ────────────■──
+```
+
+```
+cnot_chain
+```
+
+Original buggy code:
+cx_structure
+
+---CODE_BLOCK---
+
+cnot_chain
+
+---CODE_BLOCK---
+
+cnot_fountain
+
+---CODE_BLOCK---
+
+"""CX chain. For example, for the Pauli with the label 'XYZIX'. ┌───┐ q_0: ──────────┤ X ├ └─┬─┘ q_1: ────────────┼── ┌───┐ │ q_2: ─────┤ X ├──■── ┌───┐└─┬─┘ q_3: ┤ X ├──■─────── └─┬─┘ q_4: ──■────────────
+
+---CODE_BLOCK---
+
+"""CX chain. For example, for the Pauli with the label 'XYZIX'. ┌───┐ q_0: ──────────┤ X ├ └─┬─┘ q_1: ────────────┼── ┌───┐ │ q_2: ─────┤ X ├──■── ┌───┐└─┬─┘ q_3: ┤ X ├──■─────── └─┬─┘ q_4: ──■────────────
+
+---CODE_BLOCK---
+
+cnot_fountain
+
+---CODE_BLOCK---
+
+"""CX chain in the fountain shape. For example, for the Pauli with the label 'XYZIX'. ┌───┐┌───┐┌───┐ q_0: ┤ X ├┤ X ├┤ X ├ └─┬─┘└─┬─┘└─┬─┘ q_1: ──┼────┼────┼── │ │ │ q_2: ──■────┼────┼── │ │ q_3: ───────■────┼── │ q_4: ────────────■──
+
+---CODE_BLOCK---
+
+"""CX chain in the fountain shape. For example, for the Pauli with the label 'XYZIX'. ┌───┐┌───┐┌───┐ q_0: ┤ X ├┤ X ├┤ X ├ └─┬─┘└─┬─┘└─┬─┘ q_1: ──┼────┼────┼── │ │ │ q_2: ──■────┼────┼── │ │ q_3: ───────■────┼── │ q_4: ────────────■──
+
+---CODE_BLOCK---
+
+cnot_chain
+
+Solution explanation:
+According to the docblock in the mentioned file: cx_structure: How to arrange the CX gates for the Pauli evolutions, can be "chain", where next neighbor connections are used, or "fountain", where all qubits are connected to one. So, if you are targeting a fully connected device (e.g., trapped ion devices), the value of will not impact the transpiled circuit depth. On the other hand, if you are targeting a device with constraints on qubit connectivity (e.g., superconducting devices), then setting value to should result in a transpiled circuit width smaller depth most of the time. For example, let's define a one-term hamiltonian: and choose our target to be ibmq_jakarta Now, we compare the depth of the transpiled circuit for both values: The output should be something like: The difference will increase if your Hamiltonian contains many terms, and when you increase number of time steps.
+
+```
+cx_structure
+```
+
+```
+cx_structure
+```
+
+```
+chain
+```
+
+```
+from qiskit.quantum_info import Pauli hamiltonian = Pauli('XYZIZYX')
+```
+
+```
+from qiskit.quantum_info import Pauli hamiltonian = Pauli('XYZIZYX')
+```
+
+```
+from qiskit_ibm_provider import IBMProvider provider = IBMProvider() backend = provider.get_backend('ibmq_jakarta')
+```
+
+```
+from qiskit_ibm_provider import IBMProvider provider = IBMProvider() backend = provider.get_backend('ibmq_jakarta')
+```
+
+```
+cx_structure
+```
+
+```
+from qiskit import QuantumCircuit, transpile from qiskit.synthesis import SuzukiTrotter from qiskit.circuit.library import PauliEvolutionGate for cx_structure in ['chain', 'fountain']: evo_time = 1.0 # Suzuki-Trotter product formula of order 2 and one time step: synthesis = SuzukiTrotter(order=2, reps=1, cx_structure=cx_structure) gate = PauliEvolutionGate(hamiltonian, evo_time, synthesis=synthesis) circ = QuantumCircuit(hamiltonian.num_qubits) circ.append(gate, range(hamiltonian.num_qubits)) trns_circ = transpile(circ, backend=backend, layout_method='sabre', routing_method='sabre') print(cx_structure, trns_circ.depth())
+```
+
+```
+from qiskit import QuantumCircuit, transpile from qiskit.synthesis import SuzukiTrotter from qiskit.circuit.library import PauliEvolutionGate for cx_structure in ['chain', 'fountain']: evo_time = 1.0 # Suzuki-Trotter product formula of order 2 and one time step: synthesis = SuzukiTrotter(order=2, reps=1, cx_structure=cx_structure) gate = PauliEvolutionGate(hamiltonian, evo_time, synthesis=synthesis) circ = QuantumCircuit(hamiltonian.num_qubits) circ.append(gate, range(hamiltonian.num_qubits)) trns_circ = transpile(circ, backend=backend, layout_method='sabre', routing_method='sabre') print(cx_structure, trns_circ.depth())
+```
+
+```
+chain 21 fountain 32
+```
+
+```
+chain 21 fountain 32
+```
+
+Original fixed code:
+cx_structure
+
+---CODE_BLOCK---
+
+cx_structure
+
+---CODE_BLOCK---
+
+chain
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Pauli hamiltonian = Pauli('XYZIZYX')
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Pauli hamiltonian = Pauli('XYZIZYX')
+
+---CODE_BLOCK---
+
+from qiskit_ibm_provider import IBMProvider provider = IBMProvider() backend = provider.get_backend('ibmq_jakarta')
+
+---CODE_BLOCK---
+
+from qiskit_ibm_provider import IBMProvider provider = IBMProvider() backend = provider.get_backend('ibmq_jakarta')
+
+---CODE_BLOCK---
+
+cx_structure
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, transpile from qiskit.synthesis import SuzukiTrotter from qiskit.circuit.library import PauliEvolutionGate for cx_structure in ['chain', 'fountain']: evo_time = 1.0 # Suzuki-Trotter product formula of order 2 and one time step: synthesis = SuzukiTrotter(order=2, reps=1, cx_structure=cx_structure) gate = PauliEvolutionGate(hamiltonian, evo_time, synthesis=synthesis) circ = QuantumCircuit(hamiltonian.num_qubits) circ.append(gate, range(hamiltonian.num_qubits)) trns_circ = transpile(circ, backend=backend, layout_method='sabre', routing_method='sabre') print(cx_structure, trns_circ.depth())
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, transpile from qiskit.synthesis import SuzukiTrotter from qiskit.circuit.library import PauliEvolutionGate for cx_structure in ['chain', 'fountain']: evo_time = 1.0 # Suzuki-Trotter product formula of order 2 and one time step: synthesis = SuzukiTrotter(order=2, reps=1, cx_structure=cx_structure) gate = PauliEvolutionGate(hamiltonian, evo_time, synthesis=synthesis) circ = QuantumCircuit(hamiltonian.num_qubits) circ.append(gate, range(hamiltonian.num_qubits)) trns_circ = transpile(circ, backend=backend, layout_method='sabre', routing_method='sabre') print(cx_structure, trns_circ.depth())
+
+---CODE_BLOCK---
+
+chain 21 fountain 32
+
+---CODE_BLOCK---
+
+chain 21 fountain 32

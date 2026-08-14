@@ -1,0 +1,47 @@
+Title:
+How to realize Su-Schrieffer-Heeger model in Qiskit
+
+Category:
+
+
+Question:
+Title: How to realize Su-Schrieffer-Heeger model in Qiskit
+
+This is a very specific question, which I try to implement a simple dimerized tight-binding Hamiltonian on qiskit. The model is one dimensional, and defined as $$ H = \sum_{\langle i,j\rangle} t_{ij} c^\dagger_i c_j $$ where $\langle i,j\rangle$ denotes the nearest neighbor coupling with strength $t_{ij}$. The important aspect of the model is that the coupling is dimerized in the following sense. If we label the sites as 1,2,3,4...., then the nearest neighbor coupling $t_{ij}$ reads, for example, $$ t_{1,2} = 1, t_{2,3} = 2 , t_{3,4} = 1 , t_{4,5} = 2, etc $$ which is alternating. I try to pretend this is a molecular Hamiltonian and realize it in the same way with "FermionicOperator". However, I am not sure how to properly index the "one-body" integral here, which is the nearest neighbor coupling $t_{ij}$ here.
+
+Original buggy code:
+This is a very specific question, which I try to implement a simple dimerized tight-binding Hamiltonian on qiskit. The model is one dimensional, and defined as $$ H = \sum_{\langle i,j\rangle} t_{ij} c^\dagger_i c_j $$ where $\langle i,j\rangle$ denotes the nearest neighbor coupling with strength $t_{ij}$. The important aspect of the model is that the coupling is dimerized in the following sense. If we label the sites as 1,2,3,4...., then the nearest neighbor coupling $t_{ij}$ reads, for example, $$ t_{1,2} = 1, t_{2,3} = 2 , t_{3,4} = 1 , t_{4,5} = 2, etc $$ which is alternating. I try to pretend this is a molecular Hamiltonian and realize it in the same way with "FermionicOperator". However, I am not sure how to properly index the "one-body" integral here, which is the nearest neighbor coupling $t_{ij}$ here.
+
+Solution explanation:
+I don't think it really matter how you index your $t_{ij}$. As you mentioned you can use all you need to do is define the one body integral. This of course can be done in many ways. Here is a convenient way. This function would return the one-body integral for you. In this function, the $\sigma$ degree of freedom represents the two atoms in the unit cell, and $n$ represents how many unit cells you have in the SSH chain, and for the dimmerized limit you asked for you can take $\gamma = 1,\ \lambda = 2 $. You can use the output of this function That being said, I'm not sure what the benefit would be. Trying to solve this Hamiltonian using VQE for example is an over-kill since this Hamiltonian can be readily diagonalized from its one-body Hamiltonian. Putting this on a quantum computer would give you $2n$ qubits, this is a Hilbert space of $2^n$ dimensions, whereas you can diagonalize the the Hamiltonian by diagonalizing the $2n \times 2n$ matrix $t_{ij}$.
+
+```
+FermionicOperator
+```
+
+```
+def ssh_ham(gamma, lamda, n): sigmax = np.array([[0,1],[1,0]], dtype=np.complex_) sigmay = np.array([[0,-1j],[1j,0]], dtype=np.complex_) op_eye_x = np.eye(n) op_cos_x = 1/2*(np.eye(n, k=1) + np.eye(n,k=-1)) op_sin_x = 1j/2*(np.eye(n, k=1) - np.eye(n,k=-1)) h = np.kron(gamma*op_eye_x + lamda*op_cos_x, sigmax) + np.kron(lamda*op_sin_x, sigmay) return h
+```
+
+```
+def ssh_ham(gamma, lamda, n): sigmax = np.array([[0,1],[1,0]], dtype=np.complex_) sigmay = np.array([[0,-1j],[1j,0]], dtype=np.complex_) op_eye_x = np.eye(n) op_cos_x = 1/2*(np.eye(n, k=1) + np.eye(n,k=-1)) op_sin_x = 1j/2*(np.eye(n, k=1) - np.eye(n,k=-1)) h = np.kron(gamma*op_eye_x + lamda*op_cos_x, sigmax) + np.kron(lamda*op_sin_x, sigmay) return h
+```
+
+```
+fer_op = FermionicOperator(h1 = ssh_ham(1,2,10))
+```
+
+Original fixed code:
+FermionicOperator
+
+---CODE_BLOCK---
+
+def ssh_ham(gamma, lamda, n): sigmax = np.array([[0,1],[1,0]], dtype=np.complex_) sigmay = np.array([[0,-1j],[1j,0]], dtype=np.complex_) op_eye_x = np.eye(n) op_cos_x = 1/2*(np.eye(n, k=1) + np.eye(n,k=-1)) op_sin_x = 1j/2*(np.eye(n, k=1) - np.eye(n,k=-1)) h = np.kron(gamma*op_eye_x + lamda*op_cos_x, sigmax) + np.kron(lamda*op_sin_x, sigmay) return h
+
+---CODE_BLOCK---
+
+def ssh_ham(gamma, lamda, n): sigmax = np.array([[0,1],[1,0]], dtype=np.complex_) sigmay = np.array([[0,-1j],[1j,0]], dtype=np.complex_) op_eye_x = np.eye(n) op_cos_x = 1/2*(np.eye(n, k=1) + np.eye(n,k=-1)) op_sin_x = 1j/2*(np.eye(n, k=1) - np.eye(n,k=-1)) h = np.kron(gamma*op_eye_x + lamda*op_cos_x, sigmax) + np.kron(lamda*op_sin_x, sigmay) return h
+
+---CODE_BLOCK---
+
+fer_op = FermionicOperator(h1 = ssh_ham(1,2,10))

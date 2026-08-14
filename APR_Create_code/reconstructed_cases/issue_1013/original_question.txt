@@ -1,0 +1,59 @@
+Title:
+Is it better to initialize quantum circuits in Qiskit by passing QuantumRegister and ClassicalRegister objects?
+
+Category:
+
+
+Question:
+Title: Is it better to initialize quantum circuits in Qiskit by passing QuantumRegister and ClassicalRegister objects?
+
+From the perspective of building quantum computation software based on Qiskit, which approach to defining quantum circuits is more robust? OR, So far I've been using the latter approach, but it seems like I might run into trouble later as the software matures and I add more functionalities. Any opinion from an experienced Quantum Computation Software Developer would be greatly appreciated!
+
+```
+from qiskit.circuit import QuantumCircuit, QuantumRegister, ClassicalRegister qr1 = QuantumRegister(3, 'qr1') qr2 = QuantumRegister(4, 'qr2') cr = ClassicalRegister(4, 'cr') circ = QuantumCircuit(qr1, qr2, cr)
+```
+
+```
+from qiskit.circuit import QuantumCircuit, QuantumRegister, ClassicalRegister qr1 = QuantumRegister(3, 'qr1') qr2 = QuantumRegister(4, 'qr2') cr = ClassicalRegister(4, 'cr') circ = QuantumCircuit(qr1, qr2, cr)
+```
+
+```
+circ = QuantumCircuit(7, 5)
+```
+
+```
+circ = QuantumCircuit(7, 5)
+```
+
+Original buggy code:
+from qiskit.circuit import QuantumCircuit, QuantumRegister, ClassicalRegister qr1 = QuantumRegister(3, 'qr1') qr2 = QuantumRegister(4, 'qr2') cr = ClassicalRegister(4, 'cr') circ = QuantumCircuit(qr1, qr2, cr)
+
+---CODE_BLOCK---
+
+from qiskit.circuit import QuantumCircuit, QuantumRegister, ClassicalRegister qr1 = QuantumRegister(3, 'qr1') qr2 = QuantumRegister(4, 'qr2') cr = ClassicalRegister(4, 'cr') circ = QuantumCircuit(qr1, qr2, cr)
+
+---CODE_BLOCK---
+
+circ = QuantumCircuit(7, 5)
+
+---CODE_BLOCK---
+
+circ = QuantumCircuit(7, 5)
+
+Solution explanation:
+Registers are mostly a user-land element for convenience and organization. They are mostly inherited from OpenQASM. Currently (qiskit-terra 0.17) they are optional. However, there is a notable exception (at least for now). To implement a classical conditional, the condition is on a classical register. If your circuit has a classical conditional, it needs a classical register. Because circuits cannot be a with-register/registerless mix, then also the quantum register is required:
+
+```
+from qiskit import * qreg = QuantumRegister(1) creg = ClassicalRegister(4) circuit = QuantumCircuit(qreg, creg) circuit.h(0).c_if(creg, 3) circuit.draw('mpl')
+```
+
+```
+from qiskit import * qreg = QuantumRegister(1) creg = ClassicalRegister(4) circuit = QuantumCircuit(qreg, creg) circuit.h(0).c_if(creg, 3) circuit.draw('mpl')
+```
+
+Original fixed code:
+from qiskit import * qreg = QuantumRegister(1) creg = ClassicalRegister(4) circuit = QuantumCircuit(qreg, creg) circuit.h(0).c_if(creg, 3) circuit.draw('mpl')
+
+---CODE_BLOCK---
+
+from qiskit import * qreg = QuantumRegister(1) creg = ClassicalRegister(4) circuit = QuantumCircuit(qreg, creg) circuit.h(0).c_if(creg, 3) circuit.draw('mpl')

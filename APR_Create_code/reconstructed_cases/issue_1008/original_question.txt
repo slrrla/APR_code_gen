@@ -1,0 +1,91 @@
+Title:
+QiskitRuntimeService error - Provided API key could not be found
+
+Category:
+
+
+Question:
+Title: QiskitRuntimeService error - Provided API key could not be found
+
+I'm trying to use QiskitRuntimeService() and start a session to find the expectation value of some operator but I keep getting this error: ApiException: Error: Provided API key could not be found., Code: 400. The line that gives me the error is: How can I fix it?
+
+```
+service = QiskitRuntimeService()
+```
+
+```
+service = QiskitRuntimeService()
+```
+
+Original buggy code:
+service = QiskitRuntimeService()
+
+---CODE_BLOCK---
+
+service = QiskitRuntimeService()
+
+Solution explanation:
+You have to initialize your account before you can start using Qiskit Runtime. If you don't have the credentials saved in your disk, you can initialize a instance as follows: You can find the token in your IBM Quantum account page. If the error keeps happening, try to delete the saved account from disk at first then save it again: Once the credentials are saved, you can initialize the instance without passing any parameters: For more details see here.
+
+```
+QiskitRuntimeService
+```
+
+```
+from qiskit_ibm_runtime import QiskitRuntimeService # Save an IBM Cloud account on disk token = '***' # <== Use your token here QiskitRuntimeService.save_account(channel="ibm_quantum", token=token)
+```
+
+```
+from qiskit_ibm_runtime import QiskitRuntimeService # Save an IBM Cloud account on disk token = '***' # <== Use your token here QiskitRuntimeService.save_account(channel="ibm_quantum", token=token)
+```
+
+```
+QiskitRuntimeService.delete_account() QiskitRuntimeService.save_account(channel="ibm_quantum", token=token, overwrite=True)
+```
+
+```
+QiskitRuntimeService.delete_account() QiskitRuntimeService.save_account(channel="ibm_quantum", token=token, overwrite=True)
+```
+
+```
+QiskitRuntimeService
+```
+
+```
+# Read default credentials from disk service = QiskitRuntimeService()
+```
+
+```
+# Read default credentials from disk service = QiskitRuntimeService()
+```
+
+Original fixed code:
+QiskitRuntimeService
+
+---CODE_BLOCK---
+
+from qiskit_ibm_runtime import QiskitRuntimeService # Save an IBM Cloud account on disk token = '***' # <== Use your token here QiskitRuntimeService.save_account(channel="ibm_quantum", token=token)
+
+---CODE_BLOCK---
+
+from qiskit_ibm_runtime import QiskitRuntimeService # Save an IBM Cloud account on disk token = '***' # <== Use your token here QiskitRuntimeService.save_account(channel="ibm_quantum", token=token)
+
+---CODE_BLOCK---
+
+QiskitRuntimeService.delete_account() QiskitRuntimeService.save_account(channel="ibm_quantum", token=token, overwrite=True)
+
+---CODE_BLOCK---
+
+QiskitRuntimeService.delete_account() QiskitRuntimeService.save_account(channel="ibm_quantum", token=token, overwrite=True)
+
+---CODE_BLOCK---
+
+QiskitRuntimeService
+
+---CODE_BLOCK---
+
+# Read default credentials from disk service = QiskitRuntimeService()
+
+---CODE_BLOCK---
+
+# Read default credentials from disk service = QiskitRuntimeService()

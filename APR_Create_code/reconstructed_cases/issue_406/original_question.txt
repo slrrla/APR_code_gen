@@ -1,0 +1,23 @@
+Title:
+Which observable $M$ provides the Absolute Average of a statevector?
+
+Category:
+Category:
+Other (General Questions)
+
+Why Stack Overflow Solution Wins in This Category:
+In conceptual algorithmic design involving measurement observables, mathematical precision and correct interpretation of quantum states are crucial. The Stack Overflow solution provides a correct and insightful observable, directly addressing the user's goal. The AI solution misunderstands the objective, incorrectly constructs the observable, and fails to retrieve the required quantity.
+
+Question:
+Title: Which observable $M$ provides the Absolute Average of a statevector?
+
+My question should be fairly simple, though I did not find an answer to it here or anywhere else. I have been working on an algorithm which, similarly to the HHL algorithm, provides a state $|x\rangle$ for which I want to extract some global quantity at the end. I now want to build a simple few-qubits implementation of such algorithm and for that I would like to find the $\texttt{Absolute Average}$ given by $\frac{1}{N}\big|\sum_{i=1}^Nx_i\big|$, which is clearly possible according to this tutorial to Qiskit's HHL implementation. However, I am struggling to understand which observable $M$ I should apply in order to get this quantity from $\langle x|M|x\rangle$.
+
+Original buggy code:
+My question should be fairly simple, though I did not find an answer to it here or anywhere else. I have been working on an algorithm which, similarly to the HHL algorithm, provides a state $|x\rangle$ for which I want to extract some global quantity at the end. I now want to build a simple few-qubits implementation of such algorithm and for that I would like to find the $\texttt{Absolute Average}$ given by $\frac{1}{N}\big|\sum_{i=1}^Nx_i\big|$, which is clearly possible according to this tutorial to Qiskit's HHL implementation. However, I am struggling to understand which observable $M$ I should apply in order to get this quantity from $\langle x|M|x\rangle$.
+
+Solution explanation:
+Let $|+\rangle$ denote the uniform superposition state with zero relative phases. Then $$ \langle +|x\rangle = \frac{1}{\sqrt{N}}\begin{bmatrix}1&1&\dots&1\end{bmatrix}\begin{bmatrix}x_1\\x_2\\\dots\\x_N\end{bmatrix} = \frac{1}{\sqrt{N}}\sum_{i=1}^Nx_i. $$ For $M$ defined as $M:=|+\rangle\langle+|$, we have $$ \langle x|M|x\rangle = \langle x|+\rangle\langle+|x\rangle = \frac{1}{N}\left|\sum_{i=1}^Nx_i\right|^2 $$ so we can obtain the absolute average from the measurement of $\langle x|M|x\rangle$ using $$ \frac{1}{N}\left|\sum_{i=1}^Nx_i\right| = \sqrt{\frac{\langle x|M|x\rangle}{N}}. $$
+
+Original fixed code:
+Let $|+\rangle$ denote the uniform superposition state with zero relative phases. Then $$ \langle +|x\rangle = \frac{1}{\sqrt{N}}\begin{bmatrix}1&1&\dots&1\end{bmatrix}\begin{bmatrix}x_1\\x_2\\\dots\\x_N\end{bmatrix} = \frac{1}{\sqrt{N}}\sum_{i=1}^Nx_i. $$ For $M$ defined as $M:=|+\rangle\langle+|$, we have $$ \langle x|M|x\rangle = \langle x|+\rangle\langle+|x\rangle = \frac{1}{N}\left|\sum_{i=1}^Nx_i\right|^2 $$ so we can obtain the absolute average from the measurement of $\langle x|M|x\rangle$ using $$ \frac{1}{N}\left|\sum_{i=1}^Nx_i\right| = \sqrt{\frac{\langle x|M|x\rangle}{N}}. $$

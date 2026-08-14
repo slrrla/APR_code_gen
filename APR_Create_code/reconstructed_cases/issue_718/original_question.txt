@@ -1,0 +1,99 @@
+Title:
+Create circuit from qiskit json format
+
+Category:
+
+
+Question:
+Title: Create circuit from qiskit json format
+
+When you run a job on an IBM device you can download a json file which contains among other things the description of the circuit. Is there a simple way in qiskit to create a QuantumCircuit object from this file without writing your own parser? Below is an example for the content of this file.
+
+```
+{"config": {"n_qubits": 5, "memory_slots": 3}, "header": {"qubit_labels": [["q", 0], ["q", 1], ["q", 2], ["q", 3], ["q", 4]], "n_qubits": 5, "qreg_sizes": [["q", 5]], "clbit_labels": [["meas", 0], ["meas", 1], ["meas", 2]], "memory_slots": 3, "creg_sizes": [["meas", 3]], "name": "circuit-103", "global_phase": 2.356194490192345, "metadata": {}}, "instructions": [{"name": "rz", "params": [1.5707963267948966], "qubits": [0]}, {"name": "sx", "qubits": [0]}, {"name": "rz", "params": [1.5707963267948966], "qubits": [0]}, {"name": "rz", "params": [1.5707963267948966],...
+```
+
+```
+{"config": {"n_qubits": 5, "memory_slots": 3}, "header": {"qubit_labels": [["q", 0], ["q", 1], ["q", 2], ["q", 3], ["q", 4]], "n_qubits": 5, "qreg_sizes": [["q", 5]], "clbit_labels": [["meas", 0], ["meas", 1], ["meas", 2]], "memory_slots": 3, "creg_sizes": [["meas", 3]], "name": "circuit-103", "global_phase": 2.356194490192345, "metadata": {}}, "instructions": [{"name": "rz", "params": [1.5707963267948966], "qubits": [0]}, {"name": "sx", "qubits": [0]}, {"name": "rz", "params": [1.5707963267948966], "qubits": [0]}, {"name": "rz", "params": [1.5707963267948966],...
+```
+
+Original buggy code:
+{"config": {"n_qubits": 5, "memory_slots": 3}, "header": {"qubit_labels": [["q", 0], ["q", 1], ["q", 2], ["q", 3], ["q", 4]], "n_qubits": 5, "qreg_sizes": [["q", 5]], "clbit_labels": [["meas", 0], ["meas", 1], ["meas", 2]], "memory_slots": 3, "creg_sizes": [["meas", 3]], "name": "circuit-103", "global_phase": 2.356194490192345, "metadata": {}}, "instructions": [{"name": "rz", "params": [1.5707963267948966], "qubits": [0]}, {"name": "sx", "qubits": [0]}, {"name": "rz", "params": [1.5707963267948966], "qubits": [0]}, {"name": "rz", "params": [1.5707963267948966],...
+
+---CODE_BLOCK---
+
+{"config": {"n_qubits": 5, "memory_slots": 3}, "header": {"qubit_labels": [["q", 0], ["q", 1], ["q", 2], ["q", 3], ["q", 4]], "n_qubits": 5, "qreg_sizes": [["q", 5]], "clbit_labels": [["meas", 0], ["meas", 1], ["meas", 2]], "memory_slots": 3, "creg_sizes": [["meas", 3]], "name": "circuit-103", "global_phase": 2.356194490192345, "metadata": {}}, "instructions": [{"name": "rz", "params": [1.5707963267948966], "qubits": [0]}, {"name": "sx", "qubits": [0]}, {"name": "rz", "params": [1.5707963267948966], "qubits": [0]}, {"name": "rz", "params": [1.5707963267948966],...
+
+Solution explanation:
+The format that the IBM Quantum API is currently using is Qobj (or Quantum object) which is documented here: https://arxiv.org/abs/1809.03452 and the current schema definitions for it are located here: https://github.com/Qiskit/ibm-quantum-schemas That's just the background information on the format though, to answer the details of your question, Qiskit supports loading this and creating a circuit from a Qobj payload via its class and the function. Assuming you have a local file the basic workflow would be something like: Where is the list of objects equivalent to what's in the qobj (a qobj can contain more than one circuit). and are dictionaries containing the configuration and metadata contained in the qobj.
+
+```
+Qobj
+```
+
+```
+disassemble()
+```
+
+```
+job.json
+```
+
+```
+import json from qiskit.assembler.disassemble import disassemble from qiskit.qobj import QasmQobj with open('job.json') as fd: qobj_dict = json.load(fd) qobj = QasmQobj.from_dict(qobj_dict) circuits, run_config, headers = disassemble(qobj)
+```
+
+```
+import json from qiskit.assembler.disassemble import disassemble from qiskit.qobj import QasmQobj with open('job.json') as fd: qobj_dict = json.load(fd) qobj = QasmQobj.from_dict(qobj_dict) circuits, run_config, headers = disassemble(qobj)
+```
+
+```
+circuits
+```
+
+```
+QuantumCircuit
+```
+
+```
+run_config
+```
+
+```
+headers
+```
+
+Original fixed code:
+Qobj
+
+---CODE_BLOCK---
+
+disassemble()
+
+---CODE_BLOCK---
+
+job.json
+
+---CODE_BLOCK---
+
+import json from qiskit.assembler.disassemble import disassemble from qiskit.qobj import QasmQobj with open('job.json') as fd: qobj_dict = json.load(fd) qobj = QasmQobj.from_dict(qobj_dict) circuits, run_config, headers = disassemble(qobj)
+
+---CODE_BLOCK---
+
+import json from qiskit.assembler.disassemble import disassemble from qiskit.qobj import QasmQobj with open('job.json') as fd: qobj_dict = json.load(fd) qobj = QasmQobj.from_dict(qobj_dict) circuits, run_config, headers = disassemble(qobj)
+
+---CODE_BLOCK---
+
+circuits
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+run_config
+
+---CODE_BLOCK---
+
+headers

@@ -1,0 +1,71 @@
+Title:
+unexpected keyword argument in qiskit vqe
+
+Category:
+
+
+Question:
+Title: unexpected keyword argument in qiskit vqe
+
+I want to find the estimate of the ground state energy of my Hamiltonian that is implemented as in my variable . I then prepare an ansatz circuit with 5 parameters. Then I try to run the thing with and then but I get the following error: Any help is highly appreciated!
+
+```
+H
+```
+
+```
+PauliSumOp
+```
+
+```
+H_op
+```
+
+```
+circ_ansatz
+```
+
+```
+my_vqe = VQE(ansatz = circ_ansatz, optimizer=SPSA, quantum_instance=Aer.get_backend('aer_simulator'), initial_point=[0.5]*N_iters)
+```
+
+```
+print(my_vqe.compute_minimum_eigenvalue(H_op))
+```
+
+```
+print(my_vqe.compute_minimum_eigenvalue(H_op)) File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/qiskit/algorithms/minimum_eigen_solvers/vqe.py", line 526, in compute_minimum_eigenvalue opt_result = self.optimizer( # pylint: disable=not-callable TypeError: __init__() got an unexpected keyword argument 'fun'
+```
+
+Original buggy code:
+H
+
+---CODE_BLOCK---
+
+PauliSumOp
+
+---CODE_BLOCK---
+
+H_op
+
+---CODE_BLOCK---
+
+circ_ansatz
+
+---CODE_BLOCK---
+
+my_vqe = VQE(ansatz = circ_ansatz, optimizer=SPSA, quantum_instance=Aer.get_backend('aer_simulator'), initial_point=[0.5]*N_iters)
+
+---CODE_BLOCK---
+
+print(my_vqe.compute_minimum_eigenvalue(H_op))
+
+---CODE_BLOCK---
+
+print(my_vqe.compute_minimum_eigenvalue(H_op)) File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/qiskit/algorithms/minimum_eigen_solvers/vqe.py", line 526, in compute_minimum_eigenvalue opt_result = self.optimizer( # pylint: disable=not-callable TypeError: __init__() got an unexpected keyword argument 'fun'
+
+Solution explanation:
+my_vqe = VQE(ansatz = circ_ansatz, optimizer=SPSA,... You need to make an instance of the optimizer not pass the class (set any parameters you want the following uses defaults) my_vqe = VQE(ansatz = circ_ansatz, optimizer=SPSA(),...
+
+Original fixed code:
+my_vqe = VQE(ansatz = circ_ansatz, optimizer=SPSA,... You need to make an instance of the optimizer not pass the class (set any parameters you want the following uses defaults) my_vqe = VQE(ansatz = circ_ansatz, optimizer=SPSA(),...

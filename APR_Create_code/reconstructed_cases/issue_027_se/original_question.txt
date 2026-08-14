@@ -1,0 +1,63 @@
+Title:
+Is it possible to automatically rename a job at submission time?
+
+Category:
+Category:
+Backend Usage / Simulation / Output
+
+Why Stack Overflow Wins in This Category:
+In backend-related tasks, precision in API usage is crucial. The Stack Overflow answer demonstrates correct and supported functionality (update_name()), while the AI answer confuses tagging with renaming. Accuracy and reproducibility give the Stack Overflow solution a clear edge here.
+
+Question:
+Title: Is it possible to automatically rename a job at submission time?
+
+I would like to find out if there is some way to rename a job automatically, either when the job is first sent to the queue, or later after the fact. I've tried searching through the forum and the documentation to try and find a solution, but nothing that seems to do the trick. The closest I have found is the parameter, however, this is depreciated and no longer functions. Edit: I finally found a (frustratingly easy) solution, see my answer below
+
+```
+qobj_id
+```
+
+Original buggy code:
+qobj_id
+
+Solution explanation:
+I finally managed to find a solution. It actually ended up being so simple, that I think the only way that I had missed it was that I was looking for a solution within or and not the job object itself. The solution uses the method and here is a simple implementation of it.
+
+```
+backend.run()
+```
+
+```
+execute()
+```
+
+```
+job.update_name()
+```
+
+```
+backend = provider.get_backend('ibm_nairobi') qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.h(qreg_q[0]) circuit.measure(qreg_q[0], creg_c[0]) job = execute(circuit, backend, shots=8192, memory=True) job.update_name('test_name') #the new job will have the name "test_name"
+```
+
+```
+backend = provider.get_backend('ibm_nairobi') qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.h(qreg_q[0]) circuit.measure(qreg_q[0], creg_c[0]) job = execute(circuit, backend, shots=8192, memory=True) job.update_name('test_name') #the new job will have the name "test_name"
+```
+
+Original fixed code:
+backend.run()
+
+---CODE_BLOCK---
+
+execute()
+
+---CODE_BLOCK---
+
+job.update_name()
+
+---CODE_BLOCK---
+
+backend = provider.get_backend('ibm_nairobi') qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.h(qreg_q[0]) circuit.measure(qreg_q[0], creg_c[0]) job = execute(circuit, backend, shots=8192, memory=True) job.update_name('test_name') #the new job will have the name "test_name"
+
+---CODE_BLOCK---
+
+backend = provider.get_backend('ibm_nairobi') qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.h(qreg_q[0]) circuit.measure(qreg_q[0], creg_c[0]) job = execute(circuit, backend, shots=8192, memory=True) job.update_name('test_name') #the new job will have the name "test_name"

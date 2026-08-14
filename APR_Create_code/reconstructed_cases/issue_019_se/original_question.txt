@@ -1,0 +1,95 @@
+Title:
+How many shots are executed when using the IBMQJobManager?
+
+Category:
+Category:
+Circuit Execution Configuration
+
+Why AI Wins in This Category:
+In the "Circuit" category, especially when configuring job execution, clarity and example code are crucial. The AI solution:
+
+Presents a real, runnable Jupyter-ready example.
+
+Explains deeper integration with Qiskit’s QuantumInstance, which is broadly relevant to algorithm runners.
+
+Encourages backend introspection and avoids ambiguity.
+
+This makes the AI solution more comprehensive and immediately actionable.
+
+Question:
+Title: How many shots are executed when using the IBMQJobManager?
+
+When using qiskit it is possible to stipulate the number of for each experiment/, however when using this is seemingly not possible. Is this correct and if so how many are executed by default? and if not how can the number of be specified?
+
+```
+execute
+```
+
+```
+shots
+```
+
+```
+QuantumCircuit
+```
+
+```
+IBMJobManager
+```
+
+```
+shots
+```
+
+```
+shots
+```
+
+Original buggy code:
+execute
+
+---CODE_BLOCK---
+
+shots
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+IBMJobManager
+
+---CODE_BLOCK---
+
+shots
+
+---CODE_BLOCK---
+
+shots
+
+Solution explanation:
+You can specify . See in documentation: https://qiskit.org/documentation/stubs/qiskit.providers.ibmq.managed.IBMQJobManager.run.html#qiskit.providers.ibmq.managed.IBMQJobManager.run The default is 1024 or the maximum allowed by the backend, whichever is smaller.
+
+```
+IBMQJobManager.run(shots=my_shots)
+```
+
+```
+run_config
+```
+
+```
+IBMQJobManager.run()
+```
+
+Original fixed code:
+IBMQJobManager.run(shots=my_shots)
+
+---CODE_BLOCK---
+
+run_config
+
+---CODE_BLOCK---
+
+IBMQJobManager.run()

@@ -1,0 +1,115 @@
+Title:
+What is wrong with my quantum grover's algorithm?
+
+Category:
+
+
+Question:
+Title: What is wrong with my quantum grover's algorithm?
+
+I am trying to create Grover's algorithm in quantum programming with Qiskit to find the target binary string . This is my process : Apply a Hadamard gate to 4 qubits (3 for the binary string and 1 for the target qubit) I create a circuit for the oracle. I use $X$ gates to flip the 1st and 3rd input qubits - meaning only when they are 0 will they become 1. Following this, I used a $CX$ gate with all 3 input qubits as control and the target qubit as the target. This means it should flip the target when the 3 input qubits are one, only possible if it's my target string I created a grover diffusion circuit I applied the oracle and grover diffusion iteratively creating a circuit. I created a circuit designed to measure the first 3 qubits. I made a graph counting the results. When I tried a similar algorithm with 2 qubits, I got only in my counts graph. I haven't been able to do that with 3-qubit strings like . I tried changing iterations and experimenting with how gates like the are applied by making it 3 individual (...etc). I feel like there's something wrong logically. Any help is appreciated.
+
+```
+010
+```
+
+```
+010
+```
+
+```
+11
+```
+
+```
+010
+```
+
+```
+cz([0,1,2])
+```
+
+```
+cz(0,2)
+```
+
+```
+qc = QuantumCircuit(4) qc.h(range(4)) num_iterations = 16 # Set the number of iterations # Oracle for marking |01⟩ state oracle = QuantumCircuit(4) oracle.x(0) oracle.x(2) oracle.cx([0,1,2],3) oracle.x(0) oracle.x(2) # Grover diffusion operator grover_diffusion = QuantumCircuit(4) grover_diffusion.h(range(4)) grover_diffusion.z(3) grover_diffusion.cz([0,1,2],3) grover_diffusion.h(range(3)) # Apply the oracle and Grover diffusion iteratively for _ in range(num_iterations): qc.compose(oracle, inplace=True) # Apply the Grover diffusion operator qc.compose(grover_diffusion, inplace=True) sv_sim = Aer.get_backend('statevector_simulator') result = sv_sim.run(qc).result() statevec = result.get_statevector() from qiskit.visualization import array_to_latex array_to_latex(statevec, prefix="|\\psi\\rangle =") #Measure circuit measurer = QuantumCircuit(4,3) measurer.measure([0,1,2],[0,1,2]) qc.compose(measurer, inplace=True) # Measure the qubits #qc.measure([0,1,2],[0,1,2]) qasm_sim = Aer.get_backend('qasm_simulator') result = qasm_sim.run(qc).result() counts = result.get_counts() plot_histogram(counts)
+```
+
+```
+qc = QuantumCircuit(4) qc.h(range(4)) num_iterations = 16 # Set the number of iterations # Oracle for marking |01⟩ state oracle = QuantumCircuit(4) oracle.x(0) oracle.x(2) oracle.cx([0,1,2],3) oracle.x(0) oracle.x(2) # Grover diffusion operator grover_diffusion = QuantumCircuit(4) grover_diffusion.h(range(4)) grover_diffusion.z(3) grover_diffusion.cz([0,1,2],3) grover_diffusion.h(range(3)) # Apply the oracle and Grover diffusion iteratively for _ in range(num_iterations): qc.compose(oracle, inplace=True) # Apply the Grover diffusion operator qc.compose(grover_diffusion, inplace=True) sv_sim = Aer.get_backend('statevector_simulator') result = sv_sim.run(qc).result() statevec = result.get_statevector() from qiskit.visualization import array_to_latex array_to_latex(statevec, prefix="|\\psi\\rangle =") #Measure circuit measurer = QuantumCircuit(4,3) measurer.measure([0,1,2],[0,1,2]) qc.compose(measurer, inplace=True) # Measure the qubits #qc.measure([0,1,2],[0,1,2]) qasm_sim = Aer.get_backend('qasm_simulator') result = qasm_sim.run(qc).result() counts = result.get_counts() plot_histogram(counts)
+```
+
+Original buggy code:
+010
+
+---CODE_BLOCK---
+
+010
+
+---CODE_BLOCK---
+
+11
+
+---CODE_BLOCK---
+
+010
+
+---CODE_BLOCK---
+
+cz([0,1,2])
+
+---CODE_BLOCK---
+
+cz(0,2)
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(4) qc.h(range(4)) num_iterations = 16 # Set the number of iterations # Oracle for marking |01⟩ state oracle = QuantumCircuit(4) oracle.x(0) oracle.x(2) oracle.cx([0,1,2],3) oracle.x(0) oracle.x(2) # Grover diffusion operator grover_diffusion = QuantumCircuit(4) grover_diffusion.h(range(4)) grover_diffusion.z(3) grover_diffusion.cz([0,1,2],3) grover_diffusion.h(range(3)) # Apply the oracle and Grover diffusion iteratively for _ in range(num_iterations): qc.compose(oracle, inplace=True) # Apply the Grover diffusion operator qc.compose(grover_diffusion, inplace=True) sv_sim = Aer.get_backend('statevector_simulator') result = sv_sim.run(qc).result() statevec = result.get_statevector() from qiskit.visualization import array_to_latex array_to_latex(statevec, prefix="|\\psi\\rangle =") #Measure circuit measurer = QuantumCircuit(4,3) measurer.measure([0,1,2],[0,1,2]) qc.compose(measurer, inplace=True) # Measure the qubits #qc.measure([0,1,2],[0,1,2]) qasm_sim = Aer.get_backend('qasm_simulator') result = qasm_sim.run(qc).result() counts = result.get_counts() plot_histogram(counts)
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(4) qc.h(range(4)) num_iterations = 16 # Set the number of iterations # Oracle for marking |01⟩ state oracle = QuantumCircuit(4) oracle.x(0) oracle.x(2) oracle.cx([0,1,2],3) oracle.x(0) oracle.x(2) # Grover diffusion operator grover_diffusion = QuantumCircuit(4) grover_diffusion.h(range(4)) grover_diffusion.z(3) grover_diffusion.cz([0,1,2],3) grover_diffusion.h(range(3)) # Apply the oracle and Grover diffusion iteratively for _ in range(num_iterations): qc.compose(oracle, inplace=True) # Apply the Grover diffusion operator qc.compose(grover_diffusion, inplace=True) sv_sim = Aer.get_backend('statevector_simulator') result = sv_sim.run(qc).result() statevec = result.get_statevector() from qiskit.visualization import array_to_latex array_to_latex(statevec, prefix="|\\psi\\rangle =") #Measure circuit measurer = QuantumCircuit(4,3) measurer.measure([0,1,2],[0,1,2]) qc.compose(measurer, inplace=True) # Measure the qubits #qc.measure([0,1,2],[0,1,2]) qasm_sim = Aer.get_backend('qasm_simulator') result = qasm_sim.run(qc).result() counts = result.get_counts() plot_histogram(counts)
+
+Solution explanation:
+There are several mistakes in your code: You incorrectly assume that is an $X$ gate on the fourth qubit controlled off the first three ones, but it's not. Instead, it's three $\mathsf{C}-X$ gates, with the fourth qubit being their target and their control qubit being one of the first three. This mistake is present in both and . The optimal number of iterations in Grover's algorithm depends only on the number of solutions (here, 1) and the number of qubits (here, 3). The number of iterations with a single solution using $n$ qubits is given by: $$N=\left\lfloor\frac{\pi}{4}\sqrt{2^n}\right\rfloor$$ You apply the diffusion operator on the fourth qubit, which is supposed to stay in the $|-\rangle$ state to use it for phase kickback. The diffusion operator is supposed to be a layer of $H$ gates followed by a layer of $X$ gates, followed by a multi-controlled-$Z$, followed by a layer of $X$ gates, followed by a layer of $H$ gates. Here, you're missing the $X$ gates layers. All in all, we end up with the following code: which then plots this result:
+
+```
+qc.cx([0, 1, 2], 3)
+```
+
+```
+oracle
+```
+
+```
+grover_diffusion
+```
+
+```
+from math import pi, sqrt from qiskit import QuantumCircuit from qiskit_aer import Aer from qiskit.visualization import plot_histogram qc = QuantumCircuit(4) qc.h(range(4)) # Fourth qubit in |-> state qc.z(3) num_iterations = int(pi * sqrt(2 ** 3) / 4) # Set the number of iterations # Oracle for marking |01⟩ state oracle = QuantumCircuit(4) oracle.x(0) oracle.x(2) oracle.mcx([0,1,2], 3) oracle.x(0) oracle.x(2) # Grover diffusion operator # We still make it acting on 4 qubits so that we don't change the rest of the code, but # we're leaving the fourth qubit alone. grover_diffusion = QuantumCircuit(4) grover_diffusion.h(range(3)) grover_diffusion.x(range(3)) # For some reason Aer doesn't like the ccz gate, so we build one from a ccx using the Z = HXH relation # grover_diffusion.ccz(0, 1, 2) grover_diffusion.h(2) grover_diffusion.ccx(0, 1, 2) grover_diffusion.h(2) grover_diffusion.x(range(3)) grover_diffusion.h(range(3)) # Apply the oracle and Grover diffusion iteratively for _ in range(num_iterations): qc.compose(oracle, inplace=True) # Apply the Grover diffusion operator qc.compose(grover_diffusion, inplace=True) sv_sim = Aer.get_backend('statevector_simulator') result = sv_sim.run(qc).result() statevec = result.get_statevector() from qiskit.visualization import array_to_latex array_to_latex(statevec, prefix="|\\psi\\rangle =") #Measure circuit measurer = QuantumCircuit(4,3) measurer.measure([0,1,2],[0,1,2]) qc.compose(measurer, inplace=True) # Measure the qubits #qc.measure([0,1,2],[0,1,2]) qasm_sim = Aer.get_backend('qasm_simulator') result = qasm_sim.run(qc).result() counts = result.get_counts() plot_histogram(counts)
+```
+
+```
+from math import pi, sqrt from qiskit import QuantumCircuit from qiskit_aer import Aer from qiskit.visualization import plot_histogram qc = QuantumCircuit(4) qc.h(range(4)) # Fourth qubit in |-> state qc.z(3) num_iterations = int(pi * sqrt(2 ** 3) / 4) # Set the number of iterations # Oracle for marking |01⟩ state oracle = QuantumCircuit(4) oracle.x(0) oracle.x(2) oracle.mcx([0,1,2], 3) oracle.x(0) oracle.x(2) # Grover diffusion operator # We still make it acting on 4 qubits so that we don't change the rest of the code, but # we're leaving the fourth qubit alone. grover_diffusion = QuantumCircuit(4) grover_diffusion.h(range(3)) grover_diffusion.x(range(3)) # For some reason Aer doesn't like the ccz gate, so we build one from a ccx using the Z = HXH relation # grover_diffusion.ccz(0, 1, 2) grover_diffusion.h(2) grover_diffusion.ccx(0, 1, 2) grover_diffusion.h(2) grover_diffusion.x(range(3)) grover_diffusion.h(range(3)) # Apply the oracle and Grover diffusion iteratively for _ in range(num_iterations): qc.compose(oracle, inplace=True) # Apply the Grover diffusion operator qc.compose(grover_diffusion, inplace=True) sv_sim = Aer.get_backend('statevector_simulator') result = sv_sim.run(qc).result() statevec = result.get_statevector() from qiskit.visualization import array_to_latex array_to_latex(statevec, prefix="|\\psi\\rangle =") #Measure circuit measurer = QuantumCircuit(4,3) measurer.measure([0,1,2],[0,1,2]) qc.compose(measurer, inplace=True) # Measure the qubits #qc.measure([0,1,2],[0,1,2]) qasm_sim = Aer.get_backend('qasm_simulator') result = qasm_sim.run(qc).result() counts = result.get_counts() plot_histogram(counts)
+```
+
+Original fixed code:
+qc.cx([0, 1, 2], 3)
+
+---CODE_BLOCK---
+
+oracle
+
+---CODE_BLOCK---
+
+grover_diffusion
+
+---CODE_BLOCK---
+
+from math import pi, sqrt from qiskit import QuantumCircuit from qiskit_aer import Aer from qiskit.visualization import plot_histogram qc = QuantumCircuit(4) qc.h(range(4)) # Fourth qubit in |-> state qc.z(3) num_iterations = int(pi * sqrt(2 ** 3) / 4) # Set the number of iterations # Oracle for marking |01⟩ state oracle = QuantumCircuit(4) oracle.x(0) oracle.x(2) oracle.mcx([0,1,2], 3) oracle.x(0) oracle.x(2) # Grover diffusion operator # We still make it acting on 4 qubits so that we don't change the rest of the code, but # we're leaving the fourth qubit alone. grover_diffusion = QuantumCircuit(4) grover_diffusion.h(range(3)) grover_diffusion.x(range(3)) # For some reason Aer doesn't like the ccz gate, so we build one from a ccx using the Z = HXH relation # grover_diffusion.ccz(0, 1, 2) grover_diffusion.h(2) grover_diffusion.ccx(0, 1, 2) grover_diffusion.h(2) grover_diffusion.x(range(3)) grover_diffusion.h(range(3)) # Apply the oracle and Grover diffusion iteratively for _ in range(num_iterations): qc.compose(oracle, inplace=True) # Apply the Grover diffusion operator qc.compose(grover_diffusion, inplace=True) sv_sim = Aer.get_backend('statevector_simulator') result = sv_sim.run(qc).result() statevec = result.get_statevector() from qiskit.visualization import array_to_latex array_to_latex(statevec, prefix="|\\psi\\rangle =") #Measure circuit measurer = QuantumCircuit(4,3) measurer.measure([0,1,2],[0,1,2]) qc.compose(measurer, inplace=True) # Measure the qubits #qc.measure([0,1,2],[0,1,2]) qasm_sim = Aer.get_backend('qasm_simulator') result = qasm_sim.run(qc).result() counts = result.get_counts() plot_histogram(counts)
+
+---CODE_BLOCK---
+
+from math import pi, sqrt from qiskit import QuantumCircuit from qiskit_aer import Aer from qiskit.visualization import plot_histogram qc = QuantumCircuit(4) qc.h(range(4)) # Fourth qubit in |-> state qc.z(3) num_iterations = int(pi * sqrt(2 ** 3) / 4) # Set the number of iterations # Oracle for marking |01⟩ state oracle = QuantumCircuit(4) oracle.x(0) oracle.x(2) oracle.mcx([0,1,2], 3) oracle.x(0) oracle.x(2) # Grover diffusion operator # We still make it acting on 4 qubits so that we don't change the rest of the code, but # we're leaving the fourth qubit alone. grover_diffusion = QuantumCircuit(4) grover_diffusion.h(range(3)) grover_diffusion.x(range(3)) # For some reason Aer doesn't like the ccz gate, so we build one from a ccx using the Z = HXH relation # grover_diffusion.ccz(0, 1, 2) grover_diffusion.h(2) grover_diffusion.ccx(0, 1, 2) grover_diffusion.h(2) grover_diffusion.x(range(3)) grover_diffusion.h(range(3)) # Apply the oracle and Grover diffusion iteratively for _ in range(num_iterations): qc.compose(oracle, inplace=True) # Apply the Grover diffusion operator qc.compose(grover_diffusion, inplace=True) sv_sim = Aer.get_backend('statevector_simulator') result = sv_sim.run(qc).result() statevec = result.get_statevector() from qiskit.visualization import array_to_latex array_to_latex(statevec, prefix="|\\psi\\rangle =") #Measure circuit measurer = QuantumCircuit(4,3) measurer.measure([0,1,2],[0,1,2]) qc.compose(measurer, inplace=True) # Measure the qubits #qc.measure([0,1,2],[0,1,2]) qasm_sim = Aer.get_backend('qasm_simulator') result = qasm_sim.run(qc).result() counts = result.get_counts() plot_histogram(counts)

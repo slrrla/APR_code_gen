@@ -1,0 +1,35 @@
+Title:
+Creating a parameterized Operator in Qiskit that cannot be decomposed into Qiskit supported gates
+
+Category:
+
+
+Question:
+Title: Creating a parameterized Operator in Qiskit that cannot be decomposed into Qiskit supported gates
+
+I am trying to create a custom ansatz to use the built-in Qiskit VQE() function. My ansatz is composed of single qubit gates and a hamiltonian gate which cannot be decomposed into Qiskit supported gates. Here is my ansatz function: When I plug quantum_state_preparation(sites, reps) into the VQE() function it fails. I am pretty sure it is because HamiltonianGate() is unable to handle unbound parameters but I don't know a way around this.
+
+```
+def quantum_state_preparation(sites, reps): qc = QuantumCircuit(sites) num_params = reps*(2*sites+1) params = ParameterVector('θ', num_params) H = 0*SparsePauliOp('I'*(sites)) for j in range(1, sites): H -= 1/2 * (SparsePauliOp('I'*(j-1) + 'XX' + 'I'*(sites-j-1)) + SparsePauliOp('I'*(j-1) + 'YY' + 'I'*(sites-j-1))) ham_op = H.simplify() for n in range(reps): ham_gate = HamiltonianGate(ham_op, params[n*(2*sites+1)]/2) qc.append(ham_gate, range(sites)) for i in range(sites): #single qubit gates qc.p(params[n*(2*sites+1)+1+2*i] ,i) qc.rx(params[n*(2*sites+1)+2+2*i] ,i) qc.parameter_bounds=[[0,2*np.pi]]*num_params return qc
+```
+
+```
+def quantum_state_preparation(sites, reps): qc = QuantumCircuit(sites) num_params = reps*(2*sites+1) params = ParameterVector('θ', num_params) H = 0*SparsePauliOp('I'*(sites)) for j in range(1, sites): H -= 1/2 * (SparsePauliOp('I'*(j-1) + 'XX' + 'I'*(sites-j-1)) + SparsePauliOp('I'*(j-1) + 'YY' + 'I'*(sites-j-1))) ham_op = H.simplify() for n in range(reps): ham_gate = HamiltonianGate(ham_op, params[n*(2*sites+1)]/2) qc.append(ham_gate, range(sites)) for i in range(sites): #single qubit gates qc.p(params[n*(2*sites+1)+1+2*i] ,i) qc.rx(params[n*(2*sites+1)+2+2*i] ,i) qc.parameter_bounds=[[0,2*np.pi]]*num_params return qc
+```
+
+Original buggy code:
+def quantum_state_preparation(sites, reps): qc = QuantumCircuit(sites) num_params = reps*(2*sites+1) params = ParameterVector('θ', num_params) H = 0*SparsePauliOp('I'*(sites)) for j in range(1, sites): H -= 1/2 * (SparsePauliOp('I'*(j-1) + 'XX' + 'I'*(sites-j-1)) + SparsePauliOp('I'*(j-1) + 'YY' + 'I'*(sites-j-1))) ham_op = H.simplify() for n in range(reps): ham_gate = HamiltonianGate(ham_op, params[n*(2*sites+1)]/2) qc.append(ham_gate, range(sites)) for i in range(sites): #single qubit gates qc.p(params[n*(2*sites+1)+1+2*i] ,i) qc.rx(params[n*(2*sites+1)+2+2*i] ,i) qc.parameter_bounds=[[0,2*np.pi]]*num_params return qc
+
+---CODE_BLOCK---
+
+def quantum_state_preparation(sites, reps): qc = QuantumCircuit(sites) num_params = reps*(2*sites+1) params = ParameterVector('θ', num_params) H = 0*SparsePauliOp('I'*(sites)) for j in range(1, sites): H -= 1/2 * (SparsePauliOp('I'*(j-1) + 'XX' + 'I'*(sites-j-1)) + SparsePauliOp('I'*(j-1) + 'YY' + 'I'*(sites-j-1))) ham_op = H.simplify() for n in range(reps): ham_gate = HamiltonianGate(ham_op, params[n*(2*sites+1)]/2) qc.append(ham_gate, range(sites)) for i in range(sites): #single qubit gates qc.p(params[n*(2*sites+1)+1+2*i] ,i) qc.rx(params[n*(2*sites+1)+2+2*i] ,i) qc.parameter_bounds=[[0,2*np.pi]]*num_params return qc
+
+Solution explanation:
+From HamiltonianGate docs Try PauliEvolutionGate which is what the EvolvedOperatorAnsatz in the circuit library uses and is the base class for QAOAAnsatz there and UCC in Nature and they work with VQE.
+
+```
+...which can be decomposed into basis gates if it is 2 qubits or less, or simulated directly in Aer for more qubits.
+```
+
+Original fixed code:
+...which can be decomposed into basis gates if it is 2 qubits or less, or simulated directly in Aer for more qubits.

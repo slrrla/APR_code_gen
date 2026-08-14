@@ -1,0 +1,59 @@
+Title:
+How many Qubits does the qiskit implementation of Shor's Algorithm need to factor N=15?
+
+Category:
+
+
+Question:
+Title: How many Qubits does the qiskit implementation of Shor's Algorithm need to factor N=15?
+
+I know there is a documentation for qiskit.aqua.algorithms.Shor that explains that they used this reference for implementing the actual circuit. It says that the number of qubit needed is 2n+3. So to factor N=15, 11 qubits would be needed. I decided to test this using Qiskit with a backend that has up to 15 qubits. But then I get an error saying that I needed 18 qubits to factor N = 15. Is the implementation different from the actual paper referenced? or am I missing something ? This is the code I used to factor N=15 And this is the error i got
+
+```
+shor = Shor(15,2) backend = provider.get_backend('ibmq_16_melbourne') quantum_instance = QuantumInstance(backend, skip_qobj_validation=False) res = shor.run(quantum_instance) print("The list of factors of {} as computed by Shor is {}.".format(PRIME, res['factors'][0]))
+```
+
+```
+shor = Shor(15,2) backend = provider.get_backend('ibmq_16_melbourne') quantum_instance = QuantumInstance(backend, skip_qobj_validation=False) res = shor.run(quantum_instance) print("The list of factors of {} as computed by Shor is {}.".format(PRIME, res['factors'][0]))
+```
+
+```
+TranspilerError: 'Number of qubits (18) in circuit1 is greater than maximum (15) in the coupling_TranspilerError: 'Number of qubits (18) in circuit1 is greater than maximum (15) in the coupling_map'
+```
+
+```
+TranspilerError: 'Number of qubits (18) in circuit1 is greater than maximum (15) in the coupling_TranspilerError: 'Number of qubits (18) in circuit1 is greater than maximum (15) in the coupling_map'
+```
+
+Original buggy code:
+shor = Shor(15,2) backend = provider.get_backend('ibmq_16_melbourne') quantum_instance = QuantumInstance(backend, skip_qobj_validation=False) res = shor.run(quantum_instance) print("The list of factors of {} as computed by Shor is {}.".format(PRIME, res['factors'][0]))
+
+---CODE_BLOCK---
+
+shor = Shor(15,2) backend = provider.get_backend('ibmq_16_melbourne') quantum_instance = QuantumInstance(backend, skip_qobj_validation=False) res = shor.run(quantum_instance) print("The list of factors of {} as computed by Shor is {}.".format(PRIME, res['factors'][0]))
+
+---CODE_BLOCK---
+
+TranspilerError: 'Number of qubits (18) in circuit1 is greater than maximum (15) in the coupling_TranspilerError: 'Number of qubits (18) in circuit1 is greater than maximum (15) in the coupling_map'
+
+---CODE_BLOCK---
+
+TranspilerError: 'Number of qubits (18) in circuit1 is greater than maximum (15) in the coupling_TranspilerError: 'Number of qubits (18) in circuit1 is greater than maximum (15) in the coupling_map'
+
+Solution explanation:
+Well actually when looking at the source code, the construct_circuit method: quantum register where the sequential QFT is performed They use indeed $4n + 2$ qubits, so it seems they changed what was proposed in the paper. Some parts were simplified. Check the docstring in the original github repo.
+
+```
+self._up_qreg = QuantumRegister(2 * self._n, name='up') # quantum register where the multiplications are made self._down_qreg = QuantumRegister(self._n, name='down') # auxiliary quantum register used in addition and multiplication self._aux_qreg = QuantumRegister(self._n + 2, name='aux')
+```
+
+```
+self._up_qreg = QuantumRegister(2 * self._n, name='up') # quantum register where the multiplications are made self._down_qreg = QuantumRegister(self._n, name='down') # auxiliary quantum register used in addition and multiplication self._aux_qreg = QuantumRegister(self._n + 2, name='aux')
+```
+
+Original fixed code:
+self._up_qreg = QuantumRegister(2 * self._n, name='up') # quantum register where the multiplications are made self._down_qreg = QuantumRegister(self._n, name='down') # auxiliary quantum register used in addition and multiplication self._aux_qreg = QuantumRegister(self._n + 2, name='aux')
+
+---CODE_BLOCK---
+
+self._up_qreg = QuantumRegister(2 * self._n, name='up') # quantum register where the multiplications are made self._down_qreg = QuantumRegister(self._n, name='down') # auxiliary quantum register used in addition and multiplication self._aux_qreg = QuantumRegister(self._n + 2, name='aux')

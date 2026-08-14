@@ -1,0 +1,35 @@
+Title:
+Layout Method in qiskit
+
+Category:
+
+
+Question:
+Title: Layout Method in qiskit
+
+Using with , which is the layout method used by default?
+
+```
+transpile
+```
+
+```
+optimization_level = 3
+```
+
+Original buggy code:
+transpile
+
+---CODE_BLOCK---
+
+optimization_level = 3
+
+Solution explanation:
+is used by default. You can see the code for the optimization level here and it is this line that sets the default to be the dense layout.
+
+```
+DenseLayout
+```
+
+Original fixed code:
+DenseLayout

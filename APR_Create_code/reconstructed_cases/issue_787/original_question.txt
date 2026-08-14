@@ -1,0 +1,35 @@
+Title:
+Feedback on Deutsch-Josza alg. homework prob. in Learning Quantum computation using Qiskit [closed]
+
+Category:
+
+
+Question:
+Title: Feedback on Deutsch-Josza alg. homework prob. in Learning Quantum computation using Qiskit [closed]
+
+Closed. This question is off-topic. It is not currently accepting answers. This question does not appear to be about quantum computing or quantum information, within the scope defined in the help center. Closed 5 years ago. Improve this question In Learning Quantum Computation using Qiskit chapter 3.4 I encountered the Deutsch-Josza Algorithm. At the end of the chapter I was presented with a homework problem where the code: gives me a gate called 'oracle' and I was supposed to do find out whether it was balanced or constant. I encountered a problem when appending 'oracle' into my circuit, it kept telling me that 'The amount of qubit/clbit arguments does not match the gate expectation.' After alot of headscratching and try and error I found out that the gate was stuck at a size of 5 (or n=4 if you've done the problem). Because the entire chapter was taught from the view of n qbits, I tried to solve the problem by writing an algorithm for n qbits(so that I can choose how many qbits my circuit contains). I think that some more detail should be added into the text of that chapter so that things like this don't confuse newcomers like me, or just make it an n sized gate. I'd be grateful if someone could pass this message on to the good men and women managing the site.
+
+```
+from qiskit_textbook.problems import dj_problem_oracle oracle = dj_problem_oracle(1)
+```
+
+```
+from qiskit_textbook.problems import dj_problem_oracle oracle = dj_problem_oracle(1)
+```
+
+Original buggy code:
+from qiskit_textbook.problems import dj_problem_oracle oracle = dj_problem_oracle(1)
+
+---CODE_BLOCK---
+
+from qiskit_textbook.problems import dj_problem_oracle oracle = dj_problem_oracle(1)
+
+Solution explanation:
+I think you misunderstood the problem here. First notice that in each example of the notebook, when you are dealing with a length n you actually get in the end n+1 qubits to deal with in your circuit. Plus each of the function creates a circuit with n+1 qubits when dealing with length n. Therefore with n=4 the fact that the gate has a number of qubits equal to 5 is normal in this case. Now, since the oracle that is created is a gate, you can access its number of qubits by doing , here corresponding to n+1, and then to answer the question you run the same functions used in the examples (creating the algo from the oracle with the right number of qubits n, and executing the algo). I tried this and it worked, let me know if you still need help! :)
+
+```
+oracle.num_qubits
+```
+
+Original fixed code:
+oracle.num_qubits

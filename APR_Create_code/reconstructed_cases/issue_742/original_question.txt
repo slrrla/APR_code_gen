@@ -1,0 +1,107 @@
+Title:
+Noisy expectation value of non-Pauli observable in qiskit
+
+Category:
+
+
+Question:
+Title: Noisy expectation value of non-Pauli observable in qiskit
+
+I would like to calculate an expectation value of a general operator in a noisy simulation with qiskit. The usual way of doing this is via an with a noise model. However, the function of the Estimator usually takes sequences of strings describing Pauli words and does not accept a list of objects as input for the observable. The observable I want to calculate the expectation value of is a general operator (to be precise a density matrix as I am looking to calculate a fidelity). Another way of calculating an expectation value with qiskit is either via or . But both obviously don't allow for noisy simulations. Can I somehow obtain the density matrix after the noisy simulation and calculate the expectation value via ? It feels like I am missing something obvious. I read that a general operator internally is translated to a . But simply changing the class does not work. Why is this?
+
+```
+Estimator
+```
+
+```
+run()
+```
+
+```
+Operator
+```
+
+```
+StateFN.eval()
+```
+
+```
+Statevector.expectation_value()
+```
+
+```
+DensityMatrix.expectation_value()
+```
+
+```
+SparsePauliOp
+```
+
+Original buggy code:
+Estimator
+
+---CODE_BLOCK---
+
+run()
+
+---CODE_BLOCK---
+
+Operator
+
+---CODE_BLOCK---
+
+StateFN.eval()
+
+---CODE_BLOCK---
+
+Statevector.expectation_value()
+
+---CODE_BLOCK---
+
+DensityMatrix.expectation_value()
+
+---CODE_BLOCK---
+
+SparsePauliOp
+
+Solution explanation:
+The class has a method that you can use to convert your observable into something you can pass to the . Here's a simple example:
+
+```
+SparsePauliOp
+```
+
+```
+from_operator()
+```
+
+```
+Estimator
+```
+
+```
+# Imports from math import pi from qiskit import QuantumCircuit, transpile from qiskit.quantum_info import SparsePauliOp, Operator from qiskit_aer import AerSimulator from qiskit_ibm_runtime import EstimatorV2 # Create estimator object backend = AerSimulator() estimator = EstimatorV2(mode=backend) # Define operator O = Operator([[1,0,0,-2j], [0,0,0,0], [0,0,0,0], [2j,0,0,1]]) # Convert to Pauli Word obs = SparsePauliOp.from_operator(O) # create quantum circuit qc = QuantumCircuit(2) qc.rx(pi/3,1) qc.cx(1,0) # transpile qc_t = transpile(qc,backend) #run simulation job = estimator.run([(qc_t,[obs])]) exp_vals = job.result()[0].data.evs print(exp_vals)
+```
+
+```
+# Imports from math import pi from qiskit import QuantumCircuit, transpile from qiskit.quantum_info import SparsePauliOp, Operator from qiskit_aer import AerSimulator from qiskit_ibm_runtime import EstimatorV2 # Create estimator object backend = AerSimulator() estimator = EstimatorV2(mode=backend) # Define operator O = Operator([[1,0,0,-2j], [0,0,0,0], [0,0,0,0], [2j,0,0,1]]) # Convert to Pauli Word obs = SparsePauliOp.from_operator(O) # create quantum circuit qc = QuantumCircuit(2) qc.rx(pi/3,1) qc.cx(1,0) # transpile qc_t = transpile(qc,backend) #run simulation job = estimator.run([(qc_t,[obs])]) exp_vals = job.result()[0].data.evs print(exp_vals)
+```
+
+Original fixed code:
+SparsePauliOp
+
+---CODE_BLOCK---
+
+from_operator()
+
+---CODE_BLOCK---
+
+Estimator
+
+---CODE_BLOCK---
+
+# Imports from math import pi from qiskit import QuantumCircuit, transpile from qiskit.quantum_info import SparsePauliOp, Operator from qiskit_aer import AerSimulator from qiskit_ibm_runtime import EstimatorV2 # Create estimator object backend = AerSimulator() estimator = EstimatorV2(mode=backend) # Define operator O = Operator([[1,0,0,-2j], [0,0,0,0], [0,0,0,0], [2j,0,0,1]]) # Convert to Pauli Word obs = SparsePauliOp.from_operator(O) # create quantum circuit qc = QuantumCircuit(2) qc.rx(pi/3,1) qc.cx(1,0) # transpile qc_t = transpile(qc,backend) #run simulation job = estimator.run([(qc_t,[obs])]) exp_vals = job.result()[0].data.evs print(exp_vals)
+
+---CODE_BLOCK---
+
+# Imports from math import pi from qiskit import QuantumCircuit, transpile from qiskit.quantum_info import SparsePauliOp, Operator from qiskit_aer import AerSimulator from qiskit_ibm_runtime import EstimatorV2 # Create estimator object backend = AerSimulator() estimator = EstimatorV2(mode=backend) # Define operator O = Operator([[1,0,0,-2j], [0,0,0,0], [0,0,0,0], [2j,0,0,1]]) # Convert to Pauli Word obs = SparsePauliOp.from_operator(O) # create quantum circuit qc = QuantumCircuit(2) qc.rx(pi/3,1) qc.cx(1,0) # transpile qc_t = transpile(qc,backend) #run simulation job = estimator.run([(qc_t,[obs])]) exp_vals = job.result()[0].data.evs print(exp_vals)

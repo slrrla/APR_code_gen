@@ -1,0 +1,75 @@
+Title:
+Vey different results between qasm_simulator and quantum computer
+
+Category:
+Category:
+Backend Usage / Simulation / Output
+
+Why Stack Overflow Wins in This Category:
+For backend-related issues, precise hardware-level details (depth, CNOT count, coherence times) are critical. Stack Overflow explicitly demonstrates how noise accumulation makes the experiment fail, whereas the AI solution remains broad. Thus, Stack Overflow is better in this category.
+
+Question:
+Title: Vey different results between qasm_simulator and quantum computer
+
+I've started playing around with circuits only recently and decided to try out and implement a 4-qubit Grover's search using qiskit. When I run my python script using the qasm_simulator, I get the expected results with a probability peak over the value 0010 as expected (the value marked by my oracle). However, when I change the backend to basically anything else on IBMQ (ibmqx2, ibmq_essex, ibmq_vigo), the results get very different. There is no apparent peak in the distribution whatsoever, not even if I repeat the amplitude amplification process - I use the "iterations" variable for that further in the code - works nicely with qasm_simulator, but seems to have no real effect on a quantum computer. I feel like I'm doing something fundamentally wrong, but I simply cannot figure it out. Here's my code: For example, this is one of the probability distributions I got from a quantum computer, where the 0010 value should have been amplified:
+
+```
+import math from qiskit import IBMQ, BasicAer from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, execute from qiskit.visualization import plot_histogram pi = math.pi provider = IBMQ.load_account() def oracle(circuit, qr): circuit.x(qr[0]) circuit.x(qr[2]) circuit.x(qr[3]) circuit.cu1(pi/4, qr[0], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(-pi/4, qr[1], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(pi/4, qr[1], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.x(qr[0]) circuit.x(qr[2]) circuit.x(qr[3]) def amplification(circuit, qr): circuit.h(qr) circuit.x(qr) circuit.cu1(pi/4, qr[0], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(-pi/4, qr[1], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(pi/4, qr[1], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.x(qr) circuit.h(qr) qr = QuantumRegister(4) cr = ClassicalRegister(4) iterations = 1 groverCircuit = QuantumCircuit(qr, cr) # apply Hadamard gate to all qubits groverCircuit.h(qr) while iterations > 0: oracle(groverCircuit, qr) amplification(groverCircuit, qr) iterations -= 1 # measure groverCircuit.measure(qr, cr) provider.backends() backend = provider.get_backend('ibmqx2') # backend = BasicAer.get_backend('qasm_simulator') shots = 1024 results = execute(groverCircuit, backend=backend, shots=shots).result() answer = results.get_counts() print(answer) print(plot_histogram(answer))
+```
+
+```
+import math from qiskit import IBMQ, BasicAer from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, execute from qiskit.visualization import plot_histogram pi = math.pi provider = IBMQ.load_account() def oracle(circuit, qr): circuit.x(qr[0]) circuit.x(qr[2]) circuit.x(qr[3]) circuit.cu1(pi/4, qr[0], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(-pi/4, qr[1], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(pi/4, qr[1], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.x(qr[0]) circuit.x(qr[2]) circuit.x(qr[3]) def amplification(circuit, qr): circuit.h(qr) circuit.x(qr) circuit.cu1(pi/4, qr[0], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(-pi/4, qr[1], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(pi/4, qr[1], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.x(qr) circuit.h(qr) qr = QuantumRegister(4) cr = ClassicalRegister(4) iterations = 1 groverCircuit = QuantumCircuit(qr, cr) # apply Hadamard gate to all qubits groverCircuit.h(qr) while iterations > 0: oracle(groverCircuit, qr) amplification(groverCircuit, qr) iterations -= 1 # measure groverCircuit.measure(qr, cr) provider.backends() backend = provider.get_backend('ibmqx2') # backend = BasicAer.get_backend('qasm_simulator') shots = 1024 results = execute(groverCircuit, backend=backend, shots=shots).result() answer = results.get_counts() print(answer) print(plot_histogram(answer))
+```
+
+Original buggy code:
+import math from qiskit import IBMQ, BasicAer from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, execute from qiskit.visualization import plot_histogram pi = math.pi provider = IBMQ.load_account() def oracle(circuit, qr): circuit.x(qr[0]) circuit.x(qr[2]) circuit.x(qr[3]) circuit.cu1(pi/4, qr[0], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(-pi/4, qr[1], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(pi/4, qr[1], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.x(qr[0]) circuit.x(qr[2]) circuit.x(qr[3]) def amplification(circuit, qr): circuit.h(qr) circuit.x(qr) circuit.cu1(pi/4, qr[0], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(-pi/4, qr[1], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(pi/4, qr[1], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.x(qr) circuit.h(qr) qr = QuantumRegister(4) cr = ClassicalRegister(4) iterations = 1 groverCircuit = QuantumCircuit(qr, cr) # apply Hadamard gate to all qubits groverCircuit.h(qr) while iterations > 0: oracle(groverCircuit, qr) amplification(groverCircuit, qr) iterations -= 1 # measure groverCircuit.measure(qr, cr) provider.backends() backend = provider.get_backend('ibmqx2') # backend = BasicAer.get_backend('qasm_simulator') shots = 1024 results = execute(groverCircuit, backend=backend, shots=shots).result() answer = results.get_counts() print(answer) print(plot_histogram(answer))
+
+---CODE_BLOCK---
+
+import math from qiskit import IBMQ, BasicAer from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, execute from qiskit.visualization import plot_histogram pi = math.pi provider = IBMQ.load_account() def oracle(circuit, qr): circuit.x(qr[0]) circuit.x(qr[2]) circuit.x(qr[3]) circuit.cu1(pi/4, qr[0], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(-pi/4, qr[1], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(pi/4, qr[1], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.x(qr[0]) circuit.x(qr[2]) circuit.x(qr[3]) def amplification(circuit, qr): circuit.h(qr) circuit.x(qr) circuit.cu1(pi/4, qr[0], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(-pi/4, qr[1], qr[3]) circuit.cx(qr[0], qr[1]) circuit.cu1(pi/4, qr[1], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.cx(qr[1], qr[2]) circuit.cu1(-pi/4, qr[2], qr[3]) circuit.cx(qr[0], qr[2]) circuit.cu1(pi/4, qr[2], qr[3]) circuit.x(qr) circuit.h(qr) qr = QuantumRegister(4) cr = ClassicalRegister(4) iterations = 1 groverCircuit = QuantumCircuit(qr, cr) # apply Hadamard gate to all qubits groverCircuit.h(qr) while iterations > 0: oracle(groverCircuit, qr) amplification(groverCircuit, qr) iterations -= 1 # measure groverCircuit.measure(qr, cr) provider.backends() backend = provider.get_backend('ibmqx2') # backend = BasicAer.get_backend('qasm_simulator') shots = 1024 results = execute(groverCircuit, backend=backend, shots=shots).result() answer = results.get_counts() print(answer) print(plot_histogram(answer))
+
+Solution explanation:
+You have to look at the size of the circuit that actually runs on the quantum computer to see if it can reasonably succeed with existing levels of noise. The most important metrics are the depth of the circuit and the number of CNOTs. In your case, with 1 iteration, the ideal circuit has depth 34. But this will not run as-is on the backend, because it contains gates outside the backend's native and qubit . When you the circuit to respect these constraints and optimize for them (for say ), it will end up with a depth of 100 and 61 CNOTs. This circuit will accumulate too much noise to give meaningful results. (Each qubit has a coherent lifetime of around 100 us. Each CNOT has around 1% error and takes around 300 ns to apply. Also there are readout errors of around 4%. These are ballparks which vary across backends and across qubits/gates). Also you really want 2 iterations, as you are running a 4-qubit Grover's search. In an ideal simulation that would give you a much better peak, however unfortunately that incurs yet more gates in the circuit. This is all to say that this is not going to work right out of the box when you switch from simulation to real experiment. There are circuit optimization and error mitigation techniques that you can do. See this recent paper which tries to solve a very similar problem: https://arxiv.org/pdf/2001.06575.pdf P.S. You can modify the last few lines of your code like this to see the circuit metrics I talked about.
+
+```
+basis_gates
+```
+
+```
+coupling_map
+```
+
+```
+transpile
+```
+
+```
+ibmq_vigo
+```
+
+```
+shots = 1024 groverCircuit_transpiled = transpile(groverCircuit, backend, optimization_level=3) qobj = assemble(groverCircuit_transpiled, backend=backend, shots=shots) results = backend.run(qobj).result() answer = results.get_counts() print("%d depth, %d CNOTs" % (groverCircuit.depth(), groverCircuit.count_ops()['cx'])) print("%d depth, %d CNOTs" % (groverCircuit_transpiled.depth(), groverCircuit_transpiled.count_ops()['cx'])) print(answer) plot_histogram(answer) ```
+```
+
+```
+shots = 1024 groverCircuit_transpiled = transpile(groverCircuit, backend, optimization_level=3) qobj = assemble(groverCircuit_transpiled, backend=backend, shots=shots) results = backend.run(qobj).result() answer = results.get_counts() print("%d depth, %d CNOTs" % (groverCircuit.depth(), groverCircuit.count_ops()['cx'])) print("%d depth, %d CNOTs" % (groverCircuit_transpiled.depth(), groverCircuit_transpiled.count_ops()['cx'])) print(answer) plot_histogram(answer) ```
+```
+
+Original fixed code:
+basis_gates
+
+---CODE_BLOCK---
+
+coupling_map
+
+---CODE_BLOCK---
+
+transpile
+
+---CODE_BLOCK---
+
+ibmq_vigo
+
+---CODE_BLOCK---
+
+shots = 1024 groverCircuit_transpiled = transpile(groverCircuit, backend, optimization_level=3) qobj = assemble(groverCircuit_transpiled, backend=backend, shots=shots) results = backend.run(qobj).result() answer = results.get_counts() print("%d depth, %d CNOTs" % (groverCircuit.depth(), groverCircuit.count_ops()['cx'])) print("%d depth, %d CNOTs" % (groverCircuit_transpiled.depth(), groverCircuit_transpiled.count_ops()['cx'])) print(answer) plot_histogram(answer)

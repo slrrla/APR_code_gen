@@ -1,0 +1,111 @@
+Title:
+What is the best way to save and load a Qiskit backend?
+
+Category:
+Category:
+Backend Usage / Import
+
+Why Stack Overflow Wins in This Category:
+Reproducibility in quantum experiments requires freezing calibration data, not just saving configuration objects. Stack Overflow’s approach leverages Qiskit’s built-in historical property retrieval, making it robust and aligned with the real problem. The AI approach is more of a serialization hack, which does not guarantee long-term reproducibility.
+
+Question:
+Title: What is the best way to save and load a Qiskit backend?
+
+I'm performing some quantum experiments with Qiskit and I want to use a simulator that mimics a real quantum computer with recent calibration results, like so: My problem is that I want my experiments to be reproducible in the future, and I believe that the above code snippet pulls the latest calibration results that are updated every 24 hours. Therefore, I wanted to somehow save the backend object to disk (which I would include in my publicly available replication package) and have my script load it instead of pulling it from the IBM Quantum service. Initially, I tried using the module, but the backend object contains many attributes that don't seem relevant and some that should not be made publicly available (such as my token). I am aware of , but the system snapshots here are too old. To summarize my question: what is the best way to persist and reuse a Qiskit backend object?
+
+```
+from qiskit_ibm_runtime import QiskitRuntimeService from qiskit_aer import AerSimulator service = QiskitRuntimeService(channel="ibm_quantum", token="MY_TOKEN") backend = service.backend("ibm_brisbane") simulator = AerSimulator.from_backend(backend)
+```
+
+```
+from qiskit_ibm_runtime import QiskitRuntimeService from qiskit_aer import AerSimulator service = QiskitRuntimeService(channel="ibm_quantum", token="MY_TOKEN") backend = service.backend("ibm_brisbane") simulator = AerSimulator.from_backend(backend)
+```
+
+```
+pickle
+```
+
+```
+qiskit_ibm_runtime.fake_provider
+```
+
+Original buggy code:
+from qiskit_ibm_runtime import QiskitRuntimeService from qiskit_aer import AerSimulator service = QiskitRuntimeService(channel="ibm_quantum", token="MY_TOKEN") backend = service.backend("ibm_brisbane") simulator = AerSimulator.from_backend(backend)
+
+---CODE_BLOCK---
+
+from qiskit_ibm_runtime import QiskitRuntimeService from qiskit_aer import AerSimulator service = QiskitRuntimeService(channel="ibm_quantum", token="MY_TOKEN") backend = service.backend("ibm_brisbane") simulator = AerSimulator.from_backend(backend)
+
+---CODE_BLOCK---
+
+pickle
+
+---CODE_BLOCK---
+
+qiskit_ibm_runtime.fake_provider
+
+Solution explanation:
+When you access backend properties using method you can specify a to get an instance of the whose timestamp is closest to, but older than, the specified datetime. Then use this instance to create the simulator. The following code shows how to do that: And you can use the function as follows: The issue with this method is that if the backend used in your experiments is retired you will not be able to access its historical data. Another option is to obtain backend calibration data by downloading it in CSV format from the backend page and save it for future use. The procedure outlined in this blog post can be used to load it.
+
+```
+IBMBackend.properties
+```
+
+```
+datetime
+```
+
+```
+BackendProperties
+```
+
+```
+from qiskit.providers.models import BackendProperties from qiskit_aer import AerSimulator from qiskit_aer.backends.backendconfiguration import AerBackendConfiguration from qiskit_aer.noise import NoiseModel from qiskit_ibm_runtime import IBMBackend import datetime as dt def simulator_from_backend(backend: IBMBackend, datetime: dt.datetime, **options): configuration = AerBackendConfiguration( backend_name=f"aer_simulator_from({backend.name})", backend_version=backend.backend_version, n_qubits=backend.num_qubits, basis_gates=backend.operation_names, gates=[], max_shots=int(1e6), coupling_map=list(backend.coupling_map.get_edges()), max_experiments=backend.max_circuits, description=f"{backend.name} in {datetime}", ) properties = BackendProperties.from_dict(backend.properties(datetime=datetime).to_dict()) target = backend.target_history(datetime=datetime) options["noise_model"] = NoiseModel.from_backend_properties(properties) return AerSimulator(configuration=configuration, properties=properties, target=target, **options)
+```
+
+```
+from qiskit.providers.models import BackendProperties from qiskit_aer import AerSimulator from qiskit_aer.backends.backendconfiguration import AerBackendConfiguration from qiskit_aer.noise import NoiseModel from qiskit_ibm_runtime import IBMBackend import datetime as dt def simulator_from_backend(backend: IBMBackend, datetime: dt.datetime, **options): configuration = AerBackendConfiguration( backend_name=f"aer_simulator_from({backend.name})", backend_version=backend.backend_version, n_qubits=backend.num_qubits, basis_gates=backend.operation_names, gates=[], max_shots=int(1e6), coupling_map=list(backend.coupling_map.get_edges()), max_experiments=backend.max_circuits, description=f"{backend.name} in {datetime}", ) properties = BackendProperties.from_dict(backend.properties(datetime=datetime).to_dict()) target = backend.target_history(datetime=datetime) options["noise_model"] = NoiseModel.from_backend_properties(properties) return AerSimulator(configuration=configuration, properties=properties, target=target, **options)
+```
+
+```
+simulator_from_backend
+```
+
+```
+service = QiskitRuntimeService() backend = service.backend('ibm_sherbrooke') datetime = dt.datetime(2024, 8, 1) simulator = simulator_from_backend(backend, datetime)
+```
+
+```
+service = QiskitRuntimeService() backend = service.backend('ibm_sherbrooke') datetime = dt.datetime(2024, 8, 1) simulator = simulator_from_backend(backend, datetime)
+```
+
+Original fixed code:
+IBMBackend.properties
+
+---CODE_BLOCK---
+
+datetime
+
+---CODE_BLOCK---
+
+BackendProperties
+
+---CODE_BLOCK---
+
+from qiskit.providers.models import BackendProperties from qiskit_aer import AerSimulator from qiskit_aer.backends.backendconfiguration import AerBackendConfiguration from qiskit_aer.noise import NoiseModel from qiskit_ibm_runtime import IBMBackend import datetime as dt def simulator_from_backend(backend: IBMBackend, datetime: dt.datetime, **options): configuration = AerBackendConfiguration( backend_name=f"aer_simulator_from({backend.name})", backend_version=backend.backend_version, n_qubits=backend.num_qubits, basis_gates=backend.operation_names, gates=[], max_shots=int(1e6), coupling_map=list(backend.coupling_map.get_edges()), max_experiments=backend.max_circuits, description=f"{backend.name} in {datetime}", ) properties = BackendProperties.from_dict(backend.properties(datetime=datetime).to_dict()) target = backend.target_history(datetime=datetime) options["noise_model"] = NoiseModel.from_backend_properties(properties) return AerSimulator(configuration=configuration, properties=properties, target=target, **options)
+
+---CODE_BLOCK---
+
+from qiskit.providers.models import BackendProperties from qiskit_aer import AerSimulator from qiskit_aer.backends.backendconfiguration import AerBackendConfiguration from qiskit_aer.noise import NoiseModel from qiskit_ibm_runtime import IBMBackend import datetime as dt def simulator_from_backend(backend: IBMBackend, datetime: dt.datetime, **options): configuration = AerBackendConfiguration( backend_name=f"aer_simulator_from({backend.name})", backend_version=backend.backend_version, n_qubits=backend.num_qubits, basis_gates=backend.operation_names, gates=[], max_shots=int(1e6), coupling_map=list(backend.coupling_map.get_edges()), max_experiments=backend.max_circuits, description=f"{backend.name} in {datetime}", ) properties = BackendProperties.from_dict(backend.properties(datetime=datetime).to_dict()) target = backend.target_history(datetime=datetime) options["noise_model"] = NoiseModel.from_backend_properties(properties) return AerSimulator(configuration=configuration, properties=properties, target=target, **options)
+
+---CODE_BLOCK---
+
+simulator_from_backend
+
+---CODE_BLOCK---
+
+service = QiskitRuntimeService() backend = service.backend('ibm_sherbrooke') datetime = dt.datetime(2024, 8, 1) simulator = simulator_from_backend(backend, datetime)
+
+---CODE_BLOCK---
+
+service = QiskitRuntimeService() backend = service.backend('ibm_sherbrooke') datetime = dt.datetime(2024, 8, 1) simulator = simulator_from_backend(backend, datetime)

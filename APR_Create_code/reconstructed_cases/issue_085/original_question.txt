@@ -1,0 +1,119 @@
+Title:
+How to set hyper parameters for a Variational Quantum Classifier (qiskit)?
+
+Category:
+Circuit / Algorithm Configuration
+
+Why Both Are Equally Good in This Category:
+
+In configuration-heavy workflows like Variational Quantum Classifiers, both conceptual clarity (what shots vs iterations mean) and code-level examples are crucial. Stack Overflow excels at directly answering the core question with minimal clutter, while the AI response adds complementary value through deeper context and runnable code. For learners and practitioners alike, the combination is more useful than either one alone.
+
+Question:
+Title: How to set hyper parameters for a Variational Quantum Classifier (qiskit)?
+
+I am trying to implement a Variational Quantum Classifier using qiskit's VQC. I have set the feature map to and am using the ansatz. I am using loss function and optimiser. One more parameter that VQC requires is a QuantumInstance object and this I have set to with . The code and instructions I followed is in this qiskit's tutorial. When I try to train the classifier, it running for a different number of iterations each time. Is there a way to set minimum number of iterations ? and how are iterations different from shots ? Also, how can I set the learning rate for the algorithm ? Thank you !
+
+```
+ZZFeatureMap
+```
+
+```
+RealAmplitudes
+```
+
+```
+cross_entropy
+```
+
+```
+ADAM
+```
+
+```
+aer_simulator
+```
+
+```
+1024 shots
+```
+
+Original buggy code:
+ZZFeatureMap
+
+---CODE_BLOCK---
+
+RealAmplitudes
+
+---CODE_BLOCK---
+
+cross_entropy
+
+---CODE_BLOCK---
+
+ADAM
+
+---CODE_BLOCK---
+
+aer_simulator
+
+---CODE_BLOCK---
+
+1024 shots
+
+Solution explanation:
+The VQC consists of a feedback loop of quantum and classical processor, where the loss function is evaluated on a quantum computer and the classical part suggests new parameters. The number of shots is the number of samples the quantum computer does to estimate the expectation values (-> the loss function). The number of iterations is the number of times the classical part updates the parameters. The settings you want to specify are part of the classical optimizer, in your case ADAM. Following the tutorial you linked, I'm assuming you're constructing the algorithm as You can pass your settings into the class, for instance to set the learning rate The number of iterations depends on the convergence and I don't think you can set a minimum number of them. However you can set a lower tolerance which will lead to more iterations. For example You can find more on that in the documentation.
+
+```
+# construct feature map, ansatz, and optimizer feature_map = ZZFeatureMap(num_inputs) ansatz = RealAmplitudes(num_inputs, reps=1) optimizer = ADAM() # construct variational quantum classifier vqc = VQC(feature_map=feature_map, ansatz=ansatz, loss='cross_entropy', optimizer=optimizer, quantum_instance=quantum_instance, callback=callback_graph)
+```
+
+```
+# construct feature map, ansatz, and optimizer feature_map = ZZFeatureMap(num_inputs) ansatz = RealAmplitudes(num_inputs, reps=1) optimizer = ADAM() # construct variational quantum classifier vqc = VQC(feature_map=feature_map, ansatz=ansatz, loss='cross_entropy', optimizer=optimizer, quantum_instance=quantum_instance, callback=callback_graph)
+```
+
+```
+ADAM
+```
+
+```
+optimizer = ADAM(lr=your_desired_learning_rate)
+```
+
+```
+optimizer = ADAM(lr=your_desired_learning_rate)
+```
+
+```
+optimizer = ADAM(lr=0.01, tol=1e-7)
+```
+
+```
+optimizer = ADAM(lr=0.01, tol=1e-7)
+```
+
+Original fixed code:
+# construct feature map, ansatz, and optimizer feature_map = ZZFeatureMap(num_inputs) ansatz = RealAmplitudes(num_inputs, reps=1) optimizer = ADAM() # construct variational quantum classifier vqc = VQC(feature_map=feature_map, ansatz=ansatz, loss='cross_entropy', optimizer=optimizer, quantum_instance=quantum_instance, callback=callback_graph)
+
+---CODE_BLOCK---
+
+# construct feature map, ansatz, and optimizer feature_map = ZZFeatureMap(num_inputs) ansatz = RealAmplitudes(num_inputs, reps=1) optimizer = ADAM() # construct variational quantum classifier vqc = VQC(feature_map=feature_map, ansatz=ansatz, loss='cross_entropy', optimizer=optimizer, quantum_instance=quantum_instance, callback=callback_graph)
+
+---CODE_BLOCK---
+
+ADAM
+
+---CODE_BLOCK---
+
+optimizer = ADAM(lr=your_desired_learning_rate)
+
+---CODE_BLOCK---
+
+optimizer = ADAM(lr=your_desired_learning_rate)
+
+---CODE_BLOCK---
+
+optimizer = ADAM(lr=0.01, tol=1e-7)
+
+---CODE_BLOCK---
+
+optimizer = ADAM(lr=0.01, tol=1e-7)

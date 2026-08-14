@@ -1,0 +1,86 @@
+Title:
+Adder circuit yields large errors on real hardware
+
+Category:
+Category: Circuit Construction / Logic / Gates
+Why Stack Overflow Solution Wins in This Category:
+
+In this circuit-related issue, the Stack Overflow answer shines by giving a pragmatic, tested fix (i.e., optimized transpilation) that directly reduces gate errors and improves output fidelity. In contrast, the AI solution focuses more on theoretical possibilities without empirically validating a solution. For practical quantum circuit debugging, real data and proven fixes are more valuable than broad speculation
+
+Question:
+Title: Adder circuit yields large errors on real hardware
+
+I was playing with qiskit's adder example using the following code The simulator yields the correct results. Running the same circuit on IBM's Lima or Nairobi setups, yields the following: Some errors are to be expected, I am aware of that. But is it normal to get in say, for the '0010' state, a correct answer in only 62% of the experiments? Why does the '0001' state yield much lower errors compared to the above '0010'state? I also tried different gate orders, i.e. placing the Toffoli before the CNOT gates. Yet, the largest errors stay with the '0010' state. What am I overlooking here or how to explain this behavior?
+
+```
+for q3210 in ['0000', '0010', '0001', '0011']: qc = QuantumCircuit(4, 2) qc.initialize(q3210, qc.qubits) qc.cx(1,2) qc.cx(0,2) qc.ccx(0,1,3) qc.measure([2,3], [0,1]) transpiled_qc = transpile(qc, device) job = device.run(transpiled_qc) result = job.result() print(q3210, " : ",result.get_counts())
+```
+
+```
+for q3210 in ['0000', '0010', '0001', '0011']: qc = QuantumCircuit(4, 2) qc.initialize(q3210, qc.qubits) qc.cx(1,2) qc.cx(0,2) qc.ccx(0,1,3) qc.measure([2,3], [0,1]) transpiled_qc = transpile(qc, device) job = device.run(transpiled_qc) result = job.result() print(q3210, " : ",result.get_counts())
+```
+
+```
+0000 : {'00': 3663, '01': 193, '10': 129, '11': 15} 0010 : {'00': 1129, '01': 2464, '10': 135, '11': 272} 0001 : {'00': 334, '01': 3426, '10': 49, '11': 191} 0011 : {'00': 620, '01': 83, '10': 3185, '11': 112}
+```
+
+```
+0000 : {'00': 3663, '01': 193, '10': 129, '11': 15} 0010 : {'00': 1129, '01': 2464, '10': 135, '11': 272} 0001 : {'00': 334, '01': 3426, '10': 49, '11': 191} 0011 : {'00': 620, '01': 83, '10': 3185, '11': 112}
+```
+
+Original buggy code:
+for q3210 in ['0000', '0010', '0001', '0011']: qc = QuantumCircuit(4, 2) qc.initialize(q3210, qc.qubits) qc.cx(1,2) qc.cx(0,2) qc.ccx(0,1,3) qc.measure([2,3], [0,1]) transpiled_qc = transpile(qc, device) job = device.run(transpiled_qc) result = job.result() print(q3210, " : ",result.get_counts())
+
+---CODE_BLOCK---
+
+for q3210 in ['0000', '0010', '0001', '0011']: qc = QuantumCircuit(4, 2) qc.initialize(q3210, qc.qubits) qc.cx(1,2) qc.cx(0,2) qc.ccx(0,1,3) qc.measure([2,3], [0,1]) transpiled_qc = transpile(qc, device) job = device.run(transpiled_qc) result = job.result() print(q3210, " : ",result.get_counts())
+
+---CODE_BLOCK---
+
+0000 : {'00': 3663, '01': 193, '10': 129, '11': 15} 0010 : {'00': 1129, '01': 2464, '10': 135, '11': 272} 0001 : {'00': 334, '01': 3426, '10': 49, '11': 191} 0011 : {'00': 620, '01': 83, '10': 3185, '11': 112}
+
+---CODE_BLOCK---
+
+0000 : {'00': 3663, '01': 193, '10': 129, '11': 15} 0010 : {'00': 1129, '01': 2464, '10': 135, '11': 272} 0001 : {'00': 334, '01': 3426, '10': 49, '11': 191} 0011 : {'00': 620, '01': 83, '10': 3185, '11': 112}
+
+Solution explanation:
+Machines are, indeed very noisy at the moment. What you could do is to spend more time optimizing the circuit before submitting. Here, the result of your code in with : It seems to me that the result is substantially better. It could be that your circuit is allocated in a particular noisy part of the device. The parameter is "noise-aware" meaning that considers the calibration information as part of the transpilation process.
+
+```
+ibmq_lima
+```
+
+```
+transpiled_qc = transpile(qc, device, optimization_level=3)
+```
+
+```
+0000 : {'00': 3679, '01': 107, '10': 138, '11': 76} 0010 : {'00': 380, '01': 3421, '10': 50, '11': 149} 0001 : {'00': 510, '01': 3233, '10': 59, '11': 198} 0011 : {'00': 591, '01': 107, '10': 3163, '11': 139}
+```
+
+```
+0000 : {'00': 3679, '01': 107, '10': 138, '11': 76} 0010 : {'00': 380, '01': 3421, '10': 50, '11': 149} 0001 : {'00': 510, '01': 3233, '10': 59, '11': 198} 0011 : {'00': 591, '01': 107, '10': 3163, '11': 139}
+```
+
+```
+optimization_level=3
+```
+
+Original fixed code:
+ibmq_lima
+
+---CODE_BLOCK---
+
+transpiled_qc = transpile(qc, device, optimization_level=3)
+
+---CODE_BLOCK---
+
+0000 : {'00': 3679, '01': 107, '10': 138, '11': 76} 0010 : {'00': 380, '01': 3421, '10': 50, '11': 149} 0001 : {'00': 510, '01': 3233, '10': 59, '11': 198} 0011 : {'00': 591, '01': 107, '10': 3163, '11': 139}
+
+---CODE_BLOCK---
+
+0000 : {'00': 3679, '01': 107, '10': 138, '11': 76} 0010 : {'00': 380, '01': 3421, '10': 50, '11': 149} 0001 : {'00': 510, '01': 3233, '10': 59, '11': 198} 0011 : {'00': 591, '01': 107, '10': 3163, '11': 139}
+
+---CODE_BLOCK---
+
+optimization_level=3

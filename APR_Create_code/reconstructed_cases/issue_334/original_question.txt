@@ -1,0 +1,127 @@
+Title:
+Expected outcome of adding two PauliOp
+
+Category:
+Category:
+Import / Operator Semantics
+
+Why Stack Overflow Wins in This Category:
+In operator semantics and symbolic algebra, it’s important to stay within the framework (i.e., PauliOp objects) rather than falling back to numerical matrix operations. Stack Overflow’s answer shows how to build the desired operator correctly without converting to matrices, thereby aligning with Qiskit’s symbolic processing goals. This makes it better in terms of conceptual clarity and long-term compatibility with Qiskit’s opflow module.
+
+Question:
+Title: Expected outcome of adding two PauliOp
+
+first of all, I would probably report this as a bug if I was confident enough in my QC abilities. As it stands, I've just started out, so I'm phrasing it as a question. From what I can tell, adding two PauliOps in this specific case does not result in the expected operator matrix: results in whereas the result that I would expect is the one i get when I run the following code: Result: What further confuses me is that the deprecated version of PauliOp actually results in the expected operator. Running this code: gives a deprecation warning and the [[0,2],[0,0]]-array that I want. Has the behaviour of the addition changed or is this a bug? In any case, how can I construct the operator that I want (in a non-deprecated way)? I'm running qiskit version 0.29.0 Thanks in advance!
+
+```
+import qiskit as qk from qiskit.opflow.primitive_ops import PauliOp (PauliOp(qk.quantum_info.Pauli("X")) + PauliOp(qk.quantum_info.Pauli("iY"))).to_matrix()
+```
+
+```
+import qiskit as qk from qiskit.opflow.primitive_ops import PauliOp (PauliOp(qk.quantum_info.Pauli("X")) + PauliOp(qk.quantum_info.Pauli("iY"))).to_matrix()
+```
+
+```
+array([[0.+0.j, 1.-1.j], [1.+1.j, 0.+0.j]])
+```
+
+```
+array([[0.+0.j, 1.-1.j], [1.+1.j, 0.+0.j]])
+```
+
+```
+PauliOp(qk.quantum_info.Pauli("X")).to_matrix() + PauliOp(qk.quantum_info.Pauli("iY")).to_matrix()
+```
+
+```
+PauliOp(qk.quantum_info.Pauli("X")).to_matrix() + PauliOp(qk.quantum_info.Pauli("iY")).to_matrix()
+```
+
+```
+array([[0.+0.j, 2.+0.j], [0.+0.j, 0.+0.j]])
+```
+
+```
+array([[0.+0.j, 2.+0.j], [0.+0.j, 0.+0.j]])
+```
+
+```
+import qiskit as qk from qiskit.aqua.operators.primitive_ops import PauliOp (PauliOp(qk.quantum_info.Pauli("X")) + PauliOp(qk.quantum_info.Pauli("iY"))).to_matrix()
+```
+
+```
+import qiskit as qk from qiskit.aqua.operators.primitive_ops import PauliOp (PauliOp(qk.quantum_info.Pauli("X")) + PauliOp(qk.quantum_info.Pauli("iY"))).to_matrix()
+```
+
+Original buggy code:
+import qiskit as qk from qiskit.opflow.primitive_ops import PauliOp (PauliOp(qk.quantum_info.Pauli("X")) + PauliOp(qk.quantum_info.Pauli("iY"))).to_matrix()
+
+---CODE_BLOCK---
+
+import qiskit as qk from qiskit.opflow.primitive_ops import PauliOp (PauliOp(qk.quantum_info.Pauli("X")) + PauliOp(qk.quantum_info.Pauli("iY"))).to_matrix()
+
+---CODE_BLOCK---
+
+array([[0.+0.j, 1.-1.j], [1.+1.j, 0.+0.j]])
+
+---CODE_BLOCK---
+
+array([[0.+0.j, 1.-1.j], [1.+1.j, 0.+0.j]])
+
+---CODE_BLOCK---
+
+PauliOp(qk.quantum_info.Pauli("X")).to_matrix() + PauliOp(qk.quantum_info.Pauli("iY")).to_matrix()
+
+---CODE_BLOCK---
+
+PauliOp(qk.quantum_info.Pauli("X")).to_matrix() + PauliOp(qk.quantum_info.Pauli("iY")).to_matrix()
+
+---CODE_BLOCK---
+
+array([[0.+0.j, 2.+0.j], [0.+0.j, 0.+0.j]])
+
+---CODE_BLOCK---
+
+array([[0.+0.j, 2.+0.j], [0.+0.j, 0.+0.j]])
+
+---CODE_BLOCK---
+
+import qiskit as qk from qiskit.aqua.operators.primitive_ops import PauliOp (PauliOp(qk.quantum_info.Pauli("X")) + PauliOp(qk.quantum_info.Pauli("iY"))).to_matrix()
+
+---CODE_BLOCK---
+
+import qiskit as qk from qiskit.aqua.operators.primitive_ops import PauliOp (PauliOp(qk.quantum_info.Pauli("X")) + PauliOp(qk.quantum_info.Pauli("iY"))).to_matrix()
+
+Solution explanation:
+You can do this instead: which gives what you expect:
+
+```
+(PauliOp(qk.quantum_info.Pauli("X")) + 1j*PauliOp(qk.quantum_info.Pauli("Y"))).to_matrix()
+```
+
+```
+(PauliOp(qk.quantum_info.Pauli("X")) + 1j*PauliOp(qk.quantum_info.Pauli("Y"))).to_matrix()
+```
+
+```
+array([[0.+0.j, 2.+0.j], [0.+0.j, 0.+0.j]])
+```
+
+```
+array([[0.+0.j, 2.+0.j], [0.+0.j, 0.+0.j]])
+```
+
+Original fixed code:
+(PauliOp(qk.quantum_info.Pauli("X")) + 1j*PauliOp(qk.quantum_info.Pauli("Y"))).to_matrix()
+
+---CODE_BLOCK---
+
+(PauliOp(qk.quantum_info.Pauli("X")) + 1j*PauliOp(qk.quantum_info.Pauli("Y"))).to_matrix()
+
+---CODE_BLOCK---
+
+array([[0.+0.j, 2.+0.j], [0.+0.j, 0.+0.j]])
+
+---CODE_BLOCK---
+
+array([[0.+0.j, 2.+0.j], [0.+0.j, 0.+0.j]])

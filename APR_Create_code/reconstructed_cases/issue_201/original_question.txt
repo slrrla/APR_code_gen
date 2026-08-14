@@ -1,0 +1,33 @@
+Title:
+How does Inverse QFT work in Quantum Phase Estimation?
+
+Category:
+Category:
+Other (General Questions)
+
+Why AI Wins in This Category:
+In general questions about algorithm behavior (like QPE), clarity and pedagogical value are key. The AI solution:
+
+Offers a complete, beginner-friendly walkthrough.
+
+Explains constructive interference clearly.
+
+Provides simulation code to test and see the behavior.
+
+Bridges mathematical theory with Qiskit implementation.
+
+This makes the AI-generated answer more effective for learners, especially in the context of educational algorithms like QPE.
+
+Question:
+Title: How does Inverse QFT work in Quantum Phase Estimation?
+
+I'm trying to implement Quantum Phase Estimation from qiskit textbook. Below is the implementation circuit taken from the above-mentioned site: The output at position 2 will be as follows: $$|\psi _2⟩ = \frac{1}{2^{\frac{n}{2}}} \sum_{k=0}^{2^{n}-1} e^{2\pi i k} |k⟩ ⊗ |\psi⟩ $$ and after applying inverse QFT, the state becomes: $$ | \psi _3⟩ = \frac{1}{2^{n}} \sum_{x=0}^{2^{n}-1} \sum_{k=0}^{2^{n}-1} e^{- \frac{2 \pi i k}{2^{n}}(x-2^n \theta)} |x⟩ ⊗| \psi⟩ $$ However, the next step claims that the above expression peaks near $ x = 2^n \theta $ which is my point of doubt, why is this the case? Wouldn't the maximum amplitude be when $ x = 0 $ based on simple calculus?
+
+Original buggy code:
+I'm trying to implement Quantum Phase Estimation from qiskit textbook. Below is the implementation circuit taken from the above-mentioned site: The output at position 2 will be as follows: $$|\psi _2⟩ = \frac{1}{2^{\frac{n}{2}}} \sum_{k=0}^{2^{n}-1} e^{2\pi i k} |k⟩ ⊗ |\psi⟩ $$ and after applying inverse QFT, the state becomes: $$ | \psi _3⟩ = \frac{1}{2^{n}} \sum_{x=0}^{2^{n}-1} \sum_{k=0}^{2^{n}-1} e^{- \frac{2 \pi i k}{2^{n}}(x-2^n \theta)} |x⟩ ⊗| \psi⟩ $$ However, the next step claims that the above expression peaks near $ x = 2^n \theta $ which is my point of doubt, why is this the case? Wouldn't the maximum amplitude be when $ x = 0 $ based on simple calculus?
+
+Solution explanation:
+The expression you obtain after applying the QFT contains sums of the unit square, $e^{2\pi i/2^n}$, which sum up to 0 if you sum over the full range of $2^n$: $$ \sum_{k=0}^{2^n - 1} e^{\frac{2\pi i}{2^n} k} = 0 $$ See here for explanations why this is the case. Now the inner sum in the amplitudes will also sum up to 0, if $(x - 2^n\theta)$ is an integer, because that's just multiplication with a constant factor and the sum-to-zero-rule still holds. $$ \sum_{x=0}^{2^n - 1} \sum_{k=0}^{2^n - 1} e^{\frac{2\pi i}{2^n} k (x - 2^n \theta)} $$ But: If $(x - 2^n \theta) = 0$, then the exponential will be $e^0 = 1$ and your sum is collapsing to $$ \sum_{x=0}^{2^n - 1} \sum_{k=0}^{2^n - 1} 1 $$ Therefore, the amplitudes are 0 if $x \neq 2^n \theta$ and 1 if $x = 2^n \theta$. Note that the derivation is more complicated if $2^n\theta$ is not an integer. The QFT and its derivation is also very well explained in Nielsen and Chuang, chapter 5.1, page 217, I would recommend to look up there if you have any questions!
+
+Original fixed code:
+The expression you obtain after applying the QFT contains sums of the unit square, $e^{2\pi i/2^n}$, which sum up to 0 if you sum over the full range of $2^n$: $$ \sum_{k=0}^{2^n - 1} e^{\frac{2\pi i}{2^n} k} = 0 $$ See here for explanations why this is the case. Now the inner sum in the amplitudes will also sum up to 0, if $(x - 2^n\theta)$ is an integer, because that's just multiplication with a constant factor and the sum-to-zero-rule still holds. $$ \sum_{x=0}^{2^n - 1} \sum_{k=0}^{2^n - 1} e^{\frac{2\pi i}{2^n} k (x - 2^n \theta)} $$ But: If $(x - 2^n \theta) = 0$, then the exponential will be $e^0 = 1$ and your sum is collapsing to $$ \sum_{x=0}^{2^n - 1} \sum_{k=0}^{2^n - 1} 1 $$ Therefore, the amplitudes are 0 if $x \neq 2^n \theta$ and 1 if $x = 2^n \theta$. Note that the derivation is more complicated if $2^n\theta$ is not an integer. The QFT and its derivation is also very well explained in Nielsen and Chuang, chapter 5.1, page 217, I would recommend to look up there if you have any questions!

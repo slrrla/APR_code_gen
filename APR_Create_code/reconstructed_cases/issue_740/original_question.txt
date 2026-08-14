@@ -1,0 +1,59 @@
+Title:
+Retrieve backend functionality of retired qiskit device
+
+Category:
+
+
+Question:
+Title: Retrieve backend functionality of retired qiskit device
+
+I am doing some analysis from a now retired device () and I would like to access its "logic" construction in qiskit. Specifically, I would like to print the circuits in the specific transpilation for the device, print the circuits to external files, and make use of callbacks in order to check the flow of the circuit during the transpilation procedure. How can I access this? Note that I don't want to retrieve jobs (a.k.a. numerical data). The error arises in the code What is the "backend access" for retired devices?
+
+```
+lima
+```
+
+```
+provider = IBMProvider(instance="ibm-q/open/main") backend = provider.get_backend('ibmq_lima') (...) # The error: QiskitBackendNotFoundError: 'No backend matches the criteria'
+```
+
+```
+provider = IBMProvider(instance="ibm-q/open/main") backend = provider.get_backend('ibmq_lima') (...) # The error: QiskitBackendNotFoundError: 'No backend matches the criteria'
+```
+
+Original buggy code:
+lima
+
+---CODE_BLOCK---
+
+provider = IBMProvider(instance="ibm-q/open/main") backend = provider.get_backend('ibmq_lima') (...) # The error: QiskitBackendNotFoundError: 'No backend matches the criteria'
+
+---CODE_BLOCK---
+
+provider = IBMProvider(instance="ibm-q/open/main") backend = provider.get_backend('ibmq_lima') (...) # The error: QiskitBackendNotFoundError: 'No backend matches the criteria'
+
+Solution explanation:
+Some backend configuration is saves an released in Qiskit (being moved to the IBM Quantum packages). You can retrieve that configuration from :
+
+```
+qiskit.providers.fake_provider
+```
+
+```
+from qiskit.providers.fake_provider import FakeLima from qiskit.visualization import plot_error_map backend = FakeLima() plot_error_map(backend)
+```
+
+```
+from qiskit.providers.fake_provider import FakeLima from qiskit.visualization import plot_error_map backend = FakeLima() plot_error_map(backend)
+```
+
+Original fixed code:
+qiskit.providers.fake_provider
+
+---CODE_BLOCK---
+
+from qiskit.providers.fake_provider import FakeLima from qiskit.visualization import plot_error_map backend = FakeLima() plot_error_map(backend)
+
+---CODE_BLOCK---
+
+from qiskit.providers.fake_provider import FakeLima from qiskit.visualization import plot_error_map backend = FakeLima() plot_error_map(backend)

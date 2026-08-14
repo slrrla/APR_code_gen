@@ -1,0 +1,91 @@
+Title:
+Generating random circuits with only CNOT gates using qiskit.circuit.random.random_circuit
+
+Category:
+
+
+Question:
+Title: Generating random circuits with only CNOT gates using qiskit.circuit.random.random_circuit
+
+I am trying to generate a random quantum circuit with 5 qubits using only CNOT gates. I have modified the source code of the qiskit.circuit.random.random_circuit function to only include CNOT gates (Making and ) but I am getting an error. My code is as follows - The error that is thrown up is - This error does not occur when I try the same code for 4 qubits. What can I change so that it works for 5 qubits as well?
+
+```
+num_operands = 2
+```
+
+```
+two_q_ops = [CXGate]
+```
+
+```
+def random_circuit(num_qubits, depth, max_operands=3, measure=False, conditional=False, reset=False, seed=None): if max_operands < 1 or max_operands > 3: raise CircuitError("max_operands must be between 1 and 3") one_q_ops = [IGate, U1Gate, U2Gate, U3Gate, XGate, YGate, ZGate, HGate, SGate, SdgGate, TGate, TdgGate, RXGate, RYGate, RZGate] one_param = [U1Gate, RXGate, RYGate, RZGate, RZZGate, CU1Gate, CRZGate] two_param = [U2Gate] three_param = [U3Gate, CU3Gate] two_q_ops = [CXGate] three_q_ops = [CCXGate, CSwapGate] qr = QuantumRegister(num_qubits, "q") qc = QuantumCircuit(num_qubits) if measure or conditional: cr = ClassicalRegister(num_qubits, "c") qc.add_register(cr) if reset: one_q_ops += [Reset] if seed is None: seed = np.random.randint(0, np.iinfo(np.int32).max) rng = np.random.default_rng(seed) # apply arbitrary random operations at every depth for _ in range(depth): # choose either 1, 2, or 3 qubits for the operation remaining_qubits = list(range(num_qubits)) rng.shuffle(remaining_qubits) while remaining_qubits: max_possible_operands = min(len(remaining_qubits), max_operands) num_operands = 2 operands = [remaining_qubits.pop() for _ in range(num_operands)] if num_operands == 1: operation = rng.choice(one_q_ops) elif num_operands == 2: operation = rng.choice(two_q_ops) elif num_operands == 3: operation = rng.choice(three_q_ops) if operation in one_param: num_angles = 1 elif operation in two_param: num_angles = 2 elif operation in three_param: num_angles = 3 else: num_angles = 0 angles = [rng.uniform(0, 2 * np.pi) for x in range(num_angles)] register_operands = [qr[i] for i in operands] op = operation(*angles) # with some low probability, condition on classical bit values if conditional and rng.choice(range(10)) == 0: value = rng.integers(0, np.power(2, num_qubits)) op.condition = (cr, value) qc.append(op, register_operands) if measure: qc.measure(qr, cr) return qc qc = random_circuit(num_qubits = 5, depth = 10)
+```
+
+```
+def random_circuit(num_qubits, depth, max_operands=3, measure=False, conditional=False, reset=False, seed=None): if max_operands < 1 or max_operands > 3: raise CircuitError("max_operands must be between 1 and 3") one_q_ops = [IGate, U1Gate, U2Gate, U3Gate, XGate, YGate, ZGate, HGate, SGate, SdgGate, TGate, TdgGate, RXGate, RYGate, RZGate] one_param = [U1Gate, RXGate, RYGate, RZGate, RZZGate, CU1Gate, CRZGate] two_param = [U2Gate] three_param = [U3Gate, CU3Gate] two_q_ops = [CXGate] three_q_ops = [CCXGate, CSwapGate] qr = QuantumRegister(num_qubits, "q") qc = QuantumCircuit(num_qubits) if measure or conditional: cr = ClassicalRegister(num_qubits, "c") qc.add_register(cr) if reset: one_q_ops += [Reset] if seed is None: seed = np.random.randint(0, np.iinfo(np.int32).max) rng = np.random.default_rng(seed) # apply arbitrary random operations at every depth for _ in range(depth): # choose either 1, 2, or 3 qubits for the operation remaining_qubits = list(range(num_qubits)) rng.shuffle(remaining_qubits) while remaining_qubits: max_possible_operands = min(len(remaining_qubits), max_operands) num_operands = 2 operands = [remaining_qubits.pop() for _ in range(num_operands)] if num_operands == 1: operation = rng.choice(one_q_ops) elif num_operands == 2: operation = rng.choice(two_q_ops) elif num_operands == 3: operation = rng.choice(three_q_ops) if operation in one_param: num_angles = 1 elif operation in two_param: num_angles = 2 elif operation in three_param: num_angles = 3 else: num_angles = 0 angles = [rng.uniform(0, 2 * np.pi) for x in range(num_angles)] register_operands = [qr[i] for i in operands] op = operation(*angles) # with some low probability, condition on classical bit values if conditional and rng.choice(range(10)) == 0: value = rng.integers(0, np.power(2, num_qubits)) op.condition = (cr, value) qc.append(op, register_operands) if measure: qc.measure(qr, cr) return qc qc = random_circuit(num_qubits = 5, depth = 10)
+```
+
+```
+~\AppData\Local\Temp/ipykernel_1268/4128137234.py in <module> ----> 1 qc = random_circuit(num_qubits = 5, depth = 10) 2 qc.draw(output='mpl') ~\AppData\Local\Temp/ipykernel_1268/430653575.py in random_circuit(num_qubits, depth, max_operands, measure, conditional, reset, seed) 49 max_possible_operands = min(len(remaining_qubits), max_operands) 50 num_operands = 2 ---> 51 operands = [remaining_qubits.pop() for _ in range(num_operands)] 52 if num_operands == 1: 53 operation = rng.choice(one_q_ops) ~\AppData\Local\Temp/ipykernel_1268/430653575.py in <listcomp>(.0) 49 max_possible_operands = min(len(remaining_qubits), max_operands) 50 num_operands = 2 ---> 51 operands = [remaining_qubits.pop() for _ in range(num_operands)] 52 if num_operands == 1: 53 operation = rng.choice(one_q_ops) IndexError: pop from empty list
+```
+
+```
+~\AppData\Local\Temp/ipykernel_1268/4128137234.py in <module> ----> 1 qc = random_circuit(num_qubits = 5, depth = 10) 2 qc.draw(output='mpl') ~\AppData\Local\Temp/ipykernel_1268/430653575.py in random_circuit(num_qubits, depth, max_operands, measure, conditional, reset, seed) 49 max_possible_operands = min(len(remaining_qubits), max_operands) 50 num_operands = 2 ---> 51 operands = [remaining_qubits.pop() for _ in range(num_operands)] 52 if num_operands == 1: 53 operation = rng.choice(one_q_ops) ~\AppData\Local\Temp/ipykernel_1268/430653575.py in <listcomp>(.0) 49 max_possible_operands = min(len(remaining_qubits), max_operands) 50 num_operands = 2 ---> 51 operands = [remaining_qubits.pop() for _ in range(num_operands)] 52 if num_operands == 1: 53 operation = rng.choice(one_q_ops) IndexError: pop from empty list
+```
+
+Original buggy code:
+num_operands = 2
+
+---CODE_BLOCK---
+
+two_q_ops = [CXGate]
+
+---CODE_BLOCK---
+
+def random_circuit(num_qubits, depth, max_operands=3, measure=False, conditional=False, reset=False, seed=None): if max_operands < 1 or max_operands > 3: raise CircuitError("max_operands must be between 1 and 3") one_q_ops = [IGate, U1Gate, U2Gate, U3Gate, XGate, YGate, ZGate, HGate, SGate, SdgGate, TGate, TdgGate, RXGate, RYGate, RZGate] one_param = [U1Gate, RXGate, RYGate, RZGate, RZZGate, CU1Gate, CRZGate] two_param = [U2Gate] three_param = [U3Gate, CU3Gate] two_q_ops = [CXGate] three_q_ops = [CCXGate, CSwapGate] qr = QuantumRegister(num_qubits, "q") qc = QuantumCircuit(num_qubits) if measure or conditional: cr = ClassicalRegister(num_qubits, "c") qc.add_register(cr) if reset: one_q_ops += [Reset] if seed is None: seed = np.random.randint(0, np.iinfo(np.int32).max) rng = np.random.default_rng(seed) # apply arbitrary random operations at every depth for _ in range(depth): # choose either 1, 2, or 3 qubits for the operation remaining_qubits = list(range(num_qubits)) rng.shuffle(remaining_qubits) while remaining_qubits: max_possible_operands = min(len(remaining_qubits), max_operands) num_operands = 2 operands = [remaining_qubits.pop() for _ in range(num_operands)] if num_operands == 1: operation = rng.choice(one_q_ops) elif num_operands == 2: operation = rng.choice(two_q_ops) elif num_operands == 3: operation = rng.choice(three_q_ops) if operation in one_param: num_angles = 1 elif operation in two_param: num_angles = 2 elif operation in three_param: num_angles = 3 else: num_angles = 0 angles = [rng.uniform(0, 2 * np.pi) for x in range(num_angles)] register_operands = [qr[i] for i in operands] op = operation(*angles) # with some low probability, condition on classical bit values if conditional and rng.choice(range(10)) == 0: value = rng.integers(0, np.power(2, num_qubits)) op.condition = (cr, value) qc.append(op, register_operands) if measure: qc.measure(qr, cr) return qc qc = random_circuit(num_qubits = 5, depth = 10)
+
+---CODE_BLOCK---
+
+def random_circuit(num_qubits, depth, max_operands=3, measure=False, conditional=False, reset=False, seed=None): if max_operands < 1 or max_operands > 3: raise CircuitError("max_operands must be between 1 and 3") one_q_ops = [IGate, U1Gate, U2Gate, U3Gate, XGate, YGate, ZGate, HGate, SGate, SdgGate, TGate, TdgGate, RXGate, RYGate, RZGate] one_param = [U1Gate, RXGate, RYGate, RZGate, RZZGate, CU1Gate, CRZGate] two_param = [U2Gate] three_param = [U3Gate, CU3Gate] two_q_ops = [CXGate] three_q_ops = [CCXGate, CSwapGate] qr = QuantumRegister(num_qubits, "q") qc = QuantumCircuit(num_qubits) if measure or conditional: cr = ClassicalRegister(num_qubits, "c") qc.add_register(cr) if reset: one_q_ops += [Reset] if seed is None: seed = np.random.randint(0, np.iinfo(np.int32).max) rng = np.random.default_rng(seed) # apply arbitrary random operations at every depth for _ in range(depth): # choose either 1, 2, or 3 qubits for the operation remaining_qubits = list(range(num_qubits)) rng.shuffle(remaining_qubits) while remaining_qubits: max_possible_operands = min(len(remaining_qubits), max_operands) num_operands = 2 operands = [remaining_qubits.pop() for _ in range(num_operands)] if num_operands == 1: operation = rng.choice(one_q_ops) elif num_operands == 2: operation = rng.choice(two_q_ops) elif num_operands == 3: operation = rng.choice(three_q_ops) if operation in one_param: num_angles = 1 elif operation in two_param: num_angles = 2 elif operation in three_param: num_angles = 3 else: num_angles = 0 angles = [rng.uniform(0, 2 * np.pi) for x in range(num_angles)] register_operands = [qr[i] for i in operands] op = operation(*angles) # with some low probability, condition on classical bit values if conditional and rng.choice(range(10)) == 0: value = rng.integers(0, np.power(2, num_qubits)) op.condition = (cr, value) qc.append(op, register_operands) if measure: qc.measure(qr, cr) return qc qc = random_circuit(num_qubits = 5, depth = 10)
+
+---CODE_BLOCK---
+
+~\AppData\Local\Temp/ipykernel_1268/4128137234.py in <module> ----> 1 qc = random_circuit(num_qubits = 5, depth = 10) 2 qc.draw(output='mpl') ~\AppData\Local\Temp/ipykernel_1268/430653575.py in random_circuit(num_qubits, depth, max_operands, measure, conditional, reset, seed) 49 max_possible_operands = min(len(remaining_qubits), max_operands) 50 num_operands = 2 ---> 51 operands = [remaining_qubits.pop() for _ in range(num_operands)] 52 if num_operands == 1: 53 operation = rng.choice(one_q_ops) ~\AppData\Local\Temp/ipykernel_1268/430653575.py in <listcomp>(.0) 49 max_possible_operands = min(len(remaining_qubits), max_operands) 50 num_operands = 2 ---> 51 operands = [remaining_qubits.pop() for _ in range(num_operands)] 52 if num_operands == 1: 53 operation = rng.choice(one_q_ops) IndexError: pop from empty list
+
+---CODE_BLOCK---
+
+~\AppData\Local\Temp/ipykernel_1268/4128137234.py in <module> ----> 1 qc = random_circuit(num_qubits = 5, depth = 10) 2 qc.draw(output='mpl') ~\AppData\Local\Temp/ipykernel_1268/430653575.py in random_circuit(num_qubits, depth, max_operands, measure, conditional, reset, seed) 49 max_possible_operands = min(len(remaining_qubits), max_operands) 50 num_operands = 2 ---> 51 operands = [remaining_qubits.pop() for _ in range(num_operands)] 52 if num_operands == 1: 53 operation = rng.choice(one_q_ops) ~\AppData\Local\Temp/ipykernel_1268/430653575.py in <listcomp>(.0) 49 max_possible_operands = min(len(remaining_qubits), max_operands) 50 num_operands = 2 ---> 51 operands = [remaining_qubits.pop() for _ in range(num_operands)] 52 if num_operands == 1: 53 operation = rng.choice(one_q_ops) IndexError: pop from empty list
+
+Solution explanation:
+Just add: before:
+
+```
+if max_possible_operands < 2: break
+```
+
+```
+if max_possible_operands < 2: break
+```
+
+```
+num_operands = 2
+```
+
+```
+num_operands = 2
+```
+
+Original fixed code:
+if max_possible_operands < 2: break
+
+---CODE_BLOCK---
+
+if max_possible_operands < 2: break
+
+---CODE_BLOCK---
+
+num_operands = 2
+
+---CODE_BLOCK---
+
+num_operands = 2

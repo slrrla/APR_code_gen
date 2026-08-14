@@ -1,0 +1,248 @@
+Title:
+Resolving deprecation warnings of Qiskit's `QuantumInstance`
+
+Category:
+Category: Circuit Construction
+Winner: AI  
+Why AI Is Better: AI provides a complete and modern refactor using `Sampler`, removes `QuantumInstance`, and updates all deprecated imports. It’s cleaner, future-proof, and eliminates warnings — all while explaining the rationale and offering working code.
+Why AI Performs Well in This Category: AI handles transitions between major Qiskit versions effectively. It ensures compatibility, aligns with Qiskit 1.0+ primitives, and promotes best practices with solid reasoning.
+
+
+Question:
+Title: Resolving deprecation warnings of Qiskit's `QuantumInstance`
+
+This code finds the solution to the Max-Cut problem for a given graph using both classical and quantum algorithms. The Max-Cut problem is a well-known problem in computer science and combinatorial optimization, which seeks to divide the vertices of a graph into two disjoint sets such that the number of edges between the sets is maximized. 
+ Here's a detailed breakdown of what the code does: 
+ It first defines a graph with nodes connected by certain edges. In this case, the graph has three nodes (0, 1, 2) with edges between all pairs of nodes. 
+ It then creates an instance of the Max-Cut problem for this graph. 
+ This Max-Cut problem is converted into a Quadratic Program (QP). Quadratic Programs are a type of mathematical optimization problem that can be solved by certain algorithms. They are useful in the context of quantum computing because many optimization problems can be converted into QPs, which can then be solved on a quantum computer. 
+ The code then solves the Quadratic Program using a classical algorithm called the Minimum Eigenvalue Solver (NumPyMinimumEigensolver). This is an exact method for finding the minimum eigenvalue of a matrix, which corresponds to the optimal solution of the QP. The solution is then printed to the console. 
+ Next, the code solves the same Quadratic Program using the Quantum Approximate Optimization Algorithm (QAOA), a quantum algorithm designed for solving combinatorial optimization problems. This is done using a quantum simulator (in this case, the statevector_simulator from Qiskit's Aer module) and the COBYLA optimizer. 
+ Finally, the quantum solution to the problem is printed to the console. 
+ In summary, this code is demonstrating how to solve the Max-Cut problem for a simple graph using both classical and quantum methods, and how to compare their results. 
+ however it seems i get the deprecated warning. i know there is links to find the migration but i cant figure out how to get rid of it 
+ import networkx as nx
+from qiskit import Aer
+from qiskit.algorithms import QAOA, NumPyMinimumEigensolver
+from qiskit.algorithms.optimizers import COBYLA
+from qiskit_optimization import QuadraticProgram
+from qiskit_optimization.algorithms import MinimumEigenOptimizer
+from qiskit_optimization.applications import Maxcut
+from qiskit.utils import QuantumInstance
+
+# Define the edges of the graph (edges are represented by tuples of node indices)
+edges = [(0, 1), (0, 2), (1, 2)]
+
+# Create a graph based on these edges
+G = nx.Graph(edges)
+
+# Create the Maxcut object
+maxcut = Maxcut(G)
+
+# Create a QuadraticProgram based on maxcut
+qp = maxcut.to_quadratic_program()
+
+# Solve the problem exactly using classical eigensolver
+exact_mes = NumPyMinimumEigensolver()
+exact = MinimumEigenOptimizer(exact_mes)
+result = exact.solve(qp)
+print("Exact solution:\n", result)
+
+# Solve the problem using QAOA
+quantum_instance = QuantumInstance(Aer.get_backend('statevector_simulator'))
+qaoa_mes = QAOA(optimizer=COBYLA(), quantum_instance=quantum_instance)
+qaoa = MinimumEigenOptimizer(qaoa_mes)
+result = qaoa.solve(qp)
+print("QAOA solution:\n", result)
+
+ C:\Users\Local\Temp\ipykernel_7204\1113091964.py:23: DeprecationWarning: The class ``qiskit.algorithms.minimum_eigen_solvers.numpy_minimum_eigen_solver.NumPyMinimumEigensolver`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.minimum_eigensolvers.NumPyMinimumEigensolver``. See https://qisk.it/algo_migration for a migration guide.
+ exact_mes = NumPyMinimumEigensolver()
+C:\Users\AppData\Local\Temp\ipykernel_7204\1113091964.py:29: DeprecationWarning: The class ``qiskit.utils.quantum_instance.QuantumInstance`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/qi_migration.
+ quantum_instance = QuantumInstance(Aer.get_backend('statevector_simulator'))
+C:\Users\AppData\Local\Temp\ipykernel_7204\1113091964.py:30: DeprecationWarning: The class ``qiskit.algorithms.minimum_eigen_solvers.qaoa.QAOA`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.minimum_eigensolvers.QAOA``. See https://qisk.it/algo_migration for a migration guide.
+ qaoa_mes = QAOA(optimizer=COBYLA(), quantum_instance=quantum_instance)
+
+Exact solution:
+ fval=2.0, x_0=1.0, x_1=0.0, x_2=0.0, status=SUCCESS
+QAOA solution:
+ fval=2.0, x_0=1.0, x_1=0.0, x_2=0.0, status=SUCCESS
+
+```
+import networkx as nx
+from qiskit import Aer
+from qiskit.algorithms import QAOA, NumPyMinimumEigensolver
+from qiskit.algorithms.optimizers import COBYLA
+from qiskit_optimization import QuadraticProgram
+from qiskit_optimization.algorithms import MinimumEigenOptimizer
+from qiskit_optimization.applications import Maxcut
+from qiskit.utils import QuantumInstance
+
+# Define the edges of the graph (edges are represented by tuples of node indices)
+edges = [(0, 1), (0, 2), (1, 2)]
+
+# Create a graph based on these edges
+G = nx.Graph(edges)
+
+# Create the Maxcut object
+maxcut = Maxcut(G)
+
+# Create a QuadraticProgram based on maxcut
+qp = maxcut.to_quadratic_program()
+
+# Solve the problem exactly using classical eigensolver
+exact_mes = NumPyMinimumEigensolver()
+exact = MinimumEigenOptimizer(exact_mes)
+result = exact.solve(qp)
+print("Exact solution:\n", result)
+
+# Solve the problem using QAOA
+quantum_instance = QuantumInstance(Aer.get_backend('statevector_simulator'))
+qaoa_mes = QAOA(optimizer=COBYLA(), quantum_instance=quantum_instance)
+qaoa = MinimumEigenOptimizer(qaoa_mes)
+result = qaoa.solve(qp)
+print("QAOA solution:\n", result)
+```
+
+```
+C:\Users\Local\Temp\ipykernel_7204\1113091964.py:23: DeprecationWarning: The class ``qiskit.algorithms.minimum_eigen_solvers.numpy_minimum_eigen_solver.NumPyMinimumEigensolver`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.minimum_eigensolvers.NumPyMinimumEigensolver``. See https://qisk.it/algo_migration for a migration guide.
+  exact_mes = NumPyMinimumEigensolver()
+C:\Users\AppData\Local\Temp\ipykernel_7204\1113091964.py:29: DeprecationWarning: The class ``qiskit.utils.quantum_instance.QuantumInstance`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/qi_migration.
+  quantum_instance = QuantumInstance(Aer.get_backend('statevector_simulator'))
+C:\Users\AppData\Local\Temp\ipykernel_7204\1113091964.py:30: DeprecationWarning: The class ``qiskit.algorithms.minimum_eigen_solvers.qaoa.QAOA`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.minimum_eigensolvers.QAOA``. See https://qisk.it/algo_migration for a migration guide.
+  qaoa_mes = QAOA(optimizer=COBYLA(), quantum_instance=quantum_instance)
+
+Exact solution:
+ fval=2.0, x_0=1.0, x_1=0.0, x_2=0.0, status=SUCCESS
+QAOA solution:
+ fval=2.0, x_0=1.0, x_1=0.0, x_2=0.0, status=SUCCESS
+```
+
+Original buggy code:
+import networkx as nx
+from qiskit import Aer
+from qiskit.algorithms import QAOA, NumPyMinimumEigensolver
+from qiskit.algorithms.optimizers import COBYLA
+from qiskit_optimization import QuadraticProgram
+from qiskit_optimization.algorithms import MinimumEigenOptimizer
+from qiskit_optimization.applications import Maxcut
+from qiskit.utils import QuantumInstance
+
+# Define the edges of the graph (edges are represented by tuples of node indices)
+edges = [(0, 1), (0, 2), (1, 2)]
+
+# Create a graph based on these edges
+G = nx.Graph(edges)
+
+# Create the Maxcut object
+maxcut = Maxcut(G)
+
+# Create a QuadraticProgram based on maxcut
+qp = maxcut.to_quadratic_program()
+
+# Solve the problem exactly using classical eigensolver
+exact_mes = NumPyMinimumEigensolver()
+exact = MinimumEigenOptimizer(exact_mes)
+result = exact.solve(qp)
+print("Exact solution:\n", result)
+
+# Solve the problem using QAOA
+quantum_instance = QuantumInstance(Aer.get_backend('statevector_simulator'))
+qaoa_mes = QAOA(optimizer=COBYLA(), quantum_instance=quantum_instance)
+qaoa = MinimumEigenOptimizer(qaoa_mes)
+result = qaoa.solve(qp)
+print("QAOA solution:\n", result)
+
+---CODE_BLOCK---
+
+C:\Users\Local\Temp\ipykernel_7204\1113091964.py:23: DeprecationWarning: The class ``qiskit.algorithms.minimum_eigen_solvers.numpy_minimum_eigen_solver.NumPyMinimumEigensolver`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.minimum_eigensolvers.NumPyMinimumEigensolver``. See https://qisk.it/algo_migration for a migration guide.
+  exact_mes = NumPyMinimumEigensolver()
+C:\Users\AppData\Local\Temp\ipykernel_7204\1113091964.py:29: DeprecationWarning: The class ``qiskit.utils.quantum_instance.QuantumInstance`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/qi_migration.
+  quantum_instance = QuantumInstance(Aer.get_backend('statevector_simulator'))
+C:\Users\AppData\Local\Temp\ipykernel_7204\1113091964.py:30: DeprecationWarning: The class ``qiskit.algorithms.minimum_eigen_solvers.qaoa.QAOA`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.minimum_eigensolvers.QAOA``. See https://qisk.it/algo_migration for a migration guide.
+  qaoa_mes = QAOA(optimizer=COBYLA(), quantum_instance=quantum_instance)
+
+Exact solution:
+ fval=2.0, x_0=1.0, x_1=0.0, x_2=0.0, status=SUCCESS
+QAOA solution:
+ fval=2.0, x_0=1.0, x_1=0.0, x_2=0.0, status=SUCCESS
+
+Solution explanation:
+You have to exchange the QuantumInstance with the new primitives and the respective algorithms. Since you have an algorithm that is based on sampling circuits, you can use the Sampler for this job. How you have to change the algorithms is explicitly stated in the deprecation warning, for example: 
+ DeprecationWarning: 
+The class qiskit.algorithms.minimum_eigen_solvers.numpy_minimum_eigen_solver.NumPyMinimumEigensolver is deprecated as of qiskit-terra 0.24.0. 
+It will be removed no earlier than 3 months after the release date.
+Instead, use the class qiskit.algorithms.minimum_eigensolvers.NumPyMinimumEigensolver. 
+
+ That means you have to change the import 
+ from qiskit.algorithms import NumPyMinimumEigensolver
+
+ to 
+ from qiskit.algorithms.minimum_eigensolver import NumPyMinimumEigensolver
+
+ Here's your snippet, with the updates according to the warnings you posted above: 
+ import networkx as nx
+
+# update to new import location
+from qiskit.algorithms.minimum_eigensolvers import QAOA, NumPyMinimumEigensolver
+
+from qiskit.algorithms.optimizers import COBYLA
+from qiskit_optimization import QuadraticProgram
+from qiskit_optimization.algorithms import MinimumEigenOptimizer
+from qiskit_optimization.applications import Maxcut
+
+# import the sampler
+from qiskit.primitives import Sampler
+
+# Define the edges of the graph (edges are represented by tuples of node indices)
+edges = [(0, 1), (0, 2), (1, 2)]
+
+# Create a graph based on these edges
+G = nx.Graph(edges)
+
+# Create the Maxcut object
+maxcut = Maxcut(G)
+
+# Create a QuadraticProgram based on maxcut
+qp = maxcut.to_quadratic_program()
+
+# Solve the problem exactly using classical eigensolver
+exact_mes = NumPyMinimumEigensolver()
+exact = MinimumEigenOptimizer(exact_mes)
+result = exact.solve(qp)
+print("Exact solution:\n", result)
+
+# Solve the problem using QAOA
+sampler = Sampler() # use the sampler, the default is based on statevector simulation
+qaoa_mes = QAOA(optimizer=COBYLA(), sampler=sampler)
+qaoa = MinimumEigenOptimizer(qaoa_mes)
+result = qaoa.solve(qp)
+print("QAOA solution:\n", result)
+
+```
+DeprecationWarning: 
+The class qiskit.algorithms.minimum_eigen_solvers.numpy_minimum_eigen_solver.NumPyMinimumEigensolver is deprecated as of qiskit-terra 0.24.0. 
+It will be removed no earlier than 3 months after the release date.
+Instead, use the class qiskit.algorithms.minimum_eigensolvers.NumPyMinimumEigensolver.
+```
+
+```
+from qiskit.algorithms import NumPyMinimumEigensolver
+```
+
+```
+from qiskit.algorithms.minimum_eigensolver import NumPyMinimumEigensolver
+```
+
+Original fixed code:
+DeprecationWarning: 
+The class qiskit.algorithms.minimum_eigen_solvers.numpy_minimum_eigen_solver.NumPyMinimumEigensolver is deprecated as of qiskit-terra 0.24.0. 
+It will be removed no earlier than 3 months after the release date.
+Instead, use the class qiskit.algorithms.minimum_eigensolvers.NumPyMinimumEigensolver.
+
+---CODE_BLOCK---
+
+from qiskit.algorithms import NumPyMinimumEigensolver
+
+---CODE_BLOCK---
+
+from qiskit.algorithms.minimum_eigensolver import NumPyMinimumEigensolver

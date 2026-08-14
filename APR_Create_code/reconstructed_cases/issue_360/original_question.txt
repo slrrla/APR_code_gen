@@ -1,0 +1,70 @@
+Title:
+Measuring the accuracy of a circuit output?
+
+Category:
+Category: Backend Usage / Simulation / Output
+
+Why Both Are Same in This Category:
+In the context of simulating and interpreting quantum circuit outputs, both solutions recommend the same best practice — use shots + get_counts() for statistical accuracy. Both explain the need and method to convert counts into probabilities clearly, making them equivalent in correctness and educational value.
+
+Question:
+Title: Measuring the accuracy of a circuit output?
+
+I have created a circuit and got the output which matches the truth table but, I'm not understanding the measuring the circuit output in terms of the probabilities, power or error. This is the circuit I tried to create. It is the uppg gate. The above is the output I got, but I want the output to show in terms of probability or the accuracy of circuit output. How to achieve this in Qiskit?
+
+```
+from qiskit import * def uppg(inp1, inp2, inp3, inp4): qc = QuantumCircuit(4, 4) #conditions if(inp1 == '1'): qc.x(0) if(inp2 == '1'): qc.x(1) if(inp3 == '1'): qc.x(2) if(inp4 == '1'): qc.x(3) qc.barrier() #circuit qc.cx(3, 1) qc.cx(1, 0) qc.cx(0, 1) qc.ccx(3, 2, 1) qc.cx(1, 2) qc.cx(3, 2) #measure qc.measure(0, 3) qc.measure(1, 2) qc.measure(2, 1) qc.measure(3, 0) qc.draw() #backend backend = Aer.get_backend('qasm_simulator') job = execute(qc, backend, memory= True) output = job.result().get_memory()[0] return qc, output for inp1 in ['0', '1']: for inp2 in ['0', '1']: for inp3 in ['0', '1']: for inp4 in ['0', '1']: qc_new, output = uppg(inp1, inp2, inp3, inp4) print('{} {} {} {}'.format(inp1, inp2, inp3, inp4), '=', output) display(qc_new.draw())
+```
+
+```
+from qiskit import * def uppg(inp1, inp2, inp3, inp4): qc = QuantumCircuit(4, 4) #conditions if(inp1 == '1'): qc.x(0) if(inp2 == '1'): qc.x(1) if(inp3 == '1'): qc.x(2) if(inp4 == '1'): qc.x(3) qc.barrier() #circuit qc.cx(3, 1) qc.cx(1, 0) qc.cx(0, 1) qc.ccx(3, 2, 1) qc.cx(1, 2) qc.cx(3, 2) #measure qc.measure(0, 3) qc.measure(1, 2) qc.measure(2, 1) qc.measure(3, 0) qc.draw() #backend backend = Aer.get_backend('qasm_simulator') job = execute(qc, backend, memory= True) output = job.result().get_memory()[0] return qc, output for inp1 in ['0', '1']: for inp2 in ['0', '1']: for inp3 in ['0', '1']: for inp4 in ['0', '1']: qc_new, output = uppg(inp1, inp2, inp3, inp4) print('{} {} {} {}'.format(inp1, inp2, inp3, inp4), '=', output) display(qc_new.draw())
+```
+
+Original buggy code:
+from qiskit import * def uppg(inp1, inp2, inp3, inp4): qc = QuantumCircuit(4, 4) #conditions if(inp1 == '1'): qc.x(0) if(inp2 == '1'): qc.x(1) if(inp3 == '1'): qc.x(2) if(inp4 == '1'): qc.x(3) qc.barrier() #circuit qc.cx(3, 1) qc.cx(1, 0) qc.cx(0, 1) qc.ccx(3, 2, 1) qc.cx(1, 2) qc.cx(3, 2) #measure qc.measure(0, 3) qc.measure(1, 2) qc.measure(2, 1) qc.measure(3, 0) qc.draw() #backend backend = Aer.get_backend('qasm_simulator') job = execute(qc, backend, memory= True) output = job.result().get_memory()[0] return qc, output for inp1 in ['0', '1']: for inp2 in ['0', '1']: for inp3 in ['0', '1']: for inp4 in ['0', '1']: qc_new, output = uppg(inp1, inp2, inp3, inp4) print('{} {} {} {}'.format(inp1, inp2, inp3, inp4), '=', output) display(qc_new.draw())
+
+---CODE_BLOCK---
+
+from qiskit import * def uppg(inp1, inp2, inp3, inp4): qc = QuantumCircuit(4, 4) #conditions if(inp1 == '1'): qc.x(0) if(inp2 == '1'): qc.x(1) if(inp3 == '1'): qc.x(2) if(inp4 == '1'): qc.x(3) qc.barrier() #circuit qc.cx(3, 1) qc.cx(1, 0) qc.cx(0, 1) qc.ccx(3, 2, 1) qc.cx(1, 2) qc.cx(3, 2) #measure qc.measure(0, 3) qc.measure(1, 2) qc.measure(2, 1) qc.measure(3, 0) qc.draw() #backend backend = Aer.get_backend('qasm_simulator') job = execute(qc, backend, memory= True) output = job.result().get_memory()[0] return qc, output for inp1 in ['0', '1']: for inp2 in ['0', '1']: for inp3 in ['0', '1']: for inp4 in ['0', '1']: qc_new, output = uppg(inp1, inp2, inp3, inp4) print('{} {} {} {}'.format(inp1, inp2, inp3, inp4), '=', output) display(qc_new.draw())
+
+Solution explanation:
+If you use memory=True in , then you store the measurement outcomes for each individual shots. mean that you access measurement outcome of the first shot. The meaning of your output is for inp1, inp2, inp3, inp4 = 0, the measurement outcome of the first shot is 0000, for inp1, inp2, inp3 = 0, and inp4 = 1, the first shot is 1011, etc. If you want the output show in terms of probability, or counts, you can use . Here's the code: output: From above output, you can see that for inp1, inp2, inp3, inp4 = 0 the measurement outcomes are 0000 for all 1024 shots, meaning the probability for 0000 is 100%.
+
+```
+execute()
+```
+
+```
+job.result().get_memory()[0]
+```
+
+```
+job.result().get_counts()
+```
+
+```
+from qiskit import * def uppg(inp1, inp2, inp3, inp4): qc = QuantumCircuit(4, 4) #conditions if(inp1 == '1'): qc.x(0) if(inp2 == '1'): qc.x(1) if(inp3 == '1'): qc.x(2) if(inp4 == '1'): qc.x(3) qc.barrier() #circuit qc.cx(3, 1) qc.cx(1, 0) qc.cx(0, 1) qc.ccx(3, 2, 1) qc.cx(1, 2) qc.cx(3, 2) #measure qc.measure(0, 3) qc.measure(1, 2) qc.measure(2, 1) qc.measure(3, 0) qc.draw() #backend backend = Aer.get_backend('qasm_simulator') job = execute(qc, backend, shots=1024) output = job.result().get_counts() return qc, output for inp1 in ['0', '1']: for inp2 in ['0', '1']: for inp3 in ['0', '1']: for inp4 in ['0', '1']: qc_new, output = uppg(inp1, inp2, inp3, inp4) print('{} {} {} {}'.format(inp1, inp2, inp3, inp4), '=', output) display(qc_new.draw())
+```
+
+```
+from qiskit import * def uppg(inp1, inp2, inp3, inp4): qc = QuantumCircuit(4, 4) #conditions if(inp1 == '1'): qc.x(0) if(inp2 == '1'): qc.x(1) if(inp3 == '1'): qc.x(2) if(inp4 == '1'): qc.x(3) qc.barrier() #circuit qc.cx(3, 1) qc.cx(1, 0) qc.cx(0, 1) qc.ccx(3, 2, 1) qc.cx(1, 2) qc.cx(3, 2) #measure qc.measure(0, 3) qc.measure(1, 2) qc.measure(2, 1) qc.measure(3, 0) qc.draw() #backend backend = Aer.get_backend('qasm_simulator') job = execute(qc, backend, shots=1024) output = job.result().get_counts() return qc, output for inp1 in ['0', '1']: for inp2 in ['0', '1']: for inp3 in ['0', '1']: for inp4 in ['0', '1']: qc_new, output = uppg(inp1, inp2, inp3, inp4) print('{} {} {} {}'.format(inp1, inp2, inp3, inp4), '=', output) display(qc_new.draw())
+```
+
+Original fixed code:
+execute()
+
+---CODE_BLOCK---
+
+job.result().get_memory()[0]
+
+---CODE_BLOCK---
+
+job.result().get_counts()
+
+---CODE_BLOCK---
+
+from qiskit import * def uppg(inp1, inp2, inp3, inp4): qc = QuantumCircuit(4, 4) #conditions if(inp1 == '1'): qc.x(0) if(inp2 == '1'): qc.x(1) if(inp3 == '1'): qc.x(2) if(inp4 == '1'): qc.x(3) qc.barrier() #circuit qc.cx(3, 1) qc.cx(1, 0) qc.cx(0, 1) qc.ccx(3, 2, 1) qc.cx(1, 2) qc.cx(3, 2) #measure qc.measure(0, 3) qc.measure(1, 2) qc.measure(2, 1) qc.measure(3, 0) qc.draw() #backend backend = Aer.get_backend('qasm_simulator') job = execute(qc, backend, shots=1024) output = job.result().get_counts() return qc, output for inp1 in ['0', '1']: for inp2 in ['0', '1']: for inp3 in ['0', '1']: for inp4 in ['0', '1']: qc_new, output = uppg(inp1, inp2, inp3, inp4) print('{} {} {} {}'.format(inp1, inp2, inp3, inp4), '=', output) display(qc_new.draw())
+
+---CODE_BLOCK---
+
+from qiskit import * def uppg(inp1, inp2, inp3, inp4): qc = QuantumCircuit(4, 4) #conditions if(inp1 == '1'): qc.x(0) if(inp2 == '1'): qc.x(1) if(inp3 == '1'): qc.x(2) if(inp4 == '1'): qc.x(3) qc.barrier() #circuit qc.cx(3, 1) qc.cx(1, 0) qc.cx(0, 1) qc.ccx(3, 2, 1) qc.cx(1, 2) qc.cx(3, 2) #measure qc.measure(0, 3) qc.measure(1, 2) qc.measure(2, 1) qc.measure(3, 0) qc.draw() #backend backend = Aer.get_backend('qasm_simulator') job = execute(qc, backend, shots=1024) output = job.result().get_counts() return qc, output for inp1 in ['0', '1']: for inp2 in ['0', '1']: for inp3 in ['0', '1']: for inp4 in ['0', '1']: qc_new, output = uppg(inp1, inp2, inp3, inp4) print('{} {} {} {}'.format(inp1, inp2, inp3, inp4), '=', output) display(qc_new.draw())

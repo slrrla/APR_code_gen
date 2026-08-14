@@ -1,0 +1,130 @@
+Title:
+Building Qiskit Aer from source generates Errors
+
+Category:
+Category: Installation / Build from Source  
+Winner: AI  
+Why AI Is Better: The AI explains both the root cause (C++ rvalue binding issue) and offers a complete set of solutions—including upgrading pybind11, using correct C++ standards, verifying CUDA environment variables, and rebuilding cleanly. Stack Overflow provides a one-line fix but lacks depth and fails to guide users through other likely failure points.  
+Why AI Performs Well in This Category: Installation and build errors often have multiple points of failure. AI excels by offering layered troubleshooting and anticipating future build issues in complex environments like CUDA and MPI.
+
+
+Question:
+Title: Building Qiskit Aer from source generates Errors
+
+I need MPI support along with GPU (GeForce GTX 1080 Ti, CUDA driver version is 11.4 and running version is 10.1) for which I have to build qiskit-aer from source. My python version is 3.8.16. I have done installing all requirements mentioned in CONTRIBUTING.md. However running final command with required options; 
+ python3 ./setup.py bdist_wheel -- -DAER_THRUST_BACKEND=CUDA -DAER_MPI=True
+
+ I am getting following Error which I am unable to resolve. 
+ /usr/include/pybind11/pybind11.h(78): error: an rvalue reference cannot be bound to an lvalue
+ detected during:
+ instantiation of "pybind11::cpp_function::cpp_function(Return (Class::*)(Arg...), const Extra &...) [with Return=void, Class=AER::AerState, Arg=<const AER::reg_t &, AER::cmatrix_t &&>, Extra=<pybind11::name, pybind11::is_method, pybind11::sibling>]" 
+(1112): here
+ instantiation of "pybind11::class_<type_, options...> &pybind11::class_<type_, options...>::def(const char *, Func &&, const Extra &...) [with type_=AER::AerState, options=<>, Func=void (AER::AerState::*)(const AER::reg_t &, AER::cmatrix_t &&), Extra=<>]" 
+/home/dell/vir/qiskit-aer-main/qiskit_aer/backends/wrappers/aer_state_binding.hpp(124): here
+ instantiation of "void bind_aer_state(MODULE) [with MODULE=pybind11::module]" 
+/home/dell/vir/qiskit-aer-main/qiskit_aer/backends/wrappers/bindings.cc(28): here
+
+2 errors detected in the compilation of "/tmp/tmpxft_000012da_00000000-6_bindings.cpp1.ii".
+make[2]: *** [qiskit_aer/backends/wrappers/CMakeFiles/controller_wrappers.dir/build.make:76: qiskit_aer/backends/wrappers/CMakeFiles/controller_wrappers.dir/bindings.cc.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:874: qiskit_aer/backends/wrappers/CMakeFiles/controller_wrappers.dir/all] Error 2
+make: *** [Makefile:146: all] Error 2
+Traceback (most recent call last):
+ File "/home/dell/miniconda3/envs/QiskitDevEnv/lib/python3.8/site-packages/skbuild/setuptools_wrap.py", line 674, in setup
+cmkr.make(make_args, install_target=cmake_install_target, env=env)
+ File "/home/dell/miniconda3/envs/QiskitDevEnv/lib/python3.8/site-packages/skbuild/cmaker.py", line 697, in make
+self.make_impl(clargs=clargs, config=config, source_dir=source_dir, install_target=install_target, env=env)
+ File "/home/dell/miniconda3/envs/QiskitDevEnv/lib/python3.8/site-packages/skbuild/cmaker.py", line 742, in make_impl
+raise SKBuildError(msg)
+
+An error occurred while building with CMake.
+Command:
+/home/dell/miniconda3/envs/QiskitDevEnv/lib/python3.8/site-packages/cmake/data/bin/cmake --build . --target install --config Release --
+ Install target:
+ install
+ Source directory:
+/home/dell/vir/qiskit-aer-main
+ Working directory:
+/home/dell/vir/qiskit-aer-main/_skbuild/linux-x86_64-3.8/cmake-build
+Please check the install target is valid and see CMake's output for more information.
+
+```
+python3 ./setup.py bdist_wheel -- -DAER_THRUST_BACKEND=CUDA -DAER_MPI=True
+```
+
+```
+/usr/include/pybind11/pybind11.h(78): error: an rvalue reference cannot be bound to an lvalue
+      detected during:
+        instantiation of "pybind11::cpp_function::cpp_function(Return (Class::*)(Arg...), const Extra &...) [with Return=void, Class=AER::AerState, Arg=<const AER::reg_t &, AER::cmatrix_t &&>, Extra=<pybind11::name, pybind11::is_method, pybind11::sibling>]" 
+(1112): here
+        instantiation of "pybind11::class_<type_, options...> &pybind11::class_<type_, options...>::def(const char *, Func &&, const Extra &...) [with type_=AER::AerState, options=<>, Func=void (AER::AerState::*)(const AER::reg_t &, AER::cmatrix_t &&), Extra=<>]" 
+/home/dell/vir/qiskit-aer-main/qiskit_aer/backends/wrappers/aer_state_binding.hpp(124): here
+        instantiation of "void bind_aer_state(MODULE) [with MODULE=pybind11::module]" 
+/home/dell/vir/qiskit-aer-main/qiskit_aer/backends/wrappers/bindings.cc(28): here
+
+2 errors detected in the compilation of "/tmp/tmpxft_000012da_00000000-6_bindings.cpp1.ii".
+make[2]: *** [qiskit_aer/backends/wrappers/CMakeFiles/controller_wrappers.dir/build.make:76: qiskit_aer/backends/wrappers/CMakeFiles/controller_wrappers.dir/bindings.cc.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:874: qiskit_aer/backends/wrappers/CMakeFiles/controller_wrappers.dir/all] Error 2
+make: *** [Makefile:146: all] Error 2
+Traceback (most recent call last):
+  File "/home/dell/miniconda3/envs/QiskitDevEnv/lib/python3.8/site-packages/skbuild/setuptools_wrap.py", line 674, in setup
+cmkr.make(make_args, install_target=cmake_install_target, env=env)
+  File "/home/dell/miniconda3/envs/QiskitDevEnv/lib/python3.8/site-packages/skbuild/cmaker.py", line 697, in make
+self.make_impl(clargs=clargs, config=config, source_dir=source_dir, install_target=install_target, env=env)
+  File "/home/dell/miniconda3/envs/QiskitDevEnv/lib/python3.8/site-packages/skbuild/cmaker.py", line 742, in make_impl
+raise SKBuildError(msg)
+
+An error occurred while building with CMake.
+Command:
+/home/dell/miniconda3/envs/QiskitDevEnv/lib/python3.8/site-packages/cmake/data/bin/cmake --build . --target install --config Release --
+  Install target:
+  install
+  Source directory:
+/home/dell/vir/qiskit-aer-main
+  Working directory:
+/home/dell/vir/qiskit-aer-main/_skbuild/linux-x86_64-3.8/cmake-build
+Please check the install target is valid and see CMake's output for more information.
+```
+
+Original buggy code:
+python3 ./setup.py bdist_wheel -- -DAER_THRUST_BACKEND=CUDA -DAER_MPI=True
+
+---CODE_BLOCK---
+
+/usr/include/pybind11/pybind11.h(78): error: an rvalue reference cannot be bound to an lvalue
+      detected during:
+        instantiation of "pybind11::cpp_function::cpp_function(Return (Class::*)(Arg...), const Extra &...) [with Return=void, Class=AER::AerState, Arg=<const AER::reg_t &, AER::cmatrix_t &&>, Extra=<pybind11::name, pybind11::is_method, pybind11::sibling>]" 
+(1112): here
+        instantiation of "pybind11::class_<type_, options...> &pybind11::class_<type_, options...>::def(const char *, Func &&, const Extra &...) [with type_=AER::AerState, options=<>, Func=void (AER::AerState::*)(const AER::reg_t &, AER::cmatrix_t &&), Extra=<>]" 
+/home/dell/vir/qiskit-aer-main/qiskit_aer/backends/wrappers/aer_state_binding.hpp(124): here
+        instantiation of "void bind_aer_state(MODULE) [with MODULE=pybind11::module]" 
+/home/dell/vir/qiskit-aer-main/qiskit_aer/backends/wrappers/bindings.cc(28): here
+
+2 errors detected in the compilation of "/tmp/tmpxft_000012da_00000000-6_bindings.cpp1.ii".
+make[2]: *** [qiskit_aer/backends/wrappers/CMakeFiles/controller_wrappers.dir/build.make:76: qiskit_aer/backends/wrappers/CMakeFiles/controller_wrappers.dir/bindings.cc.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:874: qiskit_aer/backends/wrappers/CMakeFiles/controller_wrappers.dir/all] Error 2
+make: *** [Makefile:146: all] Error 2
+Traceback (most recent call last):
+  File "/home/dell/miniconda3/envs/QiskitDevEnv/lib/python3.8/site-packages/skbuild/setuptools_wrap.py", line 674, in setup
+cmkr.make(make_args, install_target=cmake_install_target, env=env)
+  File "/home/dell/miniconda3/envs/QiskitDevEnv/lib/python3.8/site-packages/skbuild/cmaker.py", line 697, in make
+self.make_impl(clargs=clargs, config=config, source_dir=source_dir, install_target=install_target, env=env)
+  File "/home/dell/miniconda3/envs/QiskitDevEnv/lib/python3.8/site-packages/skbuild/cmaker.py", line 742, in make_impl
+raise SKBuildError(msg)
+
+An error occurred while building with CMake.
+Command:
+/home/dell/miniconda3/envs/QiskitDevEnv/lib/python3.8/site-packages/cmake/data/bin/cmake --build . --target install --config Release --
+  Install target:
+  install
+  Source directory:
+/home/dell/vir/qiskit-aer-main
+  Working directory:
+/home/dell/vir/qiskit-aer-main/_skbuild/linux-x86_64-3.8/cmake-build
+Please check the install target is valid and see CMake's output for more information.
+
+Solution explanation:
+The error was removed by running pip install "pybind11[global]" . 
+ For complete installation see this .
+
+Original fixed code:
+For complete installation see this .

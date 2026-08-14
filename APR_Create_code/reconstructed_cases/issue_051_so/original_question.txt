@@ -1,0 +1,182 @@
+Title:
+mpirun is unable to import installed packages
+
+Category:
+
+
+Question:
+Title: mpirun is unable to import installed packages
+
+I am running qiskit code which execute fine when I invoke it with python3 but when called with mpirun, it executes SegmentationFault Error mentioning some Permission Errors . I run command as root , it says ModuleNotFoundError (which is already installed and working with normal execution - worth mentioning is this error started coming after restart) 
+ sudo mpirun --allow-run-as-root python3 test-mpi.py
+
+Traceback (most recent call last):
+ File "/home/dell/qiskit-aer-main/demo-files/test-mpi.py", line 3, in <module>
+from qiskit.providers.aer import *
+ModuleNotFoundError: No module named 'qiskit.providers.aer'
+Traceback (most recent call last):
+ File "/home/dell/qiskit-aer-main/demo-files/test-mpi.py", line 3, in <module>
+from qiskit.providers.aer import *
+ModuleNotFoundError: No module named 'qiskit.providers.aer'
+Traceback (most recent call last):
+ File "/home/dell/qiskit-aer-main/demo-files/test-mpi.py", line 3, in <module>
+from qiskit.providers.aer import *
+ModuleNotFoundError: No module named 'qiskit.providers.aer'
+Traceback (most recent call last):
+ File "/home/dell/qiskit-aer-main/demo-files/test-mpi.py", line 3, in <module>
+from qiskit.providers.aer import *
+ModuleNotFoundError: No module named 'qiskit.providers.aer'
+--------------------------------------------------------------------------
+Primary job terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+Process name: [[51849,1],0]
+Exit code: 1
+
+ Below is code along with normal output 
+ from qiskit import *
+from qiskit.circuit.library import *
+from qiskit.providers.aer import *
+sim = AerSimulator(method='statevector')
+shots = 100
+depth=10
+qubits = 35
+circuit = transpile(QuantumVolume(qubits, depth, seed=0),
+backend=sim,
+optimization_level=0)
+circuit.measure_all()
+result = execute(circuit,sim,shots=shots,seed_simulator=12345).result()
+if result.to_dict()['metadata']['mpi_rank'] == 0:
+ print (result.to_dict()['metadata'])
+
+ Here is normal output case: 
+ python3 test-mpi.py
+
+{'time_taken_execute': 0.222742047, 'mpi_rank': 0, 'time_taken_parameter_binding': 8.8427e-05, 'num_mpi_processes': 1, 'num_processes_per_experiments': 1, 'omp_enabled': True, 'max_gpu_memory_mb': 0, 'max_memory_mb': 15903, 'parallel_experiments': 1}
+
+```
+sudo mpirun --allow-run-as-root python3 test-mpi.py
+
+Traceback (most recent call last):
+  File "/home/dell/qiskit-aer-main/demo-files/test-mpi.py", line 3, in <module>
+from qiskit.providers.aer import *
+ModuleNotFoundError: No module named 'qiskit.providers.aer'
+Traceback (most recent call last):
+  File "/home/dell/qiskit-aer-main/demo-files/test-mpi.py", line 3, in <module>
+from qiskit.providers.aer import *
+ModuleNotFoundError: No module named 'qiskit.providers.aer'
+Traceback (most recent call last):
+  File "/home/dell/qiskit-aer-main/demo-files/test-mpi.py", line 3, in <module>
+from qiskit.providers.aer import *
+ModuleNotFoundError: No module named 'qiskit.providers.aer'
+Traceback (most recent call last):
+  File "/home/dell/qiskit-aer-main/demo-files/test-mpi.py", line 3, in <module>
+from qiskit.providers.aer import *
+ModuleNotFoundError: No module named 'qiskit.providers.aer'
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+Process name: [[51849,1],0]
+Exit code:    1
+```
+
+```
+from qiskit import *
+from qiskit.circuit.library import *
+from qiskit.providers.aer import *
+sim = AerSimulator(method='statevector')
+shots = 100
+depth=10
+qubits = 35
+circuit = transpile(QuantumVolume(qubits, depth, seed=0),
+backend=sim,
+optimization_level=0)
+circuit.measure_all()
+result = execute(circuit,sim,shots=shots,seed_simulator=12345).result()
+if result.to_dict()['metadata']['mpi_rank'] == 0:
+    print (result.to_dict()['metadata'])
+```
+
+```
+python3 test-mpi.py
+
+{'time_taken_execute': 0.222742047, 'mpi_rank': 0, 'time_taken_parameter_binding': 8.8427e-05, 'num_mpi_processes': 1, 'num_processes_per_experiments': 1, 'omp_enabled': True, 'max_gpu_memory_mb': 0, 'max_memory_mb': 15903, 'parallel_experiments': 1}
+```
+
+Original buggy code:
+sudo mpirun --allow-run-as-root python3 test-mpi.py
+
+Traceback (most recent call last):
+  File "/home/dell/qiskit-aer-main/demo-files/test-mpi.py", line 3, in <module>
+from qiskit.providers.aer import *
+ModuleNotFoundError: No module named 'qiskit.providers.aer'
+Traceback (most recent call last):
+  File "/home/dell/qiskit-aer-main/demo-files/test-mpi.py", line 3, in <module>
+from qiskit.providers.aer import *
+ModuleNotFoundError: No module named 'qiskit.providers.aer'
+Traceback (most recent call last):
+  File "/home/dell/qiskit-aer-main/demo-files/test-mpi.py", line 3, in <module>
+from qiskit.providers.aer import *
+ModuleNotFoundError: No module named 'qiskit.providers.aer'
+Traceback (most recent call last):
+  File "/home/dell/qiskit-aer-main/demo-files/test-mpi.py", line 3, in <module>
+from qiskit.providers.aer import *
+ModuleNotFoundError: No module named 'qiskit.providers.aer'
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+Process name: [[51849,1],0]
+Exit code:    1
+
+---CODE_BLOCK---
+
+from qiskit import *
+from qiskit.circuit.library import *
+from qiskit.providers.aer import *
+sim = AerSimulator(method='statevector')
+shots = 100
+depth=10
+qubits = 35
+circuit = transpile(QuantumVolume(qubits, depth, seed=0),
+backend=sim,
+optimization_level=0)
+circuit.measure_all()
+result = execute(circuit,sim,shots=shots,seed_simulator=12345).result()
+if result.to_dict()['metadata']['mpi_rank'] == 0:
+    print (result.to_dict()['metadata'])
+
+---CODE_BLOCK---
+
+python3 test-mpi.py
+
+{'time_taken_execute': 0.222742047, 'mpi_rank': 0, 'time_taken_parameter_binding': 8.8427e-05, 'num_mpi_processes': 1, 'num_processes_per_experiments': 1, 'omp_enabled': True, 'max_gpu_memory_mb': 0, 'max_memory_mb': 15903, 'parallel_experiments': 1}
+
+Solution explanation:
+I was able to solve this problem by manually adding paths in code: 
+ import sys
+sys.path.append('/home/dell/.local/lib/python3.11/site-packages/')
+
+ mpirun was having some issues with python virtual environment and couldn't load paths by itself.
+
+```
+import sys
+sys.path.append('/home/dell/.local/lib/python3.11/site-packages/')
+```
+
+Original fixed code:
+import sys
+sys.path.append('/home/dell/.local/lib/python3.11/site-packages/')

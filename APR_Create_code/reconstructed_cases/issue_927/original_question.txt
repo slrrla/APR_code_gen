@@ -1,0 +1,43 @@
+Title:
+Tomography library in Qiskit?
+
+Category:
+
+
+Question:
+Title: Tomography library in Qiskit?
+
+I am wondering what is the equivalent to the import bellow in the current version of Qiskit?
+
+```
+import qiskit.tools.qcvv.tomography as tomography
+```
+
+```
+import qiskit.tools.qcvv.tomography as tomography
+```
+
+Original buggy code:
+import qiskit.tools.qcvv.tomography as tomography
+
+---CODE_BLOCK---
+
+import qiskit.tools.qcvv.tomography as tomography
+
+Solution explanation:
+The import should be replaced by: As documented here
+
+```
+import qiskit.ignis.verification.tomography as tomo
+```
+
+```
+import qiskit.ignis.verification.tomography as tomo
+```
+
+Original fixed code:
+import qiskit.ignis.verification.tomography as tomo
+
+---CODE_BLOCK---
+
+import qiskit.ignis.verification.tomography as tomo

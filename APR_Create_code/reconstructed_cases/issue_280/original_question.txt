@@ -1,0 +1,94 @@
+Title:
+How do I apply depolarization error on 2 qubits using Qiskit?
+
+Category:
+Category:
+Import / Noise Simulation / Error Injection
+Why AI Solution Wins in This Category:
+This category involves correctly injecting noise using Qiskit’s Aer simulation framework. The AI provides a clear, runnable example and explains all the critical parts—creation of error channels, mapping them to gates, and simulating. The Stack Overflow answer is helpful but lacks completeness and code-level clarity. Therefore, the AI response better supports developers simulating quantum noise effects in practice.
+
+Question:
+Title: How do I apply depolarization error on 2 qubits using Qiskit?
+
+I'm trying to apply depolarization error on a 2-qubit circuit using the Qiskit Aer noise module. My question is how can I apply the depolarization error to each of the qubits in my circuit? Does the error also apply to 2-qubit gates? From this tutorial, we can apply the 'same error to any occurrence of an instruction'. My understanding is if we apply the , the same depolarization error will occur on each of the qubits: $$ \mathcal{E}(\rho) = \frac{pI}{2^n}\text{Tr}(\rho)+(1-p)\rho,\quad\text{where} \quad\rho \equiv\sum_ip_i|\psi_i\rangle\langle\psi_i|. $$ Thus the uniform X, Y, and Z errors are applied to each of them separately. The qiskit code is However, as this post suggests, a two-qubit depolarizing error would apply one of IX, IY, IZ, XI, XX, XY, XZ, YI, YX, YY, YZ, ZI, ZX, ZY, or ZZ chosen uniformly at random. If we apply the code above on a 2-qubit circuit, are we really applying the error as we are expecting? Also, as specified in , if there's a CNOT gate on my circuit, will the depolarization error affect this 2-qubit gate? Thanks!
+
+```
+All-qubit quantum error
+```
+
+```
+# Create an empty noise model noise_model = NoiseModel() # Add depolarizing error to all single qubit u1, u2, u3 gates error = depolarizing_error(0.05, 1) noise_model.add_all_qubit_quantum_error(error, ['u1', 'u2', 'u3']) # Print noise model info print(noise_model)
+```
+
+```
+# Create an empty noise model noise_model = NoiseModel() # Add depolarizing error to all single qubit u1, u2, u3 gates error = depolarizing_error(0.05, 1) noise_model.add_all_qubit_quantum_error(error, ['u1', 'u2', 'u3']) # Print noise model info print(noise_model)
+```
+
+```
+noise_model.add_all_qubit_quantum_error(error, ['u1', 'u2', 'u3'])
+```
+
+Original buggy code:
+All-qubit quantum error
+
+---CODE_BLOCK---
+
+# Create an empty noise model noise_model = NoiseModel() # Add depolarizing error to all single qubit u1, u2, u3 gates error = depolarizing_error(0.05, 1) noise_model.add_all_qubit_quantum_error(error, ['u1', 'u2', 'u3']) # Print noise model info print(noise_model)
+
+---CODE_BLOCK---
+
+# Create an empty noise model noise_model = NoiseModel() # Add depolarizing error to all single qubit u1, u2, u3 gates error = depolarizing_error(0.05, 1) noise_model.add_all_qubit_quantum_error(error, ['u1', 'u2', 'u3']) # Print noise model info print(noise_model)
+
+---CODE_BLOCK---
+
+noise_model.add_all_qubit_quantum_error(error, ['u1', 'u2', 'u3'])
+
+Solution explanation:
+If you like to add a 2-qubit error to CNOT gates, you have to create a depolarizing error with which you may add to your noise model by . If you take a look at the source you find that it creates the desired two qubit channel by EDIT: I don't know what you mean by "cu". To be honest, nobody knows all 2-qubit gates. You can create your own. A real quantum computer realizes only a few gates, typically 3 unitary gates and one cx gate. All other gates are then composed from these basis gates. So if you wish to simulate a noisy quantum computer, you have to transpile your circuit to the basis gates of the noise model. This can be done by or directly by , where backend may be a simulator with a noise model or much more simply a Fakebackend with a realistic noise model. That is, what happens if you want to run your circuit on a real quantum computer. It will be transferred to the basis gates of the computer, which will produce a noisy output (additive to the readout errors). You might want to study the qiskit documentation on Building Noise Models.
+
+```
+err = depolarizing_error(param, num_qubits=2)
+```
+
+```
+noise_model.add_all_qubit_quantum_error(err, 'cx')
+```
+
+```
+paulis = [Pauli("".join(tup)) for tup in it.product(['I', 'X', 'Y', 'Z'], repeat=num_qubits)] return QuantumError(zip(paulis, probs))
+```
+
+```
+paulis = [Pauli("".join(tup)) for tup in it.product(['I', 'X', 'Y', 'Z'], repeat=num_qubits)] return QuantumError(zip(paulis, probs))
+```
+
+```
+transpile(circ, basis_gates)
+```
+
+```
+transpile(circ, backend)
+```
+
+Original fixed code:
+err = depolarizing_error(param, num_qubits=2)
+
+---CODE_BLOCK---
+
+noise_model.add_all_qubit_quantum_error(err, 'cx')
+
+---CODE_BLOCK---
+
+paulis = [Pauli("".join(tup)) for tup in it.product(['I', 'X', 'Y', 'Z'], repeat=num_qubits)] return QuantumError(zip(paulis, probs))
+
+---CODE_BLOCK---
+
+paulis = [Pauli("".join(tup)) for tup in it.product(['I', 'X', 'Y', 'Z'], repeat=num_qubits)] return QuantumError(zip(paulis, probs))
+
+---CODE_BLOCK---
+
+transpile(circ, basis_gates)
+
+---CODE_BLOCK---
+
+transpile(circ, backend)
