@@ -1,0 +1,232 @@
+Title:
+How to solve the error 'PrimitiveResult' object has no attribute 'quasi_dists'
+
+Category:
+Category:
+Error / Debugging
+
+Why AI Wins in This Category:
+In error/debugging scenarios, especially involving deprecations, robust and version-independent approaches are essential. The AI:
+
+Bypasses deprecated APIs entirely.
+
+Shows how to interpret the newer SamplerResult format.
+
+Avoids fragile register-name-based assumptions.
+
+Provides a future-proof and complete solution.
+This makes the AI answer better aligned with modern Qiskit usage and more instructive for debugging.
+
+Question:
+Title: How to solve the error 'PrimitiveResult' object has no attribute 'quasi_dists'
+
+I have been running a code for collecting output from the IBM backend for the Vazirani algorithm. Due to the recent deprecation of certain modules, I had to rewrite the code. The main change was using . Here's how the current code looks like: But I get the following error: I have installed the necessary packages. I tried changing . But I couldn't do much since doesn't have attributes like , , and . I even ran into issues while trying to use . So how should I modify the code to get the output with the frequencies of each qubit? EDIT: After adding a name to the ClassicalRegister It just ends up giving a new error, as I mentioned in the comment.
+
+```
+Sampler
+```
+
+```
+from qiskit.visualization import plot_histogram from qiskit_ibm_runtime import QiskitRuntimeService, Sampler import time def bernstein_vazirani_algorithm(n, marked_state): """Creates a Bernstein-Vazirani algorithm circuit for n qubits and a specified marked state.""" qr = QuantumRegister(n + 1) # Add an extra ancilla qubit cr = ClassicalRegister(n) # Classical register for n bits qc = QuantumCircuit(qr, cr) # Step 1: Apply Hadamard gates to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 2: Put the ancilla in |-| state qc.x(qr[-1]) qc.h(qr[-1]) # Step 3: Apply CNOT gates to encode the hidden string for i in range(n): if marked_state[i] == '1': qc.cx(qr[i], qr[-1]) # Use ancilla as the target # Step 4: Apply Hadamard gates again to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 5: Measure the input qubits qc.measure(qr[:-1], cr) return qc # Configuration n = 3 marked_state = '101' # Initialize IBM Quantum service service = QiskitRuntimeService() # Check available backends backends = service.backends() print("Available Backends:", [b.name for b in backends]) # Choose a backend backend_name = 'ibm_sherbrooke' if 'ibm_sherbrooke' in [b.name for b in backends] else backends[0].name backend = service.backend(backend_name) print(f"Using backend: {backend_name}") # Create and transpile the Bernstein-Vazirani circuit qc = bernstein_vazirani_algorithm(n, marked_state) qc_transpiled = transpile(qc, backend) # Use the Sampler primitive to execute the circuit sampler = Sampler(mode=backend) job = sampler.run([qc_transpiled], shots=1024) # Monitor job status print("Job submitted. Monitoring job status...") while not job.done(): print(f"Job status: {job.status()}") time.sleep(10) # Get results and extract measurement data result = job.result() counts = result.quasi_dists[0].binary_probabilities() # Print raw measurement counts print("Raw Measurement Counts:", counts) # Convert counts to probabilities print("Measurement Results (Probabilities):", counts) # Plot histogram of results plot_histogram(counts).show()
+```
+
+```
+from qiskit.visualization import plot_histogram from qiskit_ibm_runtime import QiskitRuntimeService, Sampler import time def bernstein_vazirani_algorithm(n, marked_state): """Creates a Bernstein-Vazirani algorithm circuit for n qubits and a specified marked state.""" qr = QuantumRegister(n + 1) # Add an extra ancilla qubit cr = ClassicalRegister(n) # Classical register for n bits qc = QuantumCircuit(qr, cr) # Step 1: Apply Hadamard gates to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 2: Put the ancilla in |-| state qc.x(qr[-1]) qc.h(qr[-1]) # Step 3: Apply CNOT gates to encode the hidden string for i in range(n): if marked_state[i] == '1': qc.cx(qr[i], qr[-1]) # Use ancilla as the target # Step 4: Apply Hadamard gates again to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 5: Measure the input qubits qc.measure(qr[:-1], cr) return qc # Configuration n = 3 marked_state = '101' # Initialize IBM Quantum service service = QiskitRuntimeService() # Check available backends backends = service.backends() print("Available Backends:", [b.name for b in backends]) # Choose a backend backend_name = 'ibm_sherbrooke' if 'ibm_sherbrooke' in [b.name for b in backends] else backends[0].name backend = service.backend(backend_name) print(f"Using backend: {backend_name}") # Create and transpile the Bernstein-Vazirani circuit qc = bernstein_vazirani_algorithm(n, marked_state) qc_transpiled = transpile(qc, backend) # Use the Sampler primitive to execute the circuit sampler = Sampler(mode=backend) job = sampler.run([qc_transpiled], shots=1024) # Monitor job status print("Job submitted. Monitoring job status...") while not job.done(): print(f"Job status: {job.status()}") time.sleep(10) # Get results and extract measurement data result = job.result() counts = result.quasi_dists[0].binary_probabilities() # Print raw measurement counts print("Raw Measurement Counts:", counts) # Convert counts to probabilities print("Measurement Results (Probabilities):", counts) # Plot histogram of results plot_histogram(counts).show()
+```
+
+```
+Using backend: ibm_sherbrooke Job submitted. Monitoring job status... Job status: QUEUED Job status: RUNNING Job status: RUNNING Job status: RUNNING Job status: RUNNING --------------------------------------------------------------------------- AttributeError Traceback (most recent call last) <ipython-input-46-99ffa3d02f96> in <cell line: 0>() 62 # Get results and extract measurement data 63 result = job.result() ---> 64 counts = result.quasi_dists[0].binary_probabilities() 65 66 # Print raw measurement counts AttributeError: 'PrimitiveResult' object has no attribute 'quasi_dists'
+```
+
+```
+Using backend: ibm_sherbrooke Job submitted. Monitoring job status... Job status: QUEUED Job status: RUNNING Job status: RUNNING Job status: RUNNING Job status: RUNNING --------------------------------------------------------------------------- AttributeError Traceback (most recent call last) <ipython-input-46-99ffa3d02f96> in <cell line: 0>() 62 # Get results and extract measurement data 63 result = job.result() ---> 64 counts = result.quasi_dists[0].binary_probabilities() 65 66 # Print raw measurement counts AttributeError: 'PrimitiveResult' object has no attribute 'quasi_dists'
+```
+
+```
+quasi_dists
+```
+
+```
+PrimitiveResult
+```
+
+```
+measurements
+```
+
+```
+get_counts
+```
+
+```
+samples
+```
+
+```
+values
+```
+
+```
+BitArray
+```
+
+```
+from qiskit.visualization import plot_histogram from qiskit_ibm_runtime import QiskitRuntimeService, Sampler import time def bernstein_vazirani_algorithm(n, marked_state): """Creates a Bernstein-Vazirani algorithm circuit for n qubits and a specified marked state.""" qr = QuantumRegister(n + 1) # Add an extra ancilla qubit cr = ClassicalRegister(n) # Classical register for n bits qc = QuantumCircuit(qr, cr) # Step 1: Apply Hadamard gates to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 2: Put the ancilla in |-| state qc.x(qr[-1]) qc.h(qr[-1]) # Step 3: Apply CNOT gates to encode the hidden string for i in range(n): if marked_state[i] == '1': qc.cx(qr[i], qr[-1]) # Use ancilla as the target # Step 4: Apply Hadamard gates again to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 5: Measure the input qubits qc.measure(qr[:-1], cr) return qc # Configuration n = 3 marked_state = '101' # Initialize IBM Quantum service service = QiskitRuntimeService() # Check available backends backends = service.backends() print("Available Backends:", [b.name for b in backends]) # Choose a backend backend_name = 'ibm_sherbrooke' if 'ibm_sherbrooke' in [b.name for b in backends] else backends[0].name backend = service.backend(backend_name) print(f"Using backend: {backend_name}") cr = ClassicalRegister(n, name='cr') # Classical register for n bits # Create and transpile the Bernstein-Vazirani circuit qc = bernstein_vazirani_algorithm(n, marked_state) qc_transpiled = transpile(qc, backend) # Use the Sampler primitive to execute the circuit sampler = Sampler(mode=backend) job = sampler.run([qc_transpiled], shots=1024) # Monitor job status print("Job submitted. Monitoring job status...") while not job.done(): print(f"Job status: {job.status()}") time.sleep(10) # Get results and extract measurement data result = job.result() counts = result[0].data.cr.get_counts() # Print raw measurement counts print("Raw Measurement Counts:", counts) # Convert counts to probabilities print("Measurement Results (Probabilities):", counts) # Plot histogram of results plot_histogram(counts).show()
+```
+
+```
+from qiskit.visualization import plot_histogram from qiskit_ibm_runtime import QiskitRuntimeService, Sampler import time def bernstein_vazirani_algorithm(n, marked_state): """Creates a Bernstein-Vazirani algorithm circuit for n qubits and a specified marked state.""" qr = QuantumRegister(n + 1) # Add an extra ancilla qubit cr = ClassicalRegister(n) # Classical register for n bits qc = QuantumCircuit(qr, cr) # Step 1: Apply Hadamard gates to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 2: Put the ancilla in |-| state qc.x(qr[-1]) qc.h(qr[-1]) # Step 3: Apply CNOT gates to encode the hidden string for i in range(n): if marked_state[i] == '1': qc.cx(qr[i], qr[-1]) # Use ancilla as the target # Step 4: Apply Hadamard gates again to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 5: Measure the input qubits qc.measure(qr[:-1], cr) return qc # Configuration n = 3 marked_state = '101' # Initialize IBM Quantum service service = QiskitRuntimeService() # Check available backends backends = service.backends() print("Available Backends:", [b.name for b in backends]) # Choose a backend backend_name = 'ibm_sherbrooke' if 'ibm_sherbrooke' in [b.name for b in backends] else backends[0].name backend = service.backend(backend_name) print(f"Using backend: {backend_name}") cr = ClassicalRegister(n, name='cr') # Classical register for n bits # Create and transpile the Bernstein-Vazirani circuit qc = bernstein_vazirani_algorithm(n, marked_state) qc_transpiled = transpile(qc, backend) # Use the Sampler primitive to execute the circuit sampler = Sampler(mode=backend) job = sampler.run([qc_transpiled], shots=1024) # Monitor job status print("Job submitted. Monitoring job status...") while not job.done(): print(f"Job status: {job.status()}") time.sleep(10) # Get results and extract measurement data result = job.result() counts = result[0].data.cr.get_counts() # Print raw measurement counts print("Raw Measurement Counts:", counts) # Convert counts to probabilities print("Measurement Results (Probabilities):", counts) # Plot histogram of results plot_histogram(counts).show()
+```
+
+Original buggy code:
+Sampler
+
+---CODE_BLOCK---
+
+from qiskit.visualization import plot_histogram from qiskit_ibm_runtime import QiskitRuntimeService, Sampler import time def bernstein_vazirani_algorithm(n, marked_state): """Creates a Bernstein-Vazirani algorithm circuit for n qubits and a specified marked state.""" qr = QuantumRegister(n + 1) # Add an extra ancilla qubit cr = ClassicalRegister(n) # Classical register for n bits qc = QuantumCircuit(qr, cr) # Step 1: Apply Hadamard gates to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 2: Put the ancilla in |-| state qc.x(qr[-1]) qc.h(qr[-1]) # Step 3: Apply CNOT gates to encode the hidden string for i in range(n): if marked_state[i] == '1': qc.cx(qr[i], qr[-1]) # Use ancilla as the target # Step 4: Apply Hadamard gates again to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 5: Measure the input qubits qc.measure(qr[:-1], cr) return qc # Configuration n = 3 marked_state = '101' # Initialize IBM Quantum service service = QiskitRuntimeService() # Check available backends backends = service.backends() print("Available Backends:", [b.name for b in backends]) # Choose a backend backend_name = 'ibm_sherbrooke' if 'ibm_sherbrooke' in [b.name for b in backends] else backends[0].name backend = service.backend(backend_name) print(f"Using backend: {backend_name}") # Create and transpile the Bernstein-Vazirani circuit qc = bernstein_vazirani_algorithm(n, marked_state) qc_transpiled = transpile(qc, backend) # Use the Sampler primitive to execute the circuit sampler = Sampler(mode=backend) job = sampler.run([qc_transpiled], shots=1024) # Monitor job status print("Job submitted. Monitoring job status...") while not job.done(): print(f"Job status: {job.status()}") time.sleep(10) # Get results and extract measurement data result = job.result() counts = result.quasi_dists[0].binary_probabilities() # Print raw measurement counts print("Raw Measurement Counts:", counts) # Convert counts to probabilities print("Measurement Results (Probabilities):", counts) # Plot histogram of results plot_histogram(counts).show()
+
+---CODE_BLOCK---
+
+from qiskit.visualization import plot_histogram from qiskit_ibm_runtime import QiskitRuntimeService, Sampler import time def bernstein_vazirani_algorithm(n, marked_state): """Creates a Bernstein-Vazirani algorithm circuit for n qubits and a specified marked state.""" qr = QuantumRegister(n + 1) # Add an extra ancilla qubit cr = ClassicalRegister(n) # Classical register for n bits qc = QuantumCircuit(qr, cr) # Step 1: Apply Hadamard gates to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 2: Put the ancilla in |-| state qc.x(qr[-1]) qc.h(qr[-1]) # Step 3: Apply CNOT gates to encode the hidden string for i in range(n): if marked_state[i] == '1': qc.cx(qr[i], qr[-1]) # Use ancilla as the target # Step 4: Apply Hadamard gates again to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 5: Measure the input qubits qc.measure(qr[:-1], cr) return qc # Configuration n = 3 marked_state = '101' # Initialize IBM Quantum service service = QiskitRuntimeService() # Check available backends backends = service.backends() print("Available Backends:", [b.name for b in backends]) # Choose a backend backend_name = 'ibm_sherbrooke' if 'ibm_sherbrooke' in [b.name for b in backends] else backends[0].name backend = service.backend(backend_name) print(f"Using backend: {backend_name}") # Create and transpile the Bernstein-Vazirani circuit qc = bernstein_vazirani_algorithm(n, marked_state) qc_transpiled = transpile(qc, backend) # Use the Sampler primitive to execute the circuit sampler = Sampler(mode=backend) job = sampler.run([qc_transpiled], shots=1024) # Monitor job status print("Job submitted. Monitoring job status...") while not job.done(): print(f"Job status: {job.status()}") time.sleep(10) # Get results and extract measurement data result = job.result() counts = result.quasi_dists[0].binary_probabilities() # Print raw measurement counts print("Raw Measurement Counts:", counts) # Convert counts to probabilities print("Measurement Results (Probabilities):", counts) # Plot histogram of results plot_histogram(counts).show()
+
+---CODE_BLOCK---
+
+Using backend: ibm_sherbrooke Job submitted. Monitoring job status... Job status: QUEUED Job status: RUNNING Job status: RUNNING Job status: RUNNING Job status: RUNNING --------------------------------------------------------------------------- AttributeError Traceback (most recent call last) <ipython-input-46-99ffa3d02f96> in <cell line: 0>() 62 # Get results and extract measurement data 63 result = job.result() ---> 64 counts = result.quasi_dists[0].binary_probabilities() 65 66 # Print raw measurement counts AttributeError: 'PrimitiveResult' object has no attribute 'quasi_dists'
+
+---CODE_BLOCK---
+
+Using backend: ibm_sherbrooke Job submitted. Monitoring job status... Job status: QUEUED Job status: RUNNING Job status: RUNNING Job status: RUNNING Job status: RUNNING --------------------------------------------------------------------------- AttributeError Traceback (most recent call last) <ipython-input-46-99ffa3d02f96> in <cell line: 0>() 62 # Get results and extract measurement data 63 result = job.result() ---> 64 counts = result.quasi_dists[0].binary_probabilities() 65 66 # Print raw measurement counts AttributeError: 'PrimitiveResult' object has no attribute 'quasi_dists'
+
+---CODE_BLOCK---
+
+quasi_dists
+
+---CODE_BLOCK---
+
+PrimitiveResult
+
+---CODE_BLOCK---
+
+measurements
+
+---CODE_BLOCK---
+
+get_counts
+
+---CODE_BLOCK---
+
+samples
+
+---CODE_BLOCK---
+
+values
+
+---CODE_BLOCK---
+
+BitArray
+
+---CODE_BLOCK---
+
+from qiskit.visualization import plot_histogram from qiskit_ibm_runtime import QiskitRuntimeService, Sampler import time def bernstein_vazirani_algorithm(n, marked_state): """Creates a Bernstein-Vazirani algorithm circuit for n qubits and a specified marked state.""" qr = QuantumRegister(n + 1) # Add an extra ancilla qubit cr = ClassicalRegister(n) # Classical register for n bits qc = QuantumCircuit(qr, cr) # Step 1: Apply Hadamard gates to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 2: Put the ancilla in |-| state qc.x(qr[-1]) qc.h(qr[-1]) # Step 3: Apply CNOT gates to encode the hidden string for i in range(n): if marked_state[i] == '1': qc.cx(qr[i], qr[-1]) # Use ancilla as the target # Step 4: Apply Hadamard gates again to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 5: Measure the input qubits qc.measure(qr[:-1], cr) return qc # Configuration n = 3 marked_state = '101' # Initialize IBM Quantum service service = QiskitRuntimeService() # Check available backends backends = service.backends() print("Available Backends:", [b.name for b in backends]) # Choose a backend backend_name = 'ibm_sherbrooke' if 'ibm_sherbrooke' in [b.name for b in backends] else backends[0].name backend = service.backend(backend_name) print(f"Using backend: {backend_name}") cr = ClassicalRegister(n, name='cr') # Classical register for n bits # Create and transpile the Bernstein-Vazirani circuit qc = bernstein_vazirani_algorithm(n, marked_state) qc_transpiled = transpile(qc, backend) # Use the Sampler primitive to execute the circuit sampler = Sampler(mode=backend) job = sampler.run([qc_transpiled], shots=1024) # Monitor job status print("Job submitted. Monitoring job status...") while not job.done(): print(f"Job status: {job.status()}") time.sleep(10) # Get results and extract measurement data result = job.result() counts = result[0].data.cr.get_counts() # Print raw measurement counts print("Raw Measurement Counts:", counts) # Convert counts to probabilities print("Measurement Results (Probabilities):", counts) # Plot histogram of results plot_histogram(counts).show()
+
+---CODE_BLOCK---
+
+from qiskit.visualization import plot_histogram from qiskit_ibm_runtime import QiskitRuntimeService, Sampler import time def bernstein_vazirani_algorithm(n, marked_state): """Creates a Bernstein-Vazirani algorithm circuit for n qubits and a specified marked state.""" qr = QuantumRegister(n + 1) # Add an extra ancilla qubit cr = ClassicalRegister(n) # Classical register for n bits qc = QuantumCircuit(qr, cr) # Step 1: Apply Hadamard gates to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 2: Put the ancilla in |-| state qc.x(qr[-1]) qc.h(qr[-1]) # Step 3: Apply CNOT gates to encode the hidden string for i in range(n): if marked_state[i] == '1': qc.cx(qr[i], qr[-1]) # Use ancilla as the target # Step 4: Apply Hadamard gates again to all input qubits (excluding ancilla) qc.h(qr[:-1]) # Step 5: Measure the input qubits qc.measure(qr[:-1], cr) return qc # Configuration n = 3 marked_state = '101' # Initialize IBM Quantum service service = QiskitRuntimeService() # Check available backends backends = service.backends() print("Available Backends:", [b.name for b in backends]) # Choose a backend backend_name = 'ibm_sherbrooke' if 'ibm_sherbrooke' in [b.name for b in backends] else backends[0].name backend = service.backend(backend_name) print(f"Using backend: {backend_name}") cr = ClassicalRegister(n, name='cr') # Classical register for n bits # Create and transpile the Bernstein-Vazirani circuit qc = bernstein_vazirani_algorithm(n, marked_state) qc_transpiled = transpile(qc, backend) # Use the Sampler primitive to execute the circuit sampler = Sampler(mode=backend) job = sampler.run([qc_transpiled], shots=1024) # Monitor job status print("Job submitted. Monitoring job status...") while not job.done(): print(f"Job status: {job.status()}") time.sleep(10) # Get results and extract measurement data result = job.result() counts = result[0].data.cr.get_counts() # Print raw measurement counts print("Raw Measurement Counts:", counts) # Convert counts to probabilities print("Measurement Results (Probabilities):", counts) # Plot histogram of results plot_histogram(counts).show()
+
+Solution explanation:
+The original has been completely removed in the latest version of Qiskit's IBM Runtime (ver. 0.34.0). So, now the class is actually an alias of , which is a major breaking change. The function does not work because it has never been available in the results object provided by the execution. You need to make two changes in your code to get it to work. Add a name to your classsical register: Replace this line of code: with: The in the line above must match whatever name you gave to your classical register.
+
+```
+Sampler
+```
+
+```
+Sampler
+```
+
+```
+SamplerV2
+```
+
+```
+quasi_dists
+```
+
+```
+SamplerV2
+```
+
+```
+cr = ClassicalRegister(n, name='cr') # Classical register for n bits
+```
+
+```
+cr = ClassicalRegister(n, name='cr') # Classical register for n bits
+```
+
+```
+counts = result.quasi_dists[0].binary_probabilities()
+```
+
+```
+counts = result.quasi_dists[0].binary_probabilities()
+```
+
+```
+counts = result[0].data.cr.get_counts()
+```
+
+```
+counts = result[0].data.cr.get_counts()
+```
+
+```
+cr
+```
+
+Original fixed code:
+Sampler
+
+---CODE_BLOCK---
+
+Sampler
+
+---CODE_BLOCK---
+
+SamplerV2
+
+---CODE_BLOCK---
+
+quasi_dists
+
+---CODE_BLOCK---
+
+SamplerV2
+
+---CODE_BLOCK---
+
+cr = ClassicalRegister(n, name='cr') # Classical register for n bits
+
+---CODE_BLOCK---
+
+cr = ClassicalRegister(n, name='cr') # Classical register for n bits
+
+---CODE_BLOCK---
+
+counts = result.quasi_dists[0].binary_probabilities()
+
+---CODE_BLOCK---
+
+counts = result.quasi_dists[0].binary_probabilities()
+
+---CODE_BLOCK---
+
+counts = result[0].data.cr.get_counts()
+
+---CODE_BLOCK---
+
+counts = result[0].data.cr.get_counts()
+
+---CODE_BLOCK---
+
+cr

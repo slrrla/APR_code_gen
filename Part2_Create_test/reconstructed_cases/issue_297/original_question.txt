@@ -1,0 +1,42 @@
+Title:
+Integer factorization using Shor's Alorithm
+
+Category:
+Category: Backend Usage / Simulation / Output
+
+Why Stack Overflow solution is better in this category:
+This category rewards clear understanding of backend behavior and simulation limits. Stack Overflow provides precise reasoning for the choice of a and explains quantum constraints in real-world execution. The AI’s solution lacks this critical backend context and underplays hardware and simulation limitations, which are central to the question.
+
+Question:
+Title: Integer factorization using Shor's Alorithm
+
+I have question about Shor's algorithm, from I know it's for factorize an integer and can factorize big number with ease. I using Qiskit to try make a simple factorization program (with local simulator and I have planning to make it run to real device soon), but I confuse in these part of the code: Did the are must in range ? can I use another number ? or it just best practice ? and what purpose of ? Number I want try to factorize roughly 10 digit random number. Thanks PS: Noob here please nice :)
+
+```
+a
+```
+
+```
+[2,7,8,11,13]
+```
+
+```
+a
+```
+
+Original buggy code:
+a
+
+---CODE_BLOCK---
+
+[2,7,8,11,13]
+
+---CODE_BLOCK---
+
+a
+
+Solution explanation:
+Qiskit uses the implementation of Shor's algorithm from Circuit for Shor's algorithm using 2n+3 qubits, so I recommend looking into that for more detail on how to implement the general case of Shor's algorithm. Values for $a$ Anyways, now regarding your specific question. The code snippet that you shared is for factorizing the number 15. I first refer to this post to explain your question of the values of $a$. In there, the first three steps for the algorithm are detailed as: Pick a pseudo-random number $a < N$ Compute $\gcd(a, N)$. This may be done using the Euclidean algorithm. If $\gcd(a, N) \not = 1$, then there is a nontrivial factor of $N$, so we are done. Also let me add that $a$ must be larger than or equal to $2$. So, that explains why $3, 5, 6, 9, 10$ and $12$ are not valid values for $a$. This still leaves the question of why $4$ (see update below) and $14$ were left out. To rule out $14$, take a look at the following graph and explanation from IBM Quantum Composer's documentation for Shor's algorithm. At this point we have found some pair $r,a$ such that $r$ is even, and $r$ is the smallest integer such that $a^r-1$ is a multiple of $N$. Let us use the identity $$ a^r - 1 = (a^{r/2} - 1)(a^{r/2} + 1) $$ The above shows that $a^{r/2}-1$ is not a multiple of $N$ (otherwise the period of $a$ would be $r/2$). Assume for a moment that $a^{r/2}+1$ is not a multiple of $N$. Then neither of the integers $a^{r/2}\pm 1$ is a multiple of $N$, but their product is. This is possible only if $p_1$ is a prime factor of $a^{r/2}-1$ and $p_2$ is a prime factor of $a^{r/2}+1$ (or vice versa). We can thus find $p_1$ and $p_2$ by computing $\gcd(N, a^{r/2}\pm1)$; see Table 1 for examples. In the remaining “unlucky” case, when $a^{r/2}+1$ is a multiple of $N$, we give up and try a different integer $a$. For example, $a=14$ is the only unlucky integer in Table 1. In general, it can be shown that the unlucky integers $a$ are not too frequent, so on average, only two calls to the period-finding machine are sufficient to factor $N$. For why $4$ is left out, I have no answer. My guess is that hard coding the unitary for the operation with $a=4$ was too complicated compared to the other values of $a$ to include in an early chapter of the Qiskit textbook like this one. Update: the tutorial was updated, and now $4$ is included as it should be. Shor's for 10 digit random number Now, I'll briefly address this part of your question. The circuit for Shor's algorithm gets bigger in depth and number of qubits in relation to the number you want to factorize. Like in the paper I linked first, their construction grows as $2n+3$, where $n$ is not exactly the number of factorize but it depends on it. Therefore, running Shor's algorithm for a number this big (either simulating it or in a real device), is not feasible yet. It would take a number of qubits not yet available on real devices; or at least in the public ones. And simulating it would not be feasible as the maximum number of qubits you can simulate is 32 (per this answer), which I don't believe are enough to factorize a 10 digit number.
+
+Original fixed code:
+Qiskit uses the implementation of Shor's algorithm from Circuit for Shor's algorithm using 2n+3 qubits, so I recommend looking into that for more detail on how to implement the general case of Shor's algorithm. Values for $a$ Anyways, now regarding your specific question. The code snippet that you shared is for factorizing the number 15. I first refer to this post to explain your question of the values of $a$. In there, the first three steps for the algorithm are detailed as: Pick a pseudo-random number $a < N$ Compute $\gcd(a, N)$. This may be done using the Euclidean algorithm. If $\gcd(a, N) \not = 1$, then there is a nontrivial factor of $N$, so we are done. Also let me add that $a$ must be larger than or equal to $2$. So, that explains why $3, 5, 6, 9, 10$ and $12$ are not valid values for $a$. This still leaves the question of why $4$ (see update below) and $14$ were left out. To rule out $14$, take a look at the following graph and explanation from IBM Quantum Composer's documentation for Shor's algorithm. At this point we have found some pair $r,a$ such that $r$ is even, and $r$ is the smallest integer such that $a^r-1$ is a multiple of $N$. Let us use the identity $$ a^r - 1 = (a^{r/2} - 1)(a^{r/2} + 1) $$ The above shows that $a^{r/2}-1$ is not a multiple of $N$ (otherwise the period of $a$ would be $r/2$). Assume for a moment that $a^{r/2}+1$ is not a multiple of $N$. Then neither of the integers $a^{r/2}\pm 1$ is a multiple of $N$, but their product is. This is possible only if $p_1$ is a prime factor of $a^{r/2}-1$ and $p_2$ is a prime factor of $a^{r/2}+1$ (or vice versa). We can thus find $p_1$ and $p_2$ by computing $\gcd(N, a^{r/2}\pm1)$; see Table 1 for examples. In the remaining “unlucky” case, when $a^{r/2}+1$ is a multiple of $N$, we give up and try a different integer $a$. For example, $a=14$ is the only unlucky integer in Table 1. In general, it can be shown that the unlucky integers $a$ are not too frequent, so on average, only two calls to the period-finding machine are sufficient to factor $N$. For why $4$ is left out, I have no answer. My guess is that hard coding the unitary for the operation with $a=4$ was too complicated compared to the other values of $a$ to include in an early chapter of the Qiskit textbook like this one. Update: the tutorial was updated, and now $4$ is included as it should be. Shor's for 10 digit random number Now, I'll briefly address this part of your question. The circuit for Shor's algorithm gets bigger in depth and number of qubits in relation to the number you want to factorize. Like in the paper I linked first, their construction grows as $2n+3$, where $n$ is not exactly the number of factorize but it depends on it. Therefore, running Shor's algorithm for a number this big (either simulating it or in a real device), is not feasible yet. It would take a number of qubits not yet available on real devices; or at least in the public ones. And simulating it would not be feasible as the maximum number of qubits you can simulate is 32 (per this answer), which I don't believe are enough to factorize a 10 digit number.

@@ -1,0 +1,262 @@
+Title:
+quantum label classification using qiskit
+
+Category:
+Import / Circuit Construction / Classification Logic
+
+Why Stack Overflow Wins in This Category:
+This issue requires deep understanding of Qiskit internals and quantum measurement logic. Stack Overflow wins for:
+
+Clarity about Qiskit’s qubit indexing convention.
+
+Mapping mathematical expectations to simulator output.
+
+Bridging the theory-practice gap in a visual classification task.
+
+AI complements with actionable fixes, but Stack Overflow educates and explains the "why" behind the fix, which is crucial for quantum learning tasks.
+
+Question:
+Title: quantum label classification using qiskit
+
+I am generating points for classification. Some will be above the main diagonal, while others will be below (blue or red). Next, I split the data into a training and test dataset. The next step is to apply the quantum classification algorithm to all test points, in which I calculate the value for the first qubit. With respect to this result, I label the test points. I get the following: In the end I get this result: 0.2162162162162162 where the crosses are predicted results. Can someone explain, why this classification is working wrong?
+
+```
+import numpy as np import matplotlib.pyplot as plt from sklearn.model_selection import train_test_split from sklearn.metrics import f1_score import random m, b = 1, 0 lower, upper = -40, 40 num_points = 80 x1 = [random.randrange(start=-40, stop=40) for i in range(num_points)] x2 = [random.randrange(start=-40, stop=40) for i in range(num_points)] y1 = [random.randrange(start=lower, stop=m*x+b) for x in x1] y2 = [random.randrange(start=m*x+b, stop=upper) for x in x2] plt.plot(np.arange(-40,40), m*np.arange(-40,40)+b) plt.scatter(x1, y1, c='red') plt.scatter(x2, y2, c='blue') plt.show() x1, x2, y1, y2 = np.array(x1).reshape(-1,1), np.array(x2).reshape(-1,1), np.array(y1).reshape(-1,1), np.array(y2).reshape(-1,1) x_upper = np.concatenate((x2, y2), axis=1) x_lower = np.concatenate((x1, y1), axis=1) X = np.concatenate((x_upper, x_lower), axis=0) res1 = np.array([-1]*len(x1)) res2 = np.array([1]*len(x2)) y = np.concatenate((res1, res2), axis=0)
+```
+
+```
+import numpy as np import matplotlib.pyplot as plt from sklearn.model_selection import train_test_split from sklearn.metrics import f1_score import random m, b = 1, 0 lower, upper = -40, 40 num_points = 80 x1 = [random.randrange(start=-40, stop=40) for i in range(num_points)] x2 = [random.randrange(start=-40, stop=40) for i in range(num_points)] y1 = [random.randrange(start=lower, stop=m*x+b) for x in x1] y2 = [random.randrange(start=m*x+b, stop=upper) for x in x2] plt.plot(np.arange(-40,40), m*np.arange(-40,40)+b) plt.scatter(x1, y1, c='red') plt.scatter(x2, y2, c='blue') plt.show() x1, x2, y1, y2 = np.array(x1).reshape(-1,1), np.array(x2).reshape(-1,1), np.array(y1).reshape(-1,1), np.array(y2).reshape(-1,1) x_upper = np.concatenate((x2, y2), axis=1) x_lower = np.concatenate((x1, y1), axis=1) X = np.concatenate((x_upper, x_lower), axis=0) res1 = np.array([-1]*len(x1)) res2 = np.array([1]*len(x2)) y = np.concatenate((res1, res2), axis=0)
+```
+
+```
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30)
+```
+
+```
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30)
+```
+
+```
+import qiskit from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit import Aer from qiskit import execute import numpy as np %matplotlib inline backend_sim = Aer.get_backend('qasm_simulator') def quant_state(x1, x2, backend_sim = backend_sim): x1 = x1 x2 = x2 r = x1 * x1 + x2 * x2 a = np.sqrt(1 + 2*r) psi = [0, 0, 0.5, 0, 0, -0.5, 0, 0, 1/(np.sqrt(2)*a), 0, x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), 0, 0] qc = QuantumCircuit(4) qc.initialize(psi, [0,1,2,3]) qc.h(0) qc.measure_all() job_sim = execute(qc, backend_sim, shots=1000) result_sim = job_sim.result() counts = result_sim.get_counts(qc) quantumState_1 = 0 for i in counts.keys(): list_i = list(i) if list_i[len(list_i) - 1] == '1': quantumState_1 += counts[i] return quantumState_1 quant_res = [] for i,j in zip(X_test[:, 0], X_test[:, 1]): qs = quant_state(i, j, backend_sim = backend_sim) if qs >= 500: quant_res.append(1) else: quant_res.append(-1) def get_color(y,zn): colors = [] for i in range(len(y)): if y[i] == zn: colors.append('red') else: colors.append('blue') return(colors) quantColors = get_color(quant_res, 1) plt.scatter(X_train[:, 0], X_train[:, 1], c = colors) plt.scatter(X_test[:, 0], X_test[:, 1], c = quantColors, marker = "x") plt.plot(np.arange(-40,40), m*np.arange(-40,40)+b) plt.show()
+```
+
+```
+import qiskit from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit import Aer from qiskit import execute import numpy as np %matplotlib inline backend_sim = Aer.get_backend('qasm_simulator') def quant_state(x1, x2, backend_sim = backend_sim): x1 = x1 x2 = x2 r = x1 * x1 + x2 * x2 a = np.sqrt(1 + 2*r) psi = [0, 0, 0.5, 0, 0, -0.5, 0, 0, 1/(np.sqrt(2)*a), 0, x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), 0, 0] qc = QuantumCircuit(4) qc.initialize(psi, [0,1,2,3]) qc.h(0) qc.measure_all() job_sim = execute(qc, backend_sim, shots=1000) result_sim = job_sim.result() counts = result_sim.get_counts(qc) quantumState_1 = 0 for i in counts.keys(): list_i = list(i) if list_i[len(list_i) - 1] == '1': quantumState_1 += counts[i] return quantumState_1 quant_res = [] for i,j in zip(X_test[:, 0], X_test[:, 1]): qs = quant_state(i, j, backend_sim = backend_sim) if qs >= 500: quant_res.append(1) else: quant_res.append(-1) def get_color(y,zn): colors = [] for i in range(len(y)): if y[i] == zn: colors.append('red') else: colors.append('blue') return(colors) quantColors = get_color(quant_res, 1) plt.scatter(X_train[:, 0], X_train[:, 1], c = colors) plt.scatter(X_test[:, 0], X_test[:, 1], c = quantColors, marker = "x") plt.plot(np.arange(-40,40), m*np.arange(-40,40)+b) plt.show()
+```
+
+```
+from sklearn.metrics import f1_score f1_score(y_test, quant_res)
+```
+
+```
+from sklearn.metrics import f1_score f1_score(y_test, quant_res)
+```
+
+Original buggy code:
+import numpy as np import matplotlib.pyplot as plt from sklearn.model_selection import train_test_split from sklearn.metrics import f1_score import random m, b = 1, 0 lower, upper = -40, 40 num_points = 80 x1 = [random.randrange(start=-40, stop=40) for i in range(num_points)] x2 = [random.randrange(start=-40, stop=40) for i in range(num_points)] y1 = [random.randrange(start=lower, stop=m*x+b) for x in x1] y2 = [random.randrange(start=m*x+b, stop=upper) for x in x2] plt.plot(np.arange(-40,40), m*np.arange(-40,40)+b) plt.scatter(x1, y1, c='red') plt.scatter(x2, y2, c='blue') plt.show() x1, x2, y1, y2 = np.array(x1).reshape(-1,1), np.array(x2).reshape(-1,1), np.array(y1).reshape(-1,1), np.array(y2).reshape(-1,1) x_upper = np.concatenate((x2, y2), axis=1) x_lower = np.concatenate((x1, y1), axis=1) X = np.concatenate((x_upper, x_lower), axis=0) res1 = np.array([-1]*len(x1)) res2 = np.array([1]*len(x2)) y = np.concatenate((res1, res2), axis=0)
+
+---CODE_BLOCK---
+
+import numpy as np import matplotlib.pyplot as plt from sklearn.model_selection import train_test_split from sklearn.metrics import f1_score import random m, b = 1, 0 lower, upper = -40, 40 num_points = 80 x1 = [random.randrange(start=-40, stop=40) for i in range(num_points)] x2 = [random.randrange(start=-40, stop=40) for i in range(num_points)] y1 = [random.randrange(start=lower, stop=m*x+b) for x in x1] y2 = [random.randrange(start=m*x+b, stop=upper) for x in x2] plt.plot(np.arange(-40,40), m*np.arange(-40,40)+b) plt.scatter(x1, y1, c='red') plt.scatter(x2, y2, c='blue') plt.show() x1, x2, y1, y2 = np.array(x1).reshape(-1,1), np.array(x2).reshape(-1,1), np.array(y1).reshape(-1,1), np.array(y2).reshape(-1,1) x_upper = np.concatenate((x2, y2), axis=1) x_lower = np.concatenate((x1, y1), axis=1) X = np.concatenate((x_upper, x_lower), axis=0) res1 = np.array([-1]*len(x1)) res2 = np.array([1]*len(x2)) y = np.concatenate((res1, res2), axis=0)
+
+---CODE_BLOCK---
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30)
+
+---CODE_BLOCK---
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30)
+
+---CODE_BLOCK---
+
+import qiskit from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit import Aer from qiskit import execute import numpy as np %matplotlib inline backend_sim = Aer.get_backend('qasm_simulator') def quant_state(x1, x2, backend_sim = backend_sim): x1 = x1 x2 = x2 r = x1 * x1 + x2 * x2 a = np.sqrt(1 + 2*r) psi = [0, 0, 0.5, 0, 0, -0.5, 0, 0, 1/(np.sqrt(2)*a), 0, x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), 0, 0] qc = QuantumCircuit(4) qc.initialize(psi, [0,1,2,3]) qc.h(0) qc.measure_all() job_sim = execute(qc, backend_sim, shots=1000) result_sim = job_sim.result() counts = result_sim.get_counts(qc) quantumState_1 = 0 for i in counts.keys(): list_i = list(i) if list_i[len(list_i) - 1] == '1': quantumState_1 += counts[i] return quantumState_1 quant_res = [] for i,j in zip(X_test[:, 0], X_test[:, 1]): qs = quant_state(i, j, backend_sim = backend_sim) if qs >= 500: quant_res.append(1) else: quant_res.append(-1) def get_color(y,zn): colors = [] for i in range(len(y)): if y[i] == zn: colors.append('red') else: colors.append('blue') return(colors) quantColors = get_color(quant_res, 1) plt.scatter(X_train[:, 0], X_train[:, 1], c = colors) plt.scatter(X_test[:, 0], X_test[:, 1], c = quantColors, marker = "x") plt.plot(np.arange(-40,40), m*np.arange(-40,40)+b) plt.show()
+
+---CODE_BLOCK---
+
+import qiskit from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit import Aer from qiskit import execute import numpy as np %matplotlib inline backend_sim = Aer.get_backend('qasm_simulator') def quant_state(x1, x2, backend_sim = backend_sim): x1 = x1 x2 = x2 r = x1 * x1 + x2 * x2 a = np.sqrt(1 + 2*r) psi = [0, 0, 0.5, 0, 0, -0.5, 0, 0, 1/(np.sqrt(2)*a), 0, x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), 0, 0] qc = QuantumCircuit(4) qc.initialize(psi, [0,1,2,3]) qc.h(0) qc.measure_all() job_sim = execute(qc, backend_sim, shots=1000) result_sim = job_sim.result() counts = result_sim.get_counts(qc) quantumState_1 = 0 for i in counts.keys(): list_i = list(i) if list_i[len(list_i) - 1] == '1': quantumState_1 += counts[i] return quantumState_1 quant_res = [] for i,j in zip(X_test[:, 0], X_test[:, 1]): qs = quant_state(i, j, backend_sim = backend_sim) if qs >= 500: quant_res.append(1) else: quant_res.append(-1) def get_color(y,zn): colors = [] for i in range(len(y)): if y[i] == zn: colors.append('red') else: colors.append('blue') return(colors) quantColors = get_color(quant_res, 1) plt.scatter(X_train[:, 0], X_train[:, 1], c = colors) plt.scatter(X_test[:, 0], X_test[:, 1], c = quantColors, marker = "x") plt.plot(np.arange(-40,40), m*np.arange(-40,40)+b) plt.show()
+
+---CODE_BLOCK---
+
+from sklearn.metrics import f1_score f1_score(y_test, quant_res)
+
+---CODE_BLOCK---
+
+from sklearn.metrics import f1_score f1_score(y_test, quant_res)
+
+Solution explanation:
+As a side note, you may want to directly use the QSVC class to perform such a task next time. Let us consider the state you are creating. Since there is no mention to the training dataset in your code, I'm assuming that you somehow got this state from previous knowledge. We have: which gives us: $$|\psi\rangle = \frac12|0010\rangle-\frac12|0101\rangle+\frac{1}{a\sqrt{2}}|1000\rangle+\frac{x_1}{a\sqrt{2}}|1010\rangle+\frac{x_2}{a\sqrt{2}}|1011\rangle+\frac{x_1}{a\sqrt{2}}|1100\rangle+\frac{x_2}{a\sqrt{2}}|1101\rangle$$ We then apply an $\mathbf{H}$ gate on this state, which gives us: $$\mathbf{H}|\psi\rangle=\frac{1}{2\sqrt{2}}\left(|0010\rangle+|1010\rangle\right) - \frac{1}{2\sqrt{2}}\left(|0101\rangle+|1101\rangle\right)+\frac{1}{2a}\left(|0000\rangle-|1000\rangle\right)+\frac{x_1}{2a}\left(|0010\rangle-|1010\right)+\frac{x_2}{2a}\left(|0011\rangle-|1011\rangle\right)+\frac{x_1}{2a}\left(|0100\rangle-|1100\rangle\right)+\frac{x_2}{2a}\left(|0101\rangle-|1101\rangle\right)$$ which can finally be reduced to: $$\mathbf{H}|\psi\rangle=\frac{1}{2a}|0000\rangle+\left(\frac{1}{2\sqrt{2}}+\frac{x_1}{2a}\right)|0010\rangle+\frac{x_2}{2a}|0011\rangle+\frac{x_1}{2a}|0100\rangle+\left(\frac{x_2}{2a}-\frac{1}{2\sqrt{2}}\right)|0101\rangle - \frac{1}{2a}|1000\rangle+\left(\frac{1}{2\sqrt{2}}-\frac{x_1}{2a}\right)|1010\rangle-\frac{x_2}{2a}|1011\rangle-\frac{x_1}{2a}|1100\rangle-\left(\frac{x_2}{2a}+\frac{1}{2\sqrt{2}}\right)|1101\rangle$$ This can finally be used to compute the probability of measuring $|0\rangle$ on the first qubit and $|1\rangle$ on the first qubit. Let us denote $p_0$ and $p_1$ these probabilities. We have: $$p_0-p_1=\frac{x_1-x_2}{a\sqrt{2}}$$ In particular, $p_0$ is greater than $p_1$ iff $x_1$ is greater than $x_2$, which is logical, since this directly comes from the fact that your data has been generated around the curve $y=x$. According to your code, a point $(x,y)$ will have label $1$ iff $x>y$, so if we measure $0$ on the first qubit. So now that we know that your method is expected to give the right results, why does it not? While uses a quite non-traditional method to index qubits, that is little-endian, it is consistent throughout its code. So, for instance, if you were to initialize like this: What you tell qiskit is "Create a state whose amplitude in basis state $|0101\rangle$ is $1$". If you immediately measure this state, you will get, without surprise, $0101$ with probability $1$. Now, if you were to apply an $\mathbf{H}$ gate on the first qubit like this: then you would measure states $|0100\rangle$ and $|0101\rangle$, each with probability $\frac12$. Notice that compared to what we could have expected, the $\mathbf{H}$ gate actually was applied to the last qubit. This is due to the fact that in , means "Apply an $\mathbf{H}$ gate on the first wire", but the first wire is the one which gives, once measured, the last qubit. So, coming back on your case, the problem is that you have to apply the $\mathbf{H}$ gate to what will give the first qubit, that is the third wire: And when counting the states you obtained, you are interested by the first qubit. So you have to replace: by: By doing so (and by adding the missing line ), here's the result I got: You can see that the model is behaving at the exact opposite of what we want him to. Hence, you just have to change this line: to: to finally get the result you want. This last change is due to the fact that $p_0$ is bigger than $p_1$ if $x_1>x_2$, that is if $\left(x_1,x_2\right)$ is below the diagonal, to which you affected the label 1. By doing this final modification, here's the result I got:
+
+```
+qiskit
+```
+
+```
+psi = [0, 0, 0.5, 0, 0, -0.5, 0, 0, 1/(np.sqrt(2)*a), 0, x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), 0, 0]
+```
+
+```
+psi = [0, 0, 0.5, 0, 0, -0.5, 0, 0, 1/(np.sqrt(2)*a), 0, x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), 0, 0]
+```
+
+```
+qiskit
+```
+
+```
+psi
+```
+
+```
+psi = np.zeros(16, dtype=float) psi[5] = 1
+```
+
+```
+psi = np.zeros(16, dtype=float) psi[5] = 1
+```
+
+```
+qc.h(0)
+```
+
+```
+qc.h(0)
+```
+
+```
+qiskit
+```
+
+```
+qc.h(0)
+```
+
+```
+qc.h(3)
+```
+
+```
+qc.h(3)
+```
+
+```
+if list_i[len(list_i) - 1] == '1':
+```
+
+```
+if list_i[len(list_i) - 1] == '1':
+```
+
+```
+if list_i[0] == '1':
+```
+
+```
+if list_i[0] == '1':
+```
+
+```
+colors = get_color(y_train, 1)
+```
+
+```
+if list_i[0] == '1':
+```
+
+```
+if list_i[0] == '1':
+```
+
+```
+if list_i[0] == '0':
+```
+
+```
+if list_i[0] == '0':
+```
+
+Original fixed code:
+qiskit
+
+---CODE_BLOCK---
+
+psi = [0, 0, 0.5, 0, 0, -0.5, 0, 0, 1/(np.sqrt(2)*a), 0, x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), 0, 0]
+
+---CODE_BLOCK---
+
+psi = [0, 0, 0.5, 0, 0, -0.5, 0, 0, 1/(np.sqrt(2)*a), 0, x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), x1/(np.sqrt(2)*a), x2/(np.sqrt(2)*a), 0, 0]
+
+---CODE_BLOCK---
+
+qiskit
+
+---CODE_BLOCK---
+
+psi
+
+---CODE_BLOCK---
+
+psi = np.zeros(16, dtype=float) psi[5] = 1
+
+---CODE_BLOCK---
+
+psi = np.zeros(16, dtype=float) psi[5] = 1
+
+---CODE_BLOCK---
+
+qc.h(0)
+
+---CODE_BLOCK---
+
+qc.h(0)
+
+---CODE_BLOCK---
+
+qiskit
+
+---CODE_BLOCK---
+
+qc.h(0)
+
+---CODE_BLOCK---
+
+qc.h(3)
+
+---CODE_BLOCK---
+
+qc.h(3)
+
+---CODE_BLOCK---
+
+if list_i[len(list_i) - 1] == '1':
+
+---CODE_BLOCK---
+
+if list_i[len(list_i) - 1] == '1':
+
+---CODE_BLOCK---
+
+if list_i[0] == '1':
+
+---CODE_BLOCK---
+
+if list_i[0] == '1':
+
+---CODE_BLOCK---
+
+colors = get_color(y_train, 1)
+
+---CODE_BLOCK---
+
+if list_i[0] == '1':
+
+---CODE_BLOCK---
+
+if list_i[0] == '1':
+
+---CODE_BLOCK---
+
+if list_i[0] == '0':
+
+---CODE_BLOCK---
+
+if list_i[0] == '0':

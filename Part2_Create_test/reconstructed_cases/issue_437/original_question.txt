@@ -1,0 +1,74 @@
+Title:
+More broken older Qiskit code
+
+Category:
+Category: Error / API Change
+
+Why Stack Overflow Solution Wins in This Category:
+Because this issue is about a broken old API, the best answer is the one that shows a direct one-line fix in the same environment. The Stack Overflow answer does exactly that by giving a drop-in replacement. The AI solution is technically correct but involves a complete refactor into Qiskit Nature, which is more work than needed to fix the user’s snippet
+
+Question:
+Title: More broken older Qiskit code
+
+I am persuing some older code as below but am getting the following error: Any suggestions for how to fix. I am using qiskit version:
+
+```
+ferOp = FermionicOperator(h1=molecule.one_body_integrals, h2=molecule.two_body_integrals) ... qubitOp = ferOp.mapping(map_type='parity', threshold=0.000001) qubitOp = qubitOp.two_qubit_reduced_operator(num_particles)
+```
+
+```
+ferOp = FermionicOperator(h1=molecule.one_body_integrals, h2=molecule.two_body_integrals) ... qubitOp = ferOp.mapping(map_type='parity', threshold=0.000001) qubitOp = qubitOp.two_qubit_reduced_operator(num_particles)
+```
+
+```
+AttributeError: 'WeightedPauliOperator' object has no attribute 'two_qubit_reduced_operator'
+```
+
+```
+AttributeError: 'WeightedPauliOperator' object has no attribute 'two_qubit_reduced_operator'
+```
+
+```
+qiskit 0.14.1 qiskit-aer 0.3.4 qiskit-aqua 0.6.2 qiskit-ibmq-provider 0.4.5 qiskit-ignis 0.2.0 qiskit-terra 0.11.1
+```
+
+```
+qiskit 0.14.1 qiskit-aer 0.3.4 qiskit-aqua 0.6.2 qiskit-ibmq-provider 0.4.5 qiskit-ignis 0.2.0 qiskit-terra 0.11.1
+```
+
+Original buggy code:
+ferOp = FermionicOperator(h1=molecule.one_body_integrals, h2=molecule.two_body_integrals) ... qubitOp = ferOp.mapping(map_type='parity', threshold=0.000001) qubitOp = qubitOp.two_qubit_reduced_operator(num_particles)
+
+---CODE_BLOCK---
+
+ferOp = FermionicOperator(h1=molecule.one_body_integrals, h2=molecule.two_body_integrals) ... qubitOp = ferOp.mapping(map_type='parity', threshold=0.000001) qubitOp = qubitOp.two_qubit_reduced_operator(num_particles)
+
+---CODE_BLOCK---
+
+AttributeError: 'WeightedPauliOperator' object has no attribute 'two_qubit_reduced_operator'
+
+---CODE_BLOCK---
+
+AttributeError: 'WeightedPauliOperator' object has no attribute 'two_qubit_reduced_operator'
+
+---CODE_BLOCK---
+
+qiskit 0.14.1 qiskit-aer 0.3.4 qiskit-aqua 0.6.2 qiskit-ibmq-provider 0.4.5 qiskit-ignis 0.2.0 qiskit-terra 0.11.1
+
+---CODE_BLOCK---
+
+qiskit 0.14.1 qiskit-aer 0.3.4 qiskit-aqua 0.6.2 qiskit-ibmq-provider 0.4.5 qiskit-ignis 0.2.0 qiskit-terra 0.11.1
+
+Solution explanation:
+The chemistry sample in the README on the qiskit-aqua repo shows how to do this now:
+
+```
+from qiskit.chemistry import FermionicOperator from qiskit.chemistry.drivers import PySCFDriver, UnitsType from qiskit.aqua.operators import Z2Symmetries # Use PySCF, a classical computational chemistry software # package, to compute the one-body and two-body integrals in # molecular-orbital basis, necessary to form the Fermionic operator driver = PySCFDriver(atom='H .0 .0 .0; H .0 .0 0.735', unit=UnitsType.ANGSTROM, basis='sto3g') molecule = driver.run() num_particles = molecule.num_alpha + molecule.num_beta num_spin_orbitals = molecule.num_orbitals * 2 # Build the qubit operator, which is the input to the VQE algorithm in Aqua ferOp = FermionicOperator(h1=molecule.one_body_integrals, h2=molecule.two_body_integrals) map_type = 'PARITY' qubitOp = ferOp.mapping(map_type) qubitOp = Z2Symmetries.two_qubit_reduction(qubitOp, num_particles) num_qubits = qubitOp.num_qubits ... ```
+```
+
+```
+from qiskit.chemistry import FermionicOperator from qiskit.chemistry.drivers import PySCFDriver, UnitsType from qiskit.aqua.operators import Z2Symmetries # Use PySCF, a classical computational chemistry software # package, to compute the one-body and two-body integrals in # molecular-orbital basis, necessary to form the Fermionic operator driver = PySCFDriver(atom='H .0 .0 .0; H .0 .0 0.735', unit=UnitsType.ANGSTROM, basis='sto3g') molecule = driver.run() num_particles = molecule.num_alpha + molecule.num_beta num_spin_orbitals = molecule.num_orbitals * 2 # Build the qubit operator, which is the input to the VQE algorithm in Aqua ferOp = FermionicOperator(h1=molecule.one_body_integrals, h2=molecule.two_body_integrals) map_type = 'PARITY' qubitOp = ferOp.mapping(map_type) qubitOp = Z2Symmetries.two_qubit_reduction(qubitOp, num_particles) num_qubits = qubitOp.num_qubits ... ```
+```
+
+Original fixed code:
+from qiskit.chemistry import FermionicOperator from qiskit.chemistry.drivers import PySCFDriver, UnitsType from qiskit.aqua.operators import Z2Symmetries # Use PySCF, a classical computational chemistry software # package, to compute the one-body and two-body integrals in # molecular-orbital basis, necessary to form the Fermionic operator driver = PySCFDriver(atom='H .0 .0 .0; H .0 .0 0.735', unit=UnitsType.ANGSTROM, basis='sto3g') molecule = driver.run() num_particles = molecule.num_alpha + molecule.num_beta num_spin_orbitals = molecule.num_orbitals * 2 # Build the qubit operator, which is the input to the VQE algorithm in Aqua ferOp = FermionicOperator(h1=molecule.one_body_integrals, h2=molecule.two_body_integrals) map_type = 'PARITY' qubitOp = ferOp.mapping(map_type) qubitOp = Z2Symmetries.two_qubit_reduction(qubitOp, num_particles) num_qubits = qubitOp.num_qubits ...

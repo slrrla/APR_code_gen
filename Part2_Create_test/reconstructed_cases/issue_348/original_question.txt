@@ -1,0 +1,175 @@
+Title:
+Unable to perform actions on initialized states in qiskit
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+The category concerns correct circuit construction for backend simulation. The Stack Overflow answer solves the problem within Qiskit’s framework (unitary retrieval with state preparation) using recommended APIs. The AI answer circumvents the issue by changing the requested output to a statevector, which is not equivalent to what the user asked.
+
+Question:
+Title: Unable to perform actions on initialized states in qiskit
+
+I have the code below which initalized a state in a quantum circuit then tries to perform some simulation. This doesn't work if I keep the initialize line uncommented, but runs just fine if I comment it out. It seems to error out at the line. How can I initialize a circuit and also perform a simulation on it? Error message
+
+```
+get_unitary
+```
+
+```
+qiskit.exceptions.QiskitError: 'Data for experiment "circuit-X" could not be found.'
+```
+
+```
+circuit = QuantumCircuit(2) circuit.initialize('01', circuit.qubits) circuit.h(0) circuit.h(1) circuit.cx(0, 1) circuit.cx(1, 0) circuit.save_unitary(label="unitary", pershot=False) simulator = Aer.get_backend('aer_simulator') result = simulator.run(circuit).result() unitary = result.get_unitary(circuit) print(unitary.round(3))
+```
+
+```
+circuit = QuantumCircuit(2) circuit.initialize('01', circuit.qubits) circuit.h(0) circuit.h(1) circuit.cx(0, 1) circuit.cx(1, 0) circuit.save_unitary(label="unitary", pershot=False) simulator = Aer.get_backend('aer_simulator') result = simulator.run(circuit).result() unitary = result.get_unitary(circuit) print(unitary.round(3))
+```
+
+Original buggy code:
+get_unitary
+
+---CODE_BLOCK---
+
+qiskit.exceptions.QiskitError: 'Data for experiment "circuit-X" could not be found.'
+
+---CODE_BLOCK---
+
+circuit = QuantumCircuit(2) circuit.initialize('01', circuit.qubits) circuit.h(0) circuit.h(1) circuit.cx(0, 1) circuit.cx(1, 0) circuit.save_unitary(label="unitary", pershot=False) simulator = Aer.get_backend('aer_simulator') result = simulator.run(circuit).result() unitary = result.get_unitary(circuit) print(unitary.round(3))
+
+---CODE_BLOCK---
+
+circuit = QuantumCircuit(2) circuit.initialize('01', circuit.qubits) circuit.h(0) circuit.h(1) circuit.cx(0, 1) circuit.cx(1, 0) circuit.save_unitary(label="unitary", pershot=False) simulator = Aer.get_backend('aer_simulator') result = simulator.run(circuit).result() unitary = result.get_unitary(circuit) print(unitary.round(3))
+
+Solution explanation:
+TL;DR There are two issues with your code, the first one is that introduces a . Consider using (see docs) instead. The second one, is that you need to transpile the circuit before running it in a backend. Problem one: The instruction introduced a in the front, as part of the state preparation. You can, instead, use directly: Problem two: transpilation Not all backends support the instructions included in Qiskit, so you need to convert the circuit into one that the backend understands. This process is sometimes called transpilation. Qiskit includes a transpiler that, given a circuit and a backend, converts that circuit into a new one that can run on that backend: Conclusion: your working example:
+
+```
+initialize
+```
+
+```
+reset
+```
+
+```
+prepare_state
+```
+
+```
+initialize
+```
+
+```
+initialize
+```
+
+```
+reset
+```
+
+```
+from qiskit import QuantumCircuitrcuit circuit = QuantumCircuit(2) circuit.initialize('01', circuit.qubits) circuit.decompose().draw('mpl')
+```
+
+```
+from qiskit import QuantumCircuitrcuit circuit = QuantumCircuit(2) circuit.initialize('01', circuit.qubits) circuit.decompose().draw('mpl')
+```
+
+```
+prepare_state
+```
+
+```
+from qiskit import QuantumCircuitrcuit circuit = QuantumCircuit(2) circuit.prepare_state('01', circuit.qubits) circuit.draw('mpl')
+```
+
+```
+from qiskit import QuantumCircuitrcuit circuit = QuantumCircuit(2) circuit.prepare_state('01', circuit.qubits) circuit.draw('mpl')
+```
+
+```
+circuit_transpiled = transpile(circuit, backend=simulator)
+```
+
+```
+from qiskit import QuantumCircuit, transpile from qiskit_aer import Aer circuit = QuantumCircuit(2) # circuit.initialize('01', circuit.qubits) circuit.prepare_state('01', circuit.qubits) circuit.h(0) circuit.h(1) circuit.cx(0, 1) circuit.cx(1, 0) circuit.save_unitary() simulator = Aer.get_backend('aer_simulator') circuit_transpiled = transpile(circuit, backend=simulator) result = simulator.run(circuit_transpiled).result() unitary = result.get_unitary(circuit_transpiled.name) print(unitary.round(3))
+```
+
+```
+from qiskit import QuantumCircuit, transpile from qiskit_aer import Aer circuit = QuantumCircuit(2) # circuit.initialize('01', circuit.qubits) circuit.prepare_state('01', circuit.qubits) circuit.h(0) circuit.h(1) circuit.cx(0, 1) circuit.cx(1, 0) circuit.save_unitary() simulator = Aer.get_backend('aer_simulator') circuit_transpiled = transpile(circuit, backend=simulator) result = simulator.run(circuit_transpiled).result() unitary = result.get_unitary(circuit_transpiled.name) print(unitary.round(3))
+```
+
+```
+[[ 0.5+0.j 0.5+0.j 0.5-0.j 0.5+0.j] [-0.5-0.j 0.5+0.j 0.5+0.j -0.5-0.j] [-0.5-0.j 0.5+0.j -0.5+0.j 0.5+0.j] [ 0.5+0.j 0.5+0.j -0.5+0.j -0.5+0.j]]
+```
+
+```
+[[ 0.5+0.j 0.5+0.j 0.5-0.j 0.5+0.j] [-0.5-0.j 0.5+0.j 0.5+0.j -0.5-0.j] [-0.5-0.j 0.5+0.j -0.5+0.j 0.5+0.j] [ 0.5+0.j 0.5+0.j -0.5+0.j -0.5+0.j]]
+```
+
+Original fixed code:
+initialize
+
+---CODE_BLOCK---
+
+reset
+
+---CODE_BLOCK---
+
+prepare_state
+
+---CODE_BLOCK---
+
+initialize
+
+---CODE_BLOCK---
+
+initialize
+
+---CODE_BLOCK---
+
+reset
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuitrcuit circuit = QuantumCircuit(2) circuit.initialize('01', circuit.qubits) circuit.decompose().draw('mpl')
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuitrcuit circuit = QuantumCircuit(2) circuit.initialize('01', circuit.qubits) circuit.decompose().draw('mpl')
+
+---CODE_BLOCK---
+
+prepare_state
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuitrcuit circuit = QuantumCircuit(2) circuit.prepare_state('01', circuit.qubits) circuit.draw('mpl')
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuitrcuit circuit = QuantumCircuit(2) circuit.prepare_state('01', circuit.qubits) circuit.draw('mpl')
+
+---CODE_BLOCK---
+
+circuit_transpiled = transpile(circuit, backend=simulator)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, transpile from qiskit_aer import Aer circuit = QuantumCircuit(2) # circuit.initialize('01', circuit.qubits) circuit.prepare_state('01', circuit.qubits) circuit.h(0) circuit.h(1) circuit.cx(0, 1) circuit.cx(1, 0) circuit.save_unitary() simulator = Aer.get_backend('aer_simulator') circuit_transpiled = transpile(circuit, backend=simulator) result = simulator.run(circuit_transpiled).result() unitary = result.get_unitary(circuit_transpiled.name) print(unitary.round(3))
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, transpile from qiskit_aer import Aer circuit = QuantumCircuit(2) # circuit.initialize('01', circuit.qubits) circuit.prepare_state('01', circuit.qubits) circuit.h(0) circuit.h(1) circuit.cx(0, 1) circuit.cx(1, 0) circuit.save_unitary() simulator = Aer.get_backend('aer_simulator') circuit_transpiled = transpile(circuit, backend=simulator) result = simulator.run(circuit_transpiled).result() unitary = result.get_unitary(circuit_transpiled.name) print(unitary.round(3))
+
+---CODE_BLOCK---
+
+[[ 0.5+0.j 0.5+0.j 0.5-0.j 0.5+0.j] [-0.5-0.j 0.5+0.j 0.5+0.j -0.5-0.j] [-0.5-0.j 0.5+0.j -0.5+0.j 0.5+0.j] [ 0.5+0.j 0.5+0.j -0.5+0.j -0.5+0.j]]
+
+---CODE_BLOCK---
+
+[[ 0.5+0.j 0.5+0.j 0.5-0.j 0.5+0.j] [-0.5-0.j 0.5+0.j 0.5+0.j -0.5-0.j] [-0.5-0.j 0.5+0.j -0.5+0.j 0.5+0.j] [ 0.5+0.j 0.5+0.j -0.5+0.j -0.5+0.j]]

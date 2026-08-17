@@ -1,0 +1,19 @@
+Title:
+Expected value of a product of the Pauli matrices in different bases
+
+Category:
+
+
+Question:
+Title: Expected value of a product of the Pauli matrices in different bases
+
+I'm trying to reproduce the results of this article https://arxiv.org/abs/1801.03897, using Qiskit and Xanadu PennyLane. Particularly, this part with expected values of the Pauli operators: For Ansatz circuit from the mentioned article I can get the same results for $\langle Z_0 \rangle$ and $\langle Z_1 \rangle$ but not for $\langle X_0X_1 \rangle$, $\langle Y_0Y_1 \rangle$. I calculate expected values in the following way: $$\langle Z_0 \rangle = P(q_0=0)-P(q_0=1),$$ $$\langle Z_1 \rangle = P(q_0=0)-P(q_0=1).$$ And for a product of the Pauli matrices: $$\langle X_0X_1 \rangle = [P(q_0=0)-P(q_0=1)]*[P(q_1=0)-P(q_1=1)],$$ $$\langle Y_0Y_1 \rangle = [P(q_0=0)-P(q_0=1)]*[P(q_1=0)-P(q_1=1)],$$ where $P(q_0=0)$ is probability of getting qubit 0 in state $|0\rangle$ and $P(q_0=1)$ is probability of getting qubit 0 in state $|1\rangle$. In Qiskit for $\langle X_0X_1 \rangle$, $\langle Y_0Y_1 \rangle$ I use pre-measurement single-qubit rotations $H$ and $R_x(-\pi/2)$ respectively. Help me understand, where I could make a mistake?
+
+Original buggy code:
+I'm trying to reproduce the results of this article https://arxiv.org/abs/1801.03897, using Qiskit and Xanadu PennyLane. Particularly, this part with expected values of the Pauli operators: For Ansatz circuit from the mentioned article I can get the same results for $\langle Z_0 \rangle$ and $\langle Z_1 \rangle$ but not for $\langle X_0X_1 \rangle$, $\langle Y_0Y_1 \rangle$. I calculate expected values in the following way: $$\langle Z_0 \rangle = P(q_0=0)-P(q_0=1),$$ $$\langle Z_1 \rangle = P(q_0=0)-P(q_0=1).$$ And for a product of the Pauli matrices: $$\langle X_0X_1 \rangle = [P(q_0=0)-P(q_0=1)]*[P(q_1=0)-P(q_1=1)],$$ $$\langle Y_0Y_1 \rangle = [P(q_0=0)-P(q_0=1)]*[P(q_1=0)-P(q_1=1)],$$ where $P(q_0=0)$ is probability of getting qubit 0 in state $|0\rangle$ and $P(q_0=1)$ is probability of getting qubit 0 in state $|1\rangle$. In Qiskit for $\langle X_0X_1 \rangle$, $\langle Y_0Y_1 \rangle$ I use pre-measurement single-qubit rotations $H$ and $R_x(-\pi/2)$ respectively. Help me understand, where I could make a mistake?
+
+Solution explanation:
+Your expressions for $\langle X_0X_1 \rangle$ and $\langle Y_0Y_1 \rangle$ are correct under the assumption that the two qubits are independently random. In the case that they are correlated, these expressions will not yield the right answer. This is because you have to think of $X_0X_1$, for example, as an operator in its own right, rather than just a combination of $X_0$ and $X_1$. This combined operator has eigenvalue $+1$ for any superposition of $|++\rangle$ and $|--\rangle$, and eigenvalue $-1$ for any superposition of $|+-\rangle$ and $|-+\rangle$. The expectation value is therefore $$\langle X_0X_1 \rangle = P(q_0=0, q_1=0)+P(q_0=1, q_1=1)-P(q_0=0, q_1=1)-P(q_0=1, q_1=0).$$
+
+Original fixed code:
+Your expressions for $\langle X_0X_1 \rangle$ and $\langle Y_0Y_1 \rangle$ are correct under the assumption that the two qubits are independently random. In the case that they are correlated, these expressions will not yield the right answer. This is because you have to think of $X_0X_1$, for example, as an operator in its own right, rather than just a combination of $X_0$ and $X_1$. This combined operator has eigenvalue $+1$ for any superposition of $|++\rangle$ and $|--\rangle$, and eigenvalue $-1$ for any superposition of $|+-\rangle$ and $|-+\rangle$. The expectation value is therefore $$\langle X_0X_1 \rangle = P(q_0=0, q_1=0)+P(q_0=1, q_1=1)-P(q_0=0, q_1=1)-P(q_0=1, q_1=0).$$

@@ -1,0 +1,79 @@
+Title:
+Was the Quantum Circuit Attribute "iden" renamed?
+
+Category:
+Category:
+Import / API Changes
+
+Why AI Wins in This Category:
+In API migration or deprecation scenarios, the best answers don’t just patch the issue — they show users how to handle similar issues in the future. The AI does this with version checks, discovery tools, and update instructions, making it more robust than the minimal Stack Overflow reply.
+
+Question:
+Title: Was the Quantum Circuit Attribute "iden" renamed?
+
+I'm going through some older tutorials for my employer and everything seems to be working fine except the "iden" attribute. The error is listed below. I assume the name was changed but I don't know what it was changed to, and I don't know how to find out.
+
+```
+AttributeError Traceback (most recent call last) <ipython-input-10-fff169415f56> in <module> 4 hello_qubit = QuantumCircuit(q) 5 ----> 6 hello_qubit.iden(q[0]) 7 8 job = execute(hello_qubit, S_simulator) AttributeError: 'QuantumCircuit' object has no attribute 'iden' '''
+```
+
+```
+AttributeError Traceback (most recent call last) <ipython-input-10-fff169415f56> in <module> 4 hello_qubit = QuantumCircuit(q) 5 ----> 6 hello_qubit.iden(q[0]) 7 8 job = execute(hello_qubit, S_simulator) AttributeError: 'QuantumCircuit' object has no attribute 'iden' '''
+```
+
+Original buggy code:
+AttributeError Traceback (most recent call last) <ipython-input-10-fff169415f56> in <module> 4 hello_qubit = QuantumCircuit(q) 5 ----> 6 hello_qubit.iden(q[0]) 7 8 job = execute(hello_qubit, S_simulator) AttributeError: 'QuantumCircuit' object has no attribute 'iden' '''
+
+---CODE_BLOCK---
+
+AttributeError Traceback (most recent call last) <ipython-input-10-fff169415f56> in <module> 4 hello_qubit = QuantumCircuit(q) 5 ----> 6 hello_qubit.iden(q[0]) 7 8 job = execute(hello_qubit, S_simulator) AttributeError: 'QuantumCircuit' object has no attribute 'iden' '''
+
+Solution explanation:
+Now it is called : If you want to implement a delay consider using .
+
+```
+id
+```
+
+```
+from qiskit import * circuit = QuantumCircuit(1) circuit.id(0) print(circuit)
+```
+
+```
+from qiskit import * circuit = QuantumCircuit(1) circuit.id(0) print(circuit)
+```
+
+```
+┌───┐ q_0: ┤ I ├ └───┘
+```
+
+```
+┌───┐ q_0: ┤ I ├ └───┘
+```
+
+```
+delay
+```
+
+Original fixed code:
+id
+
+---CODE_BLOCK---
+
+from qiskit import * circuit = QuantumCircuit(1) circuit.id(0) print(circuit)
+
+---CODE_BLOCK---
+
+from qiskit import * circuit = QuantumCircuit(1) circuit.id(0) print(circuit)
+
+---CODE_BLOCK---
+
+┌───┐ q_0: ┤ I ├ └───┘
+
+---CODE_BLOCK---
+
+┌───┐ q_0: ┤ I ├ └───┘
+
+---CODE_BLOCK---
+
+delay

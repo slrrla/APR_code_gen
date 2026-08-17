@@ -1,0 +1,238 @@
+Title:
+Evaluating expectation values of operators in Qiskit
+
+Category:
+Category: Import / API Usage
+
+Why AI Wins in This Category:
+The AI answer uses modern Qiskit components (opflow, Statevector, PauliSumOp), avoids deprecated Aqua modules, and demonstrates a simple, readable solution that can be extended for larger systems or integrated into workflows like VQE. It focuses directly on the user's need to use QuantumCircuit as input — which the Stack Overflow solution touches on but with outdated or overly complex constructs.
+
+Question:
+Title: Evaluating expectation values of operators in Qiskit
+
+I'm wondering how in Qiskit one can calculate the expectation value of an operator given as a (or, at least, of a single operator...) in a certain state (given as a object ⁠— meaning that the actual state is the result of the action of this circuit on the computational basis state). I would like the inputs of such a procedure to be s, not s (it is an essential requirement — I'm using an external library to form the circuit for each set of parameters, and then converting it gate-by-gate to Qiskit format). This would be useful if, say, we wanted to manually implement VQE, and for that needed a function calculating the expectation value of the Hamiltonian on a quantum computer. More importantly, we would need this for implementing generalizations of VQE, such as subspace search. I guess, may be involved...
+
+```
+WeightedPauli
+```
+
+```
+Pauli
+```
+
+```
+QuantumCircuit
+```
+
+```
+float
+```
+
+```
+Parameter
+```
+
+```
+PauliBasisChange
+```
+
+Original buggy code:
+WeightedPauli
+
+---CODE_BLOCK---
+
+Pauli
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+float
+
+---CODE_BLOCK---
+
+Parameter
+
+---CODE_BLOCK---
+
+PauliBasisChange
+
+Solution explanation:
+Note: This post is a bit older and Qiskit Aqua is now deprecated. Replace all occurences of with to be compatible with Qiskit Terra 0.17.0 and above. The operators in Qiskit Aqua allow the evaluation of expectation values both exactly (via matrix multiplication) or on shot-based sampling (closer to real quantum computers). The basic principle is the same both times, it only differs in how the expectation value is evaluated in the end. First, you need to define the operator $O$ you're interested in and the state $|\psi\rangle$ with respect to which you want to compute the expecation value. So we're looking for $$ E = \langle\psi|O|\psi\rangle. $$ In the code below we have $O$ = and $|\psi\rangle$ = . See also there for your use-case of a . There are now different ways to evaluate the expectation value. The straightforward, "mathematical", approach would be to take the adjoint of $|\psi\rangle$ (which is $\langle\psi|$) and multiply with $O$ and then $|\psi\rangle$ to get the expectation. You can actually do exactly this in Qiskit: to get This is only suitable for small systems though. To use the simulators, and the also get the shot-based result, you can use the (shots), (exact) or (exact). Here's how to do it: which yields This result varies if you execute multiple times. For comparison, here the other methods to evaluate the expecation value which produces I hope that clarifies how to compute the expectation value!
+
+```
+qiskit.aqua.operators
+```
+
+```
+qiskit.opflow
+```
+
+```
+op
+```
+
+```
+psi
+```
+
+```
+WeightedPauliOperator
+```
+
+```
+# you can define your operator as circuit circuit = QuantumCircuit(2) circuit.z(0) circuit.z(1) op = CircuitOp(circuit) # and convert to an operator # or if you have a WeightedPauliOperator, do op = weighted_pauli_op.to_opflow() # but here we'll use the H2-molecule Hamiltonian from qiskit.aqua.operators import X, Y, Z, I op = (-1.0523732 * I^I) + (0.39793742 * I^Z) + (-0.3979374 * Z^I) \ + (-0.0112801 * Z^Z) + (0.18093119 * X^X) # define the state you w.r.t. which you want the expectation value psi = QuantumCircuit(2) psi.x(0) psi.x(1) # convert to a state psi = CircuitStateFn(psi)
+```
+
+```
+# you can define your operator as circuit circuit = QuantumCircuit(2) circuit.z(0) circuit.z(1) op = CircuitOp(circuit) # and convert to an operator # or if you have a WeightedPauliOperator, do op = weighted_pauli_op.to_opflow() # but here we'll use the H2-molecule Hamiltonian from qiskit.aqua.operators import X, Y, Z, I op = (-1.0523732 * I^I) + (0.39793742 * I^Z) + (-0.3979374 * Z^I) \ + (-0.0112801 * Z^Z) + (0.18093119 * X^X) # define the state you w.r.t. which you want the expectation value psi = QuantumCircuit(2) psi.x(0) psi.x(1) # convert to a state psi = CircuitStateFn(psi)
+```
+
+```
+# easy expectation value, use for small systems only! print('Math:', psi.adjoint().compose(op).compose(psi).eval().real)
+```
+
+```
+# easy expectation value, use for small systems only! print('Math:', psi.adjoint().compose(op).compose(psi).eval().real)
+```
+
+```
+Exact: -1.0636533199999998
+```
+
+```
+Exact: -1.0636533199999998
+```
+
+```
+PauliExpectation
+```
+
+```
+AerPauliExpectation
+```
+
+```
+MatrixExpectation
+```
+
+```
+from qiskit import Aer from qiskit.aqua import QuantumInstance from qiskit.aqua.operators import PauliExpectation, CircuitSampler, StateFn # define your backend or quantum instance (where you can add settings) backend = Aer.get_backend('qasm_simulator') q_instance = QuantumInstance(backend, shots=1024) # define the state to sample measurable_expression = StateFn(op, is_measurement=True).compose(psi) # convert to expectation value expectation = PauliExpectation().convert(measurable_expression) # get state sampler (you can also pass the backend directly) sampler = CircuitSampler(q_instance).convert(expectation) # evaluate print('Sampled:', sampler.eval().real)
+```
+
+```
+from qiskit import Aer from qiskit.aqua import QuantumInstance from qiskit.aqua.operators import PauliExpectation, CircuitSampler, StateFn # define your backend or quantum instance (where you can add settings) backend = Aer.get_backend('qasm_simulator') q_instance = QuantumInstance(backend, shots=1024) # define the state to sample measurable_expression = StateFn(op, is_measurement=True).compose(psi) # convert to expectation value expectation = PauliExpectation().convert(measurable_expression) # get state sampler (you can also pass the backend directly) sampler = CircuitSampler(q_instance).convert(expectation) # evaluate print('Sampled:', sampler.eval().real)
+```
+
+```
+Sampled: -1.0530518430859401
+```
+
+```
+Sampled: -1.0530518430859401
+```
+
+```
+expectation = AerPauliExpectation().convert(measurable_expression) sampler = CircuitSampler(backend).convert(expectation) print('Snapshot:', sampler.eval().real) expectation = MatrixExpectation().convert(measurable_expression) sampler = CircuitSampler(backend).convert(expectation) print('Matrix:', sampler.eval().real)
+```
+
+```
+expectation = AerPauliExpectation().convert(measurable_expression) sampler = CircuitSampler(backend).convert(expectation) print('Snapshot:', sampler.eval().real) expectation = MatrixExpectation().convert(measurable_expression) sampler = CircuitSampler(backend).convert(expectation) print('Matrix:', sampler.eval().real)
+```
+
+```
+Snapshot: -1.06365328 Matrix: -1.06365328
+```
+
+```
+Snapshot: -1.06365328 Matrix: -1.06365328
+```
+
+Original fixed code:
+qiskit.aqua.operators
+
+---CODE_BLOCK---
+
+qiskit.opflow
+
+---CODE_BLOCK---
+
+op
+
+---CODE_BLOCK---
+
+psi
+
+---CODE_BLOCK---
+
+WeightedPauliOperator
+
+---CODE_BLOCK---
+
+# you can define your operator as circuit circuit = QuantumCircuit(2) circuit.z(0) circuit.z(1) op = CircuitOp(circuit) # and convert to an operator # or if you have a WeightedPauliOperator, do op = weighted_pauli_op.to_opflow() # but here we'll use the H2-molecule Hamiltonian from qiskit.aqua.operators import X, Y, Z, I op = (-1.0523732 * I^I) + (0.39793742 * I^Z) + (-0.3979374 * Z^I) \ + (-0.0112801 * Z^Z) + (0.18093119 * X^X) # define the state you w.r.t. which you want the expectation value psi = QuantumCircuit(2) psi.x(0) psi.x(1) # convert to a state psi = CircuitStateFn(psi)
+
+---CODE_BLOCK---
+
+# you can define your operator as circuit circuit = QuantumCircuit(2) circuit.z(0) circuit.z(1) op = CircuitOp(circuit) # and convert to an operator # or if you have a WeightedPauliOperator, do op = weighted_pauli_op.to_opflow() # but here we'll use the H2-molecule Hamiltonian from qiskit.aqua.operators import X, Y, Z, I op = (-1.0523732 * I^I) + (0.39793742 * I^Z) + (-0.3979374 * Z^I) \ + (-0.0112801 * Z^Z) + (0.18093119 * X^X) # define the state you w.r.t. which you want the expectation value psi = QuantumCircuit(2) psi.x(0) psi.x(1) # convert to a state psi = CircuitStateFn(psi)
+
+---CODE_BLOCK---
+
+# easy expectation value, use for small systems only! print('Math:', psi.adjoint().compose(op).compose(psi).eval().real)
+
+---CODE_BLOCK---
+
+# easy expectation value, use for small systems only! print('Math:', psi.adjoint().compose(op).compose(psi).eval().real)
+
+---CODE_BLOCK---
+
+Exact: -1.0636533199999998
+
+---CODE_BLOCK---
+
+Exact: -1.0636533199999998
+
+---CODE_BLOCK---
+
+PauliExpectation
+
+---CODE_BLOCK---
+
+AerPauliExpectation
+
+---CODE_BLOCK---
+
+MatrixExpectation
+
+---CODE_BLOCK---
+
+from qiskit import Aer from qiskit.aqua import QuantumInstance from qiskit.aqua.operators import PauliExpectation, CircuitSampler, StateFn # define your backend or quantum instance (where you can add settings) backend = Aer.get_backend('qasm_simulator') q_instance = QuantumInstance(backend, shots=1024) # define the state to sample measurable_expression = StateFn(op, is_measurement=True).compose(psi) # convert to expectation value expectation = PauliExpectation().convert(measurable_expression) # get state sampler (you can also pass the backend directly) sampler = CircuitSampler(q_instance).convert(expectation) # evaluate print('Sampled:', sampler.eval().real)
+
+---CODE_BLOCK---
+
+from qiskit import Aer from qiskit.aqua import QuantumInstance from qiskit.aqua.operators import PauliExpectation, CircuitSampler, StateFn # define your backend or quantum instance (where you can add settings) backend = Aer.get_backend('qasm_simulator') q_instance = QuantumInstance(backend, shots=1024) # define the state to sample measurable_expression = StateFn(op, is_measurement=True).compose(psi) # convert to expectation value expectation = PauliExpectation().convert(measurable_expression) # get state sampler (you can also pass the backend directly) sampler = CircuitSampler(q_instance).convert(expectation) # evaluate print('Sampled:', sampler.eval().real)
+
+---CODE_BLOCK---
+
+Sampled: -1.0530518430859401
+
+---CODE_BLOCK---
+
+Sampled: -1.0530518430859401
+
+---CODE_BLOCK---
+
+expectation = AerPauliExpectation().convert(measurable_expression) sampler = CircuitSampler(backend).convert(expectation) print('Snapshot:', sampler.eval().real) expectation = MatrixExpectation().convert(measurable_expression) sampler = CircuitSampler(backend).convert(expectation) print('Matrix:', sampler.eval().real)
+
+---CODE_BLOCK---
+
+expectation = AerPauliExpectation().convert(measurable_expression) sampler = CircuitSampler(backend).convert(expectation) print('Snapshot:', sampler.eval().real) expectation = MatrixExpectation().convert(measurable_expression) sampler = CircuitSampler(backend).convert(expectation) print('Matrix:', sampler.eval().real)
+
+---CODE_BLOCK---
+
+Snapshot: -1.06365328 Matrix: -1.06365328
+
+---CODE_BLOCK---
+
+Snapshot: -1.06365328 Matrix: -1.06365328

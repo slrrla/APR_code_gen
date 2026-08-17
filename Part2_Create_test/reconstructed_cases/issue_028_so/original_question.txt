@@ -1,0 +1,135 @@
+Title:
+Unexpected keyword argument 'noise_model'
+
+Category:
+Category: Version Compatibility & Simulator API Usage
+Why AI Is Better: AI correctly recognizes that `noise_model` is not a valid argument for `execute()` in Qiskit 0.12.0, and recommends using `backend.run()` with `transpile()` and a proper coupling map. It also replaces deprecated imports (`BasicAer`) and ensures the solution works with modern Qiskit versions. Stack Overflow only offers a partial fix by replacing the backend.
+Why AI Is Better in This Particular Category: Because version compatibility issues often require deep knowledge of Qiskit's evolving API, AI provides more accurate and up-to-date fixes than older Stack Overflow answers. It adapts the code to current best practices, avoiding deprecated features and ensuring long-term compatibility with newer Qiskit versions.
+
+Question:
+Title: Unexpected keyword argument 'noise_model'
+
+The following code throws an error. Based on some issues that I read on qiskit github, it seems that it has something do with run configs vs. compile configs but I could not find any other info that will help me resolve this issue. 
+
+ from qiskit import QuantumCircuit, IBMQ, execute
+from qiskit import BasicAer as Aer
+from qiskit.providers.aer import noise
+
+ckt = QuantumCircuit(2, 2)
+ckt.h(0)
+ckt.cx(0, 1)
+ckt.measure(0, 0)
+ckt.measure(1, 1)
+
+qsim = Aer.get_backend("qasm_simulator")
+
+IBMQ.load_account()
+provider = IBMQ.get_provider(hub="ibm-q")
+qc = provider.get_backend("ibmqx2")
+
+props = qc.properties()
+coupling_map = qc.configuration().coupling_map
+noise_model = noise.device.basic_device_noise_model(props)
+
+job = execute(
+ ckt, 
+ qsim, 
+ noise_model=noise_model, 
+ coupling_map=coupling_map, 
+ basis_gates=noise_model.basis_gates
+)
+
+ ---------------------------------------------------------------------------
+TypeError Traceback (most recent call last)
+<ipython-input-1-2f987d65d1f7> in <module>
+ 25 noise_model=noise_model,
+ 26 coupling_map=coupling_map,
+---> 27 basis_gates=noise_model.basis_gates
+ 28 )
+
+~/.venvs/qk/lib/python3.7/site-packages/qiskit/execute.py in execute(experiments, backend, basis_gates, coupling_map, backend_properties, initial_layout, seed_transpiler, optimization_level, pass_manager, qobj_id, qobj_header, shots, memory, max_credits, seed_simulator, default_qubit_los, default_meas_los, schedule_los, meas_level, meas_return, memory_slots, memory_slot_size, rep_time, parameter_binds, **run_config)
+ 220 
+ 221 # executing the circuits on the backend and returning the job
+--> 222 return backend.run(qobj, **run_config)
+
+TypeError: run() got an unexpected keyword argument 'noise_model'
+
+ Env: 
+
+ macOS 10.14.6 
+ Python 3.7.3 
+ qiskit 0.12.0
+
+```
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+<ipython-input-1-2f987d65d1f7> in <module>
+     25     noise_model=noise_model,
+     26     coupling_map=coupling_map,
+---> 27     basis_gates=noise_model.basis_gates
+     28 )
+
+~/.venvs/qk/lib/python3.7/site-packages/qiskit/execute.py in execute(experiments, backend, basis_gates, coupling_map, backend_properties, initial_layout, seed_transpiler, optimization_level, pass_manager, qobj_id, qobj_header, shots, memory, max_credits, seed_simulator, default_qubit_los, default_meas_los, schedule_los, meas_level, meas_return, memory_slots, memory_slot_size, rep_time, parameter_binds, **run_config)
+    220 
+    221     # executing the circuits on the backend and returning the job
+--> 222     return backend.run(qobj, **run_config)
+
+TypeError: run() got an unexpected keyword argument 'noise_model'
+```
+
+Original buggy code:
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+<ipython-input-1-2f987d65d1f7> in <module>
+     25     noise_model=noise_model,
+     26     coupling_map=coupling_map,
+---> 27     basis_gates=noise_model.basis_gates
+     28 )
+
+~/.venvs/qk/lib/python3.7/site-packages/qiskit/execute.py in execute(experiments, backend, basis_gates, coupling_map, backend_properties, initial_layout, seed_transpiler, optimization_level, pass_manager, qobj_id, qobj_header, shots, memory, max_credits, seed_simulator, default_qubit_los, default_meas_los, schedule_los, meas_level, meas_return, memory_slots, memory_slot_size, rep_time, parameter_binds, **run_config)
+    220 
+    221     # executing the circuits on the backend and returning the job
+--> 222     return backend.run(qobj, **run_config)
+
+TypeError: run() got an unexpected keyword argument 'noise_model'
+
+Solution explanation:
+The error is coming up because you are using BasicAer to retrieve the simulator backend. I do not think this will work with the BasicAer provider. You should be using the Aer provider. 
+
+ from qiskit import Aer
+qsim = Aer.get_backend('qasm_simulator')
+
+ If you just change your import statement from 
+
+ from qiskit import BasicAer as Aer
+
+ to 
+
+ from qiskit import Aer
+
+ then your code should work
+
+```
+from qiskit import Aer
+qsim = Aer.get_backend('qasm_simulator')
+```
+
+```
+from qiskit import BasicAer as Aer
+```
+
+```
+from qiskit import Aer
+```
+
+Original fixed code:
+from qiskit import Aer
+qsim = Aer.get_backend('qasm_simulator')
+
+---CODE_BLOCK---
+
+from qiskit import BasicAer as Aer
+
+---CODE_BLOCK---
+
+from qiskit import Aer

@@ -1,0 +1,99 @@
+Title:
+PyTorch and Qiskit example from the Qiskit textbook seems broken
+
+Category:
+Category:
+Import / API Usage Error
+
+Why AI Solution Wins in This Category:
+For import or API-related issues, the best solution is one that correctly adapts to updated API design and usage expectations. The AI does this by removing incorrect constructor arguments and offering a clean, minimal example. It ensures correct backend usage, execution, and result handling — making it the better solution for modern Qiskit development environments.
+
+Question:
+Title: PyTorch and Qiskit example from the Qiskit textbook seems broken
+
+After executing the proceeding code blocks, when I try to copy the same code from Qiskit textbook on my jupyter notebook, I get the error as Please suggest:
+
+```
+QiskitError: 'Data for experiment "circuit-109" could not be found.'
+```
+
+```
+simulator = qiskit.Aer.get_backend('qasm_simulator') circuit = QuantumCircuit(1, simulator, 100) print('Expected value for rotation pi {}'.format(circuit.run([np.pi])[0])) circuit._circuit.draw( )
+```
+
+```
+simulator = qiskit.Aer.get_backend('qasm_simulator') circuit = QuantumCircuit(1, simulator, 100) print('Expected value for rotation pi {}'.format(circuit.run([np.pi])[0])) circuit._circuit.draw( )
+```
+
+```
+<ipython-input-23-06b09ff4dd69> in <module> 2 3 circuit = QuantumCircuit(1, simulator, 100) ----> 4 print('Expected value for rotation pi {}'.format(circuit.run([np.pi])[0])) 5 circuit._circuit.draw() <ipython-input-22-e6eb9c91d6f9> in run(self, thetas) 28 parameter_binds = [{self.theta: theta} for theta in thetas]) 29 job = self.backend.run(qobj) ---> 30 result = job.result().get_counts(self._circuit) 31 32 counts = np.array(list(result.values())) ~\anaconda3\lib\site-packages\qiskit\result\result.py in get_counts(self, experiment) 261 dict_list = [] 262 for key in exp_keys: --> 263 exp = self._get_experiment(key) 264 try: 265 header = exp.header.to_dict() ~\anaconda3\lib\site-packages\qiskit\result\result.py in _get_experiment(self, key) 368 369 if len(exp) == 0: --> 370 raise QiskitError('Data for experiment "%s" could not be found.' % 371 key) 372 if len(exp) == 1: QiskitError: 'Data for experiment "circuit-109" could not be found.'```
+```
+
+```
+<ipython-input-23-06b09ff4dd69> in <module> 2 3 circuit = QuantumCircuit(1, simulator, 100) ----> 4 print('Expected value for rotation pi {}'.format(circuit.run([np.pi])[0])) 5 circuit._circuit.draw() <ipython-input-22-e6eb9c91d6f9> in run(self, thetas) 28 parameter_binds = [{self.theta: theta} for theta in thetas]) 29 job = self.backend.run(qobj) ---> 30 result = job.result().get_counts(self._circuit) 31 32 counts = np.array(list(result.values())) ~\anaconda3\lib\site-packages\qiskit\result\result.py in get_counts(self, experiment) 261 dict_list = [] 262 for key in exp_keys: --> 263 exp = self._get_experiment(key) 264 try: 265 header = exp.header.to_dict() ~\anaconda3\lib\site-packages\qiskit\result\result.py in _get_experiment(self, key) 368 369 if len(exp) == 0: --> 370 raise QiskitError('Data for experiment "%s" could not be found.' % 371 key) 372 if len(exp) == 1: QiskitError: 'Data for experiment "circuit-109" could not be found.'```
+```
+
+Original buggy code:
+QiskitError: 'Data for experiment "circuit-109" could not be found.'
+
+---CODE_BLOCK---
+
+simulator = qiskit.Aer.get_backend('qasm_simulator') circuit = QuantumCircuit(1, simulator, 100) print('Expected value for rotation pi {}'.format(circuit.run([np.pi])[0])) circuit._circuit.draw( )
+
+---CODE_BLOCK---
+
+simulator = qiskit.Aer.get_backend('qasm_simulator') circuit = QuantumCircuit(1, simulator, 100) print('Expected value for rotation pi {}'.format(circuit.run([np.pi])[0])) circuit._circuit.draw( )
+
+---CODE_BLOCK---
+
+<ipython-input-23-06b09ff4dd69> in <module> 2 3 circuit = QuantumCircuit(1, simulator, 100) ----> 4 print('Expected value for rotation pi {}'.format(circuit.run([np.pi])[0])) 5 circuit._circuit.draw() <ipython-input-22-e6eb9c91d6f9> in run(self, thetas) 28 parameter_binds = [{self.theta: theta} for theta in thetas]) 29 job = self.backend.run(qobj) ---> 30 result = job.result().get_counts(self._circuit) 31 32 counts = np.array(list(result.values())) ~\anaconda3\lib\site-packages\qiskit\result\result.py in get_counts(self, experiment) 261 dict_list = [] 262 for key in exp_keys: --> 263 exp = self._get_experiment(key) 264 try: 265 header = exp.header.to_dict() ~\anaconda3\lib\site-packages\qiskit\result\result.py in _get_experiment(self, key) 368 369 if len(exp) == 0: --> 370 raise QiskitError('Data for experiment "%s" could not be found.' % 371 key) 372 if len(exp) == 1: QiskitError: 'Data for experiment "circuit-109" could not be found.'
+
+Solution explanation:
+After checking, this issue was introduced in the last qiskit-terra release. The textbook should be fixed to adjust the , as already reported here. In any case, the workaround for now is removing from (in method).
+
+```
+get_counts
+```
+
+```
+self._circuit
+```
+
+```
+result = job.result().get_counts(self._circuit)
+```
+
+```
+QuantumCircuit.run
+```
+
+```
+class QuantumCircuit: ... def run(self, thetas): ... job = self.backend.run(qobj) result = job.result().get_counts() # <- here ...
+```
+
+```
+class QuantumCircuit: ... def run(self, thetas): ... job = self.backend.run(qobj) result = job.result().get_counts() # <- here ...
+```
+
+Original fixed code:
+get_counts
+
+---CODE_BLOCK---
+
+self._circuit
+
+---CODE_BLOCK---
+
+result = job.result().get_counts(self._circuit)
+
+---CODE_BLOCK---
+
+QuantumCircuit.run
+
+---CODE_BLOCK---
+
+class QuantumCircuit: ... def run(self, thetas): ... job = self.backend.run(qobj) result = job.result().get_counts() # <- here ...
+
+---CODE_BLOCK---
+
+class QuantumCircuit: ... def run(self, thetas): ... job = self.backend.run(qobj) result = job.result().get_counts() # <- here ...

@@ -1,0 +1,95 @@
+Title:
+qiskit.providers.basic_provider.exceptions.BasicProviderError: 'basic_simulator encountered unrecognized operation "ucry"'
+
+Category:
+Category:
+Installation / Env Config / Import Error
+
+Why Stack Overflow Wins in This Category:
+For backend compatibility errors, the crucial fix is understanding how Qiskit 1.0 expects circuits to be compiled before execution. Stack Overflow provides the exact solution with generate_preset_pass_manager, which is the intended and future-proof method. The AI solution is more general and helpful as background, but the SO approach directly solves the user’s immediate problem in the Qiskit 1.0 environment.
+
+Question:
+Title: qiskit.providers.basic_provider.exceptions.BasicProviderError: 'basic_simulator encountered unrecognized operation "ucry"'
+
+I need some help in running circuit on simulator. The documents says: https://docs.quantum.ibm.com/migration-guides/qiskit-1.0-features This instructions work well for basic gates. But If there is some special gate as shown in the circuit as shown below, I get the error: The actual code I am trying out is below: I am missing some step in between. It would be great if I can be guided on this.
+
+```
+qiskit==1.0
+```
+
+```
+from qiskit.providers.basic_provider import BasicProvider backend = BasicProvider().get_backend("basic_simulator") result = backend.run(qc).result()
+```
+
+```
+from qiskit.providers.basic_provider import BasicProvider backend = BasicProvider().get_backend("basic_simulator") result = backend.run(qc).result()
+```
+
+```
+qiskit.providers.basic_provider.exceptions.BasicProviderError: 'basic_simulator encountered unrecognized operation "ucry"'
+```
+
+```
+qiskit.providers.basic_provider.exceptions.BasicProviderError: 'basic_simulator encountered unrecognized operation "ucry"'
+```
+
+```
+backend = BasicProvider().get_backend("basic_simulator") print(qc_combine.draw()) job = backend.run(qc_combine, shots= shots_used) result = job.result() counts = result.get_counts(qc_combine)
+```
+
+```
+backend = BasicProvider().get_backend("basic_simulator") print(qc_combine.draw()) job = backend.run(qc_combine, shots= shots_used) result = job.result() counts = result.get_counts(qc_combine)
+```
+
+Original buggy code:
+qiskit==1.0
+
+---CODE_BLOCK---
+
+from qiskit.providers.basic_provider import BasicProvider backend = BasicProvider().get_backend("basic_simulator") result = backend.run(qc).result()
+
+---CODE_BLOCK---
+
+from qiskit.providers.basic_provider import BasicProvider backend = BasicProvider().get_backend("basic_simulator") result = backend.run(qc).result()
+
+---CODE_BLOCK---
+
+qiskit.providers.basic_provider.exceptions.BasicProviderError: 'basic_simulator encountered unrecognized operation "ucry"'
+
+---CODE_BLOCK---
+
+qiskit.providers.basic_provider.exceptions.BasicProviderError: 'basic_simulator encountered unrecognized operation "ucry"'
+
+---CODE_BLOCK---
+
+backend = BasicProvider().get_backend("basic_simulator") print(qc_combine.draw()) job = backend.run(qc_combine, shots= shots_used) result = job.result() counts = result.get_counts(qc_combine)
+
+---CODE_BLOCK---
+
+backend = BasicProvider().get_backend("basic_simulator") print(qc_combine.draw()) job = backend.run(qc_combine, shots= shots_used) result = job.result() counts = result.get_counts(qc_combine)
+
+Solution explanation:
+Qiskit (and also Aer if I'm not mistaken) requires you to transpile your circuit before passing it to a backend. This can now be done using the pass manager like so: Add these lines before and you should be good to go.
+
+```
+pm = generate_preset_pass_manager(backend=backend, optimization_level=1) qc_combine = pm.run(qc_combine)
+```
+
+```
+pm = generate_preset_pass_manager(backend=backend, optimization_level=1) qc_combine = pm.run(qc_combine)
+```
+
+```
+backend.run
+```
+
+Original fixed code:
+pm = generate_preset_pass_manager(backend=backend, optimization_level=1) qc_combine = pm.run(qc_combine)
+
+---CODE_BLOCK---
+
+pm = generate_preset_pass_manager(backend=backend, optimization_level=1) qc_combine = pm.run(qc_combine)
+
+---CODE_BLOCK---
+
+backend.run

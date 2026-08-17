@@ -1,0 +1,67 @@
+Title:
+Qiskit : how to reset all variables in a simulation
+
+Category:
+
+
+Question:
+Title: Qiskit : how to reset all variables in a simulation
+
+I have a simple qiskit circuit : If I run TestA more than once it seems that some variables are not cleared. For example : The register names in the first run where q0 and c0; in the second run they're changed to q1 and c1. It makes me suspect that other things are also left over from previous runs. Is there a way to reset everything at the beginning of each test? I see the same behavior if I reload the module (using importlib.reload(Tests))
+
+```
+import qiskit def TestA(): qr=qiskit.QuantumRegister(5) cr=qiskit.ClassicalRegister(4) qc=qiskit.QuantumCircuit(qr,cr) qc.h(0) qc.cx(0,4) qc.h(1) qc.cz(1,0) qc.measure([0,1,2,3], [0,1,2,3]) print(qc)
+```
+
+```
+import qiskit def TestA(): qr=qiskit.QuantumRegister(5) cr=qiskit.ClassicalRegister(4) qc=qiskit.QuantumCircuit(qr,cr) qc.h(0) qc.cx(0,4) qc.h(1) qc.cz(1,0) qc.measure([0,1,2,3], [0,1,2,3]) print(qc)
+```
+
+```
+>>> import Tests >>> Tests.TestA() ┌───┐ ┌─┐ q0_0: ┤ H ├─────■───■─┤M├─── ├───┤ │ │ └╥┘┌─┐ q0_1: ┤ H ├─────┼───■──╫─┤M├ └┬─┬┘ │ ║ └╥┘ q0_2: ─┤M├──────┼──────╫──╫─ └╥┘ ┌─┐ │ ║ ║ q0_3: ──╫──┤M├──┼──────╫──╫─ ║ └╥┘┌─┴─┐ ║ ║ q0_4: ──╫───╫─┤ X ├────╫──╫─ ║ ║ └───┘ ║ ║ c0: 4/══╩═══╩══════════╩══╩═ 2 3 0 1 >>> Tests.TestA() ┌───┐ ┌─┐ q1_0: ┤ H ├─────■───■─┤M├─── ├───┤ │ │ └╥┘┌─┐ q1_1: ┤ H ├─────┼───■──╫─┤M├ └┬─┬┘ │ ║ └╥┘ q1_2: ─┤M├──────┼──────╫──╫─ └╥┘ ┌─┐ │ ║ ║ q1_3: ──╫──┤M├──┼──────╫──╫─ ║ └╥┘┌─┴─┐ ║ ║ q1_4: ──╫───╫─┤ X ├────╫──╫─ ║ ║ └───┘ ║ ║ c1: 4/══╩═══╩══════════╩══╩═ 2 3 0 1 >>>
+```
+
+```
+>>> import Tests >>> Tests.TestA() ┌───┐ ┌─┐ q0_0: ┤ H ├─────■───■─┤M├─── ├───┤ │ │ └╥┘┌─┐ q0_1: ┤ H ├─────┼───■──╫─┤M├ └┬─┬┘ │ ║ └╥┘ q0_2: ─┤M├──────┼──────╫──╫─ └╥┘ ┌─┐ │ ║ ║ q0_3: ──╫──┤M├──┼──────╫──╫─ ║ └╥┘┌─┴─┐ ║ ║ q0_4: ──╫───╫─┤ X ├────╫──╫─ ║ ║ └───┘ ║ ║ c0: 4/══╩═══╩══════════╩══╩═ 2 3 0 1 >>> Tests.TestA() ┌───┐ ┌─┐ q1_0: ┤ H ├─────■───■─┤M├─── ├───┤ │ │ └╥┘┌─┐ q1_1: ┤ H ├─────┼───■──╫─┤M├ └┬─┬┘ │ ║ └╥┘ q1_2: ─┤M├──────┼──────╫──╫─ └╥┘ ┌─┐ │ ║ ║ q1_3: ──╫──┤M├──┼──────╫──╫─ ║ └╥┘┌─┴─┐ ║ ║ q1_4: ──╫───╫─┤ X ├────╫──╫─ ║ ║ └───┘ ║ ║ c1: 4/══╩═══╩══════════╩══╩═ 2 3 0 1 >>>
+```
+
+Original buggy code:
+import qiskit def TestA(): qr=qiskit.QuantumRegister(5) cr=qiskit.ClassicalRegister(4) qc=qiskit.QuantumCircuit(qr,cr) qc.h(0) qc.cx(0,4) qc.h(1) qc.cz(1,0) qc.measure([0,1,2,3], [0,1,2,3]) print(qc)
+
+---CODE_BLOCK---
+
+import qiskit def TestA(): qr=qiskit.QuantumRegister(5) cr=qiskit.ClassicalRegister(4) qc=qiskit.QuantumCircuit(qr,cr) qc.h(0) qc.cx(0,4) qc.h(1) qc.cz(1,0) qc.measure([0,1,2,3], [0,1,2,3]) print(qc)
+
+---CODE_BLOCK---
+
+>>> import Tests >>> Tests.TestA() ┌───┐ ┌─┐ q0_0: ┤ H ├─────■───■─┤M├─── ├───┤ │ │ └╥┘┌─┐ q0_1: ┤ H ├─────┼───■──╫─┤M├ └┬─┬┘ │ ║ └╥┘ q0_2: ─┤M├──────┼──────╫──╫─ └╥┘ ┌─┐ │ ║ ║ q0_3: ──╫──┤M├──┼──────╫──╫─ ║ └╥┘┌─┴─┐ ║ ║ q0_4: ──╫───╫─┤ X ├────╫──╫─ ║ ║ └───┘ ║ ║ c0: 4/══╩═══╩══════════╩══╩═ 2 3 0 1 >>> Tests.TestA() ┌───┐ ┌─┐ q1_0: ┤ H ├─────■───■─┤M├─── ├───┤ │ │ └╥┘┌─┐ q1_1: ┤ H ├─────┼───■──╫─┤M├ └┬─┬┘ │ ║ └╥┘ q1_2: ─┤M├──────┼──────╫──╫─ └╥┘ ┌─┐ │ ║ ║ q1_3: ──╫──┤M├──┼──────╫──╫─ ║ └╥┘┌─┴─┐ ║ ║ q1_4: ──╫───╫─┤ X ├────╫──╫─ ║ ║ └───┘ ║ ║ c1: 4/══╩═══╩══════════╩══╩═ 2 3 0 1 >>>
+
+---CODE_BLOCK---
+
+>>> import Tests >>> Tests.TestA() ┌───┐ ┌─┐ q0_0: ┤ H ├─────■───■─┤M├─── ├───┤ │ │ └╥┘┌─┐ q0_1: ┤ H ├─────┼───■──╫─┤M├ └┬─┬┘ │ ║ └╥┘ q0_2: ─┤M├──────┼──────╫──╫─ └╥┘ ┌─┐ │ ║ ║ q0_3: ──╫──┤M├──┼──────╫──╫─ ║ └╥┘┌─┴─┐ ║ ║ q0_4: ──╫───╫─┤ X ├────╫──╫─ ║ ║ └───┘ ║ ║ c0: 4/══╩═══╩══════════╩══╩═ 2 3 0 1 >>> Tests.TestA() ┌───┐ ┌─┐ q1_0: ┤ H ├─────■───■─┤M├─── ├───┤ │ │ └╥┘┌─┐ q1_1: ┤ H ├─────┼───■──╫─┤M├ └┬─┬┘ │ ║ └╥┘ q1_2: ─┤M├──────┼──────╫──╫─ └╥┘ ┌─┐ │ ║ ║ q1_3: ──╫──┤M├──┼──────╫──╫─ ║ └╥┘┌─┴─┐ ║ ║ q1_4: ──╫───╫─┤ X ├────╫──╫─ ║ ║ └───┘ ║ ║ c1: 4/══╩═══╩══════════╩══╩═ 2 3 0 1 >>>
+
+Solution explanation:
+Qiskit just counts the amount of instances of these classes and automatically assigns a default name with the counting in it - you can see that here. If you give names to the registers: Then you will see the same name in each iteration. About that: It makes me suspect that other things are also left over from previous runs If you call to in each iteration then nothing should be left over. In each iteration instances are created as local variables inside the function and they end their life when the execution of the function ends.
+
+```
+qr = qiskit.QuantumRegister(5, name = “reg1”) cr = qiskit.ClassicalRegister(4, name = “classic_reg”)
+```
+
+```
+qr = qiskit.QuantumRegister(5, name = “reg1”) cr = qiskit.ClassicalRegister(4, name = “classic_reg”)
+```
+
+```
+TestA()
+```
+
+Original fixed code:
+qr = qiskit.QuantumRegister(5, name = “reg1”) cr = qiskit.ClassicalRegister(4, name = “classic_reg”)
+
+---CODE_BLOCK---
+
+qr = qiskit.QuantumRegister(5, name = “reg1”) cr = qiskit.ClassicalRegister(4, name = “classic_reg”)
+
+---CODE_BLOCK---
+
+TestA()

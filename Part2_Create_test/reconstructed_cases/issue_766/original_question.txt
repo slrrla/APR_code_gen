@@ -1,0 +1,83 @@
+Title:
+Modifying measurements in a Qiskit circuit
+
+Category:
+
+
+Question:
+Title: Modifying measurements in a Qiskit circuit
+
+Assume my function Qiskit receives a certain as an input. How do I check if this circuit already has some measurements appended to it? If so, how can I modify them? For example, if there are measurements on certain qubits, I would like to remove those in order to add some more gates, and then add the measurement of all qubits.
+
+```
+circuit
+```
+
+Original buggy code:
+circuit
+
+Solution explanation:
+The easiest way to do this is probably by converting the circuit to a , which can be done using the method . From the DAG you can get properties, such as any measurement operations, by using the function . objects are returned which will tell you the properties of the measurement. You can then remove nodes using , it is preferable to remove and add nodes than to modify inplace. Following this you could convert the back to a using and then append any measurement operations as desired.
+
+```
+DAGCircuit
+```
+
+```
+from qiskit.converters import circuit_to_dag
+```
+
+```
+my_dag.named_nodes('measurement')
+```
+
+```
+DAGNode
+```
+
+```
+my_dag.remove_op_node(a_measurement_node)
+```
+
+```
+DAGCircuit
+```
+
+```
+QuantumCircuit
+```
+
+```
+from qiskit.converters import dag_to_circuit
+```
+
+Original fixed code:
+DAGCircuit
+
+---CODE_BLOCK---
+
+from qiskit.converters import circuit_to_dag
+
+---CODE_BLOCK---
+
+my_dag.named_nodes('measurement')
+
+---CODE_BLOCK---
+
+DAGNode
+
+---CODE_BLOCK---
+
+my_dag.remove_op_node(a_measurement_node)
+
+---CODE_BLOCK---
+
+DAGCircuit
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+from qiskit.converters import dag_to_circuit

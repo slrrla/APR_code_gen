@@ -1,0 +1,123 @@
+Title:
+Suppress Warnings
+
+Category:
+
+
+Question:
+Title: Suppress Warnings
+
+I wish to know how to suppress the following warning obtained on qiskit when I try to add two different types of noise to a qubit I know that some warnings can be suppressed with but I do not know what category my warning is contained in. I would also like to know if I can access somewhere all the different warning categories. Additionally trying to suppress all warnings does not help.
+
+```
+WARNING: quantum error already exists for instruction "u2" on qubits [0] , appending additional error.
+```
+
+```
+WARNING: quantum error already exists for instruction "u2" on qubits [0] , appending additional error.
+```
+
+```
+import warnings warnings.filterwarnings('ignore', category=DeprecationWarning)
+```
+
+```
+import warnings warnings.filterwarnings('ignore', category=DeprecationWarning)
+```
+
+```
+import warnings warnings.filterwarnings('ignore')
+```
+
+```
+import warnings warnings.filterwarnings('ignore')
+```
+
+Original buggy code:
+WARNING: quantum error already exists for instruction "u2" on qubits [0] , appending additional error.
+
+---CODE_BLOCK---
+
+WARNING: quantum error already exists for instruction "u2" on qubits [0] , appending additional error.
+
+---CODE_BLOCK---
+
+import warnings warnings.filterwarnings('ignore', category=DeprecationWarning)
+
+---CODE_BLOCK---
+
+import warnings warnings.filterwarnings('ignore', category=DeprecationWarning)
+
+---CODE_BLOCK---
+
+import warnings warnings.filterwarnings('ignore')
+
+---CODE_BLOCK---
+
+import warnings warnings.filterwarnings('ignore')
+
+Solution explanation:
+Qiskit's class processes warnings through a logger from the package, not through the package, so suppressing warnings as in other answers won't help. However, each method in provides a parameter; it defaults to but you can set it to to prevent the warnings from being logged. Example:
+
+```
+NoiseModel
+```
+
+```
+logging
+```
+
+```
+warnings
+```
+
+```
+NoiseModel
+```
+
+```
+warnings
+```
+
+```
+True
+```
+
+```
+False
+```
+
+```
+myNoiseModel.add_quantum_error(..., warnings=False)
+```
+
+Original fixed code:
+NoiseModel
+
+---CODE_BLOCK---
+
+logging
+
+---CODE_BLOCK---
+
+warnings
+
+---CODE_BLOCK---
+
+NoiseModel
+
+---CODE_BLOCK---
+
+warnings
+
+---CODE_BLOCK---
+
+True
+
+---CODE_BLOCK---
+
+False
+
+---CODE_BLOCK---
+
+myNoiseModel.add_quantum_error(..., warnings=False)

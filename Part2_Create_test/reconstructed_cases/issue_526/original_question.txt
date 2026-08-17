@@ -1,0 +1,38 @@
+Title:
+Why doesn't Shor's algorithm output a solution for some numbers?
+
+Category:
+Category: Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+In logic and circuit construction issues, clarity in why an algorithm fails is essential. Stack Overflow nails the exact condition (
+𝑎
+𝑟
+/
+2
+≡
+−
+1
+m
+o
+d
+ 
+ 
+𝑁
+a
+r/2
+≡−1modN) and explains how that leads to factorization failure — which is critical when debugging or designing new implementations. While the AI response is a great high-level explainer, the Stack Overflow answer directly identifies the issue with a = 2 using precise math, making it superior for this category
+
+Question:
+Title: Why doesn't Shor's algorithm output a solution for some numbers?
+
+I've been trying to mess around with Qiskit's implementation of Shor's algorithm, and while trying I've noticed that Shor(33), for example, would not output a solution (even with an absurd number of attempts). Qiskit's implementation would retry by itself, so I went on to find an implementation which would give me more control over what's happening and I found this one (https://oreilly-qc.github.io/?p=12-1). The thing I'm struggling to understand is why, for a given value of a in the modulo function of which Shor attempts to find the period r, and assuring that a has no common factors with the number we're factoring, the period should be found (given a number of tries) and thus the algorithm should succeed. However, Shor(33), with a = 2, does not output any result - just like what happened with Qiskit's implementation. It outputs the correct result, however, when a=5 (33 = 11 * 3). Is there a mathematical explanation for why this happens? Thank you in advance, I'm quite new to this whole new concept and am just trying to understand this algorithm properly!
+
+Original buggy code:
+I've been trying to mess around with Qiskit's implementation of Shor's algorithm, and while trying I've noticed that Shor(33), for example, would not output a solution (even with an absurd number of attempts). Qiskit's implementation would retry by itself, so I went on to find an implementation which would give me more control over what's happening and I found this one (https://oreilly-qc.github.io/?p=12-1). The thing I'm struggling to understand is why, for a given value of a in the modulo function of which Shor attempts to find the period r, and assuring that a has no common factors with the number we're factoring, the period should be found (given a number of tries) and thus the algorithm should succeed. However, Shor(33), with a = 2, does not output any result - just like what happened with Qiskit's implementation. It outputs the correct result, however, when a=5 (33 = 11 * 3). Is there a mathematical explanation for why this happens? Thank you in advance, I'm quite new to this whole new concept and am just trying to understand this algorithm properly!
+
+Solution explanation:
+If $f(x) = a^x \pmod{N}$ passes through $-1$, that value of $a$ won't work. For example, $a=2$ fails for $N=33$ because $2^5 = 32 \equiv -1 \pmod{33}$. This should have been mentioned in whatever explanation of Shor's algorithm you were following.
+
+Original fixed code:
+If $f(x) = a^x \pmod{N}$ passes through $-1$, that value of $a$ won't work. For example, $a=2$ fails for $N=33$ because $2^5 = 32 \equiv -1 \pmod{33}$. This should have been mentioned in whatever explanation of Shor's algorithm you were following.

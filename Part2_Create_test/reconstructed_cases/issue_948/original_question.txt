@@ -1,0 +1,179 @@
+Title:
+Qiskit: Transpilation and the CircuitSampler
+
+Category:
+
+
+Question:
+Title: Qiskit: Transpilation and the CircuitSampler
+
+I am using Qiskit's and its to evaluate matrix elements / expectation values. Now, going beyond and simple simulations, I want to introduce noise of a real device, specify qubit-connectivity (), and choose which physical qubits the logical qubits of my circuit are mapped to (). This is all specified in a which is then passed to the , How do all these specifications for transpilation translate through the and into the final output? I.e., does transpile the circuits inside, e.g., before sampling? And how can I check which physical qubits the logical ones were mapped to during transpilation? I am confused by this sentence in the documentation: The CircuitSampler aggressively caches transpiled circuits to handle re-parameterization of the same circuit efficiently. What does this mean?
+
+```
+opflow
+```
+
+```
+CircuitSampler
+```
+
+```
+statevector
+```
+
+```
+qasm
+```
+
+```
+coupling_map
+```
+
+```
+initial_layout
+```
+
+```
+QuantumInstance
+```
+
+```
+CircuitSampler
+```
+
+```
+result = CircuitSampler(QuantumInstance).convert(operator).eval()
+```
+
+```
+result = CircuitSampler(QuantumInstance).convert(operator).eval()
+```
+
+```
+CircuitSampler
+```
+
+```
+CircuitSampler
+```
+
+```
+ListOp
+```
+
+Original buggy code:
+opflow
+
+---CODE_BLOCK---
+
+CircuitSampler
+
+---CODE_BLOCK---
+
+statevector
+
+---CODE_BLOCK---
+
+qasm
+
+---CODE_BLOCK---
+
+coupling_map
+
+---CODE_BLOCK---
+
+initial_layout
+
+---CODE_BLOCK---
+
+QuantumInstance
+
+---CODE_BLOCK---
+
+CircuitSampler
+
+---CODE_BLOCK---
+
+result = CircuitSampler(QuantumInstance).convert(operator).eval()
+
+---CODE_BLOCK---
+
+result = CircuitSampler(QuantumInstance).convert(operator).eval()
+
+---CODE_BLOCK---
+
+CircuitSampler
+
+---CODE_BLOCK---
+
+CircuitSampler
+
+---CODE_BLOCK---
+
+ListOp
+
+Solution explanation:
+This post contains a few questions, so let's first recap the steps the circuit sampler goes through (you can also check out the source code here), before answering your questions. How the Circuit Sampler works Provided with a backend/quantum instance and an operator expression, the job of the circuit sampler is to execute all circuits in the operator expression and replace them by the circuit result. Imagine you have an operator expression consisting of an operator measurement composed with a circuit-state: If you then apply the circuit sampler (e.g. with a statevector simulator as backend) then is the same as but the circuit-state has been replaced with a vector-state. To do that, the circuit sampler goes through the following steps: Extract all circuits from the operator expression (and cache them) Transpile all circuits (and cache them) Execute all circuits with the provided quantum instance Replace the original circuit-states with the results Your questions So to answer your questions above: How do all these specifications for transpilation translate through the CircuitSampler and into the final output? Yes, the circuit sampler transpiles the circuits according to the specifications in the quantum instance. And how can I check which physical qubits the logical ones were mapped to during transpilation? There is no nice way to check what the transpiled circuits look like. Ideally you would just transpile the circuits manually with the quantum instance since the circuit sampler's purpose is only the execution. However, you could access the cache (but that's not officially supported behavior): I am confused by this sentence in the documentation: The CircuitSampler aggressively caches transpiled circuits to handle re-parameterization of the same circuit efficiently. We often have the use case where we want to execute the same circuit many times but with different parameter values in the qubit gates. If we only change the parameter values, we can transpile a "template" and only assign the values afterwards. Since transpilation is expensive, this can save a lot of time. As pointed out above in the circuit sampler steps, the circuits sampler caches circuits at different points and tries to re-use already transpiled circuits to avoid the expensive transpilation.
+
+```
+circuit = QuantumCircuit(1) circuit.h(0) hamiltonian = X + Z expr = StateFn(hamiltonian, is_measurement=True).compose(state) print(expr) # prints: # ComposedOp([ # OperatorMeasurement(1.0 * X # + 1.0 * Z), # CircuitStateFn( # ┌───┐ # q_0: ┤ H ├ # └───┘ # ) # ])
+```
+
+```
+circuit = QuantumCircuit(1) circuit.h(0) hamiltonian = X + Z expr = StateFn(hamiltonian, is_measurement=True).compose(state) print(expr) # prints: # ComposedOp([ # OperatorMeasurement(1.0 * X # + 1.0 * Z), # CircuitStateFn( # ┌───┐ # q_0: ┤ H ├ # └───┘ # ) # ])
+```
+
+```
+backend = Aer.get_backend('statevector_simulator') sampler = CircuitSampler(backend) sampled = sampler.convert(expr) print(sampled) # prints: # ComposedOp([ # OperatorMeasurement(1.0 * X # + 1.0 * Z), # VectorStateFn(Statevector([0.70710678+0.j, 0.70710678+0.j], dims=(2,))) # ])
+```
+
+```
+backend = Aer.get_backend('statevector_simulator') sampler = CircuitSampler(backend) sampled = sampler.convert(expr) print(sampled) # prints: # ComposedOp([ # OperatorMeasurement(1.0 * X # + 1.0 * Z), # VectorStateFn(Statevector([0.70710678+0.j, 0.70710678+0.j], dims=(2,))) # ])
+```
+
+```
+sampled
+```
+
+```
+expr
+```
+
+```
+last_cache = list(sampler._cached_ops.values())[-1] transpiled_circs = last_cache.transpiled_circ_cache
+```
+
+```
+last_cache = list(sampler._cached_ops.values())[-1] transpiled_circs = last_cache.transpiled_circ_cache
+```
+
+Original fixed code:
+circuit = QuantumCircuit(1) circuit.h(0) hamiltonian = X + Z expr = StateFn(hamiltonian, is_measurement=True).compose(state) print(expr) # prints: # ComposedOp([ # OperatorMeasurement(1.0 * X # + 1.0 * Z), # CircuitStateFn( # ┌───┐ # q_0: ┤ H ├ # └───┘ # ) # ])
+
+---CODE_BLOCK---
+
+circuit = QuantumCircuit(1) circuit.h(0) hamiltonian = X + Z expr = StateFn(hamiltonian, is_measurement=True).compose(state) print(expr) # prints: # ComposedOp([ # OperatorMeasurement(1.0 * X # + 1.0 * Z), # CircuitStateFn( # ┌───┐ # q_0: ┤ H ├ # └───┘ # ) # ])
+
+---CODE_BLOCK---
+
+backend = Aer.get_backend('statevector_simulator') sampler = CircuitSampler(backend) sampled = sampler.convert(expr) print(sampled) # prints: # ComposedOp([ # OperatorMeasurement(1.0 * X # + 1.0 * Z), # VectorStateFn(Statevector([0.70710678+0.j, 0.70710678+0.j], dims=(2,))) # ])
+
+---CODE_BLOCK---
+
+backend = Aer.get_backend('statevector_simulator') sampler = CircuitSampler(backend) sampled = sampler.convert(expr) print(sampled) # prints: # ComposedOp([ # OperatorMeasurement(1.0 * X # + 1.0 * Z), # VectorStateFn(Statevector([0.70710678+0.j, 0.70710678+0.j], dims=(2,))) # ])
+
+---CODE_BLOCK---
+
+sampled
+
+---CODE_BLOCK---
+
+expr
+
+---CODE_BLOCK---
+
+last_cache = list(sampler._cached_ops.values())[-1] transpiled_circs = last_cache.transpiled_circ_cache
+
+---CODE_BLOCK---
+
+last_cache = list(sampler._cached_ops.values())[-1] transpiled_circs = last_cache.transpiled_circ_cache

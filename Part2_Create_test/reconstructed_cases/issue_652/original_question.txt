@@ -1,0 +1,107 @@
+Title:
+Problem with Qiskit statevector simulator
+
+Category:
+
+
+Question:
+Title: Problem with Qiskit statevector simulator
+
+I encounter a sign problem in implementing the Qiskit Statevector simulator. Here is my code: I expect the inner product to be "-1" as the "rz(2*math.pi, 0)" is [[-1,0],[0,-1]]. However, the result turns out to be "+1". I checked the state vectors of "psi0" and "psi1". I have to be and to be There is an unexpected negative sign for the state vector "psi0". Does anyone know why this sign problem happens and how to address this "sign problem" in implementing the Qiskit Statevector simulator? Thanks a lot!
+
+```
+from qiskit_aer import AerSimulator, StatevectorSimulator from qiskit import QuantumCircuit, BasicAer, execute import numpy as np circuit = QuantumCircuit(1) circuit.save_statevector('psi0') circuit.rz(2*math.pi, 0) circuit.save_statevector('psi1') simulator = StatevectorSimulator() result = execute(circuit, simulator_aerlegacy).result() data = result.data() psi0 = data['psi0'] psi1 = data['psi1'] np.inner(psi0, psi1)
+```
+
+```
+from qiskit_aer import AerSimulator, StatevectorSimulator from qiskit import QuantumCircuit, BasicAer, execute import numpy as np circuit = QuantumCircuit(1) circuit.save_statevector('psi0') circuit.rz(2*math.pi, 0) circuit.save_statevector('psi1') simulator = StatevectorSimulator() result = execute(circuit, simulator_aerlegacy).result() data = result.data() psi0 = data['psi0'] psi1 = data['psi1'] np.inner(psi0, psi1)
+```
+
+```
+psi0
+```
+
+```
+psi0
+```
+
+```
+Statevector([-1.+1.2246468e-16j, -0.+0.0000000e+00j], dims=(2,))
+```
+
+```
+Statevector([-1.+1.2246468e-16j, -0.+0.0000000e+00j], dims=(2,))
+```
+
+```
+psi1
+```
+
+```
+psi1
+```
+
+```
+Statevector([-1.+1.2246468e-16j, -0.+0.0000000e+00j], dims=(2,)).
+```
+
+```
+Statevector([-1.+1.2246468e-16j, -0.+0.0000000e+00j], dims=(2,)).
+```
+
+Original buggy code:
+from qiskit_aer import AerSimulator, StatevectorSimulator from qiskit import QuantumCircuit, BasicAer, execute import numpy as np circuit = QuantumCircuit(1) circuit.save_statevector('psi0') circuit.rz(2*math.pi, 0) circuit.save_statevector('psi1') simulator = StatevectorSimulator() result = execute(circuit, simulator_aerlegacy).result() data = result.data() psi0 = data['psi0'] psi1 = data['psi1'] np.inner(psi0, psi1)
+
+---CODE_BLOCK---
+
+from qiskit_aer import AerSimulator, StatevectorSimulator from qiskit import QuantumCircuit, BasicAer, execute import numpy as np circuit = QuantumCircuit(1) circuit.save_statevector('psi0') circuit.rz(2*math.pi, 0) circuit.save_statevector('psi1') simulator = StatevectorSimulator() result = execute(circuit, simulator_aerlegacy).result() data = result.data() psi0 = data['psi0'] psi1 = data['psi1'] np.inner(psi0, psi1)
+
+---CODE_BLOCK---
+
+psi0
+
+---CODE_BLOCK---
+
+psi0
+
+---CODE_BLOCK---
+
+Statevector([-1.+1.2246468e-16j, -0.+0.0000000e+00j], dims=(2,))
+
+---CODE_BLOCK---
+
+Statevector([-1.+1.2246468e-16j, -0.+0.0000000e+00j], dims=(2,))
+
+---CODE_BLOCK---
+
+psi1
+
+---CODE_BLOCK---
+
+psi1
+
+---CODE_BLOCK---
+
+Statevector([-1.+1.2246468e-16j, -0.+0.0000000e+00j], dims=(2,)).
+
+---CODE_BLOCK---
+
+Statevector([-1.+1.2246468e-16j, -0.+0.0000000e+00j], dims=(2,)).
+
+Solution explanation:
+This is related to the transpiling of the circuit when it goes through the backend. Since global phase is non-physical, statevectors and unitary operators that differ only by a multiple of a scalar on the complex unit circle are considered equivalent, and thus the Statevector Simulator backend by default considers it both permissible and optimal to takes any "gates" that are just unit scalar multipliers it finds while transpiling anywhere in the circuit and puts them all as a global phase that is applied before all other actions. Thus, if the transpiler extracts a global phase from a gate or set of gates between psi0 and psi1, this global phase will, in the actual running of the simulator, already be applied before the point psi0 is saved. You can see what circuit is run post-transpile via the following code: And should get something along the lines of: The RZ gate is functionally and physically the identity matrix since it is equivalent to the identity matrix multiplied by -1, so the transpiler turned it into a global phase of $\pi$ (which is a multiplication by $e^{i \pi} = -1$) applied to the statevector from the beginning. If the RZ gate were, say, split up into two RZ gates each with a rotations of $\pi$, and then a barrier were placed between the two, the transpiler wouldn't extract the global phase and move it to the front, and you would get -1 as the final inner product answer, among other potential changes that could be made to either the circuit or the configuration to avoid this behavior.
+
+```
+job = execute(circuit, simulator) job._circuits[0].draw()
+```
+
+```
+job = execute(circuit, simulator) job._circuits[0].draw()
+```
+
+Original fixed code:
+job = execute(circuit, simulator) job._circuits[0].draw()
+
+---CODE_BLOCK---
+
+job = execute(circuit, simulator) job._circuits[0].draw()

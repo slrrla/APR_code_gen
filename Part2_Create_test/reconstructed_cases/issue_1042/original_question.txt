@@ -1,0 +1,83 @@
+Title:
+Molecular orbitals in Qiskit
+
+Category:
+
+
+Question:
+Title: Molecular orbitals in Qiskit
+
+During the same minute as asking this question, I also asked this at Matter Modeling SE. In Qiskit, each qubit corrrespond to one spin orbital. For example, the $\text{N}_2$ molecule have 10 molecular orbitals, which correspond to 20 spin orbitals for $\alpha$ and $\beta$ spins in basis set. In my opinion, this is the case because the for each atom contained in the molecule, we need to account for the orbitals included, which are , , for the nitrogen atom. However, in this case, how could one deal with the molecular orbitals when one is in the situation as choosing the active space for the molecule? Take the H2O molecule as an excample, according to the MO diagram here, I would like to choose the 3a1 & 1b1 orbital to be not in the active space. In this case, is the qiskit pakage (more specifically the PySCF driver) arrange the orbitals according to the MO orbitals so that I can just specify a list like [0,1,4,5] to be the active MO space assume that the organization is from down to up in this case?
+
+```
+sto-3g
+```
+
+```
+1s
+```
+
+```
+2s
+```
+
+```
+2p
+```
+
+Original buggy code:
+sto-3g
+
+---CODE_BLOCK---
+
+1s
+
+---CODE_BLOCK---
+
+2s
+
+---CODE_BLOCK---
+
+2p
+
+Solution explanation:
+The provided by Qiskit Nature allows you to specify a list of molecular orbital indices via its argument. As such, your example above should just work: The first two arguments are the number of active electrons and orbitals, respectively. In your case, the number of active electrons can simply be found by counting the electrons which are in your active orbitals (0 and 1). The number of active orbitals is simply the length of your list of indices. For more information please have a look at the documentation of the : https://qiskit.org/documentation/nature/stubs/qiskit_nature.transformers.ActiveSpaceTransformer.html
+
+```
+ActiveSpaceTransformer
+```
+
+```
+active_orbitals
+```
+
+```
+from qiskit_nature.transformers import ActiveSpaceTransformer transformer = ActiveSpaceTransformer(4, 4, [0, 1, 4, 5])
+```
+
+```
+from qiskit_nature.transformers import ActiveSpaceTransformer transformer = ActiveSpaceTransformer(4, 4, [0, 1, 4, 5])
+```
+
+```
+ActiveSpaceTransformer
+```
+
+Original fixed code:
+ActiveSpaceTransformer
+
+---CODE_BLOCK---
+
+active_orbitals
+
+---CODE_BLOCK---
+
+from qiskit_nature.transformers import ActiveSpaceTransformer transformer = ActiveSpaceTransformer(4, 4, [0, 1, 4, 5])
+
+---CODE_BLOCK---
+
+from qiskit_nature.transformers import ActiveSpaceTransformer transformer = ActiveSpaceTransformer(4, 4, [0, 1, 4, 5])
+
+---CODE_BLOCK---
+
+ActiveSpaceTransformer

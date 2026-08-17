@@ -1,0 +1,35 @@
+Title:
+Why did "job_manager" submit the same job twice and how to fix it?
+
+Category:
+
+
+Question:
+Title: Why did "job_manager" submit the same job twice and how to fix it?
+
+In order to avoid the problem posted in Why "job_manager" did not submit some of the jobs?, (the current issue is related but quite different, so I think it is more appropriate to ask separately), I divide the job to batches, with each batch having 75*5=375 circuits. Then I use ("item" below contains a list of 375 circuits) with the hope that "job_mamager" will submit the 5 jobs, each with 75 circuits. However, it turns out that the same job was submitted twice. See the screenshot below, where "L_5_vqe_qc_2" was submitted twice. Is this normal?
+
+```
+job_set = job_manager.run(item, backend=backend, name='L_5_vqe_qc' , shots = 8192 )
+```
+
+```
+job_set = job_manager.run(item, backend=backend, name='L_5_vqe_qc' , shots = 8192 )
+```
+
+Original buggy code:
+job_set = job_manager.run(item, backend=backend, name='L_5_vqe_qc' , shots = 8192 )
+
+---CODE_BLOCK---
+
+job_set = job_manager.run(item, backend=backend, name='L_5_vqe_qc' , shots = 8192 )
+
+Solution explanation:
+Job Manager submits the same job twice because there was a partial failure in the first submit. The latest Qiskit (0.23.2) has a fix that will cancel these phantom jobs earlier so they do not consume the job limit. Details: Submitting a job is actually a 2-step process: inform the server a job is to be submitted actually upload the data If Job Manager receives an error at step 1 (i.e. due to networking issues), it'd retry the step. However, sometimes the original request would actually make it to the server even though it gave an error. In such case you will see the same job twice in the dashboard, but the first instance will be stuck in and never processed (since step 2 was not performed). The server will eventually cancel the phantom job.
+
+```
+CREATING
+```
+
+Original fixed code:
+CREATING

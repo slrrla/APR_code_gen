@@ -1,0 +1,83 @@
+Title:
+Qiskit: Mismatch between run_config.parameter_binds and all circuit parameters
+
+Category:
+
+
+Question:
+Title: Qiskit: Mismatch between run_config.parameter_binds and all circuit parameters
+
+I am trying to run the following circuit: I want to pass parameters from two different lists, inp[0] and theta, each of length 2, like so: I get the following error: It does not seem to assign the parameters to the circuit?
+
+```
+from qiskit.circuit import ParameterVector, QuantumCircuit p = qiskit.circuit.ParameterVector('p', 2) th = qiskit.circuit.ParameterVector('th', 2) circuit = qiskit.circuit.QuantumCircuit(2) circuit.rx(p[0], 0) circuit.ry(p[1], 1) circuit.ry(th[1], 1) circuit.ry(th[0], 1) qc = transpile(circuit, backend)
+```
+
+```
+from qiskit.circuit import ParameterVector, QuantumCircuit p = qiskit.circuit.ParameterVector('p', 2) th = qiskit.circuit.ParameterVector('th', 2) circuit = qiskit.circuit.QuantumCircuit(2) circuit.rx(p[0], 0) circuit.ry(p[1], 1) circuit.ry(th[1], 1) circuit.ry(th[0], 1) qc = transpile(circuit, backend)
+```
+
+```
+bind_dict = {} j = 0 for key in qc.parameters: while j <= 1: #this is the number of inputs, at the moment we have two inputs bind_dict[key] = inp[0][j] j+=1 k = 0 bind_dict[key] = theta[k] qc.assign_parameters(bind_dict) qobj = assemble(qc, shots = 10)
+```
+
+```
+bind_dict = {} j = 0 for key in qc.parameters: while j <= 1: #this is the number of inputs, at the moment we have two inputs bind_dict[key] = inp[0][j] j+=1 k = 0 bind_dict[key] = theta[k] qc.assign_parameters(bind_dict) qobj = assemble(qc, shots = 10)
+```
+
+```
+Traceback (most recent call last): Input In [316] in <cell line: 1> qobj = assemble(qc, shots = 10) File /opt/conda/lib/python3.8/site-packages/qiskit/compiler/assembler.py:205 in assemble bound_experiments, run_config = _expand_parameters( File /opt/conda/lib/python3.8/site-packages/qiskit/compiler/assembler.py:596 in _expand_parameters raise QiskitError( QiskitError: 'Mismatch between run_config.parameter_binds and all circuit parameters. Parameter binds: [] Circuit parameters: [ParameterView([ParameterVectorElement(p[0]), ParameterVectorElement(p[1]), ParameterVectorElement(th[0]), ParameterVectorElement(th[1])])]' Use %tb to get the full traceback.
+```
+
+```
+Traceback (most recent call last): Input In [316] in <cell line: 1> qobj = assemble(qc, shots = 10) File /opt/conda/lib/python3.8/site-packages/qiskit/compiler/assembler.py:205 in assemble bound_experiments, run_config = _expand_parameters( File /opt/conda/lib/python3.8/site-packages/qiskit/compiler/assembler.py:596 in _expand_parameters raise QiskitError( QiskitError: 'Mismatch between run_config.parameter_binds and all circuit parameters. Parameter binds: [] Circuit parameters: [ParameterView([ParameterVectorElement(p[0]), ParameterVectorElement(p[1]), ParameterVectorElement(th[0]), ParameterVectorElement(th[1])])]' Use %tb to get the full traceback.
+```
+
+Original buggy code:
+from qiskit.circuit import ParameterVector, QuantumCircuit p = qiskit.circuit.ParameterVector('p', 2) th = qiskit.circuit.ParameterVector('th', 2) circuit = qiskit.circuit.QuantumCircuit(2) circuit.rx(p[0], 0) circuit.ry(p[1], 1) circuit.ry(th[1], 1) circuit.ry(th[0], 1) qc = transpile(circuit, backend)
+
+---CODE_BLOCK---
+
+from qiskit.circuit import ParameterVector, QuantumCircuit p = qiskit.circuit.ParameterVector('p', 2) th = qiskit.circuit.ParameterVector('th', 2) circuit = qiskit.circuit.QuantumCircuit(2) circuit.rx(p[0], 0) circuit.ry(p[1], 1) circuit.ry(th[1], 1) circuit.ry(th[0], 1) qc = transpile(circuit, backend)
+
+---CODE_BLOCK---
+
+bind_dict = {} j = 0 for key in qc.parameters: while j <= 1: #this is the number of inputs, at the moment we have two inputs bind_dict[key] = inp[0][j] j+=1 k = 0 bind_dict[key] = theta[k] qc.assign_parameters(bind_dict) qobj = assemble(qc, shots = 10)
+
+---CODE_BLOCK---
+
+bind_dict = {} j = 0 for key in qc.parameters: while j <= 1: #this is the number of inputs, at the moment we have two inputs bind_dict[key] = inp[0][j] j+=1 k = 0 bind_dict[key] = theta[k] qc.assign_parameters(bind_dict) qobj = assemble(qc, shots = 10)
+
+---CODE_BLOCK---
+
+Traceback (most recent call last): Input In [316] in <cell line: 1> qobj = assemble(qc, shots = 10) File /opt/conda/lib/python3.8/site-packages/qiskit/compiler/assembler.py:205 in assemble bound_experiments, run_config = _expand_parameters( File /opt/conda/lib/python3.8/site-packages/qiskit/compiler/assembler.py:596 in _expand_parameters raise QiskitError( QiskitError: 'Mismatch between run_config.parameter_binds and all circuit parameters. Parameter binds: [] Circuit parameters: [ParameterView([ParameterVectorElement(p[0]), ParameterVectorElement(p[1]), ParameterVectorElement(th[0]), ParameterVectorElement(th[1])])]' Use %tb to get the full traceback.
+
+---CODE_BLOCK---
+
+Traceback (most recent call last): Input In [316] in <cell line: 1> qobj = assemble(qc, shots = 10) File /opt/conda/lib/python3.8/site-packages/qiskit/compiler/assembler.py:205 in assemble bound_experiments, run_config = _expand_parameters( File /opt/conda/lib/python3.8/site-packages/qiskit/compiler/assembler.py:596 in _expand_parameters raise QiskitError( QiskitError: 'Mismatch between run_config.parameter_binds and all circuit parameters. Parameter binds: [] Circuit parameters: [ParameterView([ParameterVectorElement(p[0]), ParameterVectorElement(p[1]), ParameterVectorElement(th[0]), ParameterVectorElement(th[1])])]' Use %tb to get the full traceback.
+
+Solution explanation:
+By default, will return a copy of the circuit with the bound parameters. The circuit instance itself will not be modified. To modify it you will need to call it as follows:
+
+```
+QuantumCircuit.assign_parameters()
+```
+
+```
+qc.assign_parameters(bind_dict, inplace = True)
+```
+
+```
+qc.assign_parameters(bind_dict, inplace = True)
+```
+
+Original fixed code:
+QuantumCircuit.assign_parameters()
+
+---CODE_BLOCK---
+
+qc.assign_parameters(bind_dict, inplace = True)
+
+---CODE_BLOCK---
+
+qc.assign_parameters(bind_dict, inplace = True)

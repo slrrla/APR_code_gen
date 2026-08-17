@@ -1,0 +1,47 @@
+Title:
+Getting negative probabilities in the count result
+
+Category:
+Category:
+Circuit
+
+Why Stack Overflow Wins in This Category:
+In a circuit-level issue where the user seeks to interpret mitigation results, the Stack Overflow solution correctly uses Qiskit's mitigation API and offers the most accurate and supported method to convert quasi-probabilities into valid distributions. The AI’s suggestion is practical but not ideal for maintaining data integrity. Thus, Stack Overflow provides the scientifically correct and Qiskit-approved approach.
+
+Question:
+Title: Getting negative probabilities in the count result
+
+I am struggling with a very basic concept. What exactly is the negative probability means in count result? When I run a circuit without error mitigation and with error mitigation using a really great code from the question: How to save and retrieve results of m3_mitigator.cals_from_system API Should I take a modulus of the probability and ignore the negative sign? Thank you great and continuous help.
+
+```
+counts: {'110': 3, '101': 12, '100': 6, '010': 1, '000': 485, '011': 10, '111': 475, '001': 8} mitigated_counts: {'000': 0.4997268815983746, '001': 0.0018235803591897181, '010': -0.003462290103489802, '011': 0.003701377179569034, '100': 0.0016733138269399825, '101': 0.002538726788041519, '110': -0.0005898841059944805, '111': 0.49458829445736946}
+```
+
+```
+counts: {'110': 3, '101': 12, '100': 6, '010': 1, '000': 485, '011': 10, '111': 475, '001': 8} mitigated_counts: {'000': 0.4997268815983746, '001': 0.0018235803591897181, '010': -0.003462290103489802, '011': 0.003701377179569034, '100': 0.0016733138269399825, '101': 0.002538726788041519, '110': -0.0005898841059944805, '111': 0.49458829445736946}
+```
+
+Original buggy code:
+counts: {'110': 3, '101': 12, '100': 6, '010': 1, '000': 485, '011': 10, '111': 475, '001': 8} mitigated_counts: {'000': 0.4997268815983746, '001': 0.0018235803591897181, '010': -0.003462290103489802, '011': 0.003701377179569034, '100': 0.0016733138269399825, '101': 0.002538726788041519, '110': -0.0005898841059944805, '111': 0.49458829445736946}
+
+---CODE_BLOCK---
+
+counts: {'110': 3, '101': 12, '100': 6, '010': 1, '000': 485, '011': 10, '111': 475, '001': 8} mitigated_counts: {'000': 0.4997268815983746, '001': 0.0018235803591897181, '010': -0.003462290103489802, '011': 0.003701377179569034, '100': 0.0016733138269399825, '101': 0.002538726788041519, '110': -0.0005898841059944805, '111': 0.49458829445736946}
+
+Solution explanation:
+Here's an explanation on negative values you mentioned. Closest probability distribution The results of M3 mitigation are quasi-probabilities that nominally contain small negative values. This is suitable for use in computing corrected expectation values or sampling problems where one is interested in the highest probability bit-string. However, if one needs a true probability distribution then it is possible to convert from quasi-probabilites to the closest true probability distribution in L2-norm using: closest_probs = m3_quasi.nearest_probability_distribution() So, according to that guide, this code will probably do to convert to a true probability distribution :
+
+```
+mitigated_counts = m3_mitigator_loaded.apply_correction(counts, meas_mapping_loaded) probs = mitigated_counts.nearest_probability_distribution() print(probs)
+```
+
+```
+mitigated_counts = m3_mitigator_loaded.apply_correction(counts, meas_mapping_loaded) probs = mitigated_counts.nearest_probability_distribution() print(probs)
+```
+
+Original fixed code:
+mitigated_counts = m3_mitigator_loaded.apply_correction(counts, meas_mapping_loaded) probs = mitigated_counts.nearest_probability_distribution() print(probs)
+
+---CODE_BLOCK---
+
+mitigated_counts = m3_mitigator_loaded.apply_correction(counts, meas_mapping_loaded) probs = mitigated_counts.nearest_probability_distribution() print(probs)

@@ -1,0 +1,70 @@
+Title:
+Why is the order reversed on measurement?
+
+Category:
+Import / Measurement Convention
+
+Why Both Are Equally Good in This Category:
+In the "Import / Measurement Convention" category, correctness, clarity, and practical usability are key. Both solutions:
+
+Acknowledge the Qiskit convention.
+
+Provide the correct solution.
+
+Educate the user without introducing unnecessary complexity.
+
+The Stack Overflow response is concise and effective for experienced users, while the AI solution is ideal for beginners seeking full context.
+
+Question:
+Title: Why is the order reversed on measurement?
+
+Why is the order reversed on measurement? Got result: Total count for 00 and 11 are: {'011': 1000} But I'm expecting '110'.
+
+```
+from qiskit import( QuantumCircuit, execute, Aer) from qiskit.visualization import plot_histogram # Use Aer's qasm_simulator simulator = Aer.get_backend('qasm_simulator') # Create a Quantum Circuit acting on the q register circuit = QuantumCircuit(3, 3) # Add a X gate on qubit 0 circuit.x(0) # Add a CX (CNOT) gate on control qubit 0 and target qubit 1 circuit.cx(0, 1) circuit.barrier() # Map the quantum measurement to the classical bits circuit.measure([0,1,2], [0,1,2]) # Execute the circuit on the qasm simulator job = execute(circuit, simulator, shots=1000) # Grab results from the job result = job.result() # Returns counts counts = result.get_counts(circuit) print("\nTotal count:",counts) # Draw the circuit circuit.draw()
+```
+
+```
+from qiskit import( QuantumCircuit, execute, Aer) from qiskit.visualization import plot_histogram # Use Aer's qasm_simulator simulator = Aer.get_backend('qasm_simulator') # Create a Quantum Circuit acting on the q register circuit = QuantumCircuit(3, 3) # Add a X gate on qubit 0 circuit.x(0) # Add a CX (CNOT) gate on control qubit 0 and target qubit 1 circuit.cx(0, 1) circuit.barrier() # Map the quantum measurement to the classical bits circuit.measure([0,1,2], [0,1,2]) # Execute the circuit on the qasm simulator job = execute(circuit, simulator, shots=1000) # Grab results from the job result = job.result() # Returns counts counts = result.get_counts(circuit) print("\nTotal count:",counts) # Draw the circuit circuit.draw()
+```
+
+Original buggy code:
+from qiskit import( QuantumCircuit, execute, Aer) from qiskit.visualization import plot_histogram # Use Aer's qasm_simulator simulator = Aer.get_backend('qasm_simulator') # Create a Quantum Circuit acting on the q register circuit = QuantumCircuit(3, 3) # Add a X gate on qubit 0 circuit.x(0) # Add a CX (CNOT) gate on control qubit 0 and target qubit 1 circuit.cx(0, 1) circuit.barrier() # Map the quantum measurement to the classical bits circuit.measure([0,1,2], [0,1,2]) # Execute the circuit on the qasm simulator job = execute(circuit, simulator, shots=1000) # Grab results from the job result = job.result() # Returns counts counts = result.get_counts(circuit) print("\nTotal count:",counts) # Draw the circuit circuit.draw()
+
+---CODE_BLOCK---
+
+from qiskit import( QuantumCircuit, execute, Aer) from qiskit.visualization import plot_histogram # Use Aer's qasm_simulator simulator = Aer.get_backend('qasm_simulator') # Create a Quantum Circuit acting on the q register circuit = QuantumCircuit(3, 3) # Add a X gate on qubit 0 circuit.x(0) # Add a CX (CNOT) gate on control qubit 0 and target qubit 1 circuit.cx(0, 1) circuit.barrier() # Map the quantum measurement to the classical bits circuit.measure([0,1,2], [0,1,2]) # Execute the circuit on the qasm simulator job = execute(circuit, simulator, shots=1000) # Grab results from the job result = job.result() # Returns counts counts = result.get_counts(circuit) print("\nTotal count:",counts) # Draw the circuit circuit.draw()
+
+Solution explanation:
+I still run into this issue too. If you consider $|q0\rangle$ to be the most significant bit (MSB) you have to map it to the most significant classical bit as well, which is in your case a bit no. 2. Or you can flip your quatnum circuit upside down and then $|q0\rangle$ become the least significant bit (LSB) and the measurement will meet your expectation. A code is valid in case $|q0\rangle$ is LSB and in case $|q0\rangle$ is MSB. I think that the reason for this arrangement is simply a convention, so you can choose whether $|q0\rangle$ is MSB or LSB and set the measurement procedure accordingly.
+
+```
+circuit.measure([0,1,2], [0,1,2])
+```
+
+```
+circuit.measure([0,1,2], [0,1,2])
+```
+
+```
+circuit.measure([0,1,2], [2,1,0])
+```
+
+```
+circuit.measure([0,1,2], [2,1,0])
+```
+
+Original fixed code:
+circuit.measure([0,1,2], [0,1,2])
+
+---CODE_BLOCK---
+
+circuit.measure([0,1,2], [0,1,2])
+
+---CODE_BLOCK---
+
+circuit.measure([0,1,2], [2,1,0])
+
+---CODE_BLOCK---
+
+circuit.measure([0,1,2], [2,1,0])

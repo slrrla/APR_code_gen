@@ -1,0 +1,71 @@
+Title:
+How to construct a Hamiltonian containing Pauli string by qiskit?
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+In the category of constructing circuits and Hamiltonians, correctness and executability of code are critical. The Stack Overflow solution provides fully functional code using Qiskit’s intended syntax, while the AI-generated code fails due to syntax errors. Therefore, Stack Overflow is better because it directly addresses the user’s need for a working, verifiable Hamiltonian construction method.
+
+Question:
+Title: How to construct a Hamiltonian containing Pauli string by qiskit?
+
+There is a Hamiltonian I want to construct by a Python package, which is the following: $$ H = 5.9I + 0.21Z_0 - 6.12 Z_1 - 2.14(X_0X_1 + Y_0Y_1) + 9.6(I-Z_2) - 3.9(X_1X_2 + Y_1Y_2) $$ It is very easy for me to create this Hamiltonian by the Python package Projectq. That is: However, I want to do this by qiskit. Are there any command like in qiskit?
+
+```
+h = 5.9*QubitOperator('') + 0.21*QubitOperator('Z0') - 6.12*QubitOperator('Z1') - 2.14*(QubitOperator('X0 X1')+QubitOperator('Y0 Y1') )+ 9.6*(QubitOperator('')-QubitOperator('Z2')) - 3.9*(QubitOperator('X1 X2') + QubitOperator('Y1 Y2') )
+```
+
+```
+h = 5.9*QubitOperator('') + 0.21*QubitOperator('Z0') - 6.12*QubitOperator('Z1') - 2.14*(QubitOperator('X0 X1')+QubitOperator('Y0 Y1') )+ 9.6*(QubitOperator('')-QubitOperator('Z2')) - 3.9*(QubitOperator('X1 X2') + QubitOperator('Y1 Y2') )
+```
+
+```
+QubitOperator()
+```
+
+Original buggy code:
+h = 5.9*QubitOperator('') + 0.21*QubitOperator('Z0') - 6.12*QubitOperator('Z1') - 2.14*(QubitOperator('X0 X1')+QubitOperator('Y0 Y1') )+ 9.6*(QubitOperator('')-QubitOperator('Z2')) - 3.9*(QubitOperator('X1 X2') + QubitOperator('Y1 Y2') )
+
+---CODE_BLOCK---
+
+h = 5.9*QubitOperator('') + 0.21*QubitOperator('Z0') - 6.12*QubitOperator('Z1') - 2.14*(QubitOperator('X0 X1')+QubitOperator('Y0 Y1') )+ 9.6*(QubitOperator('')-QubitOperator('Z2')) - 3.9*(QubitOperator('X1 X2') + QubitOperator('Y1 Y2') )
+
+---CODE_BLOCK---
+
+QubitOperator()
+
+Solution explanation:
+You can do something like this: You can check your answer by printing out the matrix:
+
+```
+from qiskit.opflow import X, Y, Z, I H = 5.9*(I^I^I) + 0.21*(Z^I^I) - 6.12*(I^Z^I) - 2.14*(X^X^I) - 2.14*(Y^Y^I) + 9.6*(I^I^I) - 9.6*(I^I^Z) - 3.9*(I^X^X) - 3.9*(I^Y^Y)
+```
+
+```
+from qiskit.opflow import X, Y, Z, I H = 5.9*(I^I^I) + 0.21*(Z^I^I) - 6.12*(I^Z^I) - 2.14*(X^X^I) - 2.14*(Y^Y^I) + 9.6*(I^I^I) - 9.6*(I^I^Z) - 3.9*(I^X^X) - 3.9*(I^Y^Y)
+```
+
+```
+from qiskit.visualization.array import array_to_latex H_matrix = H.to_matrix() array_to_latex(H_matrix)
+```
+
+```
+from qiskit.visualization.array import array_to_latex H_matrix = H.to_matrix() array_to_latex(H_matrix)
+```
+
+Original fixed code:
+from qiskit.opflow import X, Y, Z, I H = 5.9*(I^I^I) + 0.21*(Z^I^I) - 6.12*(I^Z^I) - 2.14*(X^X^I) - 2.14*(Y^Y^I) + 9.6*(I^I^I) - 9.6*(I^I^Z) - 3.9*(I^X^X) - 3.9*(I^Y^Y)
+
+---CODE_BLOCK---
+
+from qiskit.opflow import X, Y, Z, I H = 5.9*(I^I^I) + 0.21*(Z^I^I) - 6.12*(I^Z^I) - 2.14*(X^X^I) - 2.14*(Y^Y^I) + 9.6*(I^I^I) - 9.6*(I^I^Z) - 3.9*(I^X^X) - 3.9*(I^Y^Y)
+
+---CODE_BLOCK---
+
+from qiskit.visualization.array import array_to_latex H_matrix = H.to_matrix() array_to_latex(H_matrix)
+
+---CODE_BLOCK---
+
+from qiskit.visualization.array import array_to_latex H_matrix = H.to_matrix() array_to_latex(H_matrix)

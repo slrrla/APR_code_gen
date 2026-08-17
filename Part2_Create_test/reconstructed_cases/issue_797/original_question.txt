@@ -1,0 +1,91 @@
+Title:
+Return only the measurements of a circuit
+
+Category:
+
+
+Question:
+Title: Return only the measurements of a circuit
+
+I have written the following program in jupyter: and the output is of the form : Is there any way that what I get as an output is the measurement only (e.g. '0111001100011110') without getting the times the measurement has appeared (: 1)?
+
+```
+from qiskit import * from qiskit import plot_histogram, matplotlib circuit = QuantumCircuit(16,16) #Making a circuit with 16 qubits qr = QuantumRegister(16) cr = ClassicalRegister(16) for i in range(16): circuit.h(i) circuit.measure(i,i) simulator = Aer.get_backend('qasm_simulator') result = execute(circuit, backend = simulator, shots = 200).result() counts = result.get_counts() print(counts)
+```
+
+```
+from qiskit import * from qiskit import plot_histogram, matplotlib circuit = QuantumCircuit(16,16) #Making a circuit with 16 qubits qr = QuantumRegister(16) cr = ClassicalRegister(16) for i in range(16): circuit.h(i) circuit.measure(i,i) simulator = Aer.get_backend('qasm_simulator') result = execute(circuit, backend = simulator, shots = 200).result() counts = result.get_counts() print(counts)
+```
+
+```
+{'0111001100011110': 1, '0101000101101001': 1, '1100010111000100': 1, '0111111110101110': 1,..., '0110110010010110': 1}
+```
+
+```
+{'0111001100011110': 1, '0101000101101001': 1, '1100010111000100': 1, '0111111110101110': 1,..., '0110110010010110': 1}
+```
+
+Original buggy code:
+from qiskit import * from qiskit import plot_histogram, matplotlib circuit = QuantumCircuit(16,16) #Making a circuit with 16 qubits qr = QuantumRegister(16) cr = ClassicalRegister(16) for i in range(16): circuit.h(i) circuit.measure(i,i) simulator = Aer.get_backend('qasm_simulator') result = execute(circuit, backend = simulator, shots = 200).result() counts = result.get_counts() print(counts)
+
+---CODE_BLOCK---
+
+from qiskit import * from qiskit import plot_histogram, matplotlib circuit = QuantumCircuit(16,16) #Making a circuit with 16 qubits qr = QuantumRegister(16) cr = ClassicalRegister(16) for i in range(16): circuit.h(i) circuit.measure(i,i) simulator = Aer.get_backend('qasm_simulator') result = execute(circuit, backend = simulator, shots = 200).result() counts = result.get_counts() print(counts)
+
+---CODE_BLOCK---
+
+{'0111001100011110': 1, '0101000101101001': 1, '1100010111000100': 1, '0111111110101110': 1,..., '0110110010010110': 1}
+
+---CODE_BLOCK---
+
+{'0111001100011110': 1, '0101000101101001': 1, '1100010111000100': 1, '0111111110101110': 1,..., '0110110010010110': 1}
+
+Solution explanation:
+You can take only the keys of the returned dictionary: If you want only one random key, you can just take the first one in the set: or store all the keys in a list and take a random one from here:
+
+```
+measurements = set(counts.keys()) print(measurements)
+```
+
+```
+measurements = set(counts.keys()) print(measurements)
+```
+
+```
+random_key = next(iter(a))
+```
+
+```
+random_key = next(iter(a))
+```
+
+```
+from random import randint measurements_list = list(measurements) random_key = measurement_list[randint(0, len(measurement_list)-1)]
+```
+
+```
+from random import randint measurements_list = list(measurements) random_key = measurement_list[randint(0, len(measurement_list)-1)]
+```
+
+Original fixed code:
+measurements = set(counts.keys()) print(measurements)
+
+---CODE_BLOCK---
+
+measurements = set(counts.keys()) print(measurements)
+
+---CODE_BLOCK---
+
+random_key = next(iter(a))
+
+---CODE_BLOCK---
+
+random_key = next(iter(a))
+
+---CODE_BLOCK---
+
+from random import randint measurements_list = list(measurements) random_key = measurement_list[randint(0, len(measurement_list)-1)]
+
+---CODE_BLOCK---
+
+from random import randint measurements_list = list(measurements) random_key = measurement_list[randint(0, len(measurement_list)-1)]

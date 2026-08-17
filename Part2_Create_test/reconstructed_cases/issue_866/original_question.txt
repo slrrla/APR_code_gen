@@ -1,0 +1,23 @@
+Title:
+Weird Grover's Algorithm Behavior
+
+Category:
+
+
+Question:
+Title: Weird Grover's Algorithm Behavior
+
+I am attempting to use Grover's to find elements in an array that satisfy a comparative query (=, <, >, etc). I am using Qiskit, and am using a qRAM to encode my array. I have experimented with several quantum comparators, all of which seem to be working well offline (i.e. they indeed produce 1 when the query is satisfied). I settled for the present in Qiskit. Things start getting weird once I inject my comparator into the oracle of my algorithm. For the array is $[7,6,5,4,3,2,1,0]$, the following happens when testing the query $< n$ for some predetermined $n$: The algorithm produces sensible results for $n \in \{0, 1, 2,3\}$. For $n = 4$, the algorithm doesn't produce any conclusive solutions. For $n \in \{5,6,7\}$, it produces answers the $\geq n$ instead! Analogous behavior was observed for $> n$. The algorithm works perfectly for the query $==n$. I have been debugging this for several days, and I can't seem to figure it out. I highly appreciate any kind of help. This is the high level design of my algorithm:
+
+```
+IntegerComparator
+```
+
+Original buggy code:
+IntegerComparator
+
+Solution explanation:
+I don't think it's an issue with the algorithm implementation (though I haven't checked the circuit in detail), but rather a typical behavior of Grover's algorithm. The algorithm analysis that tells you the number of iterations that need to be done based on the size of the search space $N$ and the number of solutions to your problem $M$ assumes that $M$ is much smaller than $N$. Once $M$ grows to be large enough, the algorithm starts to misbehave. In your case, $N = 8$, and when you set $n = 4$ for your query, you have $M = 4 = \frac{N}{2}$ solutions to the search problem. In this case the initial (pre-iteration) probability of obtaining a solution is $\frac{M}{N} = 0.5$, and each Grover's iteration leaves it unchanged, so effectively you're always drawing from a uniform distribution. When you set $n = 5$ or more, you have $M > \frac{N}{2}$, and your oracle which marks all elements that are less than $5$ differs from an oracle that marks all elements greater than or equal to $5$ only by a global phase of $-1$. Grover's algorithm is not sensitive to this global phase, so it amplifies the probability of the less probable group of outcomes - in this case the probability of getting a non-solution. You can read more about this in Nielsen and Chuang, section 6.1.4, as quoted in this answer.
+
+Original fixed code:
+I don't think it's an issue with the algorithm implementation (though I haven't checked the circuit in detail), but rather a typical behavior of Grover's algorithm. The algorithm analysis that tells you the number of iterations that need to be done based on the size of the search space $N$ and the number of solutions to your problem $M$ assumes that $M$ is much smaller than $N$. Once $M$ grows to be large enough, the algorithm starts to misbehave. In your case, $N = 8$, and when you set $n = 4$ for your query, you have $M = 4 = \frac{N}{2}$ solutions to the search problem. In this case the initial (pre-iteration) probability of obtaining a solution is $\frac{M}{N} = 0.5$, and each Grover's iteration leaves it unchanged, so effectively you're always drawing from a uniform distribution. When you set $n = 5$ or more, you have $M > \frac{N}{2}$, and your oracle which marks all elements that are less than $5$ differs from an oracle that marks all elements greater than or equal to $5$ only by a global phase of $-1$. Grover's algorithm is not sensitive to this global phase, so it amplifies the probability of the less probable group of outcomes - in this case the probability of getting a non-solution. You can read more about this in Nielsen and Chuang, section 6.1.4, as quoted in this answer.

@@ -1,0 +1,23 @@
+Title:
+Question about qiskit optimizer in Portfolio Optimization
+
+Category:
+
+
+Question:
+Title: Question about qiskit optimizer in Portfolio Optimization
+
+We tried running the Portfolio Optimization code using qiskit with the optimizer: . For 10 stocks, it ran fine. But for 21 stocks it hung up. Could anyone suggest why so?
+
+```
+Sequential Least Squares Programming optimizer
+```
+
+Original buggy code:
+Sequential Least Squares Programming optimizer
+
+Solution explanation:
+For 10 stocks it uses a less number of qubits than for the 21 stocks. Try to get the number of variables your model is using , by get_num_var , and then use the appropriate backend for it to run. There are many quantum simulators provided by IBM, ranging from 32 qubits to 5000 qubits.
+
+Original fixed code:
+For 10 stocks it uses a less number of qubits than for the 21 stocks. Try to get the number of variables your model is using , by get_num_var , and then use the appropriate backend for it to run. There are many quantum simulators provided by IBM, ranging from 32 qubits to 5000 qubits.

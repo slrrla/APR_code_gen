@@ -1,0 +1,23 @@
+Title:
+Phase Kickback - factoring Dirac representation
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Both Are Same in This Category:
+For a concept-heavy topic like controlled gate behavior, it's crucial to have both theoretical and computational clarity. The Stack Overflow answer is succinct and mathematically precise, while the AI-generated response supports understanding via verification code. Both reinforce the same fundamental quantum principle and are equally helpful.
+
+Question:
+Title: Phase Kickback - factoring Dirac representation
+
+In section 2.3 of the Qiskit textbook (Phase Kickback), there's an example where a controlled-T gate is applied to $|1+\rangle$. You're asked to attempt the same thing with $|0+\rangle$. I've done this by means of statevectors and successfully got the correct answer (that it has no effect): $$\text{Controlled-T}|0+\rangle$$ $$=\begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & e^{\frac{i\pi}{4}} \end{pmatrix}\times\frac{1}{\sqrt{2}} \begin{pmatrix}1\\1\\0\\0\\\end{pmatrix} = \frac{1}{\sqrt{2}}\begin{pmatrix}1\\1\\0\\0\\\end{pmatrix}$$ The textbook's example (using $|1+\rangle$) performs the calculation in Dirac representation - i.e. by factoring out the individual qubits. I decided to try the same thing with the above. Here's what I got: $$|0+\rangle = |0\rangle \otimes \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$$ $$=\frac{1}{\sqrt{2}}(|00\rangle + |01\rangle)$$ $$\text{Controlled-T}|0+\rangle =\frac{1}{\sqrt{2}}(|00\rangle + e^{\frac{i\pi}{4}}|01\rangle)$$ $$=|0\rangle \otimes\frac{1}{\sqrt{2}}(|0\rangle + e^{\frac{i\pi}{4}}|1\rangle)$$ When I then multiply that out to get the statevector, I get: $$\frac{1}{\sqrt(2)}\begin{pmatrix}1\\e^{\frac{i\pi}{4}}\\0\\0\\\end{pmatrix}$$ which is clearly different. What am I doing wrong with the algebraic approach?
+
+Original buggy code:
+In section 2.3 of the Qiskit textbook (Phase Kickback), there's an example where a controlled-T gate is applied to $|1+\rangle$. You're asked to attempt the same thing with $|0+\rangle$. I've done this by means of statevectors and successfully got the correct answer (that it has no effect): $$\text{Controlled-T}|0+\rangle$$ $$=\begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & e^{\frac{i\pi}{4}} \end{pmatrix}\times\frac{1}{\sqrt{2}} \begin{pmatrix}1\\1\\0\\0\\\end{pmatrix} = \frac{1}{\sqrt{2}}\begin{pmatrix}1\\1\\0\\0\\\end{pmatrix}$$ The textbook's example (using $|1+\rangle$) performs the calculation in Dirac representation - i.e. by factoring out the individual qubits. I decided to try the same thing with the above. Here's what I got: $$|0+\rangle = |0\rangle \otimes \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$$ $$=\frac{1}{\sqrt{2}}(|00\rangle + |01\rangle)$$ $$\text{Controlled-T}|0+\rangle =\frac{1}{\sqrt{2}}(|00\rangle + e^{\frac{i\pi}{4}}|01\rangle)$$ $$=|0\rangle \otimes\frac{1}{\sqrt{2}}(|0\rangle + e^{\frac{i\pi}{4}}|1\rangle)$$ When I then multiply that out to get the statevector, I get: $$\frac{1}{\sqrt(2)}\begin{pmatrix}1\\e^{\frac{i\pi}{4}}\\0\\0\\\end{pmatrix}$$ which is clearly different. What am I doing wrong with the algebraic approach?
+
+Solution explanation:
+$\textrm{Controlled-T} = |0\rangle\langle 0| \otimes I + |1\rangle\langle1| \otimes T$ Thus, if you apply this to the state $|\psi \rangle = |0\rangle \bigg( \dfrac{|0\rangle + |1\rangle}{\sqrt{2}} \bigg)$ you have: \begin{align} \textrm{Controlled-T} |\psi\rangle &= \bigg[|0\rangle\langle 0| \otimes I + |1\rangle\langle1| \otimes T \bigg] |0\rangle \bigg( \dfrac{|0\rangle + |1\rangle}{\sqrt{2}} \bigg) \\ &= \bigg[ |0\rangle\langle 0| \otimes I \bigg]|0\rangle \bigg( \dfrac{|0\rangle + |1\rangle}{\sqrt{2}} \bigg) + \bigg[ |1\rangle\langle1| \otimes T \bigg]|0\rangle \bigg( \dfrac{|0\rangle + |1\rangle}{\sqrt{2}} \bigg) \\ &= |0\rangle \bigg( \dfrac{|0\rangle + |1\rangle}{\sqrt{2}} \bigg) + 0 = |\psi\rangle \end{align} Thus nothing changed.
+
+Original fixed code:
+$\textrm{Controlled-T} = |0\rangle\langle 0| \otimes I + |1\rangle\langle1| \otimes T$ Thus, if you apply this to the state $|\psi \rangle = |0\rangle \bigg( \dfrac{|0\rangle + |1\rangle}{\sqrt{2}} \bigg)$ you have: \begin{align} \textrm{Controlled-T} |\psi\rangle &= \bigg[|0\rangle\langle 0| \otimes I + |1\rangle\langle1| \otimes T \bigg] |0\rangle \bigg( \dfrac{|0\rangle + |1\rangle}{\sqrt{2}} \bigg) \\ &= \bigg[ |0\rangle\langle 0| \otimes I \bigg]|0\rangle \bigg( \dfrac{|0\rangle + |1\rangle}{\sqrt{2}} \bigg) + \bigg[ |1\rangle\langle1| \otimes T \bigg]|0\rangle \bigg( \dfrac{|0\rangle + |1\rangle}{\sqrt{2}} \bigg) \\ &= |0\rangle \bigg( \dfrac{|0\rangle + |1\rangle}{\sqrt{2}} \bigg) + 0 = |\psi\rangle \end{align} Thus nothing changed.

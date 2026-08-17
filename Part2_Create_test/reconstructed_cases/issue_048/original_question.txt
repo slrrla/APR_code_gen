@@ -1,0 +1,159 @@
+Title:
+Qiskit Controlled S and Controlled T Gates
+
+Category:
+Category:
+Circuit
+
+Why Stack Overflow Wins in This Category:
+In the Circuit category, where exact gate behavior and unitary fidelity matter, Stack Overflow wins because:
+
+It shows how to construct true controlled gates using .control().
+
+It performs unitary equivalence checks using Operator().
+
+It acknowledges non-equivalence of approximations like crz(pi/4) with real CT gates.
+
+This makes it more robust for both theoretical correctness and practical circuit design.
+
+Question:
+Title: Qiskit Controlled S and Controlled T Gates
+
+I was implementing controlled S and T gates in qiskit and was wondering if there is any difference between using the and gates for this purpose. Qiskit doesn't seem to include explicit versions of these two gates. In terms of the unitary the gate seems closer to what one would want, I would assume. Are there any other consequences I should be aware of?
+
+```
+cu1
+```
+
+```
+crz
+```
+
+```
+circuit = qiskit.QuantumCircuit(2) # a) circuit.crz(theta=math.pi/2, control_qubit=0, target_qubit=1) # b) circuit.cu1(theta=math.pi/2, control_qubit=0, target_qubit=1)
+```
+
+```
+circuit = qiskit.QuantumCircuit(2) # a) circuit.crz(theta=math.pi/2, control_qubit=0, target_qubit=1) # b) circuit.cu1(theta=math.pi/2, control_qubit=0, target_qubit=1)
+```
+
+```
+cu1
+```
+
+Original buggy code:
+cu1
+
+---CODE_BLOCK---
+
+crz
+
+---CODE_BLOCK---
+
+circuit = qiskit.QuantumCircuit(2) # a) circuit.crz(theta=math.pi/2, control_qubit=0, target_qubit=1) # b) circuit.cu1(theta=math.pi/2, control_qubit=0, target_qubit=1)
+
+---CODE_BLOCK---
+
+circuit = qiskit.QuantumCircuit(2) # a) circuit.crz(theta=math.pi/2, control_qubit=0, target_qubit=1) # b) circuit.cu1(theta=math.pi/2, control_qubit=0, target_qubit=1)
+
+---CODE_BLOCK---
+
+cu1
+
+Solution explanation:
+In Qiskit you can get the controlled version of any gate with the method . For S and T, here is the example: If you want to compare these gates with or , you can use the class:
+
+```
+control
+```
+
+```
+from qiskit.circuit.library.standard_gates import SGate, TGate csgate = SGate().control(1) # the parameter is the amount of control points you want ctgate = TGate().control(1) circuit = QuantumCircuit(2) circuit.append(csgate, [0, 1]) circuit.append(ctgate, [0, 1]) print(circuit)
+```
+
+```
+from qiskit.circuit.library.standard_gates import SGate, TGate csgate = SGate().control(1) # the parameter is the amount of control points you want ctgate = TGate().control(1) circuit = QuantumCircuit(2) circuit.append(csgate, [0, 1]) circuit.append(ctgate, [0, 1]) print(circuit)
+```
+
+```
+q_0: ──■────■── ┌─┴─┐┌─┴─┐ q_1: ┤ S ├┤ T ├ └───┘└───┘
+```
+
+```
+q_0: ──■────■── ┌─┴─┐┌─┴─┐ q_1: ┤ S ├┤ T ├ └───┘└───┘
+```
+
+```
+cu1
+```
+
+```
+crz
+```
+
+```
+Operator
+```
+
+```
+from qiskit.circuit.library.standard_gates import CRZGate, CU1Gate from math import pi from qiskit.quantum_info import Operator print(Operator(CU1Gate(pi/2)) == Operator(csgate)) print(Operator(CRZGate(pi/4)) == Operator(ctgate))
+```
+
+```
+from qiskit.circuit.library.standard_gates import CRZGate, CU1Gate from math import pi from qiskit.quantum_info import Operator print(Operator(CU1Gate(pi/2)) == Operator(csgate)) print(Operator(CRZGate(pi/4)) == Operator(ctgate))
+```
+
+```
+True False
+```
+
+```
+True False
+```
+
+Original fixed code:
+control
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library.standard_gates import SGate, TGate csgate = SGate().control(1) # the parameter is the amount of control points you want ctgate = TGate().control(1) circuit = QuantumCircuit(2) circuit.append(csgate, [0, 1]) circuit.append(ctgate, [0, 1]) print(circuit)
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library.standard_gates import SGate, TGate csgate = SGate().control(1) # the parameter is the amount of control points you want ctgate = TGate().control(1) circuit = QuantumCircuit(2) circuit.append(csgate, [0, 1]) circuit.append(ctgate, [0, 1]) print(circuit)
+
+---CODE_BLOCK---
+
+q_0: ──■────■── ┌─┴─┐┌─┴─┐ q_1: ┤ S ├┤ T ├ └───┘└───┘
+
+---CODE_BLOCK---
+
+q_0: ──■────■── ┌─┴─┐┌─┴─┐ q_1: ┤ S ├┤ T ├ └───┘└───┘
+
+---CODE_BLOCK---
+
+cu1
+
+---CODE_BLOCK---
+
+crz
+
+---CODE_BLOCK---
+
+Operator
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library.standard_gates import CRZGate, CU1Gate from math import pi from qiskit.quantum_info import Operator print(Operator(CU1Gate(pi/2)) == Operator(csgate)) print(Operator(CRZGate(pi/4)) == Operator(ctgate))
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library.standard_gates import CRZGate, CU1Gate from math import pi from qiskit.quantum_info import Operator print(Operator(CU1Gate(pi/2)) == Operator(csgate)) print(Operator(CRZGate(pi/4)) == Operator(ctgate))
+
+---CODE_BLOCK---
+
+True False
+
+---CODE_BLOCK---
+
+True False

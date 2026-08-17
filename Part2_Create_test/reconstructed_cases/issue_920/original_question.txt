@@ -1,0 +1,51 @@
+Title:
+Intuition behind the construction of an ansatz circuit
+
+Category:
+
+
+Question:
+Title: Intuition behind the construction of an ansatz circuit
+
+I'm learning about the VQE algorithm. When I looked at the declaration in Qiskit I saw you need to pass an ansatz which prepares the state. I looked at some commonly used ansatz functions, e.g. of Qiskit, and I saw many of them use $R_y$ and $X$ gates. I was wondering why exactly was this structure chosen? What's the physical logic behind it that makes it so convenient to use for many different Hamiltonians? How can the structure of the Hamiltonian affect the construction of the ansatz? Thank you
+
+```
+EfficientSU2
+```
+
+Original buggy code:
+EfficientSU2
+
+Solution explanation:
+Interesting question! An ansatz circuit is a parameterized circuit, say $V(\theta)$ where $\theta$ are a set of parameters, used to prepare a trial state for your problem: $$ |\Psi(\theta)\rangle = V(\theta)|0\rangle $$ In a variational algorithm, such as VQE, the trial state encodes your solution and is iteratively updated until some termination criterion is met. $$ |\Psi(\theta_0)\rangle \rightarrow |\Psi(\theta_1)\rangle \rightarrow \dots \rightarrow |\Psi(\theta_n)\rangle $$ Therefore the first question you must ask when looking for an ansatz is: Can the trial state prepared by my ansatz circuit encode my solution? For example: Does your solution contain complex amplitudes? If yes, you need a circuit that contains complex amplitudes (such as ). If no, you could use one that has only real amplitudes (such as ). Apart from that, I think we can distinguish in two different categories of ansatz circuits: physically motivated ones and heuristic ones. Physically motivated ansatz circuits are based on some knowledge of the problem we want to solve. For example the UCCSD ansatz prepares a state where tuning the parameters turns excitations on and off. A potential drawback here is that the circuits can get massive! Go ahead and check out the size of a UCCSD ansatz. For the order of 10 parameters your circuit can already have 1000s of gates. That's not in reach of today's hardware and cannot be run meaningfully on an actual quantum computer. Heuristically motivated ansatz circuits, are essentially circuit that we tested and they turned out to work well. An interesting class are hardware efficient circuits (which usually are circuits with 1- and 2-qubit gates) which we can implement efficiently on hardware. also falls into this category. Then there are mixtures between these circuits. For instance, Qiskit's circuit prepares a trial wave function, that preserves the particle numbers of you solve a molecular ground state calculation and used a Jordan-Wigner mapping to get the qubit operator. This notebook, among other things, discusses this topic.
+
+```
+EfficientSU2
+```
+
+```
+RealAmplitudes
+```
+
+```
+EfficientSU2
+```
+
+```
+ExcitationPreserving
+```
+
+Original fixed code:
+EfficientSU2
+
+---CODE_BLOCK---
+
+RealAmplitudes
+
+---CODE_BLOCK---
+
+EfficientSU2
+
+---CODE_BLOCK---
+
+ExcitationPreserving

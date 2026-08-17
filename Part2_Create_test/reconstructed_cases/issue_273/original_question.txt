@@ -1,0 +1,95 @@
+Title:
+How to use Initial States in Qiskits QAOA?
+
+Category:
+Category:
+Version Compatibility / Deprecated API
+
+Why Stack Overflow Wins in This Category:
+The user's original code is written using the Aqua-era QAOA class, and the Stack Overflow answer matches that API, making the fix directly applicable. It also shows multiple working instantiations of initial_state, making it easier to experiment. Since version compatibility and class instantiation were the root issues, Stack Overflow's response solves the exact problem without requiring the user to change Qiskit versions or code paradigms.
+
+Question:
+Title: How to use Initial States in Qiskits QAOA?
+
+The class QAOA from qiskit: https://qiskit.org/documentation/stubs/qiskit.aqua.algorithms.QAOA.html has the parameter initial_state from the type InitialState. https://qiskit.org/documentation/apidoc/qiskit.aqua.components.initial_states.html#module-qiskit.aqua.components.initial_states But this doesnt work. Any Ideas?
+
+```
+class QAOA(operator=None, optimizer=None, p=1, initial_state=None, mixer=None, initial_point=None, gradient=None, expectation=None, include_custom=False, max_evals_grouped=1, aux_operators=None, callback=None, quantum_instance=None)
+```
+
+```
+class QAOA(operator=None, optimizer=None, p=1, initial_state=None, mixer=None, initial_point=None, gradient=None, expectation=None, include_custom=False, max_evals_grouped=1, aux_operators=None, callback=None, quantum_instance=None)
+```
+
+```
+qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = Zero, quantum_instance=Aer.get_backend("qasm_simulator")) results = qaoa_mes.run()
+```
+
+```
+qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = Zero, quantum_instance=Aer.get_backend("qasm_simulator")) results = qaoa_mes.run()
+```
+
+Original buggy code:
+class QAOA(operator=None, optimizer=None, p=1, initial_state=None, mixer=None, initial_point=None, gradient=None, expectation=None, include_custom=False, max_evals_grouped=1, aux_operators=None, callback=None, quantum_instance=None)
+
+---CODE_BLOCK---
+
+class QAOA(operator=None, optimizer=None, p=1, initial_state=None, mixer=None, initial_point=None, gradient=None, expectation=None, include_custom=False, max_evals_grouped=1, aux_operators=None, callback=None, quantum_instance=None)
+
+---CODE_BLOCK---
+
+qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = Zero, quantum_instance=Aer.get_backend("qasm_simulator")) results = qaoa_mes.run()
+
+---CODE_BLOCK---
+
+qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = Zero, quantum_instance=Aer.get_backend("qasm_simulator")) results = qaoa_mes.run()
+
+Solution explanation:
+You need to add the number of qubits for the initial state, this worked for me : You can also pass a list for the initial point, for example : You can even pass a circuit for the initial point, there : If you need something else feel free to ask ! :)
+
+```
+n_qubits = 2 #or whatever you want for your example qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = Zero(n_qubits), quantum_instance=Aer.get_backend("qasm_simulator"))
+```
+
+```
+n_qubits = 2 #or whatever you want for your example qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = Zero(n_qubits), quantum_instance=Aer.get_backend("qasm_simulator"))
+```
+
+```
+qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = [0.,0.], quantum_instance=Aer.get_backend("qasm_simulator"))
+```
+
+```
+qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = [0.,0.], quantum_instance=Aer.get_backend("qasm_simulator"))
+```
+
+```
+n_qubits = 2 initial = QuantumCircuit(n_qubits) #add any gate you want in the circuit, for example : initial.h(0) initial.cx(0,1) qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = initial, quantum_instance=Aer.get_backend("qasm_simulator"))
+```
+
+```
+n_qubits = 2 initial = QuantumCircuit(n_qubits) #add any gate you want in the circuit, for example : initial.h(0) initial.cx(0,1) qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = initial, quantum_instance=Aer.get_backend("qasm_simulator"))
+```
+
+Original fixed code:
+n_qubits = 2 #or whatever you want for your example qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = Zero(n_qubits), quantum_instance=Aer.get_backend("qasm_simulator"))
+
+---CODE_BLOCK---
+
+n_qubits = 2 #or whatever you want for your example qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = Zero(n_qubits), quantum_instance=Aer.get_backend("qasm_simulator"))
+
+---CODE_BLOCK---
+
+qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = [0.,0.], quantum_instance=Aer.get_backend("qasm_simulator"))
+
+---CODE_BLOCK---
+
+qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = [0.,0.], quantum_instance=Aer.get_backend("qasm_simulator"))
+
+---CODE_BLOCK---
+
+n_qubits = 2 initial = QuantumCircuit(n_qubits) #add any gate you want in the circuit, for example : initial.h(0) initial.cx(0,1) qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = initial, quantum_instance=Aer.get_backend("qasm_simulator"))
+
+---CODE_BLOCK---
+
+n_qubits = 2 initial = QuantumCircuit(n_qubits) #add any gate you want in the circuit, for example : initial.h(0) initial.cx(0,1) qaoa_mes = QAOA(H, p=p, optimizer=optimizer, initial_state = initial, quantum_instance=Aer.get_backend("qasm_simulator"))

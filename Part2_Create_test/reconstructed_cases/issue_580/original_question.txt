@@ -1,0 +1,83 @@
+Title:
+how to get the backend_status using qiskit?
+
+Category:
+
+
+Question:
+Title: how to get the backend_status using qiskit?
+
+I was preparing for the exam and I was confused about how to get job and backend status using qiskit, do we use for both of them?
+
+```
+Job_monitor
+```
+
+Original buggy code:
+Job_monitor
+
+Solution explanation:
+We use to get the status of a job ( instance) To get the status of an IBMQ backend, we use which returns a instance: Result of this code snippet should be some thing like:
+
+```
+Job_monitor
+```
+
+```
+IBMQJob
+```
+
+```
+IBMQBackend.status()
+```
+
+```
+BackendStatus
+```
+
+```
+from qiskit import IBMQ if IBMQ.active_account() is None: IBMQ.load_account() provider = IBMQ.get_provider(hub = 'ibm-q') backend = provider.get_backend('ibmq_quito') print('Status:') print(' Operational: ', backend.status().operational) print(' Pending jobs:', backend.status().pending_jobs) print(' Status message:', backend.status().status_msg)
+```
+
+```
+from qiskit import IBMQ if IBMQ.active_account() is None: IBMQ.load_account() provider = IBMQ.get_provider(hub = 'ibm-q') backend = provider.get_backend('ibmq_quito') print('Status:') print(' Operational: ', backend.status().operational) print(' Pending jobs:', backend.status().pending_jobs) print(' Status message:', backend.status().status_msg)
+```
+
+```
+Status: Operational: True Pending jobs: 108 Status message: active
+```
+
+```
+Status: Operational: True Pending jobs: 108 Status message: active
+```
+
+Original fixed code:
+Job_monitor
+
+---CODE_BLOCK---
+
+IBMQJob
+
+---CODE_BLOCK---
+
+IBMQBackend.status()
+
+---CODE_BLOCK---
+
+BackendStatus
+
+---CODE_BLOCK---
+
+from qiskit import IBMQ if IBMQ.active_account() is None: IBMQ.load_account() provider = IBMQ.get_provider(hub = 'ibm-q') backend = provider.get_backend('ibmq_quito') print('Status:') print(' Operational: ', backend.status().operational) print(' Pending jobs:', backend.status().pending_jobs) print(' Status message:', backend.status().status_msg)
+
+---CODE_BLOCK---
+
+from qiskit import IBMQ if IBMQ.active_account() is None: IBMQ.load_account() provider = IBMQ.get_provider(hub = 'ibm-q') backend = provider.get_backend('ibmq_quito') print('Status:') print(' Operational: ', backend.status().operational) print(' Pending jobs:', backend.status().pending_jobs) print(' Status message:', backend.status().status_msg)
+
+---CODE_BLOCK---
+
+Status: Operational: True Pending jobs: 108 Status message: active
+
+---CODE_BLOCK---
+
+Status: Operational: True Pending jobs: 108 Status message: active

@@ -1,0 +1,43 @@
+Title:
+Creating Ising Hamiltonian with Qiskit
+
+Category:
+
+
+Question:
+Title: Creating Ising Hamiltonian with Qiskit
+
+How to create Ising Hamiltonian and implement it with qiskit (the output should be in the form of ) for the following problem: $$ H = A \big(K - \sum_{i}^{N} t_i x_i \big)^2\\ x_i=\{0,1\}\\ t_i \in \mathbb{N}_{>0}\\ K\in \mathbb{N}\\ A \in \mathbb{R}_{>0}\\ $$ I want to choose any number of variables $x_i$, that the sum $\sum_{i}^{N} t_i x_i$ will equal exactly $K$.
+
+```
+WeightedPauliOperator
+```
+
+Original buggy code:
+WeightedPauliOperator
+
+Solution explanation:
+You can use Qiskit's new optimization module. This allows you to use to build your model: Offset: 4.5 Ising Hamiltonian: IIZ (-1+0j) IZI (-2+0j) ZII (-3+0j) IZZ (1+0j) ZIZ (1.5+0j) ZZI (3+0j) You can find some tutorials introducing the functionality here: https://qiskit.org/documentation/tutorials/optimization/index.html or here https://github.com/Qiskit/qiskit-tutorials/tree/master/tutorials/optimization
+
+```
+docplex
+```
+
+```
+# required imports from docplex.mp.model import Model from qiskit.optimization.problems import QuadraticProgram from qiskit.optimization.converters import QuadraticProgramToIsing # specify problem n = 3 a = 1.0 k = 2 t = range(1, n+1) # build model with docplex mdl = Model() x = [mdl.binary_var() for i in range(n)] objective = a*(k - mdl.sum(t[i]*x[i] for i in range(n)))**2 mdl.minimize(objective) # convert to Qiskit's quadratic program qp = QuadraticProgram() qp.from_docplex(mdl) # convert to Ising Hamiltonian qp2ising = QuadraticProgramToIsing() H, offset = qp2ising.encode(qp) print('Offset:', offset) print('Ising Hamiltonian:') print(H.print_details())
+```
+
+```
+# required imports from docplex.mp.model import Model from qiskit.optimization.problems import QuadraticProgram from qiskit.optimization.converters import QuadraticProgramToIsing # specify problem n = 3 a = 1.0 k = 2 t = range(1, n+1) # build model with docplex mdl = Model() x = [mdl.binary_var() for i in range(n)] objective = a*(k - mdl.sum(t[i]*x[i] for i in range(n)))**2 mdl.minimize(objective) # convert to Qiskit's quadratic program qp = QuadraticProgram() qp.from_docplex(mdl) # convert to Ising Hamiltonian qp2ising = QuadraticProgramToIsing() H, offset = qp2ising.encode(qp) print('Offset:', offset) print('Ising Hamiltonian:') print(H.print_details())
+```
+
+Original fixed code:
+docplex
+
+---CODE_BLOCK---
+
+# required imports from docplex.mp.model import Model from qiskit.optimization.problems import QuadraticProgram from qiskit.optimization.converters import QuadraticProgramToIsing # specify problem n = 3 a = 1.0 k = 2 t = range(1, n+1) # build model with docplex mdl = Model() x = [mdl.binary_var() for i in range(n)] objective = a*(k - mdl.sum(t[i]*x[i] for i in range(n)))**2 mdl.minimize(objective) # convert to Qiskit's quadratic program qp = QuadraticProgram() qp.from_docplex(mdl) # convert to Ising Hamiltonian qp2ising = QuadraticProgramToIsing() H, offset = qp2ising.encode(qp) print('Offset:', offset) print('Ising Hamiltonian:') print(H.print_details())
+
+---CODE_BLOCK---
+
+# required imports from docplex.mp.model import Model from qiskit.optimization.problems import QuadraticProgram from qiskit.optimization.converters import QuadraticProgramToIsing # specify problem n = 3 a = 1.0 k = 2 t = range(1, n+1) # build model with docplex mdl = Model() x = [mdl.binary_var() for i in range(n)] objective = a*(k - mdl.sum(t[i]*x[i] for i in range(n)))**2 mdl.minimize(objective) # convert to Qiskit's quadratic program qp = QuadraticProgram() qp.from_docplex(mdl) # convert to Ising Hamiltonian qp2ising = QuadraticProgramToIsing() H, offset = qp2ising.encode(qp) print('Offset:', offset) print('Ising Hamiltonian:') print(H.print_details())

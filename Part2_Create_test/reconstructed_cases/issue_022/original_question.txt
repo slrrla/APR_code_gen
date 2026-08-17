@@ -1,0 +1,43 @@
+Title:
+Qiskit unitary representation seems shifted
+
+Category:
+Category:
+Visualization / Drawing / Layout
+
+Why AI Wins in This Category:
+This category often involves users interpreting circuit outputs, matrix layouts, or simulation results. The AI solution includes runnable code, visual confirmation, and a clear explanation of endianness conventions — providing both conceptual understanding and practical demonstration, which is ideal for educational clarity.
+
+Question:
+Title: Qiskit unitary representation seems shifted
+
+I have implemented a simple CNOT gate using I was expecting a the result the matrix as in the following image (extracted from wikipedia): The results in the print are: If you pay attention, it seems the order of the qbits is reversed. I would like to know why this happens and if it's normal because it seems confusing at first glance. To be really clear: The matrix in the first image and the second (the result) should be the same.
+
+```
+qiskit
+```
+
+```
+from qiskit import * circuit = QuantumCircuit(2, 2) circuit.cx(0, 1) simulator = Aer.get_backend("unitary_simulator") result = execute(circuit, backend=simulator).result() unitary = result.get_unitary() print(circuit.draw()) print(unitary)
+```
+
+```
+from qiskit import * circuit = QuantumCircuit(2, 2) circuit.cx(0, 1) simulator = Aer.get_backend("unitary_simulator") result = execute(circuit, backend=simulator).result() unitary = result.get_unitary() print(circuit.draw()) print(unitary)
+```
+
+Original buggy code:
+qiskit
+
+---CODE_BLOCK---
+
+from qiskit import * circuit = QuantumCircuit(2, 2) circuit.cx(0, 1) simulator = Aer.get_backend("unitary_simulator") result = execute(circuit, backend=simulator).result() unitary = result.get_unitary() print(circuit.draw()) print(unitary)
+
+---CODE_BLOCK---
+
+from qiskit import * circuit = QuantumCircuit(2, 2) circuit.cx(0, 1) simulator = Aer.get_backend("unitary_simulator") result = execute(circuit, backend=simulator).result() unitary = result.get_unitary() print(circuit.draw()) print(unitary)
+
+Solution explanation:
+The first matrix is generally seen in books, as you consider computational basis in the order $|0\rangle$, $|1\rangle$, $|2\rangle$, $|3\rangle$ or in bitstrings $|00\rangle$, $|01\rangle$, $|10\rangle$, $|11\rangle$. So basically, you think as $| q_0, q_1\rangle$. This is called little-endian convention. But in Qiskit, they use the inverse, aka big-endian convention. And then you have to think that it is actually $| q_1, q_0\rangle$. And what you do is that you define $q_0$ as the control. So when $| q_1 = 1, q_0 = 0\rangle$ that is 1 in big-endian, $CNOT |10\rangle = | 10\rangle$, hence 3. Which explains your second row. And when $| q_1 = 1, q_0 = 1\rangle$ that is 3 in big-endian, $CNOT |11\rangle = | 01\rangle$, hence 1 and explaining why you get the last row. You can find the explanation about the CNOT in Qiskit here.
+
+Original fixed code:
+The first matrix is generally seen in books, as you consider computational basis in the order $|0\rangle$, $|1\rangle$, $|2\rangle$, $|3\rangle$ or in bitstrings $|00\rangle$, $|01\rangle$, $|10\rangle$, $|11\rangle$. So basically, you think as $| q_0, q_1\rangle$. This is called little-endian convention. But in Qiskit, they use the inverse, aka big-endian convention. And then you have to think that it is actually $| q_1, q_0\rangle$. And what you do is that you define $q_0$ as the control. So when $| q_1 = 1, q_0 = 0\rangle$ that is 1 in big-endian, $CNOT |10\rangle = | 10\rangle$, hence 3. Which explains your second row. And when $| q_1 = 1, q_0 = 1\rangle$ that is 3 in big-endian, $CNOT |11\rangle = | 01\rangle$, hence 1 and explaining why you get the last row. You can find the explanation about the CNOT in Qiskit here.

@@ -1,0 +1,163 @@
+Title:
+Qiskit state_fidelity not accepting my Density Matrices
+
+Category:
+
+
+Question:
+Title: Qiskit state_fidelity not accepting my Density Matrices
+
+I'm attempting to use qiskit's but keep getting the following error: QiskitError: 'Input quantum state is not a valid' In order to use this form I had already read the documentation to see that state1 and state2 must be either density matrices or statevectors. As a result I used the module to generate a density matrix for state1. For state2 I created the array using numpy importing numbers from state tomography. (Shown below) where comes from my single qubit tomography. Edit This matrix, despite now being created using the Density Matrix class, is still giving me the error that the Input quantum state is not valid. This leads me to believe that there is some property of density matrices that is not being fulfilled by this matrix. $$\begin{bmatrix} 0.502 & \tfrac{1}{2} + 0.02i \\ \tfrac{1}{2} - 0.02i & 0.498 \\ \end{bmatrix}$$ I can see it has trace=1, and I found the eigenvalues, using numpy, to be (array([ 1.00040384e+00+0.j, -4.03836916e-04+0.j]). I now assume that this second eigenvalue is the reason this is not working since Density matrices must be positive semidefinite. If this is the reason is not working, then how can this be avoided when using tomography on a single qubit? Edit 2.0 In the end I was able to leave , but I had to renormalize my expectation values in order to do so. (Pure State) Thank you all for your help!
+
+```
+state_fidelity(state1, state2, validate=True)
+```
+
+```
+qiskit.quantum_info
+```
+
+```
+#Turn this into a the density matrix state2_matrix = (1/2)*np.array([[1+expectation_vals[0], expectation_vals[1]-1j*expectation_vals[2]], [expectation_vals[1]+1j*expectation_vals[2], 1-expectation_vals[0]]]) state2=DensityMatrix(state2_matrix)
+```
+
+```
+#Turn this into a the density matrix state2_matrix = (1/2)*np.array([[1+expectation_vals[0], expectation_vals[1]-1j*expectation_vals[2]], [expectation_vals[1]+1j*expectation_vals[2], 1-expectation_vals[0]]]) state2=DensityMatrix(state2_matrix)
+```
+
+```
+expectation_vals=[0.004, 1.0, -0.04]
+```
+
+```
+state_fidelity()
+```
+
+```
+validate = True
+```
+
+Original buggy code:
+state_fidelity(state1, state2, validate=True)
+
+---CODE_BLOCK---
+
+qiskit.quantum_info
+
+---CODE_BLOCK---
+
+#Turn this into a the density matrix state2_matrix = (1/2)*np.array([[1+expectation_vals[0], expectation_vals[1]-1j*expectation_vals[2]], [expectation_vals[1]+1j*expectation_vals[2], 1-expectation_vals[0]]]) state2=DensityMatrix(state2_matrix)
+
+---CODE_BLOCK---
+
+#Turn this into a the density matrix state2_matrix = (1/2)*np.array([[1+expectation_vals[0], expectation_vals[1]-1j*expectation_vals[2]], [expectation_vals[1]+1j*expectation_vals[2], 1-expectation_vals[0]]]) state2=DensityMatrix(state2_matrix)
+
+---CODE_BLOCK---
+
+expectation_vals=[0.004, 1.0, -0.04]
+
+---CODE_BLOCK---
+
+state_fidelity()
+
+---CODE_BLOCK---
+
+validate = True
+
+Solution explanation:
+When , the first thing that the function does is checking whether both and are valid quantum states. In particular: if you pass a statevector $| \psi \rangle$, it checks that $\langle \psi | \psi \rangle = 1$ (unit norm) if you pass a density matrix $\rho$, it checks that $tr(\rho) = 1$ and that $\rho$ is positive semidefinite As you already figured out, in your case, is a instance but it's not positive semidefinite and that's why fails. However, you can compute the fidelity with no errors setting . Qiskit allows this because, in some cases like maybe yours, you may want to get the fidelity between objects that are not necessarily valid quantum states (e.g. affected by some form of noise). EDIT: also, note that and can simply be numpy arrays or Python lists. So, creating the from your array is an unnecessary step because the conversion occurs anyway inside the function.
+
+```
+validate=True
+```
+
+```
+state_fidelity
+```
+
+```
+state1
+```
+
+```
+state2
+```
+
+```
+state2
+```
+
+```
+DensityMatrix
+```
+
+```
+state_fidelity
+```
+
+```
+validate=False
+```
+
+```
+state1
+```
+
+```
+state2
+```
+
+```
+DensityMatrix
+```
+
+```
+state_fidelity
+```
+
+Original fixed code:
+validate=True
+
+---CODE_BLOCK---
+
+state_fidelity
+
+---CODE_BLOCK---
+
+state1
+
+---CODE_BLOCK---
+
+state2
+
+---CODE_BLOCK---
+
+state2
+
+---CODE_BLOCK---
+
+DensityMatrix
+
+---CODE_BLOCK---
+
+state_fidelity
+
+---CODE_BLOCK---
+
+validate=False
+
+---CODE_BLOCK---
+
+state1
+
+---CODE_BLOCK---
+
+state2
+
+---CODE_BLOCK---
+
+DensityMatrix
+
+---CODE_BLOCK---
+
+state_fidelity

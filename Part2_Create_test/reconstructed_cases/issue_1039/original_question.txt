@@ -1,0 +1,47 @@
+Title:
+Is there an easier way to predict output of 3-qubit circuit in Qiskit without using matrices?
+
+Category:
+
+
+Question:
+Title: Is there an easier way to predict output of 3-qubit circuit in Qiskit without using matrices?
+
+I'd like to know if there's an easy way to predict what is the output of the following code taken from this resource at question 13: This is intended to be a practice question for the IBM Qiskit Certification. This means that one should be able to solve it without having access to a computer, and without pen and paper. I'm able to find the solution on pen and paper, but the matrices are large $8$ by $8$. The correct answer is the following: I know that the output after the first three gates is the first Bell state, tensored with the $|0>$ state: $$\frac{|00\rangle + |11\rangle}{\sqrt{2}} |0\rangle$$ But applying the last CNOT gate is not something I can do in my head. Is there an easier way to find the solution without dealing with 8x8 matrices in one's head?
+
+```
+qc= QuantumCircuit(3) qc.h(0) qc.cx([0,0],[1,2]) backend_sv = BasicAer.get_backend('statevector_simulator') job = execute(qc, backend_sv,shots=1024) result = job.result() sv_ev = result.get_statevector(qc)
+```
+
+```
+qc= QuantumCircuit(3) qc.h(0) qc.cx([0,0],[1,2]) backend_sv = BasicAer.get_backend('statevector_simulator') job = execute(qc, backend_sv,shots=1024) result = job.result() sv_ev = result.get_statevector(qc)
+```
+
+```
+[0.70710678+0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0.70710678+0.j]
+```
+
+```
+[0.70710678+0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0.70710678+0.j]
+```
+
+Original buggy code:
+qc= QuantumCircuit(3) qc.h(0) qc.cx([0,0],[1,2]) backend_sv = BasicAer.get_backend('statevector_simulator') job = execute(qc, backend_sv,shots=1024) result = job.result() sv_ev = result.get_statevector(qc)
+
+---CODE_BLOCK---
+
+qc= QuantumCircuit(3) qc.h(0) qc.cx([0,0],[1,2]) backend_sv = BasicAer.get_backend('statevector_simulator') job = execute(qc, backend_sv,shots=1024) result = job.result() sv_ev = result.get_statevector(qc)
+
+---CODE_BLOCK---
+
+[0.70710678+0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0.70710678+0.j]
+
+---CODE_BLOCK---
+
+[0.70710678+0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0.70710678+0.j]
+
+Solution explanation:
+Not sure what "without pen and paper" is supposed to mean (kind of a silly demand for any type of test), but if you're looking for an relatively easy way to explain the circuit without relying on vectors a matrices, you could perhaps use ket notation: Three qubits start in one he all-zeros state: $$ |\psi\rangle = |000\rangle $$ Hadamard is applied to qubit $q_0$, placing it in an equal super position of $|0\rangle$ and $|1\rangle$: $$ |\psi\rangle =\frac{1}{\sqrt{2}} ( |000\rangle + |001\rangle)$$ This is followed by a CX gate with control in $q_0$ and targets on $q_1$ and $q_2$, so the first term of this superposition remains unchanged, second term of the superposition flips $q_1$ and $q_2$: $$ |\psi\rangle =\frac{1}{\sqrt{2}} ( |000\rangle + |111\rangle)$$ This corresponds to a statevector with a $\frac{1}{\sqrt{2}}$ factor in the first and last positions: $$ |\psi\rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \end{bmatrix}$$
+
+Original fixed code:
+Not sure what "without pen and paper" is supposed to mean (kind of a silly demand for any type of test), but if you're looking for an relatively easy way to explain the circuit without relying on vectors a matrices, you could perhaps use ket notation: Three qubits start in one he all-zeros state: $$ |\psi\rangle = |000\rangle $$ Hadamard is applied to qubit $q_0$, placing it in an equal super position of $|0\rangle$ and $|1\rangle$: $$ |\psi\rangle =\frac{1}{\sqrt{2}} ( |000\rangle + |001\rangle)$$ This is followed by a CX gate with control in $q_0$ and targets on $q_1$ and $q_2$, so the first term of this superposition remains unchanged, second term of the superposition flips $q_1$ and $q_2$: $$ |\psi\rangle =\frac{1}{\sqrt{2}} ( |000\rangle + |111\rangle)$$ This corresponds to a statevector with a $\frac{1}{\sqrt{2}}$ factor in the first and last positions: $$ |\psi\rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \end{bmatrix}$$

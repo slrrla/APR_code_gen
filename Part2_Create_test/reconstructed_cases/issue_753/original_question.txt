@@ -1,0 +1,75 @@
+Title:
+Grover, CCZ Gate on IBM Quantum Lab & unexpected outputs
+
+Category:
+
+
+Question:
+Title: Grover, CCZ Gate on IBM Quantum Lab & unexpected outputs
+
+Studying Grover on IBM lab using Qiskit. But the following code produces unexpected outputs. Note that `PhaseOracle produces 2 CCZ gates. Could anyone check (and explain) why are those unexpected counts/outputs(given at the bottom) being produced? Note that when I try a similar code with similar logical expressions with aqua (which is deprecated, the expected outputs are produced)
+
+```
+from qiskit import * from qiskit.tools.visualization import plot_histogram from qiskit.circuit.library import PhaseOracle from qiskit.algorithms import Grover, AmplificationProblem %matplotlib inline matplotlib inline oracle = PhaseOracle('((A & C) | (B & D)) & ~(C & D)') problem = AmplificationProblem(oracle=oracle, is_good_state=oracle.evaluate_bitstring) backend = Aer.get_backend('qasm_simulator') grover = Grover(quantum_instance=backend) result = grover.amplify(problem) print(result.circuit_results[0]) {'0111': 259, '1100': 244, '1101': 234, '0011': 287}
+```
+
+```
+from qiskit import * from qiskit.tools.visualization import plot_histogram from qiskit.circuit.library import PhaseOracle from qiskit.algorithms import Grover, AmplificationProblem %matplotlib inline matplotlib inline oracle = PhaseOracle('((A & C) | (B & D)) & ~(C & D)') problem = AmplificationProblem(oracle=oracle, is_good_state=oracle.evaluate_bitstring) backend = Aer.get_backend('qasm_simulator') grover = Grover(quantum_instance=backend) result = grover.amplify(problem) print(result.circuit_results[0]) {'0111': 259, '1100': 244, '1101': 234, '0011': 287}
+```
+
+Original buggy code:
+from qiskit import * from qiskit.tools.visualization import plot_histogram from qiskit.circuit.library import PhaseOracle from qiskit.algorithms import Grover, AmplificationProblem %matplotlib inline matplotlib inline oracle = PhaseOracle('((A & C) | (B & D)) & ~(C & D)') problem = AmplificationProblem(oracle=oracle, is_good_state=oracle.evaluate_bitstring) backend = Aer.get_backend('qasm_simulator') grover = Grover(quantum_instance=backend) result = grover.amplify(problem) print(result.circuit_results[0]) {'0111': 259, '1100': 244, '1101': 234, '0011': 287}
+
+---CODE_BLOCK---
+
+from qiskit import * from qiskit.tools.visualization import plot_histogram from qiskit.circuit.library import PhaseOracle from qiskit.algorithms import Grover, AmplificationProblem %matplotlib inline matplotlib inline oracle = PhaseOracle('((A & C) | (B & D)) & ~(C & D)') problem = AmplificationProblem(oracle=oracle, is_good_state=oracle.evaluate_bitstring) backend = Aer.get_backend('qasm_simulator') grover = Grover(quantum_instance=backend) result = grover.amplify(problem) print(result.circuit_results[0]) {'0111': 259, '1100': 244, '1101': 234, '0011': 287}
+
+Solution explanation:
+Qiskit Terra internally uses Tweedledum library to parse logical expressions. By default, Tweedledum sort the variables by the order of their appearance in the logical expressions. In your case, the order is then then and finally . So, you should interpret the output bitstring as . On the other hand, in Qiskit Aqua's the variables used to be sorted alphabetically.
+
+```
+A
+```
+
+```
+C
+```
+
+```
+B
+```
+
+```
+D
+```
+
+```
+DBCA
+```
+
+```
+LogicalExpressionOracle
+```
+
+Original fixed code:
+A
+
+---CODE_BLOCK---
+
+C
+
+---CODE_BLOCK---
+
+B
+
+---CODE_BLOCK---
+
+D
+
+---CODE_BLOCK---
+
+DBCA
+
+---CODE_BLOCK---
+
+LogicalExpressionOracle

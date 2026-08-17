@@ -1,0 +1,47 @@
+Title:
+How to install Qiskit with only Jupyter Notebook?
+
+Category:
+Category: Jupyter Kernel & Environment Mismatch  
+Winner: AI  
+Why AI Is Better: AI explains that the issue is caused by a mismatch between the terminal's Python environment and Jupyter's kernel. It provides a structured fix using `ipykernel`, which allows Jupyter to run Qiskit from the correct environment—offering a long-term and robust solution.  
+Why AI Performs Well in This Category: Because AI can diagnose kernel/environment mismatches and offer precise steps (like setting up new kernels), it consistently delivers more sustainable and reproducible fixes than one-off install tips.
+
+
+Question:
+Title: How to install Qiskit with only Jupyter Notebook?
+
+I want to use Jupyter Notebook without installing Anaconda on Ubuntu 18.04. I do not want to use any virtual environment. What can I do to install Qiskit? 
+
+ I have tried to install Qiskit with pip3. 
+
+ pip3 install qiskit
+
+ This shows the following message 
+
+ Segmentation fault (core dumped) 
+
+ But if I try to import qiskit from terminal with this shows no error. But when I try to import qiskit from Jupyter Notebook it says that 
+
+ there is not module named qiskit 
+
+ Any suggestion to solve this problem?
+
+```
+pip3 install qiskit
+```
+
+Original buggy code:
+pip3 install qiskit
+
+Solution explanation:
+You have different python installations. Install qiskit in the python installation pointed by jupyter. Use below from jupyter notebook 
+
+ !pip3 install qiskit
+
+```
+!pip3 install qiskit
+```
+
+Original fixed code:
+!pip3 install qiskit

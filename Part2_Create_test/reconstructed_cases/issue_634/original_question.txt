@@ -1,0 +1,75 @@
+Title:
+RX gate in series
+
+Category:
+
+
+Question:
+Title: RX gate in series
+
+I have to apply two Rx gates in series. How do I do it?
+
+```
+from qiskit import QuantumRegister, ClassicalRegister from qiskit import QuantumCircuit import numpy as np q = QuantumRegister(1,'q') circuit = QuantumCircuit(q,c) A=circuit.rx(np.pi/2,q[0]) circuit.rx(np.pi/2,A) circuit.measure(q,c) print(circuit)
+```
+
+```
+from qiskit import QuantumRegister, ClassicalRegister from qiskit import QuantumCircuit import numpy as np q = QuantumRegister(1,'q') circuit = QuantumCircuit(q,c) A=circuit.rx(np.pi/2,q[0]) circuit.rx(np.pi/2,A) circuit.measure(q,c) print(circuit)
+```
+
+Original buggy code:
+from qiskit import QuantumRegister, ClassicalRegister from qiskit import QuantumCircuit import numpy as np q = QuantumRegister(1,'q') circuit = QuantumCircuit(q,c) A=circuit.rx(np.pi/2,q[0]) circuit.rx(np.pi/2,A) circuit.measure(q,c) print(circuit)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumRegister, ClassicalRegister from qiskit import QuantumCircuit import numpy as np q = QuantumRegister(1,'q') circuit = QuantumCircuit(q,c) A=circuit.rx(np.pi/2,q[0]) circuit.rx(np.pi/2,A) circuit.measure(q,c) print(circuit)
+
+Solution explanation:
+There is no need to make the following assignment: and then pass as an argument to the next application. You simply run the method twice with the corresponding angles you want to apply:
+
+```
+A=circuit.rx(np.pi/2,q[0])
+```
+
+```
+A
+```
+
+```
+rx
+```
+
+```
+QuantumCircuit.rx()
+```
+
+```
+import numpy as np from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit q = QuantumRegister(1,'q') c = ClassicalRegister(1,'c') circuit = QuantumCircuit(q,c) circuit.rx(np.pi/2,q[0]) circuit.rx(np.pi/2,q[0]) circuit.measure(q,c) print(circuit)
+```
+
+```
+import numpy as np from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit q = QuantumRegister(1,'q') c = ClassicalRegister(1,'c') circuit = QuantumCircuit(q,c) circuit.rx(np.pi/2,q[0]) circuit.rx(np.pi/2,q[0]) circuit.measure(q,c) print(circuit)
+```
+
+Original fixed code:
+A=circuit.rx(np.pi/2,q[0])
+
+---CODE_BLOCK---
+
+A
+
+---CODE_BLOCK---
+
+rx
+
+---CODE_BLOCK---
+
+QuantumCircuit.rx()
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit q = QuantumRegister(1,'q') c = ClassicalRegister(1,'c') circuit = QuantumCircuit(q,c) circuit.rx(np.pi/2,q[0]) circuit.rx(np.pi/2,q[0]) circuit.measure(q,c) print(circuit)
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit q = QuantumRegister(1,'q') c = ClassicalRegister(1,'c') circuit = QuantumCircuit(q,c) circuit.rx(np.pi/2,q[0]) circuit.rx(np.pi/2,q[0]) circuit.measure(q,c) print(circuit)

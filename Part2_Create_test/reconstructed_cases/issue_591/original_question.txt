@@ -1,0 +1,203 @@
+Title:
+Qiskit's QFT not returning the expected state
+
+Category:
+
+
+Question:
+Title: Qiskit's QFT not returning the expected state
+
+I'm currently going through the lab problems for the Qiskit course here. I'm trying to finish lab set number 3 on QPE but I can't seem to get the desired output, even from the solution notebook. I'm trying to estimate the phase of the following unitary: $$ U_{\theta} = \left(\begin{matrix} 1&0\\ 0&e^{2\pi i \theta} \end{matrix}\right)$$ Specifically I want to implement a circuit for the case $\theta=0.5$ and I am using a 5 qubit estimation. Here is the code for the circuit: This is a fairly standard phase estimation circuit and I don't see why it's not working (especially since it's in the solution manual). The problem is when I run a simulator on this and get counts, the state $|{11111}\rangle$ shows up in half the instances and I can't for the life of me find out why (it should just be $|{00001}\rangle$ plus some small error). Here is the simulation code: Here's a screenshot of the circuit and then the simulation results: Notes: Running on Python v3.9.7 and Qiskit v0.29
+
+```
+import numpy as np from qiskit.circuit.library import QFT from qiskit import QuantumCircuit pi = np.pi def initialize_qubits(given_circuit, measurement_qubits, target_qubit): given_circuit.h(measurement_qubits) given_circuit.x(target_qubit) def unitary_operator_exponent(given_circuit, control_qubit, target_qubit, theta, exponent): given_circuit.cp(2*pi*theta*exponent, control_qubit, target_qubit) def apply_iqft(given_circuit, measurement_qubits, n): given_circuit.append(QFT(n).inverse(), measurement_qubits) def qpe_program(n, theta): qc = QuantumCircuit(n+1, n) # Initialize the qubits initialize_qubits(qc, range(n), n) qc.barrier() # Apply the controlled unitary operators in sequence for x in range(n): exponent = 2**(n-x-1) unitary_operator_exponent(qc, x, n, theta, exponent) qc.barrier() # Apply the inverse quantum Fourier transform apply_iqft(qc, range(n), n) # Measure all qubits qc.measure(range(n), range(n)) return qc n = 5; theta = 0.5 mycircuit = qpe_program(n, theta) mycircuit.draw(output='mpl')
+```
+
+```
+import numpy as np from qiskit.circuit.library import QFT from qiskit import QuantumCircuit pi = np.pi def initialize_qubits(given_circuit, measurement_qubits, target_qubit): given_circuit.h(measurement_qubits) given_circuit.x(target_qubit) def unitary_operator_exponent(given_circuit, control_qubit, target_qubit, theta, exponent): given_circuit.cp(2*pi*theta*exponent, control_qubit, target_qubit) def apply_iqft(given_circuit, measurement_qubits, n): given_circuit.append(QFT(n).inverse(), measurement_qubits) def qpe_program(n, theta): qc = QuantumCircuit(n+1, n) # Initialize the qubits initialize_qubits(qc, range(n), n) qc.barrier() # Apply the controlled unitary operators in sequence for x in range(n): exponent = 2**(n-x-1) unitary_operator_exponent(qc, x, n, theta, exponent) qc.barrier() # Apply the inverse quantum Fourier transform apply_iqft(qc, range(n), n) # Measure all qubits qc.measure(range(n), range(n)) return qc n = 5; theta = 0.5 mycircuit = qpe_program(n, theta) mycircuit.draw(output='mpl')
+```
+
+```
+from qiskit import Aer, execute simulator = Aer.get_backend('qasm_simulator') counts = execute(mycircuit, backend=simulator, shots=1000).result().get_counts(mycircuit) from qiskit.visualization import plot_histogram plot_histogram(counts)
+```
+
+```
+from qiskit import Aer, execute simulator = Aer.get_backend('qasm_simulator') counts = execute(mycircuit, backend=simulator, shots=1000).result().get_counts(mycircuit) from qiskit.visualization import plot_histogram plot_histogram(counts)
+```
+
+Original buggy code:
+import numpy as np from qiskit.circuit.library import QFT from qiskit import QuantumCircuit pi = np.pi def initialize_qubits(given_circuit, measurement_qubits, target_qubit): given_circuit.h(measurement_qubits) given_circuit.x(target_qubit) def unitary_operator_exponent(given_circuit, control_qubit, target_qubit, theta, exponent): given_circuit.cp(2*pi*theta*exponent, control_qubit, target_qubit) def apply_iqft(given_circuit, measurement_qubits, n): given_circuit.append(QFT(n).inverse(), measurement_qubits) def qpe_program(n, theta): qc = QuantumCircuit(n+1, n) # Initialize the qubits initialize_qubits(qc, range(n), n) qc.barrier() # Apply the controlled unitary operators in sequence for x in range(n): exponent = 2**(n-x-1) unitary_operator_exponent(qc, x, n, theta, exponent) qc.barrier() # Apply the inverse quantum Fourier transform apply_iqft(qc, range(n), n) # Measure all qubits qc.measure(range(n), range(n)) return qc n = 5; theta = 0.5 mycircuit = qpe_program(n, theta) mycircuit.draw(output='mpl')
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit.circuit.library import QFT from qiskit import QuantumCircuit pi = np.pi def initialize_qubits(given_circuit, measurement_qubits, target_qubit): given_circuit.h(measurement_qubits) given_circuit.x(target_qubit) def unitary_operator_exponent(given_circuit, control_qubit, target_qubit, theta, exponent): given_circuit.cp(2*pi*theta*exponent, control_qubit, target_qubit) def apply_iqft(given_circuit, measurement_qubits, n): given_circuit.append(QFT(n).inverse(), measurement_qubits) def qpe_program(n, theta): qc = QuantumCircuit(n+1, n) # Initialize the qubits initialize_qubits(qc, range(n), n) qc.barrier() # Apply the controlled unitary operators in sequence for x in range(n): exponent = 2**(n-x-1) unitary_operator_exponent(qc, x, n, theta, exponent) qc.barrier() # Apply the inverse quantum Fourier transform apply_iqft(qc, range(n), n) # Measure all qubits qc.measure(range(n), range(n)) return qc n = 5; theta = 0.5 mycircuit = qpe_program(n, theta) mycircuit.draw(output='mpl')
+
+---CODE_BLOCK---
+
+from qiskit import Aer, execute simulator = Aer.get_backend('qasm_simulator') counts = execute(mycircuit, backend=simulator, shots=1000).result().get_counts(mycircuit) from qiskit.visualization import plot_histogram plot_histogram(counts)
+
+---CODE_BLOCK---
+
+from qiskit import Aer, execute simulator = Aer.get_backend('qasm_simulator') counts = execute(mycircuit, backend=simulator, shots=1000).result().get_counts(mycircuit) from qiskit.visualization import plot_histogram plot_histogram(counts)
+
+Solution explanation:
+In order to understand why this does not work, let us consider the circuit you've created with two measurement qubits: Running this circuit using the following code: yielded for me: If we write down the state you create before applying the $IQFT$, you would get: $$\frac12|1\rangle\left(|00\rangle+|01\rangle-|10\rangle-|11\rangle\right)$$ Note that you have to consider that uses little-endian for ordering qubits. Thus, the state which would have been written in textbooks is: $$\frac12\left(|00\rangle-|01\rangle+|10\rangle-|11\rangle\right)|1\rangle$$ Now, why does this matter? If we write down the definition of the $QFT$ matrix on two qubits, according to the qiskit documentation, we get: $$QFT=\begin{pmatrix}1&1&1&1\\1&\mathrm{i}&-1&-\mathrm{i}\\1&-1&1&-1\\1&-\mathrm{i}&-1&\mathrm{i}\end{pmatrix}$$ In particular, the state we obtained using the little-endian version can be written as: $$\frac12|1\rangle\left(|00\rangle+|01\rangle-|10\rangle-|11\rangle\right)=\frac12|1\rangle\left[(1-\mathrm{i})QFT|01\rangle+(1+\mathrm{i})QFT|11\rangle\right]$$ while the texbook version can be written as: $$(QFT|10\rangle)|1\rangle$$ By linearity, you can now see that the state you get in the little-endian version is, omitting the qubit in state $|1\rangle$: $$\frac{1-\mathrm{i}}{2}|01\rangle+\frac{1+\mathrm{i}}{2}|11\rangle$$ which explains why we measured these states with equal probability. On the other hand, the textbook version yields the state $|10\rangle$. Thus, the problem is that you've created the big-endian/textbook version of the QPE algorithm, while works with little-endian. The fix one can immediately think of is to change the qubits on which you apply the controlled phase gates. In order to do this, yuo can just replace the line: with: which then yields the correct result. Another way to do it is to apply SWAP gates on the state before applying the $IQFT$. The neat property is that the $IQFT$ already has swap gates in its implementation. You can see this with: Thus, what we want to do is essentially not to apply these gates, so that the qubits ordering is reversed. You can do it using the argument of $QFT$: Thus, if you let the line unchanged but instead replace the line: by: Then you will get the right result, while applying less gates than with the other solution.
+
+```
+backend = Aer.get_backend('aer_simulator') job = execute(mycircuit, backend) result = job.result() result.get_counts()
+```
+
+```
+backend = Aer.get_backend('aer_simulator') job = execute(mycircuit, backend) result = job.result() result.get_counts()
+```
+
+```
+{'11': 499, '01': 525}
+```
+
+```
+{'11': 499, '01': 525}
+```
+
+```
+qiskit
+```
+
+```
+qiskit
+```
+
+```
+exponent = 2**(n-x-1)
+```
+
+```
+exponent = 2**(n-x-1)
+```
+
+```
+exponent = 2**x
+```
+
+```
+exponent = 2**x
+```
+
+```
+QFT(4, inverse=True).decompose().draw("mpl")
+```
+
+```
+QFT(4, inverse=True).decompose().draw("mpl")
+```
+
+```
+do_swaps
+```
+
+```
+QFT(4, inverse=True, do_swaps=False).decompose().draw("mpl")
+```
+
+```
+QFT(4, inverse=True, do_swaps=False).decompose().draw("mpl")
+```
+
+```
+exponent = 2 ** (n - x - 1)
+```
+
+```
+given_circuit.append(QFT(n).inverse(), measurement_qubits)
+```
+
+```
+given_circuit.append(QFT(n).inverse(), measurement_qubits)
+```
+
+```
+given_circuit.append(QFT(n, inverse=True, do_swaps=False), measurement_qubits)
+```
+
+```
+given_circuit.append(QFT(n, inverse=True, do_swaps=False), measurement_qubits)
+```
+
+Original fixed code:
+backend = Aer.get_backend('aer_simulator') job = execute(mycircuit, backend) result = job.result() result.get_counts()
+
+---CODE_BLOCK---
+
+backend = Aer.get_backend('aer_simulator') job = execute(mycircuit, backend) result = job.result() result.get_counts()
+
+---CODE_BLOCK---
+
+{'11': 499, '01': 525}
+
+---CODE_BLOCK---
+
+{'11': 499, '01': 525}
+
+---CODE_BLOCK---
+
+qiskit
+
+---CODE_BLOCK---
+
+qiskit
+
+---CODE_BLOCK---
+
+exponent = 2**(n-x-1)
+
+---CODE_BLOCK---
+
+exponent = 2**(n-x-1)
+
+---CODE_BLOCK---
+
+exponent = 2**x
+
+---CODE_BLOCK---
+
+exponent = 2**x
+
+---CODE_BLOCK---
+
+QFT(4, inverse=True).decompose().draw("mpl")
+
+---CODE_BLOCK---
+
+QFT(4, inverse=True).decompose().draw("mpl")
+
+---CODE_BLOCK---
+
+do_swaps
+
+---CODE_BLOCK---
+
+QFT(4, inverse=True, do_swaps=False).decompose().draw("mpl")
+
+---CODE_BLOCK---
+
+QFT(4, inverse=True, do_swaps=False).decompose().draw("mpl")
+
+---CODE_BLOCK---
+
+exponent = 2 ** (n - x - 1)
+
+---CODE_BLOCK---
+
+given_circuit.append(QFT(n).inverse(), measurement_qubits)
+
+---CODE_BLOCK---
+
+given_circuit.append(QFT(n).inverse(), measurement_qubits)
+
+---CODE_BLOCK---
+
+given_circuit.append(QFT(n, inverse=True, do_swaps=False), measurement_qubits)
+
+---CODE_BLOCK---
+
+given_circuit.append(QFT(n, inverse=True, do_swaps=False), measurement_qubits)

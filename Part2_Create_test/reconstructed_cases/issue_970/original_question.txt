@@ -1,0 +1,83 @@
+Title:
+Qiskit: Get number of iterations for Iterative Amplitude Estimation
+
+Category:
+
+
+Question:
+Title: Qiskit: Get number of iterations for Iterative Amplitude Estimation
+
+Trying to count the number of uses of my circuit $A$ in Grover iterate circuit $Q= -AS_0A^{\dagger}S_x$. However, Qiskit's amplitude estimation algorithms such as IAE or FAE accept only precision arguments like e.g. confidence of solution, error. I run them like this: How can I get the number of total iterations along with the result or at least get the circuit? Do I need to create my own implementations of the algorithms?
+
+```
+from qiskit.algorithms import IterativeAmplitudeEstimation, EstimationProblem, FasterAmplitudeEstimation problem = EstimationProblem(state_operation=myqc, objective_qubits=[0]) algorithm = IterativeAmplitudeEstimation(**kwargs) result = algorithm.estimate(problem) amplitude = result.estimation
+```
+
+```
+from qiskit.algorithms import IterativeAmplitudeEstimation, EstimationProblem, FasterAmplitudeEstimation problem = EstimationProblem(state_operation=myqc, objective_qubits=[0]) algorithm = IterativeAmplitudeEstimation(**kwargs) result = algorithm.estimate(problem) amplitude = result.estimation
+```
+
+Original buggy code:
+from qiskit.algorithms import IterativeAmplitudeEstimation, EstimationProblem, FasterAmplitudeEstimation problem = EstimationProblem(state_operation=myqc, objective_qubits=[0]) algorithm = IterativeAmplitudeEstimation(**kwargs) result = algorithm.estimate(problem) amplitude = result.estimation
+
+---CODE_BLOCK---
+
+from qiskit.algorithms import IterativeAmplitudeEstimation, EstimationProblem, FasterAmplitudeEstimation problem = EstimationProblem(state_operation=myqc, objective_qubits=[0]) algorithm = IterativeAmplitudeEstimation(**kwargs) result = algorithm.estimate(problem) amplitude = result.estimation
+
+Solution explanation:
+For the number of iterations, you can do For the circuit result, you can try to do , it might return a Statevector or counts dictionary. and to check the problem circuit. For any more related coding questions, you can just do something like to see its attribute, then check sources code or docs about these attributes for the explanation. hope it is something you are looking for
+
+```
+for i,j in enumerate(result_delta._estimate_intervals): print(i,np.mean(j))
+```
+
+```
+for i,j in enumerate(result_delta._estimate_intervals): print(i,np.mean(j))
+```
+
+```
+result.circuit_results
+```
+
+```
+algorithm.construct_circuit(problem)
+```
+
+```
+#recommend way to view the problem gate from qiskit import transpile transpile(ae_delta.construct_circuit(problem),basis_gates = ['ry', 'cx','ccx','x']).draw()
+```
+
+```
+#recommend way to view the problem gate from qiskit import transpile transpile(ae_delta.construct_circuit(problem),basis_gates = ['ry', 'cx','ccx','x']).draw()
+```
+
+```
+dir(result)
+```
+
+Original fixed code:
+for i,j in enumerate(result_delta._estimate_intervals): print(i,np.mean(j))
+
+---CODE_BLOCK---
+
+for i,j in enumerate(result_delta._estimate_intervals): print(i,np.mean(j))
+
+---CODE_BLOCK---
+
+result.circuit_results
+
+---CODE_BLOCK---
+
+algorithm.construct_circuit(problem)
+
+---CODE_BLOCK---
+
+#recommend way to view the problem gate from qiskit import transpile transpile(ae_delta.construct_circuit(problem),basis_gates = ['ry', 'cx','ccx','x']).draw()
+
+---CODE_BLOCK---
+
+#recommend way to view the problem gate from qiskit import transpile transpile(ae_delta.construct_circuit(problem),basis_gates = ['ry', 'cx','ccx','x']).draw()
+
+---CODE_BLOCK---
+
+dir(result)

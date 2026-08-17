@@ -1,0 +1,79 @@
+Title:
+Getting non-Clifford after performing several Clifford gates in qiskit
+
+Category:
+
+
+Question:
+Title: Getting non-Clifford after performing several Clifford gates in qiskit
+
+I'm trying to test Clifford gates in qiskit according to the table in Fault-tolerant SQ, page 101. I tried 4 Cliffords in the test $$-X/2 - X -X/2,Y/2,X/2 - -X/2,Y/2,-X/2$$ using the following code which gives me the output: next, I found the inverse of this: which gives me: and didn't find the corresponding Clifford in the table as I was expeccting. What do I do wrong in my calculations in qiskit?
+
+```
+import numpy as np from qiskit import QuantumCircuit, Aer, execute from qiskit.quantum_info import Operator qc = QuantumCircuit(1) qc.rx(-np.pi/2, 0) qc.rx(np.pi, 0) qc.rx(-np.pi/2, 0) qc.ry(np.pi/2, 0) qc.rx(np.pi/2, 0) # 4th qc.rx(-np.pi/2, 0) qc.ry(np.pi/2, 0) qc.rx(-np.pi/2, 0) print('Final matrix:', Operator(qc).data) qc.draw('mpl')
+```
+
+```
+import numpy as np from qiskit import QuantumCircuit, Aer, execute from qiskit.quantum_info import Operator qc = QuantumCircuit(1) qc.rx(-np.pi/2, 0) qc.rx(np.pi, 0) qc.rx(-np.pi/2, 0) qc.ry(np.pi/2, 0) qc.rx(np.pi/2, 0) # 4th qc.rx(-np.pi/2, 0) qc.ry(np.pi/2, 0) qc.rx(-np.pi/2, 0) print('Final matrix:', Operator(qc).data) qc.draw('mpl')
+```
+
+```
+Final matrix: [[ 0. +0.707j -0.707+0.j ] [ 0.707+0.j 0. -0.707j]]
+```
+
+```
+Final matrix: [[ 0. +0.707j -0.707+0.j ] [ 0.707+0.j 0. -0.707j]]
+```
+
+```
+np.linalg.inv(Operator(qc).data)
+```
+
+```
+np.linalg.inv(Operator(qc).data)
+```
+
+```
+[[ 0. -0.707j 0.707+0.j ] [-0.707+0.j -0. +0.707j]]
+```
+
+```
+[[ 0. -0.707j 0.707+0.j ] [-0.707+0.j -0. +0.707j]]
+```
+
+Original buggy code:
+import numpy as np from qiskit import QuantumCircuit, Aer, execute from qiskit.quantum_info import Operator qc = QuantumCircuit(1) qc.rx(-np.pi/2, 0) qc.rx(np.pi, 0) qc.rx(-np.pi/2, 0) qc.ry(np.pi/2, 0) qc.rx(np.pi/2, 0) # 4th qc.rx(-np.pi/2, 0) qc.ry(np.pi/2, 0) qc.rx(-np.pi/2, 0) print('Final matrix:', Operator(qc).data) qc.draw('mpl')
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumCircuit, Aer, execute from qiskit.quantum_info import Operator qc = QuantumCircuit(1) qc.rx(-np.pi/2, 0) qc.rx(np.pi, 0) qc.rx(-np.pi/2, 0) qc.ry(np.pi/2, 0) qc.rx(np.pi/2, 0) # 4th qc.rx(-np.pi/2, 0) qc.ry(np.pi/2, 0) qc.rx(-np.pi/2, 0) print('Final matrix:', Operator(qc).data) qc.draw('mpl')
+
+---CODE_BLOCK---
+
+Final matrix: [[ 0. +0.707j -0.707+0.j ] [ 0.707+0.j 0. -0.707j]]
+
+---CODE_BLOCK---
+
+Final matrix: [[ 0. +0.707j -0.707+0.j ] [ 0.707+0.j 0. -0.707j]]
+
+---CODE_BLOCK---
+
+np.linalg.inv(Operator(qc).data)
+
+---CODE_BLOCK---
+
+np.linalg.inv(Operator(qc).data)
+
+---CODE_BLOCK---
+
+[[ 0. -0.707j 0.707+0.j ] [-0.707+0.j -0. +0.707j]]
+
+---CODE_BLOCK---
+
+[[ 0. -0.707j 0.707+0.j ] [-0.707+0.j -0. +0.707j]]
+
+Solution explanation:
+The matrix $$ M = \frac{1}{\sqrt{2}}\begin{bmatrix}-i & 1\\-1 & i\end{bmatrix} $$ resembles $$ X/2 = \frac{1}{\sqrt{2}}\begin{bmatrix}1 & -i\\-i & 1\end{bmatrix}\tag1 $$ where we follow the notation $\pm X/2$ for the $\pm\frac{\pi}{2}$ rotation around the $X$ axis as used in the table B.6 on page 101 in Julian Kelly's PhD thesis. We can make the similarity more apparent by multiplying $M$ by the imaginary unit. We get $$ M\equiv iM = \frac{1}{\sqrt{2}}\begin{bmatrix}1 & i\\-i & -1\end{bmatrix}\tag2 $$ where $\equiv$ signifies equality up to global phase. Comparing $(1)$ and $(2)$, we see that up to global phase $M$ differs from $X/2$ only by the relative phase of $\pi$ between the two columns. We can introduce this phase difference using right-multiplication by $Z$. We have $$ \begin{align} M &\equiv (X/2) Z \\ M &\equiv (X/2) XY \\ M &\equiv (-X/2) Y \\ M &\equiv Y (X/2) \end{align} $$ where we used the identity $(X/2)X\equiv(-X/2)$ which follows from $X^2=I$ and $(-X/2)Y=Y(X/2)$ which follows from the fact that $X$ and $Y$ anti-commute. Finally, we find $M\equiv Y(X/2)$ in the third row of the "Hadamard-like" section of the table B.6 and conclude that $M$ is a Clifford gate as expected.
+
+Original fixed code:
+The matrix $$ M = \frac{1}{\sqrt{2}}\begin{bmatrix}-i & 1\\-1 & i\end{bmatrix} $$ resembles $$ X/2 = \frac{1}{\sqrt{2}}\begin{bmatrix}1 & -i\\-i & 1\end{bmatrix}\tag1 $$ where we follow the notation $\pm X/2$ for the $\pm\frac{\pi}{2}$ rotation around the $X$ axis as used in the table B.6 on page 101 in Julian Kelly's PhD thesis. We can make the similarity more apparent by multiplying $M$ by the imaginary unit. We get $$ M\equiv iM = \frac{1}{\sqrt{2}}\begin{bmatrix}1 & i\\-i & -1\end{bmatrix}\tag2 $$ where $\equiv$ signifies equality up to global phase. Comparing $(1)$ and $(2)$, we see that up to global phase $M$ differs from $X/2$ only by the relative phase of $\pi$ between the two columns. We can introduce this phase difference using right-multiplication by $Z$. We have $$ \begin{align} M &\equiv (X/2) Z \\ M &\equiv (X/2) XY \\ M &\equiv (-X/2) Y \\ M &\equiv Y (X/2) \end{align} $$ where we used the identity $(X/2)X\equiv(-X/2)$ which follows from $X^2=I$ and $(-X/2)Y=Y(X/2)$ which follows from the fact that $X$ and $Y$ anti-commute. Finally, we find $M\equiv Y(X/2)$ in the third row of the "Hadamard-like" section of the table B.6 and conclude that $M$ is a Clifford gate as expected.

@@ -1,0 +1,39 @@
+Title:
+Can't qc.reset() be control gate?
+
+Category:
+Category:
+Error / Debugging
+
+Why Stack Overflow Wins in This Category:
+In debugging contexts, the most important factor is conceptual correctness. The Stack Overflow answer resolves the confusion directly by distinguishing gates (unitary) from reset (non-unitary). This prevents further mistakes. The AI’s workaround, while creative, could mislead the user into thinking a controlled reset is physically meaningful when it isn’t. Therefore, Stack Overflow’s clarity makes it superior
+
+Question:
+Title: Can't qc.reset() be control gate?
+
+Thanks for looking. I am conducting the experiment on a simulator on a classical computer when I run I get error 'One or more instructions cannot be converted to a gate. "reset" is not a gate instruction' I want to initialize a bit to 0 in the gate.
+
+```
+from qiskit import QuantumCircuit, Aer, execute,QuantumRegister,ClassicalRegister num=4 def reset(n): a=QuantumRegister(n,'a') qc=QuantumCircuit(a) qc.reset(0) name="reset" qc_reset=qc.to_gate() reset_qubit=qc.control(1) return reset_qubit a=QuantumRegister(num,'a') qc.append(reset(num),range(num))`
+```
+
+```
+from qiskit import QuantumCircuit, Aer, execute,QuantumRegister,ClassicalRegister num=4 def reset(n): a=QuantumRegister(n,'a') qc=QuantumCircuit(a) qc.reset(0) name="reset" qc_reset=qc.to_gate() reset_qubit=qc.control(1) return reset_qubit a=QuantumRegister(num,'a') qc.append(reset(num),range(num))`
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit, Aer, execute,QuantumRegister,ClassicalRegister num=4 def reset(n): a=QuantumRegister(n,'a') qc=QuantumCircuit(a) qc.reset(0) name="reset" qc_reset=qc.to_gate() reset_qubit=qc.control(1) return reset_qubit a=QuantumRegister(num,'a') qc.append(reset(num),range(num))`
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, Aer, execute,QuantumRegister,ClassicalRegister num=4 def reset(n): a=QuantumRegister(n,'a') qc=QuantumCircuit(a) qc.reset(0) name="reset" qc_reset=qc.to_gate() reset_qubit=qc.control(1) return reset_qubit a=QuantumRegister(num,'a') qc.append(reset(num),range(num))`
+
+Solution explanation:
+The answer is no. cannot be a control gate, or any kind of gate for that matter. The reset operation in qiskit is a special instruction, not a gate (which is basically what the error message you received is trying to tell you). Reset is not reversible and all quantum gates are unitary by definition and therefore reversible. https://docs.quantum.ibm.com/api/qiskit/circuit_library#built-in-special-instructions Related to measurements, there is a Reset operation, which produces no classical data but instructs hardware to return the qubit to the ∣0⟩ state. This is assumed to happen incoherently and to collapse any entanglement. https://learning.quantum.ibm.com/tutorial/explore-gates-and-circuits-with-the-quantum-composer#section-non-unitary-operators-and-modifiers The reset operation returns a qubit to state ∣0⟩, irrespective of its state before the operation was applied. It is not a reversible operation.
+
+```
+qc.reset()
+```
+
+Original fixed code:
+qc.reset()

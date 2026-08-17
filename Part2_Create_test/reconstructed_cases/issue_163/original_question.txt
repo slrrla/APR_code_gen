@@ -1,0 +1,25 @@
+Title:
+How to apply gates on a subspace of a superposition of qubits?
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+This category demands precise handling of restricted subspaces in multi-qubit states. The Stack Overflow answer provides the correct formalism (two-level unitary) and shows how to implement it coherently. The AI solution overgeneralizes and applies 
+𝑈
+U too broadly, making it incorrect.
+
+Question:
+Title: How to apply gates on a subspace of a superposition of qubits?
+
+Let us say that I have the state $a|00\rangle + b|01\rangle + c|10\rangle + d|11\rangle$. I wish to apply a one-qubit unitary (a $2\times2$ matrix) U on the subspace spanned by $|01\rangle$ and $|10\rangle$ (equivalently $|00\rangle$ and $|01\rangle$, after shifting the basis). Essentially I want the state $|\psi\rangle = U(b|01\rangle + c|10\rangle) + a|00\rangle + d|11\rangle$. How can I do this in Qiskit? I tried methods which involve resetting the one qubit to 0 or involving mid-circuit measurements, but they seem to destroy the superposition of states, which I want to preserve.
+
+Original buggy code:
+Let us say that I have the state $a|00\rangle + b|01\rangle + c|10\rangle + d|11\rangle$. I wish to apply a one-qubit unitary (a $2\times2$ matrix) U on the subspace spanned by $|01\rangle$ and $|10\rangle$ (equivalently $|00\rangle$ and $|01\rangle$, after shifting the basis). Essentially I want the state $|\psi\rangle = U(b|01\rangle + c|10\rangle) + a|00\rangle + d|11\rangle$. How can I do this in Qiskit? I tried methods which involve resetting the one qubit to 0 or involving mid-circuit measurements, but they seem to destroy the superposition of states, which I want to preserve.
+
+Solution explanation:
+Assume that, $$U = \left( {\begin{array}{*{20}{c}} u_{00}&u_{01} \\ u_{10}&u_{11} \end{array}} \right)$$ Then, you want to apply the two-level unitary $$\left( {\begin{array}{*{20}{c}} 1&0&0&0 \\ 0&u_{00}&u_{01}&0 \\ 0&u_{10}&u_{11}&0 \\ 0&0&0&1 \end{array}} \right)$$ to the two-qubit state $a|00\rangle + b|01\rangle + c|10\rangle + d|11\rangle$. We can do that by following the procedure described in this answer Step 1: Permute the computational basis states such that $|01⟩$ becomes $|11⟩$ but $|10⟩$ remains $|10⟩$ Step 2: Apply a single qubit gate on the first qubit if the second qubit is 1 (here I'm assuming little endian bit ordering) Step 3: Undo step 1. The circuit for these three steps would be
+
+Original fixed code:
+Assume that, $$U = \left( {\begin{array}{*{20}{c}} u_{00}&u_{01} \\ u_{10}&u_{11} \end{array}} \right)$$ Then, you want to apply the two-level unitary $$\left( {\begin{array}{*{20}{c}} 1&0&0&0 \\ 0&u_{00}&u_{01}&0 \\ 0&u_{10}&u_{11}&0 \\ 0&0&0&1 \end{array}} \right)$$ to the two-qubit state $a|00\rangle + b|01\rangle + c|10\rangle + d|11\rangle$. We can do that by following the procedure described in this answer Step 1: Permute the computational basis states such that $|01⟩$ becomes $|11⟩$ but $|10⟩$ remains $|10⟩$ Step 2: Apply a single qubit gate on the first qubit if the second qubit is 1 (here I'm assuming little endian bit ordering) Step 3: Undo step 1. The circuit for these three steps would be

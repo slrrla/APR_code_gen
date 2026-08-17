@@ -1,0 +1,148 @@
+Title:
+Qiskit error: "Circuit circuit-91 contains invalid instructions"
+
+Category:
+Category:
+Circuit
+
+Why AI Wins in This Category:
+
+Offers both a technical explanation and working solutions (backend switch + transpilation).
+
+Provides clear, tested code ready for practical use.
+
+Acknowledges backend constraints and how to overcome them in multiple ways — critical for real-world quantum circuit deployment.
+
+Question:
+Title: Qiskit error: "Circuit circuit-91 contains invalid instructions"
+
+I am following the examples given in this qiskit article about the Grover's algorithm. I am trying to use this method that is given: With this code: I think the issue is with the method; it only occurs when I uncomment that line. The error I get is below: When I add this line of code to the end of the file: to get the output of the code, I end up with this error: Does anybody know why this is happening?
+
+```
+def diffuser(nqubits): qc = QuantumCircuit(nqubits) # Apply transformation |s> -> |00..0> (H-gates) for qubit in range(nqubits): qc.h(qubit) # Apply transformation |00..0> -> |11..1> (X-gates) for qubit in range(nqubits): qc.x(qubit) # Do multi-controlled-Z gate qc.h(nqubits-1) qc.mct(list(range(nqubits-1)), nqubits-1) # multi-controlled-toffoli qc.h(nqubits-1) # Apply transformation |11..1> -> |00..0> for qubit in range(nqubits): qc.x(qubit) # Apply transformation |00..0> -> |s> for qubit in range(nqubits): qc.h(qubit) # We will return the diffuser as a gate U_s = qc.to_gate() U_s.name = "U$_s$" return U_s
+```
+
+```
+def diffuser(nqubits): qc = QuantumCircuit(nqubits) # Apply transformation |s> -> |00..0> (H-gates) for qubit in range(nqubits): qc.h(qubit) # Apply transformation |00..0> -> |11..1> (X-gates) for qubit in range(nqubits): qc.x(qubit) # Do multi-controlled-Z gate qc.h(nqubits-1) qc.mct(list(range(nqubits-1)), nqubits-1) # multi-controlled-toffoli qc.h(nqubits-1) # Apply transformation |11..1> -> |00..0> for qubit in range(nqubits): qc.x(qubit) # Apply transformation |00..0> -> |s> for qubit in range(nqubits): qc.h(qubit) # We will return the diffuser as a gate U_s = qc.to_gate() U_s.name = "U$_s$" return U_s
+```
+
+```
+backend = Aer.get_backend("statevector_simulator") circuit = QuantumCircuit(psi) #psi is my quantumregister variable # code to implement Hadamard transform and oracle circuit.append(diffuser(3), psi) #psi is a 3 qubit quantum register job = backend.run(c)
+```
+
+```
+backend = Aer.get_backend("statevector_simulator") circuit = QuantumCircuit(psi) #psi is my quantumregister variable # code to implement Hadamard transform and oracle circuit.append(diffuser(3), psi) #psi is a 3 qubit quantum register job = backend.run(c)
+```
+
+```
+circuit.append()
+```
+
+```
+Simulation failed and returned the following error message: ERROR: [Experiment 0] Circuit circuit-91 contains invalid instructions {"gates": {U$_s$}} for "statevector" method.
+```
+
+```
+Simulation failed and returned the following error message: ERROR: [Experiment 0] Circuit circuit-91 contains invalid instructions {"gates": {U$_s$}} for "statevector" method.
+```
+
+```
+v = job.result().get_statevector(c).measure()[0]
+```
+
+```
+v = job.result().get_statevector(c).measure()[0]
+```
+
+```
+qiskit.exceptions.QiskitError: 'Data for experiment "circuit-91" could not be found.'
+```
+
+```
+qiskit.exceptions.QiskitError: 'Data for experiment "circuit-91" could not be found.'
+```
+
+Original buggy code:
+def diffuser(nqubits): qc = QuantumCircuit(nqubits) # Apply transformation |s> -> |00..0> (H-gates) for qubit in range(nqubits): qc.h(qubit) # Apply transformation |00..0> -> |11..1> (X-gates) for qubit in range(nqubits): qc.x(qubit) # Do multi-controlled-Z gate qc.h(nqubits-1) qc.mct(list(range(nqubits-1)), nqubits-1) # multi-controlled-toffoli qc.h(nqubits-1) # Apply transformation |11..1> -> |00..0> for qubit in range(nqubits): qc.x(qubit) # Apply transformation |00..0> -> |s> for qubit in range(nqubits): qc.h(qubit) # We will return the diffuser as a gate U_s = qc.to_gate() U_s.name = "U$_s$" return U_s
+
+---CODE_BLOCK---
+
+def diffuser(nqubits): qc = QuantumCircuit(nqubits) # Apply transformation |s> -> |00..0> (H-gates) for qubit in range(nqubits): qc.h(qubit) # Apply transformation |00..0> -> |11..1> (X-gates) for qubit in range(nqubits): qc.x(qubit) # Do multi-controlled-Z gate qc.h(nqubits-1) qc.mct(list(range(nqubits-1)), nqubits-1) # multi-controlled-toffoli qc.h(nqubits-1) # Apply transformation |11..1> -> |00..0> for qubit in range(nqubits): qc.x(qubit) # Apply transformation |00..0> -> |s> for qubit in range(nqubits): qc.h(qubit) # We will return the diffuser as a gate U_s = qc.to_gate() U_s.name = "U$_s$" return U_s
+
+---CODE_BLOCK---
+
+backend = Aer.get_backend("statevector_simulator") circuit = QuantumCircuit(psi) #psi is my quantumregister variable # code to implement Hadamard transform and oracle circuit.append(diffuser(3), psi) #psi is a 3 qubit quantum register job = backend.run(c)
+
+---CODE_BLOCK---
+
+backend = Aer.get_backend("statevector_simulator") circuit = QuantumCircuit(psi) #psi is my quantumregister variable # code to implement Hadamard transform and oracle circuit.append(diffuser(3), psi) #psi is a 3 qubit quantum register job = backend.run(c)
+
+---CODE_BLOCK---
+
+circuit.append()
+
+---CODE_BLOCK---
+
+Simulation failed and returned the following error message: ERROR: [Experiment 0] Circuit circuit-91 contains invalid instructions {"gates": {U$_s$}} for "statevector" method.
+
+---CODE_BLOCK---
+
+Simulation failed and returned the following error message: ERROR: [Experiment 0] Circuit circuit-91 contains invalid instructions {"gates": {U$_s$}} for "statevector" method.
+
+---CODE_BLOCK---
+
+v = job.result().get_statevector(c).measure()[0]
+
+---CODE_BLOCK---
+
+v = job.result().get_statevector(c).measure()[0]
+
+---CODE_BLOCK---
+
+qiskit.exceptions.QiskitError: 'Data for experiment "circuit-91" could not be found.'
+
+---CODE_BLOCK---
+
+qiskit.exceptions.QiskitError: 'Data for experiment "circuit-91" could not be found.'
+
+Solution explanation:
+You have to transpile your circuit before running it. So, before calling you have to add the following: This is because your circuit contains a composite gate (the one created by method) which in turn contains another composite gate () . Qiskit transpiler will unroll these gates to one- and two-qubit gates, then translate these gates into gates from the target backend's basis gate set.
+
+```
+backend.run
+```
+
+```
+from qiskit import transpile circuit = transpile(circuit, backend=backend)
+```
+
+```
+from qiskit import transpile circuit = transpile(circuit, backend=backend)
+```
+
+```
+diffuser()
+```
+
+```
+mct
+```
+
+Original fixed code:
+backend.run
+
+---CODE_BLOCK---
+
+from qiskit import transpile circuit = transpile(circuit, backend=backend)
+
+---CODE_BLOCK---
+
+from qiskit import transpile circuit = transpile(circuit, backend=backend)
+
+---CODE_BLOCK---
+
+diffuser()
+
+---CODE_BLOCK---
+
+mct

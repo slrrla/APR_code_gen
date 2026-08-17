@@ -1,0 +1,83 @@
+Title:
+Increasing the noise of an existing backend
+
+Category:
+Category:
+Error / Custom Noise Modeling
+
+Why AI Wins in This Category:
+In error modeling, immediate applicability matters more than theoretical mechanisms. The AI provides a clean, robust, and up-to-date approach for increasing simulated backend noise, while Stack Overflow highlights a yet-to-be-supported feature. The AI’s solution is production-ready and supports full error simulation use cases.
+
+Question:
+Title: Increasing the noise of an existing backend
+
+if I am trying to increase the noise of an existing backend provided from qiskit fakeprovider, which way would be best to approach it: Increasing readout error or increasing the quantum error or both? Thanks
+
+Original buggy code:
+if I am trying to increase the noise of an existing backend provided from qiskit fakeprovider, which way would be best to approach it: Increasing readout error or increasing the quantum error or both? Thanks
+
+Solution explanation:
+This is easiest to do with the providers (so things classes or ). To adjust the error rates for operations in the backend you can modify the target in place. So something like: would change the error rate of measurement on qubit 0 in the backend object to 50%. You can do this for any operation on the backend (the first key is the operation name and the second key is the qubits it operates on as a tuple). This will then be used when creating a noise model from the backend (either via or with qiskit-aer>=0.11.2). The method does this internally when qiskit-aer is installed but doing the inplace modification like this will not reflect in the noise model used for simulation currently (it is waiting on https://github.com/Qiskit/qiskit-terra/pull/8979 to fix this).
+
+```
+BackendV2
+```
+
+```
+FakeHanoiV2
+```
+
+```
+FakeAuckland
+```
+
+```
+from qiskit.providers.fake_provider import FakeHanoiV2 backend = FakeHanoiV2() backend.target['measure'][(0,)].error = 0.5
+```
+
+```
+from qiskit.providers.fake_provider import FakeHanoiV2 backend = FakeHanoiV2() backend.target['measure'][(0,)].error = 0.5
+```
+
+```
+AerSimulator.from_backend()
+```
+
+```
+NoiseModel.from_backend()
+```
+
+```
+.run()
+```
+
+Original fixed code:
+BackendV2
+
+---CODE_BLOCK---
+
+FakeHanoiV2
+
+---CODE_BLOCK---
+
+FakeAuckland
+
+---CODE_BLOCK---
+
+from qiskit.providers.fake_provider import FakeHanoiV2 backend = FakeHanoiV2() backend.target['measure'][(0,)].error = 0.5
+
+---CODE_BLOCK---
+
+from qiskit.providers.fake_provider import FakeHanoiV2 backend = FakeHanoiV2() backend.target['measure'][(0,)].error = 0.5
+
+---CODE_BLOCK---
+
+AerSimulator.from_backend()
+
+---CODE_BLOCK---
+
+NoiseModel.from_backend()
+
+---CODE_BLOCK---
+
+.run()

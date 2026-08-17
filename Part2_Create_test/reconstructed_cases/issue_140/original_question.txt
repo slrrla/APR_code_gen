@@ -1,0 +1,38 @@
+Title:
+Implementing QAOA Hamiltonian for MAX-3-SAT in Qiskit
+
+Category:
+Category:
+Circuit / Cost Hamiltonian Encoding for QAOA
+
+Why Stack Overflow Wins in This Category:
+In QAOA-related problems, especially involving non-trivial clause Hamiltonians like MAX-3-SAT, understanding how to exponentiate multi-qubit Pauli operators is critical. The Stack Overflow solution wins because:
+
+It properly frames the problem in terms of 
+𝑒
+−
+𝑖
+𝐻
+𝜃
+e
+−iHθ
+
+Clarifies the nature of commuting Pauli strings
+
+Indicates the correct decomposition strategy for custom clause Hamiltonians
+
+This empowers the user to build their own gate decomposition strategies for any MAX-k-SAT problem.
+
+Question:
+Title: Implementing QAOA Hamiltonian for MAX-3-SAT in Qiskit
+
+I have read about how QAOA is used to tackle the MAX-CUT problem and wanted to test my understanding by trying to implement some code to approximate the MAX-3-SAT problem. To do so, I considered the following clauses (as an example): $$\begin{align*}C_1 = x_2\lor \overline{x_3} \lor \overline{x_4}\\ C_2 = x_2\lor {x_3} \lor {x_4}\\ C_3 = \overline{x_1}\lor x_2 \lor {x_4} \\ C_4 = \overline{x_1}\lor \overline{x_2}\lor x_3\end{align*} \\ C_5 = x_1 \lor \overline{x_2} \lor \overline{x_4}$$ So we need to find true/false assignments for the variables such that the maximum number of clauses is satisfied. Following the reasoning presented in Qiskit Textbook (Appendix) I could find the cost for each clause ($C_1(x)=1-(1-x_2)x_3x_4$ for example) and using the substitution $x_i \rightarrow \frac{1}{2}(1-Z_i)$ where $Z_i$ is the Pauli $Z$-gate acting on qubit $i$ I found an expression for the clause Hamiltonians (for example $\hat{C_1}=Ι-\frac{1}{8}(Ι+Z_2)(Ι-Z_3)(Ι-Z_4)$). My question is, how can I implement this in Qiskit? In the case of MAX-CUT it was easy because up to a constant the Hamiltonian could be implemented with an $RZZ$-gate for each edge. I guess something similar could be done here if I expand each clause Hamiltonian yet I think I will need some kind of $RZZZ$-gates (if that's even a thing) and potentially a lot of gates.
+
+Original buggy code:
+I have read about how QAOA is used to tackle the MAX-CUT problem and wanted to test my understanding by trying to implement some code to approximate the MAX-3-SAT problem. To do so, I considered the following clauses (as an example): $$\begin{align*}C_1 = x_2\lor \overline{x_3} \lor \overline{x_4}\\ C_2 = x_2\lor {x_3} \lor {x_4}\\ C_3 = \overline{x_1}\lor x_2 \lor {x_4} \\ C_4 = \overline{x_1}\lor \overline{x_2}\lor x_3\end{align*} \\ C_5 = x_1 \lor \overline{x_2} \lor \overline{x_4}$$ So we need to find true/false assignments for the variables such that the maximum number of clauses is satisfied. Following the reasoning presented in Qiskit Textbook (Appendix) I could find the cost for each clause ($C_1(x)=1-(1-x_2)x_3x_4$ for example) and using the substitution $x_i \rightarrow \frac{1}{2}(1-Z_i)$ where $Z_i$ is the Pauli $Z$-gate acting on qubit $i$ I found an expression for the clause Hamiltonians (for example $\hat{C_1}=Ι-\frac{1}{8}(Ι+Z_2)(Ι-Z_3)(Ι-Z_4)$). My question is, how can I implement this in Qiskit? In the case of MAX-CUT it was easy because up to a constant the Hamiltonian could be implemented with an $RZZ$-gate for each edge. I guess something similar could be done here if I expand each clause Hamiltonian yet I think I will need some kind of $RZZZ$-gates (if that's even a thing) and potentially a lot of gates.
+
+Solution explanation:
+By "implementing the Hamiltonian", I assume that you mean implementing the unitary that results from the time evolution of the Hamiltonian, and not the Hamiltonian operator itself. So, that evolution operator will be: $e^{-i H \theta}$. Suppose that your Hamiltonian consists of several Pauli strings, which might act on more than 1 or 2 qubits. Just as an example, the below figure is an implementation of the Hamiltonian $H = Z_0 Z_1 Z_2$. Since each of the terms in the Hamiltonian commute with each other, you can implement the terms in any order you want, since the result will be the same, meaning that if $H = Z_0 Z_4 Z_5 + Z_1 Z_4$, then $U = e^{-i Z_0 Z_4 Z_5 \theta} e^{-i Z_1 Z_4 \theta} = e^{-i Z_1 Z_4 \theta} e^{-i Z_0 Z_4 Z_5 \theta} $ Here in pages 15-16 it is also explained in more detail.
+
+Original fixed code:
+By "implementing the Hamiltonian", I assume that you mean implementing the unitary that results from the time evolution of the Hamiltonian, and not the Hamiltonian operator itself. So, that evolution operator will be: $e^{-i H \theta}$. Suppose that your Hamiltonian consists of several Pauli strings, which might act on more than 1 or 2 qubits. Just as an example, the below figure is an implementation of the Hamiltonian $H = Z_0 Z_1 Z_2$. Since each of the terms in the Hamiltonian commute with each other, you can implement the terms in any order you want, since the result will be the same, meaning that if $H = Z_0 Z_4 Z_5 + Z_1 Z_4$, then $U = e^{-i Z_0 Z_4 Z_5 \theta} e^{-i Z_1 Z_4 \theta} = e^{-i Z_1 Z_4 \theta} e^{-i Z_0 Z_4 Z_5 \theta} $ Here in pages 15-16 it is also explained in more detail.

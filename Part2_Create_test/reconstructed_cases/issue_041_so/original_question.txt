@@ -1,0 +1,53 @@
+Title:
+Cannot import Aer from Qiskit 0.7
+
+Category:
+Category: Installation / Platform-Specific Import Error  
+Winner: Stack Overflow  
+Why Stack Overflow Is Better: Stack Overflow explains the deeper system-level issue (missing `openblas.dll`) that occurs on Windows with Anaconda. It offers precise tools (like Dependency Walker) and multiple OS-specific solutions. AI gives a general fix but overlooks the platform-specific root cause.
+Why Stack Overflow Performs Well in This Category: Community answers often capture platform nuances and edge-case scenarios—especially for system-dependent installations—which AI may generalize or omit.
+
+
+Question:
+Title: Cannot import Aer from Qiskit 0.7
+
+I've created a new virtual environment in Anaconda and installed several packages using pip (namely, numpy, scipy, matplotlib, qiskit and maybe 1 or 2 more). I open the interpreter and try to import a module from Qiskit: 
+
+ from qiskit import Aer
+
+ As a result, I get ImportError: cannot import name 'Aer' . My understanding is that either Qiskit 0.7 has a different structure of the modules (which I can't find anywhere in the documentation) or that my setup has a conflict of some kind. How do I know what is the case and how do I fix it? 
+
+ EDIT : I have a dual boot system. The problem occurs on Anaconda on Windows 10, but doesn't on Ubuntu 18 on pure Python. So I think it has to be something with Anaconda rather than Qiskit. 
+
+ EDIT 2 : I have made a clean install of Python (without Anaconda) and the problem persists.
+
+```
+from qiskit import Aer
+```
+
+Original buggy code:
+from qiskit import Aer
+
+Solution explanation:
+Indeed, I also had the same issue: Anaconda 3 on Windows 10. I later had the same trouble on a travis CI python 3.5 & 3.6 build image. For both I had a similar yet different solution. The similarity lies in the fact that it seems to be a missing dependency. The code of the simulator is written in C++ or maybe now Cython. So they use some dependencies that your setup may not have.
+This is where the similarities ended. What I did: 
+
+ Windows 10 / Anaconda setup 
+
+ With the dependency walker http://www.dependencywalker.com/ I found out that the openblas.dll is missing as dependency. Interesting enough, in the legacy simulators the qiskit team provided one. So you could either use this one or download (and rename!!) the latest binary from https://www.openblas.net/ . Then copy it into your site-packages folder. You know you got the right folder when you find files with the names of the sort 
+
+ unitary_controller_wrapper.pyd 
+ statevector_controller_wrapper.pyd 
+ qasm_controller_wrapper.pyd 
+
+ Travis CI python >= 3.5 image 
+
+ Here on the other hand I was at loss with the same explanation (and solution), so I looked into qiskit-aer repository's .travis setup. Here you see, that they use (among other directives)
+ - sudo apt-get -y install g++-7 
+ - sudo apt-get -y install libopenblas-dev 
+I used this for my travis CI and - voilà - it works. Prior to this I used ldd and readelf and it pointed to some library that I don't recall but it seems like qiskit-aer depends on it and you get this with a more recent version of g++. 
+
+ I wonder if this will solve your issues.
+
+Original fixed code:
+With the dependency walker http://www.dependencywalker.com/ I found out that the openblas.dll is missing as dependency. Interesting enough, in the legacy simulators the qiskit team provided one. So you could either use this one or download (and rename!!) the latest binary from https://www.openblas.net/ . Then copy it into your site-packages folder. You know you got the right folder when you find files with the names of the sort

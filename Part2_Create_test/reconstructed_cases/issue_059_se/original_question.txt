@@ -1,0 +1,77 @@
+Title:
+How to get partial probability from measurements in qiskit?
+
+Category:
+Category:
+Circuit
+
+Why Stack Overflow Wins in This Category:
+In the Circuit category, native functionality that simplifies measurement analysis is preferred.
+
+marginal_counts() is efficient, well-documented, and purpose-built.
+
+It avoids user error in bit-ordering and normalization.
+
+The AI solution is more instructive, but redundant given Qiskit’s built-in utilities.
+
+Question:
+Title: How to get partial probability from measurements in qiskit?
+
+Is there a way to get partial probability distributions on Qiskit? Consider a quantum circuit measuring all the qubits. I want to retrieve the probability of, say, outcome for 1st and 2nd qubits and for 3rd and 4th qubits (I am using little-endian notation like Qiskit). I was wondering whether Qiskit provides a way to do this.
+
+```
+01
+```
+
+```
+11
+```
+
+Original buggy code:
+01
+
+---CODE_BLOCK---
+
+11
+
+Solution explanation:
+You can use the function from to get the marginalized counts for the bits that you want (documentation link). Here is a basic implementation of that: Also you can take a look at a slightly different function here
+
+```
+marginal_counts()
+```
+
+```
+qiskit.result
+```
+
+```
+from qiskit import QuantumCircuit from qiskit_aer import AerSimulator from qiskit.result import marginal_counts qc = QuantumCircuit(4) qc.h([0, 1, 2, 3]) qc.cx(1,3) qc.cx(2, 0) qc.measure_all() sim = AerSimulator() job = sim.run(qc, shots=1024) res = job.result().get_counts() print(res) new_counts = marginal_counts(res, [0, 1]) # To get the counts from qubit 0 and 1 print(new_counts)
+```
+
+```
+from qiskit import QuantumCircuit from qiskit_aer import AerSimulator from qiskit.result import marginal_counts qc = QuantumCircuit(4) qc.h([0, 1, 2, 3]) qc.cx(1,3) qc.cx(2, 0) qc.measure_all() sim = AerSimulator() job = sim.run(qc, shots=1024) res = job.result().get_counts() print(res) new_counts = marginal_counts(res, [0, 1]) # To get the counts from qubit 0 and 1 print(new_counts)
+```
+
+```
+marginal_distribution
+```
+
+Original fixed code:
+marginal_counts()
+
+---CODE_BLOCK---
+
+qiskit.result
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit_aer import AerSimulator from qiskit.result import marginal_counts qc = QuantumCircuit(4) qc.h([0, 1, 2, 3]) qc.cx(1,3) qc.cx(2, 0) qc.measure_all() sim = AerSimulator() job = sim.run(qc, shots=1024) res = job.result().get_counts() print(res) new_counts = marginal_counts(res, [0, 1]) # To get the counts from qubit 0 and 1 print(new_counts)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit_aer import AerSimulator from qiskit.result import marginal_counts qc = QuantumCircuit(4) qc.h([0, 1, 2, 3]) qc.cx(1,3) qc.cx(2, 0) qc.measure_all() sim = AerSimulator() job = sim.run(qc, shots=1024) res = job.result().get_counts() print(res) new_counts = marginal_counts(res, [0, 1]) # To get the counts from qubit 0 and 1 print(new_counts)
+
+---CODE_BLOCK---
+
+marginal_distribution

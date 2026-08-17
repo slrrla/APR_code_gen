@@ -1,0 +1,63 @@
+Title:
+Qiskit statevector_simulator returns different results
+
+Category:
+Category:
+Import / Optimization Consistency
+
+Why AI Wins in This Category:
+For reproducibility issues in optimization-based quantum algorithms, clarity on randomness control, modern syntax, and code execution flow are crucial. The AI delivers all of these, making its answer significantly more helpful and future-proof than the Stack Overflow reply.
+
+Question:
+Title: Qiskit statevector_simulator returns different results
+
+I'm running VQE algorithm from qiskit aqua on and each time I run it I get different results which are sometimes correct and sometimes not. I'm not sure if I'm setting parameters correctly. Here is my code: The is generated with DOcplex module.
+
+```
+statevector_simulator
+```
+
+```
+qubitOp
+```
+
+```
+max_trials = 80 depth = 1 entanglement='full' slsqp = SLSQP(maxiter=max_trials) ry = RY(qubitOp.num_qubits, depth=depth, entanglement=entanglement) vqe = VQE(qubitOp, ry, slsqp) provider = IBMQ.get_provider('ibm-q') backend = Aer.get_backend('statevector_simulator') quantum_instance = QuantumInstance(backend,seed_simulator=seed, seed_transpiler=seed, optimization_level=0) res = vqe.run(quantum_instance)
+```
+
+```
+max_trials = 80 depth = 1 entanglement='full' slsqp = SLSQP(maxiter=max_trials) ry = RY(qubitOp.num_qubits, depth=depth, entanglement=entanglement) vqe = VQE(qubitOp, ry, slsqp) provider = IBMQ.get_provider('ibm-q') backend = Aer.get_backend('statevector_simulator') quantum_instance = QuantumInstance(backend,seed_simulator=seed, seed_transpiler=seed, optimization_level=0) res = vqe.run(quantum_instance)
+```
+
+Original buggy code:
+statevector_simulator
+
+---CODE_BLOCK---
+
+qubitOp
+
+---CODE_BLOCK---
+
+max_trials = 80 depth = 1 entanglement='full' slsqp = SLSQP(maxiter=max_trials) ry = RY(qubitOp.num_qubits, depth=depth, entanglement=entanglement) vqe = VQE(qubitOp, ry, slsqp) provider = IBMQ.get_provider('ibm-q') backend = Aer.get_backend('statevector_simulator') quantum_instance = QuantumInstance(backend,seed_simulator=seed, seed_transpiler=seed, optimization_level=0) res = vqe.run(quantum_instance)
+
+---CODE_BLOCK---
+
+max_trials = 80 depth = 1 entanglement='full' slsqp = SLSQP(maxiter=max_trials) ry = RY(qubitOp.num_qubits, depth=depth, entanglement=entanglement) vqe = VQE(qubitOp, ry, slsqp) provider = IBMQ.get_provider('ibm-q') backend = Aer.get_backend('statevector_simulator') quantum_instance = QuantumInstance(backend,seed_simulator=seed, seed_transpiler=seed, optimization_level=0) res = vqe.run(quantum_instance)
+
+Solution explanation:
+VQE has an initial_point parameter, which is the starting point it uses for the optimization. In the absence on one being provided (or suggested via the variational form) it will pick a random one. You can seed Aqua, like you did the simulator, so it will end up with the same random one each time, to get a predictable outcome. Add the following to do this before using any Aqua algorithms etc. Now since your result varies it suggests anyway that you are not reaching a minimum and the optimization loop is ending early. More iterations of the optimizer may be needed and/or you may need to look at the variational form, say larger depth with what is being used.
+
+```
+from qiskit.aqua import aqua_globals aqua_globals.random_seed = seed
+```
+
+```
+from qiskit.aqua import aqua_globals aqua_globals.random_seed = seed
+```
+
+Original fixed code:
+from qiskit.aqua import aqua_globals aqua_globals.random_seed = seed
+
+---CODE_BLOCK---
+
+from qiskit.aqua import aqua_globals aqua_globals.random_seed = seed

@@ -1,0 +1,38 @@
+Title:
+Qiskit Transpiler function - Why does Toffoli + Hadamard not work as a Basis Gate set?
+
+Category:
+Category: Qiskit Transpiler / Advanced APIs
+
+Why AI Wins in This Category:
+Transpiler and basis gate configuration issues fall under advanced API usage, where practical code solutions are crucial. While SO provided theoretical insight, the AI solution stands out by giving users a working example, aligning Qiskit's current capabilities with real circuit needs. It’s more instructive and actionable for developers dealing with gate-set limitations in practice
+
+Question:
+Title: Qiskit Transpiler function - Why does Toffoli + Hadamard not work as a Basis Gate set?
+
+It is a well established fact that Hadamard + Toffoli is a computationally universal gate set. Therefore I thought that the transpiler function in Qiskit would be able to decompose any valid quantum circuit in to a circuit of Hadamard and Toffoli gates. This doesn't seem to be the case however. For example: returns an error: "Unable to map source basis {('h', 1), ('cx', 2)} to target basis {'ccx', 'barrier', 'measure', 'delay', 'snapshot', 'swap', 'reset', 'id', 'h'}." Have I interpreted computational universality incorrectly or is this functionality simply outside of the scope of the Qiskit transpile function? Thank you
+
+```
+from qiskit import QuantumCircuit qc = QuantumCircuit(5) qc.cnot(0,1) qc.h(1) from qiskit import transpile basis = ['h','ccx','id','swap'] qc_basis = transpile(qc,basis_gates = basis)
+```
+
+```
+from qiskit import QuantumCircuit qc = QuantumCircuit(5) qc.cnot(0,1) qc.h(1) from qiskit import transpile basis = ['h','ccx','id','swap'] qc_basis = transpile(qc,basis_gates = basis)
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit qc = QuantumCircuit(5) qc.cnot(0,1) qc.h(1) from qiskit import transpile basis = ['h','ccx','id','swap'] qc_basis = transpile(qc,basis_gates = basis)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit qc = QuantumCircuit(5) qc.cnot(0,1) qc.h(1) from qiskit import transpile basis = ['h','ccx','id','swap'] qc_basis = transpile(qc,basis_gates = basis)
+
+Solution explanation:
+Although $\{\textrm{CCX}, \textrm{H}\}$ is a universal gate set, it is not universal in the sense that any unitary can be expressed in terms of finite sequence of its elements. For any quantum circuit, however, you can use $\{\textrm{CCX}, \textrm{H}\}$ to implement another quantum circuit which when measured, will give the same measurement results as the original circuit. For more details, see the answers here, here, and here. So, you can not use Qiskit's transpiler to transpile a quantum circuit into this gate set because (the transpiler pass responsible for translating gates to a given target basis) does not currently support the required kind of tranlations.
+
+```
+BasisTranslator
+```
+
+Original fixed code:
+BasisTranslator

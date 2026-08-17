@@ -1,0 +1,67 @@
+Title:
+Qiskit: Count of each gates
+
+Category:
+Category: Circuit Construction / Analysis
+(also relevant to Debugging / Introspection in circuits)
+
+Winner:AI
+
+Why AI Performs Well in This Category:
+Provides an executable, realistic example — ideal for practical learning.
+Offers version-awareness and transpilation context, which is crucial in real-world Qiskit projects.
+Makes fewer assumptions about user familiarity than Stack Overflow did.
+
+Question:
+Title: Qiskit: Count of each gates
+
+I wanted to calculate the count of each gate used in the specific quantum circuit. For example in the below circuit, the result should be something like: I saw a similar question asked, but it counts all the gates only in the longest path of the dag circuit which it creates using .
+
+```
+{'rz': 1, 'h': 4, 'cx': 3, 'measure': 4}
+```
+
+```
+{'rz': 1, 'h': 4, 'cx': 3, 'measure': 4}
+```
+
+```
+circuit_to_dag
+```
+
+Original buggy code:
+{'rz': 1, 'h': 4, 'cx': 3, 'measure': 4}
+
+---CODE_BLOCK---
+
+{'rz': 1, 'h': 4, 'cx': 3, 'measure': 4}
+
+---CODE_BLOCK---
+
+circuit_to_dag
+
+Solution explanation:
+You can use QuantumCircuit's method:
+
+```
+count_ops()
+```
+
+```
+print(dict(circ.count_ops()))
+```
+
+```
+print(dict(circ.count_ops()))
+```
+
+Original fixed code:
+count_ops()
+
+---CODE_BLOCK---
+
+print(dict(circ.count_ops()))
+
+---CODE_BLOCK---
+
+print(dict(circ.count_ops()))

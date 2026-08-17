@@ -1,0 +1,160 @@
+Title:
+Very simple matrix operation (Markov chain) in terms of Qiskit
+
+Category:
+Category:
+
+Backend / Simulation of Classical Process
+
+Why Stack Overflow Wins in This Category:
+
+For classical-to-quantum simulation (like Markov chains), correctness, creativity, and executable logic are critical. The Stack Overflow solution:
+
+Bridges classical stochastic models with quantum circuits.
+
+Simulates 3-step transitions (like 
+𝑀
+3
+M
+3
+) accurately via real gates.
+
+Uses advanced quantum concepts (controlled rotations, resets, swaps).
+
+Aligns with the real output of the classical chain.
+
+The AI solution lays theoretical groundwork but falls short on executable implementation. Thus, Stack Overflow provides the more complete and instructive response for backend simulation use cases.
+
+Question:
+Title: Very simple matrix operation (Markov chain) in terms of Qiskit
+
+I am trying to approach Markov chains as a use case for Quantum Computing. For this I took the simple introductory case from Wikipedia (Markow-Kette): $v_0=\begin{pmatrix} 1 & 0 & 0 \end{pmatrix}$ M=$\begin{pmatrix} 0 & 0.2 & 0.8\\ 0.5 & 0 & 0.5\\ 0.1 & 0.9 & 0\\ \end{pmatrix}$ $v_1=v_0M$ $v_3=v_0M^3$ As a starter/"appetizer" I implemented this situation with the following 3-liner using and got very straight forwardly the correct result which is in line with the result from the Wikipedia Site: Now I'm stuck porting the whole thing to Qiskit, where I am really would be satisfied with a simulator-based solution: Asking Google led me to Matrix product state simulation method, but it seems to be not obvious how to apply this to my simple problem. A simple nudge in the right direction would be really appreciated.
+
+```
+Numpy
+```
+
+```
+v3=[0.37 0.126 0.504]
+```
+
+```
+M = np.array([[0, 0.2, 0.8], [0.5, 0, 0.5], [0.1, 0.9, 0]]) v0=np.array([1,0,0]) v1=v0.dot(M) print(v1) v3=v0.dot(matrix_power(M, 3)) print(v3)
+```
+
+```
+M = np.array([[0, 0.2, 0.8], [0.5, 0, 0.5], [0.1, 0.9, 0]]) v0=np.array([1,0,0]) v1=v0.dot(M) print(v1) v3=v0.dot(matrix_power(M, 3)) print(v3)
+```
+
+```
+qiskit.IBMQ.save_account('your_token', overwrite=True) qiskit.IBMQ.load_account() n_wires = 1 n_qubits = 1 provider = qiskit.IBMQ.get_provider('ibm-q') backend = Aer.get_backend('qasm_simulator') [...]
+```
+
+```
+qiskit.IBMQ.save_account('your_token', overwrite=True) qiskit.IBMQ.load_account() n_wires = 1 n_qubits = 1 provider = qiskit.IBMQ.get_provider('ibm-q') backend = Aer.get_backend('qasm_simulator') [...]
+```
+
+Original buggy code:
+Numpy
+
+---CODE_BLOCK---
+
+v3=[0.37 0.126 0.504]
+
+---CODE_BLOCK---
+
+M = np.array([[0, 0.2, 0.8], [0.5, 0, 0.5], [0.1, 0.9, 0]]) v0=np.array([1,0,0]) v1=v0.dot(M) print(v1) v3=v0.dot(matrix_power(M, 3)) print(v3)
+
+---CODE_BLOCK---
+
+M = np.array([[0, 0.2, 0.8], [0.5, 0, 0.5], [0.1, 0.9, 0]]) v0=np.array([1,0,0]) v1=v0.dot(M) print(v1) v3=v0.dot(matrix_power(M, 3)) print(v3)
+
+---CODE_BLOCK---
+
+qiskit.IBMQ.save_account('your_token', overwrite=True) qiskit.IBMQ.load_account() n_wires = 1 n_qubits = 1 provider = qiskit.IBMQ.get_provider('ibm-q') backend = Aer.get_backend('qasm_simulator') [...]
+
+---CODE_BLOCK---
+
+qiskit.IBMQ.save_account('your_token', overwrite=True) qiskit.IBMQ.load_account() n_wires = 1 n_qubits = 1 provider = qiskit.IBMQ.get_provider('ibm-q') backend = Aer.get_backend('qasm_simulator') [...]
+
+Solution explanation:
+I made an implementation, I'm not sure whether it has advantages or how it generalizes. I hope it might steer you (or us) in the right direction. The approach is as follows: You have a matrix $M$, then: Create a circuit with $2N=6$ qubits The first 3 qubits represent 'being in state $i$' ($i$ is a state in $N$) (i.e. $|001>$ is state $0$, $|010>$ is state $1$, $|100>$ state $2$) The last 3 qubits represent 'going to state $j$' ($j$ is a state in $N$) Controlled go from state $i$ to state $j$ with probability $M_{i,j}$ * Make sure to not go to state $j'$ when you're going to state $j$ Make sure the naming of states checks out (i.e. $|001>$ state $0$, $|010>$ is state $1$, $|100>$ is state $2$) Repeat steps 2-4 for all $i$ Swap the last 3 qubits with the first 3 qubits, (in words, these were the states that you're 'going to' and now they are the state 'you are in'). Reset the last 3 qubits. The circuit now looks like this: With this circuit, you can do the same steps as you proposed before, so in your case you have: output: In Qiskit, this now is the following **: And you can run it by And the output: Which is approximately equal to the exact answers . This approach definitely isn't perfect and I'm quite sure optimizations can be made (e.g. not using 1 qubit per state, but using the full $2^N$ possible states) and I'm not sure how to go to larger state spaces. But it's the first step! Some notes: * note: Step 2 is not trivial. I implemented it as a controlled $X$-rotation. An $X$-rotation is (according to the qiskit-textbook) given by \begin{equation} R_x(\theta) = \begin{pmatrix} \cos(\theta /2) & -i \sin(\theta /2) \\ -i \sin(\theta /2) & \cos(\theta /2) \end{pmatrix}, \end{equation} and it brings the $|0>$ state to $\cos(\theta /2) |0> - i \sin(\theta /2) |1>$. Now, for example, we want the target qubit to be in state $|0>$ with probability 0.2 (when starting the target is in state 0). The probability of finding the target in state $|0>$ is $|\cos(\theta /2)|^2$ and this must be equal to $0.2$. Thereby, it can be found that $\theta = 2 \arccos{\sqrt{0.2}}$. ** note: Implementing the circuit is a bit annoying because not all gates are available in all backends. Sometimes, you have to 'translate' the gates. A controlled $X$-rotation (CRX) is also a controlled U3 gate, where $CR_x(\theta) = CU3(\theta, \pi/2,\pi/2)$. Some backend also doesn't allow for the CU3 gate, but they do allow the multi-controlled gate . In that case, just put your control qubit in a list by putting square brackets around it.
+
+```
+import numpy as np M = np.array([[0, 0.2, 0.8], [0.5, 0, 0.5], [0.1, 0.9, 0]]) v0=np.array([1,0,0]) v1=v0.dot(M) print(v1) v2=v0.dot(np.linalg.matrix_power(M, 2)) print(v2) v3=v0.dot(np.linalg.matrix_power(M, 3)) print(v3)
+```
+
+```
+import numpy as np M = np.array([[0, 0.2, 0.8], [0.5, 0, 0.5], [0.1, 0.9, 0]]) v0=np.array([1,0,0]) v1=v0.dot(M) print(v1) v2=v0.dot(np.linalg.matrix_power(M, 2)) print(v2) v3=v0.dot(np.linalg.matrix_power(M, 3)) print(v3)
+```
+
+```
+[0. 0.2 0.8] [0.18 0.72 0.1 ] [0.37 0.126 0.504]
+```
+
+```
+[0. 0.2 0.8] [0.18 0.72 0.1 ] [0.37 0.126 0.504]
+```
+
+```
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, transpile from numpy import pi # Inilialise registers qreg_q = QuantumRegister(6, 'q') creg_c = ClassicalRegister(3, 'c') # Create Markov Step as a circuit markov_step = QuantumCircuit(qreg_q) # Create the Markov Step # From state 0 to state 1 and 2 markov_step.cu3(2*np.arccos(np.sqrt(M[0,1])), pi/2, pi/2, qreg_q[0], qreg_q[4]) markov_step.ccx(qreg_q[4], qreg_q[0], qreg_q[5]) markov_step.cx(qreg_q[0], qreg_q[4]) # From state 1 to state 0 and 2 markov_step.cu3(2*np.arccos(np.sqrt(M[1,2])), pi/2, pi/2, qreg_q[1], qreg_q[5]) markov_step.ccx(qreg_q[5], qreg_q[1], qreg_q[3]) markov_step.cx(qreg_q[1], qreg_q[5]) # From state 2 to state 0 and 1 markov_step.cu3(2*np.arccos(np.sqrt(M[2,0])), pi/2, pi/2, qreg_q[2], qreg_q[3]) markov_step.ccx(qreg_q[3], qreg_q[2], qreg_q[4]) markov_step.cx(qreg_q[2], qreg_q[3]) # Swap markov_step.swap(qreg_q[0], qreg_q[3]) markov_step.swap(qreg_q[1], qreg_q[4]) markov_step.swap(qreg_q[2], qreg_q[5]) # Initialise circuit circuit = QuantumCircuit(qreg_q,creg_c) # Initialise state (1,0,0) circuit.x(0) # Do the markov step n times n = 3 for _ in range(n): for ins in markov_step: circuit.append(ins[0], ins[1], ins[2]) circuit.reset(qreg_q[3:]) # Measure outcome circuit.measure(qreg_q[:3], creg_c)
+```
+
+```
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, transpile from numpy import pi # Inilialise registers qreg_q = QuantumRegister(6, 'q') creg_c = ClassicalRegister(3, 'c') # Create Markov Step as a circuit markov_step = QuantumCircuit(qreg_q) # Create the Markov Step # From state 0 to state 1 and 2 markov_step.cu3(2*np.arccos(np.sqrt(M[0,1])), pi/2, pi/2, qreg_q[0], qreg_q[4]) markov_step.ccx(qreg_q[4], qreg_q[0], qreg_q[5]) markov_step.cx(qreg_q[0], qreg_q[4]) # From state 1 to state 0 and 2 markov_step.cu3(2*np.arccos(np.sqrt(M[1,2])), pi/2, pi/2, qreg_q[1], qreg_q[5]) markov_step.ccx(qreg_q[5], qreg_q[1], qreg_q[3]) markov_step.cx(qreg_q[1], qreg_q[5]) # From state 2 to state 0 and 1 markov_step.cu3(2*np.arccos(np.sqrt(M[2,0])), pi/2, pi/2, qreg_q[2], qreg_q[3]) markov_step.ccx(qreg_q[3], qreg_q[2], qreg_q[4]) markov_step.cx(qreg_q[2], qreg_q[3]) # Swap markov_step.swap(qreg_q[0], qreg_q[3]) markov_step.swap(qreg_q[1], qreg_q[4]) markov_step.swap(qreg_q[2], qreg_q[5]) # Initialise circuit circuit = QuantumCircuit(qreg_q,creg_c) # Initialise state (1,0,0) circuit.x(0) # Do the markov step n times n = 3 for _ in range(n): for ins in markov_step: circuit.append(ins[0], ins[1], ins[2]) circuit.reset(qreg_q[3:]) # Measure outcome circuit.measure(qreg_q[:3], creg_c)
+```
+
+```
+from qiskit.visualization import plot_histogram backend = provider.get_backend('ibmq_qasm_simulator') job = backend.run(circuit) result = job.result() counts = result.get_counts(circuit) plot_histogram(counts)
+```
+
+```
+from qiskit.visualization import plot_histogram backend = provider.get_backend('ibmq_qasm_simulator') job = backend.run(circuit) result = job.result() counts = result.get_counts(circuit) plot_histogram(counts)
+```
+
+```
+[0.37 0.126 0.504]
+```
+
+```
+.mcu3
+```
+
+Original fixed code:
+import numpy as np M = np.array([[0, 0.2, 0.8], [0.5, 0, 0.5], [0.1, 0.9, 0]]) v0=np.array([1,0,0]) v1=v0.dot(M) print(v1) v2=v0.dot(np.linalg.matrix_power(M, 2)) print(v2) v3=v0.dot(np.linalg.matrix_power(M, 3)) print(v3)
+
+---CODE_BLOCK---
+
+import numpy as np M = np.array([[0, 0.2, 0.8], [0.5, 0, 0.5], [0.1, 0.9, 0]]) v0=np.array([1,0,0]) v1=v0.dot(M) print(v1) v2=v0.dot(np.linalg.matrix_power(M, 2)) print(v2) v3=v0.dot(np.linalg.matrix_power(M, 3)) print(v3)
+
+---CODE_BLOCK---
+
+[0. 0.2 0.8] [0.18 0.72 0.1 ] [0.37 0.126 0.504]
+
+---CODE_BLOCK---
+
+[0. 0.2 0.8] [0.18 0.72 0.1 ] [0.37 0.126 0.504]
+
+---CODE_BLOCK---
+
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, transpile from numpy import pi # Inilialise registers qreg_q = QuantumRegister(6, 'q') creg_c = ClassicalRegister(3, 'c') # Create Markov Step as a circuit markov_step = QuantumCircuit(qreg_q) # Create the Markov Step # From state 0 to state 1 and 2 markov_step.cu3(2*np.arccos(np.sqrt(M[0,1])), pi/2, pi/2, qreg_q[0], qreg_q[4]) markov_step.ccx(qreg_q[4], qreg_q[0], qreg_q[5]) markov_step.cx(qreg_q[0], qreg_q[4]) # From state 1 to state 0 and 2 markov_step.cu3(2*np.arccos(np.sqrt(M[1,2])), pi/2, pi/2, qreg_q[1], qreg_q[5]) markov_step.ccx(qreg_q[5], qreg_q[1], qreg_q[3]) markov_step.cx(qreg_q[1], qreg_q[5]) # From state 2 to state 0 and 1 markov_step.cu3(2*np.arccos(np.sqrt(M[2,0])), pi/2, pi/2, qreg_q[2], qreg_q[3]) markov_step.ccx(qreg_q[3], qreg_q[2], qreg_q[4]) markov_step.cx(qreg_q[2], qreg_q[3]) # Swap markov_step.swap(qreg_q[0], qreg_q[3]) markov_step.swap(qreg_q[1], qreg_q[4]) markov_step.swap(qreg_q[2], qreg_q[5]) # Initialise circuit circuit = QuantumCircuit(qreg_q,creg_c) # Initialise state (1,0,0) circuit.x(0) # Do the markov step n times n = 3 for _ in range(n): for ins in markov_step: circuit.append(ins[0], ins[1], ins[2]) circuit.reset(qreg_q[3:]) # Measure outcome circuit.measure(qreg_q[:3], creg_c)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, transpile from numpy import pi # Inilialise registers qreg_q = QuantumRegister(6, 'q') creg_c = ClassicalRegister(3, 'c') # Create Markov Step as a circuit markov_step = QuantumCircuit(qreg_q) # Create the Markov Step # From state 0 to state 1 and 2 markov_step.cu3(2*np.arccos(np.sqrt(M[0,1])), pi/2, pi/2, qreg_q[0], qreg_q[4]) markov_step.ccx(qreg_q[4], qreg_q[0], qreg_q[5]) markov_step.cx(qreg_q[0], qreg_q[4]) # From state 1 to state 0 and 2 markov_step.cu3(2*np.arccos(np.sqrt(M[1,2])), pi/2, pi/2, qreg_q[1], qreg_q[5]) markov_step.ccx(qreg_q[5], qreg_q[1], qreg_q[3]) markov_step.cx(qreg_q[1], qreg_q[5]) # From state 2 to state 0 and 1 markov_step.cu3(2*np.arccos(np.sqrt(M[2,0])), pi/2, pi/2, qreg_q[2], qreg_q[3]) markov_step.ccx(qreg_q[3], qreg_q[2], qreg_q[4]) markov_step.cx(qreg_q[2], qreg_q[3]) # Swap markov_step.swap(qreg_q[0], qreg_q[3]) markov_step.swap(qreg_q[1], qreg_q[4]) markov_step.swap(qreg_q[2], qreg_q[5]) # Initialise circuit circuit = QuantumCircuit(qreg_q,creg_c) # Initialise state (1,0,0) circuit.x(0) # Do the markov step n times n = 3 for _ in range(n): for ins in markov_step: circuit.append(ins[0], ins[1], ins[2]) circuit.reset(qreg_q[3:]) # Measure outcome circuit.measure(qreg_q[:3], creg_c)
+
+---CODE_BLOCK---
+
+from qiskit.visualization import plot_histogram backend = provider.get_backend('ibmq_qasm_simulator') job = backend.run(circuit) result = job.result() counts = result.get_counts(circuit) plot_histogram(counts)
+
+---CODE_BLOCK---
+
+from qiskit.visualization import plot_histogram backend = provider.get_backend('ibmq_qasm_simulator') job = backend.run(circuit) result = job.result() counts = result.get_counts(circuit) plot_histogram(counts)
+
+---CODE_BLOCK---
+
+[0.37 0.126 0.504]
+
+---CODE_BLOCK---
+
+.mcu3

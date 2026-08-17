@@ -1,0 +1,227 @@
+Title:
+How to collapse the subcircuits in a QuantumCircuit?
+
+Category:
+
+
+Question:
+Title: How to collapse the subcircuits in a QuantumCircuit?
+
+Suppose I have a object named , which explicitly contains the identity gate, and convert it into a gate using : and I use this to create a bigger object named , which looks like this: Now, when I iterate over the elements of the , using this code: I get this: However, itself is made up of its constituent elements, which don't show up in the above list. How do I "collapse" the circuit, so that I can iterate over all the components present in , rather than just ? One way you can go about doing this is to transpile the circuit like this: and iterate over , but when I do that, the identity gate does not show up.
+
+```
+QuantumCircuit
+```
+
+```
+FC
+```
+
+```
+.to_instruction()
+```
+
+```
+gate = FC.to_instruction()
+```
+
+```
+QuantumCircuit
+```
+
+```
+circuit
+```
+
+```
+circuit
+```
+
+```
+for instruction, qarg, carg in circuit: print(instruction)
+```
+
+```
+for instruction, qarg, carg in circuit: print(instruction)
+```
+
+```
+Instruction(name='gate', num_qubits=3, num_clbits=0, params=[]) Instruction(name='gate', num_qubits=3, num_clbits=0, params=[])
+```
+
+```
+Instruction(name='gate', num_qubits=3, num_clbits=0, params=[]) Instruction(name='gate', num_qubits=3, num_clbits=0, params=[])
+```
+
+```
+gate
+```
+
+```
+circuit
+```
+
+```
+gate
+```
+
+```
+from qiskit import Aer, transpile simulator = Aer.get_backend('aer_simulator') circ = transpile(circ, simulator)
+```
+
+```
+from qiskit import Aer, transpile simulator = Aer.get_backend('aer_simulator') circ = transpile(circ, simulator)
+```
+
+```
+circ
+```
+
+Original buggy code:
+QuantumCircuit
+
+---CODE_BLOCK---
+
+FC
+
+---CODE_BLOCK---
+
+.to_instruction()
+
+---CODE_BLOCK---
+
+gate = FC.to_instruction()
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+circuit
+
+---CODE_BLOCK---
+
+circuit
+
+---CODE_BLOCK---
+
+for instruction, qarg, carg in circuit: print(instruction)
+
+---CODE_BLOCK---
+
+for instruction, qarg, carg in circuit: print(instruction)
+
+---CODE_BLOCK---
+
+Instruction(name='gate', num_qubits=3, num_clbits=0, params=[]) Instruction(name='gate', num_qubits=3, num_clbits=0, params=[])
+
+---CODE_BLOCK---
+
+Instruction(name='gate', num_qubits=3, num_clbits=0, params=[]) Instruction(name='gate', num_qubits=3, num_clbits=0, params=[])
+
+---CODE_BLOCK---
+
+gate
+
+---CODE_BLOCK---
+
+circuit
+
+---CODE_BLOCK---
+
+gate
+
+---CODE_BLOCK---
+
+from qiskit import Aer, transpile simulator = Aer.get_backend('aer_simulator') circ = transpile(circ, simulator)
+
+---CODE_BLOCK---
+
+from qiskit import Aer, transpile simulator = Aer.get_backend('aer_simulator') circ = transpile(circ, simulator)
+
+---CODE_BLOCK---
+
+circ
+
+Solution explanation:
+You can achieve that by calling 's method as follows: Another option is to add to your circuit using method intead of : Note that you should use directly without converting it into a gate.
+
+```
+QuantumCircuit
+```
+
+```
+decompose()
+```
+
+```
+for instruction, qarg, carg in circuit.decompose(): print(instruction)
+```
+
+```
+for instruction, qarg, carg in circuit.decompose(): print(instruction)
+```
+
+```
+FC
+```
+
+```
+compose
+```
+
+```
+append
+```
+
+```
+circuit = circuit.compose(FC, [0, 1, 2])
+```
+
+```
+circuit = circuit.compose(FC, [0, 1, 2])
+```
+
+```
+FC
+```
+
+Original fixed code:
+QuantumCircuit
+
+---CODE_BLOCK---
+
+decompose()
+
+---CODE_BLOCK---
+
+for instruction, qarg, carg in circuit.decompose(): print(instruction)
+
+---CODE_BLOCK---
+
+for instruction, qarg, carg in circuit.decompose(): print(instruction)
+
+---CODE_BLOCK---
+
+FC
+
+---CODE_BLOCK---
+
+compose
+
+---CODE_BLOCK---
+
+append
+
+---CODE_BLOCK---
+
+circuit = circuit.compose(FC, [0, 1, 2])
+
+---CODE_BLOCK---
+
+circuit = circuit.compose(FC, [0, 1, 2])
+
+---CODE_BLOCK---
+
+FC

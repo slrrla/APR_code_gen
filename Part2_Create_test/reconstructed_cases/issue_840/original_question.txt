@@ -1,0 +1,107 @@
+Title:
+what is difference between the following two results
+
+Category:
+
+
+Question:
+Title: what is difference between the following two results
+
+If this question sounds trivial please bear with me as I am beginner in QC. Code 1 Output: Code 2 Output: Question 1 I understand that in 1st code, qubit is in zero state and in 2nd code statevector is as displayed above. As statevector tells the state of a vector so what exactly it is telling ? Is it saying that value of qubit is 1 in one basis and zero in other basis? if so, where is it defined that there are only 2 basis, why not 3 or more.. Question 2 What exactly is the difference between two results and Question 3 If there would have been 2 qubits in the circuit, then it will be called multi-qubit state correct? Question 4 Value of a qubit is initialized as zero by default, why so?
+
+```
+qc = QuantumCircuit(1,1) qc.measure(0,0) qc.draw() job = sim.run(qc) # run the experiment result = job.result() # get the results result.get_counts() # interpret the results as a "counts" dictionary
+```
+
+```
+qc = QuantumCircuit(1,1) qc.measure(0,0) qc.draw() job = sim.run(qc) # run the experiment result = job.result() # get the results result.get_counts() # interpret the results as a "counts" dictionary
+```
+
+```
+{'0': 1024}
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector qc = QuantumCircuit(1,1) ket = Statevector(qc) print(ket.draw())
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector qc = QuantumCircuit(1,1) ket = Statevector(qc) print(ket.draw())
+```
+
+```
+Statevector([1.+0.j, 0.+0.j], dims=(2,))
+```
+
+```
+Statevector([1.+0.j, 0.+0.j], dims=(2,))
+```
+
+```
+[1.+0.j, 0.+0.j]
+```
+
+```
+{'0': 1024}
+```
+
+```
+[1.+0.j, 0.+0.j]
+```
+
+```
+qc = QuantumCircuit(2,2)
+```
+
+Original buggy code:
+qc = QuantumCircuit(1,1) qc.measure(0,0) qc.draw() job = sim.run(qc) # run the experiment result = job.result() # get the results result.get_counts() # interpret the results as a "counts" dictionary
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(1,1) qc.measure(0,0) qc.draw() job = sim.run(qc) # run the experiment result = job.result() # get the results result.get_counts() # interpret the results as a "counts" dictionary
+
+---CODE_BLOCK---
+
+{'0': 1024}
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector qc = QuantumCircuit(1,1) ket = Statevector(qc) print(ket.draw())
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector qc = QuantumCircuit(1,1) ket = Statevector(qc) print(ket.draw())
+
+---CODE_BLOCK---
+
+Statevector([1.+0.j, 0.+0.j], dims=(2,))
+
+---CODE_BLOCK---
+
+Statevector([1.+0.j, 0.+0.j], dims=(2,))
+
+---CODE_BLOCK---
+
+[1.+0.j, 0.+0.j]
+
+---CODE_BLOCK---
+
+{'0': 1024}
+
+---CODE_BLOCK---
+
+[1.+0.j, 0.+0.j]
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(2,2)
+
+Solution explanation:
+Question 1: The point here is that you are working with qubits. By definition they are objects of dimension 2. The [1,0] is telling you that the probability amplitude for being in the first basis state is 1, and the probability amplitude for being in the second basis state is 0. These two basis states are labelled '0' and '1' respectively. Question 2: The {'0': 1024} means "when I measure the state, if I repeat the measurement 1024 times, in this case I get the answer '0' for all 1024 of those trials. So, it's basically an experimental estimate of the probability of an outcome, which should correspond to the mod-square of the probability amplitude for that basis element. Question 3: yes. I'm not a qiskit expert, but I think it would be sufficient to call to get two qubits. The second number is the number of classical bits that you want. Question 4: Your computation has to start from somewhere. It needs to be a fixed, known, state. By convention it's the $|0\rangle$ state. It's just a matter of labelling. Whatever state is easiest to prepare, that's the only we call '0'.
+
+```
+QuantumCircuit(2)
+```
+
+Original fixed code:
+QuantumCircuit(2)

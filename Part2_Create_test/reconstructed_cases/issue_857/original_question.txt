@@ -1,0 +1,83 @@
+Title:
+Keep receiving Error - AttributeError: 'QuantumCircuit' object has no attribute 'save_statevector'
+
+Category:
+
+
+Question:
+Title: Keep receiving Error - AttributeError: 'QuantumCircuit' object has no attribute 'save_statevector'
+
+I am attempting to code a feed-forward simulation of a QECC in Qiskit. Qiskit (to my knowledge) does not directly support feed-forward simulation, so I attempted a work-around. I call the simulator firstly: Next, I attempt to save the statevector after calling the first stabilizer operator: I lastly then attempt to execute the code up to the save-point: I am not entirely sure why the error I get is of the following form: I have looked at the answers from the following URLs: https://stackoverflow.com/questions/67362847/attributeerror-quantumcircuit-object-has-no-attribute-config https://githubmemory.com/repo/Qiskit/qiskit-terra/issues/6346?page=2 . I still am not able to fix the issue. Help would be much appreciated.
+
+```
+#c/q register self.qubits = QuantumRegister(9) self.round1 = ClassicalRegister(2) self.round2 = ClassicalRegister(3) self.decoded = ClassicalRegister(7) self.circuit = QuantumCircuit(self.qubits,self.round1,self.round2,self.decoded,name="circuit") #noise model self.noisy = NoiseModel() self.error_rate = self.error_rates self.error_two_qubit = errors.depolarizing_error(self.error_rate/15, 2) self.noisy.add_all_qubit_quantum_error(self.error_two_qubit, ['cx','cz','cy'] #simulator backend self.simulator = Aer.get_backend('qasm_simulator',noise_model=self.noisy)
+```
+
+```
+#c/q register self.qubits = QuantumRegister(9) self.round1 = ClassicalRegister(2) self.round2 = ClassicalRegister(3) self.decoded = ClassicalRegister(7) self.circuit = QuantumCircuit(self.qubits,self.round1,self.round2,self.decoded,name="circuit") #noise model self.noisy = NoiseModel() self.error_rate = self.error_rates self.error_two_qubit = errors.depolarizing_error(self.error_rate/15, 2) self.noisy.add_all_qubit_quantum_error(self.error_two_qubit, ['cx','cz','cy'] #simulator backend self.simulator = Aer.get_backend('qasm_simulator',noise_model=self.noisy)
+```
+
+```
+self.circuit.reset(self.qubits[7]) self.circuit.reset(self.qubits[8]) self.circuit.h(self.qubits[8]) self.circuit.cx(self.qubits[8],self.qubits[7]) self.circuit.cx(self.qubits[target1],self.qubits[7]) self.circuit.cx(self.qubits[target2],self.qubits[8]) self.circuit.cx(self.qubits[target3],self.qubits[7]) self.circuit.cx(self.qubits[target4],self.qubits[8]) self.circuit.cx(self.qubits[8],self.qubits[7]) self.circuit.h(self.qubits[8]) self.circuit.measure(self.qubits[7],self.round1[0]) self.circuit.measure(self.qubits[8],self.round1[1]) self.circuit.save_statevector()
+```
+
+```
+self.circuit.reset(self.qubits[7]) self.circuit.reset(self.qubits[8]) self.circuit.h(self.qubits[8]) self.circuit.cx(self.qubits[8],self.qubits[7]) self.circuit.cx(self.qubits[target1],self.qubits[7]) self.circuit.cx(self.qubits[target2],self.qubits[8]) self.circuit.cx(self.qubits[target3],self.qubits[7]) self.circuit.cx(self.qubits[target4],self.qubits[8]) self.circuit.cx(self.qubits[8],self.qubits[7]) self.circuit.h(self.qubits[8]) self.circuit.measure(self.qubits[7],self.round1[0]) self.circuit.measure(self.qubits[8],self.round1[1]) self.circuit.save_statevector()
+```
+
+```
+self.result = execute(self.circuit,self.simulator,shots=1).result() self.statevector = self.result.get_statevector(self.circuit)
+```
+
+```
+self.result = execute(self.circuit,self.simulator,shots=1).result() self.statevector = self.result.get_statevector(self.circuit)
+```
+
+```
+Traceback (most recent call last): self.circuit.save_statevector() AttributeError: 'QuantumCircuit' object has no attribute 'save_statevector'
+```
+
+```
+Traceback (most recent call last): self.circuit.save_statevector() AttributeError: 'QuantumCircuit' object has no attribute 'save_statevector'
+```
+
+Original buggy code:
+#c/q register self.qubits = QuantumRegister(9) self.round1 = ClassicalRegister(2) self.round2 = ClassicalRegister(3) self.decoded = ClassicalRegister(7) self.circuit = QuantumCircuit(self.qubits,self.round1,self.round2,self.decoded,name="circuit") #noise model self.noisy = NoiseModel() self.error_rate = self.error_rates self.error_two_qubit = errors.depolarizing_error(self.error_rate/15, 2) self.noisy.add_all_qubit_quantum_error(self.error_two_qubit, ['cx','cz','cy'] #simulator backend self.simulator = Aer.get_backend('qasm_simulator',noise_model=self.noisy)
+
+---CODE_BLOCK---
+
+#c/q register self.qubits = QuantumRegister(9) self.round1 = ClassicalRegister(2) self.round2 = ClassicalRegister(3) self.decoded = ClassicalRegister(7) self.circuit = QuantumCircuit(self.qubits,self.round1,self.round2,self.decoded,name="circuit") #noise model self.noisy = NoiseModel() self.error_rate = self.error_rates self.error_two_qubit = errors.depolarizing_error(self.error_rate/15, 2) self.noisy.add_all_qubit_quantum_error(self.error_two_qubit, ['cx','cz','cy'] #simulator backend self.simulator = Aer.get_backend('qasm_simulator',noise_model=self.noisy)
+
+---CODE_BLOCK---
+
+self.circuit.reset(self.qubits[7]) self.circuit.reset(self.qubits[8]) self.circuit.h(self.qubits[8]) self.circuit.cx(self.qubits[8],self.qubits[7]) self.circuit.cx(self.qubits[target1],self.qubits[7]) self.circuit.cx(self.qubits[target2],self.qubits[8]) self.circuit.cx(self.qubits[target3],self.qubits[7]) self.circuit.cx(self.qubits[target4],self.qubits[8]) self.circuit.cx(self.qubits[8],self.qubits[7]) self.circuit.h(self.qubits[8]) self.circuit.measure(self.qubits[7],self.round1[0]) self.circuit.measure(self.qubits[8],self.round1[1]) self.circuit.save_statevector()
+
+---CODE_BLOCK---
+
+self.circuit.reset(self.qubits[7]) self.circuit.reset(self.qubits[8]) self.circuit.h(self.qubits[8]) self.circuit.cx(self.qubits[8],self.qubits[7]) self.circuit.cx(self.qubits[target1],self.qubits[7]) self.circuit.cx(self.qubits[target2],self.qubits[8]) self.circuit.cx(self.qubits[target3],self.qubits[7]) self.circuit.cx(self.qubits[target4],self.qubits[8]) self.circuit.cx(self.qubits[8],self.qubits[7]) self.circuit.h(self.qubits[8]) self.circuit.measure(self.qubits[7],self.round1[0]) self.circuit.measure(self.qubits[8],self.round1[1]) self.circuit.save_statevector()
+
+---CODE_BLOCK---
+
+self.result = execute(self.circuit,self.simulator,shots=1).result() self.statevector = self.result.get_statevector(self.circuit)
+
+---CODE_BLOCK---
+
+self.result = execute(self.circuit,self.simulator,shots=1).result() self.statevector = self.result.get_statevector(self.circuit)
+
+---CODE_BLOCK---
+
+Traceback (most recent call last): self.circuit.save_statevector() AttributeError: 'QuantumCircuit' object has no attribute 'save_statevector'
+
+---CODE_BLOCK---
+
+Traceback (most recent call last): self.circuit.save_statevector() AttributeError: 'QuantumCircuit' object has no attribute 'save_statevector'
+
+Solution explanation:
+According to Qiskit's release notes, it seems that is added in version 0.25 (Aer 0.8.0) So, upgrading Qiskit should fix this issue.
+
+```
+save_statevector
+```
+
+Original fixed code:
+save_statevector

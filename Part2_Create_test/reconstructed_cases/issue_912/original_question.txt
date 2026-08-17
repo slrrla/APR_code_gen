@@ -1,0 +1,67 @@
+Title:
+qiskit - Creating your own ExperimentResultData object
+
+Category:
+
+
+Question:
+Title: qiskit - Creating your own ExperimentResultData object
+
+Could someone guide me on how to create my own object? I would simply like to create an object with some self-created dict of counts. Creating object is somehow easy, since by calling it from , I simply pass the required attributes. But somehow I was not able to figure out how to do the same with , which should be passed as "data" attribute to object.
+
+```
+qiskit.result.models.ExperimentResultData
+```
+
+```
+qiskit.result.models.ExperimentalResults
+```
+
+```
+qiskit.result.models.ExperimentResults
+```
+
+```
+qiskit.result.models.ExperimentResultData
+```
+
+```
+qiskit.result.models.ExperimentalResults
+```
+
+Original buggy code:
+qiskit.result.models.ExperimentResultData
+
+---CODE_BLOCK---
+
+qiskit.result.models.ExperimentalResults
+
+---CODE_BLOCK---
+
+qiskit.result.models.ExperimentResults
+
+---CODE_BLOCK---
+
+qiskit.result.models.ExperimentResultData
+
+---CODE_BLOCK---
+
+qiskit.result.models.ExperimentalResults
+
+Solution explanation:
+You should be able to do this by simply creating an instance of the class. This can be done as follows There are lot of examples of how to do this in the testing file for these classes.
+
+```
+from qiskit.validation import base raw_counts = {'0x0': 4, '0x2': 10} data = models.ExperimentResultData(counts=base.Obj(**raw_counts))
+```
+
+```
+from qiskit.validation import base raw_counts = {'0x0': 4, '0x2': 10} data = models.ExperimentResultData(counts=base.Obj(**raw_counts))
+```
+
+Original fixed code:
+from qiskit.validation import base raw_counts = {'0x0': 4, '0x2': 10} data = models.ExperimentResultData(counts=base.Obj(**raw_counts))
+
+---CODE_BLOCK---
+
+from qiskit.validation import base raw_counts = {'0x0': 4, '0x2': 10} data = models.ExperimentResultData(counts=base.Obj(**raw_counts))

@@ -1,0 +1,83 @@
+Title:
+Getting a layout for qubits in Qiskit
+
+Category:
+
+
+Question:
+Title: Getting a layout for qubits in Qiskit
+
+I'm trying to use Qiskit's built in transpiler passes to do the following. I would like to take a quantum circuit and allocate the logical qubits to physical qubits. The tutorial doesn't really explain how to do this. I would like to use one of the preset passes (, , etc) to get this allocation. The output of the program should be a dictionary or something that gives tells me which physical qubit each logical qubit is mapped to. How can I do this?
+
+```
+TrivialLayout
+```
+
+```
+DenseLayout
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.compiler import transpile from qiskit.transpiler import PassManager, passes from qiskit.test.mock import FakeMelbourne # NB will need to install dev requirements """ This is the circuit we are going to look at""" qc = QuantumCircuit(13, 13) qc.h(3) qc.cx(0,6) qc.h(1) qc.cx(6,0) qc.cx(0,1) qc.cx(3,1) qc.h(3) qc.cx(3,0) qc.measure_all() backend = FakeMelbourne() properties = backend.properties() coupling_map = backend.configuration().coupling_map
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.compiler import transpile from qiskit.transpiler import PassManager, passes from qiskit.test.mock import FakeMelbourne # NB will need to install dev requirements """ This is the circuit we are going to look at""" qc = QuantumCircuit(13, 13) qc.h(3) qc.cx(0,6) qc.h(1) qc.cx(6,0) qc.cx(0,1) qc.cx(3,1) qc.h(3) qc.cx(3,0) qc.measure_all() backend = FakeMelbourne() properties = backend.properties() coupling_map = backend.configuration().coupling_map
+```
+
+Original buggy code:
+TrivialLayout
+
+---CODE_BLOCK---
+
+DenseLayout
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.compiler import transpile from qiskit.transpiler import PassManager, passes from qiskit.test.mock import FakeMelbourne # NB will need to install dev requirements """ This is the circuit we are going to look at""" qc = QuantumCircuit(13, 13) qc.h(3) qc.cx(0,6) qc.h(1) qc.cx(6,0) qc.cx(0,1) qc.cx(3,1) qc.h(3) qc.cx(3,0) qc.measure_all() backend = FakeMelbourne() properties = backend.properties() coupling_map = backend.configuration().coupling_map
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.compiler import transpile from qiskit.transpiler import PassManager, passes from qiskit.test.mock import FakeMelbourne # NB will need to install dev requirements """ This is the circuit we are going to look at""" qc = QuantumCircuit(13, 13) qc.h(3) qc.cx(0,6) qc.h(1) qc.cx(6,0) qc.cx(0,1) qc.cx(3,1) qc.h(3) qc.cx(3,0) qc.measure_all() backend = FakeMelbourne() properties = backend.properties() coupling_map = backend.configuration().coupling_map
+
+Solution explanation:
+Try replacing the last three lines of the code you posted with and add the necessary import statements ( is in ). This should give you the mapping from your logical qubits to physical qubits on , with optimization level 0: For more information, this tutorial will probably be more helpful for this task than the one you linked.
+
+```
+IBMQ.load_account() backend = IBMQ.get_provider(hub='ibm-q').get_backend('ibmq_16_melbourne') new_circ_lv0 = transpile(qc, backend=backend, optimization_level=0) plot_circuit_layout(new_circ_lv0, backend)
+```
+
+```
+IBMQ.load_account() backend = IBMQ.get_provider(hub='ibm-q').get_backend('ibmq_16_melbourne') new_circ_lv0 = transpile(qc, backend=backend, optimization_level=0) plot_circuit_layout(new_circ_lv0, backend)
+```
+
+```
+plot_circuit_layout
+```
+
+```
+qiskit.visualization
+```
+
+```
+ibmq_16_melbourne
+```
+
+Original fixed code:
+IBMQ.load_account() backend = IBMQ.get_provider(hub='ibm-q').get_backend('ibmq_16_melbourne') new_circ_lv0 = transpile(qc, backend=backend, optimization_level=0) plot_circuit_layout(new_circ_lv0, backend)
+
+---CODE_BLOCK---
+
+IBMQ.load_account() backend = IBMQ.get_provider(hub='ibm-q').get_backend('ibmq_16_melbourne') new_circ_lv0 = transpile(qc, backend=backend, optimization_level=0) plot_circuit_layout(new_circ_lv0, backend)
+
+---CODE_BLOCK---
+
+plot_circuit_layout
+
+---CODE_BLOCK---
+
+qiskit.visualization
+
+---CODE_BLOCK---
+
+ibmq_16_melbourne

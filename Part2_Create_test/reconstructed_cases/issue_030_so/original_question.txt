@@ -1,0 +1,72 @@
+Title:
+Where was Qiskit-Textbook downloaded?
+
+Category:
+Category: Installation / Package Location  
+Winner: Both  
+Why AI Is Better: N/A — both AI and SO clearly explain how to use `pip show` to locate the installed package and how to separately download the Jupyter notebook content from GitHub.  
+Why AI Performs Well in This Category: AI is reliable in installation-related questions due to its ability to distinguish between system-level paths and source-level content, and to offer precise shell commands.
+
+
+Question:
+Title: Where was Qiskit-Textbook downloaded?
+
+I've installed Qiskit-textbook by pip install git+https://github.com/qiskit-community/qiskit-textbook.git#subdirectory=qiskit-textbook-src . But I don't know where is it downloaded
+
+Original buggy code:
+I've installed Qiskit-textbook by pip install git+https://github.com/qiskit-community/qiskit-textbook.git#subdirectory=qiskit-textbook-src . But I don't know where is it downloaded
+
+Solution explanation:
+That command installs the Qiskit Textbook package , which is a Python package containing some of the problems and widgets used in the textbook. You can see the location of an installed package using pip show <package> : 
+ pip show qiskit-textbook
+
+ output: 
+ Name: qiskit-textbook
+Version: 0.1.0
+Summary: A collection of widgets, tools and games for using along
+ the Qiskit Textbook. See the textbook and a list of contributors at qiskit.org/textbook
+Home-page: UNKNOWN
+Author: Qiskit Team
+Author-email: hello@qiskit.org
+License: UNKNOWN
+Location: /usr/local/anaconda3/lib/python3.7/site-packages
+Requires: ipython, matplotlib, numpy, qiskit, ipywidgets
+Required-by: 
+
+ From which I can see my package is installed at /usr/local/anaconda3/lib/python3.7/site-packages . 
+ If you want to download the Jupyter notebooks (i.e. the pages of the textbook), you can do this from the Github page . There is a big green button labelled "code" if you click it, you can either get the link to clone it through git, or download it as a .zip . All the pages are inside the "content" folder.
+
+```
+pip show qiskit-textbook
+```
+
+```
+Name: qiskit-textbook
+Version: 0.1.0
+Summary: A collection of widgets, tools and games for using along
+  the Qiskit Textbook. See the textbook and a list of contributors at qiskit.org/textbook
+Home-page: UNKNOWN
+Author: Qiskit Team
+Author-email: hello@qiskit.org
+License: UNKNOWN
+Location: /usr/local/anaconda3/lib/python3.7/site-packages
+Requires: ipython, matplotlib, numpy, qiskit, ipywidgets
+Required-by:
+```
+
+Original fixed code:
+pip show qiskit-textbook
+
+---CODE_BLOCK---
+
+Name: qiskit-textbook
+Version: 0.1.0
+Summary: A collection of widgets, tools and games for using along
+  the Qiskit Textbook. See the textbook and a list of contributors at qiskit.org/textbook
+Home-page: UNKNOWN
+Author: Qiskit Team
+Author-email: hello@qiskit.org
+License: UNKNOWN
+Location: /usr/local/anaconda3/lib/python3.7/site-packages
+Requires: ipython, matplotlib, numpy, qiskit, ipywidgets
+Required-by:

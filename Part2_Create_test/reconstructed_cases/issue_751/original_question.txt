@@ -1,0 +1,67 @@
+Title:
+Computing the CDF with QAE in Qiskit
+
+Category:
+
+
+Question:
+Title: Computing the CDF with QAE in Qiskit
+
+I want to load a lognormal distribution and then use an IntegerComparator to flip a qubit ($|0\rangle$ to $|1\rangle$) if its value is less than a threshold. Then I want to use an Quantum Amplitude Estimation algorithm to calculate the probability of measuring $|1\rangle$. My code so far is: Broadly speaking, I want to flip the objective qubit to $|1\rangle$ if the state is less than or equal to x_eval. On running this, I'm getting the same amplitude estimation every time, even when I use different threshold values. I'm missing something. Please help me out. PS: https://i.sstatic.net/tHyDM.jpg This is the link to the QuantumCircuit. P(X) is the LogNormalDistribution and Cmp is the comparator. PPS: Using LinearAmplitudeFunction to compare floating numbers:
+
+```
+import matplotlib.pyplot as plt import numpy as np from qiskit import Aer, QuantumCircuit, QuantumRegister, execute from qiskit.aqua.algorithms import IterativeAmplitudeEstimation from qiskit.circuit.library import LogNormalDistribution, IntegerComparator num_uncertainty_qubits = 3 S = 100 vol = 0.4 r = 0.04 T = 3*(30/365) mu = np.log(S) + (r-0.5*vol**2)*T sigma = vol*np.sqrt(T) mean = np.exp(mu - 0.5*sigma**2) variance = (np.exp(sigma**2)-1)*np.exp(2*mu + sigma**2) stddev = np.sqrt(variance) low = np.maximum(0, mean-3*stddev) high = mean + 3*stddev uncertainty_model = LogNormalDistribution(num_uncertainty_qubits, mu=mu, sigma=sigma**2, bounds=(low, high)) # 3 qubit LogNormalDistribution model uncertainty_model = LogNormalDistribution(3, mu=mu, sigma=sigma, bounds=(low, high)) # function to create the quantum circuit of the IntegerComparator and the uncertainty model # x_eval is the threshold below which the qubit should be flipped def get_cdf_circuit(x_eval): qr_state = QuantumRegister(uncertainty_model.num_qubits, 'state') qr_obj = QuantumRegister(1, 'obj') qr_comp = QuantumRegister(2, 'compare') state_preparation = QuantumCircuit(qr_state, qr_obj, qr_comp) state_preparation.append(uncertainty_model, qr_state) comparator = IntegerComparator(uncertainty_model.num_qubits, x_eval, geq=False) state_preparation.append(comparator, qr_state[:]+qr_obj[:]+qr_comp[:]) return state_preparation # Function to implement the Amplitude Estimation algorithm def run_ae_for_cdf(x_eval, epsilon=0.01, alpha=0.05, simulator='qasm_simulator'): state_preparation = get_cdf_circuit(x_eval) ae_var = IterativeAmplitudeEstimation(state_preparation=state_preparation, epsilon=epsilon, alpha=alpha, objective_qubits=[len(qr_state)]) result_var = ae_var.run(quantum_instance=Aer.get_backend(simulator), shots=100) return result_var['estimation']
+```
+
+```
+import matplotlib.pyplot as plt import numpy as np from qiskit import Aer, QuantumCircuit, QuantumRegister, execute from qiskit.aqua.algorithms import IterativeAmplitudeEstimation from qiskit.circuit.library import LogNormalDistribution, IntegerComparator num_uncertainty_qubits = 3 S = 100 vol = 0.4 r = 0.04 T = 3*(30/365) mu = np.log(S) + (r-0.5*vol**2)*T sigma = vol*np.sqrt(T) mean = np.exp(mu - 0.5*sigma**2) variance = (np.exp(sigma**2)-1)*np.exp(2*mu + sigma**2) stddev = np.sqrt(variance) low = np.maximum(0, mean-3*stddev) high = mean + 3*stddev uncertainty_model = LogNormalDistribution(num_uncertainty_qubits, mu=mu, sigma=sigma**2, bounds=(low, high)) # 3 qubit LogNormalDistribution model uncertainty_model = LogNormalDistribution(3, mu=mu, sigma=sigma, bounds=(low, high)) # function to create the quantum circuit of the IntegerComparator and the uncertainty model # x_eval is the threshold below which the qubit should be flipped def get_cdf_circuit(x_eval): qr_state = QuantumRegister(uncertainty_model.num_qubits, 'state') qr_obj = QuantumRegister(1, 'obj') qr_comp = QuantumRegister(2, 'compare') state_preparation = QuantumCircuit(qr_state, qr_obj, qr_comp) state_preparation.append(uncertainty_model, qr_state) comparator = IntegerComparator(uncertainty_model.num_qubits, x_eval, geq=False) state_preparation.append(comparator, qr_state[:]+qr_obj[:]+qr_comp[:]) return state_preparation # Function to implement the Amplitude Estimation algorithm def run_ae_for_cdf(x_eval, epsilon=0.01, alpha=0.05, simulator='qasm_simulator'): state_preparation = get_cdf_circuit(x_eval) ae_var = IterativeAmplitudeEstimation(state_preparation=state_preparation, epsilon=epsilon, alpha=alpha, objective_qubits=[len(qr_state)]) result_var = ae_var.run(quantum_instance=Aer.get_backend(simulator), shots=100) return result_var['estimation']
+```
+
+```
+def get_comparator(threshold, num_qubits, low, high): breakpoints = [low, threshold] offsets = [0,0] slopes = [0,0] f_min = 1 f_max = 0 objective = LinearAmplitudeFunction( num_qubits, slopes, offsets, domain=(low, high), image=(f_min, f_max), breakpoints=breakpoints ) return objective
+```
+
+```
+def get_comparator(threshold, num_qubits, low, high): breakpoints = [low, threshold] offsets = [0,0] slopes = [0,0] f_min = 1 f_max = 0 objective = LinearAmplitudeFunction( num_qubits, slopes, offsets, domain=(low, high), image=(f_min, f_max), breakpoints=breakpoints ) return objective
+```
+
+Original buggy code:
+import matplotlib.pyplot as plt import numpy as np from qiskit import Aer, QuantumCircuit, QuantumRegister, execute from qiskit.aqua.algorithms import IterativeAmplitudeEstimation from qiskit.circuit.library import LogNormalDistribution, IntegerComparator num_uncertainty_qubits = 3 S = 100 vol = 0.4 r = 0.04 T = 3*(30/365) mu = np.log(S) + (r-0.5*vol**2)*T sigma = vol*np.sqrt(T) mean = np.exp(mu - 0.5*sigma**2) variance = (np.exp(sigma**2)-1)*np.exp(2*mu + sigma**2) stddev = np.sqrt(variance) low = np.maximum(0, mean-3*stddev) high = mean + 3*stddev uncertainty_model = LogNormalDistribution(num_uncertainty_qubits, mu=mu, sigma=sigma**2, bounds=(low, high)) # 3 qubit LogNormalDistribution model uncertainty_model = LogNormalDistribution(3, mu=mu, sigma=sigma, bounds=(low, high)) # function to create the quantum circuit of the IntegerComparator and the uncertainty model # x_eval is the threshold below which the qubit should be flipped def get_cdf_circuit(x_eval): qr_state = QuantumRegister(uncertainty_model.num_qubits, 'state') qr_obj = QuantumRegister(1, 'obj') qr_comp = QuantumRegister(2, 'compare') state_preparation = QuantumCircuit(qr_state, qr_obj, qr_comp) state_preparation.append(uncertainty_model, qr_state) comparator = IntegerComparator(uncertainty_model.num_qubits, x_eval, geq=False) state_preparation.append(comparator, qr_state[:]+qr_obj[:]+qr_comp[:]) return state_preparation # Function to implement the Amplitude Estimation algorithm def run_ae_for_cdf(x_eval, epsilon=0.01, alpha=0.05, simulator='qasm_simulator'): state_preparation = get_cdf_circuit(x_eval) ae_var = IterativeAmplitudeEstimation(state_preparation=state_preparation, epsilon=epsilon, alpha=alpha, objective_qubits=[len(qr_state)]) result_var = ae_var.run(quantum_instance=Aer.get_backend(simulator), shots=100) return result_var['estimation']
+
+---CODE_BLOCK---
+
+import matplotlib.pyplot as plt import numpy as np from qiskit import Aer, QuantumCircuit, QuantumRegister, execute from qiskit.aqua.algorithms import IterativeAmplitudeEstimation from qiskit.circuit.library import LogNormalDistribution, IntegerComparator num_uncertainty_qubits = 3 S = 100 vol = 0.4 r = 0.04 T = 3*(30/365) mu = np.log(S) + (r-0.5*vol**2)*T sigma = vol*np.sqrt(T) mean = np.exp(mu - 0.5*sigma**2) variance = (np.exp(sigma**2)-1)*np.exp(2*mu + sigma**2) stddev = np.sqrt(variance) low = np.maximum(0, mean-3*stddev) high = mean + 3*stddev uncertainty_model = LogNormalDistribution(num_uncertainty_qubits, mu=mu, sigma=sigma**2, bounds=(low, high)) # 3 qubit LogNormalDistribution model uncertainty_model = LogNormalDistribution(3, mu=mu, sigma=sigma, bounds=(low, high)) # function to create the quantum circuit of the IntegerComparator and the uncertainty model # x_eval is the threshold below which the qubit should be flipped def get_cdf_circuit(x_eval): qr_state = QuantumRegister(uncertainty_model.num_qubits, 'state') qr_obj = QuantumRegister(1, 'obj') qr_comp = QuantumRegister(2, 'compare') state_preparation = QuantumCircuit(qr_state, qr_obj, qr_comp) state_preparation.append(uncertainty_model, qr_state) comparator = IntegerComparator(uncertainty_model.num_qubits, x_eval, geq=False) state_preparation.append(comparator, qr_state[:]+qr_obj[:]+qr_comp[:]) return state_preparation # Function to implement the Amplitude Estimation algorithm def run_ae_for_cdf(x_eval, epsilon=0.01, alpha=0.05, simulator='qasm_simulator'): state_preparation = get_cdf_circuit(x_eval) ae_var = IterativeAmplitudeEstimation(state_preparation=state_preparation, epsilon=epsilon, alpha=alpha, objective_qubits=[len(qr_state)]) result_var = ae_var.run(quantum_instance=Aer.get_backend(simulator), shots=100) return result_var['estimation']
+
+---CODE_BLOCK---
+
+def get_comparator(threshold, num_qubits, low, high): breakpoints = [low, threshold] offsets = [0,0] slopes = [0,0] f_min = 1 f_max = 0 objective = LinearAmplitudeFunction( num_qubits, slopes, offsets, domain=(low, high), image=(f_min, f_max), breakpoints=breakpoints ) return objective
+
+---CODE_BLOCK---
+
+def get_comparator(threshold, num_qubits, low, high): breakpoints = [low, threshold] offsets = [0,0] slopes = [0,0] f_min = 1 f_max = 0 objective = LinearAmplitudeFunction( num_qubits, slopes, offsets, domain=(low, high), image=(f_min, f_max), breakpoints=breakpoints ) return objective
+
+Solution explanation:
+I think it would be also useful to see your Quantum Circuit using and to see whether all gates are correctly connected. I had a similar problem with QAE and figured out by using this method that the order of qubits I tried to append the onto was wrong. Cheers
+
+```
+%matplotlib inline
+```
+
+```
+qc.draw('mpl')
+```
+
+```
+IntegerComparator
+```
+
+Original fixed code:
+%matplotlib inline
+
+---CODE_BLOCK---
+
+qc.draw('mpl')
+
+---CODE_BLOCK---
+
+IntegerComparator

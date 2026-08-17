@@ -1,0 +1,51 @@
+Title:
+What is the meaning of complex expected values?
+
+Category:
+
+
+Question:
+Title: What is the meaning of complex expected values?
+
+Introduction I am using BQSKIT to compile an approximation of a Toffoli gate (for testing purposes) and output to a QISKIT QuantumCircuit. I want to find the expected value of this approximation to find out how good it is using exact methods. In an attempt to do so, I first use this circuit to get an Operator. I then create a state vector and use the expectation_value method to compute the expected value. I include the relevant code snippet below. The result is a complex number: (1.0000000000000004-6.814549413037705e-13j). The Code The Primary Question What is the meaning of a complex expected value? The Secondary Questions Am I using expectation_value correctly? Have I correctly understood that it gives an exact solution via linear algebra and is not based on simulation?
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector from qiskit.quantum_info import Operator qc = bqskit_to_qiskit(out_circuit) op = Operator( qc ) testVector = Statevector( QuantumCircuit( 3 )) print('Exact:', testVector.expectation_value(op) )
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector from qiskit.quantum_info import Operator qc = bqskit_to_qiskit(out_circuit) op = Operator( qc ) testVector = Statevector( QuantumCircuit( 3 )) print('Exact:', testVector.expectation_value(op) )
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector from qiskit.quantum_info import Operator qc = bqskit_to_qiskit(out_circuit) op = Operator( qc ) testVector = Statevector( QuantumCircuit( 3 )) print('Exact:', testVector.expectation_value(op) )
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector from qiskit.quantum_info import Operator qc = bqskit_to_qiskit(out_circuit) op = Operator( qc ) testVector = Statevector( QuantumCircuit( 3 )) print('Exact:', testVector.expectation_value(op) )
+
+Solution explanation:
+This is a floating point error. The way computers work with floating point numbers, very small errors can happen. You can check it by trying to see if (spoilers, it's not, according to python, ) This is what has happened here. If you were doing the calculation analytically by hand somewhere you would find a place where all the complex elements cancel out. But during this subtraction python has made an error, thus giving you this answer. This error is exactly because it's trying to use linear algebra and it's not a simulation. I suggest using before the result. This will identify any such errors (like your 0.00000000000068j off answer) and hide them.
+
+```
+0.1+0.1+0.1 == 0.3
+```
+
+```
+0.1+0.1+0.1=0.30000000000000004
+```
+
+```
+numpy.real_if_close
+```
+
+Original fixed code:
+0.1+0.1+0.1 == 0.3
+
+---CODE_BLOCK---
+
+0.1+0.1+0.1=0.30000000000000004
+
+---CODE_BLOCK---
+
+numpy.real_if_close

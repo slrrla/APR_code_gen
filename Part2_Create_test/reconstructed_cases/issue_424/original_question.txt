@@ -1,0 +1,63 @@
+Title:
+Why is qiskit's VarQITE not estimating expectation correctly?
+
+Category:
+Category:
+Backend Usage / Simulation / Output
+
+Why AI Wins in This Category:
+For simulation-related questions involving algorithmic convergence and output precision, the AI’s ability to examine multiple error sources—beyond just the ansatz—makes it superior. It also provides runnable alternatives and debugging strategies, which are crucial when tuning VQAs like VarQITE.
+
+Question:
+Title: Why is qiskit's VarQITE not estimating expectation correctly?
+
+I am using Variational Quantum Imaginary Time Evolution to find the lowest eigenvalue and corresponding eigensatate of a Hamiltonian through Qiskit's VarQITE method. But, for a circuit of 4 qubits or more, the algorithm is not quite estimating the expected result. It is converging to a close value (not enough) and the evolved state is in the correct superposition but the amplitudes are not quite right. For example, for a 4 qubit operator, these were the results : I used the McLachlanPrinciple with ReverseEstimatorGradient() for time = 1 sec for 100 time steps. I tried this with the EfficientSU2 ansatz and a custom ansatz. The custom one gave better results but still not close to the exact values. Is there something I can do get a better estimation? EfficientSU2 : Custom ansatz :
+
+```
+Evolved statevector = [(-0+0j), 0j, 0j, (0.325+0j), 0j, (-0.444+0j), (0.444+0j), 0j, 0j, (0.444+0j), (-0.444+0j), 0j, (0.325+0j), 0j, 0j, 0j] Overlap with exact statevector = [(-0.987868853779132+0j)] Estimated Lowest Eigenvalue = -17.124355652981265 Exact lowest eigenvalue found : -17.79898987322333 Exact Eigenstate = [0j, 0j, 0j, (-0.354+0j), (-0+0j), (0.5+0j), (-0.354+0j), 0j, 0j, (-0.354+0j), (0.5+0j), 0j, (-0.354+0j), (-0+0j), 0j, 0j]
+```
+
+```
+Evolved statevector = [(-0+0j), 0j, 0j, (0.325+0j), 0j, (-0.444+0j), (0.444+0j), 0j, 0j, (0.444+0j), (-0.444+0j), 0j, (0.325+0j), 0j, 0j, 0j] Overlap with exact statevector = [(-0.987868853779132+0j)] Estimated Lowest Eigenvalue = -17.124355652981265 Exact lowest eigenvalue found : -17.79898987322333 Exact Eigenstate = [0j, 0j, 0j, (-0.354+0j), (-0+0j), (0.5+0j), (-0.354+0j), 0j, 0j, (-0.354+0j), (0.5+0j), 0j, (-0.354+0j), (-0+0j), 0j, 0j]
+```
+
+Original buggy code:
+Evolved statevector = [(-0+0j), 0j, 0j, (0.325+0j), 0j, (-0.444+0j), (0.444+0j), 0j, 0j, (0.444+0j), (-0.444+0j), 0j, (0.325+0j), 0j, 0j, 0j] Overlap with exact statevector = [(-0.987868853779132+0j)] Estimated Lowest Eigenvalue = -17.124355652981265 Exact lowest eigenvalue found : -17.79898987322333 Exact Eigenstate = [0j, 0j, 0j, (-0.354+0j), (-0+0j), (0.5+0j), (-0.354+0j), 0j, 0j, (-0.354+0j), (0.5+0j), 0j, (-0.354+0j), (-0+0j), 0j, 0j]
+
+---CODE_BLOCK---
+
+Evolved statevector = [(-0+0j), 0j, 0j, (0.325+0j), 0j, (-0.444+0j), (0.444+0j), 0j, 0j, (0.444+0j), (-0.444+0j), 0j, (0.325+0j), 0j, 0j, 0j] Overlap with exact statevector = [(-0.987868853779132+0j)] Estimated Lowest Eigenvalue = -17.124355652981265 Exact lowest eigenvalue found : -17.79898987322333 Exact Eigenstate = [0j, 0j, 0j, (-0.354+0j), (-0+0j), (0.5+0j), (-0.354+0j), 0j, 0j, (-0.354+0j), (0.5+0j), 0j, (-0.354+0j), (-0+0j), 0j, 0j]
+
+Solution explanation:
+The solution quality depends on the ansatz, which determines the subspace of the Hilbert space you have access to the time integration method the measurement error in calculating the quantum geometric tensor and the energy gradients The integration error can be controlled with the number of time steps or the integration method. Here you're using the default (forward Euler integration) with a timestep of 1/100, which is usually quite accurate. You're also eliminating measurement errors by using the and , which are exact method. Therefore the only error source left is the ansatz selection. As you already noticed, your custom ansatz improved the performance, but it seems your ansatz is still not powerful enough. If you use a heuristic ansatz like it is generally expected that you have to increase the circuit depth (with the ) argument for a better result. Otherwise you can try to use a circuit tailored to your problem, that e.g. includes symmetries of your Hamiltonian. What kind of Hamiltonian are you trying to solve? And what exactly are the circuit settings?
+
+```
+ReverseEstimatorGradient
+```
+
+```
+ReverseQGT
+```
+
+```
+EfficientSU2
+```
+
+```
+reps
+```
+
+Original fixed code:
+ReverseEstimatorGradient
+
+---CODE_BLOCK---
+
+ReverseQGT
+
+---CODE_BLOCK---
+
+EfficientSU2
+
+---CODE_BLOCK---
+
+reps

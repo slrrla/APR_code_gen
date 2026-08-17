@@ -1,0 +1,39 @@
+Title:
+Is CSP Layout always the first algorithm used by qiskit transpiler to map quantum circuit?
+
+Category:
+Category : Transpiler Behavior & Custom Pass Management
+
+Both sources are accurate: Stack Overflow explains version-based layout behavior clearly; AI shows how to implement CSPLayout via PassManager with practical code. Their combination provides a full understanding.
+
+
+
+Question:
+Title: Is CSP Layout always the first algorithm used by qiskit transpiler to map quantum circuit?
+
+I'm using Qiskit transpile with optimization_level=3 . I was wondering if CSP layout selector is always the first algorithm tried by Qiskit, also if I set as layout_method='noise_adaptive' or other methods. 
+ If not, how to force the transpiler to use CSP layout selector? I tried with layout_method='csp_layout' , but I get the following exception: 
+ qiskit.transpiler.exceptions.TranspilerError: 'Invalid layout method csp_layout.
+
+```
+qiskit.transpiler.exceptions.TranspilerError: 'Invalid layout method csp_layout.
+```
+
+Original buggy code:
+qiskit.transpiler.exceptions.TranspilerError: 'Invalid layout method csp_layout.
+
+Solution explanation:
+For Qiskit 0.23 or earlier (qiskit-terra 0.16) 
+ The answer is yes , CSPLayout will run in optimization level 2 or higher, even if a layout_method is provided. 
+ This file constructs the pass manager for optimization level 3:
+ https://github.com/Qiskit/qiskit-terra/blob/master/qiskit/transpiler/preset_passmanagers/level3.py 
+ Currently, the first choice for layout selector is always CSPLayout(coupling_map, call_limit=10000, time_limit=60) and the possible options for layout_method (if CSP layout does not find a solution) are 'trivial' , 'dense' , 'noise_adaptive' , and 'sabre' . 
+
+ For Qiskit 0.24 or latter (qiskit-terra 0.17) 
+ With the merge of PR #5495 , the answer is it depends . CSPLayout runs in level 2 and 3. If layout_method is provided, then that method will be used.
+
+Original fixed code:
+For Qiskit 0.23 or earlier (qiskit-terra 0.16)
+ Currently, the first choice for layout selector is always CSPLayout(coupling_map, call_limit=10000, time_limit=60) and the possible options for layout_method (if CSP layout does not find a solution) are 'trivial' , 'dense' , 'noise_adaptive' , and 'sabre' .
+ For Qiskit 0.24 or latter (qiskit-terra 0.17)
+ With the merge of PR #5495 , the answer is it depends . CSPLayout runs in level 2 and 3. If layout_method is provided, then that method will be used.

@@ -1,0 +1,78 @@
+Title:
+Is it true that $Ry(\pi/2)\sigma_zRy(-\pi/2)=\sigma_x$?
+
+Category:
+Category: Circuit Construction / Logic / Gates
+
+Why AI Wins in This Category:
+The AI solution excels in this logic/gate-level category by correcting a foundational matrix error, providing the correct gate decomposition, and ensuring direct reproducibility in Python, which is more relevant for the Qiskit user base. It enhances understanding and offers a verifiable fix
+
+Question:
+Title: Is it true that $Ry(\pi/2)\sigma_zRy(-\pi/2)=\sigma_x$?
+
+I saw in a qiskit document that said $Ry(\pi/2)\sigma_zRy(-\pi/2)=\sigma_x$ To confirm this I decided to create the matrix representations of these operations and multiply them together to see if I get the correct matrix, but when I did this in numpy I didn't get the correct matrix This outputs While I was expecting Am I doing something wrong? For my $Rz$ gate I used the following model $$ Rz(\theta)= \begin{pmatrix} \mathrm{e}^{-i\frac{\theta}{2}} & 0 \\ 0 & \mathrm{e}^{i\frac{\theta}{2}} \\ \end{pmatrix} $$ and the $\sigma_x$ and $\sigma_z$ are supposed to be just standard Pauli operators.
+
+```
+import numpy as np sig_z = np.array([[1,0],[0,-1]]) rz = np.array([[np.exp(-1j*np.pi/4), 0],[0,np.exp(1j*np.pi/4)]]) print(np.matmul(rz, np.matmul(sig_z, -rz)))
+```
+
+```
+import numpy as np sig_z = np.array([[1,0],[0,-1]]) rz = np.array([[np.exp(-1j*np.pi/4), 0],[0,np.exp(1j*np.pi/4)]]) print(np.matmul(rz, np.matmul(sig_z, -rz)))
+```
+
+```
+array([[-2.22044605e-16+1.j, 0.00000000e+00+0.j], [ 0.00000000e+00+0.j, 2.22044605e-16+1.j]])
+```
+
+```
+array([[-2.22044605e-16+1.j, 0.00000000e+00+0.j], [ 0.00000000e+00+0.j, 2.22044605e-16+1.j]])
+```
+
+```
+array([[0+0.j, 1+0.j], [1+0.j, 0+0.j]])
+```
+
+```
+array([[0+0.j, 1+0.j], [1+0.j, 0+0.j]])
+```
+
+Original buggy code:
+import numpy as np sig_z = np.array([[1,0],[0,-1]]) rz = np.array([[np.exp(-1j*np.pi/4), 0],[0,np.exp(1j*np.pi/4)]]) print(np.matmul(rz, np.matmul(sig_z, -rz)))
+
+---CODE_BLOCK---
+
+import numpy as np sig_z = np.array([[1,0],[0,-1]]) rz = np.array([[np.exp(-1j*np.pi/4), 0],[0,np.exp(1j*np.pi/4)]]) print(np.matmul(rz, np.matmul(sig_z, -rz)))
+
+---CODE_BLOCK---
+
+array([[-2.22044605e-16+1.j, 0.00000000e+00+0.j], [ 0.00000000e+00+0.j, 2.22044605e-16+1.j]])
+
+---CODE_BLOCK---
+
+array([[-2.22044605e-16+1.j, 0.00000000e+00+0.j], [ 0.00000000e+00+0.j, 2.22044605e-16+1.j]])
+
+---CODE_BLOCK---
+
+array([[0+0.j, 1+0.j], [1+0.j, 0+0.j]])
+
+---CODE_BLOCK---
+
+array([[0+0.j, 1+0.j], [1+0.j, 0+0.j]])
+
+Solution explanation:
+$Ry$ gate is defined as $$ Ry(\theta) = \begin{pmatrix} \cos(\theta/2) & -\sin(\theta/2) \\ \sin(\theta/2) & \cos(\theta/2) \end{pmatrix}. $$ Hence $$ Ry(\pi/2) = \begin{pmatrix} \cos(\pi/4) & -\sin(\pi/4) \\ \sin(\pi/4) & \cos(\pi/4) \end{pmatrix} = \frac{1}{\sqrt{2}} \begin{pmatrix} 1 & -1 \\ 1 & 1 \end{pmatrix}. $$ Similarly for $Ry(-\pi/2)$ we have (sine is odd function, so we only change sign before the sine, cosine is even, hence we left the sign unchanged) $$ Ry(-\pi/2) = \frac{1}{\sqrt{2}} \begin{pmatrix} 1 & 1 \\ -1 & 1 \end{pmatrix}. $$ Now, by direct multiplication of the matrices we came to $$ Ry(\pi/2)\,Z\,Ry(-\pi/2)= \frac{1}{2} \begin{pmatrix} 1 & -1 \\ 1 & 1 \end{pmatrix} \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} \begin{pmatrix} 1 & 1 \\ -1 & 1 \end{pmatrix}= \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = X. $$ Here is calculation Octave (MatLab):
+
+```
+>> Ry = [cos(pi/4) -sin(pi/4); sin(pi/4) cos(pi/4)] Ry = 0.70711 -0.70711 0.70711 0.70711 >> dgRy = [cos(-pi/4) -sin(-pi/4); sin(-pi/4) cos(-pi/4)] dgRy = 0.70711 0.70711 -0.70711 0.70711 >> Z=[1 0; 0 -1]; >> Z Z = 1 0 0 -1 >> Ry*Z*dgRy ans = 2.2204e-016 1.0000e+000 1.0000e+000 -2.2204e-016
+```
+
+```
+>> Ry = [cos(pi/4) -sin(pi/4); sin(pi/4) cos(pi/4)] Ry = 0.70711 -0.70711 0.70711 0.70711 >> dgRy = [cos(-pi/4) -sin(-pi/4); sin(-pi/4) cos(-pi/4)] dgRy = 0.70711 0.70711 -0.70711 0.70711 >> Z=[1 0; 0 -1]; >> Z Z = 1 0 0 -1 >> Ry*Z*dgRy ans = 2.2204e-016 1.0000e+000 1.0000e+000 -2.2204e-016
+```
+
+Original fixed code:
+>> Ry = [cos(pi/4) -sin(pi/4); sin(pi/4) cos(pi/4)] Ry = 0.70711 -0.70711 0.70711 0.70711 >> dgRy = [cos(-pi/4) -sin(-pi/4); sin(-pi/4) cos(-pi/4)] dgRy = 0.70711 0.70711 -0.70711 0.70711 >> Z=[1 0; 0 -1]; >> Z Z = 1 0 0 -1 >> Ry*Z*dgRy ans = 2.2204e-016 1.0000e+000 1.0000e+000 -2.2204e-016
+
+---CODE_BLOCK---
+
+>> Ry = [cos(pi/4) -sin(pi/4); sin(pi/4) cos(pi/4)] Ry = 0.70711 -0.70711 0.70711 0.70711 >> dgRy = [cos(-pi/4) -sin(-pi/4); sin(-pi/4) cos(-pi/4)] dgRy = 0.70711 0.70711 -0.70711 0.70711 >> Z=[1 0; 0 -1]; >> Z Z = 1 0 0 -1 >> Ry*Z*dgRy ans = 2.2204e-016 1.0000e+000 1.0000e+000 -2.2204e-016

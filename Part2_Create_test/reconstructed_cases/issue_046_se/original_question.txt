@@ -1,0 +1,31 @@
+Title:
+Preparing a maximally entangled state among four qubits
+
+Category:
+Category:
+General / Entanglement Circuit Design
+
+Why Stack Overflow Wins in This Category:
+In problems involving structured entangled state generation, clarity and efficiency are key. The Stack Overflow solution offers:
+
+A clever analytical shortcut via Hadamard logic.
+
+Avoids manual gate enumeration.
+
+Results in cleaner, scalable, and more intuitive circuits.
+
+More practical for real quantum hardware or large systems.
+
+Question:
+Title: Preparing a maximally entangled state among four qubits
+
+I am trying to create the following states in Qiskit, but having trouble with the nested loops. Can someone help me create it? $\left|\psi_o\right\rangle=\frac{1}{\sqrt{8}}\left(\sum_i \hat{\sigma}_{x, i}+\sum_{i, j, k} \hat{\sigma}_{x, i} \hat{\sigma}_{x, j} \hat{\sigma}_{x, k}\right)|0,0,0,0\rangle$, and $\left|\psi_e\right\rangle=\frac{1}{\sqrt{8}}\left(\sum_{i, j} \hat{\sigma}_{x, i} \hat{\sigma}_{x, j}+\hat{I}+\hat{\sigma}_{x, 1} \hat{\sigma}_{x, 2} \hat{\sigma}_{x, 3} \hat{\sigma}_{x, 4}\right)|0,0,0,0\rangle$
+
+Original buggy code:
+I am trying to create the following states in Qiskit, but having trouble with the nested loops. Can someone help me create it? $\left|\psi_o\right\rangle=\frac{1}{\sqrt{8}}\left(\sum_i \hat{\sigma}_{x, i}+\sum_{i, j, k} \hat{\sigma}_{x, i} \hat{\sigma}_{x, j} \hat{\sigma}_{x, k}\right)|0,0,0,0\rangle$, and $\left|\psi_e\right\rangle=\frac{1}{\sqrt{8}}\left(\sum_{i, j} \hat{\sigma}_{x, i} \hat{\sigma}_{x, j}+\hat{I}+\hat{\sigma}_{x, 1} \hat{\sigma}_{x, 2} \hat{\sigma}_{x, 3} \hat{\sigma}_{x, 4}\right)|0,0,0,0\rangle$
+
+Solution explanation:
+If I'm correctly understanding that states that you want, it's two 4-qubit states which are uniform superpositions over all basis states, but restricted to where the number of 1s is even/odd respectively? Here's a trick: if I apply Hadamard to all 4 qubits initially in the $|0\rangle$ state, I prepare a uniform superposition over all basis states. If I apply Hadamard to all 4 qubits initially in the $|1\rangle$ state, I prepare a superposition over all basis states, but those with an odd number of 1s have a -1 phase. Hence, to produce the even weighted superposition, it is enough to produce $$ \frac{1}{\sqrt{2}}(|0000\rangle+|1111\rangle) $$ and apply Hadamard to all 4 qubits. I'm hoping you know how to prepare that 4 qubit state. By the same reasoning, you should be able to create the odd-weight state as well.
+
+Original fixed code:
+If I'm correctly understanding that states that you want, it's two 4-qubit states which are uniform superpositions over all basis states, but restricted to where the number of 1s is even/odd respectively? Here's a trick: if I apply Hadamard to all 4 qubits initially in the $|0\rangle$ state, I prepare a uniform superposition over all basis states. If I apply Hadamard to all 4 qubits initially in the $|1\rangle$ state, I prepare a superposition over all basis states, but those with an odd number of 1s have a -1 phase. Hence, to produce the even weighted superposition, it is enough to produce $$ \frac{1}{\sqrt{2}}(|0000\rangle+|1111\rangle) $$ and apply Hadamard to all 4 qubits. I'm hoping you know how to prepare that 4 qubit state. By the same reasoning, you should be able to create the odd-weight state as well.

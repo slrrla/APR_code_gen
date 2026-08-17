@@ -1,0 +1,155 @@
+Title:
+Job fails when using PulseSimulator: Job Status: job incurred error
+
+Category:
+
+
+Question:
+Title: Job fails when using PulseSimulator: Job Status: job incurred error
+
+I'm trying to simulate a basic circuit using the in Qiskit. The following Qiskit Pulse code works when I run it on the real device, but not when using the . The job monitor tells me and nothing else. Trying to run any gates native to the device causes an issue. If I remove then it runs fine, but I can't figure out what I'm doing wrong. I'd deeply appreciate any support. I'm using
+
+```
+PulseSimulator
+```
+
+```
+PulseSimulator
+```
+
+```
+Job Status: job incurred error
+```
+
+```
+schedule += inst_sched_map.get('u2', [qubit], P0=0.0, P1=np.pi)
+```
+
+```
+qiskit 0.23.2
+```
+
+```
+#Essential Imports import numpy as np # Qiskit Imports from qiskit.providers.aer import PulseSimulator from qiskit import IBMQ, assemble from qiskit.tools.monitor import job_monitor import qiskit.pulse as pulse # Connect to an IBMQ Account and Backend API_TOKEN = '' IBMQ.save_account(API_TOKEN, overwrite=True) IBMQ.load_account() provider = IBMQ.get_provider() backend = provider.get_backend("ibmq_armonk") backend_pulse_simulator = PulseSimulator.from_backend(backend) #backend # Get information about the backend qubit = 0 backend_defaults = backend.defaults() backend_properties = backend.properties() qubit_frequency_updated = backend_properties.qubit_property(qubit, 'frequency')[0] inst_sched_map = backend_defaults.instruction_schedule_map measure_schedule = inst_sched_map.get('measure', qubits=[qubit]) # Assemble a job - circuit with a single qubit-> u2 gate -> measurement num_shots_per_point = 1024 drive_chan = pulse.DriveChannel(qubit) schedule = pulse.Schedule() schedule += inst_sched_map.get('u2', [qubit], P0=0.0, P1=np.pi) # Removing this solves the issue - why? schedule += measure_schedule << schedule.duration pulse_program = assemble(schedule, backend=backend_pulse_simulator, meas_level=2, meas_return="single", shots=num_shots_per_point, schedule_los=[{drive_chan: qubit_frequency_updated}]) # Run the job job = backend_pulse_simulator.run(pulse_program) job_monitor(job)
+```
+
+```
+#Essential Imports import numpy as np # Qiskit Imports from qiskit.providers.aer import PulseSimulator from qiskit import IBMQ, assemble from qiskit.tools.monitor import job_monitor import qiskit.pulse as pulse # Connect to an IBMQ Account and Backend API_TOKEN = '' IBMQ.save_account(API_TOKEN, overwrite=True) IBMQ.load_account() provider = IBMQ.get_provider() backend = provider.get_backend("ibmq_armonk") backend_pulse_simulator = PulseSimulator.from_backend(backend) #backend # Get information about the backend qubit = 0 backend_defaults = backend.defaults() backend_properties = backend.properties() qubit_frequency_updated = backend_properties.qubit_property(qubit, 'frequency')[0] inst_sched_map = backend_defaults.instruction_schedule_map measure_schedule = inst_sched_map.get('measure', qubits=[qubit]) # Assemble a job - circuit with a single qubit-> u2 gate -> measurement num_shots_per_point = 1024 drive_chan = pulse.DriveChannel(qubit) schedule = pulse.Schedule() schedule += inst_sched_map.get('u2', [qubit], P0=0.0, P1=np.pi) # Removing this solves the issue - why? schedule += measure_schedule << schedule.duration pulse_program = assemble(schedule, backend=backend_pulse_simulator, meas_level=2, meas_return="single", shots=num_shots_per_point, schedule_los=[{drive_chan: qubit_frequency_updated}]) # Run the job job = backend_pulse_simulator.run(pulse_program) job_monitor(job)
+```
+
+Original buggy code:
+PulseSimulator
+
+---CODE_BLOCK---
+
+PulseSimulator
+
+---CODE_BLOCK---
+
+Job Status: job incurred error
+
+---CODE_BLOCK---
+
+schedule += inst_sched_map.get('u2', [qubit], P0=0.0, P1=np.pi)
+
+---CODE_BLOCK---
+
+qiskit 0.23.2
+
+---CODE_BLOCK---
+
+#Essential Imports import numpy as np # Qiskit Imports from qiskit.providers.aer import PulseSimulator from qiskit import IBMQ, assemble from qiskit.tools.monitor import job_monitor import qiskit.pulse as pulse # Connect to an IBMQ Account and Backend API_TOKEN = '' IBMQ.save_account(API_TOKEN, overwrite=True) IBMQ.load_account() provider = IBMQ.get_provider() backend = provider.get_backend("ibmq_armonk") backend_pulse_simulator = PulseSimulator.from_backend(backend) #backend # Get information about the backend qubit = 0 backend_defaults = backend.defaults() backend_properties = backend.properties() qubit_frequency_updated = backend_properties.qubit_property(qubit, 'frequency')[0] inst_sched_map = backend_defaults.instruction_schedule_map measure_schedule = inst_sched_map.get('measure', qubits=[qubit]) # Assemble a job - circuit with a single qubit-> u2 gate -> measurement num_shots_per_point = 1024 drive_chan = pulse.DriveChannel(qubit) schedule = pulse.Schedule() schedule += inst_sched_map.get('u2', [qubit], P0=0.0, P1=np.pi) # Removing this solves the issue - why? schedule += measure_schedule << schedule.duration pulse_program = assemble(schedule, backend=backend_pulse_simulator, meas_level=2, meas_return="single", shots=num_shots_per_point, schedule_los=[{drive_chan: qubit_frequency_updated}]) # Run the job job = backend_pulse_simulator.run(pulse_program) job_monitor(job)
+
+---CODE_BLOCK---
+
+#Essential Imports import numpy as np # Qiskit Imports from qiskit.providers.aer import PulseSimulator from qiskit import IBMQ, assemble from qiskit.tools.monitor import job_monitor import qiskit.pulse as pulse # Connect to an IBMQ Account and Backend API_TOKEN = '' IBMQ.save_account(API_TOKEN, overwrite=True) IBMQ.load_account() provider = IBMQ.get_provider() backend = provider.get_backend("ibmq_armonk") backend_pulse_simulator = PulseSimulator.from_backend(backend) #backend # Get information about the backend qubit = 0 backend_defaults = backend.defaults() backend_properties = backend.properties() qubit_frequency_updated = backend_properties.qubit_property(qubit, 'frequency')[0] inst_sched_map = backend_defaults.instruction_schedule_map measure_schedule = inst_sched_map.get('measure', qubits=[qubit]) # Assemble a job - circuit with a single qubit-> u2 gate -> measurement num_shots_per_point = 1024 drive_chan = pulse.DriveChannel(qubit) schedule = pulse.Schedule() schedule += inst_sched_map.get('u2', [qubit], P0=0.0, P1=np.pi) # Removing this solves the issue - why? schedule += measure_schedule << schedule.duration pulse_program = assemble(schedule, backend=backend_pulse_simulator, meas_level=2, meas_return="single", shots=num_shots_per_point, schedule_los=[{drive_chan: qubit_frequency_updated}]) # Run the job job = backend_pulse_simulator.run(pulse_program) job_monitor(job)
+
+Solution explanation:
+The with pulse can be the result of a timing problem in the execution of different pulses, but in your code the class must get backends provided by Terra such as , ..etc. For example: The have the properties of the IBM Quantum devices data and are stored in Qiskit Terra. Another way is to specify a from a real backend and pass the system model to the execution method. Below is an example with . hope this helps Patrick
+
+```
+Job Status: job incurred error
+```
+
+```
+PulseSimulator()
+```
+
+```
+FakeArmonk()
+```
+
+```
+FakeParis()
+```
+
+```
+from qiskit.test.mock import FakeArmonk backend=FakeArmonk() backend_pulse_simulator = PulseSimulator.from_backend(backend) # using FakeArmonk() backend print(type(backend_pulse_simulator))
+```
+
+```
+from qiskit.test.mock import FakeArmonk backend=FakeArmonk() backend_pulse_simulator = PulseSimulator.from_backend(backend) # using FakeArmonk() backend print(type(backend_pulse_simulator))
+```
+
+```
+FakeBackends()
+```
+
+```
+PulseSystemModel()
+```
+
+```
+ibmq_armonk
+```
+
+```
+from qiskit.providers.aer.pulse import PulseSystemModel from qiskit.providers.aer import PulseSimulator armonk_backend= provider.get_backend("ibmq_armonk") armonk_model = PulseSystemModel.from_backend(armonk_backend) backend_pulse_simulator=PulseSimulator() job = backend_pulse_simulator.run(pulse_program, armonk_model)
+```
+
+```
+from qiskit.providers.aer.pulse import PulseSystemModel from qiskit.providers.aer import PulseSimulator armonk_backend= provider.get_backend("ibmq_armonk") armonk_model = PulseSystemModel.from_backend(armonk_backend) backend_pulse_simulator=PulseSimulator() job = backend_pulse_simulator.run(pulse_program, armonk_model)
+```
+
+Original fixed code:
+Job Status: job incurred error
+
+---CODE_BLOCK---
+
+PulseSimulator()
+
+---CODE_BLOCK---
+
+FakeArmonk()
+
+---CODE_BLOCK---
+
+FakeParis()
+
+---CODE_BLOCK---
+
+from qiskit.test.mock import FakeArmonk backend=FakeArmonk() backend_pulse_simulator = PulseSimulator.from_backend(backend) # using FakeArmonk() backend print(type(backend_pulse_simulator))
+
+---CODE_BLOCK---
+
+from qiskit.test.mock import FakeArmonk backend=FakeArmonk() backend_pulse_simulator = PulseSimulator.from_backend(backend) # using FakeArmonk() backend print(type(backend_pulse_simulator))
+
+---CODE_BLOCK---
+
+FakeBackends()
+
+---CODE_BLOCK---
+
+PulseSystemModel()
+
+---CODE_BLOCK---
+
+ibmq_armonk
+
+---CODE_BLOCK---
+
+from qiskit.providers.aer.pulse import PulseSystemModel from qiskit.providers.aer import PulseSimulator armonk_backend= provider.get_backend("ibmq_armonk") armonk_model = PulseSystemModel.from_backend(armonk_backend) backend_pulse_simulator=PulseSimulator() job = backend_pulse_simulator.run(pulse_program, armonk_model)
+
+---CODE_BLOCK---
+
+from qiskit.providers.aer.pulse import PulseSystemModel from qiskit.providers.aer import PulseSimulator armonk_backend= provider.get_backend("ibmq_armonk") armonk_model = PulseSystemModel.from_backend(armonk_backend) backend_pulse_simulator=PulseSimulator() job = backend_pulse_simulator.run(pulse_program, armonk_model)

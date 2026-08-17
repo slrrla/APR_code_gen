@@ -1,0 +1,95 @@
+Title:
+Qiskit: Taking a QUBO matrix into `qubit_op'
+
+Category:
+Category:
+Circuit Construction / Logic / Gates (since it deals with constructing the QAOA Hamiltonian operator from QUBO)
+
+Why Both Win in This Category:
+The AI answer provides a streamlined, programmatic approach using QuadraticProgram, while the Stack Overflow solution illustrates correctness with a DOCPLEX LP model and auto-conversion function. Both converge to the same Qiskit workflow (qp.get_operator() or .to_ising()), so neither is superior—they represent two equally valid paths to the same solution.
+
+Question:
+Title: Qiskit: Taking a QUBO matrix into `qubit_op'
+
+I'm trying to solve the maximum independent set problem using Qiskit and the QAOA. I've a nice QUBO Matrix for this simple path graph: as so: My question is, how do I convert this into a general DOCPLEX method which can be put into the method of Qiskit? How can this be done for a general QUBO matrix? I realise that for this particular problem I've found the matrix $Q$ as described in this [guide].(https://arxiv.org/ftp/arxiv/papers/1811/1811.11538.pdf) So by doing the matrix multiplication: $$y=x^{t} Q x$$ where $$ x = \begin{pmatrix} x_{0} \\ x_{1} \\ x_{2} \end{pmatrix} $$ gives the expression: $$ y = -x_{0}^{2} -x_{1}^{2} -x_{2}^{2} + 2x_{0}x_{1} + 2x_{1}x_{2} $$ which I want to minimise (EDIT: Changed from maximise - whoops !). As the nodes are either in the maximum set or not, the variables are binary and so $ x_{0}= x_{0}^{2}$ (NB am I correct in thinking for solving the Maximum weighted independent set problem, say where $ x_{0} $ was twice as important, the weight would manifest as a different constant for the quadractic term?) Is a function that can take a general matrix into DOCPLEX form qiskit can recognise and operate on? EDIT 2: I don't think the method works at all. For the simplest example gives: which is not the correct function - the weights of the different nodes are not equal - and so has no hope of finding the right result. EDIT 3: After a little bug hunt, the problem is nearly solved ! https://github.com/Qiskit/qiskit-aqua/issues/1553
+
+```
+QuadracticProgram
+```
+
+```
+stable_set.get_operator()
+```
+
+```
+path = nx.to_numpy_array(nx.path_graph(3)) qubitOp, offset = stable_set.get_operator(path) print('Offset:', offset) print('Ising Hamiltonian:') print(qubitOp.print_details())
+```
+
+```
+path = nx.to_numpy_array(nx.path_graph(3)) qubitOp, offset = stable_set.get_operator(path) print('Offset:', offset) print('Ising Hamiltonian:') print(qubitOp.print_details())
+```
+
+Original buggy code:
+QuadracticProgram
+
+---CODE_BLOCK---
+
+stable_set.get_operator()
+
+---CODE_BLOCK---
+
+path = nx.to_numpy_array(nx.path_graph(3)) qubitOp, offset = stable_set.get_operator(path) print('Offset:', offset) print('Ising Hamiltonian:') print(qubitOp.print_details())
+
+---CODE_BLOCK---
+
+path = nx.to_numpy_array(nx.path_graph(3)) qubitOp, offset = stable_set.get_operator(path) print('Offset:', offset) print('Ising Hamiltonian:') print(qubitOp.print_details())
+
+Solution explanation:
+Lena's answer doesn't work as we've noted in the comments underneath: the takes in a numpy adjacency matrix which is not what I'm inputting. Instead I've written a function which takes the I've got and creates a QuadracticProgram exactly. To do the particular program I was after manually is done as so: The way I figured to do this for larger matrices automatically was the use of this function. Does anyone know whether constructing the QuadracticProgram this way will mean that the ising model taken in by qiskit will evaluate slower or be affected in any other way?
+
+```
+stable_set.get_operator()
+```
+
+```
+qubo_array
+```
+
+```
+mdl = Model('docplex model') x_0 = mdl.binary_var('x_0') x_1 = mdl.binary_var('x_1') x_2= mdl.binary_var('x_2') mdl.minimize( -x_0 - x_1 - x_2 + 2*x_0*x_1 + 2*x_2*x_1) print(mdl.export_as_lp_string())
+```
+
+```
+mdl = Model('docplex model') x_0 = mdl.binary_var('x_0') x_1 = mdl.binary_var('x_1') x_2= mdl.binary_var('x_2') mdl.minimize( -x_0 - x_1 - x_2 + 2*x_0*x_1 + 2*x_2*x_1) print(mdl.export_as_lp_string())
+```
+
+```
+def the_auto_doco_mod(qubo_array,model_name,constant): """ Function that takes the QUBO array created for a graphing problem and converts it to a docplex model ready for qiskit Directly consrtructs the quadractic program with reference to this page """ number_of_variables = len(qubo_array[1]) # gets the number of variables from the length of the square qubo matrix #mdl = Model('model_name') mod = QuadraticProgram() for variable in range(0,number_of_variables): # creates the binary variables from the size of the matrix var_name = "x_" +str(variable) mod.binary_var(name =var_name) mod.minimize(constant = 2,quadratic =qubo_array) # can put in all constraints as quadractic as the binary variables mean that x_0 ^ 2 = x_0 in both cases # not sure of the impact of this on performance however print(mod.export_as_lp_string())
+```
+
+```
+def the_auto_doco_mod(qubo_array,model_name,constant): """ Function that takes the QUBO array created for a graphing problem and converts it to a docplex model ready for qiskit Directly consrtructs the quadractic program with reference to this page """ number_of_variables = len(qubo_array[1]) # gets the number of variables from the length of the square qubo matrix #mdl = Model('model_name') mod = QuadraticProgram() for variable in range(0,number_of_variables): # creates the binary variables from the size of the matrix var_name = "x_" +str(variable) mod.binary_var(name =var_name) mod.minimize(constant = 2,quadratic =qubo_array) # can put in all constraints as quadractic as the binary variables mean that x_0 ^ 2 = x_0 in both cases # not sure of the impact of this on performance however print(mod.export_as_lp_string())
+```
+
+Original fixed code:
+stable_set.get_operator()
+
+---CODE_BLOCK---
+
+qubo_array
+
+---CODE_BLOCK---
+
+mdl = Model('docplex model') x_0 = mdl.binary_var('x_0') x_1 = mdl.binary_var('x_1') x_2= mdl.binary_var('x_2') mdl.minimize( -x_0 - x_1 - x_2 + 2*x_0*x_1 + 2*x_2*x_1) print(mdl.export_as_lp_string())
+
+---CODE_BLOCK---
+
+mdl = Model('docplex model') x_0 = mdl.binary_var('x_0') x_1 = mdl.binary_var('x_1') x_2= mdl.binary_var('x_2') mdl.minimize( -x_0 - x_1 - x_2 + 2*x_0*x_1 + 2*x_2*x_1) print(mdl.export_as_lp_string())
+
+---CODE_BLOCK---
+
+def the_auto_doco_mod(qubo_array,model_name,constant): """ Function that takes the QUBO array created for a graphing problem and converts it to a docplex model ready for qiskit Directly consrtructs the quadractic program with reference to this page """ number_of_variables = len(qubo_array[1]) # gets the number of variables from the length of the square qubo matrix #mdl = Model('model_name') mod = QuadraticProgram() for variable in range(0,number_of_variables): # creates the binary variables from the size of the matrix var_name = "x_" +str(variable) mod.binary_var(name =var_name) mod.minimize(constant = 2,quadratic =qubo_array) # can put in all constraints as quadractic as the binary variables mean that x_0 ^ 2 = x_0 in both cases # not sure of the impact of this on performance however print(mod.export_as_lp_string())
+
+---CODE_BLOCK---
+
+def the_auto_doco_mod(qubo_array,model_name,constant): """ Function that takes the QUBO array created for a graphing problem and converts it to a docplex model ready for qiskit Directly consrtructs the quadractic program with reference to this page """ number_of_variables = len(qubo_array[1]) # gets the number of variables from the length of the square qubo matrix #mdl = Model('model_name') mod = QuadraticProgram() for variable in range(0,number_of_variables): # creates the binary variables from the size of the matrix var_name = "x_" +str(variable) mod.binary_var(name =var_name) mod.minimize(constant = 2,quadratic =qubo_array) # can put in all constraints as quadractic as the binary variables mean that x_0 ^ 2 = x_0 in both cases # not sure of the impact of this on performance however print(mod.export_as_lp_string())

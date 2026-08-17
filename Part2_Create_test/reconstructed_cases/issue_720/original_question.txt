@@ -1,0 +1,99 @@
+Title:
+Parametric circuits and QASM3 in Qiskit v1.1.0
+
+Category:
+
+
+Question:
+Title: Parametric circuits and QASM3 in Qiskit v1.1.0
+
+I am currently exploring Qiskit v1.1.0 and its handling of QASM3. The following snippet demonstrates the creation of a parametric circuit and the generation of its corresponding QASM3 code. Subsequently, I reload the QASM3 code into another parametric circuit. However, I encounter an issue when attempting to instantiate the parameters in the final step (see the last commented line). Any assistance in resolving this issue would be greatly appreciated.
+
+```
+from qiskit.qasm3 import dumps from qiskit import QuantumCircuit from qiskit.circuit import Parameter from qiskit import transpile, assemble, qasm3 from qiskit.converters import circuit_to_dag, dag_to_circuit from qiskit.quantum_info import Statevector # Step 1: Define parameters theta = Parameter('theta') phi = Parameter('phi') # Create a quantum circuit with 2 qubits qc = QuantumCircuit(2) # Add parameterized gates qc.rx(theta, 0) qc.ry(phi, 1) qc.cx(0, 1) # Draw the original circuit qc.draw('mpl') # Step 2: Generate QASM 3 code qasm_str = dumps(qc) print("Generated QASM 3 code:") print(qasm_str) dag = circuit_to_dag(qasm3.loads(qasm_str)) recreated_circuit = dag_to_circuit(dag) recreated_circuit.draw() parameter_values = {theta: 1.57, phi: 3.14} #bound_circuit = recreated_circuit.assign_parameters(parameter_values, inplace=True)
+```
+
+```
+from qiskit.qasm3 import dumps from qiskit import QuantumCircuit from qiskit.circuit import Parameter from qiskit import transpile, assemble, qasm3 from qiskit.converters import circuit_to_dag, dag_to_circuit from qiskit.quantum_info import Statevector # Step 1: Define parameters theta = Parameter('theta') phi = Parameter('phi') # Create a quantum circuit with 2 qubits qc = QuantumCircuit(2) # Add parameterized gates qc.rx(theta, 0) qc.ry(phi, 1) qc.cx(0, 1) # Draw the original circuit qc.draw('mpl') # Step 2: Generate QASM 3 code qasm_str = dumps(qc) print("Generated QASM 3 code:") print(qasm_str) dag = circuit_to_dag(qasm3.loads(qasm_str)) recreated_circuit = dag_to_circuit(dag) recreated_circuit.draw() parameter_values = {theta: 1.57, phi: 3.14} #bound_circuit = recreated_circuit.assign_parameters(parameter_values, inplace=True)
+```
+
+Original buggy code:
+from qiskit.qasm3 import dumps from qiskit import QuantumCircuit from qiskit.circuit import Parameter from qiskit import transpile, assemble, qasm3 from qiskit.converters import circuit_to_dag, dag_to_circuit from qiskit.quantum_info import Statevector # Step 1: Define parameters theta = Parameter('theta') phi = Parameter('phi') # Create a quantum circuit with 2 qubits qc = QuantumCircuit(2) # Add parameterized gates qc.rx(theta, 0) qc.ry(phi, 1) qc.cx(0, 1) # Draw the original circuit qc.draw('mpl') # Step 2: Generate QASM 3 code qasm_str = dumps(qc) print("Generated QASM 3 code:") print(qasm_str) dag = circuit_to_dag(qasm3.loads(qasm_str)) recreated_circuit = dag_to_circuit(dag) recreated_circuit.draw() parameter_values = {theta: 1.57, phi: 3.14} #bound_circuit = recreated_circuit.assign_parameters(parameter_values, inplace=True)
+
+---CODE_BLOCK---
+
+from qiskit.qasm3 import dumps from qiskit import QuantumCircuit from qiskit.circuit import Parameter from qiskit import transpile, assemble, qasm3 from qiskit.converters import circuit_to_dag, dag_to_circuit from qiskit.quantum_info import Statevector # Step 1: Define parameters theta = Parameter('theta') phi = Parameter('phi') # Create a quantum circuit with 2 qubits qc = QuantumCircuit(2) # Add parameterized gates qc.rx(theta, 0) qc.ry(phi, 1) qc.cx(0, 1) # Draw the original circuit qc.draw('mpl') # Step 2: Generate QASM 3 code qasm_str = dumps(qc) print("Generated QASM 3 code:") print(qasm_str) dag = circuit_to_dag(qasm3.loads(qasm_str)) recreated_circuit = dag_to_circuit(dag) recreated_circuit.draw() parameter_values = {theta: 1.57, phi: 3.14} #bound_circuit = recreated_circuit.assign_parameters(parameter_values, inplace=True)
+
+Solution explanation:
+When you load the circuit from QASM file, the circuit parameters have same names are before, but they are not the same instances. You can avoid this issue by initializing the parameter dictionary as follows: Another method is to iterate over parameters and set their values: Note also that, for to have a value, should equal .
+
+```
+Parameter
+```
+
+```
+parameter_values = {'theta': 1.57, 'phi': 3.14}
+```
+
+```
+parameter_values = {'theta': 1.57, 'phi': 3.14}
+```
+
+```
+recreated_circuit
+```
+
+```
+parameter_values = {} for param in recreated_circuit.parameters: parameter_values[param] = 1.57 if param.name == 'theta' else 3.14 bound_circuit = recreated_circuit.assign_parameters(parameter_values, inplace=False)
+```
+
+```
+parameter_values = {} for param in recreated_circuit.parameters: parameter_values[param] = 1.57 if param.name == 'theta' else 3.14 bound_circuit = recreated_circuit.assign_parameters(parameter_values, inplace=False)
+```
+
+```
+bound_circuit
+```
+
+```
+inplace
+```
+
+```
+False
+```
+
+Original fixed code:
+Parameter
+
+---CODE_BLOCK---
+
+parameter_values = {'theta': 1.57, 'phi': 3.14}
+
+---CODE_BLOCK---
+
+parameter_values = {'theta': 1.57, 'phi': 3.14}
+
+---CODE_BLOCK---
+
+recreated_circuit
+
+---CODE_BLOCK---
+
+parameter_values = {} for param in recreated_circuit.parameters: parameter_values[param] = 1.57 if param.name == 'theta' else 3.14 bound_circuit = recreated_circuit.assign_parameters(parameter_values, inplace=False)
+
+---CODE_BLOCK---
+
+parameter_values = {} for param in recreated_circuit.parameters: parameter_values[param] = 1.57 if param.name == 'theta' else 3.14 bound_circuit = recreated_circuit.assign_parameters(parameter_values, inplace=False)
+
+---CODE_BLOCK---
+
+bound_circuit
+
+---CODE_BLOCK---
+
+inplace
+
+---CODE_BLOCK---
+
+False

@@ -1,0 +1,95 @@
+Title:
+Make a controlled gate from a QuantumCircuit that uses append in Qiskit
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Both Win in This Category:
+In the Circuit category, both answers resolve the exact error, demonstrate proper code, and explain why conversion is needed. The distinction between to_gate() and to_instruction() is minor, and both achieve the same goal. Hence, both are equally correct and effective.
+
+Question:
+Title: Make a controlled gate from a QuantumCircuit that uses append in Qiskit
+
+Here is a minimal example for what I want to do: This gives the following error: qiskit.exceptions.QiskitError: 'One or more instructions cannot be converted to a gate. "qc1" is not a gate instruction' I'm aware that in this example I can get the desired controlled gate of by manually adding a control qubit to each gate in . However in practice would be complex and doing so would be tiresome. I also tried which didn't solve the problem. Any help is appreciated. Thanks!
+
+```
+from qiskit import QuantumCircuit qc1 = QuantumCircuit(1, name='qc1') qc1.x(0) qc2 = QuantumCircuit(1, name='qc2') qc2.h(0) qc2.append(qc1, [0]) qc2.z(0) c_qc2 = qc2.to_gate().control(1)
+```
+
+```
+from qiskit import QuantumCircuit qc1 = QuantumCircuit(1, name='qc1') qc1.x(0) qc2 = QuantumCircuit(1, name='qc2') qc2.h(0) qc2.append(qc1, [0]) qc2.z(0) c_qc2 = qc2.to_gate().control(1)
+```
+
+```
+qc2
+```
+
+```
+qc2
+```
+
+```
+qc2
+```
+
+```
+qc2.append(qc1.to_instruction(), [0])
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit qc1 = QuantumCircuit(1, name='qc1') qc1.x(0) qc2 = QuantumCircuit(1, name='qc2') qc2.h(0) qc2.append(qc1, [0]) qc2.z(0) c_qc2 = qc2.to_gate().control(1)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit qc1 = QuantumCircuit(1, name='qc1') qc1.x(0) qc2 = QuantumCircuit(1, name='qc2') qc2.h(0) qc2.append(qc1, [0]) qc2.z(0) c_qc2 = qc2.to_gate().control(1)
+
+---CODE_BLOCK---
+
+qc2
+
+---CODE_BLOCK---
+
+qc2
+
+---CODE_BLOCK---
+
+qc2
+
+---CODE_BLOCK---
+
+qc2.append(qc1.to_instruction(), [0])
+
+Solution explanation:
+Edit: Miss understood your question earlier. As commented by @Egrettal you can do the following. Which will output:
+
+```
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit qc1 = QuantumCircuit(1, name='qc1') qc1.x(0) print(qc1) qc2 = QuantumCircuit(1, name='qc2') qc2.h(0) qc2.append(qc1.to_gate(), [0]) qc2.z(0) print(qc2) xs_gate = qc2.to_gate() cxs_gate = xs_gate.control() circuit = QuantumCircuit(2) circuit.append(cxs_gate, [0,1]) print('\n New circuit with controlled:\n',circuit) print('\n Decomposed new circuit:\n', circuit.decompose())
+```
+
+```
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit qc1 = QuantumCircuit(1, name='qc1') qc1.x(0) print(qc1) qc2 = QuantumCircuit(1, name='qc2') qc2.h(0) qc2.append(qc1.to_gate(), [0]) qc2.z(0) print(qc2) xs_gate = qc2.to_gate() cxs_gate = xs_gate.control() circuit = QuantumCircuit(2) circuit.append(cxs_gate, [0,1]) print('\n New circuit with controlled:\n',circuit) print('\n Decomposed new circuit:\n', circuit.decompose())
+```
+
+```
+┌───┐ q_0: ┤ X ├ └───┘ ┌───┐┌─────┐┌───┐ q_0: ┤ H ├┤ qc1 ├┤ Z ├ └───┘└─────┘└───┘ New circuit with controlled: q_0: ───■─── ┌──┴──┐ q_1: ┤ qc2 ├ └─────┘ Decomposed new circuit: ┌────────┐ » q_0: ┤ P(π/2) ├──■───────────────────■───────────────────────────■──» ├────────┤┌─┴─┐┌─────────────┐┌─┴─┐┌──────────┐┌─────────┐┌─┴─┐» q_1: ┤ P(π/2) ├┤ X ├┤ U(0,0,-π/2) ├┤ X ├┤ U(0,0,0) ├┤ RY(π/4) ├┤ X ├» └────────┘└───┘└─────────────┘└───┘└──────────┘└─────────┘└───┘» « ┌──────┐ » «q_0: ──────────────■──┤ P(0) ├──■────────────────■────────────────■──» « ┌──────────┐┌─┴─┐├──────┤┌─┴─┐┌──────────┐┌─┴─┐┌──────────┐┌─┴─┐» «q_1: ┤ RY(-π/4) ├┤ X ├┤ P(0) ├┤ X ├┤ U(0,0,0) ├┤ X ├┤ U(0,0,0) ├┤ X ├» « └──────────┘└───┘└──────┘└───┘└──────────┘└───┘└──────────┘└───┘» « ┌────────┐ «q_0: ┤ P(π/2) ├──■───────────────────■────────────── « ├────────┤┌─┴─┐┌─────────────┐┌─┴─┐┌──────────┐ «q_1: ┤ P(π/2) ├┤ X ├┤ U(0,0,-π/2) ├┤ X ├┤ U(0,0,0) ├ « └────────┘└───┘└─────────────┘└───┘└──────────┘
+```
+
+```
+┌───┐ q_0: ┤ X ├ └───┘ ┌───┐┌─────┐┌───┐ q_0: ┤ H ├┤ qc1 ├┤ Z ├ └───┘└─────┘└───┘ New circuit with controlled: q_0: ───■─── ┌──┴──┐ q_1: ┤ qc2 ├ └─────┘ Decomposed new circuit: ┌────────┐ » q_0: ┤ P(π/2) ├──■───────────────────■───────────────────────────■──» ├────────┤┌─┴─┐┌─────────────┐┌─┴─┐┌──────────┐┌─────────┐┌─┴─┐» q_1: ┤ P(π/2) ├┤ X ├┤ U(0,0,-π/2) ├┤ X ├┤ U(0,0,0) ├┤ RY(π/4) ├┤ X ├» └────────┘└───┘└─────────────┘└───┘└──────────┘└─────────┘└───┘» « ┌──────┐ » «q_0: ──────────────■──┤ P(0) ├──■────────────────■────────────────■──» « ┌──────────┐┌─┴─┐├──────┤┌─┴─┐┌──────────┐┌─┴─┐┌──────────┐┌─┴─┐» «q_1: ┤ RY(-π/4) ├┤ X ├┤ P(0) ├┤ X ├┤ U(0,0,0) ├┤ X ├┤ U(0,0,0) ├┤ X ├» « └──────────┘└───┘└──────┘└───┘└──────────┘└───┘└──────────┘└───┘» « ┌────────┐ «q_0: ┤ P(π/2) ├──■───────────────────■────────────── « ├────────┤┌─┴─┐┌─────────────┐┌─┴─┐┌──────────┐ «q_1: ┤ P(π/2) ├┤ X ├┤ U(0,0,-π/2) ├┤ X ├┤ U(0,0,0) ├ « └────────┘└───┘└─────────────┘└───┘└──────────┘
+```
+
+Original fixed code:
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit qc1 = QuantumCircuit(1, name='qc1') qc1.x(0) print(qc1) qc2 = QuantumCircuit(1, name='qc2') qc2.h(0) qc2.append(qc1.to_gate(), [0]) qc2.z(0) print(qc2) xs_gate = qc2.to_gate() cxs_gate = xs_gate.control() circuit = QuantumCircuit(2) circuit.append(cxs_gate, [0,1]) print('\n New circuit with controlled:\n',circuit) print('\n Decomposed new circuit:\n', circuit.decompose())
+
+---CODE_BLOCK---
+
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit qc1 = QuantumCircuit(1, name='qc1') qc1.x(0) print(qc1) qc2 = QuantumCircuit(1, name='qc2') qc2.h(0) qc2.append(qc1.to_gate(), [0]) qc2.z(0) print(qc2) xs_gate = qc2.to_gate() cxs_gate = xs_gate.control() circuit = QuantumCircuit(2) circuit.append(cxs_gate, [0,1]) print('\n New circuit with controlled:\n',circuit) print('\n Decomposed new circuit:\n', circuit.decompose())
+
+---CODE_BLOCK---
+
+┌───┐ q_0: ┤ X ├ └───┘ ┌───┐┌─────┐┌───┐ q_0: ┤ H ├┤ qc1 ├┤ Z ├ └───┘└─────┘└───┘ New circuit with controlled: q_0: ───■─── ┌──┴──┐ q_1: ┤ qc2 ├ └─────┘ Decomposed new circuit: ┌────────┐ » q_0: ┤ P(π/2) ├──■───────────────────■───────────────────────────■──» ├────────┤┌─┴─┐┌─────────────┐┌─┴─┐┌──────────┐┌─────────┐┌─┴─┐» q_1: ┤ P(π/2) ├┤ X ├┤ U(0,0,-π/2) ├┤ X ├┤ U(0,0,0) ├┤ RY(π/4) ├┤ X ├» └────────┘└───┘└─────────────┘└───┘└──────────┘└─────────┘└───┘» « ┌──────┐ » «q_0: ──────────────■──┤ P(0) ├──■────────────────■────────────────■──» « ┌──────────┐┌─┴─┐├──────┤┌─┴─┐┌──────────┐┌─┴─┐┌──────────┐┌─┴─┐» «q_1: ┤ RY(-π/4) ├┤ X ├┤ P(0) ├┤ X ├┤ U(0,0,0) ├┤ X ├┤ U(0,0,0) ├┤ X ├» « └──────────┘└───┘└──────┘└───┘└──────────┘└───┘└──────────┘└───┘» « ┌────────┐ «q_0: ┤ P(π/2) ├──■───────────────────■────────────── « ├────────┤┌─┴─┐┌─────────────┐┌─┴─┐┌──────────┐ «q_1: ┤ P(π/2) ├┤ X ├┤ U(0,0,-π/2) ├┤ X ├┤ U(0,0,0) ├ « └────────┘└───┘└─────────────┘└───┘└──────────┘
+
+---CODE_BLOCK---
+
+┌───┐ q_0: ┤ X ├ └───┘ ┌───┐┌─────┐┌───┐ q_0: ┤ H ├┤ qc1 ├┤ Z ├ └───┘└─────┘└───┘ New circuit with controlled: q_0: ───■─── ┌──┴──┐ q_1: ┤ qc2 ├ └─────┘ Decomposed new circuit: ┌────────┐ » q_0: ┤ P(π/2) ├──■───────────────────■───────────────────────────■──» ├────────┤┌─┴─┐┌─────────────┐┌─┴─┐┌──────────┐┌─────────┐┌─┴─┐» q_1: ┤ P(π/2) ├┤ X ├┤ U(0,0,-π/2) ├┤ X ├┤ U(0,0,0) ├┤ RY(π/4) ├┤ X ├» └────────┘└───┘└─────────────┘└───┘└──────────┘└─────────┘└───┘» « ┌──────┐ » «q_0: ──────────────■──┤ P(0) ├──■────────────────■────────────────■──» « ┌──────────┐┌─┴─┐├──────┤┌─┴─┐┌──────────┐┌─┴─┐┌──────────┐┌─┴─┐» «q_1: ┤ RY(-π/4) ├┤ X ├┤ P(0) ├┤ X ├┤ U(0,0,0) ├┤ X ├┤ U(0,0,0) ├┤ X ├» « └──────────┘└───┘└──────┘└───┘└──────────┘└───┘└──────────┘└───┘» « ┌────────┐ «q_0: ┤ P(π/2) ├──■───────────────────■────────────── « ├────────┤┌─┴─┐┌─────────────┐┌─┴─┐┌──────────┐ «q_1: ┤ P(π/2) ├┤ X ├┤ U(0,0,-π/2) ├┤ X ├┤ U(0,0,0) ├ « └────────┘└───┘└─────────────┘└───┘└──────────┘

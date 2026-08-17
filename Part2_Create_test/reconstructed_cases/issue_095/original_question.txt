@@ -1,0 +1,46 @@
+Title:
+How to perform modeling of qubit observation in Qiskit
+
+Category:
+Category: Measurement Simulation / Probability Sampling  
+Winner: AI  
+Why AI Is Better: The AI provides a working example using the `statevector_simulator`, calculates the measurement probability manually, and models the random observation — all without collapsing the quantum state.  
+Why AI Performs Well in This Category: AI is especially strong in simulating abstract quantum processes through practical, executable code. It bridges theory with practice, which is essential when working with simulators vs. real devices.
+
+
+Question:
+Title: How to perform modeling of qubit observation in Qiskit
+
+I was trying to write a program that performs various operation on qubits with qiskit, and one of such operations is to perform the following: 
+
+ "Qubit observation is simulated, modeling the wave function collapse as follows: 
+
+ r <= |a^2|, x = 0 (basisstate |0>
+ r > |a^2|, x = 1 (basisstate |1>
+
+ where r is a random number in the range [0,1), and a is the qubit that should be observed." 
+
+ I noticed that the measure() method in qiskit will collapse the quantum system - which is something that I want to prevent. How can I project quantum vector (or qubit) into binary vector in qiskit (without collapsing the quantum system)? Or is there a quantum programming SDK that allows me to do so? Thanks in advance. 
+
+ Update: 24/9/2019 
+Mariia Mykhailova, thank you for the info. That's exactly what I needed! 
+For others, the Qiskit api has been updated, use result.data() instead of result.get_data(circuit).
+
+```
+r <= |a^2|, x = 0 (basisstate |0>
+ r > |a^2|, x = 1 (basisstate |1>
+```
+
+Original buggy code:
+r <= |a^2|, x = 0 (basisstate |0>
+ r > |a^2|, x = 1 (basisstate |1>
+
+Solution explanation:
+If you are modeling a quantum computing system in accordance to the postulates of quantum mechanics, observing a qubit without collapsing the system state is impossible. This is one of the fundamental principles of quantum systems, and you can not work around it without sacrificing the realism of your model. 
+
+ That being said, you can model such an observation by accessing the wavefunction directly and calculating the probabilities of the qubit collapsing to one or another basis state manually, without actually performing a measurement. It's just not something you'll be able to do on an actual quantum device! 
+
+ I'm not closely familiar with the tools Qiskit has for accessing wavefunction, this link seems to provide some starting points.
+
+Original fixed code:
+If you are modeling a quantum computing system in accordance to the postulates of quantum mechanics, observing a qubit without collapsing the system state is impossible. This is one of the fundamental principles of quantum systems, and you can not work around it without sacrificing the realism of your model.

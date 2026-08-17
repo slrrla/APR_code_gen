@@ -1,0 +1,51 @@
+Title:
+Return outputs with zero counts
+
+Category:
+
+
+Question:
+Title: Return outputs with zero counts
+
+I am running a simple 3 qubit circuit which produces the following results: There are no counts of 011. Is there a simple way within qiskit to also return the result '011': 0? So the final results would be Currently when I run this circuit I get an error as I am trying to call res['011'], where res is the list of results. I cannot just increase the number of shots unfortunately I am constrained to this number of qubits.
+
+```
+{'000': 5, '001': 3, '010': 10, '100': 5, '101': 7, '110': 7, '111': 4}
+```
+
+```
+{'000': 5, '001': 3, '010': 10, '100': 5, '101': 7, '110': 7, '111': 4}
+```
+
+```
+{'000': 5, '001': 3, '010': 10,'011': 0, '100': 5, '101': 7, '110': 7, '111': 4}
+```
+
+```
+{'000': 5, '001': 3, '010': 10,'011': 0, '100': 5, '101': 7, '110': 7, '111': 4}
+```
+
+Original buggy code:
+{'000': 5, '001': 3, '010': 10, '100': 5, '101': 7, '110': 7, '111': 4}
+
+---CODE_BLOCK---
+
+{'000': 5, '001': 3, '010': 10, '100': 5, '101': 7, '110': 7, '111': 4}
+
+---CODE_BLOCK---
+
+{'000': 5, '001': 3, '010': 10,'011': 0, '100': 5, '101': 7, '110': 7, '111': 4}
+
+---CODE_BLOCK---
+
+{'000': 5, '001': 3, '010': 10,'011': 0, '100': 5, '101': 7, '110': 7, '111': 4}
+
+Solution explanation:
+You can use .get() and return zero as the default value.
+
+```
+res.get('011', 0)
+```
+
+Original fixed code:
+res.get('011', 0)

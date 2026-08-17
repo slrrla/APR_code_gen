@@ -1,0 +1,67 @@
+Title:
+Does Qiskit transpiler execute multiple circuits in parallel? [closed]
+
+Category:
+
+
+Question:
+Title: Does Qiskit transpiler execute multiple circuits in parallel? [closed]
+
+Closed. This question needs to be more focused. It is not currently accepting answers. Want to improve this question? Guide the asker to update the question so it focuses on a single, specific problem. Narrowing the question will help others answer the question concisely. You may edit the question if you feel you can improve it yourself. If edited, the question will be reviewed and might be reopened. Closed 3 years ago. Improve this question I have something to ask about Qiskit's transpiler. Before that, please check this document. In here, transpile function can get input as multiple quantum circuit as list and can transpile them in parallel. I want to know how they can do in parallel.
+
+```
+qiskit.compiler.transpile https://qiskit.org/documentation/stubs/qiskit.compiler.transpile.html
+```
+
+```
+qiskit.compiler.transpile https://qiskit.org/documentation/stubs/qiskit.compiler.transpile.html
+```
+
+Original buggy code:
+qiskit.compiler.transpile https://qiskit.org/documentation/stubs/qiskit.compiler.transpile.html
+
+---CODE_BLOCK---
+
+qiskit.compiler.transpile https://qiskit.org/documentation/stubs/qiskit.compiler.transpile.html
+
+Solution explanation:
+It depends on your local environment and local configuration. By default if you're running on Linux with Python < 3.9 or macOS with Python < 3.8 then passing mutiple circuit's to will run in multiple process locally. This is done using Python's to launch parallel processes and call transpile on each circuit in the input list in the process pool. The code for how Qiskit does this is in: https://github.com/Qiskit/qiskit-terra/blob/0.18.2/qiskit/tools/parallel.py (the function is what uses under the covers when you pass in >1 circuit). Also, the defaults are adjustable so if you run on windows or with a newer python version you can still run in parallel but it's not enabled by default because there were some issues found using python's module in those environments. You can refer to https://qiskit.org/documentation/configuration.html on how to set the options controlling parallelism.
+
+```
+transpile()
+```
+
+```
+ProcessPoolExecutor
+```
+
+```
+parallel_map()
+```
+
+```
+transpile()
+```
+
+```
+multiprocessing
+```
+
+Original fixed code:
+transpile()
+
+---CODE_BLOCK---
+
+ProcessPoolExecutor
+
+---CODE_BLOCK---
+
+parallel_map()
+
+---CODE_BLOCK---
+
+transpile()
+
+---CODE_BLOCK---
+
+multiprocessing

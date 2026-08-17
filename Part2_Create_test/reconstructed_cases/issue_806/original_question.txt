@@ -1,0 +1,163 @@
+Title:
+Using qiskit on mutiple cores
+
+Category:
+
+
+Question:
+Title: Using qiskit on mutiple cores
+
+I would like to be able to set the number of cores the should be running. For now I've tried where is an with the number of cores the simulator should run on. I would expect that changing it from 1 to 4 the run time would change, but this is not the case. Can anyone point to what I'm doing wrong?
+
+```
+AerSimulator
+```
+
+```
+backend = AerSimulator() backend.set_options(max_parallel_threads=params['ncores'])
+```
+
+```
+backend = AerSimulator() backend.set_options(max_parallel_threads=params['ncores'])
+```
+
+```
+params['ncores']
+```
+
+```
+int
+```
+
+Original buggy code:
+AerSimulator
+
+---CODE_BLOCK---
+
+backend = AerSimulator() backend.set_options(max_parallel_threads=params['ncores'])
+
+---CODE_BLOCK---
+
+backend = AerSimulator() backend.set_options(max_parallel_threads=params['ncores'])
+
+---CODE_BLOCK---
+
+params['ncores']
+
+---CODE_BLOCK---
+
+int
+
+Solution explanation:
+Although sets the maximum number of CPU cores used by OpenMP for parallelization during execution of an experiment, there are other factors that affect the amount of parallelization that will actually occur. Most notably, your circuit must have at least 14 qubits. You can control this value using 's option. The following example demonstrates how to take advantage of having multiple cores. Let's create 200 circuits: Then we transpile them: Now, we configure the backend for parallelization and run the circuits: Note that: equal 0 means use all the CPU cores. equal 0 means maximum number of experiments that may be executed in parallel equals value. equal 1 means disable parallel shot execution. equal 16 (default) means that number of qubits in the circuit must be greater than 16 to enable parallelization for matrix multiplication during execution. Note that enabling parallelization to small circuits can reduce performance.
+
+```
+max_parallel_threads
+```
+
+```
+statevector_parallel_threshold
+```
+
+```
+AerSimulator
+```
+
+```
+from qiskit.circuit.random import random_circuit num_circuits = 200 num_qubits = 20 depth = 30 circuits = [] for n in range(num_circuits): circuits.append(random_circuit(num_qubits, depth, max_operands = 2, measure = True))
+```
+
+```
+from qiskit.circuit.random import random_circuit num_circuits = 200 num_qubits = 20 depth = 30 circuits = [] for n in range(num_circuits): circuits.append(random_circuit(num_qubits, depth, max_operands = 2, measure = True))
+```
+
+```
+from qiskit import transpile from qiskit_aer import AerSimulator backend = AerSimulator(method = 'statevector') tr_circuits = transpile(circuits, backend = backend)
+```
+
+```
+from qiskit import transpile from qiskit_aer import AerSimulator backend = AerSimulator(method = 'statevector') tr_circuits = transpile(circuits, backend = backend)
+```
+
+```
+backend.set_options( max_parallel_threads = 0, max_parallel_experiments = 0, max_parallel_shots = 1, statevector_parallel_threshold = 16 ) result = backend.run(tr_circuits).result() counts = result.get_counts()
+```
+
+```
+backend.set_options( max_parallel_threads = 0, max_parallel_experiments = 0, max_parallel_shots = 1, statevector_parallel_threshold = 16 ) result = backend.run(tr_circuits).result() counts = result.get_counts()
+```
+
+```
+max_parallel_threads
+```
+
+```
+max_parallel_experiments
+```
+
+```
+max_parallel_threads
+```
+
+```
+max_parallel_shots
+```
+
+```
+statevector_parallel_threshold
+```
+
+Original fixed code:
+max_parallel_threads
+
+---CODE_BLOCK---
+
+statevector_parallel_threshold
+
+---CODE_BLOCK---
+
+AerSimulator
+
+---CODE_BLOCK---
+
+from qiskit.circuit.random import random_circuit num_circuits = 200 num_qubits = 20 depth = 30 circuits = [] for n in range(num_circuits): circuits.append(random_circuit(num_qubits, depth, max_operands = 2, measure = True))
+
+---CODE_BLOCK---
+
+from qiskit.circuit.random import random_circuit num_circuits = 200 num_qubits = 20 depth = 30 circuits = [] for n in range(num_circuits): circuits.append(random_circuit(num_qubits, depth, max_operands = 2, measure = True))
+
+---CODE_BLOCK---
+
+from qiskit import transpile from qiskit_aer import AerSimulator backend = AerSimulator(method = 'statevector') tr_circuits = transpile(circuits, backend = backend)
+
+---CODE_BLOCK---
+
+from qiskit import transpile from qiskit_aer import AerSimulator backend = AerSimulator(method = 'statevector') tr_circuits = transpile(circuits, backend = backend)
+
+---CODE_BLOCK---
+
+backend.set_options( max_parallel_threads = 0, max_parallel_experiments = 0, max_parallel_shots = 1, statevector_parallel_threshold = 16 ) result = backend.run(tr_circuits).result() counts = result.get_counts()
+
+---CODE_BLOCK---
+
+backend.set_options( max_parallel_threads = 0, max_parallel_experiments = 0, max_parallel_shots = 1, statevector_parallel_threshold = 16 ) result = backend.run(tr_circuits).result() counts = result.get_counts()
+
+---CODE_BLOCK---
+
+max_parallel_threads
+
+---CODE_BLOCK---
+
+max_parallel_experiments
+
+---CODE_BLOCK---
+
+max_parallel_threads
+
+---CODE_BLOCK---
+
+max_parallel_shots
+
+---CODE_BLOCK---
+
+statevector_parallel_threshold

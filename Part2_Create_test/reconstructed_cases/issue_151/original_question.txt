@@ -1,0 +1,55 @@
+Title:
+How to reduce unnecessary waiting time when using IBM's backend?
+
+Category:
+Category:
+Backend
+
+Why AI Wins in This Category:
+Backend performance optimization requires understanding how circuits are submitted and how jobs are structured. AI offers both code and architecture-level insights, while StackExchange only hints at the concept. In real-use scenarios (especially IBMQ), the AI approach saves time, cost, and queue delay, making it superior.
+
+Question:
+Title: How to reduce unnecessary waiting time when using IBM's backend?
+
+I'm working with a program, which needs iterations of quantum computation like this Now I have to wait for hours to run this on the 16-qubit quantum computer. So is there any way to pack all computation into one round?
+
+```
+def quantum(n): Grover(oracle).run(QuantumInstance(...)) #n is input size associated with oracle, #and some other components are omitted. for n in range(0,10): start = time.time() quantum(n) end = time.time()
+```
+
+```
+def quantum(n): Grover(oracle).run(QuantumInstance(...)) #n is input size associated with oracle, #and some other components are omitted. for n in range(0,10): start = time.time() quantum(n) end = time.time()
+```
+
+Original buggy code:
+def quantum(n): Grover(oracle).run(QuantumInstance(...)) #n is input size associated with oracle, #and some other components are omitted. for n in range(0,10): start = time.time() quantum(n) end = time.time()
+
+---CODE_BLOCK---
+
+def quantum(n): Grover(oracle).run(QuantumInstance(...)) #n is input size associated with oracle, #and some other components are omitted. for n in range(0,10): start = time.time() quantum(n) end = time.time()
+
+Solution explanation:
+Assuming your method creates a circuit, you can run lots of circuits in one go by using the command. For example .
+
+```
+quantum()
+```
+
+```
+execute
+```
+
+```
+execute([grover_1, grover_2, grover_3], backed=my_backend)
+```
+
+Original fixed code:
+quantum()
+
+---CODE_BLOCK---
+
+execute
+
+---CODE_BLOCK---
+
+execute([grover_1, grover_2, grover_3], backed=my_backend)

@@ -1,0 +1,147 @@
+Title:
+How does Qiskit's inverse `prepare_state` operation work?
+
+Category:
+
+
+Question:
+Title: How does Qiskit's inverse `prepare_state` operation work?
+
+I'm trying to understand Qiskit's and operations together. The simple example below shows a circuit where one qubit uses a gate, then goes through some other operations, and an inverse : The qubits are in an entangled state after the Pauli operation: $$[\psi_0, \psi_1, \psi_2, \psi_3, \psi_4, \psi_5, \psi_6, \psi_7]$$ What is the analytical expression for the statevector after performing inverse ? (In some cases, the qubit could be an ancilla so we would need this inverse operation.) I also tried to calculate numerically using Qiskit, but I get an error: Code for my example is:
+
+```
+inverse
+```
+
+```
+prepare_state
+```
+
+```
+prepare_state
+```
+
+```
+prepare_state
+```
+
+```
+prepare_state
+```
+
+```
+q1_2
+```
+
+```
+prepare_state
+```
+
+```
+Kernel Restarting. The kernel appears to have died. It will restart automatically.
+```
+
+```
+import numpy as np import qiskit as qk from qiskit.quantum_info import PauliList from qiskit_aer import StatevectorSimulator circuit = qk.QuantumCircuit(qk.QuantumRegister(3)) circuit.h([0]) circuit.h([1]) circuit.rx(3/7, [0]) circuit.ry(5/13, [1]) phistate = np.array([1, 4])/np.linalg.norm(np.array([1, 4])) circuit.prepare_state(phistate, [2]) Ulist = [f.to_instruction() for f in PauliList(['XX'])] Pauli_ZZ = Ulist[0].control(1, ctrl_state=1) circuit.append(Pauli_ZZ, [2,1,0]) circuit.prepare_state(phistate, [2]).inverse() simulator = StatevectorSimulator() job = qk.transpile(circuit, simulator) # execute circuit on qasm simulator out = simulator.run(job,shots=16).result().get_statevector() print(out) circuit.draw(output='mpl')
+```
+
+```
+import numpy as np import qiskit as qk from qiskit.quantum_info import PauliList from qiskit_aer import StatevectorSimulator circuit = qk.QuantumCircuit(qk.QuantumRegister(3)) circuit.h([0]) circuit.h([1]) circuit.rx(3/7, [0]) circuit.ry(5/13, [1]) phistate = np.array([1, 4])/np.linalg.norm(np.array([1, 4])) circuit.prepare_state(phistate, [2]) Ulist = [f.to_instruction() for f in PauliList(['XX'])] Pauli_ZZ = Ulist[0].control(1, ctrl_state=1) circuit.append(Pauli_ZZ, [2,1,0]) circuit.prepare_state(phistate, [2]).inverse() simulator = StatevectorSimulator() job = qk.transpile(circuit, simulator) # execute circuit on qasm simulator out = simulator.run(job,shots=16).result().get_statevector() print(out) circuit.draw(output='mpl')
+```
+
+Original buggy code:
+inverse
+
+---CODE_BLOCK---
+
+prepare_state
+
+---CODE_BLOCK---
+
+prepare_state
+
+---CODE_BLOCK---
+
+prepare_state
+
+---CODE_BLOCK---
+
+prepare_state
+
+---CODE_BLOCK---
+
+q1_2
+
+---CODE_BLOCK---
+
+prepare_state
+
+---CODE_BLOCK---
+
+Kernel Restarting. The kernel appears to have died. It will restart automatically.
+
+---CODE_BLOCK---
+
+import numpy as np import qiskit as qk from qiskit.quantum_info import PauliList from qiskit_aer import StatevectorSimulator circuit = qk.QuantumCircuit(qk.QuantumRegister(3)) circuit.h([0]) circuit.h([1]) circuit.rx(3/7, [0]) circuit.ry(5/13, [1]) phistate = np.array([1, 4])/np.linalg.norm(np.array([1, 4])) circuit.prepare_state(phistate, [2]) Ulist = [f.to_instruction() for f in PauliList(['XX'])] Pauli_ZZ = Ulist[0].control(1, ctrl_state=1) circuit.append(Pauli_ZZ, [2,1,0]) circuit.prepare_state(phistate, [2]).inverse() simulator = StatevectorSimulator() job = qk.transpile(circuit, simulator) # execute circuit on qasm simulator out = simulator.run(job,shots=16).result().get_statevector() print(out) circuit.draw(output='mpl')
+
+---CODE_BLOCK---
+
+import numpy as np import qiskit as qk from qiskit.quantum_info import PauliList from qiskit_aer import StatevectorSimulator circuit = qk.QuantumCircuit(qk.QuantumRegister(3)) circuit.h([0]) circuit.h([1]) circuit.rx(3/7, [0]) circuit.ry(5/13, [1]) phistate = np.array([1, 4])/np.linalg.norm(np.array([1, 4])) circuit.prepare_state(phistate, [2]) Ulist = [f.to_instruction() for f in PauliList(['XX'])] Pauli_ZZ = Ulist[0].control(1, ctrl_state=1) circuit.append(Pauli_ZZ, [2,1,0]) circuit.prepare_state(phistate, [2]).inverse() simulator = StatevectorSimulator() job = qk.transpile(circuit, simulator) # execute circuit on qasm simulator out = simulator.run(job,shots=16).result().get_statevector() print(out) circuit.draw(output='mpl')
+
+Solution explanation:
+Regarding your first question, consider the following general circuit for what you are trying to accomplish: Here, $|\psi\rangle$ can be an $n$-qubit state, and $V$ is the unitary that prepares a general $1$-qubit superposition state: $$ V|0\rangle = \alpha|0\rangle + \beta|1\rangle .$$ To achieve this preparation, the first column of the $V$ matrix must therefore be $[\alpha, \beta]^{\top} .$ The second column of $V$ must be such that $V$ remains unitary. A common choice (and the one used by Qiskit's function) is to have the second column be $[-\beta^*, \alpha^*]^{\top}, $ resulting in: $$ V = \begin{bmatrix}\alpha & -\beta^* \\ \beta & \alpha^* \end{bmatrix} $$ This means that the conjugate transpose of $V$ is: $$ V^{\dagger} = \begin{bmatrix}\alpha^* & \beta^* \\ -\beta & \alpha \end{bmatrix} $$ With this, you can then analyze what happens through the circuit: $$ |0\rangle|\psi\rangle \xrightarrow{V\otimes I} \big(\alpha|0\rangle + \beta|1\rangle \big)|\psi\rangle \xrightarrow{CU} \alpha|0\rangle |\psi\rangle + \beta|1\rangle U |\psi\rangle \xrightarrow{V^{\dagger}\otimes I} \alpha \big(\alpha^*|0\rangle - \beta|1\rangle \big) |\psi\rangle + \beta \big(\beta^*|0\rangle + \alpha|1\rangle \big) U |\psi\rangle $$ So, the output of the circuit is: $$\big(|\alpha|^2|0\rangle - \alpha \beta|1\rangle \big) |\psi\rangle + \big(|\beta|^2|0\rangle + \alpha \beta|1\rangle \big) U |\psi\rangle .$$ Usually, you want to make a decision based on what the top qubit's state is, so you can also reorganize the above as: $$|0\rangle \otimes \big(|\alpha|^2 I + |\beta|^2 U\big)|\psi\rangle + |1\rangle \otimes \alpha \beta \big(U - I \big)|\psi\rangle.$$ Regarding your second question, the from Qiskit Aer seems to have issues with some of the blocks used by the function. However, you can replace this part of your code: with this: and you should be able to get the Statevector at the output. As to your first question: "What is the analytical solution of the circuit..." I don't know what you mean. You can work through the math of evolving the state over each unitary to see what you get, but what is your end goal?
+
+```
+StatePreparation
+```
+
+```
+StatevectorSimulator
+```
+
+```
+prepare_state
+```
+
+```
+simulator = StatevectorSimulator() job = qk.transpile(circuit, simulator) # execute circuit on qasm simulator out = simulator.run(job,shots=16).result().get_statevector() print(out)
+```
+
+```
+simulator = StatevectorSimulator() job = qk.transpile(circuit, simulator) # execute circuit on qasm simulator out = simulator.run(job,shots=16).result().get_statevector() print(out)
+```
+
+```
+from qiskit.quantum_info import Statevector out = Statevector(circuit) print(out)
+```
+
+```
+from qiskit.quantum_info import Statevector out = Statevector(circuit) print(out)
+```
+
+Original fixed code:
+StatePreparation
+
+---CODE_BLOCK---
+
+StatevectorSimulator
+
+---CODE_BLOCK---
+
+prepare_state
+
+---CODE_BLOCK---
+
+simulator = StatevectorSimulator() job = qk.transpile(circuit, simulator) # execute circuit on qasm simulator out = simulator.run(job,shots=16).result().get_statevector() print(out)
+
+---CODE_BLOCK---
+
+simulator = StatevectorSimulator() job = qk.transpile(circuit, simulator) # execute circuit on qasm simulator out = simulator.run(job,shots=16).result().get_statevector() print(out)
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Statevector out = Statevector(circuit) print(out)
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Statevector out = Statevector(circuit) print(out)

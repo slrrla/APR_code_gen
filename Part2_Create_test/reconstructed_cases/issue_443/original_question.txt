@@ -1,0 +1,191 @@
+Title:
+How to append an Instruction to a QuantumCircuit with variable length of QuantumRegisters as qargs?
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+In circuit construction tasks, correctness and simplicity are crucial. The Stack Overflow solution provides the most straightforward and idiomatic Qiskit approach by expanding registers into qubits directly, avoiding unnecessary complexity. This guarantees proper behavior across variable register sizes with minimal code.
+
+Question:
+Title: How to append an Instruction to a QuantumCircuit with variable length of QuantumRegisters as qargs?
+
+I think it is a bug but I'm not really sure. Basically, what I'm trying to do is the following: I have an Oracle Instruction which I want to append to my QuantumCircuit, looks as follows: If my and are both with length 1, this works perfectly fine. But I want to make this work for variable length of these registers, I get the error . This is logical, since this error occurs because qiskit checks the length of my provided in , and I provided two registers in a list with both one qubit, so the length of the list happens to be the same as the number of qubits. However, I want this to work for variable length. If I know what the length of my s are, say is 3 and is 1 I can use Or to make it work for unspecified lengths, I can write something like: But I just really like the idea of just plugging in the names of the as . Is there something to make this work like that?
+
+```
+# initialising registers for readability [control, train_register] = circ.qregs circ.h(control) # create and append oracle oracle = create_oracle(train_register, control) # returns an Instruction circ.append(oracle, [train_register, control])
+```
+
+```
+# initialising registers for readability [control, train_register] = circ.qregs circ.h(control) # create and append oracle oracle = create_oracle(train_register, control) # returns an Instruction circ.append(oracle, [train_register, control])
+```
+
+```
+train_register
+```
+
+```
+control
+```
+
+```
+QuantumRegisters
+```
+
+```
+qiskit.circuit.exceptions.CircuitError: 'The amount of qubit arguments does not match the instruction expectation.'
+```
+
+```
+qargs
+```
+
+```
+QuantumCircuit.append()
+```
+
+```
+QuantumRegister
+```
+
+```
+len(train_register)
+```
+
+```
+len(control)
+```
+
+```
+circ.append(oracle, [0, 1, 2, 3])
+```
+
+```
+circ.append(oracle, [0, 1, 2, 3])
+```
+
+```
+indices_to_append_to = list(np.arange(len(train_register) + len(control))) circ.append(oracle, indices_to_append_to)
+```
+
+```
+indices_to_append_to = list(np.arange(len(train_register) + len(control))) circ.append(oracle, indices_to_append_to)
+```
+
+```
+qregs
+```
+
+```
+qargs
+```
+
+Original buggy code:
+# initialising registers for readability [control, train_register] = circ.qregs circ.h(control) # create and append oracle oracle = create_oracle(train_register, control) # returns an Instruction circ.append(oracle, [train_register, control])
+
+---CODE_BLOCK---
+
+# initialising registers for readability [control, train_register] = circ.qregs circ.h(control) # create and append oracle oracle = create_oracle(train_register, control) # returns an Instruction circ.append(oracle, [train_register, control])
+
+---CODE_BLOCK---
+
+train_register
+
+---CODE_BLOCK---
+
+control
+
+---CODE_BLOCK---
+
+QuantumRegisters
+
+---CODE_BLOCK---
+
+qiskit.circuit.exceptions.CircuitError: 'The amount of qubit arguments does not match the instruction expectation.'
+
+---CODE_BLOCK---
+
+qargs
+
+---CODE_BLOCK---
+
+QuantumCircuit.append()
+
+---CODE_BLOCK---
+
+QuantumRegister
+
+---CODE_BLOCK---
+
+len(train_register)
+
+---CODE_BLOCK---
+
+len(control)
+
+---CODE_BLOCK---
+
+circ.append(oracle, [0, 1, 2, 3])
+
+---CODE_BLOCK---
+
+circ.append(oracle, [0, 1, 2, 3])
+
+---CODE_BLOCK---
+
+indices_to_append_to = list(np.arange(len(train_register) + len(control))) circ.append(oracle, indices_to_append_to)
+
+---CODE_BLOCK---
+
+indices_to_append_to = list(np.arange(len(train_register) + len(control))) circ.append(oracle, indices_to_append_to)
+
+---CODE_BLOCK---
+
+qregs
+
+---CODE_BLOCK---
+
+qargs
+
+Solution explanation:
+If you pass a list of qubits instead of a list of register this works. For this do where and are s.
+
+```
+circ.append(oracle, train_register[:] + control[:])
+```
+
+```
+circ.append(oracle, train_register[:] + control[:])
+```
+
+```
+train_register
+```
+
+```
+control
+```
+
+```
+QuantumRegister
+```
+
+Original fixed code:
+circ.append(oracle, train_register[:] + control[:])
+
+---CODE_BLOCK---
+
+circ.append(oracle, train_register[:] + control[:])
+
+---CODE_BLOCK---
+
+train_register
+
+---CODE_BLOCK---
+
+control
+
+---CODE_BLOCK---
+
+QuantumRegister

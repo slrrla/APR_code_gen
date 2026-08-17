@@ -1,0 +1,87 @@
+Title:
+What is the control state for a Controlled-RY gate?
+
+Category:
+Category:
+Import / Usage Clarification
+
+Why Both Are Same in This Category:
+In usage-related questions, the combination of conceptual accuracy and practical demonstration is ideal. Stack Overflow offers the math-based definition and insight into projector-based gate behavior. The AI supplements this with working code that aligns perfectly with the explanation. This makes both solutions equally strong for learners or practitioners clarifying parameter usage in Qiskit.
+
+Question:
+Title: What is the control state for a Controlled-RY gate?
+
+I am trying to understand Qiskit's control gates. For example, the CRY gate requires an input as the control state (). If I use two qubits in a simple circuit, I can define or . What is the difference between the two options, and how do their matrix representations differ?
+
+```
+ctrl_state
+```
+
+```
+ctrl_state='1'
+```
+
+```
+ctrl_state='0'
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector from qiskit_aer import StatevectorSimulator import numpy as np x0 = 0.86 x1 = 0.45 x2 = 0.11 x3 = 0.81 xlist = np.array([x0, x1, x2, x3]) xlist = xlist/np.linalg.norm(xlist) # initial state theta1 = 0.254 circ = QuantumCircuit(2) circ.prepare_state(Statevector(xlist), [0, 1]) circ.cry(theta1, 0, 1, ctrl_state='0') # circ.cry(theta2, 0, 1, ctrl_state='1') simulator = StatevectorSimulator() job = qk.transpile(circ, simulator) # execute circuit on qasm simulator result = simulator.run(job,shots=128).result() # results from the job out_state = result.get_statevector() print(np.array(out_state)) circ.draw(output='mpl')
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector from qiskit_aer import StatevectorSimulator import numpy as np x0 = 0.86 x1 = 0.45 x2 = 0.11 x3 = 0.81 xlist = np.array([x0, x1, x2, x3]) xlist = xlist/np.linalg.norm(xlist) # initial state theta1 = 0.254 circ = QuantumCircuit(2) circ.prepare_state(Statevector(xlist), [0, 1]) circ.cry(theta1, 0, 1, ctrl_state='0') # circ.cry(theta2, 0, 1, ctrl_state='1') simulator = StatevectorSimulator() job = qk.transpile(circ, simulator) # execute circuit on qasm simulator result = simulator.run(job,shots=128).result() # results from the job out_state = result.get_statevector() print(np.array(out_state)) circ.draw(output='mpl')
+```
+
+Original buggy code:
+ctrl_state
+
+---CODE_BLOCK---
+
+ctrl_state='1'
+
+---CODE_BLOCK---
+
+ctrl_state='0'
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector from qiskit_aer import StatevectorSimulator import numpy as np x0 = 0.86 x1 = 0.45 x2 = 0.11 x3 = 0.81 xlist = np.array([x0, x1, x2, x3]) xlist = xlist/np.linalg.norm(xlist) # initial state theta1 = 0.254 circ = QuantumCircuit(2) circ.prepare_state(Statevector(xlist), [0, 1]) circ.cry(theta1, 0, 1, ctrl_state='0') # circ.cry(theta2, 0, 1, ctrl_state='1') simulator = StatevectorSimulator() job = qk.transpile(circ, simulator) # execute circuit on qasm simulator result = simulator.run(job,shots=128).result() # results from the job out_state = result.get_statevector() print(np.array(out_state)) circ.draw(output='mpl')
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector from qiskit_aer import StatevectorSimulator import numpy as np x0 = 0.86 x1 = 0.45 x2 = 0.11 x3 = 0.81 xlist = np.array([x0, x1, x2, x3]) xlist = xlist/np.linalg.norm(xlist) # initial state theta1 = 0.254 circ = QuantumCircuit(2) circ.prepare_state(Statevector(xlist), [0, 1]) circ.cry(theta1, 0, 1, ctrl_state='0') # circ.cry(theta2, 0, 1, ctrl_state='1') simulator = StatevectorSimulator() job = qk.transpile(circ, simulator) # execute circuit on qasm simulator result = simulator.run(job,shots=128).result() # results from the job out_state = result.get_statevector() print(np.array(out_state)) circ.draw(output='mpl')
+
+Solution explanation:
+If , then the controlled $RY$ gets applied to the target qubit if the control qubit is in state $|1\rangle$. Similarly, if , then the controlled $RY$ gets applied to the target qubit if the control qubit is in state $|0\rangle$. This can be seen very naturally when you express these gates in their matrix form. For the matrix with , you have: $$CRY = I\otimes|0\rangle\langle0| + RY\otimes|1\rangle\langle1|$$ For the matrix with , you have: $$\bar{C}RY = RY\otimes|0\rangle\langle0| + I\otimes|1\rangle\langle1|$$
+
+```
+ctrl_state=1
+```
+
+```
+ctrl_state=0
+```
+
+```
+ctrl_state=1
+```
+
+```
+ctrl_state=0
+```
+
+Original fixed code:
+ctrl_state=1
+
+---CODE_BLOCK---
+
+ctrl_state=0
+
+---CODE_BLOCK---
+
+ctrl_state=1
+
+---CODE_BLOCK---
+
+ctrl_state=0

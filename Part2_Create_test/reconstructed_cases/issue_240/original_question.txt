@@ -1,0 +1,70 @@
+Title:
+Alternative to COBYLA.optimize in algorithms.optimizers
+
+Category:
+Category: Version Compatibility / Deprecated API
+
+Why Both Answers Are Same in This Category:
+This issue falls under a standard API migration scenario. Both solutions:
+
+Identify the deprecated method (.optimize())
+
+Provide the correct modern equivalent (.minimize())
+
+Offer a working example and encourage using official documentation
+
+Since there is no discrepancy or extra insight in either answer, they are equally correct and helpful.
+
+Question:
+Title: Alternative to COBYLA.optimize in algorithms.optimizers
+
+I was working on this qiskit tutorial, regarding simulation of VQE. In one of the code blocks they did this: Now I know that aqua is deprecated and the new way is to But now in the further down, they used COBYLA.optimize, which was only available in the aqua version, there is no optimize in algorithms version. Is there any solution to this?
+
+```
+from qiskit.aqua.components.optimizers import COBYLA
+```
+
+```
+from qiskit.aqua.components.optimizers import COBYLA
+```
+
+```
+from qiskit.algorithms.optimizers import COBYLA
+```
+
+```
+from qiskit.algorithms.optimizers import COBYLA
+```
+
+Original buggy code:
+from qiskit.aqua.components.optimizers import COBYLA
+
+---CODE_BLOCK---
+
+from qiskit.aqua.components.optimizers import COBYLA
+
+---CODE_BLOCK---
+
+from qiskit.algorithms.optimizers import COBYLA
+
+---CODE_BLOCK---
+
+from qiskit.algorithms.optimizers import COBYLA
+
+Solution explanation:
+The new version of the book has the updated chapter, without Aqua: https://learn.qiskit.org/course/ch-applications/simulating-molecules-using-vqe Basically, the main change is that is now.
+
+```
+COBYLA.optimize
+```
+
+```
+COBYLA.minimize
+```
+
+Original fixed code:
+COBYLA.optimize
+
+---CODE_BLOCK---
+
+COBYLA.minimize

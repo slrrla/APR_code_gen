@@ -1,0 +1,50 @@
+Title:
+How to create states in Qiskit using complex phase angles?
+
+Category:
+Category: Circuit Construction / Logic / Gates
+
+Why AI Wins in This Category:
+In circuit construction problems, simplicity and correctness of implementation are key. The AI solution bypasses complex trigonometric calculations and directly applies Qiskit's initialize() method for state vector preparation — making it the most efficient and accurate way to construct a complex state. It is also more aligned with how Qiskit is used in practice.
+
+Question:
+Title: How to create states in Qiskit using complex phase angles?
+
+How do we create an arbitrary vector of the following form in Qiskit? Say, we want to initialize a qubit with a vector, $$ \vert \psi \rangle = \frac{1+i}{\sqrt{3}}\vert 0 \rangle - \frac{i}{\sqrt{3}}\vert 1 \rangle $$ If I put it in the form $$ \vert \psi \rangle = \frac{1+i}{\sqrt{3}}\vert 0 \rangle - \frac{i}{\sqrt{3}}\vert 1 \rangle = cos(\frac{\theta}{2})|0> + e^{i\phi}sin(\frac{\theta}{2})|1> $$ where $0 < \theta < \pi$ and $0 < \phi <2\pi$ and then calculate $\theta$ and $\phi$ So, $$ cos(\frac{\theta}{2}) = \frac{1+i}{\sqrt{3}}\\ e^{i\phi}sin(\frac{\theta}{2}) = - \frac{i}{\sqrt{3}} $$ Therefore, $$ \theta = 2 * \arccos{\frac{1+i}{\sqrt{3}}} \\ \phi = i * ln(\frac{- \frac{i}{\sqrt{3}}}{sin(\frac{\theta}{2})}) $$ Now, I am using the following code.. The above code creates the gate alright, but the execute function is returning the following error, However, if I use just the real values of theta and phi, then the execute function returns a state vector, which is different than the one it should be.
+
+```
+#We create the quantum state manually first arb_quantum_state = ((1+1.j)/math.sqrt(3))*ket_0 - (1.j/math.sqrt(3))*ket_1 print(arb_quantum_state) theta = 2*cmath.acos((1+1.j)/cmath.sqrt(3)) print('theta : ',theta) sinValue = cmath.sin(theta/2) print(sinValue) phase = -1*(1.j/cmath.sqrt(3))/sinValue phi = cmath.log(phase)/1.j print('phi : ',phi) # Use these theta and phi to create the circuit circ = QuantumCircuit(1,1) #Verify why complex values are not allowed #circ.u3(theta.real,phi.real,0,0) circ.u3(theta,phi,0,0) results = execute(circ, backend=Aer.get_backend('statevector_simulator')).result() quantum_state = results.get_statevector(circ, decimals=3) print (quantum_state)
+```
+
+```
+#We create the quantum state manually first arb_quantum_state = ((1+1.j)/math.sqrt(3))*ket_0 - (1.j/math.sqrt(3))*ket_1 print(arb_quantum_state) theta = 2*cmath.acos((1+1.j)/cmath.sqrt(3)) print('theta : ',theta) sinValue = cmath.sin(theta/2) print(sinValue) phase = -1*(1.j/cmath.sqrt(3))/sinValue phi = cmath.log(phase)/1.j print('phi : ',phi) # Use these theta and phi to create the circuit circ = QuantumCircuit(1,1) #Verify why complex values are not allowed #circ.u3(theta.real,phi.real,0,0) circ.u3(theta,phi,0,0) results = execute(circ, backend=Aer.get_backend('statevector_simulator')).result() quantum_state = results.get_statevector(circ, decimals=3) print (quantum_state)
+```
+
+```
+TypeError: can't convert complex to float
+```
+
+```
+TypeError: can't convert complex to float
+```
+
+Original buggy code:
+#We create the quantum state manually first arb_quantum_state = ((1+1.j)/math.sqrt(3))*ket_0 - (1.j/math.sqrt(3))*ket_1 print(arb_quantum_state) theta = 2*cmath.acos((1+1.j)/cmath.sqrt(3)) print('theta : ',theta) sinValue = cmath.sin(theta/2) print(sinValue) phase = -1*(1.j/cmath.sqrt(3))/sinValue phi = cmath.log(phase)/1.j print('phi : ',phi) # Use these theta and phi to create the circuit circ = QuantumCircuit(1,1) #Verify why complex values are not allowed #circ.u3(theta.real,phi.real,0,0) circ.u3(theta,phi,0,0) results = execute(circ, backend=Aer.get_backend('statevector_simulator')).result() quantum_state = results.get_statevector(circ, decimals=3) print (quantum_state)
+
+---CODE_BLOCK---
+
+#We create the quantum state manually first arb_quantum_state = ((1+1.j)/math.sqrt(3))*ket_0 - (1.j/math.sqrt(3))*ket_1 print(arb_quantum_state) theta = 2*cmath.acos((1+1.j)/cmath.sqrt(3)) print('theta : ',theta) sinValue = cmath.sin(theta/2) print(sinValue) phase = -1*(1.j/cmath.sqrt(3))/sinValue phi = cmath.log(phase)/1.j print('phi : ',phi) # Use these theta and phi to create the circuit circ = QuantumCircuit(1,1) #Verify why complex values are not allowed #circ.u3(theta.real,phi.real,0,0) circ.u3(theta,phi,0,0) results = execute(circ, backend=Aer.get_backend('statevector_simulator')).result() quantum_state = results.get_statevector(circ, decimals=3) print (quantum_state)
+
+---CODE_BLOCK---
+
+TypeError: can't convert complex to float
+
+---CODE_BLOCK---
+
+TypeError: can't convert complex to float
+
+Solution explanation:
+The problem is that you're trying to equate $\cos(\theta/2)$ (a real number) with $(1+i)/\sqrt{3}$ (a complex number). The way around this is you need to take into account a global phase $\gamma$ such that $$ e^{i\gamma}|\psi\rangle=\cos\frac{\theta}{2}|0\rangle+e^{i\phi}\sin\frac{\theta}{2}|1\rangle. $$ To do this, it helps to express your initial state as complex exponentials: As a first step your state can be reduced to $$ |\psi\rangle=\sqrt{\frac{2}{3}}\left(\frac{1}{\sqrt{2}} + \frac{1}{\sqrt{2}}i\right)|0\rangle+\frac{1}{\sqrt{3}}\left(0 - i*1\right)|1\rangle $$ Then to, $$ |\psi\rangle=\sqrt{\frac{2}{3}}e^{i\pi/4}|0\rangle+\frac{1}{\sqrt{3}}e^{i\frac{3}{2}\pi}|1\rangle $$ so that we can rewrite it as $$ |\psi\rangle=e^{i\pi/4}\left(\sqrt{\frac{2}{3}}|0\rangle+\frac{1}{\sqrt{3}}e^{i\frac{5}{4}\pi}|1\rangle\right). $$ Now you can easily see that $$ \cos\frac{\theta}{2}=\sqrt{\frac{2}{3}},\qquad \phi=\frac{5\pi}{4},\qquad \gamma=\frac{\pi}{4}. $$
+
+Original fixed code:
+The problem is that you're trying to equate $\cos(\theta/2)$ (a real number) with $(1+i)/\sqrt{3}$ (a complex number). The way around this is you need to take into account a global phase $\gamma$ such that $$ e^{i\gamma}|\psi\rangle=\cos\frac{\theta}{2}|0\rangle+e^{i\phi}\sin\frac{\theta}{2}|1\rangle. $$ To do this, it helps to express your initial state as complex exponentials: As a first step your state can be reduced to $$ |\psi\rangle=\sqrt{\frac{2}{3}}\left(\frac{1}{\sqrt{2}} + \frac{1}{\sqrt{2}}i\right)|0\rangle+\frac{1}{\sqrt{3}}\left(0 - i*1\right)|1\rangle $$ Then to, $$ |\psi\rangle=\sqrt{\frac{2}{3}}e^{i\pi/4}|0\rangle+\frac{1}{\sqrt{3}}e^{i\frac{3}{2}\pi}|1\rangle $$ so that we can rewrite it as $$ |\psi\rangle=e^{i\pi/4}\left(\sqrt{\frac{2}{3}}|0\rangle+\frac{1}{\sqrt{3}}e^{i\frac{5}{4}\pi}|1\rangle\right). $$ Now you can easily see that $$ \cos\frac{\theta}{2}=\sqrt{\frac{2}{3}},\qquad \phi=\frac{5\pi}{4},\qquad \gamma=\frac{\pi}{4}. $$

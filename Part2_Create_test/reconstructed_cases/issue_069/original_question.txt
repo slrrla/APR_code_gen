@@ -1,0 +1,165 @@
+Title:
+Comparing Qiskit gates with numpy functions
+
+Category:
+Category:
+
+Import / Simulation Mismatch / Linear Algebra Error
+
+Question:
+Title: Comparing Qiskit gates with numpy functions
+
+I am trying to understand how Qiskit's gates work by comparing the outputs of a simple circuit with numpy matrix algebra. If I start with two qubits and apply a rotation gate to each of them, I get: The final state is I'm trying to replicate this result by using numpy's functions: The final state is Why does this not agree with the Qiskit result? I'm not sure what I'm missing. I know that gives a result that agrees with the circuit output (when there are no and gates).
+
+```
+import numpy as np import qiskit as qk from qiskit.quantum_info.operators import Operator from qiskit_aer import StatevectorSimulator xlist = np.array([5,3]) x = xlist/np.linalg.norm(xlist) y = 1/np.sqrt(2)*np.array([1,1]) circuit = qk.QuantumCircuit(2,1) circuit.initialize(x, [0]) circuit.initialize(y, [1]) # apply rotations theta = 0.313 H0 = np.array([[np.cos(theta), np.sin(theta)], [np.sin(theta), -np.cos(theta)]]) H1 = np.array([[-np.cos(theta), np.sin(theta)], [np.sin(theta), np.cos(theta)]]) circuit.unitary(Operator(H0), [0], label='H0') circuit.unitary(Operator(H1), [1], label='H1') simulator = StatevectorSimulator() job = qk.transpile(circuit, simulator) # execute circuit on qasm simulator result = simulator.run(job,shots=128).result() # results from the job out_state = result.get_statevector() print(out_state) circuit.draw(output='mpl')
+```
+
+```
+import numpy as np import qiskit as qk from qiskit.quantum_info.operators import Operator from qiskit_aer import StatevectorSimulator xlist = np.array([5,3]) x = xlist/np.linalg.norm(xlist) y = 1/np.sqrt(2)*np.array([1,1]) circuit = qk.QuantumCircuit(2,1) circuit.initialize(x, [0]) circuit.initialize(y, [1]) # apply rotations theta = 0.313 H0 = np.array([[np.cos(theta), np.sin(theta)], [np.sin(theta), -np.cos(theta)]]) H1 = np.array([[-np.cos(theta), np.sin(theta)], [np.sin(theta), np.cos(theta)]]) circuit.unitary(Operator(H0), [0], label='H0') circuit.unitary(Operator(H1), [1], label='H1') simulator = StatevectorSimulator() job = qk.transpile(circuit, simulator) # execute circuit on qasm simulator result = simulator.run(job,shots=128).result() # results from the job out_state = result.get_statevector() print(out_state) circuit.draw(output='mpl')
+```
+
+```
+Statevector([-0.44330692+0.j, 0.10259143+0.j, 0.86755107+0.j, -0.2007713 +0.j], dims=(2, 2))
+```
+
+```
+Statevector([-0.44330692+0.j, 0.10259143+0.j, 0.86755107+0.j, -0.2007713 +0.j], dims=(2, 2))
+```
+
+```
+x1 = np.array([[5],[3]]) x1 = x1/np.linalg.norm(x1) y1 = 1/np.sqrt(2)*np.array([[1],[1]]) z1 = np.kron(x1, y1) z1 = z1/np.linalg.norm(z1) cx = np.array([[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]]) z1 = np.matmul(cx, z1) # entangled state?? # define 4x4 rotation matrix rotate1 = np.zeros((4, 4)) rotate1[0:2, 0:2] = H0 rotate1[2:4, 2:4] = H1 # apply rotation print(np.matmul(rotate1, z1))
+```
+
+```
+x1 = np.array([[5],[3]]) x1 = x1/np.linalg.norm(x1) y1 = 1/np.sqrt(2)*np.array([[1],[1]]) z1 = np.kron(x1, y1) z1 = z1/np.linalg.norm(z1) cx = np.array([[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]]) z1 = np.matmul(cx, z1) # entangled state?? # define 4x4 rotation matrix rotate1 = np.zeros((4, 4)) rotate1[0:2, 0:2] = H0 rotate1[2:4, 2:4] = H1 # apply rotation print(np.matmul(rotate1, z1))
+```
+
+```
+[[ 0.68889981] [-0.15942728] [-0.46485927] [ 0.53282817]]
+```
+
+```
+[[ 0.68889981] [-0.15942728] [-0.46485927] [ 0.53282817]]
+```
+
+```
+z1 = np.matmul(cx, z1)
+```
+
+```
+H0
+```
+
+```
+H1
+```
+
+Original buggy code:
+import numpy as np import qiskit as qk from qiskit.quantum_info.operators import Operator from qiskit_aer import StatevectorSimulator xlist = np.array([5,3]) x = xlist/np.linalg.norm(xlist) y = 1/np.sqrt(2)*np.array([1,1]) circuit = qk.QuantumCircuit(2,1) circuit.initialize(x, [0]) circuit.initialize(y, [1]) # apply rotations theta = 0.313 H0 = np.array([[np.cos(theta), np.sin(theta)], [np.sin(theta), -np.cos(theta)]]) H1 = np.array([[-np.cos(theta), np.sin(theta)], [np.sin(theta), np.cos(theta)]]) circuit.unitary(Operator(H0), [0], label='H0') circuit.unitary(Operator(H1), [1], label='H1') simulator = StatevectorSimulator() job = qk.transpile(circuit, simulator) # execute circuit on qasm simulator result = simulator.run(job,shots=128).result() # results from the job out_state = result.get_statevector() print(out_state) circuit.draw(output='mpl')
+
+---CODE_BLOCK---
+
+import numpy as np import qiskit as qk from qiskit.quantum_info.operators import Operator from qiskit_aer import StatevectorSimulator xlist = np.array([5,3]) x = xlist/np.linalg.norm(xlist) y = 1/np.sqrt(2)*np.array([1,1]) circuit = qk.QuantumCircuit(2,1) circuit.initialize(x, [0]) circuit.initialize(y, [1]) # apply rotations theta = 0.313 H0 = np.array([[np.cos(theta), np.sin(theta)], [np.sin(theta), -np.cos(theta)]]) H1 = np.array([[-np.cos(theta), np.sin(theta)], [np.sin(theta), np.cos(theta)]]) circuit.unitary(Operator(H0), [0], label='H0') circuit.unitary(Operator(H1), [1], label='H1') simulator = StatevectorSimulator() job = qk.transpile(circuit, simulator) # execute circuit on qasm simulator result = simulator.run(job,shots=128).result() # results from the job out_state = result.get_statevector() print(out_state) circuit.draw(output='mpl')
+
+---CODE_BLOCK---
+
+Statevector([-0.44330692+0.j, 0.10259143+0.j, 0.86755107+0.j, -0.2007713 +0.j], dims=(2, 2))
+
+---CODE_BLOCK---
+
+Statevector([-0.44330692+0.j, 0.10259143+0.j, 0.86755107+0.j, -0.2007713 +0.j], dims=(2, 2))
+
+---CODE_BLOCK---
+
+x1 = np.array([[5],[3]]) x1 = x1/np.linalg.norm(x1) y1 = 1/np.sqrt(2)*np.array([[1],[1]]) z1 = np.kron(x1, y1) z1 = z1/np.linalg.norm(z1) cx = np.array([[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]]) z1 = np.matmul(cx, z1) # entangled state?? # define 4x4 rotation matrix rotate1 = np.zeros((4, 4)) rotate1[0:2, 0:2] = H0 rotate1[2:4, 2:4] = H1 # apply rotation print(np.matmul(rotate1, z1))
+
+---CODE_BLOCK---
+
+x1 = np.array([[5],[3]]) x1 = x1/np.linalg.norm(x1) y1 = 1/np.sqrt(2)*np.array([[1],[1]]) z1 = np.kron(x1, y1) z1 = z1/np.linalg.norm(z1) cx = np.array([[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]]) z1 = np.matmul(cx, z1) # entangled state?? # define 4x4 rotation matrix rotate1 = np.zeros((4, 4)) rotate1[0:2, 0:2] = H0 rotate1[2:4, 2:4] = H1 # apply rotation print(np.matmul(rotate1, z1))
+
+---CODE_BLOCK---
+
+[[ 0.68889981] [-0.15942728] [-0.46485927] [ 0.53282817]]
+
+---CODE_BLOCK---
+
+[[ 0.68889981] [-0.15942728] [-0.46485927] [ 0.53282817]]
+
+---CODE_BLOCK---
+
+z1 = np.matmul(cx, z1)
+
+---CODE_BLOCK---
+
+H0
+
+---CODE_BLOCK---
+
+H1
+
+Solution explanation:
+Setting to outputs the correct result. Your version of does not represent the parallel application of and , you need a tensor product of these gates, which is different from building a diagonal block matrix. As of why you need to do and not , I think it has to do with internally indexing the qubits in the order you do not expect.
+
+```
+rotate1
+```
+
+```
+np.kron(H1, H0)
+```
+
+```
+rotate1
+```
+
+```
+H0
+```
+
+```
+H1
+```
+
+```
+np.kron(H1, H0)
+```
+
+```
+np.kron(H0, H1)
+```
+
+```
+qiskit
+```
+
+Original fixed code:
+rotate1
+
+---CODE_BLOCK---
+
+np.kron(H1, H0)
+
+---CODE_BLOCK---
+
+rotate1
+
+---CODE_BLOCK---
+
+H0
+
+---CODE_BLOCK---
+
+H1
+
+---CODE_BLOCK---
+
+np.kron(H1, H0)
+
+---CODE_BLOCK---
+
+np.kron(H0, H1)
+
+---CODE_BLOCK---
+
+qiskit

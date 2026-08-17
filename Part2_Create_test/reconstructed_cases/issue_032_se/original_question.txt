@@ -1,0 +1,95 @@
+Title:
+Unable to use iSWAP in Qiskit TwoLocal entangling_block
+
+Category:
+Category:
+Version Compatibility / Deprecated API
+
+Why Stack Overflow Wins in This Category:
+This category prioritizes correct usage of evolving APIs. Stack Overflow:
+
+Pinpoints the version issue.
+
+Provides both new and legacy-compatible solutions.
+
+Uses the correct internal iSwapGate() constructor directly in TwoLocal.
+
+This makes it clearer and more useful for users targeting either older or newer Qiskit environments.
+
+Question:
+Title: Unable to use iSWAP in Qiskit TwoLocal entangling_block
+
+I would like to use a general entangler in the entanglement_block of the TwoLocal function. The function seems to work with 'cz', 'cx', 'swap' gates, but it fails for 'iswap' gate. Below is the error message. Any help would be appreciated Gives the following error
+
+```
+from qiskit.circuit.library import TwoLocal ansatz = TwoLocal(num_spin_orbitals, ['ry', 'rz'], entanglement_blocks = 'iswap', entanglement='linear')
+```
+
+```
+from qiskit.circuit.library import TwoLocal ansatz = TwoLocal(num_spin_orbitals, ['ry', 'rz'], entanglement_blocks = 'iswap', entanglement='linear')
+```
+
+```
+Traceback (most recent call last): File "<ipython-input-34-5d8e95fd9811>", line 2, in <module> ansatz = TwoLocal(num_spin_orbitals, ['ry', 'rz'], entanglement_blocks = 'iswap', entanglement='linear') File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/two_local.py", line 177, in __init__ super().__init__(num_qubits=num_qubits, File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/n_local.py", line 140, in __init__ self.entanglement_blocks = entanglement_blocks File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/n_local.py", line 248, in entanglement_blocks self._entanglement_blocks = [self._convert_to_block(block) for block in blocks] File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/n_local.py", line 248, in <listcomp> self._entanglement_blocks = [self._convert_to_block(block) for block in blocks] File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/two_local.py", line 248, in _convert_to_block raise ValueError(f'Unknown layer name `{layer}`.') from ex ValueError: Unknown layer name `iswap`.
+```
+
+```
+Traceback (most recent call last): File "<ipython-input-34-5d8e95fd9811>", line 2, in <module> ansatz = TwoLocal(num_spin_orbitals, ['ry', 'rz'], entanglement_blocks = 'iswap', entanglement='linear') File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/two_local.py", line 177, in __init__ super().__init__(num_qubits=num_qubits, File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/n_local.py", line 140, in __init__ self.entanglement_blocks = entanglement_blocks File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/n_local.py", line 248, in entanglement_blocks self._entanglement_blocks = [self._convert_to_block(block) for block in blocks] File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/n_local.py", line 248, in <listcomp> self._entanglement_blocks = [self._convert_to_block(block) for block in blocks] File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/two_local.py", line 248, in _convert_to_block raise ValueError(f'Unknown layer name `{layer}`.') from ex ValueError: Unknown layer name `iswap`.
+```
+
+Original buggy code:
+from qiskit.circuit.library import TwoLocal ansatz = TwoLocal(num_spin_orbitals, ['ry', 'rz'], entanglement_blocks = 'iswap', entanglement='linear')
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import TwoLocal ansatz = TwoLocal(num_spin_orbitals, ['ry', 'rz'], entanglement_blocks = 'iswap', entanglement='linear')
+
+---CODE_BLOCK---
+
+Traceback (most recent call last): File "<ipython-input-34-5d8e95fd9811>", line 2, in <module> ansatz = TwoLocal(num_spin_orbitals, ['ry', 'rz'], entanglement_blocks = 'iswap', entanglement='linear') File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/two_local.py", line 177, in __init__ super().__init__(num_qubits=num_qubits, File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/n_local.py", line 140, in __init__ self.entanglement_blocks = entanglement_blocks File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/n_local.py", line 248, in entanglement_blocks self._entanglement_blocks = [self._convert_to_block(block) for block in blocks] File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/n_local.py", line 248, in <listcomp> self._entanglement_blocks = [self._convert_to_block(block) for block in blocks] File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/two_local.py", line 248, in _convert_to_block raise ValueError(f'Unknown layer name `{layer}`.') from ex ValueError: Unknown layer name `iswap`.
+
+---CODE_BLOCK---
+
+Traceback (most recent call last): File "<ipython-input-34-5d8e95fd9811>", line 2, in <module> ansatz = TwoLocal(num_spin_orbitals, ['ry', 'rz'], entanglement_blocks = 'iswap', entanglement='linear') File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/two_local.py", line 177, in __init__ super().__init__(num_qubits=num_qubits, File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/n_local.py", line 140, in __init__ self.entanglement_blocks = entanglement_blocks File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/n_local.py", line 248, in entanglement_blocks self._entanglement_blocks = [self._convert_to_block(block) for block in blocks] File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/n_local.py", line 248, in <listcomp> self._entanglement_blocks = [self._convert_to_block(block) for block in blocks] File "/opt/conda/lib/python3.8/site-packages/qiskit/circuit/library/n_local/two_local.py", line 248, in _convert_to_block raise ValueError(f'Unknown layer name `{layer}`.') from ex ValueError: Unknown layer name `iswap`.
+
+Solution explanation:
+Update: In Qiskit 1.1, all the standard gates in can be specified by string name for the entangling operations in circuits. Which means, the code snippet in the question should work now with no issue. The Old Answer: Although the documentation says that the parameter can be specified via the name of a gate or the gate type itself, not all gates can be used this way. You can check the code to get the list of supported gate names. Since "pass by name" is not supported for iSWAP, you can use the gate type:
+
+```
+qiskit.circuit.library
+```
+
+```
+TwoLocal
+```
+
+```
+entanglement_blocks
+```
+
+```
+ansatz = TwoLocal(num_spin_orbitals, ['ry', 'rz'], entanglement_blocks = iSwapGate(), entanglement='linear')
+```
+
+```
+ansatz = TwoLocal(num_spin_orbitals, ['ry', 'rz'], entanglement_blocks = iSwapGate(), entanglement='linear')
+```
+
+Original fixed code:
+qiskit.circuit.library
+
+---CODE_BLOCK---
+
+TwoLocal
+
+---CODE_BLOCK---
+
+entanglement_blocks
+
+---CODE_BLOCK---
+
+ansatz = TwoLocal(num_spin_orbitals, ['ry', 'rz'], entanglement_blocks = iSwapGate(), entanglement='linear')
+
+---CODE_BLOCK---
+
+ansatz = TwoLocal(num_spin_orbitals, ['ry', 'rz'], entanglement_blocks = iSwapGate(), entanglement='linear')

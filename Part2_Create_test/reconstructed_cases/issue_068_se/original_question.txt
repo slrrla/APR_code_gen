@@ -1,0 +1,53 @@
+Title:
+IBMQ: `from qiskit import QISKitError` gives 'cannot import name QISKitError'
+
+Category:
+Category:
+Version Compatibility / Import Error
+
+
+Question:
+Title: IBMQ: `from qiskit import QISKitError` gives 'cannot import name QISKitError'
+
+When I run: I get the error: I need QISKitError for exception handling with my program. Did IBMQ recently update this import?
+
+```
+from qiskit import QISKitError
+```
+
+```
+from qiskit import QISKitError
+```
+
+```
+ImportError: cannot import name 'QISKitError'
+```
+
+```
+ImportError: cannot import name 'QISKitError'
+```
+
+Original buggy code:
+from qiskit import QISKitError
+
+---CODE_BLOCK---
+
+from qiskit import QISKitError
+
+---CODE_BLOCK---
+
+ImportError: cannot import name 'QISKitError'
+
+---CODE_BLOCK---
+
+ImportError: cannot import name 'QISKitError'
+
+Solution explanation:
+This has been moved to
+
+```
+from qiskit.exceptions import QiskitError
+```
+
+Original fixed code:
+from qiskit.exceptions import QiskitError

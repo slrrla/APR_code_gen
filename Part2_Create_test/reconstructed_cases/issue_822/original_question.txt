@@ -1,0 +1,123 @@
+Title:
+Qiskit ERROR: Circuit contains invalid instructions
+
+Category:
+
+
+Question:
+Title: Qiskit ERROR: Circuit contains invalid instructions
+
+Recently I encountered a weird qiskit error which produces a pretty useless traceback. To replicate this error, I create a very simple circuit given below: When I run it on a simulator, I get an error whose traceback is at the bottom. Could anyone point out why this is happening? The circuit above is produced with the following code: I use . P.S. I'm not trying to implement a controlled H gate, but rather understand why this error occurs and how I can avoid it in more complicated scenarios.
+
+```
+# Importing standard Qiskit libraries from qiskit import QuantumCircuit, execute, Aer, QuantumRegister, ClassicalRegister from qiskit.compiler import transpile, assemble from qiskit.tools.jupyter import * from qiskit.visualization import * def create_controled_gate(): h_circuit = QuantumCircuit(1, name='H') h_circuit.h(0) gate = h_circuit.to_gate().control() return gate circuit = QuantumCircuit(2) controlled_gate = create_controled_gate() circuit.append(controlled_gate, [0,1]) cr = ClassicalRegister(2,'creg') circuit.add_register(cr) circuit.measure(range(2), range(2)) circuit.draw() aer_sim = Aer.get_backend('aer_simulator') qobj = assemble(circuit, shots=1000) job = aer_sim.run(qobj) hist = job.result().get_counts() print(hist)
+```
+
+```
+# Importing standard Qiskit libraries from qiskit import QuantumCircuit, execute, Aer, QuantumRegister, ClassicalRegister from qiskit.compiler import transpile, assemble from qiskit.tools.jupyter import * from qiskit.visualization import * def create_controled_gate(): h_circuit = QuantumCircuit(1, name='H') h_circuit.h(0) gate = h_circuit.to_gate().control() return gate circuit = QuantumCircuit(2) controlled_gate = create_controled_gate() circuit.append(controlled_gate, [0,1]) cr = ClassicalRegister(2,'creg') circuit.add_register(cr) circuit.measure(range(2), range(2)) circuit.draw() aer_sim = Aer.get_backend('aer_simulator') qobj = assemble(circuit, shots=1000) job = aer_sim.run(qobj) hist = job.result().get_counts() print(hist)
+```
+
+```
+QiskitError Traceback (most recent call last) Input In [5], in <module> 2 qobj = assemble(circuit, shots=1000) 3 job = aer_sim.run(qobj) ----> 4 hist = job.result().get_counts() 5 print(hist) File ~/.pyenv/versions/3.8.7/lib/python3.8/site-packages/qiskit/result/result.py:269, in Result.get_counts(self, experiment) 267 dict_list = [] 268 for key in exp_keys: --> 269 exp = self._get_experiment(key) 270 try: 271 header = exp.header.to_dict() File ~/.pyenv/versions/3.8.7/lib/python3.8/site-packages/qiskit/result/result.py:397, in Result._get_experiment(self, key) 395 result_status = getattr(self, "status", "Result was not successful") 396 exp_status = getattr(exp, "status", "Experiment was not successful") --> 397 raise QiskitError(result_status, ", ", exp_status) QiskitError: 'ERROR: [Experiment 0] Circuit circuit-85 contains invalid instructions {"gates": {cH}} for "statevector" method. , ERROR: Circuit circuit-85 contains invalid instructions {"gates": {cH}} for "statevector" method.'
+```
+
+```
+QiskitError Traceback (most recent call last) Input In [5], in <module> 2 qobj = assemble(circuit, shots=1000) 3 job = aer_sim.run(qobj) ----> 4 hist = job.result().get_counts() 5 print(hist) File ~/.pyenv/versions/3.8.7/lib/python3.8/site-packages/qiskit/result/result.py:269, in Result.get_counts(self, experiment) 267 dict_list = [] 268 for key in exp_keys: --> 269 exp = self._get_experiment(key) 270 try: 271 header = exp.header.to_dict() File ~/.pyenv/versions/3.8.7/lib/python3.8/site-packages/qiskit/result/result.py:397, in Result._get_experiment(self, key) 395 result_status = getattr(self, "status", "Result was not successful") 396 exp_status = getattr(exp, "status", "Experiment was not successful") --> 397 raise QiskitError(result_status, ", ", exp_status) QiskitError: 'ERROR: [Experiment 0] Circuit circuit-85 contains invalid instructions {"gates": {cH}} for "statevector" method. , ERROR: Circuit circuit-85 contains invalid instructions {"gates": {cH}} for "statevector" method.'
+```
+
+```
+qiskit 0.22.2
+```
+
+Original buggy code:
+# Importing standard Qiskit libraries from qiskit import QuantumCircuit, execute, Aer, QuantumRegister, ClassicalRegister from qiskit.compiler import transpile, assemble from qiskit.tools.jupyter import * from qiskit.visualization import * def create_controled_gate(): h_circuit = QuantumCircuit(1, name='H') h_circuit.h(0) gate = h_circuit.to_gate().control() return gate circuit = QuantumCircuit(2) controlled_gate = create_controled_gate() circuit.append(controlled_gate, [0,1]) cr = ClassicalRegister(2,'creg') circuit.add_register(cr) circuit.measure(range(2), range(2)) circuit.draw() aer_sim = Aer.get_backend('aer_simulator') qobj = assemble(circuit, shots=1000) job = aer_sim.run(qobj) hist = job.result().get_counts() print(hist)
+
+---CODE_BLOCK---
+
+# Importing standard Qiskit libraries from qiskit import QuantumCircuit, execute, Aer, QuantumRegister, ClassicalRegister from qiskit.compiler import transpile, assemble from qiskit.tools.jupyter import * from qiskit.visualization import * def create_controled_gate(): h_circuit = QuantumCircuit(1, name='H') h_circuit.h(0) gate = h_circuit.to_gate().control() return gate circuit = QuantumCircuit(2) controlled_gate = create_controled_gate() circuit.append(controlled_gate, [0,1]) cr = ClassicalRegister(2,'creg') circuit.add_register(cr) circuit.measure(range(2), range(2)) circuit.draw() aer_sim = Aer.get_backend('aer_simulator') qobj = assemble(circuit, shots=1000) job = aer_sim.run(qobj) hist = job.result().get_counts() print(hist)
+
+---CODE_BLOCK---
+
+QiskitError Traceback (most recent call last) Input In [5], in <module> 2 qobj = assemble(circuit, shots=1000) 3 job = aer_sim.run(qobj) ----> 4 hist = job.result().get_counts() 5 print(hist) File ~/.pyenv/versions/3.8.7/lib/python3.8/site-packages/qiskit/result/result.py:269, in Result.get_counts(self, experiment) 267 dict_list = [] 268 for key in exp_keys: --> 269 exp = self._get_experiment(key) 270 try: 271 header = exp.header.to_dict() File ~/.pyenv/versions/3.8.7/lib/python3.8/site-packages/qiskit/result/result.py:397, in Result._get_experiment(self, key) 395 result_status = getattr(self, "status", "Result was not successful") 396 exp_status = getattr(exp, "status", "Experiment was not successful") --> 397 raise QiskitError(result_status, ", ", exp_status) QiskitError: 'ERROR: [Experiment 0] Circuit circuit-85 contains invalid instructions {"gates": {cH}} for "statevector" method. , ERROR: Circuit circuit-85 contains invalid instructions {"gates": {cH}} for "statevector" method.'
+
+---CODE_BLOCK---
+
+QiskitError Traceback (most recent call last) Input In [5], in <module> 2 qobj = assemble(circuit, shots=1000) 3 job = aer_sim.run(qobj) ----> 4 hist = job.result().get_counts() 5 print(hist) File ~/.pyenv/versions/3.8.7/lib/python3.8/site-packages/qiskit/result/result.py:269, in Result.get_counts(self, experiment) 267 dict_list = [] 268 for key in exp_keys: --> 269 exp = self._get_experiment(key) 270 try: 271 header = exp.header.to_dict() File ~/.pyenv/versions/3.8.7/lib/python3.8/site-packages/qiskit/result/result.py:397, in Result._get_experiment(self, key) 395 result_status = getattr(self, "status", "Result was not successful") 396 exp_status = getattr(exp, "status", "Experiment was not successful") --> 397 raise QiskitError(result_status, ", ", exp_status) QiskitError: 'ERROR: [Experiment 0] Circuit circuit-85 contains invalid instructions {"gates": {cH}} for "statevector" method. , ERROR: Circuit circuit-85 contains invalid instructions {"gates": {cH}} for "statevector" method.'
+
+---CODE_BLOCK---
+
+qiskit 0.22.2
+
+Solution explanation:
+Controlled-H is not one of the basis gates of . You can get this list of gates using: So, you need to transpile the circuit into the supported set of gates before running it: Notes: There is no need to call . Actually, passing an assembled qobj directly to the method of the Aer simulator backends has been deprecated in favor of passing transpiled circuits directly. Using function also works because is called internally.
+
+```
+AerSimulator
+```
+
+```
+aer_sim.configuration().basis_gates
+```
+
+```
+aer_sim.configuration().basis_gates
+```
+
+```
+from qiskit import transpile circuit = transpile(circuit, backend=aer_sim) job = aer_sim.run(circuit)
+```
+
+```
+from qiskit import transpile circuit = transpile(circuit, backend=aer_sim) job = aer_sim.run(circuit)
+```
+
+```
+assemble()
+```
+
+```
+run()
+```
+
+```
+execute()
+```
+
+```
+transpile()
+```
+
+Original fixed code:
+AerSimulator
+
+---CODE_BLOCK---
+
+aer_sim.configuration().basis_gates
+
+---CODE_BLOCK---
+
+aer_sim.configuration().basis_gates
+
+---CODE_BLOCK---
+
+from qiskit import transpile circuit = transpile(circuit, backend=aer_sim) job = aer_sim.run(circuit)
+
+---CODE_BLOCK---
+
+from qiskit import transpile circuit = transpile(circuit, backend=aer_sim) job = aer_sim.run(circuit)
+
+---CODE_BLOCK---
+
+assemble()
+
+---CODE_BLOCK---
+
+run()
+
+---CODE_BLOCK---
+
+execute()
+
+---CODE_BLOCK---
+
+transpile()

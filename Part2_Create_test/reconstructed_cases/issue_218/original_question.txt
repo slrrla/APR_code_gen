@@ -1,0 +1,94 @@
+Title:
+How to Retrieve the Executed Quantum Circuit from a Job ID in Qiskit?
+
+Category:
+Category: Circuit
+Why AI Wins in This Category:
+
+For circuit-related questions involving job introspection and retrieval, it's crucial that the method aligns with the specific Qiskit version and job type. The AI response:
+
+Fits the user’s stated versions (v1.3.2, Terra 0.34.0),
+
+Uses classic Qiskit interfaces, not runtime-specific ones,
+
+Offers better clarity, version compatibility, and minimal dependencies.
+
+Therefore, it is more relevant and practical for the user's scenario.
+
+Question:
+Title: How to Retrieve the Executed Quantum Circuit from a Job ID in Qiskit?
+
+I have executed a quantum circuit on an IBM Quantum backend using Qiskit, and I have the . Now, I would like to retrieve the executed circuit from that job. How can I do this using version 1.3.2 version 0.34.0? I have seen that on the quantum.ibm.com platform, one can download the QASM circuit definition. However, I want to do it directly from a script (QASM works or any other type of circuit definition). Any guidance would be appreciated!
+
+```
+job_id
+```
+
+```
+qiskit
+```
+
+```
+qiskit-ibm-runtime
+```
+
+Original buggy code:
+job_id
+
+---CODE_BLOCK---
+
+qiskit
+
+---CODE_BLOCK---
+
+qiskit-ibm-runtime
+
+Solution explanation:
+If your job's name is , you retrieve the job as follows: You can then extract the executed circuits by using the attribute, and indexing the first element of each of the pubs:
+
+```
+abcde
+```
+
+```
+from qiskit_ibm_runtime import QiskitRuntimeService service = QiskitRuntimeService() job = service.job('abcde')
+```
+
+```
+from qiskit_ibm_runtime import QiskitRuntimeService service = QiskitRuntimeService() job = service.job('abcde')
+```
+
+```
+inputs
+```
+
+```
+pubs = job.inputs['pubs'] circuits = [pub[0] for pub in pubs]
+```
+
+```
+pubs = job.inputs['pubs'] circuits = [pub[0] for pub in pubs]
+```
+
+Original fixed code:
+abcde
+
+---CODE_BLOCK---
+
+from qiskit_ibm_runtime import QiskitRuntimeService service = QiskitRuntimeService() job = service.job('abcde')
+
+---CODE_BLOCK---
+
+from qiskit_ibm_runtime import QiskitRuntimeService service = QiskitRuntimeService() job = service.job('abcde')
+
+---CODE_BLOCK---
+
+inputs
+
+---CODE_BLOCK---
+
+pubs = job.inputs['pubs'] circuits = [pub[0] for pub in pubs]
+
+---CODE_BLOCK---
+
+pubs = job.inputs['pubs'] circuits = [pub[0] for pub in pubs]

@@ -1,0 +1,78 @@
+Title:
+how to fix error 'QiskitBackendNotFoundError' [closed]
+
+Category:
+Category:
+Version Compatibility / Deprecated API
+
+Why AI Wins in This Category:
+In the Version Compatibility category, clarity and forward-looking guidance are essential. The AI solution:
+
+Explains why the backend was removed.
+
+Provides complete code to verify and resolve the error.
+
+Suggests sustainable practices (choosing active backends and checking IBM Quantum system updates).
+This makes it more useful than the Stack Overflow response, which is technically correct but too brief.
+
+Question:
+Title: how to fix error 'QiskitBackendNotFoundError' [closed]
+
+Closed. This question is off-topic. It is not currently accepting answers. This question is missing context or other details: Please improve the question by providing additional context. Some forms of context include: background and motivation, relevant definitions, source, possible strategies, your thoughts and current progress, why the question is interesting or important, etc. This information helps others identify where you have difficulties and helps them write answers appropriate to your experience level. Closed 2 years ago. Improve this question This is my code:
+
+```
+from qiskit import IBMQ IBMQ.load_account() provider = IBMQ.get_provider('ibm-q') qcomp = provider.get_backend('ibmq_16_melbourne')
+```
+
+```
+from qiskit import IBMQ IBMQ.load_account() provider = IBMQ.get_provider('ibm-q') qcomp = provider.get_backend('ibmq_16_melbourne')
+```
+
+```
+QiskitBackendNotFoundError: 'No backend matches the criteria'
+```
+
+```
+QiskitBackendNotFoundError: 'No backend matches the criteria'
+```
+
+Original buggy code:
+from qiskit import IBMQ IBMQ.load_account() provider = IBMQ.get_provider('ibm-q') qcomp = provider.get_backend('ibmq_16_melbourne')
+
+---CODE_BLOCK---
+
+from qiskit import IBMQ IBMQ.load_account() provider = IBMQ.get_provider('ibm-q') qcomp = provider.get_backend('ibmq_16_melbourne')
+
+---CODE_BLOCK---
+
+QiskitBackendNotFoundError: 'No backend matches the criteria'
+
+---CODE_BLOCK---
+
+QiskitBackendNotFoundError: 'No backend matches the criteria'
+
+Solution explanation:
+Unfortunately, was retired. You can see the list of all the retired systems in this website. You can list of all the backends in your provider doing this:
+
+```
+ibmq_16_melbourne
+```
+
+```
+[p.name() for p in provider.backends()]
+```
+
+```
+[p.name() for p in provider.backends()]
+```
+
+Original fixed code:
+ibmq_16_melbourne
+
+---CODE_BLOCK---
+
+[p.name() for p in provider.backends()]
+
+---CODE_BLOCK---
+
+[p.name() for p in provider.backends()]

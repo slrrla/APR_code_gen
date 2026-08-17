@@ -1,0 +1,71 @@
+Title:
+Is there a Qiskit function to encode a list of ints into a quantum state by using basis encoding?
+
+Category:
+Category:
+General
+
+Why Stack Overflow Wins in This Category:
+In general-purpose state construction tasks, efficiency, scalability, and modular design matter. Stack Overflow’s use of StatePreparation, concise code, and clarity in bit-string indexing gives it the edge. AI’s version is excellent for beginners but uses initialize, which is less practical for larger systems or NISQ-era devices.
+
+Question:
+Title: Is there a Qiskit function to encode a list of ints into a quantum state by using basis encoding?
+
+Let's start from a basic example: suppose I have the following list containing $N=8$ non-negative ints: I want to encode the whole list $L$ into a quantum state $|\psi\rangle$ by using basis encoding as follows: $$|\psi \rangle = \frac{1}{\sqrt{N}} \sum_{i=0}^{N-1} |L_i\rangle |i\rangle$$ where $|L_i\rangle$ is the $i$-th element in the list, and $|i\rangle$ is its corresponding index (both represented as bit-strings). In this example, I would get an equal superposition of the states $|10\rangle|000\rangle$ ($L_0=2$), $|01\rangle|001\rangle$ ($L_1=1$), and so on until $|10\rangle|111\rangle$ ($L_7=2$). Is there a way in Qiskit to prepare this state given an arbitrary Python list? And, if not, how could it be implemented?
+
+```
+L = [2, 1, 2, 0, 0, 1, 3, 2]
+```
+
+```
+L = [2, 1, 2, 0, 0, 1, 3, 2]
+```
+
+Original buggy code:
+L = [2, 1, 2, 0, 0, 1, 3, 2]
+
+---CODE_BLOCK---
+
+L = [2, 1, 2, 0, 0, 1, 3, 2]
+
+Solution explanation:
+This is the implementation of my own solution (it only works well when $L_i\in \mathbb{N}$ and is a power of 2 but could be easily extended to a more general case): Running the circuit 10000 times by using the to measure the final state $|\psi\rangle$, I get the expected distribution (equal superposition of the 8 bit-strings):
+
+```
+len(L)
+```
+
+```
+import numpy as np from qiskit import QuantumCircuit from qiskit.circuit.library import StatePreparation L = [2, 1, 2, 0, 0, 1, 3, 2] len_qr1 = int(np.ceil(np.log2(len(L)))) len_qr2 = int(np.log2(max(L))) + 1 num_qubits = len_qr1 + len_qr2 statevector = np.zeros(2**num_qubits) for i, el in enumerate(L): index_reg = '{0:b}'.format(i).zfill(len_qr1) element_reg = '{0:b}'.format(el).zfill(len_qr2) statevector[int(element_reg + index_reg, 2)] = 1 statevector /= np.linalg.norm(statevector) qc = QuantumCircuit(num_qubits) sp = StatePreparation(statevector) qc.append(sp, range(num_qubits))
+```
+
+```
+import numpy as np from qiskit import QuantumCircuit from qiskit.circuit.library import StatePreparation L = [2, 1, 2, 0, 0, 1, 3, 2] len_qr1 = int(np.ceil(np.log2(len(L)))) len_qr2 = int(np.log2(max(L))) + 1 num_qubits = len_qr1 + len_qr2 statevector = np.zeros(2**num_qubits) for i, el in enumerate(L): index_reg = '{0:b}'.format(i).zfill(len_qr1) element_reg = '{0:b}'.format(el).zfill(len_qr2) statevector[int(element_reg + index_reg, 2)] = 1 statevector /= np.linalg.norm(statevector) qc = QuantumCircuit(num_qubits) sp = StatePreparation(statevector) qc.append(sp, range(num_qubits))
+```
+
+```
+qc
+```
+
+```
+qasm_simulator
+```
+
+Original fixed code:
+len(L)
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumCircuit from qiskit.circuit.library import StatePreparation L = [2, 1, 2, 0, 0, 1, 3, 2] len_qr1 = int(np.ceil(np.log2(len(L)))) len_qr2 = int(np.log2(max(L))) + 1 num_qubits = len_qr1 + len_qr2 statevector = np.zeros(2**num_qubits) for i, el in enumerate(L): index_reg = '{0:b}'.format(i).zfill(len_qr1) element_reg = '{0:b}'.format(el).zfill(len_qr2) statevector[int(element_reg + index_reg, 2)] = 1 statevector /= np.linalg.norm(statevector) qc = QuantumCircuit(num_qubits) sp = StatePreparation(statevector) qc.append(sp, range(num_qubits))
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumCircuit from qiskit.circuit.library import StatePreparation L = [2, 1, 2, 0, 0, 1, 3, 2] len_qr1 = int(np.ceil(np.log2(len(L)))) len_qr2 = int(np.log2(max(L))) + 1 num_qubits = len_qr1 + len_qr2 statevector = np.zeros(2**num_qubits) for i, el in enumerate(L): index_reg = '{0:b}'.format(i).zfill(len_qr1) element_reg = '{0:b}'.format(el).zfill(len_qr2) statevector[int(element_reg + index_reg, 2)] = 1 statevector /= np.linalg.norm(statevector) qc = QuantumCircuit(num_qubits) sp = StatePreparation(statevector) qc.append(sp, range(num_qubits))
+
+---CODE_BLOCK---
+
+qc
+
+---CODE_BLOCK---
+
+qasm_simulator

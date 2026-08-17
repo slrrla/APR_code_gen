@@ -1,0 +1,67 @@
+Title:
+MS gate in qiskit
+
+Category:
+
+
+Question:
+Title: MS gate in qiskit
+
+Does anyone know how to use the Mølmer–Sørensen (MS) gate in qiskit? The documentation is highly unintuitive and does not provide examples. If one has to use the generalized version, what is actually theta? How do I select which qubit will get entangled with such matrix? If I build my circuit with , how to call the "library" in order to get the gms?
+
+```
+circuit = QuantumCircuit(qreg_q, creg_c)
+```
+
+Original buggy code:
+circuit = QuantumCircuit(qreg_q, creg_c)
+
+Solution explanation:
+I think the gate that you're looking for is the qiskit gate. Its understandable to be unsure as I've heard multiple terms used for the same gate. In pytket it is called . The qiskit library calls it . The name Mølmer–Sørensen gate or MS gate is used frequently too. According to the docs the unitary for the in qiskit is $$ R_{XX}(\theta) = \exp\big(-i \frac{\theta}{2} X \otimes X\big)\,. $$
+
+```
+RXXGate
+```
+
+```
+XXPhase
+```
+
+```
+RXXGate
+```
+
+```
+RXXGate
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.circuit.library import RXXGate qc = QuantumCircuit(2) qc.append(RXXGate(theta=0.27), [0, 1])
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.circuit.library import RXXGate qc = QuantumCircuit(2) qc.append(RXXGate(theta=0.27), [0, 1])
+```
+
+Original fixed code:
+RXXGate
+
+---CODE_BLOCK---
+
+XXPhase
+
+---CODE_BLOCK---
+
+RXXGate
+
+---CODE_BLOCK---
+
+RXXGate
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.circuit.library import RXXGate qc = QuantumCircuit(2) qc.append(RXXGate(theta=0.27), [0, 1])
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.circuit.library import RXXGate qc = QuantumCircuit(2) qc.append(RXXGate(theta=0.27), [0, 1])

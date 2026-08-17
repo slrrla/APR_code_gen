@@ -1,0 +1,47 @@
+Title:
+T-depth in Qiskit
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+In circuit analysis tasks, leveraging Qiskit’s built-in methods is the most reliable and maintainable approach. Stack Overflow’s solution directly uses .depth() with a filter to compute T-depth accurately. The AI approach is more ad hoc and less general, so Stack Overflow provides the better solution here.
+
+Question:
+Title: T-depth in Qiskit
+
+How to find T-depth in Qiskit? Is there any inbuilt function or some method to find T-depth? I know that the function exists which returns circuit depth (i.e., length of critical path), but is there any method for T-depth?
+
+```
+.depth()
+```
+
+Original buggy code:
+.depth()
+
+Solution explanation:
+The method can be customized with a gate subset you want to consider. To compute the $T$-depth you most likely want to include both $T$ and $T^\dagger$ gates. Here is an example Note that for this method to work all T gates must be explicit in the circuit description.
+
+```
+depth
+```
+
+```
+qc = QuantumCircuit(3) qc.ccx(0,1,2) qc = qc.decompose() t_depth = qc.depth(lambda gate: gate[0].name in ['t', 'tdg']) print('t depth:', t_depth) ## Output -> 4 qc.draw(output='mpl')
+```
+
+```
+qc = QuantumCircuit(3) qc.ccx(0,1,2) qc = qc.decompose() t_depth = qc.depth(lambda gate: gate[0].name in ['t', 'tdg']) print('t depth:', t_depth) ## Output -> 4 qc.draw(output='mpl')
+```
+
+Original fixed code:
+depth
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(3) qc.ccx(0,1,2) qc = qc.decompose() t_depth = qc.depth(lambda gate: gate[0].name in ['t', 'tdg']) print('t depth:', t_depth) ## Output -> 4 qc.draw(output='mpl')
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(3) qc.ccx(0,1,2) qc = qc.decompose() t_depth = qc.depth(lambda gate: gate[0].name in ['t', 'tdg']) print('t depth:', t_depth) ## Output -> 4 qc.draw(output='mpl')

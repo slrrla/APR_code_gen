@@ -1,0 +1,131 @@
+Title:
+How to generate statevector evolution?
+
+Category:
+
+
+Question:
+Title: How to generate statevector evolution?
+
+I have created the following 2-qubit circuit in qiskit: I transpile, assemble, and pass this to the Aer statevector_simulator: When I do this, I get the following error: . In this particular circuit, I am initializing it in the |10> state. In the code that I have provided here, I am initializing the state using the method. However, when I initialize the state to |10> by just adding an gate to the second qubit, there is no problem. It runs fine. Ultimately, I am trying to find a way to initialize the circuit in some state, run it at time=0, extract the final state, and then run it at some later time, where the final state is now the initial state. Where I am stuck is initializing the circuit evaluated at t=t0+dt with the final state of the circuit evaluated at t (for example). In essence, I am trying to evaluate unitary time evolution of the state: |psi(t+dt)>=U|psi(t)>. So... my question is two fold: 1.) Why am I getting this error? How can I fix this? 2.) How can I generate this state evolution?
+
+```
+import numpy as np import matplotlib.pyplot as plt import warnings warnings.filterwarnings('ignore') from qiskit import QuantumCircuit, QuantumRegister, Aer, transpile, assemble from qiskit.providers.aer import AerSimulator from qiskit.providers.aer.library import save_statevector # XX(t) subcircuit def XX(target_time): XX_qr = QuantumRegister(2) XX_qc = QuantumCircuit(XX_qr, name='XX') XX_qc.ry(np.pi/2,[0,1]) XX_qc.cnot(0,1) XX_qc.rz(2*target_time,1) XX_qc.cnot(0,1) XX_qc.ry(-np.pi/2,[0,1]) return XX_qc # YY(t) subcircuit def YY(target_time): YY_qr = QuantumRegister(2) YY_qc = QuantumCircuit(YY_qr, name='YY') YY_qc.rx(np.pi/2,[0,1]) YY_qc.cnot(0,1) YY_qc.rz(2*target_time,1) YY_qc.cnot(0,1) YY_qc.rx(-np.pi/2,[0,1]) return YY_qc # ZZ(t) subcircuit def ZZ(target_time): ZZ_qr = QuantumRegister(2) ZZ_qc = QuantumCircuit(ZZ_qr, name='ZZ') ZZ_qc.cnot(0,1) ZZ_qc.rz(2*target_time,1) ZZ_qc.cnot(0,1) return ZZ_qc # create ZZ(t)YY(t)XX(t) circuit and prepare in initial state def quantum_circuit(target_time, num_qubits, initial_state): # initialize quantum circuit for 2 qubits qr = QuantumRegister(num_qubits) qc = QuantumCircuit(qr) # initialize circuit qc.initialize(initial_state) # construct circuit from ZZ(t), YY(t), and XX(t) subcircuits for i in range(0, num_qubits - 1): qc.append(ZZ(target_time), [qr[i], qr[i+1]]) qc.append(YY(target_time), [qr[i], qr[i+1]]) qc.append(XX(target_time), [qr[i], qr[i+1]]) # measure qubits qc.measure_all() return qc # create circuit qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state='10') print(qc)
+```
+
+```
+import numpy as np import matplotlib.pyplot as plt import warnings warnings.filterwarnings('ignore') from qiskit import QuantumCircuit, QuantumRegister, Aer, transpile, assemble from qiskit.providers.aer import AerSimulator from qiskit.providers.aer.library import save_statevector # XX(t) subcircuit def XX(target_time): XX_qr = QuantumRegister(2) XX_qc = QuantumCircuit(XX_qr, name='XX') XX_qc.ry(np.pi/2,[0,1]) XX_qc.cnot(0,1) XX_qc.rz(2*target_time,1) XX_qc.cnot(0,1) XX_qc.ry(-np.pi/2,[0,1]) return XX_qc # YY(t) subcircuit def YY(target_time): YY_qr = QuantumRegister(2) YY_qc = QuantumCircuit(YY_qr, name='YY') YY_qc.rx(np.pi/2,[0,1]) YY_qc.cnot(0,1) YY_qc.rz(2*target_time,1) YY_qc.cnot(0,1) YY_qc.rx(-np.pi/2,[0,1]) return YY_qc # ZZ(t) subcircuit def ZZ(target_time): ZZ_qr = QuantumRegister(2) ZZ_qc = QuantumCircuit(ZZ_qr, name='ZZ') ZZ_qc.cnot(0,1) ZZ_qc.rz(2*target_time,1) ZZ_qc.cnot(0,1) return ZZ_qc # create ZZ(t)YY(t)XX(t) circuit and prepare in initial state def quantum_circuit(target_time, num_qubits, initial_state): # initialize quantum circuit for 2 qubits qr = QuantumRegister(num_qubits) qc = QuantumCircuit(qr) # initialize circuit qc.initialize(initial_state) # construct circuit from ZZ(t), YY(t), and XX(t) subcircuits for i in range(0, num_qubits - 1): qc.append(ZZ(target_time), [qr[i], qr[i+1]]) qc.append(YY(target_time), [qr[i], qr[i+1]]) qc.append(XX(target_time), [qr[i], qr[i+1]]) # measure qubits qc.measure_all() return qc # create circuit qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state='10') print(qc)
+```
+
+```
+backend = Aer.get_backend('statevector_simulator') qobj = transpile(qc,backend) job = assemble(qobj) run_job = backend.run(job)
+```
+
+```
+backend = Aer.get_backend('statevector_simulator') qobj = transpile(qc,backend) job = assemble(qobj) run_job = backend.run(job)
+```
+
+```
+ERROR: Failed to load qobj: Unable to cast Python instance to C++ type (compile in debug mode for details)
+```
+
+```
+QuantumCircuit.initialize()
+```
+
+```
+x
+```
+
+```
+Failed to load qobj: Unable to cast Python instance to C++ type (compile in debug mode for details)
+```
+
+Original buggy code:
+import numpy as np import matplotlib.pyplot as plt import warnings warnings.filterwarnings('ignore') from qiskit import QuantumCircuit, QuantumRegister, Aer, transpile, assemble from qiskit.providers.aer import AerSimulator from qiskit.providers.aer.library import save_statevector # XX(t) subcircuit def XX(target_time): XX_qr = QuantumRegister(2) XX_qc = QuantumCircuit(XX_qr, name='XX') XX_qc.ry(np.pi/2,[0,1]) XX_qc.cnot(0,1) XX_qc.rz(2*target_time,1) XX_qc.cnot(0,1) XX_qc.ry(-np.pi/2,[0,1]) return XX_qc # YY(t) subcircuit def YY(target_time): YY_qr = QuantumRegister(2) YY_qc = QuantumCircuit(YY_qr, name='YY') YY_qc.rx(np.pi/2,[0,1]) YY_qc.cnot(0,1) YY_qc.rz(2*target_time,1) YY_qc.cnot(0,1) YY_qc.rx(-np.pi/2,[0,1]) return YY_qc # ZZ(t) subcircuit def ZZ(target_time): ZZ_qr = QuantumRegister(2) ZZ_qc = QuantumCircuit(ZZ_qr, name='ZZ') ZZ_qc.cnot(0,1) ZZ_qc.rz(2*target_time,1) ZZ_qc.cnot(0,1) return ZZ_qc # create ZZ(t)YY(t)XX(t) circuit and prepare in initial state def quantum_circuit(target_time, num_qubits, initial_state): # initialize quantum circuit for 2 qubits qr = QuantumRegister(num_qubits) qc = QuantumCircuit(qr) # initialize circuit qc.initialize(initial_state) # construct circuit from ZZ(t), YY(t), and XX(t) subcircuits for i in range(0, num_qubits - 1): qc.append(ZZ(target_time), [qr[i], qr[i+1]]) qc.append(YY(target_time), [qr[i], qr[i+1]]) qc.append(XX(target_time), [qr[i], qr[i+1]]) # measure qubits qc.measure_all() return qc # create circuit qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state='10') print(qc)
+
+---CODE_BLOCK---
+
+import numpy as np import matplotlib.pyplot as plt import warnings warnings.filterwarnings('ignore') from qiskit import QuantumCircuit, QuantumRegister, Aer, transpile, assemble from qiskit.providers.aer import AerSimulator from qiskit.providers.aer.library import save_statevector # XX(t) subcircuit def XX(target_time): XX_qr = QuantumRegister(2) XX_qc = QuantumCircuit(XX_qr, name='XX') XX_qc.ry(np.pi/2,[0,1]) XX_qc.cnot(0,1) XX_qc.rz(2*target_time,1) XX_qc.cnot(0,1) XX_qc.ry(-np.pi/2,[0,1]) return XX_qc # YY(t) subcircuit def YY(target_time): YY_qr = QuantumRegister(2) YY_qc = QuantumCircuit(YY_qr, name='YY') YY_qc.rx(np.pi/2,[0,1]) YY_qc.cnot(0,1) YY_qc.rz(2*target_time,1) YY_qc.cnot(0,1) YY_qc.rx(-np.pi/2,[0,1]) return YY_qc # ZZ(t) subcircuit def ZZ(target_time): ZZ_qr = QuantumRegister(2) ZZ_qc = QuantumCircuit(ZZ_qr, name='ZZ') ZZ_qc.cnot(0,1) ZZ_qc.rz(2*target_time,1) ZZ_qc.cnot(0,1) return ZZ_qc # create ZZ(t)YY(t)XX(t) circuit and prepare in initial state def quantum_circuit(target_time, num_qubits, initial_state): # initialize quantum circuit for 2 qubits qr = QuantumRegister(num_qubits) qc = QuantumCircuit(qr) # initialize circuit qc.initialize(initial_state) # construct circuit from ZZ(t), YY(t), and XX(t) subcircuits for i in range(0, num_qubits - 1): qc.append(ZZ(target_time), [qr[i], qr[i+1]]) qc.append(YY(target_time), [qr[i], qr[i+1]]) qc.append(XX(target_time), [qr[i], qr[i+1]]) # measure qubits qc.measure_all() return qc # create circuit qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state='10') print(qc)
+
+---CODE_BLOCK---
+
+backend = Aer.get_backend('statevector_simulator') qobj = transpile(qc,backend) job = assemble(qobj) run_job = backend.run(job)
+
+---CODE_BLOCK---
+
+backend = Aer.get_backend('statevector_simulator') qobj = transpile(qc,backend) job = assemble(qobj) run_job = backend.run(job)
+
+---CODE_BLOCK---
+
+ERROR: Failed to load qobj: Unable to cast Python instance to C++ type (compile in debug mode for details)
+
+---CODE_BLOCK---
+
+QuantumCircuit.initialize()
+
+---CODE_BLOCK---
+
+x
+
+---CODE_BLOCK---
+
+Failed to load qobj: Unable to cast Python instance to C++ type (compile in debug mode for details)
+
+Solution explanation:
+1.) Why am I getting this Failed to load qobj: Unable to cast Python instance to C++ type (compile in debug mode for details) error? How can I fix this? Initializing a circuit via with labels makes the simulation fail. See here. 2.) How can I generate this state evolution? Just replace this line with or,
+
+```
+circuit.initialize()
+```
+
+```
+qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state='10')
+```
+
+```
+qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state='10')
+```
+
+```
+qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state=[0, 0, 1, 0])
+```
+
+```
+qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state=[0, 0, 1, 0])
+```
+
+```
+from qiskit.quantum_info import Statevector qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state=Statevector.from_label('10'))
+```
+
+```
+from qiskit.quantum_info import Statevector qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state=Statevector.from_label('10'))
+```
+
+Original fixed code:
+circuit.initialize()
+
+---CODE_BLOCK---
+
+qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state='10')
+
+---CODE_BLOCK---
+
+qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state='10')
+
+---CODE_BLOCK---
+
+qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state=[0, 0, 1, 0])
+
+---CODE_BLOCK---
+
+qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state=[0, 0, 1, 0])
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Statevector qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state=Statevector.from_label('10'))
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Statevector qc = quantum_circuit(target_time=0.0, num_qubits=2, initial_state=Statevector.from_label('10'))

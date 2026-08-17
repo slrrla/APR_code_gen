@@ -1,0 +1,444 @@
+Title:
+Incorrect results in ground state evaluation via Qiskit Nature when using Qiskit Aer Estimator
+
+Category:
+Category: Simulator Configuration / Estimator Behavior  
+Winner: Stack Overflow  
+Why Stack Overflow Is Better: Stack Overflow gives the exact configuration flags (`shots=None`, `approximation=True`) needed to make AerEstimator behave like the ideal Estimator. It proves the solution by showing accurate energy results, all while keeping the explanation simple and effective.  
+Why Stack Overflow Performs Well in This Category: Stack Overflow excels here by directly referencing real behavior differences in Estimator classes and showing practical, reproducible changes that align simulation behavior. It provides **minimalistic, actionable advice** ideal for troubleshooting Qiskit setup mismatches.
+
+
+Question:
+Title: Incorrect results in ground state evaluation via Qiskit Nature when using Qiskit Aer Estimator
+
+I am using the Qiskit Aer estimator in order to evaluate the ground state of molecules via qiskit nature on local simulators using vqe, with and without noise model. My results are completely off.
+To illustrate the problem, let me add here the corresponding code snippet 
+ from qiskit_nature.units import DistanceUnit
+from qiskit_nature.second_q.drivers import PySCFDriver
+
+driver = PySCFDriver(atom="H 0 0 0; H 0 0 0.735", basis="sto-3g")
+
+es_problem = driver.run()
+
+from qiskit_nature.second_q.mappers import JordanWignerMapper, QubitConverter
+
+converter = QubitConverter(JordanWignerMapper())
+
+from qiskit.algorithms.optimizers import SLSQP
+from qiskit_nature.second_q.algorithms import VQEUCCFactory
+from qiskit_nature.second_q.circuit.library import UCCSD
+from qiskit_nature.second_q.algorithms import GroundStateEigensolver
+
+ If I take the standard Estimator from qiskit everything goes as expected 
+ from qiskit.primitives import Estimator
+
+vqe_solver = VQEUCCFactory(Estimator(), UCCSD(), SLSQP())
+calc = GroundStateEigensolver(converter, vqe_solver)
+res = calc.solve(es_problem)
+print(res)
+
+ And here is the result I get 
+ === GROUND STATE ENERGY ===
+
+* Electronic ground state energy (Hartree): -1.857275030145
+ - computed part: -1.857275030145
+~ Nuclear repulsion energy (Hartree): 0.719968994449
+> Total ground state energy (Hartree): -1.137306035696
+
+=== MEASURED OBSERVABLES ===
+
+ 0: # Particles: 2.000 S: 0.000 S^2: 0.000 M: 0.000
+
+=== DIPOLE MOMENTS ===
+
+~ Nuclear dipole moment (a.u.): [0.0 0.0 1.3889487]
+
+ 0: 
+ * Electronic dipole moment (a.u.): [0.0 0.0 1.38894893]
+ - computed part: [0.0 0.0 1.38894893]
+ > Dipole moment (a.u.): [0.0 0.0 -0.00000023] Total: 0.00000023
+ (debye): [0.0 0.0 -0.00000058] Total: 0.00000058
+
+ If I use the Aer estimator for a noiseless simulation 
+ from qiskit_aer.primitives import Estimator as AerEstimator
+seed=170
+
+noiseless_estimator = AerEstimator(
+ run_options={"seed": seed, "shots": 1024},
+ transpile_options={"seed_transpiler": seed},
+)
+
+vqe_solver2=VQEUCCFactory(noiseless_estimator, UCCSD(), SLSQP())
+calc2 = GroundStateEigensolver(converter, vqe_solver2)
+res2 =calc2.solve(es_problem)
+print(res2)
+
+ These are the output numbers I get. They are really different. 
+ === GROUND STATE ENERGY ===
+
+* Electronic ground state energy (Hartree): -0.761369413072
+ - computed part: -0.761369413072
+~ Nuclear repulsion energy (Hartree): 0.719968994449
+> Total ground state energy (Hartree): -0.041400418623
+
+=== MEASURED OBSERVABLES ===
+
+ 0: # Particles: 2.006 S: 0.446 S^2: 0.645 M: 0.009
+
+=== DIPOLE MOMENTS ===
+
+~ Nuclear dipole moment (a.u.): [0.0 0.0 1.3889487]
+
+ 0: 
+ * Electronic dipole moment (a.u.): [0.0 0.0 1.38395701]
+ - computed part: [0.0 0.0 1.38395701]
+ > Dipole moment (a.u.): [0.0 0.0 0.00499169] Total: 0.00499169
+ (debye): [0.0 0.0 0.0126876] Total: 0.0126876
+
+ I tried to use qiskit aer Estimator primitives in different environments and setups and on the IBM Quantum Lab as well to be reasonably sure that the problem does not depend from the installation. The output I get is the same. 
+ I expect that without noise qiskit aer Estimator provides the same results as the default Estimator, and if there are differences in the Total ground state energy value, they are below 0.01 Hartree. 
+ How can I fix this? Am I doing anything wrong in Aer Estimator usage?
+Thank you in advance.
+
+```
+from qiskit_nature.units import DistanceUnit
+from qiskit_nature.second_q.drivers import PySCFDriver
+
+driver = PySCFDriver(atom="H 0 0 0; H 0 0 0.735", basis="sto-3g")
+
+es_problem = driver.run()
+
+from qiskit_nature.second_q.mappers import JordanWignerMapper, QubitConverter
+
+converter = QubitConverter(JordanWignerMapper())
+
+from qiskit.algorithms.optimizers import SLSQP
+from qiskit_nature.second_q.algorithms import VQEUCCFactory
+from qiskit_nature.second_q.circuit.library import UCCSD
+from qiskit_nature.second_q.algorithms import GroundStateEigensolver
+```
+
+```
+from qiskit.primitives import Estimator
+
+vqe_solver = VQEUCCFactory(Estimator(), UCCSD(), SLSQP())
+calc = GroundStateEigensolver(converter, vqe_solver)
+res = calc.solve(es_problem)
+print(res)
+```
+
+```
+=== GROUND STATE ENERGY ===
+ 
+* Electronic ground state energy (Hartree): -1.857275030145
+  - computed part:      -1.857275030145
+~ Nuclear repulsion energy (Hartree): 0.719968994449
+> Total ground state energy (Hartree): -1.137306035696
+ 
+=== MEASURED OBSERVABLES ===
+ 
+  0:  # Particles: 2.000 S: 0.000 S^2: 0.000 M: 0.000
+ 
+=== DIPOLE MOMENTS ===
+ 
+~ Nuclear dipole moment (a.u.): [0.0  0.0  1.3889487]
+ 
+  0: 
+  * Electronic dipole moment (a.u.): [0.0  0.0  1.38894893]
+    - computed part:      [0.0  0.0  1.38894893]
+  > Dipole moment (a.u.): [0.0  0.0  -0.00000023]  Total: 0.00000023
+                 (debye): [0.0  0.0  -0.00000058]  Total: 0.00000058
+```
+
+```
+from qiskit_aer.primitives import Estimator as AerEstimator
+seed=170
+
+noiseless_estimator = AerEstimator(
+    run_options={"seed": seed, "shots": 1024},
+    transpile_options={"seed_transpiler": seed},
+)
+
+vqe_solver2=VQEUCCFactory(noiseless_estimator, UCCSD(), SLSQP())
+calc2 = GroundStateEigensolver(converter, vqe_solver2)
+res2 =calc2.solve(es_problem)
+print(res2)
+```
+
+```
+=== GROUND STATE ENERGY ===
+ 
+* Electronic ground state energy (Hartree): -0.761369413072
+  - computed part:      -0.761369413072
+~ Nuclear repulsion energy (Hartree): 0.719968994449
+> Total ground state energy (Hartree): -0.041400418623
+ 
+=== MEASURED OBSERVABLES ===
+ 
+  0:  # Particles: 2.006 S: 0.446 S^2: 0.645 M: 0.009
+ 
+=== DIPOLE MOMENTS ===
+ 
+~ Nuclear dipole moment (a.u.): [0.0  0.0  1.3889487]
+ 
+  0: 
+  * Electronic dipole moment (a.u.): [0.0  0.0  1.38395701]
+    - computed part:      [0.0  0.0  1.38395701]
+  > Dipole moment (a.u.): [0.0  0.0  0.00499169]  Total: 0.00499169
+                 (debye): [0.0  0.0  0.0126876]  Total: 0.0126876
+```
+
+Original buggy code:
+from qiskit_nature.units import DistanceUnit
+from qiskit_nature.second_q.drivers import PySCFDriver
+
+driver = PySCFDriver(atom="H 0 0 0; H 0 0 0.735", basis="sto-3g")
+
+es_problem = driver.run()
+
+from qiskit_nature.second_q.mappers import JordanWignerMapper, QubitConverter
+
+converter = QubitConverter(JordanWignerMapper())
+
+from qiskit.algorithms.optimizers import SLSQP
+from qiskit_nature.second_q.algorithms import VQEUCCFactory
+from qiskit_nature.second_q.circuit.library import UCCSD
+from qiskit_nature.second_q.algorithms import GroundStateEigensolver
+
+---CODE_BLOCK---
+
+from qiskit.primitives import Estimator
+
+vqe_solver = VQEUCCFactory(Estimator(), UCCSD(), SLSQP())
+calc = GroundStateEigensolver(converter, vqe_solver)
+res = calc.solve(es_problem)
+print(res)
+
+---CODE_BLOCK---
+
+=== GROUND STATE ENERGY ===
+ 
+* Electronic ground state energy (Hartree): -1.857275030145
+  - computed part:      -1.857275030145
+~ Nuclear repulsion energy (Hartree): 0.719968994449
+> Total ground state energy (Hartree): -1.137306035696
+ 
+=== MEASURED OBSERVABLES ===
+ 
+  0:  # Particles: 2.000 S: 0.000 S^2: 0.000 M: 0.000
+ 
+=== DIPOLE MOMENTS ===
+ 
+~ Nuclear dipole moment (a.u.): [0.0  0.0  1.3889487]
+ 
+  0: 
+  * Electronic dipole moment (a.u.): [0.0  0.0  1.38894893]
+    - computed part:      [0.0  0.0  1.38894893]
+  > Dipole moment (a.u.): [0.0  0.0  -0.00000023]  Total: 0.00000023
+                 (debye): [0.0  0.0  -0.00000058]  Total: 0.00000058
+
+---CODE_BLOCK---
+
+from qiskit_aer.primitives import Estimator as AerEstimator
+seed=170
+
+noiseless_estimator = AerEstimator(
+    run_options={"seed": seed, "shots": 1024},
+    transpile_options={"seed_transpiler": seed},
+)
+
+vqe_solver2=VQEUCCFactory(noiseless_estimator, UCCSD(), SLSQP())
+calc2 = GroundStateEigensolver(converter, vqe_solver2)
+res2 =calc2.solve(es_problem)
+print(res2)
+
+---CODE_BLOCK---
+
+=== GROUND STATE ENERGY ===
+ 
+* Electronic ground state energy (Hartree): -0.761369413072
+  - computed part:      -0.761369413072
+~ Nuclear repulsion energy (Hartree): 0.719968994449
+> Total ground state energy (Hartree): -0.041400418623
+ 
+=== MEASURED OBSERVABLES ===
+ 
+  0:  # Particles: 2.006 S: 0.446 S^2: 0.645 M: 0.009
+ 
+=== DIPOLE MOMENTS ===
+ 
+~ Nuclear dipole moment (a.u.): [0.0  0.0  1.3889487]
+ 
+  0: 
+  * Electronic dipole moment (a.u.): [0.0  0.0  1.38395701]
+    - computed part:      [0.0  0.0  1.38395701]
+  > Dipole moment (a.u.): [0.0  0.0  0.00499169]  Total: 0.00499169
+                 (debye): [0.0  0.0  0.0126876]  Total: 0.0126876
+
+Solution explanation:
+The computations done above, using the two different Estimators, are not the same and this, and the optimizer choice is causing the difference. 
+ The Estimator from qiskit.primitives, when created by default, as you do i.e Estimator(), computes an ideal outcome (statevector and matrix computation). 
+ The Aer Estimator, you have even set it up to do sampling (though this is its default) and this will have sampling noise in the outcome. With 1024 shots the outcome is sampled 1024 timesand will be different from the ideal (ideal you can think of as an infinite number of shots). To make this the equivalent of qiskit.primitives, as per the Aer Estimator api ref. set shots=None and approximation=True . You should then see the same result. 
+
+ shots (None or int) – The number of shots. If None and approximation is True, it calculates the exact expectation values. Otherwise, it calculates expectation values with sampling. 
+
+ Now you can set the qiskit.primitives Estimator to sample by setting shots ( options={shots=1024} note Aer uses run_options so again a bit different). This will cause sampling noise in its outcome. SLSQP is a classical gradient based optimizer and sampling noise can adversely affect its ability to compute a gradient, which is done, by default, with finite diff, which uses very small delta diffs around the current point to determine the slope and such noise can easily affect this. In the presence of noise SPSA as an optimizer would be a reasonable choice - it was designed to work under noise. Yes you do not have actual noise as you I believe thinking of it in Aer, i.e. a noise model say from a real device, but sampling from the ideal outcome with shots already introduces a form of noise - sampling/shot noise - which as you can see causes difficulties already. 
+
+ I updated this answer as per my comment below, on Aer Estimator, to show the outcome when so configured 
+ from qiskit_nature.units import DistanceUnit
+from qiskit_nature.second_q.drivers import PySCFDriver
+
+driver = PySCFDriver(atom="H 0 0 0; H 0 0 0.735", basis="sto-3g")
+
+es_problem = driver.run()
+
+from qiskit_nature.second_q.mappers import JordanWignerMapper, QubitConverter
+
+converter = QubitConverter(JordanWignerMapper())
+
+from qiskit.algorithms.optimizers import SLSQP
+from qiskit_nature.second_q.algorithms import VQEUCCFactory
+from qiskit_nature.second_q.circuit.library import UCCSD
+from qiskit_nature.second_q.algorithms import GroundStateEigensolver
+
+from qiskit_aer.primitives import Estimator as AerEstimator
+seed=170
+
+noiseless_estimator = AerEstimator(
+ run_options={"shots": None},
+ approximation=True,
+)
+
+vqe_solver2=VQEUCCFactory(noiseless_estimator, UCCSD(), SLSQP())
+calc2 = GroundStateEigensolver(converter, vqe_solver2)
+res2 =calc2.solve(es_problem)
+print(res2)
+
+ produces 
+ === GROUND STATE ENERGY ===
+
+* Electronic ground state energy (Hartree): -1.857275030145
+ - computed part: -1.857275030145
+~ Nuclear repulsion energy (Hartree): 0.719968994449
+> Total ground state energy (Hartree): -1.137306035696
+
+=== MEASURED OBSERVABLES ===
+
+ 0: # Particles: 2.000 S: 0.000 S^2: 0.000 M: 0.000
+
+=== DIPOLE MOMENTS ===
+
+~ Nuclear dipole moment (a.u.): [0.0 0.0 1.3889487]
+
+ 0: 
+ * Electronic dipole moment (a.u.): [0.0 0.0 1.388948372236]
+ - computed part: [0.0 0.0 1.388948372236]
+ > Dipole moment (a.u.): [0.0 0.0 0.000000327764] Total: 0.000000327764
+ (debye): [0.0 0.0 0.000000833093] Total: 0.000000833093
+
+```
+from qiskit_nature.units import DistanceUnit
+from qiskit_nature.second_q.drivers import PySCFDriver
+
+driver = PySCFDriver(atom="H 0 0 0; H 0 0 0.735", basis="sto-3g")
+
+es_problem = driver.run()
+
+from qiskit_nature.second_q.mappers import JordanWignerMapper, QubitConverter
+
+converter = QubitConverter(JordanWignerMapper())
+
+from qiskit.algorithms.optimizers import SLSQP
+from qiskit_nature.second_q.algorithms import VQEUCCFactory
+from qiskit_nature.second_q.circuit.library import UCCSD
+from qiskit_nature.second_q.algorithms import GroundStateEigensolver
+
+from qiskit_aer.primitives import Estimator as AerEstimator
+seed=170
+
+noiseless_estimator = AerEstimator(
+    run_options={"shots": None},
+    approximation=True,
+)
+
+vqe_solver2=VQEUCCFactory(noiseless_estimator, UCCSD(), SLSQP())
+calc2 = GroundStateEigensolver(converter, vqe_solver2)
+res2 =calc2.solve(es_problem)
+print(res2)
+```
+
+```
+=== GROUND STATE ENERGY ===
+ 
+* Electronic ground state energy (Hartree): -1.857275030145
+  - computed part:      -1.857275030145
+~ Nuclear repulsion energy (Hartree): 0.719968994449
+> Total ground state energy (Hartree): -1.137306035696
+ 
+=== MEASURED OBSERVABLES ===
+ 
+  0:  # Particles: 2.000 S: 0.000 S^2: 0.000 M: 0.000
+ 
+=== DIPOLE MOMENTS ===
+ 
+~ Nuclear dipole moment (a.u.): [0.0  0.0  1.3889487]
+ 
+  0: 
+  * Electronic dipole moment (a.u.): [0.0  0.0  1.388948372236]
+    - computed part:      [0.0  0.0  1.388948372236]
+  > Dipole moment (a.u.): [0.0  0.0  0.000000327764]  Total: 0.000000327764
+                 (debye): [0.0  0.0  0.000000833093]  Total: 0.000000833093
+```
+
+Original fixed code:
+from qiskit_nature.units import DistanceUnit
+from qiskit_nature.second_q.drivers import PySCFDriver
+
+driver = PySCFDriver(atom="H 0 0 0; H 0 0 0.735", basis="sto-3g")
+
+es_problem = driver.run()
+
+from qiskit_nature.second_q.mappers import JordanWignerMapper, QubitConverter
+
+converter = QubitConverter(JordanWignerMapper())
+
+from qiskit.algorithms.optimizers import SLSQP
+from qiskit_nature.second_q.algorithms import VQEUCCFactory
+from qiskit_nature.second_q.circuit.library import UCCSD
+from qiskit_nature.second_q.algorithms import GroundStateEigensolver
+
+from qiskit_aer.primitives import Estimator as AerEstimator
+seed=170
+
+noiseless_estimator = AerEstimator(
+    run_options={"shots": None},
+    approximation=True,
+)
+
+vqe_solver2=VQEUCCFactory(noiseless_estimator, UCCSD(), SLSQP())
+calc2 = GroundStateEigensolver(converter, vqe_solver2)
+res2 =calc2.solve(es_problem)
+print(res2)
+
+---CODE_BLOCK---
+
+=== GROUND STATE ENERGY ===
+ 
+* Electronic ground state energy (Hartree): -1.857275030145
+  - computed part:      -1.857275030145
+~ Nuclear repulsion energy (Hartree): 0.719968994449
+> Total ground state energy (Hartree): -1.137306035696
+ 
+=== MEASURED OBSERVABLES ===
+ 
+  0:  # Particles: 2.000 S: 0.000 S^2: 0.000 M: 0.000
+ 
+=== DIPOLE MOMENTS ===
+ 
+~ Nuclear dipole moment (a.u.): [0.0  0.0  1.3889487]
+ 
+  0: 
+  * Electronic dipole moment (a.u.): [0.0  0.0  1.388948372236]
+    - computed part:      [0.0  0.0  1.388948372236]
+  > Dipole moment (a.u.): [0.0  0.0  0.000000327764]  Total: 0.000000327764
+                 (debye): [0.0  0.0  0.000000833093]  Total: 0.000000833093

@@ -1,0 +1,107 @@
+Title:
+Is there a way to access all parameters inside U3 gate in Qiskit Transpiled Quantum Circuit without looking every circuit one by one?
+
+Category:
+
+
+Question:
+Title: Is there a way to access all parameters inside U3 gate in Qiskit Transpiled Quantum Circuit without looking every circuit one by one?
+
+I built this Qiskit Circuit and I need help to access inside U3 gates parameters defined by Qiskit itself. Here's my code: The outputs: I need to access the complete range of the parameters inside the U3 gates after the transpilation without looking one by one. Is it possible?
+
+```
+import qiskit import numpy as np import math from scipy.linalg import expm as expMatrix # Added after a comment N_features=2 N_QUBITS=math.ceil(np.log2(N_features)+1) #Circuit number of QuBits QUBITS=[i for i in range(N_QUBITS)] qc = QuantumCircuit(N_QUBITS) qc.h(QUBITS) tx = np.random.rand(N_features) tw = np.random.rand(N_features) sigmaE = np.diag(tx)*tw.T matrix_pauli_x=np.array([[0,1],[1,0]]) # Pauli x matrix_pauli_y=np.array([[0,-1j],[1j,0]]) # Pauli y matrix_pauli_z=np.array([[1,0],[0,-1]]) # Pauli z sigmaQ=matrix_pauli_x+matrix_pauli_y+matrix_pauli_z #Unitary Operator U=np.matrix(expMatrix(1j*np.kron(sigmaQ,sigmaE))) qc.unitary(U,QUBITS) display(qc.draw("mpl")) tqc=transpile(qc, optimization_level=3, basis_gates=["u3", "cx"], seed_transpiler=1) display(tqc.draw("mpl"))
+```
+
+```
+import qiskit import numpy as np import math from scipy.linalg import expm as expMatrix # Added after a comment N_features=2 N_QUBITS=math.ceil(np.log2(N_features)+1) #Circuit number of QuBits QUBITS=[i for i in range(N_QUBITS)] qc = QuantumCircuit(N_QUBITS) qc.h(QUBITS) tx = np.random.rand(N_features) tw = np.random.rand(N_features) sigmaE = np.diag(tx)*tw.T matrix_pauli_x=np.array([[0,1],[1,0]]) # Pauli x matrix_pauli_y=np.array([[0,-1j],[1j,0]]) # Pauli y matrix_pauli_z=np.array([[1,0],[0,-1]]) # Pauli z sigmaQ=matrix_pauli_x+matrix_pauli_y+matrix_pauli_z #Unitary Operator U=np.matrix(expMatrix(1j*np.kron(sigmaQ,sigmaE))) qc.unitary(U,QUBITS) display(qc.draw("mpl")) tqc=transpile(qc, optimization_level=3, basis_gates=["u3", "cx"], seed_transpiler=1) display(tqc.draw("mpl"))
+```
+
+Original buggy code:
+import qiskit import numpy as np import math from scipy.linalg import expm as expMatrix # Added after a comment N_features=2 N_QUBITS=math.ceil(np.log2(N_features)+1) #Circuit number of QuBits QUBITS=[i for i in range(N_QUBITS)] qc = QuantumCircuit(N_QUBITS) qc.h(QUBITS) tx = np.random.rand(N_features) tw = np.random.rand(N_features) sigmaE = np.diag(tx)*tw.T matrix_pauli_x=np.array([[0,1],[1,0]]) # Pauli x matrix_pauli_y=np.array([[0,-1j],[1j,0]]) # Pauli y matrix_pauli_z=np.array([[1,0],[0,-1]]) # Pauli z sigmaQ=matrix_pauli_x+matrix_pauli_y+matrix_pauli_z #Unitary Operator U=np.matrix(expMatrix(1j*np.kron(sigmaQ,sigmaE))) qc.unitary(U,QUBITS) display(qc.draw("mpl")) tqc=transpile(qc, optimization_level=3, basis_gates=["u3", "cx"], seed_transpiler=1) display(tqc.draw("mpl"))
+
+---CODE_BLOCK---
+
+import qiskit import numpy as np import math from scipy.linalg import expm as expMatrix # Added after a comment N_features=2 N_QUBITS=math.ceil(np.log2(N_features)+1) #Circuit number of QuBits QUBITS=[i for i in range(N_QUBITS)] qc = QuantumCircuit(N_QUBITS) qc.h(QUBITS) tx = np.random.rand(N_features) tw = np.random.rand(N_features) sigmaE = np.diag(tx)*tw.T matrix_pauli_x=np.array([[0,1],[1,0]]) # Pauli x matrix_pauli_y=np.array([[0,-1j],[1j,0]]) # Pauli y matrix_pauli_z=np.array([[1,0],[0,-1]]) # Pauli z sigmaQ=matrix_pauli_x+matrix_pauli_y+matrix_pauli_z #Unitary Operator U=np.matrix(expMatrix(1j*np.kron(sigmaQ,sigmaE))) qc.unitary(U,QUBITS) display(qc.draw("mpl")) tqc=transpile(qc, optimization_level=3, basis_gates=["u3", "cx"], seed_transpiler=1) display(tqc.draw("mpl"))
+
+Solution explanation:
+It is unclear how you want to identify the location of each U3 gate, but assuming you have a plan for how to do that, here's a simple solution. I am using the class in qiskit because I can't run your code since it is incomplete ( is not defined). Here's the circuit I used: The code below iterates over the circuits, assigns a label to each it encounters and creates a dictionary of dictionaries where the keys are the gate labels, and the values are dictionaries with the qubit and parameter information of each gate: For the example above, it produces the following output
+
+```
+QuantumVolume
+```
+
+```
+expMatrix
+```
+
+```
+from qiskit import transpile from qiskit.circuit.library import QuantumVolume qc = QuantumVolume(2) tqc=transpile(qc, optimization_level=3, basis_gates=["u3", "cx"], seed_transpiler=1) tqc.draw()
+```
+
+```
+from qiskit import transpile from qiskit.circuit.library import QuantumVolume qc = QuantumVolume(2) tqc=transpile(qc, optimization_level=3, basis_gates=["u3", "cx"], seed_transpiler=1) tqc.draw()
+```
+
+```
+u3
+```
+
+```
+u3
+```
+
+```
+gate_val = 0 u3_dir = {} for i, instruction in enumerate(tqc.data): if instruction.operation.name == 'u3': u3_dir['u3_'+str(gate_val)] = {'qubit':instruction.qubits[0], 'params': instruction.operation.params} gate_val +=1
+```
+
+```
+gate_val = 0 u3_dir = {} for i, instruction in enumerate(tqc.data): if instruction.operation.name == 'u3': u3_dir['u3_'+str(gate_val)] = {'qubit':instruction.qubits[0], 'params': instruction.operation.params} gate_val +=1
+```
+
+```
+{'u3_0': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [1.0440841760486674, 2.6641100650410037, -2.0921842414289618]}, 'u3_1': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [0.4348770135181953, 2.948693964124362, 1.752376305917334]}, 'u3_2': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [0.7186015627120356, -1.5707963267948966, -1.5707963267948968]}, 'u3_3': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [1.5649885951362232, -3.040653328145914, 0.0572782716826703]}, 'u3_4': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [0.1311802714869456, 3.552713678800501e-15, -1.5707963267949]}, 'u3_5': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [1.6713839441184557, 0.01023951313391791, -1.4691752037207917]}, 'u3_6': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [2.1676530225927464, 3.029968355026753, -2.0109779032643655]}, 'u3_7': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [0.8900220554542061, 1.061441598269739, -2.690128433740786]}}
+```
+
+```
+{'u3_0': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [1.0440841760486674, 2.6641100650410037, -2.0921842414289618]}, 'u3_1': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [0.4348770135181953, 2.948693964124362, 1.752376305917334]}, 'u3_2': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [0.7186015627120356, -1.5707963267948966, -1.5707963267948968]}, 'u3_3': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [1.5649885951362232, -3.040653328145914, 0.0572782716826703]}, 'u3_4': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [0.1311802714869456, 3.552713678800501e-15, -1.5707963267949]}, 'u3_5': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [1.6713839441184557, 0.01023951313391791, -1.4691752037207917]}, 'u3_6': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [2.1676530225927464, 3.029968355026753, -2.0109779032643655]}, 'u3_7': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [0.8900220554542061, 1.061441598269739, -2.690128433740786]}}
+```
+
+Original fixed code:
+QuantumVolume
+
+---CODE_BLOCK---
+
+expMatrix
+
+---CODE_BLOCK---
+
+from qiskit import transpile from qiskit.circuit.library import QuantumVolume qc = QuantumVolume(2) tqc=transpile(qc, optimization_level=3, basis_gates=["u3", "cx"], seed_transpiler=1) tqc.draw()
+
+---CODE_BLOCK---
+
+from qiskit import transpile from qiskit.circuit.library import QuantumVolume qc = QuantumVolume(2) tqc=transpile(qc, optimization_level=3, basis_gates=["u3", "cx"], seed_transpiler=1) tqc.draw()
+
+---CODE_BLOCK---
+
+u3
+
+---CODE_BLOCK---
+
+u3
+
+---CODE_BLOCK---
+
+gate_val = 0 u3_dir = {} for i, instruction in enumerate(tqc.data): if instruction.operation.name == 'u3': u3_dir['u3_'+str(gate_val)] = {'qubit':instruction.qubits[0], 'params': instruction.operation.params} gate_val +=1
+
+---CODE_BLOCK---
+
+gate_val = 0 u3_dir = {} for i, instruction in enumerate(tqc.data): if instruction.operation.name == 'u3': u3_dir['u3_'+str(gate_val)] = {'qubit':instruction.qubits[0], 'params': instruction.operation.params} gate_val +=1
+
+---CODE_BLOCK---
+
+{'u3_0': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [1.0440841760486674, 2.6641100650410037, -2.0921842414289618]}, 'u3_1': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [0.4348770135181953, 2.948693964124362, 1.752376305917334]}, 'u3_2': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [0.7186015627120356, -1.5707963267948966, -1.5707963267948968]}, 'u3_3': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [1.5649885951362232, -3.040653328145914, 0.0572782716826703]}, 'u3_4': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [0.1311802714869456, 3.552713678800501e-15, -1.5707963267949]}, 'u3_5': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [1.6713839441184557, 0.01023951313391791, -1.4691752037207917]}, 'u3_6': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [2.1676530225927464, 3.029968355026753, -2.0109779032643655]}, 'u3_7': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [0.8900220554542061, 1.061441598269739, -2.690128433740786]}}
+
+---CODE_BLOCK---
+
+{'u3_0': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [1.0440841760486674, 2.6641100650410037, -2.0921842414289618]}, 'u3_1': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [0.4348770135181953, 2.948693964124362, 1.752376305917334]}, 'u3_2': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [0.7186015627120356, -1.5707963267948966, -1.5707963267948968]}, 'u3_3': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [1.5649885951362232, -3.040653328145914, 0.0572782716826703]}, 'u3_4': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [0.1311802714869456, 3.552713678800501e-15, -1.5707963267949]}, 'u3_5': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [1.6713839441184557, 0.01023951313391791, -1.4691752037207917]}, 'u3_6': {'qubit': Qubit(QuantumRegister(2, 'q'), 0), 'params': [2.1676530225927464, 3.029968355026753, -2.0109779032643655]}, 'u3_7': {'qubit': Qubit(QuantumRegister(2, 'q'), 1), 'params': [0.8900220554542061, 1.061441598269739, -2.690128433740786]}}

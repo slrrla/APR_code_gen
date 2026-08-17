@@ -1,0 +1,163 @@
+Title:
+How to assemble two quantum circuits which has each own qubit mapping state?
+
+Category:
+
+
+Question:
+Title: How to assemble two quantum circuits which has each own qubit mapping state?
+
+I'm curious about something. I tried to do some qubit mapping using SABRE algorithm. Suppose I have two quantum circuits and apply SABRE algorithm to both of them. Then each of them has its own qubit mapping states. After that, I want to compose them to make it as one long quantum circuit. How can I do it? I used python code and . I have already searched API and used some functions (compose, combine, append). But the circuits could not be combined. How can I assemble two quantum circuit which have different qubit mapping state respectively? Thank you
+
+```
+qiskit
+```
+
+```
+qiskit
+```
+
+Original buggy code:
+qiskit
+
+---CODE_BLOCK---
+
+qiskit
+
+Solution explanation:
+The short answer to composed circuit is the following. Given and , you can do like this: You can also do that with transpiled circuits: Notice that the circuits to composed need to be the same size. After transpilation, that is ensured. will make the circuit as big as the backend (given that you use the same backend during transpilation). The operation will wire the links one-to-one. Here is an example to compose circuit with different sizes: In this case, you need to use . The parameter qubits indicates how to wire the circuits.
+
+```
+circuit1
+```
+
+```
+circuit2
+```
+
+```
+circuit = circuit1 + circuit2
+```
+
+```
+circuit = circuit1 + circuit2
+```
+
+```
+transpiled1 = transpile(circuit1, backend, routing_method='sabre') transpiled2 = transpile(circuit2, backend, routing_method='sabre') circuit = transpiled1 + transpiled2
+```
+
+```
+transpiled1 = transpile(circuit1, backend, routing_method='sabre') transpiled2 = transpile(circuit2, backend, routing_method='sabre') circuit = transpiled1 + transpiled2
+```
+
+```
+transpile
+```
+
+```
++
+```
+
+```
+circuit1 = QuantumCircuit(5) circuit1.mcx([0, 1, 3, 4], 2) print(circuit1) circuit2 = QuantumCircuit(2) circuit2.cx(0, 1) print(circuit2)
+```
+
+```
+circuit1 = QuantumCircuit(5) circuit1.mcx([0, 1, 3, 4], 2) print(circuit1) circuit2 = QuantumCircuit(2) circuit2.cx(0, 1) print(circuit2)
+```
+
+```
+q_0: ──■── │ q_1: ──■── ┌─┴─┐ q_2: ┤ X ├ └─┬─┘ q_3: ──■── │ q_4: ──■── q_0: ──■── ┌─┴─┐ q_1: ┤ X ├ └───┘
+```
+
+```
+q_0: ──■── │ q_1: ──■── ┌─┴─┐ q_2: ┤ X ├ └─┬─┘ q_3: ──■── │ q_4: ──■── q_0: ──■── ┌─┴─┐ q_1: ┤ X ├ └───┘
+```
+
+```
+compose(..., qubits=...)
+```
+
+```
+circuit = circuit1.compose(circuit2, qubits=[3,2]) print(circuit)
+```
+
+```
+circuit = circuit1.compose(circuit2, qubits=[3,2]) print(circuit)
+```
+
+```
+q_0: ──■─────── │ q_1: ──■─────── ┌─┴─┐┌───┐ q_2: ┤ X ├┤ X ├ └─┬─┘└─┬─┘ q_3: ──■────■── │ q_4: ──■───────
+```
+
+```
+q_0: ──■─────── │ q_1: ──■─────── ┌─┴─┐┌───┐ q_2: ┤ X ├┤ X ├ └─┬─┘└─┬─┘ q_3: ──■────■── │ q_4: ──■───────
+```
+
+Original fixed code:
+circuit1
+
+---CODE_BLOCK---
+
+circuit2
+
+---CODE_BLOCK---
+
+circuit = circuit1 + circuit2
+
+---CODE_BLOCK---
+
+circuit = circuit1 + circuit2
+
+---CODE_BLOCK---
+
+transpiled1 = transpile(circuit1, backend, routing_method='sabre') transpiled2 = transpile(circuit2, backend, routing_method='sabre') circuit = transpiled1 + transpiled2
+
+---CODE_BLOCK---
+
+transpiled1 = transpile(circuit1, backend, routing_method='sabre') transpiled2 = transpile(circuit2, backend, routing_method='sabre') circuit = transpiled1 + transpiled2
+
+---CODE_BLOCK---
+
+transpile
+
+---CODE_BLOCK---
+
++
+
+---CODE_BLOCK---
+
+circuit1 = QuantumCircuit(5) circuit1.mcx([0, 1, 3, 4], 2) print(circuit1) circuit2 = QuantumCircuit(2) circuit2.cx(0, 1) print(circuit2)
+
+---CODE_BLOCK---
+
+circuit1 = QuantumCircuit(5) circuit1.mcx([0, 1, 3, 4], 2) print(circuit1) circuit2 = QuantumCircuit(2) circuit2.cx(0, 1) print(circuit2)
+
+---CODE_BLOCK---
+
+q_0: ──■── │ q_1: ──■── ┌─┴─┐ q_2: ┤ X ├ └─┬─┘ q_3: ──■── │ q_4: ──■── q_0: ──■── ┌─┴─┐ q_1: ┤ X ├ └───┘
+
+---CODE_BLOCK---
+
+q_0: ──■── │ q_1: ──■── ┌─┴─┐ q_2: ┤ X ├ └─┬─┘ q_3: ──■── │ q_4: ──■── q_0: ──■── ┌─┴─┐ q_1: ┤ X ├ └───┘
+
+---CODE_BLOCK---
+
+compose(..., qubits=...)
+
+---CODE_BLOCK---
+
+circuit = circuit1.compose(circuit2, qubits=[3,2]) print(circuit)
+
+---CODE_BLOCK---
+
+circuit = circuit1.compose(circuit2, qubits=[3,2]) print(circuit)
+
+---CODE_BLOCK---
+
+q_0: ──■─────── │ q_1: ──■─────── ┌─┴─┐┌───┐ q_2: ┤ X ├┤ X ├ └─┬─┘└─┬─┘ q_3: ──■────■── │ q_4: ──■───────
+
+---CODE_BLOCK---
+
+q_0: ──■─────── │ q_1: ──■─────── ┌─┴─┐┌───┐ q_2: ┤ X ├┤ X ├ └─┬─┘└─┬─┘ q_3: ──■────■── │ q_4: ──■───────

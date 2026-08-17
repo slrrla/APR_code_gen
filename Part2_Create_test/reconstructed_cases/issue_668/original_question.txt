@@ -1,0 +1,43 @@
+Title:
+Nonsensical projection of initialized qubits in Qiskit
+
+Category:
+
+
+Question:
+Title: Nonsensical projection of initialized qubits in Qiskit
+
+I wanted to try Qiskit by setting up two qubits initialized to $ | 11 \rangle $ or $ | 01 \rangle $ and two classical bits to measure those two initialized qubits. For this simple demonstration, I used the code below: (ignore the circuit name being "fivequbitcircuit." I started trying Qiskit because I wanted to try the five qubit error correcting code and realized that regardless of which single qubit error I was trying to simulate, the histogram was mostly giving me 0000 for the syndrome measurement. For some reason, running this gives me something like the histogram below: It made no sense to me, as both qubits are initialized to $ | 1 \rangle $ and no gate operation was done to either one before the projective measurement was made.
+
+```
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister qr = QuantumRegister(2, name="q") cr = ClassicalRegister(2, 'c') fivequbitcircuit = QuantumCircuit(qr, cr) fivequbitcircuit.initialize( 1,[0]) #initializing the first qubit to 0 fivequbitcircuit.initialize( 1,[1]) #initializing the second qubit to 0 fivequbitcircuit.measure(qr, cr) # Drawing the Quantum Circudit fivequbitcircuit.draw('mpl') from qiskit import QuantumCircuit,Aer,transpile from qiskit.visualization import plot_histogram backend = Aer.get_backend("aer_simulator") tqc = transpile(fivequbitcircuit, backend) job = backend.run(tqc, shots=1000) result = job.result() counts = result.get_counts(tqc) plot_histogram(counts)
+```
+
+```
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister qr = QuantumRegister(2, name="q") cr = ClassicalRegister(2, 'c') fivequbitcircuit = QuantumCircuit(qr, cr) fivequbitcircuit.initialize( 1,[0]) #initializing the first qubit to 0 fivequbitcircuit.initialize( 1,[1]) #initializing the second qubit to 0 fivequbitcircuit.measure(qr, cr) # Drawing the Quantum Circudit fivequbitcircuit.draw('mpl') from qiskit import QuantumCircuit,Aer,transpile from qiskit.visualization import plot_histogram backend = Aer.get_backend("aer_simulator") tqc = transpile(fivequbitcircuit, backend) job = backend.run(tqc, shots=1000) result = job.result() counts = result.get_counts(tqc) plot_histogram(counts)
+```
+
+Original buggy code:
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister qr = QuantumRegister(2, name="q") cr = ClassicalRegister(2, 'c') fivequbitcircuit = QuantumCircuit(qr, cr) fivequbitcircuit.initialize( 1,[0]) #initializing the first qubit to 0 fivequbitcircuit.initialize( 1,[1]) #initializing the second qubit to 0 fivequbitcircuit.measure(qr, cr) # Drawing the Quantum Circudit fivequbitcircuit.draw('mpl') from qiskit import QuantumCircuit,Aer,transpile from qiskit.visualization import plot_histogram backend = Aer.get_backend("aer_simulator") tqc = transpile(fivequbitcircuit, backend) job = backend.run(tqc, shots=1000) result = job.result() counts = result.get_counts(tqc) plot_histogram(counts)
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister qr = QuantumRegister(2, name="q") cr = ClassicalRegister(2, 'c') fivequbitcircuit = QuantumCircuit(qr, cr) fivequbitcircuit.initialize( 1,[0]) #initializing the first qubit to 0 fivequbitcircuit.initialize( 1,[1]) #initializing the second qubit to 0 fivequbitcircuit.measure(qr, cr) # Drawing the Quantum Circudit fivequbitcircuit.draw('mpl') from qiskit import QuantumCircuit,Aer,transpile from qiskit.visualization import plot_histogram backend = Aer.get_backend("aer_simulator") tqc = transpile(fivequbitcircuit, backend) job = backend.run(tqc, shots=1000) result = job.result() counts = result.get_counts(tqc) plot_histogram(counts)
+
+Solution explanation:
+It seems the Aer backend is not compatible with initializing using integers in this version, here's a small change to make it work: You can use a string to tell the circuit to initialize in the $|1\rangle$ state. I've also opened an issue to keep track of this: https://github.com/Qiskit/qiskit-terra/issues/10143. In future, it would be more efficient to directly open an issue on Qiskit (or the respective package), as there you can directly contact developers for package-specific questions like this one.
+
+```
+fivequbitcircuit.initialize("1", [0]) fivequbitcircuit.initialize("1", [1])
+```
+
+```
+fivequbitcircuit.initialize("1", [0]) fivequbitcircuit.initialize("1", [1])
+```
+
+Original fixed code:
+fivequbitcircuit.initialize("1", [0]) fivequbitcircuit.initialize("1", [1])
+
+---CODE_BLOCK---
+
+fivequbitcircuit.initialize("1", [0]) fivequbitcircuit.initialize("1", [1])

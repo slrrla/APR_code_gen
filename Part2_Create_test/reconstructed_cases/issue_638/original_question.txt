@@ -1,0 +1,107 @@
+Title:
+Replacement of FermionicOperator from qiskit.chemistry in qiskit_nature
+
+Category:
+
+
+Question:
+Title: Replacement of FermionicOperator from qiskit.chemistry in qiskit_nature
+
+here is very useful for converting fermionic operators to qubits operators. has been deprecated. I went through the migration guide they have but I can't seem to find the replacement of in . Anyone know this? Thanks a lot.
+
+```
+qiskit.chemistry.FermionicOperator
+```
+
+```
+qiskit.chemistry
+```
+
+```
+FermiOpetator
+```
+
+```
+qiskit_nature
+```
+
+Original buggy code:
+qiskit.chemistry.FermionicOperator
+
+---CODE_BLOCK---
+
+qiskit.chemistry
+
+---CODE_BLOCK---
+
+FermiOpetator
+
+---CODE_BLOCK---
+
+qiskit_nature
+
+Solution explanation:
+This is now under within . This link here might be helpful. You might have to look into how to define the fermionic operators in this new released version, but the example below, which is really just taking from the above linked, might provide some guidance. The electronic Hamiltonian written in term of fermionic operators is: Which can be converted to qubitOp as:
+
+```
+QubitConverter
+```
+
+```
+qiskit_nature
+```
+
+```
+from qiskit import Aer from qiskit_nature.drivers import PySCFDriver, UnitsType, Molecule from qiskit_nature.problems.second_quantization import ElectronicStructureProblem from qiskit_nature.converters.second_quantization import QubitConverter from qiskit_nature.mappers.second_quantization import JordanWignerMapper molecule = Molecule(geometry=[['H', [0., 0., 0.]], ['H', [0., 0., 0.735]]], charge=0, multiplicity=1) driver = PySCFDriver(molecule = molecule, unit=UnitsType.ANGSTROM, basis='sto3g')
+```
+
+```
+from qiskit import Aer from qiskit_nature.drivers import PySCFDriver, UnitsType, Molecule from qiskit_nature.problems.second_quantization import ElectronicStructureProblem from qiskit_nature.converters.second_quantization import QubitConverter from qiskit_nature.mappers.second_quantization import JordanWignerMapper molecule = Molecule(geometry=[['H', [0., 0., 0.]], ['H', [0., 0., 0.735]]], charge=0, multiplicity=1) driver = PySCFDriver(molecule = molecule, unit=UnitsType.ANGSTROM, basis='sto3g')
+```
+
+```
+es_problem = ElectronicStructureProblem(driver) second_q_op = es_problem.second_q_ops() print(second_q_op[0]) +-+- * (0.18093119978423158+0j) + +--+ * (-0.18093119978423156+0j) + -++- * (-0.18093119978423156+0j) + -+-+ * (0.18093119978423156+0j) + IIIN * (-0.47189600728114073+0j) + IINI * (-1.2563390730032507+0j) + IINN * (0.48365053047106565+0j) + INII * (-0.47189600728114073+0j) + ININ * (0.6985737227320187+0j) + INNI * (0.6645817302552972+0j) + NIII * (-1.2563390730032507+0j) + NIIN * (0.6645817302552972+0j) + NINI * (0.675710154803517+0j) + NNII * (0.48365053047106565+0j)
+```
+
+```
+es_problem = ElectronicStructureProblem(driver) second_q_op = es_problem.second_q_ops() print(second_q_op[0]) +-+- * (0.18093119978423158+0j) + +--+ * (-0.18093119978423156+0j) + -++- * (-0.18093119978423156+0j) + -+-+ * (0.18093119978423156+0j) + IIIN * (-0.47189600728114073+0j) + IINI * (-1.2563390730032507+0j) + IINN * (0.48365053047106565+0j) + INII * (-0.47189600728114073+0j) + ININ * (0.6985737227320187+0j) + INNI * (0.6645817302552972+0j) + NIII * (-1.2563390730032507+0j) + NIIN * (0.6645817302552972+0j) + NINI * (0.675710154803517+0j) + NNII * (0.48365053047106565+0j)
+```
+
+```
+qubit_converter = QubitConverter(JordanWignerMapper()) qubit_op = qubit_converter.convert(second_q_op[0]) print(qubit_op) -0.8535040737275406 * IIII - 0.03329093140262394 * ZIII + 0.09539931515219398 * IZII + 0.08254659792513139 * ZZII - 0.03329093140262387 * IIZI + 0.1460749494329415 * ZIZI + 0.13998427822128043 * IZZI + 0.09539931515219396 * IIIZ + 0.13998427822128043 * ZIIZ + 0.1381506045026359 * IZIZ + 0.08254659792513139 * IIZZ + 0.05743768029614903 * XXXX + 0.05743768029614903 * YYXX + 0.05743768029614903 * XXYY + 0.05743768029614903 * YYYY
+```
+
+```
+qubit_converter = QubitConverter(JordanWignerMapper()) qubit_op = qubit_converter.convert(second_q_op[0]) print(qubit_op) -0.8535040737275406 * IIII - 0.03329093140262394 * ZIII + 0.09539931515219398 * IZII + 0.08254659792513139 * ZZII - 0.03329093140262387 * IIZI + 0.1460749494329415 * ZIZI + 0.13998427822128043 * IZZI + 0.09539931515219396 * IIIZ + 0.13998427822128043 * ZIIZ + 0.1381506045026359 * IZIZ + 0.08254659792513139 * IIZZ + 0.05743768029614903 * XXXX + 0.05743768029614903 * YYXX + 0.05743768029614903 * XXYY + 0.05743768029614903 * YYYY
+```
+
+Original fixed code:
+QubitConverter
+
+---CODE_BLOCK---
+
+qiskit_nature
+
+---CODE_BLOCK---
+
+from qiskit import Aer from qiskit_nature.drivers import PySCFDriver, UnitsType, Molecule from qiskit_nature.problems.second_quantization import ElectronicStructureProblem from qiskit_nature.converters.second_quantization import QubitConverter from qiskit_nature.mappers.second_quantization import JordanWignerMapper molecule = Molecule(geometry=[['H', [0., 0., 0.]], ['H', [0., 0., 0.735]]], charge=0, multiplicity=1) driver = PySCFDriver(molecule = molecule, unit=UnitsType.ANGSTROM, basis='sto3g')
+
+---CODE_BLOCK---
+
+from qiskit import Aer from qiskit_nature.drivers import PySCFDriver, UnitsType, Molecule from qiskit_nature.problems.second_quantization import ElectronicStructureProblem from qiskit_nature.converters.second_quantization import QubitConverter from qiskit_nature.mappers.second_quantization import JordanWignerMapper molecule = Molecule(geometry=[['H', [0., 0., 0.]], ['H', [0., 0., 0.735]]], charge=0, multiplicity=1) driver = PySCFDriver(molecule = molecule, unit=UnitsType.ANGSTROM, basis='sto3g')
+
+---CODE_BLOCK---
+
+es_problem = ElectronicStructureProblem(driver) second_q_op = es_problem.second_q_ops() print(second_q_op[0]) +-+- * (0.18093119978423158+0j) + +--+ * (-0.18093119978423156+0j) + -++- * (-0.18093119978423156+0j) + -+-+ * (0.18093119978423156+0j) + IIIN * (-0.47189600728114073+0j) + IINI * (-1.2563390730032507+0j) + IINN * (0.48365053047106565+0j) + INII * (-0.47189600728114073+0j) + ININ * (0.6985737227320187+0j) + INNI * (0.6645817302552972+0j) + NIII * (-1.2563390730032507+0j) + NIIN * (0.6645817302552972+0j) + NINI * (0.675710154803517+0j) + NNII * (0.48365053047106565+0j)
+
+---CODE_BLOCK---
+
+es_problem = ElectronicStructureProblem(driver) second_q_op = es_problem.second_q_ops() print(second_q_op[0]) +-+- * (0.18093119978423158+0j) + +--+ * (-0.18093119978423156+0j) + -++- * (-0.18093119978423156+0j) + -+-+ * (0.18093119978423156+0j) + IIIN * (-0.47189600728114073+0j) + IINI * (-1.2563390730032507+0j) + IINN * (0.48365053047106565+0j) + INII * (-0.47189600728114073+0j) + ININ * (0.6985737227320187+0j) + INNI * (0.6645817302552972+0j) + NIII * (-1.2563390730032507+0j) + NIIN * (0.6645817302552972+0j) + NINI * (0.675710154803517+0j) + NNII * (0.48365053047106565+0j)
+
+---CODE_BLOCK---
+
+qubit_converter = QubitConverter(JordanWignerMapper()) qubit_op = qubit_converter.convert(second_q_op[0]) print(qubit_op) -0.8535040737275406 * IIII - 0.03329093140262394 * ZIII + 0.09539931515219398 * IZII + 0.08254659792513139 * ZZII - 0.03329093140262387 * IIZI + 0.1460749494329415 * ZIZI + 0.13998427822128043 * IZZI + 0.09539931515219396 * IIIZ + 0.13998427822128043 * ZIIZ + 0.1381506045026359 * IZIZ + 0.08254659792513139 * IIZZ + 0.05743768029614903 * XXXX + 0.05743768029614903 * YYXX + 0.05743768029614903 * XXYY + 0.05743768029614903 * YYYY
+
+---CODE_BLOCK---
+
+qubit_converter = QubitConverter(JordanWignerMapper()) qubit_op = qubit_converter.convert(second_q_op[0]) print(qubit_op) -0.8535040737275406 * IIII - 0.03329093140262394 * ZIII + 0.09539931515219398 * IZII + 0.08254659792513139 * ZZII - 0.03329093140262387 * IIZI + 0.1460749494329415 * ZIZI + 0.13998427822128043 * IZZI + 0.09539931515219396 * IIIZ + 0.13998427822128043 * ZIIZ + 0.1381506045026359 * IZIZ + 0.08254659792513139 * IIZZ + 0.05743768029614903 * XXXX + 0.05743768029614903 * YYXX + 0.05743768029614903 * XXYY + 0.05743768029614903 * YYYY

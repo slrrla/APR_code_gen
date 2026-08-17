@@ -1,0 +1,67 @@
+Title:
+Apply a custom gate to qubits in separate quantum registers
+
+Category:
+
+
+Question:
+Title: Apply a custom gate to qubits in separate quantum registers
+
+Let there be a custom gate (simply called that takes $N$ qubits as input. Also, let $A$ of those qubits be in and $B$ of those qubits be in ($B = N-A$, obviously). Both registers are . How to append this custom gate to circuit, like what to write in .
+
+```
+gate
+```
+
+```
+first_register
+```
+
+```
+second_register
+```
+
+```
+QuantumRegisters
+```
+
+```
+circuit.append(gate, HERE)
+```
+
+Original buggy code:
+gate
+
+---CODE_BLOCK---
+
+first_register
+
+---CODE_BLOCK---
+
+second_register
+
+---CODE_BLOCK---
+
+QuantumRegisters
+
+---CODE_BLOCK---
+
+circuit.append(gate, HERE)
+
+Solution explanation:
+You can simply merge the lists of qubits from two quantum registers or more as any python lists using "+" sign. For example The result:
+
+```
+gate = UnitaryGate(random_unitary(2 ** 4).data, 'RND-U16') qr1 = QuantumRegister(2, 'q') qr2 = QuantumRegister(3, 'a') circ = QuantumCircuit(qr1, qr2) circ.mct(qr1[0:2] + qr2[0:2], qr2[2]) circ.append(gate, qr1[1:2] + qr2[0:3])
+```
+
+```
+gate = UnitaryGate(random_unitary(2 ** 4).data, 'RND-U16') qr1 = QuantumRegister(2, 'q') qr2 = QuantumRegister(3, 'a') circ = QuantumCircuit(qr1, qr2) circ.mct(qr1[0:2] + qr2[0:2], qr2[2]) circ.append(gate, qr1[1:2] + qr2[0:3])
+```
+
+Original fixed code:
+gate = UnitaryGate(random_unitary(2 ** 4).data, 'RND-U16') qr1 = QuantumRegister(2, 'q') qr2 = QuantumRegister(3, 'a') circ = QuantumCircuit(qr1, qr2) circ.mct(qr1[0:2] + qr2[0:2], qr2[2]) circ.append(gate, qr1[1:2] + qr2[0:3])
+
+---CODE_BLOCK---
+
+gate = UnitaryGate(random_unitary(2 ** 4).data, 'RND-U16') qr1 = QuantumRegister(2, 'q') qr2 = QuantumRegister(3, 'a') circ = QuantumCircuit(qr1, qr2) circ.mct(qr1[0:2] + qr2[0:2], qr2[2]) circ.append(gate, qr1[1:2] + qr2[0:3])

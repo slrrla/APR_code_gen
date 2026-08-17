@@ -1,0 +1,115 @@
+Title:
+qiskit.exceptions.QiskitError: 'Invalid input data for Pauli.'
+
+Category:
+
+
+Question:
+Title: qiskit.exceptions.QiskitError: 'Invalid input data for Pauli.'
+
+I have some old version code which uses an API as below: After much study, I tried to replace it latest API, which has the below syntax: But this is not correct. It gives me some error : It would be great if I can be helped on this. Edit1 Question updated with the Hamiltonian.
+
+```
+qiskit==0.46
+```
+
+```
+from qiskit.opflow import MatrixOp H_op = MatrixOp(Hamiltonian).to_pauli_op()
+```
+
+```
+from qiskit.opflow import MatrixOp H_op = MatrixOp(Hamiltonian).to_pauli_op()
+```
+
+```
+qiskit==1.0
+```
+
+```
+from qiskit.quantum_info import SparsePauliOp H_op = SparsePauliOp(Hamiltonian).to_operator()
+```
+
+```
+from qiskit.quantum_info import SparsePauliOp H_op = SparsePauliOp(Hamiltonian).to_operator()
+```
+
+```
+qiskit.exceptions.QiskitError: 'Invalid input data for Pauli.'
+```
+
+```
+(Pdb) Hamiltonian array([[ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207]])
+```
+
+```
+(Pdb) Hamiltonian array([[ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207]])
+```
+
+Original buggy code:
+qiskit==0.46
+
+---CODE_BLOCK---
+
+from qiskit.opflow import MatrixOp H_op = MatrixOp(Hamiltonian).to_pauli_op()
+
+---CODE_BLOCK---
+
+from qiskit.opflow import MatrixOp H_op = MatrixOp(Hamiltonian).to_pauli_op()
+
+---CODE_BLOCK---
+
+qiskit==1.0
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import SparsePauliOp H_op = SparsePauliOp(Hamiltonian).to_operator()
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import SparsePauliOp H_op = SparsePauliOp(Hamiltonian).to_operator()
+
+---CODE_BLOCK---
+
+qiskit.exceptions.QiskitError: 'Invalid input data for Pauli.'
+
+---CODE_BLOCK---
+
+(Pdb) Hamiltonian array([[ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207]])
+
+---CODE_BLOCK---
+
+(Pdb) Hamiltonian array([[ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207]])
+
+Solution explanation:
+You can construct a from an array using method as follows: Internally, this method employs the approach outlined in "Tensorized Pauli decomposition algorithm" by Hantzko, Binkowski, and Gupta, which is more efficient - and more complex - than the method mentioned in @Ethan Davies answer.
+
+```
+SparsePauliOp
+```
+
+```
+from_operator
+```
+
+```
+from qiskit.quantum_info import SparsePauliOp Hamiltonian = [ [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207] ] op = SparsePauliOp.from_operator(Hamiltonian) print(op)
+```
+
+```
+from qiskit.quantum_info import SparsePauliOp Hamiltonian = [ [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207] ] op = SparsePauliOp.from_operator(Hamiltonian) print(op)
+```
+
+Original fixed code:
+SparsePauliOp
+
+---CODE_BLOCK---
+
+from_operator
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import SparsePauliOp Hamiltonian = [ [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207] ] op = SparsePauliOp.from_operator(Hamiltonian) print(op)
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import SparsePauliOp Hamiltonian = [ [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207] ] op = SparsePauliOp.from_operator(Hamiltonian) print(op)

@@ -1,0 +1,195 @@
+Title:
+Get state vectors in qiskit at any time in a circuit created with initialize() and decompose()
+
+Category:
+
+
+Question:
+Title: Get state vectors in qiskit at any time in a circuit created with initialize() and decompose()
+
+How can I get the state vectors at any point in the circuit if after these instructions it points to end. If I use gives only the last, and `QuantumCircuit.get_instructions(name) does not return the entire circuit instructions ordered.
+
+```
+qc.initialize(psi) qc2=qc for d in range(20): qc2=qc2.decompose()
+```
+
+```
+qc.initialize(psi) qc2=qc for d in range(20): qc2=qc2.decompose()
+```
+
+```
+Statevector.from_instruction(qc2)
+```
+
+Original buggy code:
+qc.initialize(psi) qc2=qc for d in range(20): qc2=qc2.decompose()
+
+---CODE_BLOCK---
+
+qc.initialize(psi) qc2=qc for d in range(20): qc2=qc2.decompose()
+
+---CODE_BLOCK---
+
+Statevector.from_instruction(qc2)
+
+Solution explanation:
+You can get the statevector at any point by inserting a instruction at this point. Then simulating the circuit. And you can get the list of instructions in the circuit by using attribute. For example, this code snippet will insert a instruction after the third instruction in your circuit: And this is how to insert a after each instruction: This is another example which shows how to insert a instruction after each layer. This time we are using method: Now, simulate the circuit to get the statevectors: Note Starting from version 0.37, supports a new parameter, , which can be used to specify number of times the circuit should be decomposed. So, instead of these two lines of codes: you can simply use:
+
+```
+SaveStatevector
+```
+
+```
+QuantumCircuit.data
+```
+
+```
+SaveStatevector
+```
+
+```
+index = 3 _inst = SaveStatevector(num_qubits) qc2.data.insert(index, [_inst, qc2.qubits, None])
+```
+
+```
+index = 3 _inst = SaveStatevector(num_qubits) qc2.data.insert(index, [_inst, qc2.qubits, None])
+```
+
+```
+SaveStatevector
+```
+
+```
+from qiskit.providers.aer.library import SaveStatevector num_qubits = qc2.num_qubits for index in range(len(qc2.data) - 1, -1, -1): _inst = SaveStatevector(num_qubits, label = 'psi_' + str(index)) qc2.data.insert(index, [_inst, qc2.qubits, None])
+```
+
+```
+from qiskit.providers.aer.library import SaveStatevector num_qubits = qc2.num_qubits for index in range(len(qc2.data) - 1, -1, -1): _inst = SaveStatevector(num_qubits, label = 'psi_' + str(index)) qc2.data.insert(index, [_inst, qc2.qubits, None])
+```
+
+```
+SaveStatevector
+```
+
+```
+save_statevector
+```
+
+```
+from qiskit.converters import circuit_to_dag, dag_to_circuit dag = circuit_to_dag(qc2) new_dag = dag.copy_empty_like() for index, layer in enumerate(dag.layers()): circ = dag_to_circuit(layer['graph']) circ.save_statevector('psi_' + str(index)) layer['graph'] = circuit_to_dag(circ) new_dag.compose(layer['graph']) qc2 = dag_to_circuit(new_dag)
+```
+
+```
+from qiskit.converters import circuit_to_dag, dag_to_circuit dag = circuit_to_dag(qc2) new_dag = dag.copy_empty_like() for index, layer in enumerate(dag.layers()): circ = dag_to_circuit(layer['graph']) circ.save_statevector('psi_' + str(index)) layer['graph'] = circuit_to_dag(circ) new_dag.compose(layer['graph']) qc2 = dag_to_circuit(new_dag)
+```
+
+```
+from qiskit import Aer from IPython.display import display simulator = Aer.get_backend('qasm_simulator') result = simulator.run(qc2).result() for key, value in result.data().items(): print(key) display(value.draw('latex'))
+```
+
+```
+from qiskit import Aer from IPython.display import display simulator = Aer.get_backend('qasm_simulator') result = simulator.run(qc2).result() for key, value in result.data().items(): print(key) display(value.draw('latex'))
+```
+
+```
+QuantumCircuit.decompose()
+```
+
+```
+reps
+```
+
+```
+for d in range(20): qc2=qc2.decompose()
+```
+
+```
+for d in range(20): qc2=qc2.decompose()
+```
+
+```
+qc2.decompose(reps = 20)
+```
+
+```
+qc2.decompose(reps = 20)
+```
+
+Original fixed code:
+SaveStatevector
+
+---CODE_BLOCK---
+
+QuantumCircuit.data
+
+---CODE_BLOCK---
+
+SaveStatevector
+
+---CODE_BLOCK---
+
+index = 3 _inst = SaveStatevector(num_qubits) qc2.data.insert(index, [_inst, qc2.qubits, None])
+
+---CODE_BLOCK---
+
+index = 3 _inst = SaveStatevector(num_qubits) qc2.data.insert(index, [_inst, qc2.qubits, None])
+
+---CODE_BLOCK---
+
+SaveStatevector
+
+---CODE_BLOCK---
+
+from qiskit.providers.aer.library import SaveStatevector num_qubits = qc2.num_qubits for index in range(len(qc2.data) - 1, -1, -1): _inst = SaveStatevector(num_qubits, label = 'psi_' + str(index)) qc2.data.insert(index, [_inst, qc2.qubits, None])
+
+---CODE_BLOCK---
+
+from qiskit.providers.aer.library import SaveStatevector num_qubits = qc2.num_qubits for index in range(len(qc2.data) - 1, -1, -1): _inst = SaveStatevector(num_qubits, label = 'psi_' + str(index)) qc2.data.insert(index, [_inst, qc2.qubits, None])
+
+---CODE_BLOCK---
+
+SaveStatevector
+
+---CODE_BLOCK---
+
+save_statevector
+
+---CODE_BLOCK---
+
+from qiskit.converters import circuit_to_dag, dag_to_circuit dag = circuit_to_dag(qc2) new_dag = dag.copy_empty_like() for index, layer in enumerate(dag.layers()): circ = dag_to_circuit(layer['graph']) circ.save_statevector('psi_' + str(index)) layer['graph'] = circuit_to_dag(circ) new_dag.compose(layer['graph']) qc2 = dag_to_circuit(new_dag)
+
+---CODE_BLOCK---
+
+from qiskit.converters import circuit_to_dag, dag_to_circuit dag = circuit_to_dag(qc2) new_dag = dag.copy_empty_like() for index, layer in enumerate(dag.layers()): circ = dag_to_circuit(layer['graph']) circ.save_statevector('psi_' + str(index)) layer['graph'] = circuit_to_dag(circ) new_dag.compose(layer['graph']) qc2 = dag_to_circuit(new_dag)
+
+---CODE_BLOCK---
+
+from qiskit import Aer from IPython.display import display simulator = Aer.get_backend('qasm_simulator') result = simulator.run(qc2).result() for key, value in result.data().items(): print(key) display(value.draw('latex'))
+
+---CODE_BLOCK---
+
+from qiskit import Aer from IPython.display import display simulator = Aer.get_backend('qasm_simulator') result = simulator.run(qc2).result() for key, value in result.data().items(): print(key) display(value.draw('latex'))
+
+---CODE_BLOCK---
+
+QuantumCircuit.decompose()
+
+---CODE_BLOCK---
+
+reps
+
+---CODE_BLOCK---
+
+for d in range(20): qc2=qc2.decompose()
+
+---CODE_BLOCK---
+
+for d in range(20): qc2=qc2.decompose()
+
+---CODE_BLOCK---
+
+qc2.decompose(reps = 20)
+
+---CODE_BLOCK---
+
+qc2.decompose(reps = 20)

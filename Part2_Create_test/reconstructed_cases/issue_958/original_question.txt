@@ -1,0 +1,91 @@
+Title:
+How do I apply the negative of a gate in Qiskit
+
+Category:
+
+
+Question:
+Title: How do I apply the negative of a gate in Qiskit
+
+I am running an algorithm where I need to apply to certain qubits and to others. Any idea how I can do that in Qiskit?
+
+```
+gate1
+```
+
+```
+-1*gate1
+```
+
+Original buggy code:
+gate1
+
+---CODE_BLOCK---
+
+-1*gate1
+
+Solution explanation:
+The in your expression can be treated as a global phase. This can be easily seen if you take a simple 2-qubit example. Consider the state $|\psi\rangle$: $$ |\psi_0\rangle = |q_1\rangle \otimes |q_0\rangle, $$ to which you want to apply $-U$ on qubit $0$ and $U$ on qubit $1$: $$ \begin{aligned} |\psi_1\rangle &= U|q_1\rangle \otimes (-U)|q_0\rangle, \\ \\ |\psi_1\rangle &= -\left(U|q_1\rangle \otimes U|q_0\rangle\right) \\ \\ |\psi_1\rangle &= e^{i\pi}\left(U|q_1\rangle \otimes U|q_0\rangle\right) \end{aligned} $$ So this is equivalent to applying a global phase of $\pi$. For more than one gate application with a $-1$, simply use a global phase of $\pi$ if the number if odd, or don't apply the global phase if the number is even. Just remember that a global phase has no effect in the outcome of your results, so might as well ignore it. If you insist in adding a global phase, you can do this in qiskit by using the gate: or by using the parameter in the object: These examples will result in the statevector: $$ |\psi\rangle = -\frac{1}{2}|00\rangle -\frac{1}{2}|01\rangle -\frac{1}{2}|10\rangle -\frac{1}{2}|11\rangle $$
+
+```
+-1
+```
+
+```
+GlobalPhaseGate
+```
+
+```
+from math import pi from qiskit import QuantumCircuit from qiskit.circuit.library import GlobalPhaseGate qc = QuantumCircuit(2) qc.h([0,1]) qc.append(GlobalPhaseGate(pi))
+```
+
+```
+from math import pi from qiskit import QuantumCircuit from qiskit.circuit.library import GlobalPhaseGate qc = QuantumCircuit(2) qc.h([0,1]) qc.append(GlobalPhaseGate(pi))
+```
+
+```
+global_phase
+```
+
+```
+QuantumCircuit
+```
+
+```
+qc = QuantumCircuit(2, global_phase=pi) qc.h([0,1])
+```
+
+```
+qc = QuantumCircuit(2, global_phase=pi) qc.h([0,1])
+```
+
+Original fixed code:
+-1
+
+---CODE_BLOCK---
+
+GlobalPhaseGate
+
+---CODE_BLOCK---
+
+from math import pi from qiskit import QuantumCircuit from qiskit.circuit.library import GlobalPhaseGate qc = QuantumCircuit(2) qc.h([0,1]) qc.append(GlobalPhaseGate(pi))
+
+---CODE_BLOCK---
+
+from math import pi from qiskit import QuantumCircuit from qiskit.circuit.library import GlobalPhaseGate qc = QuantumCircuit(2) qc.h([0,1]) qc.append(GlobalPhaseGate(pi))
+
+---CODE_BLOCK---
+
+global_phase
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(2, global_phase=pi) qc.h([0,1])
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(2, global_phase=pi) qc.h([0,1])

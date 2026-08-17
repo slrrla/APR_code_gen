@@ -1,0 +1,91 @@
+Title:
+How to calibrate a qubit other than qubit 0?
+
+Category:
+
+
+Question:
+Title: How to calibrate a qubit other than qubit 0?
+
+I replicated successfully the qiskit tutorial (in a jupyter notebook using VSCode) found here: https://learn.qiskit.org/course/quantum-hardware-pulses/calibrating-qubits-using-qiskit-pulse But when I tried to calibrate a different qubit (changing the line to, say, , I get only background noise (ranging from -6.15 to -5.90 a.u.) instead of a nice peak (reaching around 2 a.u.) when plotting . By the way, I don't know if this is important, I had to also change the line to because it was giving me an error ( is of size 1). This was on ibm_hanoi. Why do I get only noise when switching to another qubit?
+
+```
+qubit = 0
+```
+
+```
+qubit = 1
+```
+
+```
+sweep_values
+```
+
+```
+sweep_values.append(res[qubit])
+```
+
+```
+sweep_values.append(res[0])
+```
+
+```
+res
+```
+
+Original buggy code:
+qubit = 0
+
+---CODE_BLOCK---
+
+qubit = 1
+
+---CODE_BLOCK---
+
+sweep_values
+
+---CODE_BLOCK---
+
+sweep_values.append(res[qubit])
+
+---CODE_BLOCK---
+
+sweep_values.append(res[0])
+
+---CODE_BLOCK---
+
+res
+
+Solution explanation:
+Did you modify this cell in section 2? Try replacing it with this: I would recommend looking through all the cells to see if there are other places where they also assumed qubit = 0.
+
+```
+sweep_gate = Gate("sweep", 1, [freq]) qc_sweep = QuantumCircuit(1, 1) qc_sweep.append(sweep_gate, [0]) qc_sweep.measure(0, 0) qc_sweep.add_calibration(sweep_gate, (0,), sweep_sched, [freq]) # Create the frequency settings for the sweep (MUST BE IN HZ) frequencies_Hz = frequencies_GHz*GHz exp_sweep_circs = [qc_sweep.assign_parameters({freq: f}, inplace=False) for f in frequencies_Hz]
+```
+
+```
+sweep_gate = Gate("sweep", 1, [freq]) qc_sweep = QuantumCircuit(1, 1) qc_sweep.append(sweep_gate, [0]) qc_sweep.measure(0, 0) qc_sweep.add_calibration(sweep_gate, (0,), sweep_sched, [freq]) # Create the frequency settings for the sweep (MUST BE IN HZ) frequencies_Hz = frequencies_GHz*GHz exp_sweep_circs = [qc_sweep.assign_parameters({freq: f}, inplace=False) for f in frequencies_Hz]
+```
+
+```
+n_bits = backend_config.n_qubits sweep_gate = Gate("sweep", 1, [freq]) qc_sweep = QuantumCircuit(n_bits, 1) qc_sweep.append(sweep_gate, [qubit]) qc_sweep.measure(qubit, 0) qc_sweep.add_calibration(sweep_gate, (qubit,), sweep_sched, [freq]) # Create the frequency settings for the sweep (MUST BE IN HZ) frequencies_Hz = frequencies_GHz*GHz exp_sweep_circs = [qc_sweep.assign_parameters({freq: f}, inplace=False) for f in frequencies_Hz]
+```
+
+```
+n_bits = backend_config.n_qubits sweep_gate = Gate("sweep", 1, [freq]) qc_sweep = QuantumCircuit(n_bits, 1) qc_sweep.append(sweep_gate, [qubit]) qc_sweep.measure(qubit, 0) qc_sweep.add_calibration(sweep_gate, (qubit,), sweep_sched, [freq]) # Create the frequency settings for the sweep (MUST BE IN HZ) frequencies_Hz = frequencies_GHz*GHz exp_sweep_circs = [qc_sweep.assign_parameters({freq: f}, inplace=False) for f in frequencies_Hz]
+```
+
+Original fixed code:
+sweep_gate = Gate("sweep", 1, [freq]) qc_sweep = QuantumCircuit(1, 1) qc_sweep.append(sweep_gate, [0]) qc_sweep.measure(0, 0) qc_sweep.add_calibration(sweep_gate, (0,), sweep_sched, [freq]) # Create the frequency settings for the sweep (MUST BE IN HZ) frequencies_Hz = frequencies_GHz*GHz exp_sweep_circs = [qc_sweep.assign_parameters({freq: f}, inplace=False) for f in frequencies_Hz]
+
+---CODE_BLOCK---
+
+sweep_gate = Gate("sweep", 1, [freq]) qc_sweep = QuantumCircuit(1, 1) qc_sweep.append(sweep_gate, [0]) qc_sweep.measure(0, 0) qc_sweep.add_calibration(sweep_gate, (0,), sweep_sched, [freq]) # Create the frequency settings for the sweep (MUST BE IN HZ) frequencies_Hz = frequencies_GHz*GHz exp_sweep_circs = [qc_sweep.assign_parameters({freq: f}, inplace=False) for f in frequencies_Hz]
+
+---CODE_BLOCK---
+
+n_bits = backend_config.n_qubits sweep_gate = Gate("sweep", 1, [freq]) qc_sweep = QuantumCircuit(n_bits, 1) qc_sweep.append(sweep_gate, [qubit]) qc_sweep.measure(qubit, 0) qc_sweep.add_calibration(sweep_gate, (qubit,), sweep_sched, [freq]) # Create the frequency settings for the sweep (MUST BE IN HZ) frequencies_Hz = frequencies_GHz*GHz exp_sweep_circs = [qc_sweep.assign_parameters({freq: f}, inplace=False) for f in frequencies_Hz]
+
+---CODE_BLOCK---
+
+n_bits = backend_config.n_qubits sweep_gate = Gate("sweep", 1, [freq]) qc_sweep = QuantumCircuit(n_bits, 1) qc_sweep.append(sweep_gate, [qubit]) qc_sweep.measure(qubit, 0) qc_sweep.add_calibration(sweep_gate, (qubit,), sweep_sched, [freq]) # Create the frequency settings for the sweep (MUST BE IN HZ) frequencies_Hz = frequencies_GHz*GHz exp_sweep_circs = [qc_sweep.assign_parameters({freq: f}, inplace=False) for f in frequencies_Hz]

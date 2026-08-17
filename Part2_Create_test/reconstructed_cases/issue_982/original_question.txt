@@ -1,0 +1,55 @@
+Title:
+How can I initialize a state like, $|00\rangle$ or $|01\rangle$ or $|10\rangle$ or $|11\rangle$ in Qiskit?
+
+Category:
+
+
+Question:
+Title: How can I initialize a state like, $|00\rangle$ or $|01\rangle$ or $|10\rangle$ or $|11\rangle$ in Qiskit?
+
+Many thanks in advance for your help. I am a beginner in Qiskit. I want to implement a circuit that uses the position of an element/item, of the form (x,y) and I would like to represent it as a state $|\phi\rangle = |xy\rangle$. How can I initialize a state like, $|00\rangle$ or $|01\rangle$ or $|10\rangle$ or $|11\rangle$? Or how could I apply the tensor product to get it?
+
+Original buggy code:
+Many thanks in advance for your help. I am a beginner in Qiskit. I want to implement a circuit that uses the position of an element/item, of the form (x,y) and I would like to represent it as a state $|\phi\rangle = |xy\rangle$. How can I initialize a state like, $|00\rangle$ or $|01\rangle$ or $|10\rangle$ or $|11\rangle$? Or how could I apply the tensor product to get it?
+
+Solution explanation:
+Here is Qiskit code you wanted: State you want to prepare are so-called basis states in computational basis. You can easily prepare them with $X$ gate (i.e. equivalent of NOT in classical computation). Initially, qubits are in state $|0\rangle$. If you want to change one of them to state $|1\rangle$, simply put on that qubit the $X$ gate. Please run the code per partes to see how circuits differ for each of the basis states. In Qiskit, you can also use function . It uses vector representation of states, which are in your case: $|00\rangle = \begin{pmatrix}1 & 0 & 0 & 0\end{pmatrix}^T$ $|01\rangle = \begin{pmatrix}0 & 1 & 0 & 0\end{pmatrix}^T$ $|10\rangle = \begin{pmatrix}0 & 0 & 1 & 0\end{pmatrix}^T$ $|11\rangle = \begin{pmatrix}0 & 0 & 0 & 1\end{pmatrix}^T$ So, the Qiskit code is following
+
+```
+from qiskit import QuantumCircuit, transpile, Aer, IBMQ, QuantumRegister, ClassicalRegister q = QuantumRegister(2) c = ClassicalRegister(2) #state |00> circ00 = QuantumCircuit(q,c) circ00.draw() #do nothing, both qubits are already in state |0> #state |01> circ01 = QuantumCircuit(q,c) circ01.x(q[1]) circ01.draw() #state |10> circ10 = QuantumCircuit(q,c) circ10.x(q[0]) circ10.draw() #state |11> circ11 = QuantumCircuit(q,c) circ11.x(q[0]) circ11.x(q[1]) circ11.draw()
+```
+
+```
+from qiskit import QuantumCircuit, transpile, Aer, IBMQ, QuantumRegister, ClassicalRegister q = QuantumRegister(2) c = ClassicalRegister(2) #state |00> circ00 = QuantumCircuit(q,c) circ00.draw() #do nothing, both qubits are already in state |0> #state |01> circ01 = QuantumCircuit(q,c) circ01.x(q[1]) circ01.draw() #state |10> circ10 = QuantumCircuit(q,c) circ10.x(q[0]) circ10.draw() #state |11> circ11 = QuantumCircuit(q,c) circ11.x(q[0]) circ11.x(q[1]) circ11.draw()
+```
+
+```
+initialize
+```
+
+```
+from qiskit import QuantumCircuit, transpile, Aer, IBMQ, QuantumRegister, ClassicalRegister, execute import numpy as np import numpy as np q = QuantumRegister(2) c = ClassicalRegister(2) circ = QuantumCircuit(q,c) #state = np.array([1,0,0,0]) #00 #state = np.array([0,1,0,0]) #01 #state = np.array([0,0,1,0]) #10 state = np.array([0,0,0,1]) #11 circ.initialize(state) circ.measure(q,c) processor = Aer.backends(name='qasm_simulator')[0] #simulator res = execute(circ, processor, shots = 1).result().get_counts(circ) print(res)
+```
+
+```
+from qiskit import QuantumCircuit, transpile, Aer, IBMQ, QuantumRegister, ClassicalRegister, execute import numpy as np import numpy as np q = QuantumRegister(2) c = ClassicalRegister(2) circ = QuantumCircuit(q,c) #state = np.array([1,0,0,0]) #00 #state = np.array([0,1,0,0]) #01 #state = np.array([0,0,1,0]) #10 state = np.array([0,0,0,1]) #11 circ.initialize(state) circ.measure(q,c) processor = Aer.backends(name='qasm_simulator')[0] #simulator res = execute(circ, processor, shots = 1).result().get_counts(circ) print(res)
+```
+
+Original fixed code:
+from qiskit import QuantumCircuit, transpile, Aer, IBMQ, QuantumRegister, ClassicalRegister q = QuantumRegister(2) c = ClassicalRegister(2) #state |00> circ00 = QuantumCircuit(q,c) circ00.draw() #do nothing, both qubits are already in state |0> #state |01> circ01 = QuantumCircuit(q,c) circ01.x(q[1]) circ01.draw() #state |10> circ10 = QuantumCircuit(q,c) circ10.x(q[0]) circ10.draw() #state |11> circ11 = QuantumCircuit(q,c) circ11.x(q[0]) circ11.x(q[1]) circ11.draw()
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, transpile, Aer, IBMQ, QuantumRegister, ClassicalRegister q = QuantumRegister(2) c = ClassicalRegister(2) #state |00> circ00 = QuantumCircuit(q,c) circ00.draw() #do nothing, both qubits are already in state |0> #state |01> circ01 = QuantumCircuit(q,c) circ01.x(q[1]) circ01.draw() #state |10> circ10 = QuantumCircuit(q,c) circ10.x(q[0]) circ10.draw() #state |11> circ11 = QuantumCircuit(q,c) circ11.x(q[0]) circ11.x(q[1]) circ11.draw()
+
+---CODE_BLOCK---
+
+initialize
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, transpile, Aer, IBMQ, QuantumRegister, ClassicalRegister, execute import numpy as np import numpy as np q = QuantumRegister(2) c = ClassicalRegister(2) circ = QuantumCircuit(q,c) #state = np.array([1,0,0,0]) #00 #state = np.array([0,1,0,0]) #01 #state = np.array([0,0,1,0]) #10 state = np.array([0,0,0,1]) #11 circ.initialize(state) circ.measure(q,c) processor = Aer.backends(name='qasm_simulator')[0] #simulator res = execute(circ, processor, shots = 1).result().get_counts(circ) print(res)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, transpile, Aer, IBMQ, QuantumRegister, ClassicalRegister, execute import numpy as np import numpy as np q = QuantumRegister(2) c = ClassicalRegister(2) circ = QuantumCircuit(q,c) #state = np.array([1,0,0,0]) #00 #state = np.array([0,1,0,0]) #01 #state = np.array([0,0,1,0]) #10 state = np.array([0,0,0,1]) #11 circ.initialize(state) circ.measure(q,c) processor = Aer.backends(name='qasm_simulator')[0] #simulator res = execute(circ, processor, shots = 1).result().get_counts(circ) print(res)

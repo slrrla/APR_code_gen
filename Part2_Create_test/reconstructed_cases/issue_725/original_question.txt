@@ -1,0 +1,59 @@
+Title:
+How to create a qubit in arbitrary state in qiskit
+
+Category:
+
+
+Question:
+Title: How to create a qubit in arbitrary state in qiskit
+
+A command creates a qubit with zero state always. I've seen some instructions about using Arbitrary Initialization but it is not accessible and returns .
+
+```
+QuantumCircuit()
+```
+
+```
+404 error
+```
+
+Original buggy code:
+QuantumCircuit()
+
+---CODE_BLOCK---
+
+404 error
+
+Solution explanation:
+Any one-qubit state can be described as (up to a global phase): $$|\psi \rangle = \cos \left(\frac{\theta}{2} \right)|0\rangle + \sin \left(\frac{\theta}{2} \right) e^{i\varphi}|1\rangle$$ If we start from $|0\rangle$ state arbitrary quantum state can be generated (up to a global phase) with $R_y(\theta)$ and $R_z(\varphi)$ unitary operators (the order is important). Firstly we apply $R_y(\theta)$ $$R_y(\theta) |0\rangle = \cos \left( \frac{\theta}{2} \right)|0\rangle + \sin \left( \frac{\theta}{2}\right)|1\rangle$$ Then $R_z(\varphi)$ $$R_z(\varphi) \left(\cos\left(\frac{\theta}{2}\right)|0\rangle + \sin\left(\frac{\theta}{2} \right)|1\rangle \right) = \cos\left(\frac{\theta}{2}\right)e^{-i\frac{\varphi}{2}}|0\rangle + \sin\left(\frac{\theta}{2}\right)e^{i\frac{\varphi}{2}}|1\rangle$$ Disregarding the global phase we will obtain the following state: $$|\psi \rangle = \cos\left(\frac{\theta}{2}\right)|0\rangle + \sin\left(\frac{\theta}{2}\right)e^{i\varphi}|1\rangle$$ That is an arbitrary state that we wanted to create. There are also other ways (gates) to this transformation. The code will look like this: It can also be done only with one $u3(\theta, \varphi, 0)$ gate: $$u3(\theta, \varphi, 0) |0\rangle = \cos\left(\frac{\theta}{2}\right)|0\rangle + \sin\left(\frac{\theta}{2}\right)e^{i\varphi}|1\rangle$$
+
+```
+circuit.ry(theta, qubit[0]) circuit.rz(phi, qubit[0])
+```
+
+```
+circuit.ry(theta, qubit[0]) circuit.rz(phi, qubit[0])
+```
+
+```
+circuit.u3(theta, phi, 0, qubit[0])
+```
+
+```
+circuit.u3(theta, phi, 0, qubit[0])
+```
+
+Original fixed code:
+circuit.ry(theta, qubit[0]) circuit.rz(phi, qubit[0])
+
+---CODE_BLOCK---
+
+circuit.ry(theta, qubit[0]) circuit.rz(phi, qubit[0])
+
+---CODE_BLOCK---
+
+circuit.u3(theta, phi, 0, qubit[0])
+
+---CODE_BLOCK---
+
+circuit.u3(theta, phi, 0, qubit[0])

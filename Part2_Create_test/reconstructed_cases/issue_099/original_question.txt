@@ -1,0 +1,85 @@
+Title:
+Coding a hamiltonian in qiskit
+
+Category:
+Category:
+Genaral
+
+Why Stack Overflow Wins in This Category:
+In the category of Hamiltonian construction, correctness and scalability are paramount. The Stack Overflow solution:
+
+Uses SparsePauliOp, the correct modern API for scalable Pauli operator definitions.
+
+Clearly separates coefficients, Pauli types, and qubit indices.
+
+Produces a reliable, correct Hamiltonian suitable for use in VQE, QAOA, or simulator backends.
+
+Aligns with Qiskit’s intended API usage post-Opflow deprecation.
+
+The AI-generated solution lacks accuracy in Hamiltonian definition and can lead to misleading results for users attempting to scale their quantum simulation tasks.
+
+Question:
+Title: Coding a hamiltonian in qiskit
+
+I have a hamiltonian of the form: $H=\sum_{i=1}^N Z_i Z_{i+1}-Z_NZ_1$ And another one as: $H=-\sum_{i=1}^N X_i$ I need it to it for N terms. I am a bit lost can anybody help. I tried looking for tutorials but they use opflow which is deprecated now.
+
+Original buggy code:
+I have a hamiltonian of the form: $H=\sum_{i=1}^N Z_i Z_{i+1}-Z_NZ_1$ And another one as: $H=-\sum_{i=1}^N X_i$ I need it to it for N terms. I am a bit lost can anybody help. I tried looking for tutorials but they use opflow which is deprecated now.
+
+Solution explanation:
+Qiskit's class can be used to define sparse $\text{N}$-qubit operators in Pauli basis representation. And in your case, it is better to utilize method as follows: Similarly, you can define the other hamiltonian Notes: In Qiskit, qubits are indexed using a zero-based convention. Qiskit uses little-endian ordering. So, when you print the hamiltonian $Z_0Z_1$ will be printed as
+
+```
+SparsePauliOp
+```
+
+```
+from_sparse_list
+```
+
+```
+from qiskit.quantum_info import SparsePauliOp # As an example, let N equals 5 N = 5 sparse_list = [] for m in range(N - 1): sparse_list.append(("ZZ", [m, m + 1], 1)) sparse_list.append(("ZZ", [N - 1, 0], -1)) hamiltonian1 = SparsePauliOp.from_sparse_list(sparse_list, num_qubits=N) print(hamiltonian1)
+```
+
+```
+from qiskit.quantum_info import SparsePauliOp # As an example, let N equals 5 N = 5 sparse_list = [] for m in range(N - 1): sparse_list.append(("ZZ", [m, m + 1], 1)) sparse_list.append(("ZZ", [N - 1, 0], -1)) hamiltonian1 = SparsePauliOp.from_sparse_list(sparse_list, num_qubits=N) print(hamiltonian1)
+```
+
+```
+sparse_list = [] for m in range(N): sparse_list.append(("X", [m], -1)) hamiltonian2 = SparsePauliOp.from_sparse_list(sparse_list, num_qubits=N) print(hamiltonian2)
+```
+
+```
+sparse_list = [] for m in range(N): sparse_list.append(("X", [m], -1)) hamiltonian2 = SparsePauliOp.from_sparse_list(sparse_list, num_qubits=N) print(hamiltonian2)
+```
+
+```
+IIIZZ
+```
+
+Original fixed code:
+SparsePauliOp
+
+---CODE_BLOCK---
+
+from_sparse_list
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import SparsePauliOp # As an example, let N equals 5 N = 5 sparse_list = [] for m in range(N - 1): sparse_list.append(("ZZ", [m, m + 1], 1)) sparse_list.append(("ZZ", [N - 1, 0], -1)) hamiltonian1 = SparsePauliOp.from_sparse_list(sparse_list, num_qubits=N) print(hamiltonian1)
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import SparsePauliOp # As an example, let N equals 5 N = 5 sparse_list = [] for m in range(N - 1): sparse_list.append(("ZZ", [m, m + 1], 1)) sparse_list.append(("ZZ", [N - 1, 0], -1)) hamiltonian1 = SparsePauliOp.from_sparse_list(sparse_list, num_qubits=N) print(hamiltonian1)
+
+---CODE_BLOCK---
+
+sparse_list = [] for m in range(N): sparse_list.append(("X", [m], -1)) hamiltonian2 = SparsePauliOp.from_sparse_list(sparse_list, num_qubits=N) print(hamiltonian2)
+
+---CODE_BLOCK---
+
+sparse_list = [] for m in range(N): sparse_list.append(("X", [m], -1)) hamiltonian2 = SparsePauliOp.from_sparse_list(sparse_list, num_qubits=N) print(hamiltonian2)
+
+---CODE_BLOCK---
+
+IIIZZ

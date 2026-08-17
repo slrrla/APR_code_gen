@@ -1,0 +1,119 @@
+Title:
+Implementing Grover's oracle with multiple solutions in Qiskit
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+In quantum circuit logic design, especially Grover oracles, correct phase application is essential. Stack Overflow demonstrates proper methods using both classical and quantum logic, and provides reusable patterns. The AI solution fails to correctly construct a phase oracle, making Stack Overflow clearly the better answer in this category.
+
+Question:
+Title: Implementing Grover's oracle with multiple solutions in Qiskit
+
+I want to turn a state $$ |\Psi_1⟩ = \frac{1}{\sqrt{8}}(|000⟩+|001⟩+|010⟩+|011⟩+|100⟩+|101⟩+|110⟩+|111⟩) $$ into $$ |\Psi_2⟩ = \frac{1}{\sqrt{8}}(|000⟩+|001⟩+|010⟩+|011⟩+|100⟩-|101⟩-|110⟩+|111⟩) $$ using a phase oracle before applying Grover's amplification. One example from Qiskit's official page for Grover's Algorithm does this by manually building a circuit with Controlled-Z gates, but another Qiskit document simply uses a class Statevector.from_label to mark the target state $|11⟩$ without constructing a circuit, which I assume can only assign single state. Having the desired states in a form of Python list, i.e. , can I directly convert this into a phase oracle that does the intended job in Qiskit?
+
+```
+[101, 110]
+```
+
+Original buggy code:
+[101, 110]
+
+Solution explanation:
+There are different ways to achieve that, my favorite is probably this one: The oracle you describe above is just a classical function ("True if my bitstring is 101 or 110") converted to a quantum phase flip. So essentially you only have to build a circuit that implements that classical logic plus some gates to do the phase flip. Option A: Via classical logic Step 1: Create the classical logic circuit in Qiskit: Now you have something looking like this: It flips the output bit (the one at the bottom) if the qubits are in state $|101\rangle$ or $|110\rangle$. Step 2: To change this into a phaseflip oracle you can sandwich the bottom qubit in between X and H gates: to get this circuit, which implements your oracle: So all together: Option B: Via looking hard You could see that the oracle is implemented by two controlled Z gates:
+
+```
+from qiskit.circuit import classical_function, Int1 # define a classical function that can be turned into a circuit @classical_function def oracle(x1: Int1, x2: Int1, x3: Int1) -> Int1: return (x1 and not x2 and x3) or (x1 and x2 and not x3) bitcircuit = oracle.synth() # turn it into a circuit
+```
+
+```
+from qiskit.circuit import classical_function, Int1 # define a classical function that can be turned into a circuit @classical_function def oracle(x1: Int1, x2: Int1, x3: Int1) -> Int1: return (x1 and not x2 and x3) or (x1 and x2 and not x3) bitcircuit = oracle.synth() # turn it into a circuit
+```
+
+```
+q_0: ──■────■── │ │ q_1: ──■────┼── │ │ q_2: ──┼────■── ┌─┴─┐┌─┴─┐ q_3: ┤ X ├┤ X ├ └───┘└───┘
+```
+
+```
+q_0: ──■────■── │ │ q_1: ──■────┼── │ │ q_2: ──┼────■── ┌─┴─┐┌─┴─┐ q_3: ┤ X ├┤ X ├ └───┘└───┘
+```
+
+```
+from qiskit.circuit import QuantumCircuit phaseoracle = QuantumCircuit(4) phaseoracle.x(3) phaseoracle.h(3) phaseoracle.compose(bitoracle, inplace=True) phaseoracle.h(3) phaseoracle.x(3)
+```
+
+```
+from qiskit.circuit import QuantumCircuit phaseoracle = QuantumCircuit(4) phaseoracle.x(3) phaseoracle.h(3) phaseoracle.compose(bitoracle, inplace=True) phaseoracle.h(3) phaseoracle.x(3)
+```
+
+```
+q_0: ────────────■────■──────────── │ │ q_1: ────────────■────┼──────────── │ │ q_2: ────────────┼────■──────────── ┌───┐┌───┐┌─┴─┐┌─┴─┐┌───┐┌───┐ q_3: ┤ X ├┤ H ├┤ X ├┤ X ├┤ H ├┤ X ├ └───┘└───┘└───┘└───┘└───┘└───┘
+```
+
+```
+q_0: ────────────■────■──────────── │ │ q_1: ────────────■────┼──────────── │ │ q_2: ────────────┼────■──────────── ┌───┐┌───┐┌─┴─┐┌─┴─┐┌───┐┌───┐ q_3: ┤ X ├┤ H ├┤ X ├┤ X ├┤ H ├┤ X ├ └───┘└───┘└───┘└───┘└───┘└───┘
+```
+
+```
+from qiskit.circuit import classical_function, Int1, QuantumCircuit # define a classical function that can be turned into a circuit @classical_function def oracle(x1: Int1, x2: Int1, x3: Int1) -> Int1: return (x1 and not x2 and x3) or (x1 and x2 and not x3) bitcircuit = oracle.synth() # turn it into a circuit phaseoracle = QuantumCircuit(4) phaseoracle.x(3) phaseoracle.h(3) phaseoracle.compose(bitoracle, inplace=True) phaseoracle.h(3) phaseoracle.x(3)
+```
+
+```
+from qiskit.circuit import classical_function, Int1, QuantumCircuit # define a classical function that can be turned into a circuit @classical_function def oracle(x1: Int1, x2: Int1, x3: Int1) -> Int1: return (x1 and not x2 and x3) or (x1 and x2 and not x3) bitcircuit = oracle.synth() # turn it into a circuit phaseoracle = QuantumCircuit(4) phaseoracle.x(3) phaseoracle.h(3) phaseoracle.compose(bitoracle, inplace=True) phaseoracle.h(3) phaseoracle.x(3)
+```
+
+```
+from qiskit.circuit import QuantumCircuit phaseoracle = QuantumCircuit(3) phaseoracle.cz(0, 2) phaseoracle.cz(0, 1)
+```
+
+```
+from qiskit.circuit import QuantumCircuit phaseoracle = QuantumCircuit(3) phaseoracle.cz(0, 2) phaseoracle.cz(0, 1)
+```
+
+Original fixed code:
+from qiskit.circuit import classical_function, Int1 # define a classical function that can be turned into a circuit @classical_function def oracle(x1: Int1, x2: Int1, x3: Int1) -> Int1: return (x1 and not x2 and x3) or (x1 and x2 and not x3) bitcircuit = oracle.synth() # turn it into a circuit
+
+---CODE_BLOCK---
+
+from qiskit.circuit import classical_function, Int1 # define a classical function that can be turned into a circuit @classical_function def oracle(x1: Int1, x2: Int1, x3: Int1) -> Int1: return (x1 and not x2 and x3) or (x1 and x2 and not x3) bitcircuit = oracle.synth() # turn it into a circuit
+
+---CODE_BLOCK---
+
+q_0: ──■────■── │ │ q_1: ──■────┼── │ │ q_2: ──┼────■── ┌─┴─┐┌─┴─┐ q_3: ┤ X ├┤ X ├ └───┘└───┘
+
+---CODE_BLOCK---
+
+q_0: ──■────■── │ │ q_1: ──■────┼── │ │ q_2: ──┼────■── ┌─┴─┐┌─┴─┐ q_3: ┤ X ├┤ X ├ └───┘└───┘
+
+---CODE_BLOCK---
+
+from qiskit.circuit import QuantumCircuit phaseoracle = QuantumCircuit(4) phaseoracle.x(3) phaseoracle.h(3) phaseoracle.compose(bitoracle, inplace=True) phaseoracle.h(3) phaseoracle.x(3)
+
+---CODE_BLOCK---
+
+from qiskit.circuit import QuantumCircuit phaseoracle = QuantumCircuit(4) phaseoracle.x(3) phaseoracle.h(3) phaseoracle.compose(bitoracle, inplace=True) phaseoracle.h(3) phaseoracle.x(3)
+
+---CODE_BLOCK---
+
+q_0: ────────────■────■──────────── │ │ q_1: ────────────■────┼──────────── │ │ q_2: ────────────┼────■──────────── ┌───┐┌───┐┌─┴─┐┌─┴─┐┌───┐┌───┐ q_3: ┤ X ├┤ H ├┤ X ├┤ X ├┤ H ├┤ X ├ └───┘└───┘└───┘└───┘└───┘└───┘
+
+---CODE_BLOCK---
+
+q_0: ────────────■────■──────────── │ │ q_1: ────────────■────┼──────────── │ │ q_2: ────────────┼────■──────────── ┌───┐┌───┐┌─┴─┐┌─┴─┐┌───┐┌───┐ q_3: ┤ X ├┤ H ├┤ X ├┤ X ├┤ H ├┤ X ├ └───┘└───┘└───┘└───┘└───┘└───┘
+
+---CODE_BLOCK---
+
+from qiskit.circuit import classical_function, Int1, QuantumCircuit # define a classical function that can be turned into a circuit @classical_function def oracle(x1: Int1, x2: Int1, x3: Int1) -> Int1: return (x1 and not x2 and x3) or (x1 and x2 and not x3) bitcircuit = oracle.synth() # turn it into a circuit phaseoracle = QuantumCircuit(4) phaseoracle.x(3) phaseoracle.h(3) phaseoracle.compose(bitoracle, inplace=True) phaseoracle.h(3) phaseoracle.x(3)
+
+---CODE_BLOCK---
+
+from qiskit.circuit import classical_function, Int1, QuantumCircuit # define a classical function that can be turned into a circuit @classical_function def oracle(x1: Int1, x2: Int1, x3: Int1) -> Int1: return (x1 and not x2 and x3) or (x1 and x2 and not x3) bitcircuit = oracle.synth() # turn it into a circuit phaseoracle = QuantumCircuit(4) phaseoracle.x(3) phaseoracle.h(3) phaseoracle.compose(bitoracle, inplace=True) phaseoracle.h(3) phaseoracle.x(3)
+
+---CODE_BLOCK---
+
+from qiskit.circuit import QuantumCircuit phaseoracle = QuantumCircuit(3) phaseoracle.cz(0, 2) phaseoracle.cz(0, 1)
+
+---CODE_BLOCK---
+
+from qiskit.circuit import QuantumCircuit phaseoracle = QuantumCircuit(3) phaseoracle.cz(0, 2) phaseoracle.cz(0, 1)

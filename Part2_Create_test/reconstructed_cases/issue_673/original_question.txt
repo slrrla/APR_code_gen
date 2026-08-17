@@ -1,0 +1,83 @@
+Title:
+Qiskit transpiler error: Unable to translate
+
+Category:
+
+
+Question:
+Title: Qiskit transpiler error: Unable to translate
+
+This code worked in a previous version of ibmq_simulator and, I think, it works with qiskit_aer, but it doesn't work here and I don't understand the error message. The issue is there is no "path" from the input gates to the target basis, apparently. I don't know why - the input gates are only x with a condition. Here's the code and here's the error message: raise TranspilerError( qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['x', 'if_else', 'measure'] to the backend's (or manually specified) target basis: ['cu2', 'mcp', 'ry', 'rz', 'measure', 'rzz', 'ryy', 'tdg', 'mcz', 'mcswap', 'cz', 'rxx', 'cp', 'kraus', 'cx', 't', 'z', 'h', 'rx', 'u3', 'sdg', 'mcry', 'multiplexer', 'delay', 'u1', 'roerror', 'u', 'mcsx', 'mcy', 'diagonal', 'x', 'mcrz', 'ccx', 'mcrx', 'p', 'cswap', 'initialize', 'r', 'sx', 'mcr', 'mcu1', 'y', 'mcu3', 'rzx', 'csx', 's', 'id', 'mcx', 'barrier', 'swap', 'u2', 'cy', 'cu3', 'unitary', 'snapshot', 'mcu2', 'cu1']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://qiskit.org/documentation/stubs/qiskit.transpiler.passes.BasisTranslator.html#translation_errors" So either the target basis is not universal - and that seems unlikely - or there are equivalence rules needed. I don't know why an equivalence rule would be needed for such a simple circuit. Furthermore, I see that the backed that works - aer - and the one that doesn't work, seem to use different equivalence libraries. How do I control which equivalence library I'm using?
+
+```
+import numpy as np import matplotlib.pyplot as plt import random from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute import qiskit from qiskit_ibm_provider import IBMProvider def create_registers(): alice_q = QuantumRegister(1, 'alice (q)') peter_alice_q = QuantumRegister(1, 'peter/alice (q)') peter_bob_q = QuantumRegister(1, 'peter/bob (q)') bob_c = ClassicalRegister(3, 'bob (c)') circ = QuantumCircuit(alice_q, peter_alice_q, peter_bob_q, bob_c) return circ circ = create_registers() circ.x(2).c_if(1, 1) circ.measure(2, 2) provider = IBMProvider() device = provider.get_backend('ibmq_qasm_simulator') shots = 1000 circ=qiskit.compiler.transpile(circ, basis_gates=['x', 'if_else']) job = execute(circ, backend=device, shots=shots)
+```
+
+```
+import numpy as np import matplotlib.pyplot as plt import random from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute import qiskit from qiskit_ibm_provider import IBMProvider def create_registers(): alice_q = QuantumRegister(1, 'alice (q)') peter_alice_q = QuantumRegister(1, 'peter/alice (q)') peter_bob_q = QuantumRegister(1, 'peter/bob (q)') bob_c = ClassicalRegister(3, 'bob (c)') circ = QuantumCircuit(alice_q, peter_alice_q, peter_bob_q, bob_c) return circ circ = create_registers() circ.x(2).c_if(1, 1) circ.measure(2, 2) provider = IBMProvider() device = provider.get_backend('ibmq_qasm_simulator') shots = 1000 circ=qiskit.compiler.transpile(circ, basis_gates=['x', 'if_else']) job = execute(circ, backend=device, shots=shots)
+```
+
+Original buggy code:
+import numpy as np import matplotlib.pyplot as plt import random from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute import qiskit from qiskit_ibm_provider import IBMProvider def create_registers(): alice_q = QuantumRegister(1, 'alice (q)') peter_alice_q = QuantumRegister(1, 'peter/alice (q)') peter_bob_q = QuantumRegister(1, 'peter/bob (q)') bob_c = ClassicalRegister(3, 'bob (c)') circ = QuantumCircuit(alice_q, peter_alice_q, peter_bob_q, bob_c) return circ circ = create_registers() circ.x(2).c_if(1, 1) circ.measure(2, 2) provider = IBMProvider() device = provider.get_backend('ibmq_qasm_simulator') shots = 1000 circ=qiskit.compiler.transpile(circ, basis_gates=['x', 'if_else']) job = execute(circ, backend=device, shots=shots)
+
+---CODE_BLOCK---
+
+import numpy as np import matplotlib.pyplot as plt import random from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute import qiskit from qiskit_ibm_provider import IBMProvider def create_registers(): alice_q = QuantumRegister(1, 'alice (q)') peter_alice_q = QuantumRegister(1, 'peter/alice (q)') peter_bob_q = QuantumRegister(1, 'peter/bob (q)') bob_c = ClassicalRegister(3, 'bob (c)') circ = QuantumCircuit(alice_q, peter_alice_q, peter_bob_q, bob_c) return circ circ = create_registers() circ.x(2).c_if(1, 1) circ.measure(2, 2) provider = IBMProvider() device = provider.get_backend('ibmq_qasm_simulator') shots = 1000 circ=qiskit.compiler.transpile(circ, basis_gates=['x', 'if_else']) job = execute(circ, backend=device, shots=shots)
+
+Solution explanation:
+The backend ibmq_qasm_simulator does not support dynamic circuits. You can transpile your circuit as follows: note that, you should transpile the circuit with greater than or equal to 2 to avoid the error you are facing. However, when you try to run the circuit: you will get
+
+```
+circ=qiskit.compiler.transpile(circ, backend=device, optimization_level=2)
+```
+
+```
+circ=qiskit.compiler.transpile(circ, backend=device, optimization_level=2)
+```
+
+```
+optimization_level
+```
+
+```
+job = device.run(circ, shots=shots)
+```
+
+```
+job = device.run(circ, shots=shots)
+```
+
+```
+UserWarning: The backend ibmq_qasm_simulator does not support dynamic circuits.
+```
+
+```
+UserWarning: The backend ibmq_qasm_simulator does not support dynamic circuits.
+```
+
+Original fixed code:
+circ=qiskit.compiler.transpile(circ, backend=device, optimization_level=2)
+
+---CODE_BLOCK---
+
+circ=qiskit.compiler.transpile(circ, backend=device, optimization_level=2)
+
+---CODE_BLOCK---
+
+optimization_level
+
+---CODE_BLOCK---
+
+job = device.run(circ, shots=shots)
+
+---CODE_BLOCK---
+
+job = device.run(circ, shots=shots)
+
+---CODE_BLOCK---
+
+UserWarning: The backend ibmq_qasm_simulator does not support dynamic circuits.
+
+---CODE_BLOCK---
+
+UserWarning: The backend ibmq_qasm_simulator does not support dynamic circuits.

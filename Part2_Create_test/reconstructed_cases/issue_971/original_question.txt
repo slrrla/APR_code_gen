@@ -1,0 +1,67 @@
+Title:
+Qiskit code throws when z2symmetry_reduction argument in QubitConverter is set to 'auto'
+
+Category:
+
+
+Question:
+Title: Qiskit code throws when z2symmetry_reduction argument in QubitConverter is set to 'auto'
+
+Following Qiskit code throws: AttributeError: 'ListOp' object has no attribute 'to_circuit'. This seems to be related to: z2symmetry_reduction='auto'. If the z2symmetry_reduction argument in QubitConverter is set to 'None', the code runs fine. My software version:
+
+```
+from qiskit import transpile from qiskit.transpiler import PassManager, StagedPassManager from qiskit.providers.fake_provider import FakeWashington from qiskit_nature.converters.second_quantization import QubitConverter # from qiskit_nature.second_q.mappers import QubitConverter (same result) from qiskit_nature.second_q.circuit.library.ansatzes import UCC, UCCSD from qiskit_nature.second_q.drivers import PySCFDriver from qiskit_nature.second_q.formats.molecule_info import MoleculeInfo from qiskit_nature.second_q.mappers import ParityMapper from qiskit_nature.second_q.transformers import FreezeCoreTransformer qubit_converter = QubitConverter(ParityMapper(), two_qubit_reduction=True, z2symmetry_reduction='auto') molecule = MoleculeInfo(["Li", "H"], [(0.0, 0.0, 0.0), (0.0, 0.0, 1.595)]) driver = PySCFDriver.from_molecule(molecule, basis="sto3g") transformer = FreezeCoreTransformer() electronic_structure_problem = transformer.transform(driver.run()) second_quantized_hamiltonian = electronic_structure_problem.second_q_ops() pauli_sum_operator = qubit_converter.convert(second_quantized_hamiltonian[0], num_particles=electronic_structure_problem.num_particles) num_particles = electronic_structure_problem.num_particles num_spatial_orbitals = electronic_structure_problem.num_spatial_orbitals num_spin_orbitals = electronic_structure_problem.num_spin_orbitals ucc_ansatz = UCC(num_spatial_orbitals, num_particles, excitations='sd', qubit_converter=qubit_converter, alpha_spin=True, beta_spin=True, max_spin_excitation=1, generalized=True, preserve_spin=True, reps=5) decomposed_circuit = ucc_ansatz.decompose().decompose().decompose() print("depth: ", decomposed_circuit.depth()) transpiled_circuit = transpile(ucc_ansatz, FakeWashington(), optimization_level=3) print("depth transpiled: ", transpiled_circuit.depth()) print(dict(transpiled_circuit.count_ops())) print("ansatz parameters: ", len(ucc_ansatz.parameters.data))
+```
+
+```
+from qiskit import transpile from qiskit.transpiler import PassManager, StagedPassManager from qiskit.providers.fake_provider import FakeWashington from qiskit_nature.converters.second_quantization import QubitConverter # from qiskit_nature.second_q.mappers import QubitConverter (same result) from qiskit_nature.second_q.circuit.library.ansatzes import UCC, UCCSD from qiskit_nature.second_q.drivers import PySCFDriver from qiskit_nature.second_q.formats.molecule_info import MoleculeInfo from qiskit_nature.second_q.mappers import ParityMapper from qiskit_nature.second_q.transformers import FreezeCoreTransformer qubit_converter = QubitConverter(ParityMapper(), two_qubit_reduction=True, z2symmetry_reduction='auto') molecule = MoleculeInfo(["Li", "H"], [(0.0, 0.0, 0.0), (0.0, 0.0, 1.595)]) driver = PySCFDriver.from_molecule(molecule, basis="sto3g") transformer = FreezeCoreTransformer() electronic_structure_problem = transformer.transform(driver.run()) second_quantized_hamiltonian = electronic_structure_problem.second_q_ops() pauli_sum_operator = qubit_converter.convert(second_quantized_hamiltonian[0], num_particles=electronic_structure_problem.num_particles) num_particles = electronic_structure_problem.num_particles num_spatial_orbitals = electronic_structure_problem.num_spatial_orbitals num_spin_orbitals = electronic_structure_problem.num_spin_orbitals ucc_ansatz = UCC(num_spatial_orbitals, num_particles, excitations='sd', qubit_converter=qubit_converter, alpha_spin=True, beta_spin=True, max_spin_excitation=1, generalized=True, preserve_spin=True, reps=5) decomposed_circuit = ucc_ansatz.decompose().decompose().decompose() print("depth: ", decomposed_circuit.depth()) transpiled_circuit = transpile(ucc_ansatz, FakeWashington(), optimization_level=3) print("depth transpiled: ", transpiled_circuit.depth()) print(dict(transpiled_circuit.count_ops())) print("ansatz parameters: ", len(ucc_ansatz.parameters.data))
+```
+
+Original buggy code:
+from qiskit import transpile from qiskit.transpiler import PassManager, StagedPassManager from qiskit.providers.fake_provider import FakeWashington from qiskit_nature.converters.second_quantization import QubitConverter # from qiskit_nature.second_q.mappers import QubitConverter (same result) from qiskit_nature.second_q.circuit.library.ansatzes import UCC, UCCSD from qiskit_nature.second_q.drivers import PySCFDriver from qiskit_nature.second_q.formats.molecule_info import MoleculeInfo from qiskit_nature.second_q.mappers import ParityMapper from qiskit_nature.second_q.transformers import FreezeCoreTransformer qubit_converter = QubitConverter(ParityMapper(), two_qubit_reduction=True, z2symmetry_reduction='auto') molecule = MoleculeInfo(["Li", "H"], [(0.0, 0.0, 0.0), (0.0, 0.0, 1.595)]) driver = PySCFDriver.from_molecule(molecule, basis="sto3g") transformer = FreezeCoreTransformer() electronic_structure_problem = transformer.transform(driver.run()) second_quantized_hamiltonian = electronic_structure_problem.second_q_ops() pauli_sum_operator = qubit_converter.convert(second_quantized_hamiltonian[0], num_particles=electronic_structure_problem.num_particles) num_particles = electronic_structure_problem.num_particles num_spatial_orbitals = electronic_structure_problem.num_spatial_orbitals num_spin_orbitals = electronic_structure_problem.num_spin_orbitals ucc_ansatz = UCC(num_spatial_orbitals, num_particles, excitations='sd', qubit_converter=qubit_converter, alpha_spin=True, beta_spin=True, max_spin_excitation=1, generalized=True, preserve_spin=True, reps=5) decomposed_circuit = ucc_ansatz.decompose().decompose().decompose() print("depth: ", decomposed_circuit.depth()) transpiled_circuit = transpile(ucc_ansatz, FakeWashington(), optimization_level=3) print("depth transpiled: ", transpiled_circuit.depth()) print(dict(transpiled_circuit.count_ops())) print("ansatz parameters: ", len(ucc_ansatz.parameters.data))
+
+---CODE_BLOCK---
+
+from qiskit import transpile from qiskit.transpiler import PassManager, StagedPassManager from qiskit.providers.fake_provider import FakeWashington from qiskit_nature.converters.second_quantization import QubitConverter # from qiskit_nature.second_q.mappers import QubitConverter (same result) from qiskit_nature.second_q.circuit.library.ansatzes import UCC, UCCSD from qiskit_nature.second_q.drivers import PySCFDriver from qiskit_nature.second_q.formats.molecule_info import MoleculeInfo from qiskit_nature.second_q.mappers import ParityMapper from qiskit_nature.second_q.transformers import FreezeCoreTransformer qubit_converter = QubitConverter(ParityMapper(), two_qubit_reduction=True, z2symmetry_reduction='auto') molecule = MoleculeInfo(["Li", "H"], [(0.0, 0.0, 0.0), (0.0, 0.0, 1.595)]) driver = PySCFDriver.from_molecule(molecule, basis="sto3g") transformer = FreezeCoreTransformer() electronic_structure_problem = transformer.transform(driver.run()) second_quantized_hamiltonian = electronic_structure_problem.second_q_ops() pauli_sum_operator = qubit_converter.convert(second_quantized_hamiltonian[0], num_particles=electronic_structure_problem.num_particles) num_particles = electronic_structure_problem.num_particles num_spatial_orbitals = electronic_structure_problem.num_spatial_orbitals num_spin_orbitals = electronic_structure_problem.num_spin_orbitals ucc_ansatz = UCC(num_spatial_orbitals, num_particles, excitations='sd', qubit_converter=qubit_converter, alpha_spin=True, beta_spin=True, max_spin_excitation=1, generalized=True, preserve_spin=True, reps=5) decomposed_circuit = ucc_ansatz.decompose().decompose().decompose() print("depth: ", decomposed_circuit.depth()) transpiled_circuit = transpile(ucc_ansatz, FakeWashington(), optimization_level=3) print("depth transpiled: ", transpiled_circuit.depth()) print(dict(transpiled_circuit.count_ops())) print("ansatz parameters: ", len(ucc_ansatz.parameters.data))
+
+Solution explanation:
+The symmetry detection relies on the problem defining the sector. When using a GroundStateSolver this conversion is done for you taking that into account. Doing things more manually, as per your example, update this line to pass in the sector locator method from the problem. (Use the second_q converter, not the other older deprecated one, otherwise you may hit other errors, like the ListOp error you show) So it can automatically locate the sector as it needs to get that via the problem. I will note that in the upcoming 0.6.0 release of Nature, that should be released in the near future, the QubitConverter is deprecated, to be removed in the future, in favor of having a TaperedQubitmapper so mappers are used directly going forwards without the 'wrapping' by the converter. The old way with the converter will still be supported, but deprecated. Check the migration guide in the docs after the release for more information.
+
+```
+auto
+```
+
+```
+pauli_sum_operator = qubit_converter.convert(second_quantized_hamiltonian[0], num_particles=electronic_structure_problem.num_particles)
+```
+
+```
+pauli_sum_operator = qubit_converter.convert(second_quantized_hamiltonian[0], num_particles=electronic_structure_problem.num_particles)
+```
+
+```
+pauli_sum_operator = qubit_converter.convert(second_quantized_hamiltonian[0], num_particles=electronic_structure_problem.num_particles, sector_locator=electronic_structure_problem.symmetry_sector_locator)
+```
+
+```
+pauli_sum_operator = qubit_converter.convert(second_quantized_hamiltonian[0], num_particles=electronic_structure_problem.num_particles, sector_locator=electronic_structure_problem.symmetry_sector_locator)
+```
+
+Original fixed code:
+auto
+
+---CODE_BLOCK---
+
+pauli_sum_operator = qubit_converter.convert(second_quantized_hamiltonian[0], num_particles=electronic_structure_problem.num_particles)
+
+---CODE_BLOCK---
+
+pauli_sum_operator = qubit_converter.convert(second_quantized_hamiltonian[0], num_particles=electronic_structure_problem.num_particles)
+
+---CODE_BLOCK---
+
+pauli_sum_operator = qubit_converter.convert(second_quantized_hamiltonian[0], num_particles=electronic_structure_problem.num_particles, sector_locator=electronic_structure_problem.symmetry_sector_locator)
+
+---CODE_BLOCK---
+
+pauli_sum_operator = qubit_converter.convert(second_quantized_hamiltonian[0], num_particles=electronic_structure_problem.num_particles, sector_locator=electronic_structure_problem.symmetry_sector_locator)

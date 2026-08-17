@@ -1,0 +1,42 @@
+Title:
+Statevector from Density matrix of non-pure state
+
+Category:
+Category:
+Error / Debugging
+Why AI Wins in This Category:
+AI wins because it not only explains the conceptual cause of the error but also offers a clean, executable code snippet with edge case handling (purity check). This makes it ideal for practical debugging in Qiskit environments, unlike Stack Overflow’s more abstract suggestion.
+
+Question:
+Title: Statevector from Density matrix of non-pure state
+
+I have a state vector of a 16 qubit system. I want to get the wave function (in the form of a state vector) for half and quarter of this system. When I try to make a to obtain the density matrix of a subsystem and represent this matrix as a state vector (by ), I get the error "". Is it possible to obtain the wave function of a subsystem given the state vector of the system?
+
+```
+partial_trace
+```
+
+```
+DensityMatrix.to_statevector()
+```
+
+```
+QiskitError: 'Density matrix is not a pure state'
+```
+
+Original buggy code:
+partial_trace
+
+---CODE_BLOCK---
+
+DensityMatrix.to_statevector()
+
+---CODE_BLOCK---
+
+QiskitError: 'Density matrix is not a pure state'
+
+Solution explanation:
+If you diagonalize the density matrix, the resulting eigenvectors are pure states of your mixture which gives the density matrix
+
+Original fixed code:
+If you diagonalize the density matrix, the resulting eigenvectors are pure states of your mixture which gives the density matrix

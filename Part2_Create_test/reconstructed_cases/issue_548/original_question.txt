@@ -1,0 +1,107 @@
+Title:
+Is there a way to decompose a quantum circuit into layers?
+
+Category:
+
+
+Question:
+Title: Is there a way to decompose a quantum circuit into layers?
+
+For example, if take the following circuit as the input (either QASM or Qiskit): The expected output will be: Is there a Qiskit function to achieve this? If not, suggestions to implement this task are also welcomed. Thanks!
+
+```
+qreg q[2]; creg c[2]; x q[1]; h q[0]; h q[1]; cx q[0],q[1]; h q[0]; measure q[0] -> c[0]; measure q[1] -> c[1];
+```
+
+```
+qreg q[2]; creg c[2]; x q[1]; h q[0]; h q[1]; cx q[0],q[1]; h q[0]; measure q[0] -> c[0]; measure q[1] -> c[1];
+```
+
+```
+layer[0] = [H [q0], X [q1]] layer[1] = [H [q1]] layer[2] = [cnot [q0] [q1]] layer[3] = [H [q0]] layer[4] = [measure [q0]] layer[5] = [measure [q1]]
+```
+
+```
+layer[0] = [H [q0], X [q1]] layer[1] = [H [q1]] layer[2] = [cnot [q0] [q1]] layer[3] = [H [q0]] layer[4] = [measure [q0]] layer[5] = [measure [q1]]
+```
+
+Original buggy code:
+qreg q[2]; creg c[2]; x q[1]; h q[0]; h q[1]; cx q[0],q[1]; h q[0]; measure q[0] -> c[0]; measure q[1] -> c[1];
+
+---CODE_BLOCK---
+
+qreg q[2]; creg c[2]; x q[1]; h q[0]; h q[1]; cx q[0],q[1]; h q[0]; measure q[0] -> c[0]; measure q[1] -> c[1];
+
+---CODE_BLOCK---
+
+layer[0] = [H [q0], X [q1]] layer[1] = [H [q1]] layer[2] = [cnot [q0] [q1]] layer[3] = [H [q0]] layer[4] = [measure [q0]] layer[5] = [measure [q1]]
+
+---CODE_BLOCK---
+
+layer[0] = [H [q0], X [q1]] layer[1] = [H [q1]] layer[2] = [cnot [q0] [q1]] layer[3] = [H [q0]] layer[4] = [measure [q0]] layer[5] = [measure [q1]]
+
+Solution explanation:
+You can decompose a quantum circuit into layers using method: where is a . The output will be: method constructs the layers using a greedy algorithm. You can also break down your circuit into layers based on some scheduling policy. In the following example we apply an "as late as possible" (ALAP) scheduling policy: The result: Similarly, you can apply "as soon as possible" (ASAP) scheduling policy.
+
+```
+DAGCircuit.layers()
+```
+
+```
+from qiskit.converters import circuit_to_dag, dag_to_circuit from IPython.display import display dag = circuit_to_dag(circ) for layer in dag.layers(): layer_as_circuit = dag_to_circuit(layer['graph']) display(layer_as_circuit.draw('mpl'))
+```
+
+```
+from qiskit.converters import circuit_to_dag, dag_to_circuit from IPython.display import display dag = circuit_to_dag(circ) for layer in dag.layers(): layer_as_circuit = dag_to_circuit(layer['graph']) display(layer_as_circuit.draw('mpl'))
+```
+
+```
+circ
+```
+
+```
+QuantumCircuit
+```
+
+```
+DAGCircuit.layers()
+```
+
+```
+from qiskit.transpiler import PassManager, InstructionDurations from qiskit.transpiler.passes import ALAPScheduleAnalysis, PadDelay # Apply the scheduling policy: instruction_durations = InstructionDurations( [ ("h", None, 160), ("x", None, 160), ("cx", None, 800), ("measure", None, 1600), ] ) pass_manager = PassManager( [ ALAPScheduleAnalysis(instruction_durations), PadDelay(), ] ) transpiled_circ = pass_manager.run(circ) # Use DAGCircuit.layers() method with the transpiled circuit: dag = circuit_to_dag(transpiled_circ) for layer in dag.layers(): layer_as_circuit = dag_to_circuit(layer['graph']) # Remove the Delay instructions: for _inst in layer_as_circuit.data: if _inst.operation.name == 'delay': layer_as_circuit.data.remove(_inst) display(layer_as_circuit.draw('mpl'))
+```
+
+```
+from qiskit.transpiler import PassManager, InstructionDurations from qiskit.transpiler.passes import ALAPScheduleAnalysis, PadDelay # Apply the scheduling policy: instruction_durations = InstructionDurations( [ ("h", None, 160), ("x", None, 160), ("cx", None, 800), ("measure", None, 1600), ] ) pass_manager = PassManager( [ ALAPScheduleAnalysis(instruction_durations), PadDelay(), ] ) transpiled_circ = pass_manager.run(circ) # Use DAGCircuit.layers() method with the transpiled circuit: dag = circuit_to_dag(transpiled_circ) for layer in dag.layers(): layer_as_circuit = dag_to_circuit(layer['graph']) # Remove the Delay instructions: for _inst in layer_as_circuit.data: if _inst.operation.name == 'delay': layer_as_circuit.data.remove(_inst) display(layer_as_circuit.draw('mpl'))
+```
+
+Original fixed code:
+DAGCircuit.layers()
+
+---CODE_BLOCK---
+
+from qiskit.converters import circuit_to_dag, dag_to_circuit from IPython.display import display dag = circuit_to_dag(circ) for layer in dag.layers(): layer_as_circuit = dag_to_circuit(layer['graph']) display(layer_as_circuit.draw('mpl'))
+
+---CODE_BLOCK---
+
+from qiskit.converters import circuit_to_dag, dag_to_circuit from IPython.display import display dag = circuit_to_dag(circ) for layer in dag.layers(): layer_as_circuit = dag_to_circuit(layer['graph']) display(layer_as_circuit.draw('mpl'))
+
+---CODE_BLOCK---
+
+circ
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+DAGCircuit.layers()
+
+---CODE_BLOCK---
+
+from qiskit.transpiler import PassManager, InstructionDurations from qiskit.transpiler.passes import ALAPScheduleAnalysis, PadDelay # Apply the scheduling policy: instruction_durations = InstructionDurations( [ ("h", None, 160), ("x", None, 160), ("cx", None, 800), ("measure", None, 1600), ] ) pass_manager = PassManager( [ ALAPScheduleAnalysis(instruction_durations), PadDelay(), ] ) transpiled_circ = pass_manager.run(circ) # Use DAGCircuit.layers() method with the transpiled circuit: dag = circuit_to_dag(transpiled_circ) for layer in dag.layers(): layer_as_circuit = dag_to_circuit(layer['graph']) # Remove the Delay instructions: for _inst in layer_as_circuit.data: if _inst.operation.name == 'delay': layer_as_circuit.data.remove(_inst) display(layer_as_circuit.draw('mpl'))
+
+---CODE_BLOCK---
+
+from qiskit.transpiler import PassManager, InstructionDurations from qiskit.transpiler.passes import ALAPScheduleAnalysis, PadDelay # Apply the scheduling policy: instruction_durations = InstructionDurations( [ ("h", None, 160), ("x", None, 160), ("cx", None, 800), ("measure", None, 1600), ] ) pass_manager = PassManager( [ ALAPScheduleAnalysis(instruction_durations), PadDelay(), ] ) transpiled_circ = pass_manager.run(circ) # Use DAGCircuit.layers() method with the transpiled circuit: dag = circuit_to_dag(transpiled_circ) for layer in dag.layers(): layer_as_circuit = dag_to_circuit(layer['graph']) # Remove the Delay instructions: for _inst in layer_as_circuit.data: if _inst.operation.name == 'delay': layer_as_circuit.data.remove(_inst) display(layer_as_circuit.draw('mpl'))

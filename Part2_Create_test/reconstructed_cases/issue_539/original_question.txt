@@ -1,0 +1,47 @@
+Title:
+Quantum Computing - via Qiskit - error 403
+
+Category:
+Category:
+Account / Authentication
+
+Why AI Wins in This Category:
+The AI solution not only offers steps to fix the account issue but also provides a broader set of actions to ensure the user’s environment is correctly set up and ready to work with IBM Quantum services. This comprehensive guidance is more useful in the long term, especially for users unfamiliar with all aspects of Qiskit and IBM Quantum integration.
+
+Question:
+Title: Quantum Computing - via Qiskit - error 403
+
+A year ago, I registered in the IBM Quantum Computing app, which provides access to quantum computers and to simulators. I got an API key, and was able to run some programs. However, lately, I try to log in in my account and the system answers me with the same page, and I am not able to get another/the same API key. In fact, when I run the programs I run a year ago, using the API key that I then got, the program replies with: I tried to contact IBM, but they have not been replying... Any idea? By the way: I use python 3.11 and qiskit 0.43.0. The program:
+
+```
+qiskit_ibm_runtime.api.exceptions.RequestsApiError: '403 Client Error: Forbidden for url: https://auth.quantum-computing.ibm.com/api/users/loginWithToken. Your IBM Quantum account has been disabled. Learn more: https://ibm.biz/BdfaME., Error code: 3485.'
+```
+
+```
+qiskit_ibm_runtime.api.exceptions.RequestsApiError: '403 Client Error: Forbidden for url: https://auth.quantum-computing.ibm.com/api/users/loginWithToken. Your IBM Quantum account has been disabled. Learn more: https://ibm.biz/BdfaME., Error code: 3485.'
+```
+
+```
+# Importing standard Qiskit libraries from qiskit import QuantumCircuit, transpile #from qiskit.tools.jupyter import * from IPython.display import display from qiskit.visualization import * # Loading your IBM Quantum account(s) service = QiskitRuntimeService(channel="ibm_quantum") # the error occurs here! ... ```
+```
+
+```
+# Importing standard Qiskit libraries from qiskit import QuantumCircuit, transpile #from qiskit.tools.jupyter import * from IPython.display import display from qiskit.visualization import * # Loading your IBM Quantum account(s) service = QiskitRuntimeService(channel="ibm_quantum") # the error occurs here! ... ```
+```
+
+Original buggy code:
+qiskit_ibm_runtime.api.exceptions.RequestsApiError: '403 Client Error: Forbidden for url: https://auth.quantum-computing.ibm.com/api/users/loginWithToken. Your IBM Quantum account has been disabled. Learn more: https://ibm.biz/BdfaME., Error code: 3485.'
+
+---CODE_BLOCK---
+
+qiskit_ibm_runtime.api.exceptions.RequestsApiError: '403 Client Error: Forbidden for url: https://auth.quantum-computing.ibm.com/api/users/loginWithToken. Your IBM Quantum account has been disabled. Learn more: https://ibm.biz/BdfaME., Error code: 3485.'
+
+---CODE_BLOCK---
+
+# Importing standard Qiskit libraries from qiskit import QuantumCircuit, transpile #from qiskit.tools.jupyter import * from IPython.display import display from qiskit.visualization import * # Loading your IBM Quantum account(s) service = QiskitRuntimeService(channel="ibm_quantum") # the error occurs here! ...
+
+Solution explanation:
+Try logging in to IBMQ account on the webpage. If you are able to do this, copy the API token shown in the top right. Then make use of the code mentioned in this answer,this is the updated code for the latest version of qiskit and will help you use IBMQ from your local device. If the error still persists, read the complete error message, like in this answer, your reason might be there.
+
+Original fixed code:
+Try logging in to IBMQ account on the webpage. If you are able to do this, copy the API token shown in the top right. Then make use of the code mentioned in this answer,this is the updated code for the latest version of qiskit and will help you use IBMQ from your local device. If the error still persists, read the complete error message, like in this answer, your reason might be there.

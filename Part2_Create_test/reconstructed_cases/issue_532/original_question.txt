@@ -1,0 +1,63 @@
+Title:
+Why don't I receive the output I expect?
+
+Category:
+Category:
+Error / Debugging
+
+Why Stack Overflow Wins in This Category:
+In debugging tasks, the clearest and most accurate explanation of the observed behavior is key. The Stack Overflow solution directly ties the observed statevector positions to the actual gate operations, resolving the confusion precisely. The AI solution introduces additional complexity about initialization that may distract from the true reason. Therefore, Stack Overflow’s direct explanation is superior here.
+
+Question:
+Title: Why don't I receive the output I expect?
+
+I tried to test the Bitflip code using Qiskit. So, see my code below, build the circuit and initialised the first qubit in the state $\biggl[ \frac{1}{\sqrt{3}}, \sqrt{\frac{2}{3}} \biggr]$. However, when I run this code I get the following: I do not understand why "0.577+0.j 0.816+0.j" is not at the start of this vector. Could you please explain this to me?
+
+```
+import matplotlib.pyplot as plt import math from qiskit import * circuit = QuantumCircuit(3) initial_state = [1/math.sqrt(3), math.sqrt(2/3)] circuit.initialize(initial_state, 0) circuit.cnot(0, 1) circuit.cnot(0, 2) circuit.barrier() circuit.x(0) circuit.id(1) circuit.id(2) circuit.barrier() circuit.cnot(0, 1) circuit.cnot(0, 2) circuit.toffoli(2, 1, 0) circuit.draw(output='mpl') plt.show() backend = Aer.get_backend('statevector_simulator') job = execute(circuit, backend) result = job.result() output_state = result.get_statevector(circuit, decimals=3) print(output_state.data)
+```
+
+```
+import matplotlib.pyplot as plt import math from qiskit import * circuit = QuantumCircuit(3) initial_state = [1/math.sqrt(3), math.sqrt(2/3)] circuit.initialize(initial_state, 0) circuit.cnot(0, 1) circuit.cnot(0, 2) circuit.barrier() circuit.x(0) circuit.id(1) circuit.id(2) circuit.barrier() circuit.cnot(0, 1) circuit.cnot(0, 2) circuit.toffoli(2, 1, 0) circuit.draw(output='mpl') plt.show() backend = Aer.get_backend('statevector_simulator') job = execute(circuit, backend) result = job.result() output_state = result.get_statevector(circuit, decimals=3) print(output_state.data)
+```
+
+```
+[0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0.577+0.j 0.816+0.j]
+```
+
+```
+[0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0.577+0.j 0.816+0.j]
+```
+
+Original buggy code:
+import matplotlib.pyplot as plt import math from qiskit import * circuit = QuantumCircuit(3) initial_state = [1/math.sqrt(3), math.sqrt(2/3)] circuit.initialize(initial_state, 0) circuit.cnot(0, 1) circuit.cnot(0, 2) circuit.barrier() circuit.x(0) circuit.id(1) circuit.id(2) circuit.barrier() circuit.cnot(0, 1) circuit.cnot(0, 2) circuit.toffoli(2, 1, 0) circuit.draw(output='mpl') plt.show() backend = Aer.get_backend('statevector_simulator') job = execute(circuit, backend) result = job.result() output_state = result.get_statevector(circuit, decimals=3) print(output_state.data)
+
+---CODE_BLOCK---
+
+import matplotlib.pyplot as plt import math from qiskit import * circuit = QuantumCircuit(3) initial_state = [1/math.sqrt(3), math.sqrt(2/3)] circuit.initialize(initial_state, 0) circuit.cnot(0, 1) circuit.cnot(0, 2) circuit.barrier() circuit.x(0) circuit.id(1) circuit.id(2) circuit.barrier() circuit.cnot(0, 1) circuit.cnot(0, 2) circuit.toffoli(2, 1, 0) circuit.draw(output='mpl') plt.show() backend = Aer.get_backend('statevector_simulator') job = execute(circuit, backend) result = job.result() output_state = result.get_statevector(circuit, decimals=3) print(output_state.data)
+
+---CODE_BLOCK---
+
+[0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0.577+0.j 0.816+0.j]
+
+---CODE_BLOCK---
+
+[0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0. +0.j 0.577+0.j 0.816+0.j]
+
+Solution explanation:
+If your circuit contains the first operation only: then the output state would be $$0.577∣000⟩+0.816∣001⟩$$ and you will get 0.577 and 0.816 as the first two components in the vector. However, the remaining operations in the circuit change the state of second and third qubits to be $|11\rangle$. That is, the output state is $$0.577∣110⟩+0.816∣111⟩$$ which makes 0.577 and 0.816 the 7th and 8th components in the vector.
+
+```
+circuit.initialize(initial_state, 0)
+```
+
+```
+circuit.initialize(initial_state, 0)
+```
+
+Original fixed code:
+circuit.initialize(initial_state, 0)
+
+---CODE_BLOCK---
+
+circuit.initialize(initial_state, 0)

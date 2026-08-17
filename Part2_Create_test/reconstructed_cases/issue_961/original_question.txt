@@ -1,0 +1,139 @@
+Title:
+Is there a way to use a fake backend for ibm_brisbane?
+
+Category:
+
+
+Question:
+Title: Is there a way to use a fake backend for ibm_brisbane?
+
+Is there a way to use a fake backend for ibm_brisbane? I tried this but it is giving me the error that the backend is not present: Tried some of the suggestions from the below, but faced different issues with each: Solution 1: Problem: Solution 2: Problem: Note: I verified that the circ object is not None and it has a valid list of 5 circuits
+
+```
+provider = FakeProvider() backend = provider.get_backend('fake_brisbane')
+```
+
+```
+provider = FakeProvider() backend = provider.get_backend('fake_brisbane')
+```
+
+```
+backend = provider.get_backend('ibm_brisbane') backend_sim = qiskit_dynamics.DynamicsBackend.from_backend(backend, subsystem_list=[0,1,2,3]) from qiskit import transpile circ = transpile(circuit, backend_sim) job = backend_sim.run(circuit, shots=4096, seed_simulator=12345)
+```
+
+```
+backend = provider.get_backend('ibm_brisbane') backend_sim = qiskit_dynamics.DynamicsBackend.from_backend(backend, subsystem_list=[0,1,2,3]) from qiskit import transpile circ = transpile(circuit, backend_sim) job = backend_sim.run(circuit, shots=4096, seed_simulator=12345)
+```
+
+```
+TranspilerError: "Unable to translate the operations in the circuit: ['sx', 'measure', 'barrier', 'rz'] to the backend's (or manually specified) target basis: ['barrier', 'snapshot', 'measure']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://qiskit.org/documentation/stubs/qiskit.transpiler.passes.BasisTranslator.html#translation_errors"
+```
+
+```
+TranspilerError: "Unable to translate the operations in the circuit: ['sx', 'measure', 'barrier', 'rz'] to the backend's (or manually specified) target basis: ['barrier', 'snapshot', 'measure']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://qiskit.org/documentation/stubs/qiskit.transpiler.passes.BasisTranslator.html#translation_errors"
+```
+
+```
+#Get the backend backend = provider.get_backend('ibm_brisbane') # transpile to backend circ = transpile(circuit, backend=backend) # create a simulator for backend sim = AerSimulator().from_backend(backend) # simulate and extract results simulator_result = sim.run(circ).result() simulator_counts = simulator_result.get_counts() simulator_counts
+```
+
+```
+#Get the backend backend = provider.get_backend('ibm_brisbane') # transpile to backend circ = transpile(circuit, backend=backend) # create a simulator for backend sim = AerSimulator().from_backend(backend) # simulate and extract results simulator_result = sim.run(circ).result() simulator_counts = simulator_result.get_counts() simulator_counts
+```
+
+```
+File c:\Users\Admin\.conda\envs\simuq\lib\site-packages\qiskit\transpiler\passmanager.py:553, in _replace_error.<locals>.wrapper(*meth_args, **meth_kwargs) 551 return meth(*meth_args, **meth_kwargs) 552 except PassManagerError as ex: --> 553 raise TranspilerError(ex.message) from ex TranspilerError: 'The input circuit None is not scheduled. Call one of scheduling passes before running the ConstrainedReschedule pass.'
+```
+
+```
+File c:\Users\Admin\.conda\envs\simuq\lib\site-packages\qiskit\transpiler\passmanager.py:553, in _replace_error.<locals>.wrapper(*meth_args, **meth_kwargs) 551 return meth(*meth_args, **meth_kwargs) 552 except PassManagerError as ex: --> 553 raise TranspilerError(ex.message) from ex TranspilerError: 'The input circuit None is not scheduled. Call one of scheduling passes before running the ConstrainedReschedule pass.'
+```
+
+Original buggy code:
+provider = FakeProvider() backend = provider.get_backend('fake_brisbane')
+
+---CODE_BLOCK---
+
+provider = FakeProvider() backend = provider.get_backend('fake_brisbane')
+
+---CODE_BLOCK---
+
+backend = provider.get_backend('ibm_brisbane') backend_sim = qiskit_dynamics.DynamicsBackend.from_backend(backend, subsystem_list=[0,1,2,3]) from qiskit import transpile circ = transpile(circuit, backend_sim) job = backend_sim.run(circuit, shots=4096, seed_simulator=12345)
+
+---CODE_BLOCK---
+
+backend = provider.get_backend('ibm_brisbane') backend_sim = qiskit_dynamics.DynamicsBackend.from_backend(backend, subsystem_list=[0,1,2,3]) from qiskit import transpile circ = transpile(circuit, backend_sim) job = backend_sim.run(circuit, shots=4096, seed_simulator=12345)
+
+---CODE_BLOCK---
+
+TranspilerError: "Unable to translate the operations in the circuit: ['sx', 'measure', 'barrier', 'rz'] to the backend's (or manually specified) target basis: ['barrier', 'snapshot', 'measure']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://qiskit.org/documentation/stubs/qiskit.transpiler.passes.BasisTranslator.html#translation_errors"
+
+---CODE_BLOCK---
+
+TranspilerError: "Unable to translate the operations in the circuit: ['sx', 'measure', 'barrier', 'rz'] to the backend's (or manually specified) target basis: ['barrier', 'snapshot', 'measure']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://qiskit.org/documentation/stubs/qiskit.transpiler.passes.BasisTranslator.html#translation_errors"
+
+---CODE_BLOCK---
+
+#Get the backend backend = provider.get_backend('ibm_brisbane') # transpile to backend circ = transpile(circuit, backend=backend) # create a simulator for backend sim = AerSimulator().from_backend(backend) # simulate and extract results simulator_result = sim.run(circ).result() simulator_counts = simulator_result.get_counts() simulator_counts
+
+---CODE_BLOCK---
+
+#Get the backend backend = provider.get_backend('ibm_brisbane') # transpile to backend circ = transpile(circuit, backend=backend) # create a simulator for backend sim = AerSimulator().from_backend(backend) # simulate and extract results simulator_result = sim.run(circ).result() simulator_counts = simulator_result.get_counts() simulator_counts
+
+---CODE_BLOCK---
+
+File c:\Users\Admin\.conda\envs\simuq\lib\site-packages\qiskit\transpiler\passmanager.py:553, in _replace_error.<locals>.wrapper(*meth_args, **meth_kwargs) 551 return meth(*meth_args, **meth_kwargs) 552 except PassManagerError as ex: --> 553 raise TranspilerError(ex.message) from ex TranspilerError: 'The input circuit None is not scheduled. Call one of scheduling passes before running the ConstrainedReschedule pass.'
+
+---CODE_BLOCK---
+
+File c:\Users\Admin\.conda\envs\simuq\lib\site-packages\qiskit\transpiler\passmanager.py:553, in _replace_error.<locals>.wrapper(*meth_args, **meth_kwargs) 551 return meth(*meth_args, **meth_kwargs) 552 except PassManagerError as ex: --> 553 raise TranspilerError(ex.message) from ex TranspilerError: 'The input circuit None is not scheduled. Call one of scheduling passes before running the ConstrainedReschedule pass.'
+
+Solution explanation:
+Here is an example of a bell state simulated experiment for an ibm_brisbane backend: the results would look something like Using
+
+```
+from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator from qiskit_ibm_provider import IBMProvider # get backend provider = IBMProvider() backend = provider.backends(name="ibm_brisbane")[0] # create a bell circuit circuit = QuantumCircuit(2, 2) circuit.h(0) circuit.cx(0, 1) circuit.measure([0, 1], [0, 1]) circuit.draw() # transpile to backend circ = transpile(circuit, backend=backend) # create a simulator for backend sim = AerSimulator().from_backend(backend) # simulate and extract results simulator_result = sim.run(circ).result() simulator_counts = simulator_result.get_counts() simulator_counts
+```
+
+```
+from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator from qiskit_ibm_provider import IBMProvider # get backend provider = IBMProvider() backend = provider.backends(name="ibm_brisbane")[0] # create a bell circuit circuit = QuantumCircuit(2, 2) circuit.h(0) circuit.cx(0, 1) circuit.measure([0, 1], [0, 1]) circuit.draw() # transpile to backend circ = transpile(circuit, backend=backend) # create a simulator for backend sim = AerSimulator().from_backend(backend) # simulate and extract results simulator_result = sim.run(circ).result() simulator_counts = simulator_result.get_counts() simulator_counts
+```
+
+```
+{'01': 23, '10': 27, '11': 468, '00': 506}
+```
+
+```
+{'01': 23, '10': 27, '11': 468, '00': 506}
+```
+
+```
+qiskit 1.0.1 qiskit-aer 0.13.3 qiskit-ibm-provider 0.10.0
+```
+
+```
+qiskit 1.0.1 qiskit-aer 0.13.3 qiskit-ibm-provider 0.10.0
+```
+
+Original fixed code:
+from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator from qiskit_ibm_provider import IBMProvider # get backend provider = IBMProvider() backend = provider.backends(name="ibm_brisbane")[0] # create a bell circuit circuit = QuantumCircuit(2, 2) circuit.h(0) circuit.cx(0, 1) circuit.measure([0, 1], [0, 1]) circuit.draw() # transpile to backend circ = transpile(circuit, backend=backend) # create a simulator for backend sim = AerSimulator().from_backend(backend) # simulate and extract results simulator_result = sim.run(circ).result() simulator_counts = simulator_result.get_counts() simulator_counts
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator from qiskit_ibm_provider import IBMProvider # get backend provider = IBMProvider() backend = provider.backends(name="ibm_brisbane")[0] # create a bell circuit circuit = QuantumCircuit(2, 2) circuit.h(0) circuit.cx(0, 1) circuit.measure([0, 1], [0, 1]) circuit.draw() # transpile to backend circ = transpile(circuit, backend=backend) # create a simulator for backend sim = AerSimulator().from_backend(backend) # simulate and extract results simulator_result = sim.run(circ).result() simulator_counts = simulator_result.get_counts() simulator_counts
+
+---CODE_BLOCK---
+
+{'01': 23, '10': 27, '11': 468, '00': 506}
+
+---CODE_BLOCK---
+
+{'01': 23, '10': 27, '11': 468, '00': 506}
+
+---CODE_BLOCK---
+
+qiskit 1.0.1 qiskit-aer 0.13.3 qiskit-ibm-provider 0.10.0
+
+---CODE_BLOCK---
+
+qiskit 1.0.1 qiskit-aer 0.13.3 qiskit-ibm-provider 0.10.0

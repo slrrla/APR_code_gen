@@ -1,0 +1,75 @@
+Title:
+Retrieve old jobs from IBM qcs after later qiskit changes
+
+Category:
+
+
+Question:
+Title: Retrieve old jobs from IBM qcs after later qiskit changes
+
+I don't know anymore how can I retrieve old jobs from qiskit via the jupyter notebook. When I try to use the commands I get the error message This is the first time I encounter this error. I used to access without problems from the notebook using my already saved credentials, but apparently many things have changed recently and now I cannot access anymore to the past jobs. How can Ifix this?
+
+```
+from qiskit_ibm_runtime import QiskitRuntimeService service = QiskitRuntimeService() job = service.job("JOB_ID")
+```
+
+```
+from qiskit_ibm_runtime import QiskitRuntimeService service = QiskitRuntimeService() job = service.job("JOB_ID")
+```
+
+```
+RequestsApiError: '401 Client Error: Unauthorized for url: https://auth.quantum-computing.ibm.com/api/users/loginWithToken. Login failed., Error code: 3446.'
+```
+
+```
+RequestsApiError: '401 Client Error: Unauthorized for url: https://auth.quantum-computing.ibm.com/api/users/loginWithToken. Login failed., Error code: 3446.'
+```
+
+Original buggy code:
+from qiskit_ibm_runtime import QiskitRuntimeService service = QiskitRuntimeService() job = service.job("JOB_ID")
+
+---CODE_BLOCK---
+
+from qiskit_ibm_runtime import QiskitRuntimeService service = QiskitRuntimeService() job = service.job("JOB_ID")
+
+---CODE_BLOCK---
+
+RequestsApiError: '401 Client Error: Unauthorized for url: https://auth.quantum-computing.ibm.com/api/users/loginWithToken. Login failed., Error code: 3446.'
+
+---CODE_BLOCK---
+
+RequestsApiError: '401 Client Error: Unauthorized for url: https://auth.quantum-computing.ibm.com/api/users/loginWithToken. Login failed., Error code: 3446.'
+
+Solution explanation:
+If you are running locally, this means your token might not be properly saved into the file that stores your token information. To fix this, run: where is the latest token generated from your IBMQ account.
+
+```
+qiskit-ibm.json
+```
+
+```
+from qiskit_ibm_runtime import QiskitRuntimeService QiskitRuntimeService.save_account(channel='ibm_quantum', token='your-token-here', overwrite=True)
+```
+
+```
+from qiskit_ibm_runtime import QiskitRuntimeService QiskitRuntimeService.save_account(channel='ibm_quantum', token='your-token-here', overwrite=True)
+```
+
+```
+your-token-here
+```
+
+Original fixed code:
+qiskit-ibm.json
+
+---CODE_BLOCK---
+
+from qiskit_ibm_runtime import QiskitRuntimeService QiskitRuntimeService.save_account(channel='ibm_quantum', token='your-token-here', overwrite=True)
+
+---CODE_BLOCK---
+
+from qiskit_ibm_runtime import QiskitRuntimeService QiskitRuntimeService.save_account(channel='ibm_quantum', token='your-token-here', overwrite=True)
+
+---CODE_BLOCK---
+
+your-token-here

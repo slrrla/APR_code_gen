@@ -1,0 +1,59 @@
+Title:
+Qiskit job not giving the right result after execution
+
+Category:
+
+
+Question:
+Title: Qiskit job not giving the right result after execution
+
+Here is my code No matter what gates I try (e.g. I can remove the last X gate), the result is always . What am I doing wrong?
+
+```
+import numpy as np import qiskit from qiskit import * number_of_qubits = 3 backend_sim = Aer.get_backend('qasm_simulator') #Generate a circuit in qiskit input_circuit = QuantumCircuit(number_of_qubits, number_of_qubits) input_circuit.x(0) input_circuit.h(1) input_circuit.cx(0,1) input_circuit.i(1) input_circuit.x(1) job_sim = execute(input_circuit, backend_sim, shots=1024) result_sim = job_sim.result() counts = result_sim.get_counts(input_circuit) print(counts)
+```
+
+```
+import numpy as np import qiskit from qiskit import * number_of_qubits = 3 backend_sim = Aer.get_backend('qasm_simulator') #Generate a circuit in qiskit input_circuit = QuantumCircuit(number_of_qubits, number_of_qubits) input_circuit.x(0) input_circuit.h(1) input_circuit.cx(0,1) input_circuit.i(1) input_circuit.x(1) job_sim = execute(input_circuit, backend_sim, shots=1024) result_sim = job_sim.result() counts = result_sim.get_counts(input_circuit) print(counts)
+```
+
+```
+'000': 1024
+```
+
+Original buggy code:
+import numpy as np import qiskit from qiskit import * number_of_qubits = 3 backend_sim = Aer.get_backend('qasm_simulator') #Generate a circuit in qiskit input_circuit = QuantumCircuit(number_of_qubits, number_of_qubits) input_circuit.x(0) input_circuit.h(1) input_circuit.cx(0,1) input_circuit.i(1) input_circuit.x(1) job_sim = execute(input_circuit, backend_sim, shots=1024) result_sim = job_sim.result() counts = result_sim.get_counts(input_circuit) print(counts)
+
+---CODE_BLOCK---
+
+import numpy as np import qiskit from qiskit import * number_of_qubits = 3 backend_sim = Aer.get_backend('qasm_simulator') #Generate a circuit in qiskit input_circuit = QuantumCircuit(number_of_qubits, number_of_qubits) input_circuit.x(0) input_circuit.h(1) input_circuit.cx(0,1) input_circuit.i(1) input_circuit.x(1) job_sim = execute(input_circuit, backend_sim, shots=1024) result_sim = job_sim.result() counts = result_sim.get_counts(input_circuit) print(counts)
+
+---CODE_BLOCK---
+
+'000': 1024
+
+Solution explanation:
+Your current circuit looks like this: In order to get the "counts", you need to measure at the end of the circuit, before .
+
+```
+execute
+```
+
+```
+input_circuit.measure(range(number_of_qubits), range(number_of_qubits))
+```
+
+```
+input_circuit.measure(range(number_of_qubits), range(number_of_qubits))
+```
+
+Original fixed code:
+execute
+
+---CODE_BLOCK---
+
+input_circuit.measure(range(number_of_qubits), range(number_of_qubits))
+
+---CODE_BLOCK---
+
+input_circuit.measure(range(number_of_qubits), range(number_of_qubits))

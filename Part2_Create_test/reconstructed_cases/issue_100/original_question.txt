@@ -1,0 +1,139 @@
+Title:
+AttributeError: 'QuantumCircuit' object has no attribute 'config'
+
+Category:
+
+
+Question:
+Title: AttributeError: 'QuantumCircuit' object has no attribute 'config'
+
+I am working on a program for Qiskit, but I am getting a strange error (one that I have not gotten in the past) when I try to simulate a circuit. Here is a minimal example producing the error: 
+ from qiskit.circuit import QuantumCircuit
+from qiskit import Aer,transpile
+
+c = QuantumCircuit(2)
+simulator = Aer.get_backend('qasm_simulator')
+c = transpile(c, simulator)
+result = simulator.run(c).result()
+plot_histogram(counts, title='Counts')
+
+ The error I get is: 
+ ---------------------------------------------------------------------------
+AttributeError Traceback (most recent call last)
+<ipython-input-1-89904ecd5f8e> in <module>()
+ 5 simulator = Aer.get_backend('qasm_simulator')
+ 6 c = transpile(c, simulator)
+----> 7 result = simulator.run(c).result()
+ 8 plot_histogram(counts, title='Counts')
+
+/Users/d/anaconda3/envs/qiskit/lib/python3.7/site-packages/qiskit/providers/aer/backends/aerbackend.py in run(self, qobj, backend_options, validate, **run_options)
+ 146 # Add backend options to the Job qobj
+ 147 qobj = self._format_qobj(
+--> 148 qobj, backend_options=backend_options, **run_options)
+ 149 
+ 150 # Optional validation
+
+/Users/d/anaconda3/envs/qiskit/lib/python3.7/site-packages/qiskit/providers/aer/backends/aerbackend.py in _format_qobj(self, qobj, backend_options, **run_options)
+ 353 """Return execution sim config dict from backend options."""
+ 354 # Add options to qobj config overriding any existing fields
+--> 355 config = qobj.config
+ 356 
+ 357 # Add options
+
+AttributeError: 'QuantumCircuit' object has no attribute 'config'
+
+ Does anyone know what is causing this error? 
+ Thank you!
+
+```
+from qiskit.circuit import QuantumCircuit
+from qiskit import Aer,transpile
+
+c = QuantumCircuit(2)
+simulator = Aer.get_backend('qasm_simulator')
+c = transpile(c, simulator)
+result = simulator.run(c).result()
+plot_histogram(counts, title='Counts')
+```
+
+```
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+<ipython-input-1-89904ecd5f8e> in <module>()
+      5 simulator = Aer.get_backend('qasm_simulator')
+      6 c = transpile(c, simulator)
+----> 7 result = simulator.run(c).result()
+      8 plot_histogram(counts, title='Counts')
+
+/Users/d/anaconda3/envs/qiskit/lib/python3.7/site-packages/qiskit/providers/aer/backends/aerbackend.py in run(self, qobj, backend_options, validate, **run_options)
+    146         # Add backend options to the Job qobj
+    147         qobj = self._format_qobj(
+--> 148             qobj, backend_options=backend_options, **run_options)
+    149 
+    150         # Optional validation
+
+/Users/d/anaconda3/envs/qiskit/lib/python3.7/site-packages/qiskit/providers/aer/backends/aerbackend.py in _format_qobj(self, qobj, backend_options, **run_options)
+    353         """Return execution sim config dict from backend options."""
+    354         # Add options to qobj config overriding any existing fields
+--> 355         config = qobj.config
+    356 
+    357         # Add options
+
+AttributeError: 'QuantumCircuit' object has no attribute 'config'
+```
+
+Original buggy code:
+from qiskit.circuit import QuantumCircuit
+from qiskit import Aer,transpile
+
+c = QuantumCircuit(2)
+simulator = Aer.get_backend('qasm_simulator')
+c = transpile(c, simulator)
+result = simulator.run(c).result()
+plot_histogram(counts, title='Counts')
+
+---CODE_BLOCK---
+
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+<ipython-input-1-89904ecd5f8e> in <module>()
+      5 simulator = Aer.get_backend('qasm_simulator')
+      6 c = transpile(c, simulator)
+----> 7 result = simulator.run(c).result()
+      8 plot_histogram(counts, title='Counts')
+
+/Users/d/anaconda3/envs/qiskit/lib/python3.7/site-packages/qiskit/providers/aer/backends/aerbackend.py in run(self, qobj, backend_options, validate, **run_options)
+    146         # Add backend options to the Job qobj
+    147         qobj = self._format_qobj(
+--> 148             qobj, backend_options=backend_options, **run_options)
+    149 
+    150         # Optional validation
+
+/Users/d/anaconda3/envs/qiskit/lib/python3.7/site-packages/qiskit/providers/aer/backends/aerbackend.py in _format_qobj(self, qobj, backend_options, **run_options)
+    353         """Return execution sim config dict from backend options."""
+    354         # Add options to qobj config overriding any existing fields
+--> 355         config = qobj.config
+    356 
+    357         # Add options
+
+AttributeError: 'QuantumCircuit' object has no attribute 'config'
+
+Solution explanation:
+I believe you need to assemble the transpiled circuit in a qobj before running it : 
+ from qiskit.compiler import assemble
+my_qobj = assemble(c)
+result = simulator.run(my_qobj).result()
+
+ By the way, without any measure, the plot_histogram(result.get_counts()) will return an error as well. 
+ There is also a special platform the Quantum Computing, https://quantumcomputing.stackexchange.com , feel free to post any other questions about QC&co there :)
+
+```
+from qiskit.compiler import assemble
+my_qobj = assemble(c)
+result = simulator.run(my_qobj).result()
+```
+
+Original fixed code:
+from qiskit.compiler import assemble
+my_qobj = assemble(c)
+result = simulator.run(my_qobj).result()

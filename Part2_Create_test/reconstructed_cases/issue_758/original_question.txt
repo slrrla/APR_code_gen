@@ -1,0 +1,99 @@
+Title:
+Kernel stopping when solving water molecule ground state
+
+Category:
+
+
+Question:
+Title: Kernel stopping when solving water molecule ground state
+
+I'm new to QISKIT Aqua and I'm trying to follow the Ground State tutorial to solve the Water molecule ground state, but when I execute the calculations the kernel stops. I'm using IBM Q Experience jupyter notebooks and the only thing I changed from the original tutorial is the molecule. I Changed it by excluding the previous molecule and adding this to the code:
+
+```
+import numpy as np angle = np.deg2rad(104.45/2) dist = 0.9584 molecule = Molecule(geometry=[['O', [0., 0., 0.]], ['H', [dist*np.sin(angle), -dist*np.cos(angle), 0.]], ['H', [-dist*np.sin(angle), -dist*np.sin(angle), 0.]]], charge=0, multiplicity=1)
+```
+
+```
+import numpy as np angle = np.deg2rad(104.45/2) dist = 0.9584 molecule = Molecule(geometry=[['O', [0., 0., 0.]], ['H', [dist*np.sin(angle), -dist*np.cos(angle), 0.]], ['H', [-dist*np.sin(angle), -dist*np.sin(angle), 0.]]], charge=0, multiplicity=1)
+```
+
+Original buggy code:
+import numpy as np angle = np.deg2rad(104.45/2) dist = 0.9584 molecule = Molecule(geometry=[['O', [0., 0., 0.]], ['H', [dist*np.sin(angle), -dist*np.cos(angle), 0.]], ['H', [-dist*np.sin(angle), -dist*np.sin(angle), 0.]]], charge=0, multiplicity=1)
+
+---CODE_BLOCK---
+
+import numpy as np angle = np.deg2rad(104.45/2) dist = 0.9584 molecule = Molecule(geometry=[['O', [0., 0., 0.]], ['H', [dist*np.sin(angle), -dist*np.cos(angle), 0.]], ['H', [-dist*np.sin(angle), -dist*np.sin(angle), 0.]]], charge=0, multiplicity=1)
+
+Solution explanation:
+Here is the working code. Because of the symmetry in water molecule, I used the Z Matrix representation instead of the usual XYZ format. You can and should be able to execute this within the IBM Quantum Experience. Ran this gave me the output: and the optimal circuit: As you can see this var_form is too long to be executed with good result for the hardware so maybe you can modify it. Changing the entangle_map might help. So instead of using you can set it to be something else. Note that you can also specify how the CNOT gates are connected. That is if you specify: Then you would get something like:
+
+```
+import os os.environ['QISKIT_SETTINGS']='' import matplotlib.pyplot as plt %matplotlib inline %config InlineBackend.figure_format = 'svg' # Makes the images look nice import numpy as np from qiskit.aqua import QuantumInstance from qiskit.aqua.algorithms import NumPyMinimumEigensolver, VQE, NumPyEigensolver from qiskit.aqua.components.optimizers import COBYLA from qiskit.aqua.components.initial_states import Custom from qiskit import IBMQ, BasicAer, Aer from qiskit.chemistry.qmolecule import QMolecule from qiskit.chemistry.drivers import PySCFDriver, UnitsType from qiskit.chemistry import FermionicOperator from qiskit.chemistry.core import Hamiltonian, TransformationType, QubitMappingType from qiskit.circuit.library import TwoLocal import warnings warnings.filterwarnings("ignore",category=DeprecationWarning) provider = IBMQ.load_account() simulator_backend = Aer.get_backend("qasm_simulator") hardware_backend = provider.get_backend('ibmq_valencia') quantum_instance = QuantumInstance(backend = simulator_backend, shots= 1, optimization_level= 3) atom_structure = "H; O 1 0.958; H 2 0.958 1 104.47" orbital_reduction=[ ] [unit, charge, spin, basis]= [UnitsType.ANGSTROM, 0, 0, 'sto6g'] driver = PySCFDriver(atom= atom_structure, unit=unit,charge=charge, spin=spin, basis=basis) qmolecule = driver.run() ferOp = Hamiltonian(transformation = TransformationType.FULL , qubit_mapping = QubitMappingType.PARITY, two_qubit_reduction = True, freeze_core = True, orbital_reduction = [ ], z2symmetry_reduction = 'auto') qubitOp, aux_ops = ferOp.run(qmolecule) energy_shift = ferOp._energy_shift nuclear_repulsion_energy = ferOp._nuclear_repulsion_energy total_shift = energy_shift + nuclear_repulsion_energy print('HF Energy is:' , ferOp._hf_energy ) print('\n *********************************Exact Eigensolver*************************************** \n') exact_result = NumPyMinimumEigensolver(qubitOp).run() ee_result = ferOp.process_algorithm_result(exact_result) print(ee_result) #----------------------- VQE PROCESSED ---------------------------# var_form= TwoLocal(qubitOp.num_qubits, ['ry'], ['cx'], entanglement= 'linear', reps= 2,skip_unentangled_qubits=True, skip_final_rotation_layer = False, insert_barriers=True, initial_state = None) optimizer = COBYLA(maxiter= 50,tol=0.000000001) vqe = VQE(qubitOp, var_form, optimizer, initial_point = None, include_custom = True, aux_operators=aux_ops) vqe_result = vqe.run(quantum_instance) vqe_processed_result = ferOp.process_algorithm_result(vqe_result) vqe_energy = vqe_result['eigenvalue'] + total_shift total_ang_moment = vqe_processed_result['total_angular_momentum'] print('Optimal VQE energy at this step is:', vqe_energy) print('The corresponding Total Angular Momentum is', total_ang_moment) vqe.get_optimal_circuit().draw('mpl', style = {'name': 'bw'}, scale = 0.75, plot_barriers = False)
+```
+
+```
+import os os.environ['QISKIT_SETTINGS']='' import matplotlib.pyplot as plt %matplotlib inline %config InlineBackend.figure_format = 'svg' # Makes the images look nice import numpy as np from qiskit.aqua import QuantumInstance from qiskit.aqua.algorithms import NumPyMinimumEigensolver, VQE, NumPyEigensolver from qiskit.aqua.components.optimizers import COBYLA from qiskit.aqua.components.initial_states import Custom from qiskit import IBMQ, BasicAer, Aer from qiskit.chemistry.qmolecule import QMolecule from qiskit.chemistry.drivers import PySCFDriver, UnitsType from qiskit.chemistry import FermionicOperator from qiskit.chemistry.core import Hamiltonian, TransformationType, QubitMappingType from qiskit.circuit.library import TwoLocal import warnings warnings.filterwarnings("ignore",category=DeprecationWarning) provider = IBMQ.load_account() simulator_backend = Aer.get_backend("qasm_simulator") hardware_backend = provider.get_backend('ibmq_valencia') quantum_instance = QuantumInstance(backend = simulator_backend, shots= 1, optimization_level= 3) atom_structure = "H; O 1 0.958; H 2 0.958 1 104.47" orbital_reduction=[ ] [unit, charge, spin, basis]= [UnitsType.ANGSTROM, 0, 0, 'sto6g'] driver = PySCFDriver(atom= atom_structure, unit=unit,charge=charge, spin=spin, basis=basis) qmolecule = driver.run() ferOp = Hamiltonian(transformation = TransformationType.FULL , qubit_mapping = QubitMappingType.PARITY, two_qubit_reduction = True, freeze_core = True, orbital_reduction = [ ], z2symmetry_reduction = 'auto') qubitOp, aux_ops = ferOp.run(qmolecule) energy_shift = ferOp._energy_shift nuclear_repulsion_energy = ferOp._nuclear_repulsion_energy total_shift = energy_shift + nuclear_repulsion_energy print('HF Energy is:' , ferOp._hf_energy ) print('\n *********************************Exact Eigensolver*************************************** \n') exact_result = NumPyMinimumEigensolver(qubitOp).run() ee_result = ferOp.process_algorithm_result(exact_result) print(ee_result) #----------------------- VQE PROCESSED ---------------------------# var_form= TwoLocal(qubitOp.num_qubits, ['ry'], ['cx'], entanglement= 'linear', reps= 2,skip_unentangled_qubits=True, skip_final_rotation_layer = False, insert_barriers=True, initial_state = None) optimizer = COBYLA(maxiter= 50,tol=0.000000001) vqe = VQE(qubitOp, var_form, optimizer, initial_point = None, include_custom = True, aux_operators=aux_ops) vqe_result = vqe.run(quantum_instance) vqe_processed_result = ferOp.process_algorithm_result(vqe_result) vqe_energy = vqe_result['eigenvalue'] + total_shift total_ang_moment = vqe_processed_result['total_angular_momentum'] print('Optimal VQE energy at this step is:', vqe_energy) print('The corresponding Total Angular Momentum is', total_ang_moment) vqe.get_optimal_circuit().draw('mpl', style = {'name': 'bw'}, scale = 0.75, plot_barriers = False)
+```
+
+```
+HF Energy is: -75.6787913259016 *********************************Exact Eigensolver*************************************** === GROUND STATE ENERGY === * Electronic ground state energy (Hartree): -84.916233233599 - computed part: -23.633272241623 - frozen energy part: -61.282960991976 - particle hole part: 0.0 ~ Nuclear repulsion energy (Hartree): 9.187404411009 > Total ground state energy (Hartree): -75.72882882259 Optimal VQE energy at this step is: (-72.69078459811197+0j) The corresponding Total Angular Momentum is 1.2057181036792375
+```
+
+```
+HF Energy is: -75.6787913259016 *********************************Exact Eigensolver*************************************** === GROUND STATE ENERGY === * Electronic ground state energy (Hartree): -84.916233233599 - computed part: -23.633272241623 - frozen energy part: -61.282960991976 - particle hole part: 0.0 ~ Nuclear repulsion energy (Hartree): 9.187404411009 > Total ground state energy (Hartree): -75.72882882259 Optimal VQE energy at this step is: (-72.69078459811197+0j) The corresponding Total Angular Momentum is 1.2057181036792375
+```
+
+```
+entanglement= 'linear'
+```
+
+```
+var_form= TwoLocal(qubitOp.num_qubits, ['ry'], ['cx'], entanglement= [ [0,1],[2,3],[4,5],[6,7] ], reps= 1,skip_unentangled_qubits=True, skip_final_rotation_layer = False, insert_barriers=True, initial_state = None)
+```
+
+```
+var_form= TwoLocal(qubitOp.num_qubits, ['ry'], ['cx'], entanglement= [ [0,1],[2,3],[4,5],[6,7] ], reps= 1,skip_unentangled_qubits=True, skip_final_rotation_layer = False, insert_barriers=True, initial_state = None)
+```
+
+```
+┌──────────┐ ░ ░ ┌──────────┐ q_0: ┤ RY(θ[0]) ├─░───■───░──┤ RY(θ[8]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├──────────┤ q_1: ┤ RY(θ[1]) ├─░─┤ X ├─░──┤ RY(θ[9]) ├ ├──────────┤ ░ └───┘ ░ ┌┴──────────┤ q_2: ┤ RY(θ[2]) ├─░───■───░─┤ RY(θ[10]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├───────────┤ q_3: ┤ RY(θ[3]) ├─░─┤ X ├─░─┤ RY(θ[11]) ├ ├──────────┤ ░ └───┘ ░ ├───────────┤ q_4: ┤ RY(θ[4]) ├─░───■───░─┤ RY(θ[12]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├───────────┤ q_5: ┤ RY(θ[5]) ├─░─┤ X ├─░─┤ RY(θ[13]) ├ ├──────────┤ ░ └───┘ ░ ├───────────┤ q_6: ┤ RY(θ[6]) ├─░───■───░─┤ RY(θ[14]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├───────────┤ q_7: ┤ RY(θ[7]) ├─░─┤ X ├─░─┤ RY(θ[15]) ├ └──────────┘ ░ └───┘ ░ └───────────┘
+```
+
+```
+┌──────────┐ ░ ░ ┌──────────┐ q_0: ┤ RY(θ[0]) ├─░───■───░──┤ RY(θ[8]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├──────────┤ q_1: ┤ RY(θ[1]) ├─░─┤ X ├─░──┤ RY(θ[9]) ├ ├──────────┤ ░ └───┘ ░ ┌┴──────────┤ q_2: ┤ RY(θ[2]) ├─░───■───░─┤ RY(θ[10]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├───────────┤ q_3: ┤ RY(θ[3]) ├─░─┤ X ├─░─┤ RY(θ[11]) ├ ├──────────┤ ░ └───┘ ░ ├───────────┤ q_4: ┤ RY(θ[4]) ├─░───■───░─┤ RY(θ[12]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├───────────┤ q_5: ┤ RY(θ[5]) ├─░─┤ X ├─░─┤ RY(θ[13]) ├ ├──────────┤ ░ └───┘ ░ ├───────────┤ q_6: ┤ RY(θ[6]) ├─░───■───░─┤ RY(θ[14]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├───────────┤ q_7: ┤ RY(θ[7]) ├─░─┤ X ├─░─┤ RY(θ[15]) ├ └──────────┘ ░ └───┘ ░ └───────────┘
+```
+
+Original fixed code:
+import os os.environ['QISKIT_SETTINGS']='' import matplotlib.pyplot as plt %matplotlib inline %config InlineBackend.figure_format = 'svg' # Makes the images look nice import numpy as np from qiskit.aqua import QuantumInstance from qiskit.aqua.algorithms import NumPyMinimumEigensolver, VQE, NumPyEigensolver from qiskit.aqua.components.optimizers import COBYLA from qiskit.aqua.components.initial_states import Custom from qiskit import IBMQ, BasicAer, Aer from qiskit.chemistry.qmolecule import QMolecule from qiskit.chemistry.drivers import PySCFDriver, UnitsType from qiskit.chemistry import FermionicOperator from qiskit.chemistry.core import Hamiltonian, TransformationType, QubitMappingType from qiskit.circuit.library import TwoLocal import warnings warnings.filterwarnings("ignore",category=DeprecationWarning) provider = IBMQ.load_account() simulator_backend = Aer.get_backend("qasm_simulator") hardware_backend = provider.get_backend('ibmq_valencia') quantum_instance = QuantumInstance(backend = simulator_backend, shots= 1, optimization_level= 3) atom_structure = "H; O 1 0.958; H 2 0.958 1 104.47" orbital_reduction=[ ] [unit, charge, spin, basis]= [UnitsType.ANGSTROM, 0, 0, 'sto6g'] driver = PySCFDriver(atom= atom_structure, unit=unit,charge=charge, spin=spin, basis=basis) qmolecule = driver.run() ferOp = Hamiltonian(transformation = TransformationType.FULL , qubit_mapping = QubitMappingType.PARITY, two_qubit_reduction = True, freeze_core = True, orbital_reduction = [ ], z2symmetry_reduction = 'auto') qubitOp, aux_ops = ferOp.run(qmolecule) energy_shift = ferOp._energy_shift nuclear_repulsion_energy = ferOp._nuclear_repulsion_energy total_shift = energy_shift + nuclear_repulsion_energy print('HF Energy is:' , ferOp._hf_energy ) print('\n *********************************Exact Eigensolver*************************************** \n') exact_result = NumPyMinimumEigensolver(qubitOp).run() ee_result = ferOp.process_algorithm_result(exact_result) print(ee_result) #----------------------- VQE PROCESSED ---------------------------# var_form= TwoLocal(qubitOp.num_qubits, ['ry'], ['cx'], entanglement= 'linear', reps= 2,skip_unentangled_qubits=True, skip_final_rotation_layer = False, insert_barriers=True, initial_state = None) optimizer = COBYLA(maxiter= 50,tol=0.000000001) vqe = VQE(qubitOp, var_form, optimizer, initial_point = None, include_custom = True, aux_operators=aux_ops) vqe_result = vqe.run(quantum_instance) vqe_processed_result = ferOp.process_algorithm_result(vqe_result) vqe_energy = vqe_result['eigenvalue'] + total_shift total_ang_moment = vqe_processed_result['total_angular_momentum'] print('Optimal VQE energy at this step is:', vqe_energy) print('The corresponding Total Angular Momentum is', total_ang_moment) vqe.get_optimal_circuit().draw('mpl', style = {'name': 'bw'}, scale = 0.75, plot_barriers = False)
+
+---CODE_BLOCK---
+
+import os os.environ['QISKIT_SETTINGS']='' import matplotlib.pyplot as plt %matplotlib inline %config InlineBackend.figure_format = 'svg' # Makes the images look nice import numpy as np from qiskit.aqua import QuantumInstance from qiskit.aqua.algorithms import NumPyMinimumEigensolver, VQE, NumPyEigensolver from qiskit.aqua.components.optimizers import COBYLA from qiskit.aqua.components.initial_states import Custom from qiskit import IBMQ, BasicAer, Aer from qiskit.chemistry.qmolecule import QMolecule from qiskit.chemistry.drivers import PySCFDriver, UnitsType from qiskit.chemistry import FermionicOperator from qiskit.chemistry.core import Hamiltonian, TransformationType, QubitMappingType from qiskit.circuit.library import TwoLocal import warnings warnings.filterwarnings("ignore",category=DeprecationWarning) provider = IBMQ.load_account() simulator_backend = Aer.get_backend("qasm_simulator") hardware_backend = provider.get_backend('ibmq_valencia') quantum_instance = QuantumInstance(backend = simulator_backend, shots= 1, optimization_level= 3) atom_structure = "H; O 1 0.958; H 2 0.958 1 104.47" orbital_reduction=[ ] [unit, charge, spin, basis]= [UnitsType.ANGSTROM, 0, 0, 'sto6g'] driver = PySCFDriver(atom= atom_structure, unit=unit,charge=charge, spin=spin, basis=basis) qmolecule = driver.run() ferOp = Hamiltonian(transformation = TransformationType.FULL , qubit_mapping = QubitMappingType.PARITY, two_qubit_reduction = True, freeze_core = True, orbital_reduction = [ ], z2symmetry_reduction = 'auto') qubitOp, aux_ops = ferOp.run(qmolecule) energy_shift = ferOp._energy_shift nuclear_repulsion_energy = ferOp._nuclear_repulsion_energy total_shift = energy_shift + nuclear_repulsion_energy print('HF Energy is:' , ferOp._hf_energy ) print('\n *********************************Exact Eigensolver*************************************** \n') exact_result = NumPyMinimumEigensolver(qubitOp).run() ee_result = ferOp.process_algorithm_result(exact_result) print(ee_result) #----------------------- VQE PROCESSED ---------------------------# var_form= TwoLocal(qubitOp.num_qubits, ['ry'], ['cx'], entanglement= 'linear', reps= 2,skip_unentangled_qubits=True, skip_final_rotation_layer = False, insert_barriers=True, initial_state = None) optimizer = COBYLA(maxiter= 50,tol=0.000000001) vqe = VQE(qubitOp, var_form, optimizer, initial_point = None, include_custom = True, aux_operators=aux_ops) vqe_result = vqe.run(quantum_instance) vqe_processed_result = ferOp.process_algorithm_result(vqe_result) vqe_energy = vqe_result['eigenvalue'] + total_shift total_ang_moment = vqe_processed_result['total_angular_momentum'] print('Optimal VQE energy at this step is:', vqe_energy) print('The corresponding Total Angular Momentum is', total_ang_moment) vqe.get_optimal_circuit().draw('mpl', style = {'name': 'bw'}, scale = 0.75, plot_barriers = False)
+
+---CODE_BLOCK---
+
+HF Energy is: -75.6787913259016 *********************************Exact Eigensolver*************************************** === GROUND STATE ENERGY === * Electronic ground state energy (Hartree): -84.916233233599 - computed part: -23.633272241623 - frozen energy part: -61.282960991976 - particle hole part: 0.0 ~ Nuclear repulsion energy (Hartree): 9.187404411009 > Total ground state energy (Hartree): -75.72882882259 Optimal VQE energy at this step is: (-72.69078459811197+0j) The corresponding Total Angular Momentum is 1.2057181036792375
+
+---CODE_BLOCK---
+
+HF Energy is: -75.6787913259016 *********************************Exact Eigensolver*************************************** === GROUND STATE ENERGY === * Electronic ground state energy (Hartree): -84.916233233599 - computed part: -23.633272241623 - frozen energy part: -61.282960991976 - particle hole part: 0.0 ~ Nuclear repulsion energy (Hartree): 9.187404411009 > Total ground state energy (Hartree): -75.72882882259 Optimal VQE energy at this step is: (-72.69078459811197+0j) The corresponding Total Angular Momentum is 1.2057181036792375
+
+---CODE_BLOCK---
+
+entanglement= 'linear'
+
+---CODE_BLOCK---
+
+var_form= TwoLocal(qubitOp.num_qubits, ['ry'], ['cx'], entanglement= [ [0,1],[2,3],[4,5],[6,7] ], reps= 1,skip_unentangled_qubits=True, skip_final_rotation_layer = False, insert_barriers=True, initial_state = None)
+
+---CODE_BLOCK---
+
+var_form= TwoLocal(qubitOp.num_qubits, ['ry'], ['cx'], entanglement= [ [0,1],[2,3],[4,5],[6,7] ], reps= 1,skip_unentangled_qubits=True, skip_final_rotation_layer = False, insert_barriers=True, initial_state = None)
+
+---CODE_BLOCK---
+
+┌──────────┐ ░ ░ ┌──────────┐ q_0: ┤ RY(θ[0]) ├─░───■───░──┤ RY(θ[8]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├──────────┤ q_1: ┤ RY(θ[1]) ├─░─┤ X ├─░──┤ RY(θ[9]) ├ ├──────────┤ ░ └───┘ ░ ┌┴──────────┤ q_2: ┤ RY(θ[2]) ├─░───■───░─┤ RY(θ[10]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├───────────┤ q_3: ┤ RY(θ[3]) ├─░─┤ X ├─░─┤ RY(θ[11]) ├ ├──────────┤ ░ └───┘ ░ ├───────────┤ q_4: ┤ RY(θ[4]) ├─░───■───░─┤ RY(θ[12]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├───────────┤ q_5: ┤ RY(θ[5]) ├─░─┤ X ├─░─┤ RY(θ[13]) ├ ├──────────┤ ░ └───┘ ░ ├───────────┤ q_6: ┤ RY(θ[6]) ├─░───■───░─┤ RY(θ[14]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├───────────┤ q_7: ┤ RY(θ[7]) ├─░─┤ X ├─░─┤ RY(θ[15]) ├ └──────────┘ ░ └───┘ ░ └───────────┘
+
+---CODE_BLOCK---
+
+┌──────────┐ ░ ░ ┌──────────┐ q_0: ┤ RY(θ[0]) ├─░───■───░──┤ RY(θ[8]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├──────────┤ q_1: ┤ RY(θ[1]) ├─░─┤ X ├─░──┤ RY(θ[9]) ├ ├──────────┤ ░ └───┘ ░ ┌┴──────────┤ q_2: ┤ RY(θ[2]) ├─░───■───░─┤ RY(θ[10]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├───────────┤ q_3: ┤ RY(θ[3]) ├─░─┤ X ├─░─┤ RY(θ[11]) ├ ├──────────┤ ░ └───┘ ░ ├───────────┤ q_4: ┤ RY(θ[4]) ├─░───■───░─┤ RY(θ[12]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├───────────┤ q_5: ┤ RY(θ[5]) ├─░─┤ X ├─░─┤ RY(θ[13]) ├ ├──────────┤ ░ └───┘ ░ ├───────────┤ q_6: ┤ RY(θ[6]) ├─░───■───░─┤ RY(θ[14]) ├ ├──────────┤ ░ ┌─┴─┐ ░ ├───────────┤ q_7: ┤ RY(θ[7]) ├─░─┤ X ├─░─┤ RY(θ[15]) ├ └──────────┘ ░ └───┘ ░ └───────────┘

@@ -1,0 +1,43 @@
+Title:
+What is the name of the algorithm used in the qc.unitary API?
+
+Category:
+
+
+Question:
+Title: What is the name of the algorithm used in the qc.unitary API?
+
+I am trying to understand the paper: Quantum circuits for isometries (PRA 93, 032318, arXiv:1501.06911). This paper basically proposes an algorithm called as column column decomposition (CCD), which is basically used in qiskit API: (but I am not sure, if someone can confirm this that would be great). https://docs.quantum.ibm.com/api/qiskit/qiskit.circuit.QuantumCircuit#unitary It would be great help if someone can explain a little about are Isometries and what exact is the name of the algorithm used in ? Edit1 Perhaps, this question is too difficult. Just the name of algorithm used in would also be a great help.
+
+```
+qc.unitary
+```
+
+```
+qc.unitary
+```
+
+```
+qc.unitary
+```
+
+Original buggy code:
+qc.unitary
+
+---CODE_BLOCK---
+
+qc.unitary
+
+---CODE_BLOCK---
+
+qc.unitary
+
+Solution explanation:
+The algorithm which is used in decomposition is the Quantum Shannon Decomposition (QSD) based on [1]. This algorithm yields circuits with about half the number of CX gates compared to [2]. Further details on the implementation of the QSD algorithm in Qiskit can be found here: https://docs.quantum.ibm.com/api/qiskit/synthesis#qs_decomposition References: [1] Shende, Bullock, Markov, Synthesis of Quantum Logic Circuits, https://arxiv.org/abs/quant-ph/0406176 [2] Iten et. al. Quantum circuits for isometries (PRA 93, 032318), https://arxiv.org/abs/1501.06911
+
+```
+qc.unitary
+```
+
+Original fixed code:
+qc.unitary

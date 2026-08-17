@@ -1,0 +1,67 @@
+Title:
+How to make circuit for randomly selected gate?
+
+Category:
+
+
+Question:
+Title: How to make circuit for randomly selected gate?
+
+I am trying to make a circuit for the randomly selected gates from a but I don't know how to put these selected gates in front of statement. I don't know how to do this exactly is there any batter way to do this?
+
+```
+gate_list
+```
+
+```
+qr.
+```
+
+```
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit import Aer, execute import random n = 8 gate_list = ['u1', 'u2', 'u3', 'id', 'x', 'y', 'z', 'h', 's'] selected_gates= [] for i in range(0,8): x = random.choice(gates) a = '({})'.format(i) k = x+a selected_gates.append(k) print(selected_gates) qr = QuantumCircuit(n) qr.selected_gates[0] qr.selected_gates[1] qr.selected_gates[2] qr.selected_gates[3] qr.selected_gates[4] qr.selected_gates[5] qr.selected_gates[6] qr.selected_gates[7] qr.draw()
+```
+
+```
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit import Aer, execute import random n = 8 gate_list = ['u1', 'u2', 'u3', 'id', 'x', 'y', 'z', 'h', 's'] selected_gates= [] for i in range(0,8): x = random.choice(gates) a = '({})'.format(i) k = x+a selected_gates.append(k) print(selected_gates) qr = QuantumCircuit(n) qr.selected_gates[0] qr.selected_gates[1] qr.selected_gates[2] qr.selected_gates[3] qr.selected_gates[4] qr.selected_gates[5] qr.selected_gates[6] qr.selected_gates[7] qr.draw()
+```
+
+Original buggy code:
+gate_list
+
+---CODE_BLOCK---
+
+qr.
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit import Aer, execute import random n = 8 gate_list = ['u1', 'u2', 'u3', 'id', 'x', 'y', 'z', 'h', 's'] selected_gates= [] for i in range(0,8): x = random.choice(gates) a = '({})'.format(i) k = x+a selected_gates.append(k) print(selected_gates) qr = QuantumCircuit(n) qr.selected_gates[0] qr.selected_gates[1] qr.selected_gates[2] qr.selected_gates[3] qr.selected_gates[4] qr.selected_gates[5] qr.selected_gates[6] qr.selected_gates[7] qr.draw()
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit import Aer, execute import random n = 8 gate_list = ['u1', 'u2', 'u3', 'id', 'x', 'y', 'z', 'h', 's'] selected_gates= [] for i in range(0,8): x = random.choice(gates) a = '({})'.format(i) k = x+a selected_gates.append(k) print(selected_gates) qr = QuantumCircuit(n) qr.selected_gates[0] qr.selected_gates[1] qr.selected_gates[2] qr.selected_gates[3] qr.selected_gates[4] qr.selected_gates[5] qr.selected_gates[6] qr.selected_gates[7] qr.draw()
+
+Solution explanation:
+This is very similar to an function in terra : https://github.com/Qiskit/qiskit-terra/blob/master/qiskit/circuit/random/utils.py#L30-L113 It randomly picks gates from the list of all the standard gates in terra. For example, you can run something like: Which will return a 10 qubit circuit of depth 10 with measurements at the end. What this function is missing is an option to specify the list of gates to select from, but I think if you opened an issue about this no one would be opposed to adding that functionality in the future. But, regardless the implementation of that function shows how you would implement a version with your own list of gates, just make a local copy of the function and modify the lists https://github.com/Qiskit/qiskit-terra/blob/master/qiskit/circuit/random/utils.py#L52-L59.
+
+```
+random_circuit
+```
+
+```
+from qiskit.circuit.random import random_circuit qr = random_circuit(10, 10, max_operands=3, measure=True)
+```
+
+```
+from qiskit.circuit.random import random_circuit qr = random_circuit(10, 10, max_operands=3, measure=True)
+```
+
+Original fixed code:
+random_circuit
+
+---CODE_BLOCK---
+
+from qiskit.circuit.random import random_circuit qr = random_circuit(10, 10, max_operands=3, measure=True)
+
+---CODE_BLOCK---
+
+from qiskit.circuit.random import random_circuit qr = random_circuit(10, 10, max_operands=3, measure=True)

@@ -1,0 +1,131 @@
+Title:
+How to join different quantum circuits into one big circuit on specific qubits in qiskit?
+
+Category:
+
+
+Question:
+Title: How to join different quantum circuits into one big circuit on specific qubits in qiskit?
+
+I have a quantum circuit that loads the data and is acting on qubit then another circuit that does the same on then I have to apply an and few other ansatz parameterized gates acting on specific qubits. How can I add this all to one big circuit and run it. I already tried function, but it doesn't specify which qubits should it be applied. I also tried function, although it has the parameter of specific qubits, it adds classical registers to the circuit, which in the end are giving me trouble in applying the of the function. Is there any other way
+
+```
+q0,q1,q2
+```
+
+```
+q3,q4,q5
+```
+
+```
+CDKMRippleCarryAdder
+```
+
+```
+add
+```
+
+```
+compose
+```
+
+```
+GroverOperator
+```
+
+```
+EstimationProblem
+```
+
+Original buggy code:
+q0,q1,q2
+
+---CODE_BLOCK---
+
+q3,q4,q5
+
+---CODE_BLOCK---
+
+CDKMRippleCarryAdder
+
+---CODE_BLOCK---
+
+add
+
+---CODE_BLOCK---
+
+compose
+
+---CODE_BLOCK---
+
+GroverOperator
+
+---CODE_BLOCK---
+
+EstimationProblem
+
+Solution explanation:
+method will not add classical registers to the result unless you pass a circuit that already contains classical registers. So, if your do something like: will not have any classical registers. If, however, say contains a classical register, then you will have to remove its classical bits before passing it to method as follows:
+
+```
+QuantumCircuit.compose()
+```
+
+```
+circ1 = QuantumCircuit(3) circ1.h([0, 1, 2]) circ2 = QuantumCircuit(3) circ2.x([0, 1, 2]) circ = QuantumCircuit(6) circ.compose(circ1, [0, 1, 2], inplace=True) circ.compose(circ2, [3, 4, 5], inplace=True)
+```
+
+```
+circ1 = QuantumCircuit(3) circ1.h([0, 1, 2]) circ2 = QuantumCircuit(3) circ2.x([0, 1, 2]) circ = QuantumCircuit(6) circ.compose(circ1, [0, 1, 2], inplace=True) circ.compose(circ2, [3, 4, 5], inplace=True)
+```
+
+```
+circ
+```
+
+```
+circ1
+```
+
+```
+compose
+```
+
+```
+circ1 = QuantumCircuit(3, 3) circ1.h([0, 1, 2]) from qiskit.converters import circuit_to_dag, dag_to_circuit dag = circuit_to_dag(circ1) dag.remove_clbits(*circ1.clbits) circ1 = dag_to_circuit(dag)
+```
+
+```
+circ1 = QuantumCircuit(3, 3) circ1.h([0, 1, 2]) from qiskit.converters import circuit_to_dag, dag_to_circuit dag = circuit_to_dag(circ1) dag.remove_clbits(*circ1.clbits) circ1 = dag_to_circuit(dag)
+```
+
+Original fixed code:
+QuantumCircuit.compose()
+
+---CODE_BLOCK---
+
+circ1 = QuantumCircuit(3) circ1.h([0, 1, 2]) circ2 = QuantumCircuit(3) circ2.x([0, 1, 2]) circ = QuantumCircuit(6) circ.compose(circ1, [0, 1, 2], inplace=True) circ.compose(circ2, [3, 4, 5], inplace=True)
+
+---CODE_BLOCK---
+
+circ1 = QuantumCircuit(3) circ1.h([0, 1, 2]) circ2 = QuantumCircuit(3) circ2.x([0, 1, 2]) circ = QuantumCircuit(6) circ.compose(circ1, [0, 1, 2], inplace=True) circ.compose(circ2, [3, 4, 5], inplace=True)
+
+---CODE_BLOCK---
+
+circ
+
+---CODE_BLOCK---
+
+circ1
+
+---CODE_BLOCK---
+
+compose
+
+---CODE_BLOCK---
+
+circ1 = QuantumCircuit(3, 3) circ1.h([0, 1, 2]) from qiskit.converters import circuit_to_dag, dag_to_circuit dag = circuit_to_dag(circ1) dag.remove_clbits(*circ1.clbits) circ1 = dag_to_circuit(dag)
+
+---CODE_BLOCK---
+
+circ1 = QuantumCircuit(3, 3) circ1.h([0, 1, 2]) from qiskit.converters import circuit_to_dag, dag_to_circuit dag = circuit_to_dag(circ1) dag.remove_clbits(*circ1.clbits) circ1 = dag_to_circuit(dag)

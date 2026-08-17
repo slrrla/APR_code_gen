@@ -1,0 +1,128 @@
+Title:
+Where has the "units" sub-module in qiskit_nature gone?
+
+Category:
+Category: Import / Version Compatibility  
+Winner: Stack Overflow  
+Why Stack Overflow Is Better: The Stack Overflow answer correctly diagnosed that the user's error was due to using Python 3.6, which restricts them to Qiskit Nature ≤ 0.3.2, where `units` and `second_q` do not exist. It offered a practical and correct resolution—upgrading to Python 3.9 and reinstalling Qiskit Nature. In contrast, the AI answer provided deprecated code for older mid-versions and failed to recognize the environment limitation.  
+Why Stack Overflow Performs Well in This Category: Stack Overflow answers are often rooted in real-world usage issues and environmental mismatches. This makes them particularly effective in resolving version-specific or setup-specific import problems, which require contextual awareness of dependencies, Python versions, and package evolution timelines.
+
+
+Question:
+Title: Where has the "units" sub-module in qiskit_nature gone?
+
+I am trying to follow this qiskit "Electronic Structure" tutorial , but at the very first step, setting up the PySCF driver with the following 
+ from qiskit_nature.units import DistanceUnit
+from qiskit_nature.second_q.drivers import PySCFDriver
+
+driver = PySCFDriver(
+ atom="H 0 0 0; H 0 0 0.735",
+ basis="sto3g",
+ charge=0,
+ spin=0,
+ unit=DistanceUnit.ANGSTROM,
+)
+
+ produces an error. The error says there is no module "units" in qiskit_nature. 
+ I have installed qiskit_nature with pip (pip3, python 3.6) and when I listed the submodules of qiskit_nature I get 
+ algorithms
+circuit
+constants
+converters
+deprecation
+drivers
+exceptions
+mappers
+operators
+problems
+properties
+results
+runtime
+settings
+transformers
+version
+
+ I checked most and there appears not to be a "units" module anywhere. While the call to the submodule "units" in the above may be trivial and/or circumvented, where has the submodule gone? Is it missing because when they ported the "qiskit.chemistry" to "nature" they re-organised things? If so, why do the tutorials on the "nature" module not reflect this?
+
+```
+from qiskit_nature.units import DistanceUnit
+from qiskit_nature.second_q.drivers import PySCFDriver
+
+driver = PySCFDriver(
+    atom="H 0 0 0; H 0 0 0.735",
+    basis="sto3g",
+    charge=0,
+    spin=0,
+    unit=DistanceUnit.ANGSTROM,
+)
+```
+
+```
+algorithms
+circuit
+constants
+converters
+deprecation
+drivers
+exceptions
+mappers
+operators
+problems
+properties
+results
+runtime
+settings
+transformers
+version
+```
+
+Original buggy code:
+from qiskit_nature.units import DistanceUnit
+from qiskit_nature.second_q.drivers import PySCFDriver
+
+driver = PySCFDriver(
+    atom="H 0 0 0; H 0 0 0.735",
+    basis="sto3g",
+    charge=0,
+    spin=0,
+    unit=DistanceUnit.ANGSTROM,
+)
+
+---CODE_BLOCK---
+
+algorithms
+circuit
+constants
+converters
+deprecation
+drivers
+exceptions
+mappers
+operators
+problems
+properties
+results
+runtime
+settings
+transformers
+version
+
+Solution explanation:
+I am assuming that you are trying to run the latest tutorial but you do not have the latest version of Qiskit Nature installed. This is based on three observatons: 
+
+ The units module is missing which only got added in Qiskit Nature v0.5.0 
+ The second_q module is missing, too, which also got added in that version. 
+ Furthermore, you say that you are using Python 3.6, support which has been removed in version 0.4.0. 
+
+ Thus, I strongly assume you installed Qiskit Nature v0.3.2 which is the last release that pip should resolve to under that Python version. 
+ Now, how do you go about solving this problem: I strongly suggest that you first switch to a newer Python version. 3.6 has reached its end of life on Dec 23rd, 2021 1 .
+I suggest you upgrade to Python 3.9 which will be supported into 2025 and has already been "battle-tested" on all platforms. 
+ Once you have upgrade your Python version, you will need to re-install Qiskit Nature: 
+ pip3 install --upgrade qiskit-nature
+
+```
+pip3 install --upgrade qiskit-nature
+```
+
+Original fixed code:
+pip3 install --upgrade qiskit-nature

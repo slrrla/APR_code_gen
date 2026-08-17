@@ -1,0 +1,92 @@
+Title:
+Implementing noise model in Qiskit using arbitrary basis gates
+
+Category:
+**Winner: Stack Exchange solution.**
+Using `optimization_level=0` is the correct fix so the circuit isn’t rewritten and your `NoiseModel` still matches the gates. The AI answer misdiagnoses it as a backend–basis mismatch and wouldn’t reliably attach your custom noise.
+
+Question:
+Title: Implementing noise model in Qiskit using arbitrary basis gates
+
+Consider the simplified code below. The code creates a quantum circuit and a simplified noise model. When I try to simulate this circuit using the noise model I get error message that the simulation fails. I have noticed that I get this when I supply to the function, and when I remove from it works. But if I do that Qiskit is not simulating the actual circuit that I want but a transpiled version of the actual circuit that I want to simulate.
+
+```
+basis_gates
+```
+
+```
+NoiseModel
+```
+
+```
+basis_gates
+```
+
+```
+NoiseModel
+```
+
+```
+import numpy as np from qiskit import execute, QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit.providers.aer import QasmSimulator from qiskit.tools.visualization import plot_histogram # Qiskit Aer noise module imports from qiskit.providers.aer.noise import NoiseModel from qiskit.providers.aer.noise.errors import pauli_error # System Specification n_qubits = 2 circ = QuantumCircuit(n_qubits, n_qubits) # Test Circuit circ.h(0) circ.rx(np.pi/4,1) circ.cz(0,1) circ.rz(np.pi,0) circ.measure(range(n_qubits), range(n_qubits)) # Basis gates basis_gates = ['id', 'h', 'rx', 'rz', 'cz'] # Example error probabilities p = 0.05 # QuantumError objects error_gate1 = pauli_error([('X',p), ('I', 1 - p)]) error_gate2 = error_gate1.tensor(error_gate1) # Add errors to noise model noise_bit_flip = NoiseModel(basis_gates) noise_bit_flip.add_all_qubit_quantum_error(error_gate1, ["h", "rx","rz"]) noise_bit_flip.add_all_qubit_quantum_error(error_gate2, ["cz"]) print(noise_bit_flip) # Backend simulator = QasmSimulator() # Run the noisy simulation job = execute(circ, simulator, basis_gates = noise_bit_flip.basis_gates, noise_model = noise_bit_flip) result_bit_flip = job.result() counts_bit_flip = result_bit_flip.get_counts(0) # Plot noisy output plot_histogram(counts_bit_flip)
+```
+
+```
+import numpy as np from qiskit import execute, QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit.providers.aer import QasmSimulator from qiskit.tools.visualization import plot_histogram # Qiskit Aer noise module imports from qiskit.providers.aer.noise import NoiseModel from qiskit.providers.aer.noise.errors import pauli_error # System Specification n_qubits = 2 circ = QuantumCircuit(n_qubits, n_qubits) # Test Circuit circ.h(0) circ.rx(np.pi/4,1) circ.cz(0,1) circ.rz(np.pi,0) circ.measure(range(n_qubits), range(n_qubits)) # Basis gates basis_gates = ['id', 'h', 'rx', 'rz', 'cz'] # Example error probabilities p = 0.05 # QuantumError objects error_gate1 = pauli_error([('X',p), ('I', 1 - p)]) error_gate2 = error_gate1.tensor(error_gate1) # Add errors to noise model noise_bit_flip = NoiseModel(basis_gates) noise_bit_flip.add_all_qubit_quantum_error(error_gate1, ["h", "rx","rz"]) noise_bit_flip.add_all_qubit_quantum_error(error_gate2, ["cz"]) print(noise_bit_flip) # Backend simulator = QasmSimulator() # Run the noisy simulation job = execute(circ, simulator, basis_gates = noise_bit_flip.basis_gates, noise_model = noise_bit_flip) result_bit_flip = job.result() counts_bit_flip = result_bit_flip.get_counts(0) # Plot noisy output plot_histogram(counts_bit_flip)
+```
+
+Original buggy code:
+basis_gates
+
+---CODE_BLOCK---
+
+NoiseModel
+
+---CODE_BLOCK---
+
+basis_gates
+
+---CODE_BLOCK---
+
+NoiseModel
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import execute, QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit.providers.aer import QasmSimulator from qiskit.tools.visualization import plot_histogram # Qiskit Aer noise module imports from qiskit.providers.aer.noise import NoiseModel from qiskit.providers.aer.noise.errors import pauli_error # System Specification n_qubits = 2 circ = QuantumCircuit(n_qubits, n_qubits) # Test Circuit circ.h(0) circ.rx(np.pi/4,1) circ.cz(0,1) circ.rz(np.pi,0) circ.measure(range(n_qubits), range(n_qubits)) # Basis gates basis_gates = ['id', 'h', 'rx', 'rz', 'cz'] # Example error probabilities p = 0.05 # QuantumError objects error_gate1 = pauli_error([('X',p), ('I', 1 - p)]) error_gate2 = error_gate1.tensor(error_gate1) # Add errors to noise model noise_bit_flip = NoiseModel(basis_gates) noise_bit_flip.add_all_qubit_quantum_error(error_gate1, ["h", "rx","rz"]) noise_bit_flip.add_all_qubit_quantum_error(error_gate2, ["cz"]) print(noise_bit_flip) # Backend simulator = QasmSimulator() # Run the noisy simulation job = execute(circ, simulator, basis_gates = noise_bit_flip.basis_gates, noise_model = noise_bit_flip) result_bit_flip = job.result() counts_bit_flip = result_bit_flip.get_counts(0) # Plot noisy output plot_histogram(counts_bit_flip)
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import execute, QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit.providers.aer import QasmSimulator from qiskit.tools.visualization import plot_histogram # Qiskit Aer noise module imports from qiskit.providers.aer.noise import NoiseModel from qiskit.providers.aer.noise.errors import pauli_error # System Specification n_qubits = 2 circ = QuantumCircuit(n_qubits, n_qubits) # Test Circuit circ.h(0) circ.rx(np.pi/4,1) circ.cz(0,1) circ.rz(np.pi,0) circ.measure(range(n_qubits), range(n_qubits)) # Basis gates basis_gates = ['id', 'h', 'rx', 'rz', 'cz'] # Example error probabilities p = 0.05 # QuantumError objects error_gate1 = pauli_error([('X',p), ('I', 1 - p)]) error_gate2 = error_gate1.tensor(error_gate1) # Add errors to noise model noise_bit_flip = NoiseModel(basis_gates) noise_bit_flip.add_all_qubit_quantum_error(error_gate1, ["h", "rx","rz"]) noise_bit_flip.add_all_qubit_quantum_error(error_gate2, ["cz"]) print(noise_bit_flip) # Backend simulator = QasmSimulator() # Run the noisy simulation job = execute(circ, simulator, basis_gates = noise_bit_flip.basis_gates, noise_model = noise_bit_flip) result_bit_flip = job.result() counts_bit_flip = result_bit_flip.get_counts(0) # Plot noisy output plot_histogram(counts_bit_flip)
+
+Solution explanation:
+If you call with the parameter set to 0, qiskit will not perform any circuit optimizations. Your call should therefore be The optimization level can be 0-3 inclusive depending on how much optimization you would like terra to perform. By default optimization level 1, which performs some light optimization, is chosen.
+
+```
+execute
+```
+
+```
+optimization_level
+```
+
+```
+job = execute(circ, simulator, optimization_level=0, noise_model = noise_bit_flip)
+```
+
+```
+job = execute(circ, simulator, optimization_level=0, noise_model = noise_bit_flip)
+```
+
+Original fixed code:
+execute
+
+---CODE_BLOCK---
+
+optimization_level
+
+---CODE_BLOCK---
+
+job = execute(circ, simulator, optimization_level=0, noise_model = noise_bit_flip)
+
+---CODE_BLOCK---
+
+job = execute(circ, simulator, optimization_level=0, noise_model = noise_bit_flip)

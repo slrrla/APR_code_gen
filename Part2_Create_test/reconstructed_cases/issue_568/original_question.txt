@@ -1,0 +1,87 @@
+Title:
+In Qiskit, when creating multi-bit quantum and classical registers, what is the ordering of MSB to LSB?
+
+Category:
+
+
+Question:
+Title: In Qiskit, when creating multi-bit quantum and classical registers, what is the ordering of MSB to LSB?
+
+When creating multi-bit quantum and classical registers, what is the ordering of MSB to LSB? For instance, I created a quantum register via Is the MSB, or is it ? For an example of why I'm asking, please review the following: At the end here I expect the quantum register to be in the state , but the histogram below shows the state . This indicates to me the MSB is the right-most bit, but I don't understand why the authors would do that. Is there some fundamental misunderstanding in my approach? EDIT: Also the example is a bit convoluted--I initialized a Bell state because that's what the input to my circuit will be, but the same result happens with just the NOT gate on .
+
+```
+import qiskit qr = qiskit.QuantumRegister(2, name='qr')
+```
+
+```
+import qiskit qr = qiskit.QuantumRegister(2, name='qr')
+```
+
+```
+qr[1]
+```
+
+```
+qr[0]
+```
+
+```
+import qiskit qr = qiskit.QuantumRegister(2, name='qr') cr = qiskit.ClassicalRegister(2, name='cr') qc = qiskit.QuantumCircuit(qr, cr) # Result should be Bell state (|00>+|11>)/sqrt(2) qc.h(qreg[0]) qc.cx(qreg[0], qreg[1]) # Result should be state |00> qc.cx(qreg[0], qreg[1]) qc.h(qreg[0]) # Result should be state |10> qc.x(qreg[0]) qc.measure(qreg, creg) qc.draw()
+```
+
+```
+import qiskit qr = qiskit.QuantumRegister(2, name='qr') cr = qiskit.ClassicalRegister(2, name='cr') qc = qiskit.QuantumCircuit(qr, cr) # Result should be Bell state (|00>+|11>)/sqrt(2) qc.h(qreg[0]) qc.cx(qreg[0], qreg[1]) # Result should be state |00> qc.cx(qreg[0], qreg[1]) qc.h(qreg[0]) # Result should be state |10> qc.x(qreg[0]) qc.measure(qreg, creg) qc.draw()
+```
+
+```
+|10>
+```
+
+```
+|01>
+```
+
+```
+qr[0]
+```
+
+Original buggy code:
+import qiskit qr = qiskit.QuantumRegister(2, name='qr')
+
+---CODE_BLOCK---
+
+import qiskit qr = qiskit.QuantumRegister(2, name='qr')
+
+---CODE_BLOCK---
+
+qr[1]
+
+---CODE_BLOCK---
+
+qr[0]
+
+---CODE_BLOCK---
+
+import qiskit qr = qiskit.QuantumRegister(2, name='qr') cr = qiskit.ClassicalRegister(2, name='cr') qc = qiskit.QuantumCircuit(qr, cr) # Result should be Bell state (|00>+|11>)/sqrt(2) qc.h(qreg[0]) qc.cx(qreg[0], qreg[1]) # Result should be state |00> qc.cx(qreg[0], qreg[1]) qc.h(qreg[0]) # Result should be state |10> qc.x(qreg[0]) qc.measure(qreg, creg) qc.draw()
+
+---CODE_BLOCK---
+
+import qiskit qr = qiskit.QuantumRegister(2, name='qr') cr = qiskit.ClassicalRegister(2, name='cr') qc = qiskit.QuantumCircuit(qr, cr) # Result should be Bell state (|00>+|11>)/sqrt(2) qc.h(qreg[0]) qc.cx(qreg[0], qreg[1]) # Result should be state |00> qc.cx(qreg[0], qreg[1]) qc.h(qreg[0]) # Result should be state |10> qc.x(qreg[0]) qc.measure(qreg, creg) qc.draw()
+
+---CODE_BLOCK---
+
+|10>
+
+---CODE_BLOCK---
+
+|01>
+
+---CODE_BLOCK---
+
+qr[0]
+
+Solution explanation:
+Pulling from another question (Big Endian vs. Little Endian in Qiskit) and their documentation (https://qiskit.org/textbook/ch-appendix/qiskit.html), it appears that the register is intentionally labeled right-to-left so that integers are intuitively represented. Consider your example, where you applied X(qr[0]): $ |00\rangle \rightarrow |01\rangle $, which is "1" as an integer. $1 = 2^0$ There example used X(qr[7]) on an 8 qubit register: $ |00000000\rangle \rightarrow |10000000\rangle = 32 = 2^7 $
+
+Original fixed code:
+Pulling from another question (Big Endian vs. Little Endian in Qiskit) and their documentation (https://qiskit.org/textbook/ch-appendix/qiskit.html), it appears that the register is intentionally labeled right-to-left so that integers are intuitively represented. Consider your example, where you applied X(qr[0]): $ |00\rangle \rightarrow |01\rangle $, which is "1" as an integer. $1 = 2^0$ There example used X(qr[7]) on an 8 qubit register: $ |00000000\rangle \rightarrow |10000000\rangle = 32 = 2^7 $

@@ -1,0 +1,179 @@
+Title:
+A quantum circuit to find if 4 given sides can form a rectangle
+
+Category:
+
+
+Question:
+Title: A quantum circuit to find if 4 given sides can form a rectangle
+
+I wrote this code that uses a swap test to find if 2 pairs of sides are equal. First, amplitude encoding the 4 sides on 3 qubits then performing the swap test. I'm not sure where my logic went faulty, especially that I'm not very familiar with the logic of swap test yet. Here is the code
+
+```
+import math def is_rectangle(A: int, B: int, C: int, D: int) -> int: # Define quantum circuit with 3 qubits and 1 classical bit qr = QuantumRegister(3) cr = ClassicalRegister(1) qc = QuantumCircuit(qr, cr) # Encode the input integers into the state of the first 2 qubits using amplitude encoding alpha = math.acos(math.sqrt(A/float(A**2 + B**2))) beta = math.acos(math.sqrt(B/float(A**2 + B**2))) qc.ry(2*alpha, qr[0]) qc.ry(2*beta, qr[1]) gamma = math.acos(math.sqrt(C/float(C**2 + D**2))) delta = math.acos(math.sqrt(D/float(C**2 + D**2))) qc.ry(2*gamma, qr[2]) qc.ry(2*delta, qr[1]) # Apply a series of SWAP gates to create the entangled state needed for the swap test qc.cx(qr[1], qr[2]) qc.cx(qr[0], qr[1]) qc.cx(qr[1], qr[2]) qc.cx(qr[0], qr[1]) qc.cx(qr[1], qr[2]) # Apply the swap test to determine if the input integers satisfy any of the conditions qc.h(qr[2]) qc.cx(qr[2], qr[1]) qc.h(qr[2]) # Measure the third qubit and return the measurement result as the output of the function qc.measure(qr[2], cr[0]) # Run the quantum circuit using the Qiskit simulator simulator = Aer.get_backend('qasm_simulator') result = execute(qc, simulator, shots=1).result() counts = result.get_counts() if '1' in counts: return 1 else: return 0```
+```
+
+```
+import math def is_rectangle(A: int, B: int, C: int, D: int) -> int: # Define quantum circuit with 3 qubits and 1 classical bit qr = QuantumRegister(3) cr = ClassicalRegister(1) qc = QuantumCircuit(qr, cr) # Encode the input integers into the state of the first 2 qubits using amplitude encoding alpha = math.acos(math.sqrt(A/float(A**2 + B**2))) beta = math.acos(math.sqrt(B/float(A**2 + B**2))) qc.ry(2*alpha, qr[0]) qc.ry(2*beta, qr[1]) gamma = math.acos(math.sqrt(C/float(C**2 + D**2))) delta = math.acos(math.sqrt(D/float(C**2 + D**2))) qc.ry(2*gamma, qr[2]) qc.ry(2*delta, qr[1]) # Apply a series of SWAP gates to create the entangled state needed for the swap test qc.cx(qr[1], qr[2]) qc.cx(qr[0], qr[1]) qc.cx(qr[1], qr[2]) qc.cx(qr[0], qr[1]) qc.cx(qr[1], qr[2]) # Apply the swap test to determine if the input integers satisfy any of the conditions qc.h(qr[2]) qc.cx(qr[2], qr[1]) qc.h(qr[2]) # Measure the third qubit and return the measurement result as the output of the function qc.measure(qr[2], cr[0]) # Run the quantum circuit using the Qiskit simulator simulator = Aer.get_backend('qasm_simulator') result = execute(qc, simulator, shots=1).result() counts = result.get_counts() if '1' in counts: return 1 else: return 0```
+```
+
+Original buggy code:
+import math def is_rectangle(A: int, B: int, C: int, D: int) -> int: # Define quantum circuit with 3 qubits and 1 classical bit qr = QuantumRegister(3) cr = ClassicalRegister(1) qc = QuantumCircuit(qr, cr) # Encode the input integers into the state of the first 2 qubits using amplitude encoding alpha = math.acos(math.sqrt(A/float(A**2 + B**2))) beta = math.acos(math.sqrt(B/float(A**2 + B**2))) qc.ry(2*alpha, qr[0]) qc.ry(2*beta, qr[1]) gamma = math.acos(math.sqrt(C/float(C**2 + D**2))) delta = math.acos(math.sqrt(D/float(C**2 + D**2))) qc.ry(2*gamma, qr[2]) qc.ry(2*delta, qr[1]) # Apply a series of SWAP gates to create the entangled state needed for the swap test qc.cx(qr[1], qr[2]) qc.cx(qr[0], qr[1]) qc.cx(qr[1], qr[2]) qc.cx(qr[0], qr[1]) qc.cx(qr[1], qr[2]) # Apply the swap test to determine if the input integers satisfy any of the conditions qc.h(qr[2]) qc.cx(qr[2], qr[1]) qc.h(qr[2]) # Measure the third qubit and return the measurement result as the output of the function qc.measure(qr[2], cr[0]) # Run the quantum circuit using the Qiskit simulator simulator = Aer.get_backend('qasm_simulator') result = execute(qc, simulator, shots=1).result() counts = result.get_counts() if '1' in counts: return 1 else: return 0
+
+Solution explanation:
+I think you may want to change a few things. I've coded up the experiment like this (which should be easy to port to Qiskit and/or use it to correct your circuit): First - the function signature, the hopefully identical sides should be and , as well a and . For experimentation, use values in the range of 0.0 - 1.0: Create a circuit and a few registers, 1 register for each side (I use 2 registers of size 2 below) as well as 2 ancillas: Now encode the length into rotations on each of the 4 qubits corresponding to the 4 sides: Now, 2 swap tests (from and to the qubits corresponding to the sides, bracketed by Hadamards: Now - measurement. In my infra I can just get the probabilities of the ancillas. If the sides were identical, the corresponding probability will be 1.0. If the sides were, for example, maximally different as 0.0 and 1.0, the probability would be 0.5: And to test: Or
+
+```
+a1
+```
+
+```
+a2
+```
+
+```
+b1
+```
+
+```
+b2
+```
+
+```
+def run_experiment(a1: np.complexfloating, a2: np.complexfloating, b1: np.complexfloating, b2: np.complexfloating) -> float: """Construct swap test circuit and measure.""" # The swap circuit is quite simple: # # |0> --- H --- o --- H --- Measure # | # a1 --------- x --------- # | # a2 ----------x ---------
+```
+
+```
+def run_experiment(a1: np.complexfloating, a2: np.complexfloating, b1: np.complexfloating, b2: np.complexfloating) -> float: """Construct swap test circuit and measure.""" # The swap circuit is quite simple: # # |0> --- H --- o --- H --- Measure # | # a1 --------- x --------- # | # a2 ----------x ---------
+```
+
+```
+qc = circuit.qc() ab = qc.reg(2, 0) cd = qc.reg(2, 0) anc = qc.reg(2, 0)
+```
+
+```
+qc = circuit.qc() ab = qc.reg(2, 0) cd = qc.reg(2, 0) anc = qc.reg(2, 0)
+```
+
+```
+qc.ry(ab[0], 2 * np.arcsin(a1)) qc.ry(ab[1], 2 * np.arcsin(a2)) qc.ry(cd[0], 2 * np.arcsin(b1)) qc.ry(cd[1], 2 * np.arcsin(b2))
+```
+
+```
+qc.ry(ab[0], 2 * np.arcsin(a1)) qc.ry(ab[1], 2 * np.arcsin(a2)) qc.ry(cd[0], 2 * np.arcsin(b1)) qc.ry(cd[1], 2 * np.arcsin(b2))
+```
+
+```
+anc[0]
+```
+
+```
+anc[1]
+```
+
+```
+qc.h(anc) qc.cswap(anc[0], ab[0], ab[1]) qc.cswap(anc[1], cd[0], cd[1]) qc.h(anc)
+```
+
+```
+qc.h(anc) qc.cswap(anc[0], ab[0], ab[1]) qc.cswap(anc[1], cd[0], cd[1]) qc.h(anc)
+```
+
+```
+p0_ab, _ = ops.Measure(qc.psi, anc[0], 0, collapse=False) p0_cd, _ = ops.Measure(qc.psi, anc[1], 0, collapse=False) print(f'a1: {a1:.3f} a1: {a2:.3f} b1: {b1:.3f} b2: {b2:.3f}') print(f'p0_ab: {p0_ab:.2f} p0_cd: {p0_cd:.2f} ')
+```
+
+```
+p0_ab, _ = ops.Measure(qc.psi, anc[0], 0, collapse=False) p0_cd, _ = ops.Measure(qc.psi, anc[1], 0, collapse=False) print(f'a1: {a1:.3f} a1: {a2:.3f} b1: {b1:.3f} b2: {b2:.3f}') print(f'p0_ab: {p0_ab:.2f} p0_cd: {p0_cd:.2f} ')
+```
+
+```
+def main(argv): if len(argv) > 1: raise app.UsageError('Too many command-line arguments.') run_experiment(1.0, 1.0, 0.5, 0.5) >> a1: 1.000 a1: 1.000 b1: 0.500 b2: 0.500 p0_ab: 1.00 p0_cd: 1.00
+```
+
+```
+def main(argv): if len(argv) > 1: raise app.UsageError('Too many command-line arguments.') run_experiment(1.0, 1.0, 0.5, 0.5) >> a1: 1.000 a1: 1.000 b1: 0.500 b2: 0.500 p0_ab: 1.00 p0_cd: 1.00
+```
+
+```
+run_experiment(0.5, 0.6, 0.2, 0.6) >> a1: 0.500 a1: 0.600 b1: 0.200 b2: 0.600 p0_ab: 0.99 p0_cd: 0.91 ```
+```
+
+```
+run_experiment(0.5, 0.6, 0.2, 0.6) >> a1: 0.500 a1: 0.600 b1: 0.200 b2: 0.600 p0_ab: 0.99 p0_cd: 0.91 ```
+```
+
+Original fixed code:
+a1
+
+---CODE_BLOCK---
+
+a2
+
+---CODE_BLOCK---
+
+b1
+
+---CODE_BLOCK---
+
+b2
+
+---CODE_BLOCK---
+
+def run_experiment(a1: np.complexfloating, a2: np.complexfloating, b1: np.complexfloating, b2: np.complexfloating) -> float: """Construct swap test circuit and measure.""" # The swap circuit is quite simple: # # |0> --- H --- o --- H --- Measure # | # a1 --------- x --------- # | # a2 ----------x ---------
+
+---CODE_BLOCK---
+
+def run_experiment(a1: np.complexfloating, a2: np.complexfloating, b1: np.complexfloating, b2: np.complexfloating) -> float: """Construct swap test circuit and measure.""" # The swap circuit is quite simple: # # |0> --- H --- o --- H --- Measure # | # a1 --------- x --------- # | # a2 ----------x ---------
+
+---CODE_BLOCK---
+
+qc = circuit.qc() ab = qc.reg(2, 0) cd = qc.reg(2, 0) anc = qc.reg(2, 0)
+
+---CODE_BLOCK---
+
+qc = circuit.qc() ab = qc.reg(2, 0) cd = qc.reg(2, 0) anc = qc.reg(2, 0)
+
+---CODE_BLOCK---
+
+qc.ry(ab[0], 2 * np.arcsin(a1)) qc.ry(ab[1], 2 * np.arcsin(a2)) qc.ry(cd[0], 2 * np.arcsin(b1)) qc.ry(cd[1], 2 * np.arcsin(b2))
+
+---CODE_BLOCK---
+
+qc.ry(ab[0], 2 * np.arcsin(a1)) qc.ry(ab[1], 2 * np.arcsin(a2)) qc.ry(cd[0], 2 * np.arcsin(b1)) qc.ry(cd[1], 2 * np.arcsin(b2))
+
+---CODE_BLOCK---
+
+anc[0]
+
+---CODE_BLOCK---
+
+anc[1]
+
+---CODE_BLOCK---
+
+qc.h(anc) qc.cswap(anc[0], ab[0], ab[1]) qc.cswap(anc[1], cd[0], cd[1]) qc.h(anc)
+
+---CODE_BLOCK---
+
+qc.h(anc) qc.cswap(anc[0], ab[0], ab[1]) qc.cswap(anc[1], cd[0], cd[1]) qc.h(anc)
+
+---CODE_BLOCK---
+
+p0_ab, _ = ops.Measure(qc.psi, anc[0], 0, collapse=False) p0_cd, _ = ops.Measure(qc.psi, anc[1], 0, collapse=False) print(f'a1: {a1:.3f} a1: {a2:.3f} b1: {b1:.3f} b2: {b2:.3f}') print(f'p0_ab: {p0_ab:.2f} p0_cd: {p0_cd:.2f} ')
+
+---CODE_BLOCK---
+
+p0_ab, _ = ops.Measure(qc.psi, anc[0], 0, collapse=False) p0_cd, _ = ops.Measure(qc.psi, anc[1], 0, collapse=False) print(f'a1: {a1:.3f} a1: {a2:.3f} b1: {b1:.3f} b2: {b2:.3f}') print(f'p0_ab: {p0_ab:.2f} p0_cd: {p0_cd:.2f} ')
+
+---CODE_BLOCK---
+
+def main(argv): if len(argv) > 1: raise app.UsageError('Too many command-line arguments.') run_experiment(1.0, 1.0, 0.5, 0.5) >> a1: 1.000 a1: 1.000 b1: 0.500 b2: 0.500 p0_ab: 1.00 p0_cd: 1.00
+
+---CODE_BLOCK---
+
+def main(argv): if len(argv) > 1: raise app.UsageError('Too many command-line arguments.') run_experiment(1.0, 1.0, 0.5, 0.5) >> a1: 1.000 a1: 1.000 b1: 0.500 b2: 0.500 p0_ab: 1.00 p0_cd: 1.00
+
+---CODE_BLOCK---
+
+run_experiment(0.5, 0.6, 0.2, 0.6) >> a1: 0.500 a1: 0.600 b1: 0.200 b2: 0.600 p0_ab: 0.99 p0_cd: 0.91

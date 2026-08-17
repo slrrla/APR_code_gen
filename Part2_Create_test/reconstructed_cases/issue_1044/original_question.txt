@@ -1,0 +1,91 @@
+Title:
+ModuleNotFoundError when running Qiskit RNG
+
+Category:
+
+
+Question:
+Title: ModuleNotFoundError when running Qiskit RNG
+
+I'm trying to generate random numbers using IBMQ backends with the following code: However, I get the following error: How can I fix this error? My current version of terra is 0.21.2. Also, is there a way to recreate this process? It is my understanding that IBM uses the GHZ (Greenberger–Horne–Zeilinger) states and then measures them with random X- and Y-measurements. I would appreciate if someone can confirm that. Thank you!
+
+```
+pip install qiskit_rng from qiskit_rng import Generator IBMQ.load_account() rng_provider = IBMQ.get_provider(hub='ibm-q', group='open', project='main') backend = rng_provider.backends.ibmq_manila generator = Generator(backend=backend) output = generator.sample(num_raw_bits=20001).block_until_ready() qiskit_raw = output.raw_bits print(qiskit_raw)
+```
+
+```
+pip install qiskit_rng from qiskit_rng import Generator IBMQ.load_account() rng_provider = IBMQ.get_provider(hub='ibm-q', group='open', project='main') backend = rng_provider.backends.ibmq_manila generator = Generator(backend=backend) output = generator.sample(num_raw_bits=20001).block_until_ready() qiskit_raw = output.raw_bits print(qiskit_raw)
+```
+
+```
+Input In [3] in <cell line: 2> from qiskit_rng import Generator File /opt/conda/lib/python3.8/site-packages/qiskit_rng/__init__.py:52 in <module> from .generator import Generator File /opt/conda/lib/python3.8/site-packages/qiskit_rng/generator.py:35 in <module> from qiskit.providers.basebackend import BaseBackend ModuleNotFoundError: No module named 'qiskit.providers.basebackend'
+```
+
+```
+Input In [3] in <cell line: 2> from qiskit_rng import Generator File /opt/conda/lib/python3.8/site-packages/qiskit_rng/__init__.py:52 in <module> from .generator import Generator File /opt/conda/lib/python3.8/site-packages/qiskit_rng/generator.py:35 in <module> from qiskit.providers.basebackend import BaseBackend ModuleNotFoundError: No module named 'qiskit.providers.basebackend'
+```
+
+Original buggy code:
+pip install qiskit_rng from qiskit_rng import Generator IBMQ.load_account() rng_provider = IBMQ.get_provider(hub='ibm-q', group='open', project='main') backend = rng_provider.backends.ibmq_manila generator = Generator(backend=backend) output = generator.sample(num_raw_bits=20001).block_until_ready() qiskit_raw = output.raw_bits print(qiskit_raw)
+
+---CODE_BLOCK---
+
+pip install qiskit_rng from qiskit_rng import Generator IBMQ.load_account() rng_provider = IBMQ.get_provider(hub='ibm-q', group='open', project='main') backend = rng_provider.backends.ibmq_manila generator = Generator(backend=backend) output = generator.sample(num_raw_bits=20001).block_until_ready() qiskit_raw = output.raw_bits print(qiskit_raw)
+
+---CODE_BLOCK---
+
+Input In [3] in <cell line: 2> from qiskit_rng import Generator File /opt/conda/lib/python3.8/site-packages/qiskit_rng/__init__.py:52 in <module> from .generator import Generator File /opt/conda/lib/python3.8/site-packages/qiskit_rng/generator.py:35 in <module> from qiskit.providers.basebackend import BaseBackend ModuleNotFoundError: No module named 'qiskit.providers.basebackend'
+
+---CODE_BLOCK---
+
+Input In [3] in <cell line: 2> from qiskit_rng import Generator File /opt/conda/lib/python3.8/site-packages/qiskit_rng/__init__.py:52 in <module> from .generator import Generator File /opt/conda/lib/python3.8/site-packages/qiskit_rng/generator.py:35 in <module> from qiskit.providers.basebackend import BaseBackend ModuleNotFoundError: No module named 'qiskit.providers.basebackend'
+
+Solution explanation:
+The last is 0.2.2 from January 2021. It is unmaintained since then and their github repo is archived. Based on their file: You can get exactly these with: It should work after that.
+
+```
+qiskit-rng
+```
+
+```
+requirements.txt
+```
+
+```
+qiskit-ibmq-provider>=0.10 qiskit-terra>=0.16.2
+```
+
+```
+qiskit-ibmq-provider>=0.10 qiskit-terra>=0.16.2
+```
+
+```
+pip install "qiskit-terra==0.16.2" pip install "qiskit-ibmq-provider~=0.10"
+```
+
+```
+pip install "qiskit-terra==0.16.2" pip install "qiskit-ibmq-provider~=0.10"
+```
+
+Original fixed code:
+qiskit-rng
+
+---CODE_BLOCK---
+
+requirements.txt
+
+---CODE_BLOCK---
+
+qiskit-ibmq-provider>=0.10 qiskit-terra>=0.16.2
+
+---CODE_BLOCK---
+
+qiskit-ibmq-provider>=0.10 qiskit-terra>=0.16.2
+
+---CODE_BLOCK---
+
+pip install "qiskit-terra==0.16.2" pip install "qiskit-ibmq-provider~=0.10"
+
+---CODE_BLOCK---
+
+pip install "qiskit-terra==0.16.2" pip install "qiskit-ibmq-provider~=0.10"
