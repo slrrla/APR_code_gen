@@ -5,8 +5,9 @@ from qiskit.providers.aer import AerSimulator
 
 backend = AerSimulator()
 
-p = ParameterVector('p', 2)
-th = ParameterVector('th', 2)
+p = ParameterVector("p", 2)
+th = ParameterVector("th", 2)
+
 circuit = QuantumCircuit(2)
 circuit.rx(p[0], 0)
 circuit.ry(p[1], 1)
@@ -15,20 +16,26 @@ circuit.ry(th[0], 1)
 
 qc = transpile(circuit, backend)
 
-# placeholder input data: two inputs, each a pair of values
 inp = [[0.1, 0.2]]
 theta = [0.3, 0.4]
 
-bind_dict = {}
-j = 0
-for key in qc.parameters:
-    while j <= 1:  # this is the number of inputs, at the moment we have two inputs
-        bind_dict[key] = inp[0][j]
-        j += 1
-    k = 0
-    bind_dict[key] = theta[k]
+# Explicitly bind each parameter to its intended value.
+bind_dict = {
+    p[0]: inp[0][0],
+    p[1]: inp[0][1],
+    th[0]: theta[0],
+    th[1]: theta[1],
+}
 
-# FIX: bind parameters in place so qc itself is updated
-qc.assign_parameters(bind_dict, inplace=True)
+# assign_parameters returns a new circuit.
+bound_qc = qc.assign_parameters(bind_dict)
 
-qobj = assemble(qc, shots=10)
+# Confirm that no parameters remain unbound.
+if bound_qc.parameters:
+    raise RuntimeError("Parameter binding incomplete")
+
+# Assemble the bound circuit, not the original parameterized circuit.
+qobj = assemble(bound_qc, shots=10)
+
+print("All parameters bound successfully.")
+print("Qobj assembled successfully.")
