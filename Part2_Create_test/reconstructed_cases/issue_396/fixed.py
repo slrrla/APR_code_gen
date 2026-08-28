@@ -1,15 +1,22 @@
-from qiskit.circuit import QuantumCircuit
+from qiskit import QuantumCircuit
 from qiskit.circuit.library import GroverOperator
 
-# Desired marked (solution) states for the oracle
-targets = ['101', '110']
-
-# FIX: build the phase oracle directly as a quantum circuit using
-# controlled-Z gates, which correctly flips the phase of both
-# |101> and |110> states.
+targets = ("101", "110")
 oracle = QuantumCircuit(3)
-oracle.cz(0, 2)
-oracle.cz(0, 1)
+
+for target in targets:
+    for qubit, bit in enumerate(reversed(target)):
+        if bit == "0":
+            oracle.x(qubit)
+
+    # H-MCX-H applies a phase flip to the selected target state.
+    oracle.h(2)
+    oracle.mcx([0, 1], 2)
+    oracle.h(2)
+
+    for qubit, bit in enumerate(reversed(target)):
+        if bit == "0":
+            oracle.x(qubit)
 
 grover_op = GroverOperator(oracle)
 print(grover_op)
