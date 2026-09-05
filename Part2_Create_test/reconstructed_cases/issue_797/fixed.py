@@ -12,18 +12,9 @@ for i in range(16):
 simulator = Aer.get_backend('qasm_simulator')
 result = execute(circuit, backend=simulator, shots=200).result()
 counts = result.get_counts()
-print(counts)
 
-# Only get the measurement strings, without their counts
-measurements = set(counts.keys())
-print(measurements)
-
-# Take one random key from the set
-random_key = next(iter(measurements))
-print(random_key)
-
-# Or take a random key from a list of all measurements
-from random import randint
-measurements_list = list(measurements)
-random_key = measurements_list[randint(0, len(measurements_list) - 1)]
-print(random_key)
+# Only print the measurement strings, without their counts.
+# Sorting keeps the output deterministic for testing and reuse.
+measurements = sorted(counts.keys())
+for measurement in measurements:
+    print(measurement)
