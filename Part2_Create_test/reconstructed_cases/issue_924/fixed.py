@@ -1,11 +1,33 @@
 import numpy as np
-from qiskit.quantum_info import Statevector, SparsePauliOp
+from qiskit.quantum_info import Statevector
 
-O = SparsePauliOp(data=["II", "IZ", "ZI", "ZZ", "XX"], coeffs=[-1, 0.4, -0.4, -1, 0.1])
+try:
+    from qiskit.opflow import PauliSumOp
+    O = PauliSumOp.from_list([
+        ("II", -1),
+        ("IZ", 0.4),
+        ("ZI", -0.4),
+        ("ZZ", -1),
+        ("XX", 0.1),
+    ])
+except ImportError:
+    from qiskit.quantum_info import SparsePauliOp
+    O = SparsePauliOp.from_list([
+        ("II", -1),
+        ("IZ", 0.4),
+        ("ZI", -0.4),
+        ("ZZ", -1),
+        ("XX", 0.1),
+    ])
 
-O_sqr = O @ O
+psi = (
+    Statevector.from_label("00") +
+    Statevector.from_label("11")
+) / np.sqrt(2)
 
-psi = np.sqrt(1/2) * (Statevector.from_label('00') + Statevector.from_label('11'))
+# Fix: compute <psi|O^2|psi>
+operator_matrix = O.to_matrix()
+squared_operator = operator_matrix @ operator_matrix
+expectation_value = psi.expectation_value(squared_operator)
 
-exp_val = psi.expectation_value(O_sqr)
-print(exp_val)
+print(expectation_value)
