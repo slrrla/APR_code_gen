@@ -1,0 +1,20 @@
+
+test_oracle_marks_only_requested_state (__main__.TestIntent.test_oracle_marks_only_requested_state) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_4_0\Lib\site-packages\qiskit_aer\backends\qasm_simulator.py:433: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn(
+FAIL
+test_registered_qubits_and_real_sampling (__main__.TestIntent.test_registered_qubits_and_real_sampling) ... C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch04\tests\issue_504\test.py:42: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  op, qubits, clbits = tuple(entry)
+ok
+
+======================================================================
+FAIL: test_oracle_marks_only_requested_state (__main__.TestIntent.test_oracle_marks_only_requested_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch04\tests\issue_504\test.py", line 63, in test_oracle_marks_only_requested_state
+    self.assertTrue(Operator(actual).equiv(Operator(expected)),
+AssertionError: False is not true : Oracle does not flip only the requested three-qubit state: 000
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.755s
+
+FAILED (failures=1)

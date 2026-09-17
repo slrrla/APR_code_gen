@@ -1,0 +1,45 @@
+
+test_register_conditions_and_both_branches (__main__.TestIntent.test_register_conditions_and_both_branches) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_174\buggy.py:2: DeprecationWarning: BasicAer is deprecated since Qiskit 0.46 and will be removed in Qiskit 1.0. The BasicAer (qiskit.providers.basicaer) module has been superseded by  qiskit.providers.basic_provider, and all its classes have been renamed to follow a new naming convention. More information and migration guidelines can be found in the 0.46 API docs for BasicAer.
+  from qiskit import BasicAer as Aer
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_0\Lib\site-packages\qiskit\providers\basicaer\__init__.py:164: DeprecationWarning: The class ``qiskit.providers.basicaer.basicaerprovider.BasicAerProvider`` is deprecated as of qiskit 0.46.0. It will be removed in Qiskit 1.0.0. The qiskit.providers.basicaer module has been superseded by qiskit.providers.basic_provider, and all its classes have been renamed to follow a new naming convention. Use the new qiskit.providers.basic_provider.BasicProvider class instead.
+  BasicAer = BasicAerProvider()
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_0\Lib\site-packages\qiskit\providers\basicaer\basicaerprovider.py:129: DeprecationWarning: The class ``qiskit.providers.basicaer.qasm_simulator.QasmSimulatorPy`` is deprecated as of qiskit 0.46.0. It will be removed in Qiskit 1.0.0. The qiskit.providers.basicaer module has been superseded by qiskit.providers.basic_provider. Use the new qiskit.providers.basic_provider.BasicSimulator class instead.
+  backend_instance = backend_cls(provider=self)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_0\Lib\site-packages\qiskit\providers\basicaer\basicaerprovider.py:129: DeprecationWarning: The class ``qiskit.providers.basicaer.statevector_simulator.StatevectorSimulatorPy`` is deprecated as of qiskit 0.46.0. It will be removed in Qiskit 1.0.0. The qiskit.providers.basicaer module has been superseded by qiskit.providers.basic_provider. The new module has no replacement for this class. Use the qiskit.quantum_info.Statevector class instead.
+  backend_instance = backend_cls(provider=self)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_0\Lib\site-packages\qiskit\providers\basicaer\statevector_simulator.py:97: DeprecationWarning: The class ``qiskit.providers.basicaer.qasm_simulator.QasmSimulatorPy`` is deprecated as of qiskit 0.46.0. It will be removed in Qiskit 1.0.0. The qiskit.providers.basicaer module has been superseded by qiskit.providers.basic_provider. Use the new qiskit.providers.basic_provider.BasicSimulator class instead.
+  super().__init__(
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_0\Lib\site-packages\qiskit\providers\basicaer\basicaerprovider.py:129: DeprecationWarning: The class ``qiskit.providers.basicaer.unitary_simulator.UnitarySimulatorPy`` is deprecated as of qiskit 0.46.0. It will be removed in Qiskit 1.0.0. The qiskit.providers.basicaer module has been superseded by qiskit.providers.basic_provider. The new module has no replacement for this class. Use the qiskit.quantum_info.Operator class instead.
+  backend_instance = backend_cls(provider=self)
+ERROR
+
+======================================================================
+ERROR: test_register_conditions_and_both_branches (__main__.TestIntent.test_register_conditions_and_both_branches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch02\tests\issue_174\test.py", line 21, in test_register_conditions_and_both_branches
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch02\tests\issue_174\test.py", line 14, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_174\buggy.py", line 27, in <module>
+    circuit = QuantumCircuit.from_qasm_str(cloner1)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_0\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 2448, in from_qasm_str
+    return qasm2.loads(
+           ^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_0\Lib\site-packages\qiskit\qasm2\__init__.py", line 604, in loads
+    return _parse.from_bytecode(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_0\Lib\site-packages\qiskit\qasm2\parse.py", line 214, in from_bytecode
+    for op in bc:
+qiskit.qasm2.exceptions.QASM2ParseError: "<input>:10,5: needed '==', but instead saw ["
+
+----------------------------------------------------------------------
+Ran 1 test in 0.039s
+
+FAILED (errors=1)

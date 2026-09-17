@@ -1,0 +1,39 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+test_custom_gate_execution_and_amplitudes (__main__.TestIntent) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\providers\aer\backends\statevector_simulator.py:152: PendingDeprecationWarning: The `StatevectorSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend. To obtain legacy functionality initalize with `AerSimulator(method="statevector")` and append run circuits with the `save_state` instruction.
+  warn('The `StatevectorSimulator` backend will be deprecated in the'
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\utils\deprecation.py:56: PendingDeprecationWarning: Using a qobj for run() is deprecated and will be removed in a future release.
+  return func(*args, **kwargs)
+Simulation failed and returned the following error message:
+ERROR:  [Experiment 0] Circuit contains invalid instructions {"gates": {CNOTNOT}} for "statevector" method
+ERROR
+
+======================================================================
+ERROR: test_custom_gate_execution_and_amplitudes (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_021_se\test.py", line 25, in test_custom_gate_execution_and_amplitudes
+    ns = load_target()
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_021_se\test.py", line 17, in load_target
+    return runpy.run_path(MUT)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\buggy.py", line 28, in <module>
+    result = svsim.run(qobj).result().get_statevector()
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\result\result.py", line 305, in get_statevector
+    return postprocess.format_statevector(self.data(experiment)['statevector'],
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\result\result.py", line 181, in data
+    return self._get_experiment(experiment).data.to_dict()
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\result\result.py", line 387, in _get_experiment
+    raise QiskitError(result_status, ", ", exp_status)
+qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Circuit contains invalid instructions {"gates": {CNOTNOT}} for "statevector" method ,  ERROR: Circuit contains invalid instructions {"gates": {CNOTNOT}} for "statevector" method'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.295s
+
+FAILED (errors=1)

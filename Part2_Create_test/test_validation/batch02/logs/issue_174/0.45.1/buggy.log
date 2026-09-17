@@ -1,0 +1,33 @@
+
+test_register_conditions_and_both_branches (__main__.TestIntent.test_register_conditions_and_both_branches) ... ERROR
+
+======================================================================
+ERROR: test_register_conditions_and_both_branches (__main__.TestIntent.test_register_conditions_and_both_branches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch02\tests\issue_174\test.py", line 21, in test_register_conditions_and_both_branches
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch02\tests\issue_174\test.py", line 14, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_174\buggy.py", line 27, in <module>
+    circuit = QuantumCircuit.from_qasm_str(cloner1)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 2437, in from_qasm_str
+    return qasm2.loads(
+           ^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit\qasm2\__init__.py", line 604, in loads
+    return _parse.from_bytecode(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit\qasm2\parse.py", line 214, in from_bytecode
+    for op in bc:
+qiskit.qasm2.exceptions.QASM2ParseError: "<input>:10,5: needed '==', but instead saw ["
+
+----------------------------------------------------------------------
+Ran 1 test in 0.008s
+
+FAILED (errors=1)

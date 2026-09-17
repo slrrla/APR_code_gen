@@ -1,0 +1,32 @@
+
+C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch02\tests\issue_280\test.py:20: DeprecationWarning: Importing from 'qiskit.providers.aer' is deprecated. Import from 'qiskit_aer' instead, which should work identically.
+  from qiskit.providers.aer import AerSimulator
+test_noise_channels_in_real_density_simulator (__main__.TestIntent.test_noise_channels_in_real_density_simulator) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_280\buggy.py:1: DeprecationWarning: Importing from 'qiskit.providers.aer' is deprecated. Import from 'qiskit_aer' instead, which should work identically.
+  from qiskit.providers.aer.noise import NoiseModel, depolarizing_error
+ERROR
+
+======================================================================
+ERROR: test_noise_channels_in_real_density_simulator (__main__.TestIntent.test_noise_channels_in_real_density_simulator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch02\tests\issue_280\test.py", line 24, in test_noise_channels_in_real_density_simulator
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch02\tests\issue_280\test.py", line 14, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_280\buggy.py", line 12, in <module>
+    noise_model.add_all_qubit_quantum_error(error, ['cx'])
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_0\Lib\site-packages\qiskit_aer\noise\noise_model.py", line 690, in add_all_qubit_quantum_error
+    self._check_number_of_qubits(error, name)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_0\Lib\site-packages\qiskit_aer\noise\noise_model.py", line 1099, in _check_number_of_qubits
+    raise NoiseError(error_message(2))
+qiskit_aer.noise.noiseerror.NoiseError: '1 qubit QuantumError cannot be applied to 2 qubit instruction "cx".'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+FAILED (errors=1)

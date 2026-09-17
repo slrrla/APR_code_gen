@@ -1,0 +1,14 @@
+
+test_pauli_x_example_and_multiple_known_gates (__main__.TestIntent.test_pauli_x_example_and_multiple_known_gates) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_769\fixed.py:9: DeprecationWarning: The method ``qiskit.circuit.library.standard_gates.x.MCXGrayCode.__new__()`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. It is recommended to use MCXGate and let HighLevelSynthesis choose the best synthesis method depending on the number of ancilla qubits available. If this specific synthesis method is required, one can specify it using the high-level-synthesis plugin 'gray_code' for MCX gates, or, alternatively, one can use synth_mcx_gray_code' to construct the gate directly.
+  unitary = gate().__array__()
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_769\fixed.py:9: DeprecationWarning: The method ``qiskit.circuit.library.standard_gates.x.MCXRecursive.__new__()`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. It is recommended to use MCXGate and let HighLevelSynthesis choose the best synthesis method depending on the number of ancilla qubits available. If this specific synthesis method is required, one can specify it using the high-level-synthesis plugin ``'gray_code'`` for MCX gates, or, alternatively, one can use ``'synth_mcx_1_clean'`` to construct the gate directly.
+  unitary = gate().__array__()
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_769\fixed.py:9: DeprecationWarning: The method ``qiskit.circuit.library.standard_gates.x.MCXVChain.__new__()`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. It is recommended to use MCXGate and let HighLevelSynthesis choose the best synthesis method depending on the number of ancilla qubits available. If this specific synthesis method is required, one can specify it using the high-level-synthesis plugins `n_clean_m15` (using clean ancillas) or `n_dirty_i15` (using dirty ancillas) for MCX gates. Alternatively, one can use synth_mcx_n_dirty_i15 and synth_mcx_n_clean_m15 to construct the gate directly.
+  unitary = gate().__array__()
+ok
+test_unknown_and_parameterized_gate_return_none (__main__.TestIntent.test_unknown_and_parameterized_gate_return_none) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.520s
+
+OK

@@ -1,0 +1,34 @@
+{
+  "intents": {
+    "issue_504": "Check registered qubits and real Aer sampling, separately from exact Grover oracle correctness.",
+    "issue_505": "Retain an operator after scalar composition and verify its complete 2-by-2 matrix.",
+    "issue_565": "Construct QAOA circuits and check whether the mixer connects feasible TSP tours.",
+    "issue_595": "Retrieve the saved Bell-circuit unitary from Aer and verify all matrix entries.",
+    "issue_596": "Bind all four intended parameter values and assemble the resulting numeric circuit.",
+    "issue_600": "Check six fractional Pauli gates up to global phase and sampled output probability.",
+    "issue_622": "Run a two-qubit Bell circuit on a backend with sufficient capacity and verify counts.",
+    "issue_624": "Convert the circuit to an operator and verify an actual local QAOA result.",
+    "issue_635": "Verify the conditional AND recovery with real samples for all eight basis inputs.",
+    "issue_662": "Verify the printed counts include all 12 circuit operations, not only a DAG path."
+  },
+  "bug_reasons": {
+    "issue_504": "Repeatedly creates new quantum registers whose qubits do not belong to the circuit.",
+    "issue_505": "Left multiplication by a NumPy scalar invokes array conversion instead of retaining the operator.",
+    "issue_565": "Raw quantum_info Operator objects do not provide the primitive_strings interface required by Aqua evolution.",
+    "issue_595": "No save_unitary instruction is added, so the Aer result has no unitary to retrieve.",
+    "issue_596": "Discards the circuit returned by assign_parameters and assembles the still-unbound circuit.",
+    "issue_600": "PauliGate.power cannot handle symbolic exponents. On 0.25.x, the reconstructed PauliGate import fails first.",
+    "issue_622": "The one-qubit FakeArmonk backend cannot accept the two-qubit Bell circuit.",
+    "issue_624": "Passes a QuantumCircuit where QAOA expects an operator.",
+    "issue_635": "Uses individual classical-bit conditions, unsupported by these old releases and different from the requested AND.",
+    "issue_662": "Reconstruction accesses the removed DAG-node type attribute before it can report longest-path counts."
+  },
+  "j_notes": {
+    "issue_096": "When .ipython/profile_default already exists, fixed skips creating ipython_kernel_config.py even if that file is missing. The missing-file check fails in all 27 versions. Clean-home creation and preservation of existing settings pass.",
+    "issue_157": "Fixed changes control(2) to control(), reducing the control count from two to one and total qubits from four to three. The original-interface check fails in all 12 versions. State preparation passes. Classified as a contract mismatch.",
+    "issue_468": "Fixed replaces the original density matrices |1><1| and |0><0| with 0.5X and 0.5Z. Input preservation fails in all four versions. The new commutator calculation is correct, but it solves a different problem from the original zero commutator.",
+    "issue_018_se": "Local Qiskit Aer simulation, not quantum hardware. The exact nine-input strategy and decoder pass for fixed in all 15 versions. Original StatevectorSimulator(precision='single') aborts for both buggy and fixed on this Windows environment (0xC0000374 or 0xC0000005), so sampled execution is incomplete. Separate probes at Qiskit 1.0.0 and 2.5.0 complete for one example circuit with precision='double'; the other 13 versions were not checked in double precision. The root cause is not confirmed. REVIEW EXECUTION does not mean the fixed circuit produced an incorrect answer. Original sources are unchanged.",
+    "issue_504": "Register ownership and real Aer sampling pass in all 23 versions. A separate semantic check fails: the oracle applies CZ only to the first two qubits, so it flips two basis-state phases instead of only the requested three-qubit state. The original register-error repair works, but the residual Grover oracle error prevents an overall pass.",
+    "issue_565": "QAOA circuit construction passes in all four versions. The mixer is Hermitian, but its matrix sends each of the six feasible three-city tour basis states to zero instead of connecting adjacent-city swaps. The operator-interface repair works, but the separate mixer-semantics check fails."
+  }
+}

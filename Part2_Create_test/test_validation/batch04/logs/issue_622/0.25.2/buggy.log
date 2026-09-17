@@ -1,0 +1,36 @@
+
+test_backend_capacity_and_bell_counts (__main__.TestIntent) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\site-packages\pkg_resources\__init__.py:3146: DeprecationWarning: Deprecated call to `pkg_resources.declare_namespace('mpl_toolkits')`.
+Implementing implicit namespace packages (as specified in PEP 420) is preferred to `pkg_resources.declare_namespace`. See https://setuptools.pypa.io/en/latest/references/keywords.html#keyword-namespace-packages
+  declare_namespace(pkg)
+ERROR
+
+======================================================================
+ERROR: test_backend_capacity_and_bell_counts (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch04\tests\issue_622\test.py", line 22, in test_backend_capacity_and_bell_counts
+    ns = load_target()
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch04\tests\issue_622\test.py", line 15, in load_target
+    return runpy.run_path(MUT)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_622\buggy.py", line 15, in <module>
+    job_exp = qiskit.execute(qc, backend=backend, shots=1024, max_credits=3)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\site-packages\qiskit\execute_function.py", line 252, in execute
+    experiments = transpile(experiments,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\site-packages\qiskit\compiler\transpiler.py", line 242, in transpile
+    _check_circuits_coupling_map(circuits, transpile_args, backend)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\site-packages\qiskit\compiler\transpiler.py", line 279, in _check_circuits_coupling_map
+    raise TranspilerError('Number of qubits ({}) '.format(num_qubits) +
+qiskit.transpiler.exceptions.TranspilerError: 'Number of qubits (2) in circuit-2 is greater than maximum (1) in the coupling_map'
+
+----------------------------------------------------------------------
+Ran 1 test in 2.021s
+
+FAILED (errors=1)

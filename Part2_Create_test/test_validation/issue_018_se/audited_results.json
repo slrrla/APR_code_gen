@@ -1,0 +1,1312 @@
+[
+  {
+    "case": "issue_018_se",
+    "version": "1.0.0",
+    "variant": "buggy",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\buggy.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "4c934c07def592f262cbd45e3c4727c27d51e4d7000023884ec404aaf2b244de",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.0.0",
+    "terra": null,
+    "aer": "0.14.2",
+    "numpy": "1.26.4",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_0_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "FAIL",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:",
+    "seconds": 7.844,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.0.0\\buggy.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "FAIL"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.0.1",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\fixed.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "f003b17b71c13169bfe94d4b9ab2bfb509bb056761e16d9cbc769c7f72ea0b44",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.0.1",
+    "terra": null,
+    "aer": "0.14.2",
+    "numpy": "1.26.4",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_0_1\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "ERROR",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374)",
+    "seconds": 7.89,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.0.1\\fixed.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.0.1",
+    "variant": "buggy",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\buggy.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "4c934c07def592f262cbd45e3c4727c27d51e4d7000023884ec404aaf2b244de",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.0.1",
+    "terra": null,
+    "aer": "0.14.2",
+    "numpy": "1.26.4",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_0_1\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "FAIL",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:",
+    "seconds": 7.906,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.0.1\\buggy.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "FAIL"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.0.0",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\fixed.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "f003b17b71c13169bfe94d4b9ab2bfb509bb056761e16d9cbc769c7f72ea0b44",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.0.0",
+    "terra": null,
+    "aer": "0.14.2",
+    "numpy": "1.26.4",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_0_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "ERROR",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374)",
+    "seconds": 7.921,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.0.0\\fixed.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.0.2",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\fixed.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "f003b17b71c13169bfe94d4b9ab2bfb509bb056761e16d9cbc769c7f72ea0b44",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.0.2",
+    "terra": null,
+    "aer": "0.14.2",
+    "numpy": "1.26.4",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_0_2\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "ERROR",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374)",
+    "seconds": 6.891,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.0.2\\fixed.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.1.0",
+    "variant": "buggy",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\buggy.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "4c934c07def592f262cbd45e3c4727c27d51e4d7000023884ec404aaf2b244de",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.1.0",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.4.6",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_1_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "FAIL",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:",
+    "seconds": 6.875,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.1.0\\buggy.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "FAIL"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.0.2",
+    "variant": "buggy",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\buggy.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "4c934c07def592f262cbd45e3c4727c27d51e4d7000023884ec404aaf2b244de",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.0.2",
+    "terra": null,
+    "aer": "0.14.2",
+    "numpy": "1.26.4",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_0_2\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "FAIL",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221225477 (0xC0000005); AssertionError:",
+    "seconds": 7.0,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.0.2\\buggy.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "FAIL"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.1.0",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\fixed.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "f003b17b71c13169bfe94d4b9ab2bfb509bb056761e16d9cbc769c7f72ea0b44",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.1.0",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.4.6",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_1_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "ERROR",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374)",
+    "seconds": 6.954,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.1.0\\fixed.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.1.2",
+    "variant": "buggy",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\buggy.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "4c934c07def592f262cbd45e3c4727c27d51e4d7000023884ec404aaf2b244de",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.1.2",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.4.6",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_1_2\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "FAIL",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:",
+    "seconds": 6.86,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.1.2\\buggy.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "FAIL"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.1.1",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\fixed.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "f003b17b71c13169bfe94d4b9ab2bfb509bb056761e16d9cbc769c7f72ea0b44",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.1.1",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.4.6",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_1_1\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "ERROR",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374)",
+    "seconds": 7.094,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.1.1\\fixed.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.1.1",
+    "variant": "buggy",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\buggy.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "4c934c07def592f262cbd45e3c4727c27d51e4d7000023884ec404aaf2b244de",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.1.1",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.4.6",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_1_1\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "FAIL",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221225477 (0xC0000005); AssertionError:",
+    "seconds": 7.14,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.1.1\\buggy.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "FAIL"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.1.2",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\fixed.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "f003b17b71c13169bfe94d4b9ab2bfb509bb056761e16d9cbc769c7f72ea0b44",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.1.2",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.4.6",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_1_2\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "ERROR",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374)",
+    "seconds": 7.046,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.1.2\\fixed.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.2.0",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\fixed.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "f003b17b71c13169bfe94d4b9ab2bfb509bb056761e16d9cbc769c7f72ea0b44",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.2.0",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.4.6",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_2_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "ERROR",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374)",
+    "seconds": 8.391,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.2.0\\fixed.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.2.0",
+    "variant": "buggy",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\buggy.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "4c934c07def592f262cbd45e3c4727c27d51e4d7000023884ec404aaf2b244de",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.2.0",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.4.6",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_2_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "FAIL",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221225477 (0xC0000005); AssertionError:",
+    "seconds": 8.609,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.2.0\\buggy.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "FAIL"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.2.1",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\fixed.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "f003b17b71c13169bfe94d4b9ab2bfb509bb056761e16d9cbc769c7f72ea0b44",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.2.1",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.4.6",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_2_1\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "ERROR",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374)",
+    "seconds": 8.719,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.2.1\\fixed.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.2.1",
+    "variant": "buggy",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\buggy.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "4c934c07def592f262cbd45e3c4727c27d51e4d7000023884ec404aaf2b244de",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.2.1",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.4.6",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_2_1\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "FAIL",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:",
+    "seconds": 8.735,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.2.1\\buggy.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "FAIL"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.2.2",
+    "variant": "buggy",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\buggy.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "4c934c07def592f262cbd45e3c4727c27d51e4d7000023884ec404aaf2b244de",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.2.2",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.4.6",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_2_2\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "FAIL",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221225477 (0xC0000005); AssertionError:",
+    "seconds": 9.985,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.2.2\\buggy.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "FAIL"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.2.2",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\fixed.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "f003b17b71c13169bfe94d4b9ab2bfb509bb056761e16d9cbc769c7f72ea0b44",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.2.2",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.4.6",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_2_2\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "ERROR",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374)",
+    "seconds": 10.063,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.2.2\\fixed.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.2.4",
+    "variant": "buggy",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\buggy.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "4c934c07def592f262cbd45e3c4727c27d51e4d7000023884ec404aaf2b244de",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.2.4",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.4.6",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_2_4\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "FAIL",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:",
+    "seconds": 10.938,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.2.4\\buggy.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "FAIL"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "1.2.4",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\fixed.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "f003b17b71c13169bfe94d4b9ab2bfb509bb056761e16d9cbc769c7f72ea0b44",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.11.15",
+    "qiskit": "1.2.4",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.4.6",
+    "ipython": "9.16.1",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_1_2_4\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "ERROR",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374)",
+    "seconds": 10.953,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\1.2.4\\fixed.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "2.0.0",
+    "variant": "buggy",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\buggy.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "4c934c07def592f262cbd45e3c4727c27d51e4d7000023884ec404aaf2b244de",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.12.13",
+    "qiskit": "2.0.0",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.5.2",
+    "ipython": "8.18.1",
+    "support_path": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_batch01\\support\\py312",
+    "ipykernel": "6.29.5",
+    "psutil": "7.2.2",
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_0_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "FAIL",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:",
+    "seconds": 6.906,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\2.0.0\\buggy.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "FAIL"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "2.0.0",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\fixed.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "f003b17b71c13169bfe94d4b9ab2bfb509bb056761e16d9cbc769c7f72ea0b44",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.12.13",
+    "qiskit": "2.0.0",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.5.2",
+    "ipython": "8.18.1",
+    "support_path": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_batch01\\support\\py312",
+    "ipykernel": "6.29.5",
+    "psutil": "7.2.2",
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_0_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "ERROR",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374)",
+    "seconds": 6.859,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\2.0.0\\fixed.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "2.2.0",
+    "variant": "buggy",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\buggy.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "4c934c07def592f262cbd45e3c4727c27d51e4d7000023884ec404aaf2b244de",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.12.13",
+    "qiskit": "2.2.0",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.5.2",
+    "ipython": "8.18.1",
+    "support_path": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_batch01\\support\\py312",
+    "ipykernel": "6.29.5",
+    "psutil": "7.2.2",
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_2_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "FAIL",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:",
+    "seconds": 6.406,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\2.2.0\\buggy.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "FAIL"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "2.2.0",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\fixed.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "f003b17b71c13169bfe94d4b9ab2bfb509bb056761e16d9cbc769c7f72ea0b44",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.12.13",
+    "qiskit": "2.2.0",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.5.2",
+    "ipython": "8.18.1",
+    "support_path": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_batch01\\support\\py312",
+    "ipykernel": "6.29.5",
+    "psutil": "7.2.2",
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_2_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "ERROR",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221225477 (0xC0000005)",
+    "seconds": 6.484,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\2.2.0\\fixed.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "2.3.0",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\fixed.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "f003b17b71c13169bfe94d4b9ab2bfb509bb056761e16d9cbc769c7f72ea0b44",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.12.13",
+    "qiskit": "2.3.0",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.5.2",
+    "ipython": "8.18.1",
+    "support_path": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_batch01\\support\\py312",
+    "ipykernel": "6.29.5",
+    "psutil": "7.2.2",
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_3_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "ERROR",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374)",
+    "seconds": 5.828,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\2.3.0\\fixed.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "2.3.0",
+    "variant": "buggy",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\buggy.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "4c934c07def592f262cbd45e3c4727c27d51e4d7000023884ec404aaf2b244de",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.12.13",
+    "qiskit": "2.3.0",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.5.2",
+    "ipython": "8.18.1",
+    "support_path": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_batch01\\support\\py312",
+    "ipykernel": "6.29.5",
+    "psutil": "7.2.2",
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_3_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "FAIL",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:",
+    "seconds": 5.906,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\2.3.0\\buggy.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "FAIL"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "2.4.0",
+    "variant": "buggy",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\buggy.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "4c934c07def592f262cbd45e3c4727c27d51e4d7000023884ec404aaf2b244de",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.12.13",
+    "qiskit": "2.4.0",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.5.2",
+    "ipython": "8.18.1",
+    "support_path": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_batch01\\support\\py312",
+    "ipykernel": "6.29.5",
+    "psutil": "7.2.2",
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_4_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "FAIL",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:",
+    "seconds": 5.859,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\2.4.0\\buggy.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "FAIL"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "2.4.0",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\fixed.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "f003b17b71c13169bfe94d4b9ab2bfb509bb056761e16d9cbc769c7f72ea0b44",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.12.13",
+    "qiskit": "2.4.0",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.5.2",
+    "ipython": "8.18.1",
+    "support_path": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_batch01\\support\\py312",
+    "ipykernel": "6.29.5",
+    "psutil": "7.2.2",
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_4_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "ERROR",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374)",
+    "seconds": 5.766,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\2.4.0\\fixed.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "2.5.0",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\fixed.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "f003b17b71c13169bfe94d4b9ab2bfb509bb056761e16d9cbc769c7f72ea0b44",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.12.13",
+    "qiskit": "2.5.0",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.5.2",
+    "ipython": "8.18.1",
+    "support_path": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_batch01\\support\\py312",
+    "ipykernel": "6.29.5",
+    "psutil": "7.2.2",
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "ERROR",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374)",
+    "seconds": 5.688,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\2.5.0\\fixed.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  },
+  {
+    "case": "issue_018_se",
+    "version": "2.5.0",
+    "variant": "buggy",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_se\\buggy.py",
+    "test": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+    "source_sha256": "4c934c07def592f262cbd45e3c4727c27d51e4d7000023884ec404aaf2b244de",
+    "test_sha256": "f683a407199034dea99012113ef05e18c85570998f7760ff257d364f84844ac2",
+    "python": "3.12.13",
+    "qiskit": "2.5.0",
+    "terra": null,
+    "aer": "0.17.2",
+    "numpy": "2.5.2",
+    "ipython": "8.18.1",
+    "support_path": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_batch01\\support\\py312",
+    "ipykernel": "6.29.5",
+    "psutil": "7.2.2",
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\tests\\issue_018_se\\test.py",
+      "-v"
+    ],
+    "returncode": 1,
+    "status": "FAIL",
+    "tests_run": 3,
+    "detail": "RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:",
+    "seconds": 5.75,
+    "log": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_issue018\\logs\\issue_018_se\\2.5.0\\buggy.log",
+    "subtests": [
+      {
+        "test": "test_decoder_all_outcomes_and_inputs",
+        "status": "ok"
+      },
+      {
+        "test": "test_exact_perfect_strategy_for_all_nine_inputs",
+        "status": "FAIL"
+      },
+      {
+        "test": "test_real_simulator_shots_for_all_nine_inputs",
+        "status": "ERROR"
+      }
+    ]
+  }
+]

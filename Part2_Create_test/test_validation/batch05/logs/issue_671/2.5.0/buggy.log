@@ -1,0 +1,31 @@
+
+test_registered_bits_and_full_permutation (__main__.TestIntent.test_registered_bits_and_full_permutation) ... ERROR
+
+======================================================================
+ERROR: test_registered_bits_and_full_permutation (__main__.TestIntent.test_registered_bits_and_full_permutation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch05\tests\issue_671\test.py", line 22, in test_registered_bits_and_full_permutation
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch05\tests\issue_671\test.py", line 16, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_671\buggy.py", line 11, in <module>
+    c = QuantumCircuit(a, v, b)
+        ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1198, in __init__
+    self.add_register(*regs)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 3661, in add_register
+    self.add_bits(register)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 3693, in add_bits
+    raise CircuitError(
+qiskit.circuit.exceptions.CircuitError: "Expected an instance of Qubit, Clbit, or AncillaQubit, but was passed QuantumRegister(2, 'v0')"
+
+----------------------------------------------------------------------
+Ran 1 test in 0.586s
+
+FAILED (errors=1)

@@ -1,0 +1,46 @@
+
+test_custom_gate_execution_and_amplitudes (__main__.TestIntent.test_custom_gate_execution_and_amplitudes) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\buggy.py:6: DeprecationWarning: The method ``qiskit.circuit.quantumcircuit.QuantumCircuit.cnot()`` is deprecated as of qiskit 0.45.0. It will be removed in the Qiskit 1.0.0 release. Use QuantumCircuit.cx as direct replacement.
+  gate_circuit.cnot(0, 1)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\buggy.py:7: DeprecationWarning: The method ``qiskit.circuit.quantumcircuit.QuantumCircuit.cnot()`` is deprecated as of qiskit 0.45.0. It will be removed in the Qiskit 1.0.0 release. Use QuantumCircuit.cx as direct replacement.
+  gate_circuit.cnot(0, 2)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\buggy.py:22: DeprecationWarning: The 'qiskit.Aer' entry point is deprecated and will be removed in Qiskit 1.0. You should use 'qiskit_aer.Aer' directly instead.
+  svsim = Aer.get_backend('statevector_simulator')
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_1\Lib\site-packages\qiskit_aer\backends\statevector_simulator.py:246: PendingDeprecationWarning: The `StatevectorSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend. To obtain legacy functionality initialize with `AerSimulator(method="statevector")` and append run circuits with the `save_state` instruction.
+  warn(
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\buggy.py:28: DeprecationWarning: Using a qobj for run() is deprecated as of qiskit-aer 0.14 and will be removed no sooner than 3 months from that release date. Transpiled circuits should now be passed directly using `backend.run(circuits, **run_options).
+  result = svsim.run(qobj).result().get_statevector()
+Simulation failed and returned the following error message:
+ERROR: Failed to load qobj: Invalid gate name :"CNOTNOT".
+
+ERROR
+
+======================================================================
+ERROR: test_custom_gate_execution_and_amplitudes (__main__.TestIntent.test_custom_gate_execution_and_amplitudes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_021_se\test.py", line 25, in test_custom_gate_execution_and_amplitudes
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_021_se\test.py", line 17, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\buggy.py", line 28, in <module>
+    result = svsim.run(qobj).result().get_statevector()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_1\Lib\site-packages\qiskit\result\result.py", line 314, in get_statevector
+    self.data(experiment)["statevector"], decimals=decimals
+    ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_1\Lib\site-packages\qiskit\result\result.py", line 187, in data
+    return self._get_experiment(experiment).data.to_dict()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_1\Lib\site-packages\qiskit\result\result.py", line 357, in _get_experiment
+    raise QiskitError(
+qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.160s
+
+FAILED (errors=1)

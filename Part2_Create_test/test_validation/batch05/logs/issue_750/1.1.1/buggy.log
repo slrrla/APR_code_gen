@@ -1,0 +1,25 @@
+
+test_all_supplied_operator_constructions (__main__.TestIntent.test_all_supplied_operator_constructions) ... ERROR
+
+======================================================================
+ERROR: test_all_supplied_operator_constructions (__main__.TestIntent.test_all_supplied_operator_constructions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch05\tests\issue_750\test.py", line 21, in test_all_supplied_operator_constructions
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch05\tests\issue_750\test.py", line 16, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_750\buggy.py", line 6, in <module>
+    XZ = Operator(Pauli(label='XZ'))
+                  ^^^^^^^^^^^^^^^^^
+TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+
+----------------------------------------------------------------------
+Ran 1 test in 1.113s
+
+FAILED (errors=1)

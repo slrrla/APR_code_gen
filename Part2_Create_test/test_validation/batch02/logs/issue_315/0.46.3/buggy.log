@@ -1,0 +1,26 @@
+
+test_options_and_bell_sampling (__main__.TestIntent.test_options_and_bell_sampling) ... ERROR
+
+======================================================================
+ERROR: test_options_and_bell_sampling (__main__.TestIntent.test_options_and_bell_sampling)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch02\tests\issue_315\test.py", line 29, in test_options_and_bell_sampling
+    ns=load_target()
+       ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch02\tests\issue_315\test.py", line 14, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_315\buggy.py", line 14, in <module>
+    backend.set_options(
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\providers\backend.py", line 601, in set_options
+    raise AttributeError("Options field %s is not valid for this backend" % field)
+AttributeError: Options field max_parallel_threads is not valid for this backend
+
+----------------------------------------------------------------------
+Ran 1 test in 0.010s
+
+FAILED (errors=1)

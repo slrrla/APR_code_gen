@@ -1,0 +1,22 @@
+
+test_controlled_preparation_semantics (__main__.TestIntent.test_controlled_preparation_semantics) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_157\fixed.py:3: DeprecationWarning: The qiskit.extensions module is deprecated since Qiskit 0.46.0. It will be removed in the Qiskit 1.0 release.
+  from qiskit.extensions import UnitaryGate
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_157\fixed.py:10: DeprecationWarning: The method ``qiskit.circuit.quantumcircuit.QuantumCircuit.iso()`` is deprecated as of qiskit 0.46.0. It will be removed in the 1.0.0 release. Instead, append a qiskit.circuit.library.Isometry to the circuit.
+  qc_iso.isometry(state, [0, 1], [])
+ok
+test_preserves_requested_two_controls (__main__.TestIntent.test_preserves_requested_two_controls) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_157\fixed.py:10: DeprecationWarning: The method ``qiskit.circuit.quantumcircuit.QuantumCircuit.iso()`` is deprecated as of qiskit 0.46.0. It will be removed in the 1.0.0 release. Instead, append a qiskit.circuit.library.Isometry to the circuit.
+  qc_iso.isometry(state, [0, 1], [])
+FAIL
+
+======================================================================
+FAIL: test_preserves_requested_two_controls (__main__.TestIntent.test_preserves_requested_two_controls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch02\tests\issue_157\test.py", line 53, in test_preserves_requested_two_controls
+    self.assertEqual(gate.num_ctrl_qubits, 2,
+AssertionError: 1 != 2 : Caller requested control(2); a one-control replacement changes the interface
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.054s
+
+FAILED (failures=1)

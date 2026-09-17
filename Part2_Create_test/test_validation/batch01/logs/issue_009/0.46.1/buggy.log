@@ -1,0 +1,41 @@
+
+test_transpiled_ghz_measurement_distribution (__main__.TestIntent.test_transpiled_ghz_measurement_distribution) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_009\buggy.py:10: DeprecationWarning: All fake backend instances based on real device snapshots (`FakeVigo`,`FakeSherbrooke`,...) have been migrated to the `qiskit_ibm_runtime` package. These classes are deprecated as of qiskit 0.46.0 and will be removed in qiskit 1.0.0. To migrate your code, run `pip install qiskit-ibm-runtime` and use `from qiskit_ibm_runtime.fake_provider import FakeExample` instead of `from qiskit.providers.fake_provider import FakeExample`. If you are using a custom fake backend implementation, you don't need to take any action.
+  backend = FakeVigo()
+ERROR
+
+======================================================================
+ERROR: test_transpiled_ghz_measurement_distribution (__main__.TestIntent.test_transpiled_ghz_measurement_distribution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_009\test.py", line 21, in test_transpiled_ghz_measurement_distribution
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_009\test.py", line 14, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_009\buggy.py", line 13, in <module>
+    transpiled = transpile(
+                 ^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_1\Lib\site-packages\qiskit\compiler\transpiler.py", line 404, in transpile
+    pm = generate_preset_pass_manager(
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_1\Lib\site-packages\qiskit\transpiler\preset_passmanagers\__init__.py", line 264, in generate_preset_pass_manager
+    pm = level_3_pass_manager(pm_config)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_1\Lib\site-packages\qiskit\transpiler\preset_passmanagers\level3.py", line 82, in level_3_pass_manager
+    layout = plugin_manager.get_passmanager_stage(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_1\Lib\site-packages\qiskit\transpiler\preset_passmanagers\plugin.py", line 243, in get_passmanager_stage
+    return self._build_pm(
+           ^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_1\Lib\site-packages\qiskit\transpiler\preset_passmanagers\plugin.py", line 274, in _build_pm
+    raise TranspilerError(f"Invalid plugin name {plugin_name} for stage {stage_name}")
+qiskit.transpiler.exceptions.TranspilerError: 'Invalid plugin name csp_layout for stage layout'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.621s
+
+FAILED (errors=1)

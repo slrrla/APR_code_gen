@@ -1,0 +1,42 @@
+
+test_pauli_x_example_and_multiple_known_gates (__main__.TestIntent.test_pauli_x_example_and_multiple_known_gates) ... ERROR
+test_unknown_and_parameterized_gate_return_none (__main__.TestIntent.test_unknown_and_parameterized_gate_return_none) ... ERROR
+
+======================================================================
+ERROR: test_pauli_x_example_and_multiple_known_gates (__main__.TestIntent.test_pauli_x_example_and_multiple_known_gates)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch05\tests\issue_769\test.py", line 22, in test_pauli_x_example_and_multiple_known_gates
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch05\tests\issue_769\test.py", line 16, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_769\buggy.py", line 2, in <module>
+    from qiskit.extensions import UnitaryGate
+ModuleNotFoundError: No module named 'qiskit.extensions'
+
+======================================================================
+ERROR: test_unknown_and_parameterized_gate_return_none (__main__.TestIntent.test_unknown_and_parameterized_gate_return_none)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch05\tests\issue_769\test.py", line 32, in test_unknown_and_parameterized_gate_return_none
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch05\tests\issue_769\test.py", line 16, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_769\buggy.py", line 2, in <module>
+    from qiskit.extensions import UnitaryGate
+ModuleNotFoundError: No module named 'qiskit.extensions'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.863s
+
+FAILED (errors=2)

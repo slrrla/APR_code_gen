@@ -1,0 +1,22 @@
+
+test_public_bit_locations (__main__.TestIntent.test_public_bit_locations) ... ERROR
+
+======================================================================
+ERROR: test_public_bit_locations (__main__.TestIntent.test_public_bit_locations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_061\test.py", line 25, in test_public_bit_locations
+    ns = runpy.run_path(MUT)
+         ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_061\buggy.py", line 11, in <module>
+    print(qbit.register)
+          ^^^^^^^^^^^^^
+AttributeError: 'qiskit.circuit.Qubit' object has no attribute 'register'. Did you mean: '_register'?
+
+----------------------------------------------------------------------
+Ran 1 test in 0.553s
+
+FAILED (errors=1)

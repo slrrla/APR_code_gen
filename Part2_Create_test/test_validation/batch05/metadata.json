@@ -1,0 +1,32 @@
+{
+  "intents": {
+    "issue_663": "Verify 1024-shot measurement outcomes and the complete three-qubit state.",
+    "issue_671": "Verify register identity/order and all 512 basis mappings of the constructed circuit.",
+    "issue_727": "Bind seven integer, fractional and negative exponents and verify controlled-phase matrices.",
+    "issue_742": "Convert a general observable to Pauli form and verify a real local Aer EstimatorV2 expectation.",
+    "issue_747": "Verify the original 100000-shot GHZ experiment and exact statevector.",
+    "issue_750": "Verify the complete X tensor I tensor Z operator for all supplied constructions.",
+    "issue_769": "Recognize eleven standard-gate matrices and reject unmatched matrices.",
+    "issue_773": "Run a local job and verify the real monitor's quiet interface and output.",
+    "issue_775": "Parse OpenQASM into the expected Bell operator and execute the original local job.",
+    "issue_795": "Verify the converted gate, its inverse, and its coherent controlled operation."
+  },
+  "bug_reasons": {
+    "issue_663": "No measurement instructions are present, so the result has no counts to retrieve.",
+    "issue_671": "Passes a list of registers as one QuantumCircuit argument instead of adding or unpacking each register.",
+    "issue_727": "Python cannot raise the integer 2 to a symbolic Qiskit Parameter in these releases.",
+    "issue_742": "EstimatorV2 rejects the general Operator observable. SparsePauliOp conversion is required by this execution path.",
+    "issue_747": "No measurement instructions are present, so the GHZ circuit produces no count result in these releases.",
+    "issue_750": "The reconstructed Pauli(label='XZ') call uses an unsupported keyword. This is an API failure, not evidence that subsystem composition is mathematically wrong.",
+    "issue_769": "The reconstructed qiskit.extensions import is unavailable in all selected Qiskit 1.x/2.x releases, before generic gate-name behavior can be tested.",
+    "issue_773": "The reconstructed qiskit.providers.ibmq import is unavailable in the selected environments, before the two monitor implementations can be compared.",
+    "issue_775": "Passes raw OpenQASM text to execute, which expects a circuit and accesses its name.",
+    "issue_795": "The appended opflow expression becomes an instruction that cannot be converted to a Gate."
+  },
+  "j_notes": {
+    "issue_742": "No fixed failure. All 12 versions pass after adding missing Runtime dependencies in task-local folders. Runtime 0.30.0 is used with Qiskit 1.1/1.2 and Runtime 0.40.1 with Qiskit 2.x. Qiskit, Aer, NumPy and SciPy still load from the original exact-version environments. The job runs locally on Aer, not IBM hardware. The source has no noise model, so this does not validate noisy fidelity.",
+    "issue_750": "No fixed failure. All 23 versions reproduce X tensor I tensor Z. The original question explains a correct subsystem-composition result rather than demonstrating a mathematical bug. Buggy fails only at the obsolete Pauli(label=...) API. Review its suitability as a genuine APR ground-truth case.",
+    "issue_769": "No fixed failure. Standard-gate recognition passes all 15 versions. Buggy fails at the removed qiskit.extensions import before reaching gate.name. This is not a direct reproduction of the original generic-name behavior. The fixed recognizer covers nonparameterized standard gates with matching matrices, not arbitrary parameterized gates.",
+    "issue_773": "No fixed failure. Local execution and quiet-monitor checks pass all eight versions. Buggy fails at the unavailable qiskit.providers.ibmq import before monitor comparison. The original question describes nearly identical monitor functions, so this failure is not evidence of a monitoring algorithm defect."
+  }
+}

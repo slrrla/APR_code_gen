@@ -1,0 +1,59 @@
+
+test_clean_home (__main__.TestIntent.test_clean_home) ... ERROR
+test_existing_profile_missing_kernel_config (__main__.TestIntent.test_existing_profile_missing_kernel_config) ... ERROR
+test_preserves_existing_qiskit_settings (__main__.TestIntent.test_preserves_existing_qiskit_settings) ... FAIL
+
+======================================================================
+ERROR: test_clean_home (__main__.TestIntent.test_clean_home)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 57, in test_clean_home
+    self.check_configuration()
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 50, in check_configuration
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 17, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_096\buggy.py", line 11, in <module>
+    with open(settings_path, "r") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\haha9\\AppData\\Local\\Temp\\apr096_b_szo1v7\\.qiskit\\settings.conf'
+
+======================================================================
+ERROR: test_existing_profile_missing_kernel_config (__main__.TestIntent.test_existing_profile_missing_kernel_config)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 63, in test_existing_profile_missing_kernel_config
+    self.check_configuration(existing_profile=True)
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 50, in check_configuration
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 17, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_096\buggy.py", line 11, in <module>
+    with open(settings_path, "r") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\haha9\\AppData\\Local\\Temp\\apr096_fpq4ye96\\.qiskit\\settings.conf'
+
+======================================================================
+FAIL: test_preserves_existing_qiskit_settings (__main__.TestIntent.test_preserves_existing_qiskit_settings)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 60, in test_preserves_existing_qiskit_settings
+    self.check_configuration(existing_settings=True)
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 53, in check_configuration
+    self.assertTrue((profile/"ipython_kernel_config.py").is_file(),
+AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.018s
+
+FAILED (failures=1, errors=2)

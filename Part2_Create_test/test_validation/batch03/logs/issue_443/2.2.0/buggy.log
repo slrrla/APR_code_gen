@@ -1,0 +1,29 @@
+
+test_flattened_order_and_complete_circuit_operator (__main__.TestRegisterQargs.test_flattened_order_and_complete_circuit_operator) ... ERROR
+
+======================================================================
+ERROR: test_flattened_order_and_complete_circuit_operator (__main__.TestRegisterQargs.test_flattened_order_and_complete_circuit_operator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch03\tests\issue_443\test.py", line 14, in test_flattened_order_and_complete_circuit_operator
+    m=load_target()
+      ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch03\tests\issue_443\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_443\buggy.py", line 22, in <module>
+    circ.append(oracle, [train_register, control])
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_2_0\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 2860, in append
+    for qarg, carg in broadcast_iter:
+                      ^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_2_0\Lib\site-packages\qiskit\circuit\instruction.py", line 470, in broadcast_arguments
+    raise CircuitError(
+qiskit.circuit.exceptions.CircuitError: 'The amount of qubit arguments 2 does not match the instruction expectation (4).'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.508s
+
+FAILED (errors=1)

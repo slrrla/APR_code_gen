@@ -1,0 +1,22 @@
+
+test_printed_total_operation_counts (__main__.TestIntent.test_printed_total_operation_counts) ... ERROR
+
+======================================================================
+ERROR: test_printed_total_operation_counts (__main__.TestIntent.test_printed_total_operation_counts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch04\tests\issue_662\test.py", line 24, in test_printed_total_operation_counts
+    ns = runpy.run_path(MUT)
+         ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_662\buggy.py", line 23, in <module>
+    if node.type == "op":
+       ^^^^^^^^^
+AttributeError: 'qiskit._accelerate.circuit.DAGInNode' object has no attribute 'type'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.590s
+
+FAILED (errors=1)

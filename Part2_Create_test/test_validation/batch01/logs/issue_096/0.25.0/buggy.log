@@ -1,0 +1,59 @@
+
+test_clean_home (__main__.TestIntent) ... ERROR
+test_existing_profile_missing_kernel_config (__main__.TestIntent) ... ERROR
+test_preserves_existing_qiskit_settings (__main__.TestIntent) ... FAIL
+
+======================================================================
+ERROR: test_clean_home (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 57, in test_clean_home
+    self.check_configuration()
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 50, in check_configuration
+    ns = load_target()
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 17, in load_target
+    return runpy.run_path(MUT)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_096\buggy.py", line 11, in <module>
+    with open(settings_path, "r") as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\haha9\\AppData\\Local\\Temp\\apr096_gyg4xzo5\\.qiskit\\settings.conf'
+
+======================================================================
+ERROR: test_existing_profile_missing_kernel_config (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 63, in test_existing_profile_missing_kernel_config
+    self.check_configuration(existing_profile=True)
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 50, in check_configuration
+    ns = load_target()
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 17, in load_target
+    return runpy.run_path(MUT)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_096\buggy.py", line 11, in <module>
+    with open(settings_path, "r") as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\haha9\\AppData\\Local\\Temp\\apr096_hofrv0_u\\.qiskit\\settings.conf'
+
+======================================================================
+FAIL: test_preserves_existing_qiskit_settings (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 60, in test_preserves_existing_qiskit_settings
+    self.check_configuration(existing_settings=True)
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_096\test.py", line 53, in check_configuration
+    self.assertTrue((profile/"ipython_kernel_config.py").is_file(),
+AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.016s
+
+FAILED (failures=1, errors=2)

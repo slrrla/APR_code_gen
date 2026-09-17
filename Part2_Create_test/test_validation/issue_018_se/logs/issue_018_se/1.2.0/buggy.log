@@ -1,0 +1,44 @@
+EXACT_LOSS_PROBABILITIES (x,y lexicographic): [0.0, 0.4999999999999999, 0.4999999999999999, 0.5000000000000001, 0.0, 0.4999999999999999, 0.5000000000000001, 0.5000000000000001, 0.0]
+ 
+
+test_decoder_all_outcomes_and_inputs (__main__.TestMagicSquare.test_decoder_all_outcomes_and_inputs) ... ok
+test_exact_perfect_strategy_for_all_nine_inputs (__main__.TestMagicSquare.test_exact_perfect_strategy_for_all_nine_inputs) ... FAIL
+test_real_simulator_shots_for_all_nine_inputs (__main__.TestMagicSquare.test_real_simulator_shots_for_all_nine_inputs) ... ERROR
+
+======================================================================
+ERROR: test_real_simulator_shots_for_all_nine_inputs (__main__.TestMagicSquare.test_real_simulator_shots_for_all_nine_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_issue018\tests\issue_018_se\test.py", line 60, in test_real_simulator_shots_for_all_nine_inputs
+    raise RuntimeError('SIMULATOR_PROCESS_ERROR: exit='+str(p.returncode)+' (0x'+format(p.returncode & 0xffffffff,'08X')+')')
+RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221225477 (0xC0000005)
+
+======================================================================
+FAIL: test_exact_perfect_strategy_for_all_nine_inputs (__main__.TestMagicSquare.test_exact_perfect_strategy_for_all_nine_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_issue018\tests\issue_018_se\test.py", line 51, in test_exact_perfect_strategy_for_all_nine_inputs
+    np.testing.assert_allclose(loss_probabilities,np.zeros(9),atol=1e-12,rtol=0,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_0\Lib\site-packages\numpy\testing\_private\utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_0\Lib\site-packages\numpy\testing\_private\utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=0, atol=1e-12
+The ideal magic-square strategy must win every input pair.
+Mismatched elements: 6 / 9 (66.7%)
+First 5 mismatches are at indices:
+ [1]: 0.4999999999999999 (ACTUAL), 0.0 (DESIRED)
+ [2]: 0.4999999999999999 (ACTUAL), 0.0 (DESIRED)
+ [3]: 0.5000000000000001 (ACTUAL), 0.0 (DESIRED)
+ [5]: 0.4999999999999999 (ACTUAL), 0.0 (DESIRED)
+ [6]: 0.5000000000000001 (ACTUAL), 0.0 (DESIRED)
+Max absolute difference among violations: 0.5
+Max relative difference among violations: inf
+ ACTUAL: array([0. , 0.5, 0.5, 0.5, 0. , 0.5, 0.5, 0.5, 0. ])
+ DESIRED: array([0., 0., 0., 0., 0., 0., 0., 0., 0.])
+
+----------------------------------------------------------------------
+Ran 3 tests in 8.105s
+
+FAILED (failures=1, errors=1)

@@ -1,0 +1,35 @@
+
+test_saved_hadamard_unitary (__main__.TestSavedUnitary.test_saved_hadamard_unitary) ... ERROR
+
+======================================================================
+ERROR: test_saved_hadamard_unitary (__main__.TestSavedUnitary.test_saved_hadamard_unitary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_0_1\Lib\site-packages\qiskit\result\result.py", line 336, in get_unitary
+    return postprocess.format_unitary(self.data(experiment)["unitary"], decimals=decimals)
+                                      ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+KeyError: 'unitary'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch03\tests\issue_362\test.py", line 13, in test_saved_hadamard_unitary
+    m = load_target()
+        ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch03\tests\issue_362\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_362\buggy.py", line 12, in <module>
+    unitary = job.get_unitary()
+              ^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_0_1\Lib\site-packages\qiskit\result\result.py", line 338, in get_unitary
+    raise QiskitError(f'No unitary for experiment "{repr(experiment)}"') from ex
+qiskit.exceptions.QiskitError: 'No unitary for experiment "None"'
+
+----------------------------------------------------------------------
+Ran 1 test in 1.257s
+
+FAILED (errors=1)

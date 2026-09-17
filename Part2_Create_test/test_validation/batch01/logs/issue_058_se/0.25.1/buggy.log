@@ -1,0 +1,37 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_1\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+test_diffuser_simulated_state_and_operator (__main__.TestIntent) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_1\lib\site-packages\qiskit\providers\aer\backends\statevector_simulator.py:152: PendingDeprecationWarning: The `StatevectorSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend. To obtain legacy functionality initalize with `AerSimulator(method="statevector")` and append run circuits with the `save_state` instruction.
+  warn('The `StatevectorSimulator` backend will be deprecated in the'
+Simulation failed and returned the following error message:
+ERROR:  [Experiment 0] Circuit contains invalid instructions {"gates": {U$_s$}} for "statevector" method
+ERROR
+
+======================================================================
+ERROR: test_diffuser_simulated_state_and_operator (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_058_se\test.py", line 24, in test_diffuser_simulated_state_and_operator
+    ns = load_target()
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_058_se\test.py", line 16, in load_target
+    return runpy.run_path(MUT)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_1\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_1\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_1\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_058_se\buggy.py", line 36, in <module>
+    v = job.result().get_statevector(circuit)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_1\lib\site-packages\qiskit\result\result.py", line 305, in get_statevector
+    return postprocess.format_statevector(self.data(experiment)['statevector'],
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_1\lib\site-packages\qiskit\result\result.py", line 181, in data
+    return self._get_experiment(experiment).data.to_dict()
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_1\lib\site-packages\qiskit\result\result.py", line 370, in _get_experiment
+    raise QiskitError('Data for experiment "%s" could not be found.' %
+qiskit.exceptions.QiskitError: 'Data for experiment "circuit-3" could not be found.'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.330s
+
+FAILED (errors=1)

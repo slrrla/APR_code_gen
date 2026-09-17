@@ -1,0 +1,35 @@
+
+test_saved_unitary_from_aer (__main__.TestIntent.test_saved_unitary_from_aer) ... ERROR
+
+======================================================================
+ERROR: test_saved_unitary_from_aer (__main__.TestIntent.test_saved_unitary_from_aer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_2_0\Lib\site-packages\qiskit\result\result.py", line 323, in get_unitary
+    return postprocess.format_unitary(self.data(experiment)["unitary"], decimals=decimals)
+                                      ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+KeyError: 'unitary'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch04\tests\issue_595\test.py", line 21, in test_saved_unitary_from_aer
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch04\tests\issue_595\test.py", line 15, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_595\buggy.py", line 15, in <module>
+    unitary = result.get_unitary(circ)
+              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_2_0\Lib\site-packages\qiskit\result\result.py", line 325, in get_unitary
+    raise QiskitError(f'No unitary for experiment "{repr(experiment)}"') from ex
+qiskit.exceptions.QiskitError: 'No unitary for experiment "<qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x000001E2E59D79E0>"'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.713s
+
+FAILED (errors=1)

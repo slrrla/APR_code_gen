@@ -1,0 +1,59 @@
+
+test_diffuser_simulated_state_and_operator (__main__.TestIntent.test_diffuser_simulated_state_and_operator) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_058_se\buggy.py:28: PendingDeprecationWarning: The qiskit.Aer entry point will be deprecated in a future release and subsequently removed. Instead you should use this directly from the root of the qiskit-aer package.
+  backend = Aer.get_backend("statevector_simulator")
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\statevector_simulator.py:246: PendingDeprecationWarning: The `StatevectorSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend. To obtain legacy functionality initialize with `AerSimulator(method="statevector")` and append run circuits with the `save_state` instruction.
+  warn(
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_058_se\buggy.py:13: DeprecationWarning: The method ``qiskit.circuit.quantumcircuit.QuantumCircuit.mct()`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. Use QuantumCircuit.mcx as direct replacement.
+  qc.mct(list(range(nqubits-1)), nqubits-1)  # multi-controlled-toffoli
+ERROR
+
+======================================================================
+ERROR: test_diffuser_simulated_state_and_operator (__main__.TestIntent.test_diffuser_simulated_state_and_operator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_058_se\test.py", line 24, in test_diffuser_simulated_state_and_operator
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_058_se\test.py", line 16, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_058_se\buggy.py", line 36, in <module>
+    v = job.result().get_statevector(circuit)
+        ^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\jobs\utils.py", line 42, in _wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\jobs\aerjob.py", line 114, in result
+    return self._future.result(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\aerbackend.py", line 456, in _execute_circuits_job
+    aer_circuits, idx_maps = assemble_circuits(circuits)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\aer_compiler.py", line 962, in assemble_circuits
+    aer_circuits, idx_maps = zip(*[assemble_circuit(circuit) for circuit in circuits])
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\aer_compiler.py", line 962, in <listcomp>
+    aer_circuits, idx_maps = zip(*[assemble_circuit(circuit) for circuit in circuits])
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\aer_compiler.py", line 681, in assemble_circuit
+    num_of_aer_ops += _assemble_op(
+                      ^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\aer_compiler.py", line 926, in _assemble_op
+    raise AerError(f"unknown instruction: {name}")
+qiskit_aer.aererror.AerError: 'unknown instruction: U$_s$'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.086s
+
+FAILED (errors=1)

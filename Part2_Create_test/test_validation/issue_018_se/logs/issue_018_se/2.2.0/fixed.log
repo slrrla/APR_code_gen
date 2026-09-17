@@ -1,0 +1,19 @@
+EXACT_LOSS_PROBABILITIES (x,y lexicographic): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+ 
+
+test_decoder_all_outcomes_and_inputs (__main__.TestMagicSquare.test_decoder_all_outcomes_and_inputs) ... ok
+test_exact_perfect_strategy_for_all_nine_inputs (__main__.TestMagicSquare.test_exact_perfect_strategy_for_all_nine_inputs) ... ok
+test_real_simulator_shots_for_all_nine_inputs (__main__.TestMagicSquare.test_real_simulator_shots_for_all_nine_inputs) ... ERROR
+
+======================================================================
+ERROR: test_real_simulator_shots_for_all_nine_inputs (__main__.TestMagicSquare.test_real_simulator_shots_for_all_nine_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_issue018\tests\issue_018_se\test.py", line 60, in test_real_simulator_shots_for_all_nine_inputs
+    raise RuntimeError('SIMULATOR_PROCESS_ERROR: exit='+str(p.returncode)+' (0x'+format(p.returncode & 0xffffffff,'08X')+')')
+RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221225477 (0xC0000005)
+
+----------------------------------------------------------------------
+Ran 3 tests in 6.067s
+
+FAILED (errors=1)

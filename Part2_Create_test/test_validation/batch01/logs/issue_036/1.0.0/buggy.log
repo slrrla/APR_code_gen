@@ -1,0 +1,25 @@
+
+test_qasm2_round_trip (__main__.TestIntent.test_qasm2_round_trip) ... ERROR
+
+======================================================================
+ERROR: test_qasm2_round_trip (__main__.TestIntent.test_qasm2_round_trip)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_036\test.py", line 23, in test_qasm2_round_trip
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch01\tests\issue_036\test.py", line 14, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_036\buggy.py", line 6, in <module>
+    qasm_str = c.qasm()
+               ^^^^^^
+AttributeError: 'QuantumCircuit' object has no attribute 'qasm'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (errors=1)

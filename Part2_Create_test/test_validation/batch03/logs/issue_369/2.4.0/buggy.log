@@ -1,0 +1,28 @@
+
+test_complete_mapping_and_controlled_permutation (__main__.TestControlledSubcircuit.test_complete_mapping_and_controlled_permutation) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_4_0\Lib\site-packages\qiskit\circuit\quantumcircuit.py:2027: DeprecationWarning: ``qiskit.circuit.gate.Gate.control()``'s argument ``annotated`` is deprecated as of Qiskit 2.3. It will be removed in Qiskit 3.0. The method Gate.control() no longer accepts `annotated=None`. The new default is `annotated=True`, which represents the controlled gate as an `AnnotatedOperation` (unless a dedicated controlled-gate class already exists). You can explicitly set `annotated=False` to preserve the previous behavior. However, using `annotated=True` is recommended, as it defers construction of the controlled circuit to transpiler, and furthermore enables additional controlled-gate optimizations (typically leading to higher-quality circuits).
+  controlled_gate = gate.control(num_ctrl_qubits, label, ctrl_state, annotated)
+ERROR
+
+======================================================================
+ERROR: test_complete_mapping_and_controlled_permutation (__main__.TestControlledSubcircuit.test_complete_mapping_and_controlled_permutation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch03\tests\issue_369\test.py", line 14, in test_complete_mapping_and_controlled_permutation
+    m = load_target()
+        ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch03\tests\issue_369\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_369\buggy.py", line 21, in <module>
+    circ.compose(csub, [i], inplace=True)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_4_0\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 2298, in compose
+    raise CircuitError(
+qiskit.circuit.exceptions.CircuitError: 'Number of items in qubits parameter (1) does not match number of qubits in the circuit (17).'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.541s
+
+FAILED (errors=1)

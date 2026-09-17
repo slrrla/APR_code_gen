@@ -1,47 +1,44 @@
-# intent: transpile a 3-qubit GHZ circuit for FakeVigo with optimization_level=3 using a VALID layout_method (e.g. 'noise_adaptive'); 'csp_layout' is not a valid layout method and raises TranspilerError
-# bug_type: CRASH
-import os, runpy, unittest
-from qiskit import QuantumCircuit
+"""Intent: valid layout selection must compile the GHZ circuit for the backend."""
+import contextlib
+import io
+import os
+from pathlib import Path
+import runpy
+import unittest
+
+CASE_DIR = Path(__file__).resolve().parent
+MUT = os.environ.get("MUT", str(CASE_DIR / "fixed.py"))
+
+def load_target():
+    with contextlib.redirect_stdout(io.StringIO()):
+        return runpy.run_path(MUT)
+
+
 from qiskit.quantum_info import Statevector
 
-CASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MUT = os.environ.get("MUT", os.path.join(CASE_DIR, "fixed.py"))
+class TestIntent(unittest.TestCase):
+    def test_transpiled_ghz_measurement_distribution(self):
+        ns = load_target()
+        qc = ns["transpiled"]
+        self.assertEqual(qc.num_qubits, 5)
+        self.assertEqual(qc.num_clbits, 3)
+        mapping = [(qc.qubits.index(q[0]), qc.clbits.index(c[0]))
+                   for op, q, c in qc.data if op.name == "measure"]
+        self.assertEqual(len(mapping), 3)
+        self.assertEqual({c for _, c in mapping}, {0, 1, 2})
+        allowed = set(ns["backend"].configuration().basis_gates) | {"measure", "barrier"}
+        self.assertTrue(set(qc.count_ops()).issubset(allowed))
+        state = Statevector.from_instruction(qc.remove_final_measurements(inplace=False))
+        measured = {}
+        for basis, p in enumerate(state.probabilities()):
+            if p < 1e-12:
+                continue
+            outcome = sum(((basis >> q) & 1) << c for q, c in mapping)
+            measured[outcome] = measured.get(outcome, 0.0) + float(p)
+        self.assertEqual(set(measured), {0, 7})
+        self.assertAlmostEqual(measured[0], 0.5, places=9)
+        self.assertAlmostEqual(measured[7], 0.5, places=9)
 
+if __name__ == "__main__":
+    unittest.main()
 
-def _namespace(path):
-    # buggy version raises TranspilerError('Invalid layout method csp_layout') here
-    return runpy.run_path(path)
-
-
-class Test(unittest.TestCase):
-    def test_intent(self):
-        ns = _namespace(MUT)
-        circuits = [v for v in ns.values() if isinstance(v, QuantumCircuit)]
-        self.assertTrue(circuits, "no QuantumCircuit produced by the script")
-
-        transpiled = ns.get("transpiled")
-        self.assertIsInstance(transpiled, QuantumCircuit,
-                              "script must bind a transpiled QuantumCircuit")
-
-        # INTENT: transpilation targets FakeVigo (5 qubits) and keeps the 3 measurements
-        self.assertEqual(transpiled.num_qubits, 5)
-        self.assertEqual(transpiled.num_clbits, 3)
-        self.assertEqual(transpiled.count_ops().get("measure", 0), 3)
-
-        # INTENT: only basis gates of FakeVigo are used after transpilation
-        allowed = {"id", "rz", "sx", "x", "cx", "measure", "barrier", "reset", "delay"}
-        self.assertTrue(set(transpiled.count_ops()).issubset(allowed),
-                        f"unexpected ops: {set(transpiled.count_ops()) - allowed}")
-
-        # INTENT: the logical circuit is a 3-qubit GHZ state -> only '000' and '111', each 0.5
-        source = ns.get("qc")
-        self.assertIsInstance(source, QuantumCircuit)
-        sv = Statevector.from_instruction(source.remove_final_measurements(inplace=False))
-        probs = sv.probabilities_dict()
-        self.assertEqual(set(probs), {"000", "111"})
-        for k in ("000", "111"):
-            self.assertAlmostEqual(probs[k], 0.5, places=9)
-
-
-if __name__ == '__main__':
-    unittest.main(argv=[''])

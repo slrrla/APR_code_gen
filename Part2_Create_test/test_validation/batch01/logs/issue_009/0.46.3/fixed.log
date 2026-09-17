@@ -1,0 +1,15 @@
+
+test_transpiled_ghz_measurement_distribution (__main__.TestIntent.test_transpiled_ghz_measurement_distribution) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_009\fixed.py:10: DeprecationWarning: All fake backend instances based on real device snapshots (`FakeVigo`,`FakeSherbrooke`,...) have been migrated to the `qiskit_ibm_runtime` package. These classes are deprecated as of qiskit 0.46.0 and will be removed in qiskit 1.0.0. To migrate your code, run `pip install qiskit-ibm-runtime` and use `from qiskit_ibm_runtime.fake_provider import FakeExample` instead of `from qiskit.providers.fake_provider import FakeExample`. If you are using a custom fake backend implementation, you don't need to take any action.
+  backend = FakeVigo()
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\transpiler\basepasses.py:51: DeprecationWarning: The class ``qiskit.transpiler.passes.layout.noise_adaptive_layout.NoiseAdaptiveLayout`` is deprecated as of qiskit 0.46. It will be removed in the 1.0.0 release.
+  pass_instance = type.__call__(cls, *args, **kwargs)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\synthesis\two_qubit\two_qubit_decompose.py:197: DeprecationWarning: Passing more than 2 positional arguments to np.maximum and np.minimum is deprecated. If you meant to use the third argument as an output, use the `out` keyword argument instead. If you hoped to work with more than 2 inputs, combine them into a single array and get the extrema for the relevant axis.
+  np.minimum(cstemp, pi2 - cstemp, cstemp)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\synthesis\two_qubit\weyl.py:74: DeprecationWarning: Passing more than 2 positional arguments to np.maximum and np.minimum is deprecated. If you meant to use the third argument as an output, use the `out` keyword argument instead. If you hoped to work with more than 2 inputs, combine them into a single array and get the extrema for the relevant axis.
+  np.minimum(cstemp, pi2 - cstemp, cstemp)
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.583s
+
+OK

@@ -1,0 +1,50 @@
+[0.57735027+0.57735027j 0.        -0.57735027j]
+theta :  (2.135521592658412-1.2374811137735784j)
+(1.0492498332510383-0.31768728740277213j)
+phi :  (-1.2767950250211129+0.6412373393653841j)
+
+test_real_angles_prepare_requested_state_up_to_global_phase (__main__.TestComplexState) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\site-packages\pkg_resources\__init__.py:3146: DeprecationWarning: Deprecated call to `pkg_resources.declare_namespace('mpl_toolkits')`.
+Implementing implicit namespace packages (as specified in PEP 420) is preferred to `pkg_resources.declare_namespace`. See https://setuptools.pypa.io/en/latest/references/keywords.html#keyword-namespace-packages
+  declare_namespace(pkg)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_415\buggy.py:27: DeprecationWarning: The QuantumCircuit.u3 method is deprecated as of 0.16.0. It will be removed no earlier than 3 months after the release date. You should use QuantumCircuit.u instead, which acts identically. Alternatively, you can decompose u3 in terms of QuantumCircuit.p and QuantumCircuit.sx: u3(ϴ,φ,λ) = p(φ+π) sx p(ϴ+π) sx p(λ) (2 pulses on hardware).
+  circ.u3(theta, phi, 0, 0)
+ERROR
+
+======================================================================
+ERROR: test_real_angles_prepare_requested_state_up_to_global_phase (__main__.TestComplexState)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch03\tests\issue_415\test.py", line 14, in test_real_angles_prepare_requested_state_up_to_global_phase
+    m = load_target()
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch03\tests\issue_415\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_415\buggy.py", line 27, in <module>
+    circ.u3(theta, phi, 0, 0)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\site-packages\qiskit\utils\deprecation.py", line 78, in wrapper
+    return func(*args, **kwargs)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\site-packages\qiskit\circuit\quantumcircuit.py", line 2485, in u3
+    return self.append(U3Gate(theta, phi, lam), [qubit], [])
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\site-packages\qiskit\circuit\library\standard_gates\u3.py", line 63, in __init__
+    super().__init__('u3', 1, [theta, phi, lam], label=label)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\site-packages\qiskit\circuit\gate.py", line 40, in __init__
+    super().__init__(name, num_qubits, 0, params)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\site-packages\qiskit\circuit\instruction.py", line 88, in __init__
+    self.params = params
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\site-packages\qiskit\circuit\instruction.py", line 191, in params
+    self._params.append(self.validate_parameter(single_param))
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_2\lib\site-packages\qiskit\circuit\gate.py", line 258, in validate_parameter
+    raise CircuitError("Invalid param type {0} for gate {1}.".format(type(parameter),
+qiskit.circuit.exceptions.CircuitError: "Invalid param type <class 'complex'> for gate u3."
+
+----------------------------------------------------------------------
+Ran 1 test in 1.364s
+
+FAILED (errors=1)
