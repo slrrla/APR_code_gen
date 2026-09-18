@@ -1,0 +1,47 @@
+
+test_actual_qasm_snapshot_contains_bell_state (__main__.Regression) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\pkg_resources\__init__.py:3146: DeprecationWarning: Deprecated call to `pkg_resources.declare_namespace('mpl_toolkits')`.
+Implementing implicit namespace packages (as specified in PEP 420) is preferred to `pkg_resources.declare_namespace`. See https://setuptools.pypa.io/en/latest/references/keywords.html#keyword-namespace-packages
+  declare_namespace(pkg)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\providers\aer\backends\qasm_simulator.py:329: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn('The `QasmSimulator` backend will be deprecated in the'
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\mpmath\ctx_mp.py:35: DeprecationWarning: mpnumeric is deprecated
+  warnings.warn(f"{name} is deprecated", DeprecationWarning)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\mpmath\rational.py:4: DeprecationWarning: the rational private module is deprecated
+  warnings.warn("the rational private module is deprecated",
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\execute_function.py:343: DeprecationWarning: Using `backend_options` kwarg has been deprecated as of qiskit-aer 0.7.0 and will be removed no earlier than 3 months from that release date. Runtime backend options should now be added directly using kwargs for each option.
+  job = backend.run(experiments, **run_kwargs)
+ERROR
+
+======================================================================
+ERROR: test_actual_qasm_snapshot_contains_bell_state (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\result\result.py", line 305, in get_statevector
+    return postprocess.format_statevector(self.data(experiment)['statevector'],
+KeyError: 'statevector'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_994\test.py", line 21, in test_actual_qasm_snapshot_contains_bell_state
+    m=target()
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_994\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_994\buggy.py", line 14, in <module>
+    print(job_result.get_statevector(qc))
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\result\result.py", line 308, in get_statevector
+    raise QiskitError(f'No statevector for experiment "{repr(experiment)}"') from ex
+qiskit.exceptions.QiskitError: 'No statevector for experiment "<qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x0000023686F63250>"'
+
+----------------------------------------------------------------------
+Ran 1 test in 2.473s
+
+FAILED (errors=1)

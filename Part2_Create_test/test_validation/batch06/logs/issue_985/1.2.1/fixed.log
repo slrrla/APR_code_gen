@@ -1,0 +1,32 @@
+
+test_original_requirement_preserve_u1_phase_exactly (__main__.Regression.test_original_requirement_preserve_u1_phase_exactly) ... FAIL
+test_requested_rotation_basis_and_equivalence_up_to_phase (__main__.Regression.test_requested_rotation_basis_and_equivalence_up_to_phase) ... ok
+
+======================================================================
+FAIL: test_original_requirement_preserve_u1_phase_exactly (__main__.Regression.test_original_requirement_preserve_u1_phase_exactly)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_985\test.py", line 32, in test_original_requirement_preserve_u1_phase_exactly
+    np.testing.assert_allclose(Operator(m["transpiled"]).data,expected,atol=1e-12,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_1\Lib\site-packages\numpy\testing\_private\utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_1\Lib\site-packages\numpy\testing\_private\utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+Original question explicitly requires retaining U1 global phase
+Mismatched elements: 2 / 4 (50%)
+Mismatch at indices:
+ [0, 0]: (0.9689124217106447-0.24740395925452294j) (ACTUAL), (1+0j) (DESIRED)
+ [1, 1]: (0.9689124217106447+0.24740395925452294j) (ACTUAL), (0.8775825618903728+0.479425538604203j) (DESIRED)
+Max absolute difference among violations: 0.24934947
+Max relative difference among violations: 0.24934947
+ ACTUAL: array([[0.968912-0.247404j, 0.      +0.j      ],
+       [0.      +0.j      , 0.968912+0.247404j]])
+ DESIRED: array([[1.      +0.j      , 0.      +0.j      ],
+       [0.      +0.j      , 0.877583+0.479426j]])
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.140s
+
+FAILED (failures=1)

@@ -1,0 +1,30 @@
+
+test_operator_dimension_and_diagonality (__main__.Regression.test_operator_dimension_and_diagonality) ... ok
+test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one (__main__.Regression.test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one) ... FAIL
+
+======================================================================
+FAIL: test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one (__main__.Regression.test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_950\test.py", line 33, in test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one
+    np.testing.assert_allclose(diagonal, expected, atol=1e-12,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_0_0\Lib\site-packages\numpy\testing\_private\utils.py", line 1504, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_0_0\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_0_0\Lib\site-packages\numpy\testing\_private\utils.py", line 797, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+Requested Z on qubits 3..7, not on qubits 2..6
+Mismatched elements: 512 / 1024 (50%)
+Max absolute difference: 2.
+Max relative difference: 2.
+ x: array([ 1.+0.j,  1.+0.j,  1.+0.j, ..., -1.+0.j, -1.+0.j, -1.+0.j])
+ y: array([ 1,  1,  1, ..., -1, -1, -1])
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.189s
+
+FAILED (failures=1)

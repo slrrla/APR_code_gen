@@ -1,0 +1,67 @@
+
+test_reconstructed_hamiltonian_and_exact_evolution (__main__.Regression.test_reconstructed_hamiltonian_and_exact_evolution) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\utils\algorithm_globals.py:170: DeprecationWarning: The class ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+  algorithm_globals = QiskitAlgorithmGlobals()
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\utils\algorithm_globals.py:49: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  self.num_processes = settings.get("num_processes", QiskitAlgorithmGlobals.CPU_COUNT)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\utils\algorithm_globals.py:120: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  parallel.CPU_COUNT = self.num_processes
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_889\buggy.py:3: DeprecationWarning: The ``qiskit.opflow`` module is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  from qiskit.opflow import PauliSumOp
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\opflow\primitive_ops\pauli_sum_op.py:453: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return cls(SparsePauliOp.from_list(pauli_list, dtype=dtype), coeff=coeff)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\opflow\primitive_ops\pauli_sum_op.py:62: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.primitive_op.PrimitiveOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__(primitive, coeff=coeff)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\opflow\primitive_ops\primitive_op.py:111: DeprecationWarning: The class ``qiskit.opflow.operator_base.OperatorBase`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\opflow\operator_base.py:55: DeprecationWarning: The class ``qiskit.opflow.mixins.star_algebra.StarAlgebraMixin`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\opflow\primitive_ops\pauli_sum_op.py:131: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return PauliSumOp(self.coeff * self.primitive + other.coeff * other.primitive, coeff=1)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\opflow\primitive_ops\primitive_op.py:275: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.matrix_op.MatrixOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return MatrixOp(prim_mat, coeff=coeff)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\opflow\primitive_ops\matrix_op.py:76: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.primitive_op.PrimitiveOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__(primitive, coeff=coeff)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\opflow\primitive_ops\primitive_op.py:111: DeprecationWarning: The class ``qiskit.opflow.operator_base.OperatorBase`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\opflow\operator_base.py:55: DeprecationWarning: The class ``qiskit.opflow.mixins.star_algebra.StarAlgebraMixin`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+ERROR
+
+======================================================================
+ERROR: test_reconstructed_hamiltonian_and_exact_evolution (__main__.Regression.test_reconstructed_hamiltonian_and_exact_evolution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_889\test.py", line 23, in test_reconstructed_hamiltonian_and_exact_evolution
+    m = target()
+        ^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_889\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_889\buggy.py", line 32, in <module>
+    circ.append(H, list(range(N)))
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1253, in append
+    operation = operation.to_instruction()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\opflow\primitive_ops\pauli_sum_op.py", line 366, in to_instruction
+    return self.to_matrix_op().to_circuit().to_instruction()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\opflow\primitive_ops\primitive_op.py", line 284, in to_circuit
+    qc.append(self.to_instruction(), qargs=range(self.primitive.num_qubits))
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\opflow\primitive_ops\matrix_op.py", line 237, in to_instruction
+    return (self.coeff * self.primitive).to_instruction()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\quantum_info\operators\operator.py", line 446, in to_instruction
+    return UnitaryGate(self.data)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_2\Lib\site-packages\qiskit\circuit\library\generalized_gates\unitary.py", line 102, in __init__
+    raise ValueError("Input matrix is not unitary.")
+ValueError: Input matrix is not unitary.
+
+----------------------------------------------------------------------
+Ran 1 test in 2.507s
+
+FAILED (errors=1)

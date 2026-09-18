@@ -1,0 +1,44 @@
+
+test_original_requirement_preserve_u1_phase_exactly (__main__.Regression.test_original_requirement_preserve_u1_phase_exactly) ... ERROR
+test_requested_rotation_basis_and_equivalence_up_to_phase (__main__.Regression.test_requested_rotation_basis_and_equivalence_up_to_phase) ... ERROR
+
+======================================================================
+ERROR: test_original_requirement_preserve_u1_phase_exactly (__main__.Regression.test_original_requirement_preserve_u1_phase_exactly)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_985\test.py", line 30, in test_original_requirement_preserve_u1_phase_exactly
+    m=target()
+      ^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_985\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_985\buggy.py", line 6, in <module>
+    qc.u1(lam, 0)
+    ^^^^^
+AttributeError: 'QuantumCircuit' object has no attribute 'u1'
+
+======================================================================
+ERROR: test_requested_rotation_basis_and_equivalence_up_to_phase (__main__.Regression.test_requested_rotation_basis_and_equivalence_up_to_phase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_985\test.py", line 22, in test_requested_rotation_basis_and_equivalence_up_to_phase
+    m=target()
+      ^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_985\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_985\buggy.py", line 6, in <module>
+    qc.u1(lam, 0)
+    ^^^^^
+AttributeError: 'QuantumCircuit' object has no attribute 'u1'
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.151s
+
+FAILED (errors=2)

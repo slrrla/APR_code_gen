@@ -1,0 +1,25 @@
+
+test_printed_indices_match_actual_circuit_operands (__main__.Regression.test_printed_indices_match_actual_circuit_operands) ... ERROR
+
+======================================================================
+ERROR: test_printed_indices_match_actual_circuit_operands (__main__.Regression.test_printed_indices_match_actual_circuit_operands)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_911\test.py", line 22, in test_printed_indices_match_actual_circuit_operands
+    m = target()
+        ^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_911\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_911\buggy.py", line 15, in <module>
+    print("qargs[1] : ", qargs[1])
+                         ~~~~~^^^
+IndexError: list index out of range
+
+----------------------------------------------------------------------
+Ran 1 test in 1.142s
+
+FAILED (errors=1)

@@ -1,0 +1,108 @@
+
+test_actual_aer_execution_and_zero_control (__main__.Regression.test_actual_aer_execution_and_zero_control) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit\utils\algorithm_globals.py:170: DeprecationWarning: The class ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+  algorithm_globals = QiskitAlgorithmGlobals()
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit\utils\algorithm_globals.py:49: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  self.num_processes = settings.get("num_processes", QiskitAlgorithmGlobals.CPU_COUNT)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit\utils\algorithm_globals.py:120: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  parallel.CPU_COUNT = self.num_processes
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\qasm_simulator.py:435: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn(
+ERROR
+test_transpilation_preserves_full_controlled_rotation (__main__.Regression.test_transpilation_preserves_full_controlled_rotation) ... ERROR
+
+======================================================================
+ERROR: test_actual_aer_execution_and_zero_control (__main__.Regression.test_actual_aer_execution_and_zero_control)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_886\test.py", line 21, in test_actual_aer_execution_and_zero_control
+    m = target()
+        ^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_886\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_886\buggy.py", line 10, in <module>
+    job.result().get_counts()
+    ^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\jobs\utils.py", line 42, in _wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\jobs\aerjob.py", line 114, in result
+    return self._future.result(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\aerbackend.py", line 456, in _execute_circuits_job
+    aer_circuits, idx_maps = assemble_circuits(circuits)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\aer_compiler.py", line 962, in assemble_circuits
+    aer_circuits, idx_maps = zip(*[assemble_circuit(circuit) for circuit in circuits])
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\aer_compiler.py", line 962, in <listcomp>
+    aer_circuits, idx_maps = zip(*[assemble_circuit(circuit) for circuit in circuits])
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\aer_compiler.py", line 681, in assemble_circuit
+    num_of_aer_ops += _assemble_op(
+                      ^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\aer_compiler.py", line 926, in _assemble_op
+    raise AerError(f"unknown instruction: {name}")
+qiskit_aer.aererror.AerError: 'unknown instruction: crx'
+
+======================================================================
+ERROR: test_transpilation_preserves_full_controlled_rotation (__main__.Regression.test_transpilation_preserves_full_controlled_rotation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_886\test.py", line 28, in test_transpilation_preserves_full_controlled_rotation
+    m = target()
+        ^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_886\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_886\buggy.py", line 10, in <module>
+    job.result().get_counts()
+    ^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\jobs\utils.py", line 42, in _wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\jobs\aerjob.py", line 114, in result
+    return self._future.result(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\concurrent\futures\_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\aerbackend.py", line 456, in _execute_circuits_job
+    aer_circuits, idx_maps = assemble_circuits(circuits)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\aer_compiler.py", line 962, in assemble_circuits
+    aer_circuits, idx_maps = zip(*[assemble_circuit(circuit) for circuit in circuits])
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\aer_compiler.py", line 962, in <listcomp>
+    aer_circuits, idx_maps = zip(*[assemble_circuit(circuit) for circuit in circuits])
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\aer_compiler.py", line 681, in assemble_circuit
+    num_of_aer_ops += _assemble_op(
+                      ^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_1\Lib\site-packages\qiskit_aer\backends\aer_compiler.py", line 926, in _assemble_op
+    raise AerError(f"unknown instruction: {name}")
+qiskit_aer.aererror.AerError: 'unknown instruction: crx'
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.788s
+
+FAILED (errors=2)

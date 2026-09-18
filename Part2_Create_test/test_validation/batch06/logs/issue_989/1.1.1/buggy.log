@@ -1,0 +1,24 @@
+
+test_aer_simulator_available_and_operational (__main__.Regression.test_aer_simulator_available_and_operational) ... ERROR
+
+======================================================================
+ERROR: test_aer_simulator_available_and_operational (__main__.Regression.test_aer_simulator_available_and_operational)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_989\test.py", line 21, in test_aer_simulator_available_and_operational
+    m=target()
+      ^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_batch06\tests\issue_989\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_989\buggy.py", line 2, in <module>
+    from qiskit import Aer
+ImportError: cannot import name 'Aer' from 'qiskit' (C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_1_1\Lib\site-packages\qiskit\__init__.py)
+
+----------------------------------------------------------------------
+Ran 1 test in 0.997s
+
+FAILED (errors=1)

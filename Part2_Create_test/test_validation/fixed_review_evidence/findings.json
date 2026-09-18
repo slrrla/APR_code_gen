@@ -1,0 +1,259 @@
+[
+  [
+    "issue_096",
+    "Incomplete missing-file repair",
+    [
+      [
+        "Original issue",
+        "Qiskit settings.conf and IPython ipython_kernel_config.py are missing.",
+        "original_question.txt, Question and Solution explanation"
+      ],
+      [
+        "What fixed solves",
+        "Creates .qiskit/settings.conf without overwriting an existing file. A clean IPython home also gets a generated profile.",
+        "fixed.py:11-16,25-27; test_clean_home; test_preserves_existing_qiskit_settings"
+      ],
+      [
+        "Root cause",
+        "The condition checks whether profile_default is a directory, not whether ipython_kernel_config.py exists. An existing directory with a missing config file bypasses profile creation.",
+        "fixed.py:25-27"
+      ],
+      [
+        "Observed evidence",
+        "With an empty pre-existing profile_default directory, the kernel config remains absent. In each historical run, 2 checks pass and this 1 check fails.",
+        "test.py:28-63; historical logs; fresh endpoint reruns"
+      ],
+      [
+        "Test scope assessment",
+        "This is an added missing-file edge case, consistent with the question's missing-config objective. It does not show that the clean-install remedy fails. No quantum circuit or Aer simulation is involved.",
+        "original_question.txt; test.py:1-4"
+      ],
+      [
+        "Recommended action",
+        "If the contract is to ensure the file exists, check the file itself and run profile generation when missing. Preserve existing settings and verify the subprocess result. Alternatively, explicitly restrict the case to a clean-home scenario.",
+        "Proposal only; no source or test edited"
+      ]
+    ]
+  ],
+  [
+    "issue_157",
+    "Changed control-count contract",
+    [
+      [
+        "Original issue",
+        "Build coherent controlled state preparation without Initialize resets. The question and buggy reconstruction use control(2).",
+        "original_question.txt, code examples; buggy.py:13"
+      ],
+      [
+        "What fixed solves",
+        "Isometry creates a unitary state-preparation operation. The produced gate prepares the requested target state and acts as identity for inactive controls.",
+        "fixed.py:9-12; test_controlled_preparation_semantics"
+      ],
+      [
+        "Root cause",
+        "The answer example calls control() with its default of one control. Copying this example into the fixed pair changes the caller's two-control interface.",
+        "fixed.py:12; original_question.txt, answer code"
+      ],
+      [
+        "Observed evidence",
+        "The produced gate has 1 control and 3 total qubits. The original contract requires 2 controls and 4 total qubits. State-preparation semantics pass; the control-count assertion fails.",
+        "Fresh probe issue_157 at 0.25.0; test.py:51-55"
+      ],
+      [
+        "Test scope assessment",
+        "The answer demonstrates a valid general technique. This is a mismatched buggy/fixed pair, not evidence that isometry is mathematically wrong. The test enforces the explicit caller example.",
+        "original_question.txt; fixed.py; test.py"
+      ],
+      [
+        "Recommended action",
+        "For an APR pair preserving the original example, use two controls and rerun coherent-control checks. If only general controllability is intended, normalize both examples to the same control count before accepting the dataset pair.",
+        "Proposal only; no source or test edited"
+      ]
+    ]
+  ],
+  [
+    "issue_468",
+    "Changed mathematical operands",
+    [
+      [
+        "Original issue",
+        "Compute the commutator of two density matrices created from X|0> and Z|0>, using the Aqua commutator interface.",
+        "buggy.py:6-17; original_question.txt"
+      ],
+      [
+        "What fixed solves",
+        "WeightedPauliOperator is accepted by the legacy commutator. The result is mathematically correct for the new operands supplied by fixed.py.",
+        "fixed.py:10-16; test_commutator_math_for_supplied_operands"
+      ],
+      [
+        "Root cause",
+        "The source answer is a type-usage example with A=0.5X and B=0.5Z. These are not the original density matrices A=(I-Z)/2 and B=(I+Z)/2.",
+        "fixed.py:5-14; original_question.txt, answer example"
+      ],
+      [
+        "Observed evidence",
+        "Original A=diag(0,1), B=diag(1,0) commute, so [A,B]=0. Fixed gives [[0,-0.5],[0.5,0]]=-0.5iY. Only input preservation fails; the commutator algorithm passes.",
+        "Fresh probe issue_468 at 0.25.0; test.py:27-40"
+      ],
+      [
+        "Test scope assessment",
+        "An illustrative API example was treated as a behavior-preserving patch. The test is appropriate for preserving the original computation, but stricter than merely demonstrating accepted input types.",
+        "original_question.txt, Solution explanation; test.py"
+      ],
+      [
+        "Recommended action",
+        "Convert the original matrices to WeightedPauliOperator using 0.5I-0.5Z and 0.5I+0.5Z, rather than replacing their values. Keep the zero-commutator expectation for that original input.",
+        "Proposal only; no source or test edited"
+      ]
+    ]
+  ],
+  [
+    "issue_504",
+    "Original repair passes; residual Grover defect",
+    [
+      [
+        "Original issue",
+        "CircuitError occurs because fresh QuantumRegister instances are repeatedly used instead of the register owned by the circuit.",
+        "buggy.py:30-50; original_question.txt"
+      ],
+      [
+        "What fixed solves",
+        "Instantiates qr once and reuses it. The real local Aer job runs, all qubits belong to the circuit, and sampled counts are returned.",
+        "fixed.py:30-53; test_registered_qubits_and_real_sampling"
+      ],
+      [
+        "Root cause",
+        "oracle applies only CZ(q0,q1) in a three-qubit circuit. The third qubit never controls the phase, so two basis states are marked. The X masking also fails to implement the requested three-bit marking.",
+        "fixed.py:5-12"
+      ],
+      [
+        "Observed evidence",
+        "For target 000, negative phases occur at 011 and 111, not only 000. For the original target 101, they occur at 010 and 110. The first test assertion reports target 000; the independent probe also confirms failure for 101.",
+        "Fresh probe issue_504 at 0.45.0; test.py:52-64"
+      ],
+      [
+        "Test scope assessment",
+        "The semantic oracle test goes beyond the original register-error question. REVIEW FIXED must not be interpreted as failure of that narrow repair. The diffusion circuit also uses only a two-qubit phase component, so this is not a validated complete Grover implementation.",
+        "fixed.py:14-22; original_question.txt; separate passing execution check"
+      ],
+      [
+        "Recommended action",
+        "Separate the register regression from full algorithm correctness. For a complete Grover ground truth, review the three-qubit oracle, diffusion, iteration count and result selection. Do not claim full Grover correctness merely after changing the register.",
+        "Proposal only; no source or test edited"
+      ]
+    ]
+  ],
+  [
+    "issue_565",
+    "Wrong Pauli signs suppress TSP mixing",
+    [
+      [
+        "Original issue",
+        "Use a custom TSP QAOA mixer while resolving Operator/PrimitiveOp and complex-coefficient construction errors.",
+        "original_question.txt; fixed.py:13-19,69-73"
+      ],
+      [
+        "What fixed solves",
+        "The supplied PrimitiveOp sum constructs bound 9-qubit QAOA circuits and a Hermitian 512x512 mixer matrix.",
+        "test_constructed_qaoa_circuits; test.py:29-33"
+      ],
+      [
+        "Root cause",
+        "Let a=qu, b=qv, c=qu+n, d=qv+n. The code gives negative coefficients to YY pairs (a,b) and (c,d). Expanding the intended swap operator requires negative pairs (a,d) and (b,c). The same sign condition appears in the supplied answer code.",
+        "fixed.py:42-49; original_question.txt, answer expansion and implementation"
+      ],
+      [
+        "Observed evidence",
+        "All six feasible-tour columns have norm 0. On the four participating qubits, the intended 1001<->0110 exchange has actual amplitude 0 (reference 16 under the source normalization); the unrelated 0011<->1100 exchange has amplitude 16.",
+        "Fresh probe issue_565 at 0.25.0; diagnostic Pauli expansion"
+      ],
+      [
+        "Test scope assessment",
+        "This is a residual mathematical defect, not an Aqua execution failure. Zero action alone preserves feasibility but cannot mix valid tours. The conclusion does not depend on insisting on a particular nonzero normalization.",
+        "test.py:29-45; independent operator diagnostic"
+      ],
+      [
+        "Recommended action",
+        "Review the two-Y coefficient pairs against the intended adjacent-city swap, then revalidate all six tours and circuit construction. This report confirms the source mismatch but does not implement a patch or validate full QAOA optimization.",
+        "Proposal only; no source or test edited"
+      ],
+      [
+        "Paper cross-check",
+        "The paper defines a value-selective swap of two cities between tour positions. Its encoded adjacent swap in Eq. (58) supports testing nonzero transitions between the corresponding feasible tours.",
+        "Hadfield et al., arXiv:1709.03489, Sec. 5.1.2, PDF p.25, Eqs.54-58. https://arxiv.org/pdf/1709.03489"
+      ]
+    ]
+  ],
+  [
+    "issue_950",
+    "Qubit indexing reversed in the label",
+    [
+      [
+        "Original issue",
+        "Construct a 10-qubit Z-string acting on Qiskit qubits i+1 through j-1, with i=2 and j=8, hence qubits 3..7.",
+        "original_question.txt, Question; buggy.py:3-6"
+      ],
+      [
+        "What fixed solves",
+        "Builds a well-formed 1024x1024 diagonal operator and avoids the original invalid subsystem-addition error.",
+        "fixed.py:4-6; test_operator_dimension_and_diagonality"
+      ],
+      [
+        "Root cause",
+        "The label IIIZZZZZII is assembled left to right as if character index were qubit index. Qiskit's rightmost character acts on qubit 0, so this label applies Z to qubits 2..6.",
+        "fixed.py:4; direct single-excitation diagnostic"
+      ],
+      [
+        "Observed evidence",
+        "A single excitation on q2 gets -1 instead of +1; on q7 it gets +1 instead of -1. Across all 1024 diagonal entries, 512 signs disagree with the requested range.",
+        "Fresh probe issue_950 at 0.25.0; original failure log"
+      ],
+      [
+        "Test scope assessment",
+        "This is a direct original-contract failure, not a version incompatibility. The requested qargs in the buggy source establish Qiskit qubit indices, not left-to-right visual label positions.",
+        "buggy.py:6; test.py:24-34"
+      ],
+      [
+        "Recommended action",
+        "For these indices the expected label is IIZZZZZIII: left padding N-j, then j-i-1 Z characters, then right padding i+1. Validate multiple asymmetric ranges to guard against endian mistakes.",
+        "Proposal only; no source or test edited"
+      ]
+    ]
+  ],
+  [
+    "issue_985",
+    "Exact-phase requirement changed",
+    [
+      [
+        "Original issue",
+        "Express U1(lambda) through Rx/Ry/Rz while retaining its phase. The question explicitly says a bare Rz(lambda) is not suitable.",
+        "original_question.txt, Question"
+      ],
+      [
+        "What fixed solves",
+        "Rz(0.5) is executable in the requested rotation basis and equivalent to U1(0.5) up to global phase.",
+        "fixed.py:5-10; test_requested_rotation_basis_and_equivalence_up_to_phase"
+      ],
+      [
+        "Root cause",
+        "U1(lambda)=exp(i*lambda/2)Rz(lambda). fixed.py omits that scalar phase. The original answer explains an impossibility for rotation-only products, rather than supplying a phase-preserving code repair.",
+        "fixed.py:6-7; original_question.txt, Solution explanation"
+      ],
+      [
+        "Observed evidence",
+        "At lambda=0.5 the maximum matrix-entry error is 0.2493494668. Multiplying the observed matrix by exp(i*0.25) reduces the diagnostic error to about 1.1e-16. det(Rz)=1; det(U1)=exp(i*0.5).",
+        "Fresh probe issue_985 at 0.45.0"
+      ],
+      [
+        "Test scope assessment",
+        "Exact comparison is justified by the explicit requirement. If the application ignores global phase, fixed is physically equivalent, but that is a different contract. Buggy fails earlier at removed qc.u1 in every listed modern release.",
+        "original_question.txt; buggy.py:6; historical logs"
+      ],
+      [
+        "Recommended action",
+        "Prefer classifying this as a conceptual/no-solution question rather than ordinary APR. If circuit-level global_phase metadata is explicitly allowed, retaining lambda/2 there is a candidate representation; that expands beyond a pure product of rotation matrices.",
+        "Proposal only; no source or test edited"
+      ]
+    ]
+  ]
+]

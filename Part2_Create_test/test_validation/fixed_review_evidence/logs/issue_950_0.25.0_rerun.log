@@ -1,0 +1,32 @@
+
+test_operator_dimension_and_diagonality (__main__.Regression) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\pkg_resources\__init__.py:3146: DeprecationWarning: Deprecated call to `pkg_resources.declare_namespace('mpl_toolkits')`.
+Implementing implicit namespace packages (as specified in PEP 420) is preferred to `pkg_resources.declare_namespace`. See https://setuptools.pypa.io/en/latest/references/keywords.html#keyword-namespace-packages
+  declare_namespace(pkg)
+ok
+test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one (__main__.Regression) ... FAIL
+
+======================================================================
+FAIL: test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_950\test.py", line 33, in test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one
+    np.testing.assert_allclose(diagonal, expected, atol=1e-12,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\numpy\testing\_private\utils.py", line 1528, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\numpy\testing\_private\utils.py", line 842, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+Requested Z on qubits 3..7, not on qubits 2..6
+Mismatched elements: 512 / 1024 (50%)
+Max absolute difference: 2.
+Max relative difference: 2.
+ x: array([ 1.+0.j,  1.+0.j,  1.+0.j, ..., -1.+0.j, -1.+0.j, -1.+0.j])
+ y: array([ 1,  1,  1, ..., -1, -1, -1])
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.316s
+
+FAILED (failures=1)

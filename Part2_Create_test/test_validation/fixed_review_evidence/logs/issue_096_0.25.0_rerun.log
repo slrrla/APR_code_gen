@@ -1,0 +1,19 @@
+
+test_clean_home (__main__.TestIntent) ... ok
+test_existing_profile_missing_kernel_config (__main__.TestIntent) ... FAIL
+test_preserves_existing_qiskit_settings (__main__.TestIntent) ... ok
+
+======================================================================
+FAIL: test_existing_profile_missing_kernel_config (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_096\test.py", line 63, in test_existing_profile_missing_kernel_config
+    self.check_configuration(existing_profile=True)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_096\test.py", line 53, in check_configuration
+    self.assertTrue((profile/"ipython_kernel_config.py").is_file(),
+AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+
+----------------------------------------------------------------------
+Ran 3 tests in 3.548s
+
+FAILED (failures=1)
