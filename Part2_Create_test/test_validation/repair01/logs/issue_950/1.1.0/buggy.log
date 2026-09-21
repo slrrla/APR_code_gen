@@ -1,0 +1,80 @@
+
+test_operator_dimension_and_diagonality (__main__.Regression.test_operator_dimension_and_diagonality) ... ERROR
+test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one (__main__.Regression.test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one) ... ERROR
+
+======================================================================
+ERROR: test_operator_dimension_and_diagonality (__main__.Regression.test_operator_dimension_and_diagonality)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_repair01\cases\issue_950\test.py", line 21, in test_operator_dimension_and_diagonality
+    m=target()
+      ^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_repair01\cases\issue_950\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_repair01\cases\issue_950\buggy.py", line 6, in <module>
+    op = op._add(opZ, qargs=list(range(i + 1, j)))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_1_0\Lib\site-packages\qiskit\quantum_info\operators\operator.py", line 599, in _add
+    other = ScalarOp._pad_with_identity(self, other, qargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_1_0\Lib\site-packages\qiskit\quantum_info\operators\scalar_op.py", line 250, in _pad_with_identity
+    return ScalarOp(current.input_dims()).compose(other, qargs=qargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_1_0\Lib\site-packages\qiskit\quantum_info\operators\scalar_op.py", line 132, in compose
+    return other.__class__(self).compose(other, qargs=qargs, front=front)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_1_0\Lib\site-packages\qiskit\quantum_info\operators\operator.py", line 518, in compose
+    Operator._einsum_matmul(tensor, mat, indices, shift, right_mul), final_shape
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_1_0\Lib\site-packages\qiskit\quantum_info\operators\operator.py", line 706, in _einsum_matmul
+    return np.einsum(tensor, indices_tensor, mat, indices_mat)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_1_0\Lib\site-packages\numpy\_core\einsumfunc.py", line 1610, in einsum
+    return c_einsum(*operands, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: subscript is not within the valid range [0, 52)
+
+======================================================================
+ERROR: test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one (__main__.Regression.test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_repair01\cases\issue_950\test.py", line 28, in test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one
+    m=target()
+      ^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_repair01\cases\issue_950\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_repair01\cases\issue_950\buggy.py", line 6, in <module>
+    op = op._add(opZ, qargs=list(range(i + 1, j)))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_1_0\Lib\site-packages\qiskit\quantum_info\operators\operator.py", line 599, in _add
+    other = ScalarOp._pad_with_identity(self, other, qargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_1_0\Lib\site-packages\qiskit\quantum_info\operators\scalar_op.py", line 250, in _pad_with_identity
+    return ScalarOp(current.input_dims()).compose(other, qargs=qargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_1_0\Lib\site-packages\qiskit\quantum_info\operators\scalar_op.py", line 132, in compose
+    return other.__class__(self).compose(other, qargs=qargs, front=front)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_1_0\Lib\site-packages\qiskit\quantum_info\operators\operator.py", line 518, in compose
+    Operator._einsum_matmul(tensor, mat, indices, shift, right_mul), final_shape
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_1_0\Lib\site-packages\qiskit\quantum_info\operators\operator.py", line 706, in _einsum_matmul
+    return np.einsum(tensor, indices_tensor, mat, indices_mat)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_1_0\Lib\site-packages\numpy\_core\einsumfunc.py", line 1610, in einsum
+    return c_einsum(*operands, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: subscript is not within the valid range [0, 52)
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.212s
+
+FAILED (errors=2)

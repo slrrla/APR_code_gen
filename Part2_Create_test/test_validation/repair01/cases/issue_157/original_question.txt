@@ -1,0 +1,151 @@
+Title:
+Is it possible to create a controlled initialize instruction in Qiskit?
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+In the circuit logic category, solutions must preserve quantum control and coherence. The Stack Overflow solution provides a unitary, controllable construction using official Qiskit features, while the AI solution collapses the system with measurement and only simulates classical control. Thus, the Stack Overflow answer is strictly superior for this category.
+
+Question:
+Title: Is it possible to create a controlled initialize instruction in Qiskit?
+
+I know it's possible to create custom controlled gates from a circuit, for example, However, since initialization is not considered a gate operation, one cannot do but instead, one can do This, however, does not allow for control qubits. Is there any way to get around this, to create a quantum instruction that is applied in terms of a set of control qubits?
+
+```
+qc_gate = QuantumCircuit(2) qc_gate.x(0) qc_gate.x(1) gate = qc_gate.to_gate().control(2)
+```
+
+```
+qc_gate = QuantumCircuit(2) qc_gate.x(0) qc_gate.x(1) gate = qc_gate.to_gate().control(2)
+```
+
+```
+qc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_gate().control(2)
+```
+
+```
+qc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_gate().control(2)
+```
+
+```
+qc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_instruction()
+```
+
+```
+qc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_instruction()
+```
+
+Original buggy code:
+qc_gate = QuantumCircuit(2) qc_gate.x(0) qc_gate.x(1) gate = qc_gate.to_gate().control(2)
+
+---CODE_BLOCK---
+
+qc_gate = QuantumCircuit(2) qc_gate.x(0) qc_gate.x(1) gate = qc_gate.to_gate().control(2)
+
+---CODE_BLOCK---
+
+qc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_gate().control(2)
+
+---CODE_BLOCK---
+
+qc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_gate().control(2)
+
+---CODE_BLOCK---
+
+qc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_instruction()
+
+---CODE_BLOCK---
+
+qc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_instruction()
+
+Solution explanation:
+You can use instead of for state preparation. Like , is not a gate so you can't call method. But it doesn't use resets internally. So you can use it as follows: Update Qiskit 0.35 introduced a new class . This class allows us to prepare a state in the same fashion as without the reset being automatically applied. So, creating a controlled initialization is now as simple as:
+
+```
+QuantumCircuit.isometry
+```
+
+```
+QuantumCircuit.initialize
+```
+
+```
+Initialize
+```
+
+```
+Isometry
+```
+
+```
+control()
+```
+
+```
+state = [0.5, 0.5, 0.5, 0.5] qc_iso = QuantumCircuit(2) qc_iso.isometry(state, [0, 1], []) controlled_gate = UnitaryGate(Operator(qc_iso)).control()
+```
+
+```
+state = [0.5, 0.5, 0.5, 0.5] qc_iso = QuantumCircuit(2) qc_iso.isometry(state, [0, 1], []) controlled_gate = UnitaryGate(Operator(qc_iso)).control()
+```
+
+```
+StatePreparation
+```
+
+```
+Initialize
+```
+
+```
+controlled_gate = StatePreparation(state).control()
+```
+
+```
+controlled_gate = StatePreparation(state).control()
+```
+
+Original fixed code:
+QuantumCircuit.isometry
+
+---CODE_BLOCK---
+
+QuantumCircuit.initialize
+
+---CODE_BLOCK---
+
+Initialize
+
+---CODE_BLOCK---
+
+Isometry
+
+---CODE_BLOCK---
+
+control()
+
+---CODE_BLOCK---
+
+state = [0.5, 0.5, 0.5, 0.5] qc_iso = QuantumCircuit(2) qc_iso.isometry(state, [0, 1], []) controlled_gate = UnitaryGate(Operator(qc_iso)).control()
+
+---CODE_BLOCK---
+
+state = [0.5, 0.5, 0.5, 0.5] qc_iso = QuantumCircuit(2) qc_iso.isometry(state, [0, 1], []) controlled_gate = UnitaryGate(Operator(qc_iso)).control()
+
+---CODE_BLOCK---
+
+StatePreparation
+
+---CODE_BLOCK---
+
+Initialize
+
+---CODE_BLOCK---
+
+controlled_gate = StatePreparation(state).control()
+
+---CODE_BLOCK---
+
+controlled_gate = StatePreparation(state).control()

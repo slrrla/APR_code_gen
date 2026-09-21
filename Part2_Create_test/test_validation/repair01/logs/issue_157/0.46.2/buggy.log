@@ -1,0 +1,54 @@
+
+test_controlled_preparation_semantics (__main__.TestIntent.test_controlled_preparation_semantics) ... ERROR
+test_preserves_requested_two_controls (__main__.TestIntent.test_preserves_requested_two_controls) ... ERROR
+
+======================================================================
+ERROR: test_controlled_preparation_semantics (__main__.TestIntent.test_controlled_preparation_semantics)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_repair01\cases\issue_157\test.py", line 32, in test_controlled_preparation_semantics
+    gate = produced_gate(load_target())
+                         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_repair01\cases\issue_157\test.py", line 18, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_repair01\cases\issue_157\buggy.py", line 13, in <module>
+    gate = qc_gate.to_gate().control(2)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_2\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1566, in to_gate
+    return circuit_to_gate(self, parameter_map, label=label)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_2\Lib\site-packages\qiskit\converters\circuit_to_gate.py", line 64, in circuit_to_gate
+    raise QiskitError(
+qiskit.exceptions.QiskitError: 'One or more instructions cannot be converted to a gate. "initialize" is not a gate instruction'
+
+======================================================================
+ERROR: test_preserves_requested_two_controls (__main__.TestIntent.test_preserves_requested_two_controls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_repair01\cases\issue_157\test.py", line 52, in test_preserves_requested_two_controls
+    gate = produced_gate(load_target())
+                         ^^^^^^^^^^^^^
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_repair01\cases\issue_157\test.py", line 18, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\haha9\.codex\visualizations\2026\09\07\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\quantum_apr_repair01\cases\issue_157\buggy.py", line 13, in <module>
+    gate = qc_gate.to_gate().control(2)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_2\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1566, in to_gate
+    return circuit_to_gate(self, parameter_map, label=label)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_2\Lib\site-packages\qiskit\converters\circuit_to_gate.py", line 64, in circuit_to_gate
+    raise QiskitError(
+qiskit.exceptions.QiskitError: 'One or more instructions cannot be converted to a gate. "initialize" is not a gate instruction'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.011s
+
+FAILED (errors=2)

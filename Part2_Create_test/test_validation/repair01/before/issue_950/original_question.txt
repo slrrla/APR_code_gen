@@ -1,0 +1,99 @@
+Title:
+Qiskit: Getting weird error on creating an operator acting on certain qubits
+
+Category:
+
+
+Question:
+Title: Qiskit: Getting weird error on creating an operator acting on certain qubits
+
+I have a system of qubits and I want to construct a quantum operator of length such that it acts from qubits to . Taking a cue from this answer I did the following I am getting the following error which makes no sense to me
+
+```
+N
+```
+
+```
+ZZ...ZZ
+```
+
+```
+j-(i+1)
+```
+
+```
+i+1
+```
+
+```
+j-1
+```
+
+```
+i,j,N=2,8,10 op = Operator.from_label('I'*(j-i-1)) opZ = Operator.from_label('Z'*(j-i-1)) op = op._add(opZ,qargs=list(range(i+1, j)))
+```
+
+```
+i,j,N=2,8,10 op = Operator.from_label('I'*(j-i-1)) opZ = Operator.from_label('Z'*(j-i-1)) op = op._add(opZ,qargs=list(range(i+1, j)))
+```
+
+```
+ValueError Traceback (most recent call last) Input In [8], in <cell line: 3>() 1 op = Operator.from_label('I'*(j-i-1)) 2 opZ = Operator.from_label('Z'*(j-i-1)) ----> 3 op = op._add(opZ,qargs=list(range(i+1, j))) File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/operator.py:348, in Operator._add(self, other, qargs) 345 other = Operator(other) 347 self._op_shape._validate_add(other._op_shape, qargs) --> 348 other = ScalarOp._pad_with_identity(self, other, qargs) 350 ret = copy.copy(self) 351 ret._data = self.data + other.data File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/scalar_op.py:248, in ScalarOp._pad_with_identity(current, other, qargs) 246 if qargs is None: 247 return other --> 248 return ScalarOp(current.input_dims()).compose(other, qargs=qargs) File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/scalar_op.py:130, in ScalarOp.compose(self, other, qargs, front) 121 return self.coeff * ret 123 # For qargs composition we initialize the scalar operator 124 # as an instance of the other BaseOperators subclass. We then 125 # perform subsystem qargs composition using the BaseOperator (...) 128 # not support initialization from a ScalarOp or the ScalarOps 129 # `to_operator` method). --> 130 return other.__class__(self).compose(other, qargs=qargs, front=front) File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/operator.py:278, in Operator.compose(self, other, qargs, front) 275 indices = [num_indices - 1 - qubit for qubit in qargs] 276 final_shape = [np.product(output_dims), np.product(input_dims)] 277 data = np.reshape( --> 278 Operator._einsum_matmul(tensor, mat, indices, shift, right_mul), final_shape 279 ) 280 ret = Operator(data, input_dims, output_dims) 281 ret._op_shape = new_shape File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/operator.py:451, in Operator._einsum_matmul(cls, tensor, mat, indices, shift, right_mul) 449 else: 450 indices_mat = mat_free + mat_contract --> 451 return np.einsum(tensor, indices_tensor, mat, indices_mat) File <__array_function__ internals>:180, in einsum(*args, **kwargs) File ~/git/Deuteron/lib/python3.10/site-packages/numpy/core/einsumfunc.py:1359, in einsum(out, optimize, *operands, **kwargs) 1357 if specified_out: 1358 kwargs['out'] = out -> 1359 return c_einsum(*operands, **kwargs) 1361 # Check the kwargs to avoid a more cryptic error later, without having to 1362 # repeat default values here 1363 valid_einsum_kwargs = ['dtype', 'order', 'casting'] ValueError: subscript is not within the valid range [0, 52)
+```
+
+```
+ValueError Traceback (most recent call last) Input In [8], in <cell line: 3>() 1 op = Operator.from_label('I'*(j-i-1)) 2 opZ = Operator.from_label('Z'*(j-i-1)) ----> 3 op = op._add(opZ,qargs=list(range(i+1, j))) File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/operator.py:348, in Operator._add(self, other, qargs) 345 other = Operator(other) 347 self._op_shape._validate_add(other._op_shape, qargs) --> 348 other = ScalarOp._pad_with_identity(self, other, qargs) 350 ret = copy.copy(self) 351 ret._data = self.data + other.data File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/scalar_op.py:248, in ScalarOp._pad_with_identity(current, other, qargs) 246 if qargs is None: 247 return other --> 248 return ScalarOp(current.input_dims()).compose(other, qargs=qargs) File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/scalar_op.py:130, in ScalarOp.compose(self, other, qargs, front) 121 return self.coeff * ret 123 # For qargs composition we initialize the scalar operator 124 # as an instance of the other BaseOperators subclass. We then 125 # perform subsystem qargs composition using the BaseOperator (...) 128 # not support initialization from a ScalarOp or the ScalarOps 129 # `to_operator` method). --> 130 return other.__class__(self).compose(other, qargs=qargs, front=front) File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/operator.py:278, in Operator.compose(self, other, qargs, front) 275 indices = [num_indices - 1 - qubit for qubit in qargs] 276 final_shape = [np.product(output_dims), np.product(input_dims)] 277 data = np.reshape( --> 278 Operator._einsum_matmul(tensor, mat, indices, shift, right_mul), final_shape 279 ) 280 ret = Operator(data, input_dims, output_dims) 281 ret._op_shape = new_shape File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/operator.py:451, in Operator._einsum_matmul(cls, tensor, mat, indices, shift, right_mul) 449 else: 450 indices_mat = mat_free + mat_contract --> 451 return np.einsum(tensor, indices_tensor, mat, indices_mat) File <__array_function__ internals>:180, in einsum(*args, **kwargs) File ~/git/Deuteron/lib/python3.10/site-packages/numpy/core/einsumfunc.py:1359, in einsum(out, optimize, *operands, **kwargs) 1357 if specified_out: 1358 kwargs['out'] = out -> 1359 return c_einsum(*operands, **kwargs) 1361 # Check the kwargs to avoid a more cryptic error later, without having to 1362 # repeat default values here 1363 valid_einsum_kwargs = ['dtype', 'order', 'casting'] ValueError: subscript is not within the valid range [0, 52)
+```
+
+Original buggy code:
+N
+
+---CODE_BLOCK---
+
+ZZ...ZZ
+
+---CODE_BLOCK---
+
+j-(i+1)
+
+---CODE_BLOCK---
+
+i+1
+
+---CODE_BLOCK---
+
+j-1
+
+---CODE_BLOCK---
+
+i,j,N=2,8,10 op = Operator.from_label('I'*(j-i-1)) opZ = Operator.from_label('Z'*(j-i-1)) op = op._add(opZ,qargs=list(range(i+1, j)))
+
+---CODE_BLOCK---
+
+i,j,N=2,8,10 op = Operator.from_label('I'*(j-i-1)) opZ = Operator.from_label('Z'*(j-i-1)) op = op._add(opZ,qargs=list(range(i+1, j)))
+
+---CODE_BLOCK---
+
+ValueError Traceback (most recent call last) Input In [8], in <cell line: 3>() 1 op = Operator.from_label('I'*(j-i-1)) 2 opZ = Operator.from_label('Z'*(j-i-1)) ----> 3 op = op._add(opZ,qargs=list(range(i+1, j))) File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/operator.py:348, in Operator._add(self, other, qargs) 345 other = Operator(other) 347 self._op_shape._validate_add(other._op_shape, qargs) --> 348 other = ScalarOp._pad_with_identity(self, other, qargs) 350 ret = copy.copy(self) 351 ret._data = self.data + other.data File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/scalar_op.py:248, in ScalarOp._pad_with_identity(current, other, qargs) 246 if qargs is None: 247 return other --> 248 return ScalarOp(current.input_dims()).compose(other, qargs=qargs) File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/scalar_op.py:130, in ScalarOp.compose(self, other, qargs, front) 121 return self.coeff * ret 123 # For qargs composition we initialize the scalar operator 124 # as an instance of the other BaseOperators subclass. We then 125 # perform subsystem qargs composition using the BaseOperator (...) 128 # not support initialization from a ScalarOp or the ScalarOps 129 # `to_operator` method). --> 130 return other.__class__(self).compose(other, qargs=qargs, front=front) File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/operator.py:278, in Operator.compose(self, other, qargs, front) 275 indices = [num_indices - 1 - qubit for qubit in qargs] 276 final_shape = [np.product(output_dims), np.product(input_dims)] 277 data = np.reshape( --> 278 Operator._einsum_matmul(tensor, mat, indices, shift, right_mul), final_shape 279 ) 280 ret = Operator(data, input_dims, output_dims) 281 ret._op_shape = new_shape File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/operator.py:451, in Operator._einsum_matmul(cls, tensor, mat, indices, shift, right_mul) 449 else: 450 indices_mat = mat_free + mat_contract --> 451 return np.einsum(tensor, indices_tensor, mat, indices_mat) File <__array_function__ internals>:180, in einsum(*args, **kwargs) File ~/git/Deuteron/lib/python3.10/site-packages/numpy/core/einsumfunc.py:1359, in einsum(out, optimize, *operands, **kwargs) 1357 if specified_out: 1358 kwargs['out'] = out -> 1359 return c_einsum(*operands, **kwargs) 1361 # Check the kwargs to avoid a more cryptic error later, without having to 1362 # repeat default values here 1363 valid_einsum_kwargs = ['dtype', 'order', 'casting'] ValueError: subscript is not within the valid range [0, 52)
+
+---CODE_BLOCK---
+
+ValueError Traceback (most recent call last) Input In [8], in <cell line: 3>() 1 op = Operator.from_label('I'*(j-i-1)) 2 opZ = Operator.from_label('Z'*(j-i-1)) ----> 3 op = op._add(opZ,qargs=list(range(i+1, j))) File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/operator.py:348, in Operator._add(self, other, qargs) 345 other = Operator(other) 347 self._op_shape._validate_add(other._op_shape, qargs) --> 348 other = ScalarOp._pad_with_identity(self, other, qargs) 350 ret = copy.copy(self) 351 ret._data = self.data + other.data File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/scalar_op.py:248, in ScalarOp._pad_with_identity(current, other, qargs) 246 if qargs is None: 247 return other --> 248 return ScalarOp(current.input_dims()).compose(other, qargs=qargs) File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/scalar_op.py:130, in ScalarOp.compose(self, other, qargs, front) 121 return self.coeff * ret 123 # For qargs composition we initialize the scalar operator 124 # as an instance of the other BaseOperators subclass. We then 125 # perform subsystem qargs composition using the BaseOperator (...) 128 # not support initialization from a ScalarOp or the ScalarOps 129 # `to_operator` method). --> 130 return other.__class__(self).compose(other, qargs=qargs, front=front) File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/operator.py:278, in Operator.compose(self, other, qargs, front) 275 indices = [num_indices - 1 - qubit for qubit in qargs] 276 final_shape = [np.product(output_dims), np.product(input_dims)] 277 data = np.reshape( --> 278 Operator._einsum_matmul(tensor, mat, indices, shift, right_mul), final_shape 279 ) 280 ret = Operator(data, input_dims, output_dims) 281 ret._op_shape = new_shape File ~/git/Deuteron/lib/python3.10/site-packages/qiskit/quantum_info/operators/operator.py:451, in Operator._einsum_matmul(cls, tensor, mat, indices, shift, right_mul) 449 else: 450 indices_mat = mat_free + mat_contract --> 451 return np.einsum(tensor, indices_tensor, mat, indices_mat) File <__array_function__ internals>:180, in einsum(*args, **kwargs) File ~/git/Deuteron/lib/python3.10/site-packages/numpy/core/einsumfunc.py:1359, in einsum(out, optimize, *operands, **kwargs) 1357 if specified_out: 1358 kwargs['out'] = out -> 1359 return c_einsum(*operands, **kwargs) 1361 # Check the kwargs to avoid a more cryptic error later, without having to 1362 # repeat default values here 1363 valid_einsum_kwargs = ['dtype', 'order', 'casting'] ValueError: subscript is not within the valid range [0, 52)
+
+Solution explanation:
+To construct an $N$-qubit operator that acts as $ZZ...Z$ from qubit $i+1$ to $j-1$, you can simply do the following:
+
+```
+i,j,N=2,8,10 label = 'I'*(i+1) + 'Z'*(j-i-1) + 'I'*(N-j) print(label) # <= Check! op = Operator.from_label(label)
+```
+
+```
+i,j,N=2,8,10 label = 'I'*(i+1) + 'Z'*(j-i-1) + 'I'*(N-j) print(label) # <= Check! op = Operator.from_label(label)
+```
+
+Original fixed code:
+i,j,N=2,8,10 label = 'I'*(i+1) + 'Z'*(j-i-1) + 'I'*(N-j) print(label) # <= Check! op = Operator.from_label(label)
+
+---CODE_BLOCK---
+
+i,j,N=2,8,10 label = 'I'*(i+1) + 'Z'*(j-i-1) + 'I'*(N-j) print(label) # <= Check! op = Operator.from_label(label)
