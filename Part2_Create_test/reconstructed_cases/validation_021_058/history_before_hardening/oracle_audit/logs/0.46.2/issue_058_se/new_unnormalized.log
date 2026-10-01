@@ -1,0 +1,14 @@
+test_diffuser_simulated_state_and_operator (oracle_issue_058_se_new.TestIntent.test_diffuser_simulated_state_and_operator) ... FAIL
+
+======================================================================
+FAIL: test_diffuser_simulated_state_and_operator (oracle_issue_058_se_new.TestIntent.test_diffuser_simulated_state_and_operator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_058_se\test_new.py", line 55, in test_diffuser_simulated_state_and_operator
+    self.assertTrue(actual.is_valid(), "The statevector must be normalized.")
+AssertionError: False is not true : The statevector must be normalized.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.009s
+
+FAILED (failures=1)

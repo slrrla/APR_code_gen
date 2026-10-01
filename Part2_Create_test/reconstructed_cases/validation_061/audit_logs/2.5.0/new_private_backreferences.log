@@ -1,0 +1,58 @@
+test_public_bit_locations (case61_new.TestIntent.test_public_bit_locations) ... 
+  test_public_bit_locations (case61_new.TestIntent.test_public_bit_locations) (h_index=0, control_index=0, prefix_size=0) ... FAIL
+  test_public_bit_locations (case61_new.TestIntent.test_public_bit_locations) (h_index=1, control_index=1, prefix_size=0) ... FAIL
+  test_public_bit_locations (case61_new.TestIntent.test_public_bit_locations) (h_index=1, control_index=0, prefix_size=0) ... FAIL
+  test_public_bit_locations (case61_new.TestIntent.test_public_bit_locations) (h_index=1, control_index=0, prefix_size=1) ... FAIL
+
+======================================================================
+FAIL: test_public_bit_locations (case61_new.TestIntent.test_public_bit_locations) (h_index=0, control_index=0, prefix_size=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_061\test_new.py", line 22, in test_public_bit_locations
+    check_bit_reporting(MUT, h_index=h_index, control_index=control_index, prefix_size=prefix_size)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\bit_location_oracle.py", line 80, in check_bit_reporting
+    reject_private_backreferences(path)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\bit_location_oracle.py", line 31, in reject_private_backreferences
+    raise AssertionError("Use public bit locations, not private _register/_index back-references.")
+AssertionError: Use public bit locations, not private _register/_index back-references.
+
+======================================================================
+FAIL: test_public_bit_locations (case61_new.TestIntent.test_public_bit_locations) (h_index=1, control_index=1, prefix_size=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_061\test_new.py", line 22, in test_public_bit_locations
+    check_bit_reporting(MUT, h_index=h_index, control_index=control_index, prefix_size=prefix_size)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\bit_location_oracle.py", line 80, in check_bit_reporting
+    reject_private_backreferences(path)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\bit_location_oracle.py", line 31, in reject_private_backreferences
+    raise AssertionError("Use public bit locations, not private _register/_index back-references.")
+AssertionError: Use public bit locations, not private _register/_index back-references.
+
+======================================================================
+FAIL: test_public_bit_locations (case61_new.TestIntent.test_public_bit_locations) (h_index=1, control_index=0, prefix_size=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_061\test_new.py", line 22, in test_public_bit_locations
+    check_bit_reporting(MUT, h_index=h_index, control_index=control_index, prefix_size=prefix_size)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\bit_location_oracle.py", line 80, in check_bit_reporting
+    reject_private_backreferences(path)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\bit_location_oracle.py", line 31, in reject_private_backreferences
+    raise AssertionError("Use public bit locations, not private _register/_index back-references.")
+AssertionError: Use public bit locations, not private _register/_index back-references.
+
+======================================================================
+FAIL: test_public_bit_locations (case61_new.TestIntent.test_public_bit_locations) (h_index=1, control_index=0, prefix_size=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_061\test_new.py", line 22, in test_public_bit_locations
+    check_bit_reporting(MUT, h_index=h_index, control_index=control_index, prefix_size=prefix_size)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\bit_location_oracle.py", line 80, in check_bit_reporting
+    reject_private_backreferences(path)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\bit_location_oracle.py", line 31, in reject_private_backreferences
+    raise AssertionError("Use public bit locations, not private _register/_index back-references.")
+AssertionError: Use public bit locations, not private _register/_index back-references.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+
+FAILED (failures=4)

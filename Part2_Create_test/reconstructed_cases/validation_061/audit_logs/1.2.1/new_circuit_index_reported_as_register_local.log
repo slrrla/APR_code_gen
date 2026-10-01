@@ -1,0 +1,17 @@
+test_public_bit_locations (case61_new.TestIntent.test_public_bit_locations) ... 
+  test_public_bit_locations (case61_new.TestIntent.test_public_bit_locations) (h_index=1, control_index=0, prefix_size=1) ... FAIL
+
+======================================================================
+FAIL: test_public_bit_locations (case61_new.TestIntent.test_public_bit_locations) (h_index=1, control_index=0, prefix_size=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_061\test_new.py", line 22, in test_public_bit_locations
+    check_bit_reporting(MUT, h_index=h_index, control_index=control_index, prefix_size=prefix_size)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\bit_location_oracle.py", line 136, in check_bit_reporting
+    raise AssertionError("Printed register/index records do not match the actual instruction bits.")
+AssertionError: Printed register/index records do not match the actual instruction bits.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.012s
+
+FAILED (failures=1)

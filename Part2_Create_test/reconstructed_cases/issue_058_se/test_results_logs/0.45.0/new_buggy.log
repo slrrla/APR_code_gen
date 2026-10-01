@@ -16,12 +16,12 @@ ERROR
 ERROR: test_diffuser_simulated_state_and_operator (__main__.TestIntent.test_diffuser_simulated_state_and_operator)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_058_se\test_new.py", line 51, in test_diffuser_simulated_state_and_operator
-    ns = load_target()
-         ^^^^^^^^^^^^^
-  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_058_se\test_new.py", line 16, in load_target
-    return runpy.run_path(MUT)
-           ^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_058_se\test_new.py", line 23, in test_diffuser_simulated_state_and_operator
+    ns = load_simulated_target(MUT, expected)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\simulation_oracle.py", line 65, in load_simulated_target
+    namespace = runpy.run_path(path)
+                ^^^^^^^^^^^^^^^^^^^^
   File "<frozen runpy>", line 291, in run_path
   File "<frozen runpy>", line 98, in _run_module_code
   File "<frozen runpy>", line 88, in _run_code
@@ -59,6 +59,6 @@ Traceback (most recent call last):
 qiskit_aer.aererror.AerError: 'unknown instruction: U$_s$'
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.094s
+Ran 1 test in 0.012s
 
 FAILED (errors=1)

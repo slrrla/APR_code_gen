@@ -1,0 +1,25 @@
+test_public_bit_locations (case61_old.TestIntent.test_public_bit_locations) ... FAIL
+
+======================================================================
+FAIL: test_public_bit_locations (case61_old.TestIntent.test_public_bit_locations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_061\test.py", line 27, in test_public_bit_locations
+    self.assertEqual(args, [(0,), ((ns["qr"],0),), (0,), ((ns["qr"],0),)])
+AssertionError: Lists differ: [(QuantumRegister(2, 'q'),), (1,), (QuantumRegister(2, 'q'),), (1,)] != [(0,), ((QuantumRegister(2, 'q'), 0),), (0,), ((QuantumRegister(2, 'q'), 0),)]
+
+First differing element 0:
+(QuantumRegister(2, 'q'),)
+(0,)
+
+- [(QuantumRegister(2, 'q'),), (1,), (QuantumRegister(2, 'q'),), (1,)]
+?                            ----                              ----
+
++ [(0,), ((QuantumRegister(2, 'q'), 0),), (0,), ((QuantumRegister(2, 'q'), 0),)]
+?  +++++++                         ++     +++++++                         ++
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.004s
+
+FAILED (failures=1)

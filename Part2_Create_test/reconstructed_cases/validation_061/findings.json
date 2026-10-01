@@ -1,0 +1,73 @@
+{
+  "case": "issue_061",
+  "selected_versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.1.0",
+    "1.1.1",
+    "1.1.2",
+    "1.2.0",
+    "1.2.1",
+    "1.2.2",
+    "1.2.4",
+    "2.0.0",
+    "2.2.0",
+    "2.3.0",
+    "2.4.0",
+    "2.5.0"
+  ],
+  "baseline_runs": 90,
+  "mutation_runs": 1125,
+  "mutation_variants": 25,
+  "new_accept_controls": 10,
+  "new_reject_controls": 15,
+  "old_pass_counts": {
+    "buggy": 0,
+    "fixed": 15,
+    "fixed_luna": 0
+  },
+  "new_pass_counts": {
+    "buggy": 0,
+    "fixed": 15,
+    "fixed_luna": 15
+  },
+  "preserved_sources": [
+    "buggy.py",
+    "fixed.py",
+    "fixed_luna.py",
+    "test.py"
+  ],
+  "probes": [
+    "original example",
+    "nonzero bit locations",
+    "distinct instruction bits",
+    "leading register separates circuit/local indices"
+  ],
+  "rejected_defects": [
+    "hardcoded zero",
+    "same bit reused across instructions",
+    "wrong register/index",
+    "private backreferences",
+    "changed/missing circuit instructions",
+    "circuit index reported as register-local"
+  ],
+  "format_compatibility": "Accept register/local pairs or circuit/register/local records; permit print grouping, ordering and alternative public lookups.",
+  "register_comparison": "Public equality accommodates Qiskit 2 register wrappers.",
+  "old_luna_failure": "Original test requires an exact print format/order; updated Luna reports valid register/local locations.",
+  "scope": "Controlled behavioral regression checks; not an adversarial security sandbox or proof against every possible invalid repair.",
+  "csv": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_061\\test_results.csv",
+  "csv_verified_against_execution_records": true,
+  "cli_smoke": [
+    {
+      "version": "1.0.0",
+      "status": "PASS",
+      "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_061\\cli_luna_1.0.0.log"
+    },
+    {
+      "version": "2.5.0",
+      "status": "PASS",
+      "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_061\\cli_luna_2.5.0.log"
+    }
+  ]
+}

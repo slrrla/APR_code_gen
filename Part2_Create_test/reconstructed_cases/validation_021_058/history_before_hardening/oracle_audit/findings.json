@@ -1,0 +1,48 @@
+{
+  "cases": [
+    "issue_021_se",
+    "issue_058_se"
+  ],
+  "qiskit_versions": [
+    "0.25.0",
+    "0.25.1",
+    "0.25.2",
+    "0.25.3",
+    "0.45.0",
+    "0.45.1",
+    "0.45.2",
+    "0.45.3",
+    "0.46.0",
+    "0.46.1",
+    "0.46.2",
+    "0.46.3"
+  ],
+  "oracle_executions": 744,
+  "luna_backend_binding_checks": 24,
+  "new_regression": {
+    "mutation": "wrong_circuit_hidden_by_correct_statevector",
+    "old_pass_per_case": 0,
+    "new_pass_per_case": 12,
+    "cause": "extract_statevector prioritizes statevector and does not cross-check the actual backend output in result/v/job"
+  },
+  "pre_existing_gaps": [
+    "Hardcoded expected amplitudes without simulator execution pass both old and new tests.",
+    "Catching simulator failure and substituting expected amplitudes passes both old and new tests."
+  ],
+  "negative_checks_rejected": [
+    "original buggy",
+    "wrong state",
+    "wrong dimension",
+    "unnormalized state",
+    "wrong relative phase",
+    "wrong gate despite correct simulated state",
+    "untranspiled Luna",
+    "wrong four-qubit diffuser only (58)"
+  ],
+  "current_luna": {
+    "uses_expected_output_hardcode": false,
+    "successful_backend_and_matching_export_verified_in_all_12_versions": true
+  },
+  "proposed_improvement": "Observe successful simulator execution and bind the tested output to its returned state. Cross-check all exposed simulation outputs instead of accepting an independent preferred alias.",
+  "scope": "Audit only. Original tests, source files, and existing result CSVs were not modified."
+}

@@ -24,12 +24,13 @@
       "numpy": "1.20.1",
       "core": "0.17.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:10.534742+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:10.188103+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method ,  ERROR: Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method'",
-    "seconds": 3.031,
+    "seconds": 2.625,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.0\\old_buggy.log"
   },
   {
@@ -40,7 +41,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\buggy.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "2fa0aafba85f1897b521d6bff48ba763cea97c51cfc2a4ae19e2273af453708f",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\python.exe",
       "-X",
@@ -57,51 +58,19 @@
       "numpy": "1.20.1",
       "core": "0.17.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:10.534742+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:10.189099+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method ,  ERROR: Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method'",
-    "seconds": 3.031,
+    "seconds": 2.641,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.0\\new_buggy.log"
   },
   {
     "case": "issue_021_se",
     "version": "0.25.0",
     "suite": "old",
-    "variant": "fixed_luna",
-    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
-    "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test.py",
-    "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
-    "test_sha256": "6683b8a2d43267adad523173af4bf3e43d5cae738630162daed2a8fccc00bec0",
-    "command": [
-      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\python.exe",
-      "-X",
-      "utf8",
-      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test.py",
-      "-v"
-    ],
-    "packages": {
-      "python": "3.9.25",
-      "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\python.exe",
-      "qiskit": "0.25.0",
-      "terra": "0.17.0",
-      "aer": "0.8.0",
-      "numpy": "1.20.1",
-      "core": "0.17.0"
-    },
-    "executed_at_utc": "2026-10-01T14:04:10.534742+00:00",
-    "status": "ERROR",
-    "returncode": 1,
-    "tests_run": 1,
-    "detail": "qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'",
-    "seconds": 4.031,
-    "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.0\\old_fixed_luna.log"
-  },
-  {
-    "case": "issue_021_se",
-    "version": "0.25.0",
-    "suite": "old",
     "variant": "fixed",
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test.py",
@@ -123,28 +92,29 @@
       "numpy": "1.20.1",
       "core": "0.17.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:10.534742+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:10.189099+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 4.031,
+    "seconds": 3.328,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.0\\old_fixed.log"
   },
   {
     "case": "issue_021_se",
     "version": "0.25.0",
-    "suite": "new",
+    "suite": "old",
     "variant": "fixed_luna",
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
-    "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
+    "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test.py",
     "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "6683b8a2d43267adad523173af4bf3e43d5cae738630162daed2a8fccc00bec0",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\python.exe",
       "-X",
       "utf8",
-      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test.py",
       "-v"
     ],
     "packages": {
@@ -156,13 +126,14 @@
       "numpy": "1.20.1",
       "core": "0.17.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:13.558811+00:00",
-    "status": "PASS",
-    "returncode": 0,
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:10.189099+00:00",
+    "status": "ERROR",
+    "returncode": 1,
     "tests_run": 1,
-    "detail": "",
-    "seconds": 4.031,
-    "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.0\\new_fixed_luna.log"
+    "detail": "qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'",
+    "seconds": 3.328,
+    "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.0\\old_fixed_luna.log"
   },
   {
     "case": "issue_021_se",
@@ -172,7 +143,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "6ce3da791b6e3076d86b3cd55e9cc9e217af75f462598069e04dfbd3ee3232c1",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\python.exe",
       "-X",
@@ -189,13 +160,48 @@
       "numpy": "1.20.1",
       "core": "0.17.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:13.558811+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:12.819447+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 4.047,
+    "seconds": 3.328,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.0\\new_fixed.log"
+  },
+  {
+    "case": "issue_021_se",
+    "version": "0.25.0",
+    "suite": "new",
+    "variant": "fixed_luna",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
+    "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
+    "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
+      "-v"
+    ],
+    "packages": {
+      "python": "3.9.25",
+      "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\python.exe",
+      "qiskit": "0.25.0",
+      "terra": "0.17.0",
+      "aer": "0.8.0",
+      "numpy": "1.20.1",
+      "core": "0.17.0"
+    },
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:12.828748+00:00",
+    "status": "PASS",
+    "returncode": 0,
+    "tests_run": 1,
+    "detail": "",
+    "seconds": 3.328,
+    "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.0\\new_fixed_luna.log"
   },
   {
     "case": "issue_021_se",
@@ -222,12 +228,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:14.561330+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:13.515818+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method ,  ERROR: Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method'",
-    "seconds": 3.312,
+    "seconds": 2.766,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.1\\old_buggy.log"
   },
   {
@@ -255,12 +262,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:14.565847+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:13.519323+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 4.25,
+    "seconds": 3.5,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.1\\old_fixed.log"
   },
   {
@@ -271,7 +279,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\buggy.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "2fa0aafba85f1897b521d6bff48ba763cea97c51cfc2a4ae19e2273af453708f",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_1\\python.exe",
       "-X",
@@ -288,12 +296,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:17.605423+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:16.171308+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method ,  ERROR: Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method'",
-    "seconds": 2.984,
+    "seconds": 2.5,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.1\\new_buggy.log"
   },
   {
@@ -321,12 +330,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:17.593905+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:16.154781+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'",
-    "seconds": 3.734,
+    "seconds": 3.078,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.1\\old_fixed_luna.log"
   },
   {
@@ -337,7 +347,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "6ce3da791b6e3076d86b3cd55e9cc9e217af75f462598069e04dfbd3ee3232c1",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_1\\python.exe",
       "-X",
@@ -354,12 +364,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:17.875109+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:16.294651+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 3.594,
+    "seconds": 3.015,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.1\\new_fixed.log"
   },
   {
@@ -370,7 +381,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_1\\python.exe",
       "-X",
@@ -387,12 +398,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:18.811546+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:17.024622+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 4.14,
+    "seconds": 2.938,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.1\\new_fixed_luna.log"
   },
   {
@@ -420,12 +432,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:20.598457+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:18.672122+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method ,  ERROR: Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method'",
-    "seconds": 3.188,
+    "seconds": 2.328,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.2\\old_buggy.log"
   },
   {
@@ -453,12 +466,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:21.330578+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:19.248252+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 4.188,
+    "seconds": 2.922,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.2\\old_fixed.log"
   },
   {
@@ -486,12 +500,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:21.470015+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:19.312238+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'",
-    "seconds": 4.109,
+    "seconds": 2.907,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.2\\old_fixed_luna.log"
   },
   {
@@ -502,7 +517,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\buggy.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "2fa0aafba85f1897b521d6bff48ba763cea97c51cfc2a4ae19e2273af453708f",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_2\\python.exe",
       "-X",
@@ -519,12 +534,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:22.959788+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:19.956355+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method ,  ERROR: Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method'",
-    "seconds": 2.797,
+    "seconds": 2.437,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.2\\new_buggy.log"
   },
   {
@@ -535,7 +551,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "6ce3da791b6e3076d86b3cd55e9cc9e217af75f462598069e04dfbd3ee3232c1",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_2\\python.exe",
       "-X",
@@ -552,12 +568,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:23.783107+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:21.003152+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 4.296,
+    "seconds": 3.078,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.2\\new_fixed.log"
   },
   {
@@ -585,12 +602,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:25.571996+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:22.226479+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method ,  ERROR: Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method'",
-    "seconds": 3.641,
+    "seconds": 2.515,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.3\\old_buggy.log"
   },
   {
@@ -601,7 +619,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_2\\python.exe",
       "-X",
@@ -618,12 +636,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:25.516609+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:22.186362+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 4.297,
+    "seconds": 2.907,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.2\\new_fixed_luna.log"
   },
   {
@@ -651,12 +670,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:25.770911+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:22.400777+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 4.562,
+    "seconds": 3.0,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.3\\old_fixed.log"
   },
   {
@@ -684,12 +704,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:28.075751+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:24.086359+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'",
-    "seconds": 3.954,
+    "seconds": 2.953,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.3\\old_fixed_luna.log"
   },
   {
@@ -700,7 +721,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\buggy.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "2fa0aafba85f1897b521d6bff48ba763cea97c51cfc2a4ae19e2273af453708f",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
       "-X",
@@ -717,12 +738,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:29.214511+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:24.742122+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method ,  ERROR: Circuit contains invalid instructions {\"gates\": {CNOTNOT}} for \"statevector\" method'",
-    "seconds": 3.219,
+    "seconds": 2.422,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.3\\new_buggy.log"
   },
   {
@@ -733,7 +755,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "6ce3da791b6e3076d86b3cd55e9cc9e217af75f462598069e04dfbd3ee3232c1",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
       "-X",
@@ -750,12 +772,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:29.811901+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:25.095193+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 4.234,
+    "seconds": 3.062,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.3\\new_fixed.log"
   },
   {
@@ -766,7 +789,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
       "-X",
@@ -783,12 +806,13 @@
       "numpy": "1.20.1",
       "core": "0.17.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:30.342643+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:25.394201+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 4.109,
+    "seconds": 3.141,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.25.3\\new_fixed_luna.log"
   },
   {
@@ -816,12 +840,13 @@
       "numpy": "1.26.4",
       "core": "0.45.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:32.025395+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:27.038338+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'",
-    "seconds": 3.578,
+    "seconds": 2.859,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.0\\old_buggy.log"
   },
   {
@@ -849,12 +874,13 @@
       "numpy": "1.26.4",
       "core": "0.45.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:32.432451+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:27.169737+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 3.25,
+    "seconds": 2.797,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.0\\old_fixed.log"
   },
   {
@@ -882,12 +908,13 @@
       "numpy": "1.26.4",
       "core": "0.45.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:34.045069+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:28.166052+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'",
-    "seconds": 2.719,
+    "seconds": 2.563,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.0\\old_fixed_luna.log"
   },
   {
@@ -898,7 +925,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\buggy.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "2fa0aafba85f1897b521d6bff48ba763cea97c51cfc2a4ae19e2273af453708f",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_0\\python.exe",
       "-X",
@@ -915,46 +942,14 @@
       "numpy": "1.26.4",
       "core": "0.45.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:34.447836+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:28.534131+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'",
-    "seconds": 2.891,
+    "seconds": 2.594,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.0\\new_buggy.log"
-  },
-  {
-    "case": "issue_021_se",
-    "version": "0.45.0",
-    "suite": "new",
-    "variant": "fixed",
-    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed.py",
-    "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
-    "source_sha256": "6ce3da791b6e3076d86b3cd55e9cc9e217af75f462598069e04dfbd3ee3232c1",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
-    "command": [
-      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_0\\python.exe",
-      "-X",
-      "utf8",
-      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
-      "-v"
-    ],
-    "packages": {
-      "python": "3.11.15",
-      "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_0\\python.exe",
-      "qiskit": "0.45.0",
-      "terra": "0.45.0",
-      "aer": "0.14.1",
-      "numpy": "1.26.4",
-      "core": "0.45.0"
-    },
-    "executed_at_utc": "2026-10-01T14:04:35.611795+00:00",
-    "status": "PASS",
-    "returncode": 0,
-    "tests_run": 1,
-    "detail": "",
-    "seconds": 3.312,
-    "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.0\\new_fixed.log"
   },
   {
     "case": "issue_021_se",
@@ -964,7 +959,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_0\\python.exe",
       "-X",
@@ -981,13 +976,48 @@
       "numpy": "1.26.4",
       "core": "0.45.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:35.685950+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:29.971679+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 3.265,
+    "seconds": 2.578,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.0\\new_fixed_luna.log"
+  },
+  {
+    "case": "issue_021_se",
+    "version": "0.45.0",
+    "suite": "new",
+    "variant": "fixed",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed.py",
+    "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
+    "source_sha256": "6ce3da791b6e3076d86b3cd55e9cc9e217af75f462598069e04dfbd3ee3232c1",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_0\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
+      "-v"
+    ],
+    "packages": {
+      "python": "3.11.15",
+      "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_0\\python.exe",
+      "qiskit": "0.45.0",
+      "terra": "0.45.0",
+      "aer": "0.14.1",
+      "numpy": "1.26.4",
+      "core": "0.45.0"
+    },
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:29.891686+00:00",
+    "status": "PASS",
+    "returncode": 0,
+    "tests_run": 1,
+    "detail": "",
+    "seconds": 2.719,
+    "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.0\\new_fixed.log"
   },
   {
     "case": "issue_021_se",
@@ -1014,12 +1044,13 @@
       "numpy": "1.26.4",
       "core": "0.45.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:36.765517+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:30.728057+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'",
-    "seconds": 3.578,
+    "seconds": 2.703,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.1\\old_buggy.log"
   },
   {
@@ -1047,12 +1078,13 @@
       "numpy": "1.26.4",
       "core": "0.45.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:37.347180+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:31.135781+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 3.359,
+    "seconds": 2.578,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.1\\old_fixed.log"
   },
   {
@@ -1080,12 +1112,13 @@
       "numpy": "1.26.4",
       "core": "0.45.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:38.922680+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:32.547513+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'",
-    "seconds": 3.125,
+    "seconds": 2.687,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.1\\old_fixed_luna.log"
   },
   {
@@ -1096,7 +1129,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\buggy.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "2fa0aafba85f1897b521d6bff48ba763cea97c51cfc2a4ae19e2273af453708f",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_1\\python.exe",
       "-X",
@@ -1113,12 +1146,13 @@
       "numpy": "1.26.4",
       "core": "0.45.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:38.958352+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:32.615640+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'",
-    "seconds": 3.172,
+    "seconds": 2.75,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.1\\new_buggy.log"
   },
   {
@@ -1129,7 +1163,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "6ce3da791b6e3076d86b3cd55e9cc9e217af75f462598069e04dfbd3ee3232c1",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_1\\python.exe",
       "-X",
@@ -1146,12 +1180,13 @@
       "numpy": "1.26.4",
       "core": "0.45.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:40.349737+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:33.431842+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 3.297,
+    "seconds": 2.687,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.1\\new_fixed.log"
   },
   {
@@ -1162,7 +1197,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_1\\python.exe",
       "-X",
@@ -1179,12 +1214,13 @@
       "numpy": "1.26.4",
       "core": "0.45.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:40.711151+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:33.709538+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 3.391,
+    "seconds": 2.594,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.1\\new_fixed_luna.log"
   },
   {
@@ -1212,12 +1248,13 @@
       "numpy": "1.26.4",
       "core": "0.45.2"
     },
-    "executed_at_utc": "2026-10-01T14:04:42.053041+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:35.233860+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'",
-    "seconds": 3.844,
+    "seconds": 2.735,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.2\\old_buggy.log"
   },
   {
@@ -1245,12 +1282,13 @@
       "numpy": "1.26.4",
       "core": "0.45.2"
     },
-    "executed_at_utc": "2026-10-01T14:04:42.142659+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:35.360058+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 3.844,
+    "seconds": 2.672,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.2\\old_fixed.log"
   },
   {
@@ -1278,12 +1316,13 @@
       "numpy": "1.26.4",
       "core": "0.45.2"
     },
-    "executed_at_utc": "2026-10-01T14:04:43.649981+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:36.114654+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'",
-    "seconds": 3.375,
+    "seconds": 2.438,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.2\\old_fixed_luna.log"
   },
   {
@@ -1294,7 +1333,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\buggy.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "2fa0aafba85f1897b521d6bff48ba763cea97c51cfc2a4ae19e2273af453708f",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_2\\python.exe",
       "-X",
@@ -1311,12 +1350,13 @@
       "numpy": "1.26.4",
       "core": "0.45.2"
     },
-    "executed_at_utc": "2026-10-01T14:04:44.112587+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:36.297752+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'",
-    "seconds": 3.328,
+    "seconds": 2.625,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.2\\new_buggy.log"
   },
   {
@@ -1327,7 +1367,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_2\\python.exe",
       "-X",
@@ -1344,12 +1384,13 @@
       "numpy": "1.26.4",
       "core": "0.45.2"
     },
-    "executed_at_utc": "2026-10-01T14:04:45.979569+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:38.031769+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 3.515,
+    "seconds": 2.734,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.2\\new_fixed_luna.log"
   },
   {
@@ -1360,7 +1401,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "6ce3da791b6e3076d86b3cd55e9cc9e217af75f462598069e04dfbd3ee3232c1",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_2\\python.exe",
       "-X",
@@ -1377,12 +1418,13 @@
       "numpy": "1.26.4",
       "core": "0.45.2"
     },
-    "executed_at_utc": "2026-10-01T14:04:45.908914+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:37.975277+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 3.641,
+    "seconds": 2.828,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.2\\new_fixed.log"
   },
   {
@@ -1410,12 +1452,13 @@
       "numpy": "1.26.4",
       "core": "0.45.3"
     },
-    "executed_at_utc": "2026-10-01T14:04:47.025536+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:38.546271+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'",
-    "seconds": 3.296,
+    "seconds": 2.765,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.3\\old_buggy.log"
   },
   {
@@ -1443,12 +1486,13 @@
       "numpy": "1.26.4",
       "core": "0.45.3"
     },
-    "executed_at_utc": "2026-10-01T14:04:47.452191+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:38.928895+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 3.016,
+    "seconds": 2.547,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.3\\old_fixed.log"
   },
   {
@@ -1476,12 +1520,13 @@
       "numpy": "1.26.4",
       "core": "0.45.3"
     },
-    "executed_at_utc": "2026-10-01T14:04:49.495260+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:40.767722+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'",
-    "seconds": 2.282,
+    "seconds": 2.579,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.3\\old_fixed_luna.log"
   },
   {
@@ -1492,7 +1537,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\buggy.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "2fa0aafba85f1897b521d6bff48ba763cea97c51cfc2a4ae19e2273af453708f",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_3\\python.exe",
       "-X",
@@ -1509,12 +1554,13 @@
       "numpy": "1.26.4",
       "core": "0.45.3"
     },
-    "executed_at_utc": "2026-10-01T14:04:49.563576+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:40.807392+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'",
-    "seconds": 2.312,
+    "seconds": 2.687,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.3\\new_buggy.log"
   },
   {
@@ -1525,7 +1571,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "6ce3da791b6e3076d86b3cd55e9cc9e217af75f462598069e04dfbd3ee3232c1",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_3\\python.exe",
       "-X",
@@ -1542,12 +1588,13 @@
       "numpy": "1.26.4",
       "core": "0.45.3"
     },
-    "executed_at_utc": "2026-10-01T14:04:50.330598+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:41.319949+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 2.219,
+    "seconds": 2.688,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.3\\new_fixed.log"
   },
   {
@@ -1558,7 +1605,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_3\\python.exe",
       "-X",
@@ -1575,12 +1622,13 @@
       "numpy": "1.26.4",
       "core": "0.45.3"
     },
-    "executed_at_utc": "2026-10-01T14:04:50.472532+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:41.476495+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 2.14,
+    "seconds": 2.609,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.45.3\\new_fixed_luna.log"
   },
   {
@@ -1608,12 +1656,13 @@
       "numpy": "1.26.4",
       "core": "0.46.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:51.778323+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:43.354008+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'",
-    "seconds": 3.187,
+    "seconds": 3.203,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.0\\old_buggy.log"
   },
   {
@@ -1641,12 +1690,13 @@
       "numpy": "1.26.4",
       "core": "0.46.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:51.876871+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:43.496587+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 3.156,
+    "seconds": 3.094,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.0\\old_fixed.log"
   },
   {
@@ -1674,12 +1724,13 @@
       "numpy": "1.26.4",
       "core": "0.46.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:52.563753+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:43.998083+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'",
-    "seconds": 2.688,
+    "seconds": 2.703,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.0\\old_fixed_luna.log"
   },
   {
@@ -1690,7 +1741,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\buggy.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "2fa0aafba85f1897b521d6bff48ba763cea97c51cfc2a4ae19e2273af453708f",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_0\\python.exe",
       "-X",
@@ -1707,12 +1758,13 @@
       "numpy": "1.26.4",
       "core": "0.46.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:52.620835+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:44.082039+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'",
-    "seconds": 2.735,
+    "seconds": 2.797,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.0\\new_buggy.log"
   },
   {
@@ -1723,7 +1775,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_0\\python.exe",
       "-X",
@@ -1740,12 +1792,13 @@
       "numpy": "1.26.4",
       "core": "0.46.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:55.042204+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:46.594958+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 2.703,
+    "seconds": 2.89,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.0\\new_fixed_luna.log"
   },
   {
@@ -1756,7 +1809,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "6ce3da791b6e3076d86b3cd55e9cc9e217af75f462598069e04dfbd3ee3232c1",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_0\\python.exe",
       "-X",
@@ -1773,12 +1826,13 @@
       "numpy": "1.26.4",
       "core": "0.46.0"
     },
-    "executed_at_utc": "2026-10-01T14:04:54.972902+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:46.544874+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 2.797,
+    "seconds": 3.015,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.0\\new_fixed.log"
   },
   {
@@ -1806,12 +1860,13 @@
       "numpy": "1.26.4",
       "core": "0.46.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:55.264188+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:46.715113+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'",
-    "seconds": 3.25,
+    "seconds": 3.031,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.1\\old_buggy.log"
   },
   {
@@ -1839,12 +1894,13 @@
       "numpy": "1.26.4",
       "core": "0.46.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:55.347958+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:46.885721+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 3.203,
+    "seconds": 2.922,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.1\\old_fixed.log"
   },
   {
@@ -1872,12 +1928,13 @@
       "numpy": "1.26.4",
       "core": "0.46.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:57.750434+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:49.486604+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'",
-    "seconds": 2.609,
+    "seconds": 2.875,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.1\\old_fixed_luna.log"
   },
   {
@@ -1888,7 +1945,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\buggy.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "2fa0aafba85f1897b521d6bff48ba763cea97c51cfc2a4ae19e2273af453708f",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_1\\python.exe",
       "-X",
@@ -1905,12 +1962,13 @@
       "numpy": "1.26.4",
       "core": "0.46.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:57.771532+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:49.565437+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'",
-    "seconds": 2.625,
+    "seconds": 2.938,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.1\\new_buggy.log"
   },
   {
@@ -1921,7 +1979,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_1\\python.exe",
       "-X",
@@ -1938,12 +1996,13 @@
       "numpy": "1.26.4",
       "core": "0.46.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:58.560266+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:49.794786+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 2.578,
+    "seconds": 2.89,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.1\\new_fixed_luna.log"
   },
   {
@@ -1954,7 +2013,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "6ce3da791b6e3076d86b3cd55e9cc9e217af75f462598069e04dfbd3ee3232c1",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_1\\python.exe",
       "-X",
@@ -1971,13 +2030,48 @@
       "numpy": "1.26.4",
       "core": "0.46.1"
     },
-    "executed_at_utc": "2026-10-01T14:04:58.516077+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:49.749441+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 2.625,
+    "seconds": 2.953,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.1\\new_fixed.log"
+  },
+  {
+    "case": "issue_021_se",
+    "version": "0.46.2",
+    "suite": "old",
+    "variant": "fixed_luna",
+    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
+    "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test.py",
+    "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
+    "test_sha256": "6683b8a2d43267adad523173af4bf3e43d5cae738630162daed2a8fccc00bec0",
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_2\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test.py",
+      "-v"
+    ],
+    "packages": {
+      "python": "3.11.15",
+      "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_2\\python.exe",
+      "qiskit": "0.46.2",
+      "terra": "0.46.2",
+      "aer": "0.14.2",
+      "numpy": "2.4.6",
+      "core": "0.46.2"
+    },
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:52.684912+00:00",
+    "status": "ERROR",
+    "returncode": 1,
+    "tests_run": 1,
+    "detail": "qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'",
+    "seconds": 2.891,
+    "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.2\\old_fixed_luna.log"
   },
   {
     "case": "issue_021_se",
@@ -2004,12 +2098,13 @@
       "numpy": "2.4.6",
       "core": "0.46.2"
     },
-    "executed_at_utc": "2026-10-01T14:05:00.370497+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:52.363131+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'",
-    "seconds": 3.328,
+    "seconds": 3.219,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.2\\old_buggy.log"
   },
   {
@@ -2037,46 +2132,14 @@
       "numpy": "2.4.6",
       "core": "0.46.2"
     },
-    "executed_at_utc": "2026-10-01T14:05:00.399098+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:52.499599+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 3.343,
+    "seconds": 3.125,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.2\\old_fixed.log"
-  },
-  {
-    "case": "issue_021_se",
-    "version": "0.46.2",
-    "suite": "old",
-    "variant": "fixed_luna",
-    "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
-    "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test.py",
-    "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
-    "test_sha256": "6683b8a2d43267adad523173af4bf3e43d5cae738630162daed2a8fccc00bec0",
-    "command": [
-      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_2\\python.exe",
-      "-X",
-      "utf8",
-      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test.py",
-      "-v"
-    ],
-    "packages": {
-      "python": "3.11.15",
-      "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_2\\python.exe",
-      "qiskit": "0.46.2",
-      "terra": "0.46.2",
-      "aer": "0.14.2",
-      "numpy": "2.4.6",
-      "core": "0.46.2"
-    },
-    "executed_at_utc": "2026-10-01T14:05:01.133284+00:00",
-    "status": "ERROR",
-    "returncode": 1,
-    "tests_run": 1,
-    "detail": "qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'",
-    "seconds": 2.844,
-    "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.2\\old_fixed_luna.log"
   },
   {
     "case": "issue_021_se",
@@ -2086,7 +2149,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\buggy.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "2fa0aafba85f1897b521d6bff48ba763cea97c51cfc2a4ae19e2273af453708f",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_2\\python.exe",
       "-X",
@@ -2103,12 +2166,13 @@
       "numpy": "2.4.6",
       "core": "0.46.2"
     },
-    "executed_at_utc": "2026-10-01T14:05:01.145882+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:52.703166+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'",
-    "seconds": 2.843,
+    "seconds": 2.969,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.2\\new_buggy.log"
   },
   {
@@ -2119,7 +2183,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_2\\python.exe",
       "-X",
@@ -2136,12 +2200,13 @@
       "numpy": "2.4.6",
       "core": "0.46.2"
     },
-    "executed_at_utc": "2026-10-01T14:05:03.742526+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:55.584404+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 2.938,
+    "seconds": 2.875,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.2\\new_fixed_luna.log"
   },
   {
@@ -2152,7 +2217,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "6ce3da791b6e3076d86b3cd55e9cc9e217af75f462598069e04dfbd3ee3232c1",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_2\\python.exe",
       "-X",
@@ -2169,12 +2234,13 @@
       "numpy": "2.4.6",
       "core": "0.46.2"
     },
-    "executed_at_utc": "2026-10-01T14:05:03.697819+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:55.582899+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 2.985,
+    "seconds": 2.953,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.2\\new_fixed.log"
   },
   {
@@ -2202,12 +2268,13 @@
       "numpy": "2.4.6",
       "core": "0.46.3"
     },
-    "executed_at_utc": "2026-10-01T14:05:03.974460+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:55.622967+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'",
-    "seconds": 3.453,
+    "seconds": 3.219,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.3\\old_buggy.log"
   },
   {
@@ -2235,12 +2302,13 @@
       "numpy": "2.4.6",
       "core": "0.46.3"
     },
-    "executed_at_utc": "2026-10-01T14:05:03.999504+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:55.684349+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 3.484,
+    "seconds": 3.172,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.3\\old_fixed.log"
   },
   {
@@ -2268,12 +2336,13 @@
       "numpy": "2.4.6",
       "core": "0.46.3"
     },
-    "executed_at_utc": "2026-10-01T14:05:06.677332+00:00",
+    "observer_sha256": null,
+    "executed_at_utc": "2026-10-01T14:38:58.465240+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
     "detail": "qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'",
-    "seconds": 2.859,
+    "seconds": 2.781,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.3\\old_fixed_luna.log"
   },
   {
@@ -2284,7 +2353,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\buggy.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "2fa0aafba85f1897b521d6bff48ba763cea97c51cfc2a4ae19e2273af453708f",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
       "-X",
@@ -2301,7 +2370,8 @@
       "numpy": "2.4.6",
       "core": "0.46.3"
     },
-    "executed_at_utc": "2026-10-01T14:05:06.681333+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:58.530858+00:00",
     "status": "ERROR",
     "returncode": 1,
     "tests_run": 1,
@@ -2317,7 +2387,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed_luna.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "8c4ae7b27e9e0b3c7f6cfe4503f0694dcd1e97ee43339e4e13a15c33ba4fe895",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
       "-X",
@@ -2334,12 +2404,13 @@
       "numpy": "2.4.6",
       "core": "0.46.3"
     },
-    "executed_at_utc": "2026-10-01T14:05:07.502327+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:58.865191+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 2.828,
+    "seconds": 2.844,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.3\\new_fixed_luna.log"
   },
   {
@@ -2350,7 +2421,7 @@
     "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\fixed.py",
     "test": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test-new.py",
     "source_sha256": "6ce3da791b6e3076d86b3cd55e9cc9e217af75f462598069e04dfbd3ee3232c1",
-    "test_sha256": "aa9443a4868c479c76e1d89317cb4fbadb72a2f996c4168e8a3eb9b4b0fb52f9",
+    "test_sha256": "57a35343cd0e03a1e125891da1a667ec6b8ab91f91cb658b8276fc95d4cad489",
     "command": [
       "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
       "-X",
@@ -2367,12 +2438,13 @@
       "numpy": "2.4.6",
       "core": "0.46.3"
     },
-    "executed_at_utc": "2026-10-01T14:05:07.434206+00:00",
+    "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+    "executed_at_utc": "2026-10-01T14:38:58.842394+00:00",
     "status": "PASS",
     "returncode": 0,
     "tests_run": 1,
     "detail": "",
-    "seconds": 2.906,
+    "seconds": 2.89,
     "log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test_results_logs\\0.46.3\\new_fixed.log"
   }
 ]

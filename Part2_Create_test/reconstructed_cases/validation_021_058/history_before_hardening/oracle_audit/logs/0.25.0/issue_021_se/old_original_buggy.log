@@ -1,0 +1,32 @@
+test_custom_gate_execution_and_amplitudes (oracle_issue_021_se_old.TestIntent) ... Simulation failed and returned the following error message:
+ERROR:  [Experiment 0] Circuit contains invalid instructions {"gates": {CNOTNOT}} for "statevector" method
+ERROR
+
+======================================================================
+ERROR: test_custom_gate_execution_and_amplitudes (oracle_issue_021_se_old.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\test.py", line 25, in test_custom_gate_execution_and_amplitudes
+    ns = load_target()
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\test.py", line 17, in load_target
+    return runpy.run_path(MUT)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\validation_021_058\oracle_audit\mutants\issue_021_se\original_buggy.py", line 28, in <module>
+    result = svsim.run(qobj).result().get_statevector()
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\result\result.py", line 305, in get_statevector
+    return postprocess.format_statevector(self.data(experiment)['statevector'],
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\result\result.py", line 181, in data
+    return self._get_experiment(experiment).data.to_dict()
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\result\result.py", line 387, in _get_experiment
+    raise QiskitError(result_status, ", ", exp_status)
+qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Circuit contains invalid instructions {"gates": {CNOTNOT}} for "statevector" method ,  ERROR: Circuit contains invalid instructions {"gates": {CNOTNOT}} for "statevector" method'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+
+FAILED (errors=1)

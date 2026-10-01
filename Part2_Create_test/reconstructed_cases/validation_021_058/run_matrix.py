@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 ENV_ROOT = ROOT.parent.parent / 'Part1_Create_code' / 'envs'
 SELECTION = ROOT.parent / 'test_validation' / 'batch01' / 'selection.json'
 CASES = {'issue_021_se': 'test-new.py', 'issue_058_se': 'test_new.py'}
+RESULTS_PATH = Path(__file__).resolve().parent/'results_hardened.json'
 PROBE = '''import importlib.metadata as m, json, sys
 import numpy, qiskit
 from qiskit import Aer
@@ -66,6 +67,7 @@ def run_one(case, version, suite, test_name, variant, source, info):
     record = dict(case=case, version=version, suite=suite, variant=variant,
                   source=str(source), test=str(test), source_sha256=sha(source),
                   test_sha256=sha(test), command=command, packages=info,
+                  observer_sha256=sha(ROOT/'simulation_oracle.py') if suite=='new' else None,
                   executed_at_utc=datetime.now(timezone.utc).isoformat())
     started = time.monotonic()
     with tempfile.TemporaryDirectory(prefix='apr_021_058_') as work:
@@ -124,7 +126,6 @@ def main():
             results.append(record)
             print(index, '/', len(jobs), record['case'], record['version'], record['suite'],
                   record['variant'], record['status'], record['detail'][:200], flush=True)
-            (Path(__file__).parent/'results.json').write_text(json.dumps(results, indent=2), encoding='utf-8')
     expected = {(c, v, s, k) for c in CASES for v in versions[c] for s in ('old', 'new')
                 for k in ('buggy', 'fixed', 'fixed_luna')}
     assert {(r['case'], r['version'], r['suite'], r['variant']) for r in results} == expected
@@ -132,13 +133,27 @@ def main():
     for record in results:
         assert sha(Path(record['source'])) == record['source_sha256']
         assert sha(Path(record['test'])) == record['test_sha256']
+        if record['suite'] == 'new':
+            assert sha(ROOT/'simulation_oracle.py') == record['observer_sha256']
         if record['status'] == 'PASS':
             assert record['returncode'] == 0 and record['tests_run'] == 1
+    # Save once after verification. Repeated truncation was vulnerable to a
+    # transient Windows file-sharing error while a viewer read the aggregate.
+    payload = json.dumps(results, indent=2)
+    for attempt in range(5):
+        try:
+            RESULTS_PATH.write_text(payload, encoding='utf-8')
+            break
+        except OSError:
+            if attempt == 4:
+                raise
+            time.sleep(0.1)
     for case in CASES:
         records = [r for r in results if r['case'] == case]
         (ROOT/case/'test_results_details.json').write_text(json.dumps(records, indent=2), encoding='utf-8')
         print('SUMMARY', case, Counter((r['suite'], r['variant'], r['status']) for r in records), flush=True)
     print('VERIFIED', len(results), 'executions', flush=True)
+    print('RESULTS', RESULTS_PATH, flush=True)
 
 
 if __name__ == '__main__':

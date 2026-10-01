@@ -12,8 +12,8 @@ C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_ca
   svsim = Aer.get_backend('statevector_simulator')
 C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_0\Lib\site-packages\qiskit_aer\backends\statevector_simulator.py:246: PendingDeprecationWarning: The `StatevectorSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend. To obtain legacy functionality initialize with `AerSimulator(method="statevector")` and append run circuits with the `save_state` instruction.
   warn(
-C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\buggy.py:28: DeprecationWarning: Using a qobj for run() is deprecated as of qiskit-aer 0.14 and will be removed no sooner than 3 months from that release date. Transpiled circuits should now be passed directly using `backend.run(circuits, **run_options).
-  result = svsim.run(qobj).result().get_statevector()
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\simulation_oracle.py:57: DeprecationWarning: Using a qobj for run() is deprecated as of qiskit-aer 0.14 and will be removed no sooner than 3 months from that release date. Transpiled circuits should now be passed directly using `backend.run(circuits, **run_options).
+  execution["job"] = original_run(backend, *args, **kwargs)
 Simulation failed and returned the following error message:
 ERROR: Failed to load qobj: Invalid gate name :"CNOTNOT".
 
@@ -23,12 +23,12 @@ ERROR
 ERROR: test_custom_gate_execution_and_amplitudes (__main__.TestIntent.test_custom_gate_execution_and_amplitudes)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\test-new.py", line 48, in test_custom_gate_execution_and_amplitudes
-    ns = load_target()
-         ^^^^^^^^^^^^^
-  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\test-new.py", line 17, in load_target
-    return runpy.run_path(MUT)
-           ^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\test-new.py", line 25, in test_custom_gate_execution_and_amplitudes
+    ns = load_simulated_target(MUT, expected)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\simulation_oracle.py", line 65, in load_simulated_target
+    namespace = runpy.run_path(path)
+                ^^^^^^^^^^^^^^^^^^^^
   File "<frozen runpy>", line 291, in run_path
   File "<frozen runpy>", line 98, in _run_module_code
   File "<frozen runpy>", line 88, in _run_code
@@ -46,6 +46,6 @@ Traceback (most recent call last):
 qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.140s
+Ran 1 test in 0.064s
 
 FAILED (errors=1)

@@ -6,7 +6,7 @@ import { Workbook } from '@oai/artifact-tool';
 
 const base = path.dirname(fileURLToPath(import.meta.url));
 const root = path.dirname(base);
-const records = JSON.parse(await fs.readFile(path.join(base, 'results.json'), 'utf8'));
+const records = JSON.parse(await fs.readFile(path.join(base, 'results_hardened.json'), 'utf8'));
 assert.equal(records.length, 144);
 const variants = ['buggy', 'fixed', 'fixed_luna'];
 const headers = ['qiskit_version',
@@ -18,6 +18,7 @@ function csvField(value) {
   return /[",\r\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
 }
 
+const outputs = [];
 for (const caseName of ['issue_021_se', 'issue_058_se']) {
   const rows = records.filter(row => row.case === caseName);
   assert.equal(rows.length, 72);
@@ -49,9 +50,19 @@ for (const caseName of ['issue_021_se', 'issue_058_se']) {
   // CSV has no formatting or formulas. Export the verified cell values as RFC 4180 text.
   const values = sheet.getRange('A1:H13').values;
   const csv = '\ufeff' + values.map(row => row.map(csvField).join(',')).join('\r\n') + '\r\n';
-  const output = path.join(root, caseName, 'test_results.csv');
-  await fs.writeFile(output, csv, 'utf8');
+  let output = path.join(root, caseName, 'test_results.csv');
+  try {
+    await fs.writeFile(output, csv, 'utf8');
+  } catch (error) {
+    if (!['EACCES', 'EPERM', 'EBUSY'].includes(error.code)) throw error;
+    // An open CSV may be locked by Excel. Preserve it and export the new evidence.
+    output = path.join(root, caseName, 'test_results_hardened.csv');
+    await fs.writeFile(output, csv, 'utf8');
+    console.log('ORIGINAL CSV LOCKED; UPDATED RESULTS SAVED AS', output);
+  }
   const imported = await Workbook.fromCSV((await fs.readFile(output, 'utf8')).replace(/^\ufeff/, ''), {sheetName: 'Results'});
   assert.deepEqual(imported.worksheets.getItem('Results').getRange('A1:H13').values, values);
   console.log('CSV VERIFIED', output, versions.length, 'versions');
+  outputs.push({case: caseName, output, versions: versions.length});
 }
+await fs.writeFile(path.join(base, 'csv_outputs.json'), JSON.stringify(outputs, null, 2), 'utf8');

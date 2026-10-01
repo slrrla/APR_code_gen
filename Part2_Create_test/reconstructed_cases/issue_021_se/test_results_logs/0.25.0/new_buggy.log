@@ -18,10 +18,10 @@ ERROR
 ERROR: test_custom_gate_execution_and_amplitudes (__main__.TestIntent)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\test-new.py", line 48, in test_custom_gate_execution_and_amplitudes
-    ns = load_target()
-  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\test-new.py", line 17, in load_target
-    return runpy.run_path(MUT)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\test-new.py", line 25, in test_custom_gate_execution_and_amplitudes
+    ns = load_simulated_target(MUT, expected)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\simulation_oracle.py", line 65, in load_simulated_target
+    namespace = runpy.run_path(path)
   File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 288, in run_path
     return _run_module_code(code, init_globals, run_name,
   File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 97, in _run_module_code
@@ -39,6 +39,6 @@ Traceback (most recent call last):
 qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Circuit contains invalid instructions {"gates": {CNOTNOT}} for "statevector" method ,  ERROR: Circuit contains invalid instructions {"gates": {CNOTNOT}} for "statevector" method'
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.571s
+Ran 1 test in 0.008s
 
 FAILED (errors=1)

@@ -1,0 +1,14 @@
+test_diffuser_simulated_state_and_operator (oracle_issue_058_se_old.TestIntent.test_diffuser_simulated_state_and_operator) ... FAIL
+
+======================================================================
+FAIL: test_diffuser_simulated_state_and_operator (oracle_issue_058_se_old.TestIntent.test_diffuser_simulated_state_and_operator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_058_se\test.py", line 30, in test_diffuser_simulated_state_and_operator
+    self.assertTrue(Operator(ns["diffuser"](n)).equiv(Operator(diffusion)))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 0.016s
+
+FAILED (failures=1)

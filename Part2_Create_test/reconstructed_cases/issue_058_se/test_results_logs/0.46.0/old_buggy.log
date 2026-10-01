@@ -34,7 +34,7 @@ Traceback (most recent call last):
   File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_0\Lib\site-packages\qiskit_aer\jobs\aerjob.py", line 114, in result
     return self._future.result(timeout=timeout)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_0\Lib\concurrent\futures\_base.py", line 456, in result
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_0\Lib\concurrent\futures\_base.py", line 449, in result
     return self.__get_result()
            ^^^^^^^^^^^^^^^^^^^
   File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_0\Lib\concurrent\futures\_base.py", line 401, in __get_result
@@ -59,6 +59,6 @@ Traceback (most recent call last):
 qiskit_aer.aererror.AerError: 'unknown instruction: U$_s$'
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.128s
+Ran 1 test in 0.132s
 
 FAILED (errors=1)
