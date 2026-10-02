@@ -1,0 +1,30 @@
+
+test_parameter_count_and_independent_binding (__main__.TestIntent.test_parameter_count_and_independent_binding) ... C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_233\buggy.py:6: DeprecationWarning: The class ``qiskit.circuit.library.n_local.two_local.TwoLocal`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use the function qiskit.circuit.library.n_local instead.
+  rot = TwoLocal(
+C:\qiskit_envs\q250\Lib\site-packages\qiskit\circuit\library\n_local\two_local.py:217: DeprecationWarning: The class ``qiskit.circuit.library.n_local.n_local.NLocal`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. This applies to NLocal subclasses too. Use the corresponding function from the module qiskit.circuit.library.n_local instead.
+  super().__init__(
+C:\qiskit_envs\q250\Lib\site-packages\qiskit\circuit\library\n_local\n_local.py:379: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.
+  super().__init__(name=name)
+C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_233\buggy.py:14: DeprecationWarning: The class ``qiskit.circuit.library.n_local.two_local.TwoLocal`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use the function qiskit.circuit.library.n_local instead.
+  var = TwoLocal(
+ERROR
+
+======================================================================
+ERROR: test_parameter_count_and_independent_binding (__main__.TestIntent.test_parameter_count_and_independent_binding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_233\test.py", line 24, in test_parameter_count_and_independent_binding
+    ns = runpy.run_path(MUT)
+         ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_233\buggy.py", line 23, in <module>
+    print(rot.num_parameters_settable())  # >> 2
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'int' object is not callable
+
+----------------------------------------------------------------------
+Ran 1 test in 0.046s
+
+FAILED (errors=1)

@@ -3,6 +3,8 @@ import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
+from cases import BATCH_OF, CASES
+
 HERE = Path(__file__).resolve().parent
 REPO = next(p for p in (HERE.parent, HERE.parent / "APR_code_gen") if (p / "Part2_Create_test").is_dir())
 CASES_DIR = REPO / "Part2_Create_test" / "reconstructed_cases"
@@ -142,7 +144,7 @@ def main():
     args = ap.parse_args()
 
     sheet = load_sheet_info()
-    cases = args.cases or sorted(d.name for d in FIXES_DIR.iterdir() if (d / "llm_fix.py").exists())
+    cases = args.cases or [c for c in CASES if (FIXES_DIR / c / "llm_fix.py").exists()]
     plan, missing = {}, set()
     for case in cases:
         versions = sheet[case_number(case)]["versions"]
@@ -163,45 +165,50 @@ def main():
             results[(r["case"], r["version"], r["variant"])] = r
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-    rows, summary = [], []
+    rows = []
     for case, versions in plan.items():
         buggy_code = (FIXES_DIR / case / "buggy_stripped.py").read_text(encoding="utf-8")
         llm_code = (FIXES_DIR / case / "llm_fix.py").read_text(encoding="utf-8")
         comments = fix_comments(llm_code)
-        verdict = "NO_BUG" if any(c.startswith("# NO BUG:") for c in comments) else "FIX"
         changed = lines_changed(buggy_code, llm_code)
         info = sheet[case_number(case)]
-        counts = {"PASS": 0, "FAIL": 0, "ERROR": 0, "NATIVE_CRASH": 0, "TIMEOUT": 0, "INVALID_RUN": 0, "ENV_ERROR": 0}
-        valid_versions = 0
         for v in versions:
             b, f, l = (results[(case, v, var)] for var in VARIANTS)
-            test_valid = b["status"] in ("FAIL", "ERROR") and f["status"] in ("PASS", "NATIVE_CRASH")
-            valid_versions += test_valid
-            counts[l["status"]] += 1
             rows.append({
-                "case_id": case, "category": info["category"], "qiskit_version": v, "test_file": test_file(case),
-                "python": py_tags[v], "buggy_status": b["status"], "fixed_status": f["status"],
-                "test_valid": test_valid, "llm_status": l["status"], "llm_failed_checks": l["failed_checks"],
+                "batch": BATCH_OF.get(case, ""), "case_id": case, "category": info["category"],
+                "qiskit_version": v, "test_file": test_file(case), "python": py_tags[v],
+                "buggy_status": b["status"], "fixed_status": f["status"],
+                "test_valid": b["status"] in ("FAIL", "ERROR") and f["status"] in ("PASS", "NATIVE_CRASH"),
+                "llm_status": l["status"], "llm_failed_checks": l["failed_checks"],
                 "llm_error": l["detail"], "lines_changed": changed,
                 "llm_fix_explanation": " | ".join(comments), "llm_runtime_s": l["seconds"],
                 "log_dir": str(LOG_DIR / case / v),
             })
-        summary.append({
-            "case_id": case, "category": info["category"], "versions_in_excel": len(versions),
-            "versions_tested": len(versions), "test_valid_versions": valid_versions,
-            "llm_pass": counts["PASS"], "llm_fail": counts["FAIL"], "llm_error": counts["ERROR"],
-            "llm_native_crash": counts["NATIVE_CRASH"], "llm_timeout": counts["TIMEOUT"],
-            "llm_other": counts["INVALID_RUN"] + counts["ENV_ERROR"],
-            "llm_pass_rate": round(counts["PASS"] / len(versions), 3) if versions else 0,
-            "llm_verdict": verdict, "lines_changed": changed, "excel_notes": info["notes"],
-        })
 
-    for name, data in (("llm_fix_results.csv", rows), ("llm_fix_summary.csv", summary)):
-        with open(RESULTS_DIR / name, "w", newline="", encoding="utf-8-sig") as fh:
-            w = csv.DictWriter(fh, fieldnames=list(data[0]))
-            w.writeheader()
-            w.writerows(data)
-    print(f"Wrote {RESULTS_DIR / 'llm_fix_results.csv'} and {RESULTS_DIR / 'llm_fix_summary.csv'}")
+    path = RESULTS_DIR / "llm_fix_results.csv"
+    fields, old_rows = list(rows[0]), []
+    if path.exists():
+        with open(path, encoding="utf-8-sig", newline="") as fh:
+            reader = csv.DictReader(fh)
+            fields, old_rows = list(reader.fieldnames), list(reader)
+        fields = (["batch"] if "batch" not in fields else []) + fields
+        fields += [f for f in rows[0] if f not in fields]
+    previous = {(r["case_id"], r["qiskit_version"]): r for r in old_rows}
+    for r in rows:
+        old = previous.get((r["case_id"], r["qiskit_version"]))
+        if old and old.get("llm_status") == r["llm_status"]:
+            r["result_description"] = old.get("result_description", "")
+    merged = [r for r in old_rows if r["case_id"] not in plan] + rows
+    for r in merged:
+        r["batch"] = r.get("batch") or BATCH_OF.get(r["case_id"], "")
+    order = {case: i for i, case in enumerate(CASES)}
+    merged.sort(key=lambda r: (order.get(r["case_id"], len(order)), r["case_id"],
+                               tuple(int(x) for x in r["qiskit_version"].split("."))))
+    with open(path, "w", newline="", encoding="utf-8-sig") as fh:
+        w = csv.DictWriter(fh, fieldnames=fields, restval="")
+        w.writeheader()
+        w.writerows(merged)
+    print(f"Wrote {len(rows)} new rows ({len(merged)} total) to {path}")
 
 
 if __name__ == "__main__":

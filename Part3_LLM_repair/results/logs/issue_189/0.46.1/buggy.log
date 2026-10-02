@@ -1,0 +1,29 @@
+
+test_qpe_mapping_and_controlled_powers (__main__.TestIntent.test_qpe_mapping_and_controlled_powers) ... ERROR
+
+======================================================================
+ERROR: test_qpe_mapping_and_controlled_powers (__main__.TestIntent.test_qpe_mapping_and_controlled_powers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_189\test.py", line 22, in test_qpe_mapping_and_controlled_powers
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_189\test.py", line 14, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_189\buggy.py", line 25, in <module>
+    qpe.append(Q, qp)
+  File "C:\qiskit_envs\q0461\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1290, in append
+    for qarg, carg in operation.broadcast_arguments(expanded_qargs, expanded_cargs):
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0461\Lib\site-packages\qiskit\circuit\gate.py", line 210, in broadcast_arguments
+    raise CircuitError(
+qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(8)/clbit(0) arguments does not match the gate expectation (7).'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.320s
+
+FAILED (errors=1)

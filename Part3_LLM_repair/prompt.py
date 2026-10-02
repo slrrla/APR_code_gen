@@ -1,13 +1,12 @@
-import os, re, io, tokenize
+import os, re, io, sys, tokenize
 from pathlib import Path
 from openai import OpenAI
+from cases import CASES
 
 HERE = Path(__file__).resolve().parent
 REPO = next(p for p in (HERE.parent, HERE.parent / "APR_code_gen") if (p / "Part2_Create_test").is_dir())
 CASES_DIR = REPO / "Part2_Create_test" / "reconstructed_cases"
 OUT_DIR = HERE / "llm_fixes"
-CASES = ["issue_009", "issue_018_se", "issue_021_se", "issue_032_se", "issue_034",
-         "issue_036", "issue_058_se", "issue_061", "issue_072", "issue_096"]
 MODEL = "gpt-5.6-luna"
 
 SYSTEM = """You are an expert Qiskit developer repairing a buggy program with the smallest possible change.
@@ -75,7 +74,10 @@ def extract_code(reply):
 
 client = OpenAI(api_key=load_key())
 
-for case in CASES:
+for case in sys.argv[1:] or CASES:
+    if (OUT_DIR / case / "llm_fix.py").exists():
+        print(f"skip {case}: llm_fix.py already exists")
+        continue
     print(f"Processing {case}...")
     code = strip_comments((CASES_DIR / case / "buggy.py").read_text(encoding="utf-8"))
     question = clean_question((CASES_DIR / case / "original_question.txt").read_text(encoding="utf-8"))

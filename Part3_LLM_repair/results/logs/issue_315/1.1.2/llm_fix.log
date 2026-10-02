@@ -1,0 +1,30 @@
+
+test_options_and_bell_sampling (__main__.TestIntent.test_options_and_bell_sampling) ... C:\qiskit_envs\q112\Lib\site-packages\qiskit\providers\basic_provider\basic_provider.py:42: DeprecationWarning: The class ``qiskit.providers.provider.Provider`` is deprecated as of qiskit 1.1. It will be removed no earlier than 3 months after the release date. The abstract Provider and ProviderV1 classes are deprecated and will be removed in 2.0. You can just remove it as the parent class and a `get_backend` method that returns the backends from `self.backend`.
+  super().__init__()
+C:\qiskit_envs\q112\Lib\site-packages\qiskit\providers\basic_provider\basic_provider.py:48: DeprecationWarning: The method ``qiskit.providers.provider.ProviderV1.get_backend()`` is deprecated as of qiskit 1.1. It will be removed no earlier than 3 months after the release date. The abstract Provider and ProviderV1 classes are deprecated and will  be removed in 2.0. You can just remove it as the parent class and a `get_backend` method that returns the backends from `self.backend`.
+  return super().get_backend(name=name, **kwargs)
+ERROR
+
+======================================================================
+ERROR: test_options_and_bell_sampling (__main__.TestIntent.test_options_and_bell_sampling)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\qiskit_envs\q112\Lib\site-packages\qiskit\providers\options.py", line 134, in __getattr__
+    return self._fields[name]
+           ~~~~~~~~~~~~^^^^^^
+KeyError: 'max_parallel_threads'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_315\test.py", line 32, in test_options_and_bell_sampling
+    self.assertEqual(getattr(ns["backend"].options,name),value)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q112\Lib\site-packages\qiskit\providers\options.py", line 136, in __getattr__
+    raise AttributeError(f"Option {name} is not defined") from ex
+AttributeError: Option max_parallel_threads is not defined
+
+----------------------------------------------------------------------
+Ran 1 test in 0.032s
+
+FAILED (errors=1)

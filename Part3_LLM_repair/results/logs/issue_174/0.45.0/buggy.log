@@ -1,0 +1,33 @@
+
+test_register_conditions_and_both_branches (__main__.TestIntent.test_register_conditions_and_both_branches) ... ERROR
+
+======================================================================
+ERROR: test_register_conditions_and_both_branches (__main__.TestIntent.test_register_conditions_and_both_branches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_174\test.py", line 21, in test_register_conditions_and_both_branches
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_174\test.py", line 14, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_174\buggy.py", line 27, in <module>
+    circuit = QuantumCircuit.from_qasm_str(cloner1)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0450\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 2437, in from_qasm_str
+    return qasm2.loads(
+           ^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0450\Lib\site-packages\qiskit\qasm2\__init__.py", line 604, in loads
+    return _parse.from_bytecode(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0450\Lib\site-packages\qiskit\qasm2\parse.py", line 214, in from_bytecode
+    for op in bc:
+qiskit.qasm2.exceptions.QASM2ParseError: "<input>:10,5: needed '==', but instead saw ["
+
+----------------------------------------------------------------------
+Ran 1 test in 0.043s
+
+FAILED (errors=1)

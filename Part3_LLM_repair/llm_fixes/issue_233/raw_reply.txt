@@ -1,0 +1,31 @@
+```python
+from qiskit.circuit.library import TwoLocal
+import numpy as np
+
+num_qubits = 2
+
+rot = TwoLocal(
+    int(np.sum(num_qubits)),
+    "ry",
+    [],
+    reps=1,
+    skip_final_rotation_layer=True,
+    parameter_prefix="p",
+)
+var = TwoLocal(
+    int(np.sum(num_qubits)),
+    "ry",
+    "cx",
+    entanglement="linear",
+    reps=1,
+    skip_final_rotation_layer=True,
+)
+
+print(rot.num_parameters_settable())
+
+rot.compose(var, inplace=True)
+
+# FIX: num_parameters_settable() only counts parameters settable by the original blueprint -> count all unbound parameters, because composed parameters are also included
+print(len(rot.parameters))
+
+```
