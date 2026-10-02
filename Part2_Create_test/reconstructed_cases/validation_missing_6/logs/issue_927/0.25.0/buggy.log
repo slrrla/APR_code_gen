@@ -1,0 +1,50 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+test_replacement_import_reconstructs_a_bell_state (__main__.Regression) ... ERROR
+test_replacement_import_reconstructs_a_distinct_product_state (__main__.Regression) ... ERROR
+
+======================================================================
+ERROR: test_replacement_import_reconstructs_a_bell_state (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_927\test.py", line 61, in test_replacement_import_reconstructs_a_bell_state
+    self.reconstruct(circuit, np.array([1, 0, 0, 1], dtype=complex) / np.sqrt(2))
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_927\test.py", line 34, in reconstruct
+    api = tomography_api()
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_927\test.py", line 23, in tomography_api
+    namespace = runpy.run_path(path)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_927\buggy.py", line 1, in <module>
+    import qiskit.tools.qcvv.tomography as tomography
+ModuleNotFoundError: No module named 'qiskit.tools.qcvv'
+
+======================================================================
+ERROR: test_replacement_import_reconstructs_a_distinct_product_state (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_927\test.py", line 66, in test_replacement_import_reconstructs_a_distinct_product_state
+    self.reconstruct(circuit, np.array([0, 1, 0, 0], dtype=complex))
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_927\test.py", line 34, in reconstruct
+    api = tomography_api()
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_927\test.py", line 23, in tomography_api
+    namespace = runpy.run_path(path)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_927\buggy.py", line 1, in <module>
+    import qiskit.tools.qcvv.tomography as tomography
+ModuleNotFoundError: No module named 'qiskit.tools.qcvv'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.008s
+
+FAILED (errors=2)
