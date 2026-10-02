@@ -1,0 +1,29 @@
+
+test_flattened_order_and_complete_circuit_operator (__main__.TestRegisterQargs) ... ERROR
+
+======================================================================
+ERROR: test_flattened_order_and_complete_circuit_operator (__main__.TestRegisterQargs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_443\test.py", line 14, in test_flattened_order_and_complete_circuit_operator
+    m=load_target()
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_443\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_443\buggy.py", line 22, in <module>
+    circ.append(oracle, [train_register, control])
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1012, in append
+    for (qarg, carg) in instruction.broadcast_arguments(expanded_qargs, expanded_cargs):
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\circuit\instruction.py", line 412, in broadcast_arguments
+    raise CircuitError(
+qiskit.circuit.exceptions.CircuitError: 'The amount of qubit arguments 2 does not match the instruction expectation (4).'
+
+----------------------------------------------------------------------
+Ran 1 test in 1.227s
+
+FAILED (errors=1)

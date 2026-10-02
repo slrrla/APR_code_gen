@@ -1,0 +1,29 @@
+
+test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle) ... ERROR
+
+======================================================================
+ERROR: test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_396\test.py", line 14, in test_exact_marked_phases_and_grover_amplification
+    m = load_target()
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_396\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_396\buggy.py", line 10, in <module>
+    oracle = Statevector.from_label(targets)
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\quantum_info\states\statevector.py", line 562, in from_label
+    if re.match(r'^[01rl\-+]+$', label) is None:
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\re.py", line 191, in match
+    return _compile(pattern, flags).match(string)
+TypeError: expected string or bytes-like object
+
+----------------------------------------------------------------------
+Ran 1 test in 1.283s
+
+FAILED (errors=1)

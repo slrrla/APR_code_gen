@@ -1,0 +1,25 @@
+
+test_allocate_reuse_and_all_basis_inputs (__main__.TestAutomaticAncillas.test_allocate_reuse_and_all_basis_inputs) ... ERROR
+test_entry_point_and_clean_ancillas (__main__.TestAutomaticAncillas.test_entry_point_and_clean_ancillas) ... FAIL
+
+======================================================================
+ERROR: test_allocate_reuse_and_all_basis_inputs (__main__.TestAutomaticAncillas.test_allocate_reuse_and_all_basis_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_453\test.py", line 27, in test_allocate_reuse_and_all_basis_inputs
+    returned=main.compose_with_auto_ancillas(m['qc1'],[0,1,2,3],inplace=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'
+
+======================================================================
+FAIL: test_entry_point_and_clean_ancillas (__main__.TestAutomaticAncillas.test_entry_point_and_clean_ancillas)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_453\test.py", line 16, in test_entry_point_and_clean_ancillas
+    self.assertEqual(len(m['circ'].ancillas),2)
+AssertionError: 0 != 2
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.364s
+
+FAILED (failures=1, errors=1)

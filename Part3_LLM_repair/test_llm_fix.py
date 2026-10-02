@@ -14,6 +14,8 @@ LOG_DIR = RESULTS_DIR / "logs"
 XLSX = HERE / "Valid_Cases_104.xlsx"
 ENV_ROOT = Path(r"C:\qiskit_envs")
 SUPPORT_ROOT = ENV_ROOT / "_support"
+RUNTIME_SUPPORT_ROOT = ENV_ROOT / "_support_runtime"
+RUNTIME_CASES = {"issue_742", "issue_876"}
 VARIANTS = ["buggy", "fixed", "llm_fix"]
 TIMEOUT = 120
 TEST_FILES = {"issue_021_se": "test-new.py", "issue_058_se": "test_new.py", "issue_061": "test_new.py"}
@@ -72,6 +74,17 @@ def needs_support(case, version):
     return case == "issue_096" or (case == "issue_034" and version.startswith("2."))
 
 
+def support_path(case, version, py_tag):
+    if case in RUNTIME_CASES:
+        if version.startswith("1.0."):
+            return os.pathsep.join(str(RUNTIME_SUPPORT_ROOT / f"{rt}_{py_tag}") for rt in ("rt0230", "rt0300"))
+        runtime = "rt0401" if version.startswith("2.") else "rt0300"
+        return RUNTIME_SUPPORT_ROOT / f"{runtime}_{py_tag}"
+    if needs_support(case, version):
+        return SUPPORT_ROOT / py_tag
+    return None
+
+
 def strip_comments(code):
     tokens = [t for t in tokenize.generate_tokens(io.StringIO(code).readline) if t.type != tokenize.COMMENT]
     return [line.rstrip() for line in tokenize.untokenize(tokens).splitlines() if line.strip()]
@@ -96,8 +109,9 @@ def run_one(case, version, variant, py_tags):
                OMP_NUM_THREADS="1", OPENBLAS_NUM_THREADS="1", MKL_NUM_THREADS="1",
                QISKIT_PARALLEL="FALSE", MPLBACKEND="Agg")
     env.pop("PYTHONPATH", None)
-    if needs_support(case, version):
-        env["PYTHONPATH"] = str(SUPPORT_ROOT / py_tags[version])
+    support = support_path(case, version, py_tags[version])
+    if support:
+        env["PYTHONPATH"] = str(support)
     output = ""
     started = time.monotonic()
     with tempfile.TemporaryDirectory(prefix="llm_run_") as work:

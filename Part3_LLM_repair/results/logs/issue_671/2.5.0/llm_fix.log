@@ -1,0 +1,36 @@
+
+test_registered_bits_and_full_permutation (__main__.TestIntent.test_registered_bits_and_full_permutation) ... FAIL
+
+======================================================================
+FAIL: test_registered_bits_and_full_permutation (__main__.TestIntent.test_registered_bits_and_full_permutation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_671\test.py", line 36, in test_registered_bits_and_full_permutation
+    np.testing.assert_allclose(matrix,expected,atol=1e-10)
+  File "C:\qiskit_envs\q250\Lib\site-packages\numpy\testing\_private\utils.py", line 1780, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\qiskit_envs\q250\Lib\site-packages\numpy\testing\_private\utils.py", line 988, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-10
+
+Mismatched elements: 1024 / 262144 (0.391%)
+First 5 mismatches are at indices:
+ [0, 0]: (1+0j) (ACTUAL), 0j (DESIRED)
+ [0, 2]: 0j (ACTUAL), (1+0j) (DESIRED)
+ [1, 1]: (1+0j) (ACTUAL), 0j (DESIRED)
+ [1, 3]: 0j (ACTUAL), (1+0j) (DESIRED)
+ [2, 0]: 0j (ACTUAL), (1+0j) (DESIRED)
+Max absolute difference among violations: 1.
+Max relative difference among violations: 1.
+ ACTUAL: array([[1.+0.j, 0.+0.j, 0.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],
+       [0.+0.j, 1.+0.j, 0.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],
+       [0.+0.j, 0.+0.j, 1.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],...
+ DESIRED: array([[0.+0.j, 0.+0.j, 1.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],
+       [0.+0.j, 0.+0.j, 0.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],
+       [1.+0.j, 0.+0.j, 0.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],...
+
+----------------------------------------------------------------------
+Ran 1 test in 1.109s
+
+FAILED (failures=1)

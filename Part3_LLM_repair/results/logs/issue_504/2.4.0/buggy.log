@@ -1,0 +1,36 @@
+
+test_registered_qubits_and_real_sampling (__main__.TestIntent.test_registered_qubits_and_real_sampling) ... ERROR
+
+======================================================================
+ERROR: test_registered_qubits_and_real_sampling (__main__.TestIntent.test_registered_qubits_and_real_sampling)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_504\test.py", line 41, in test_registered_qubits_and_real_sampling
+    ns, submissions = observed_target()
+                      ^^^^^^^^^^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_504\test.py", line 36, in observed_target
+    ns = runpy.run_path(MUT)
+         ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_504\buggy.py", line 60, in <module>
+    result = grover(marked_state)
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_504\buggy.py", line 34, in grover
+    circuit.h(QuantumRegister(n))
+  File "C:\qiskit_envs\q240\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 5160, in h
+    return self._append_standard_gate(StandardGate.H, [qubit], ())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q240\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 2813, in _append_standard_gate
+    expanded_qargs = [self._qbit_argument_conversion(qarg) for qarg in qargs or []]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q240\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 2785, in _qbit_argument_conversion
+    return self._data._qbit_argument_conversion(qubit_representation)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+qiskit.circuit.exceptions.CircuitError: 'Bit \'<Qubit register=(3, "q2"), index=0>\' is not in the circuit.'
+
+----------------------------------------------------------------------
+Ran 1 test in 2.787s
+
+FAILED (errors=1)

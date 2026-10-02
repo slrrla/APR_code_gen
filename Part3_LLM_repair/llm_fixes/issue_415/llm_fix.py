@@ -1,0 +1,32 @@
+import math
+import cmath
+import numpy as np
+from qiskit import QuantumCircuit, execute, Aer
+
+ket_0 = np.array([1, 0])
+ket_1 = np.array([0, 1])
+
+arb_quantum_state = ((1+1.j)/math.sqrt(3))*ket_0 - (1.j/math.sqrt(3))*ket_1
+print(arb_quantum_state)
+
+# FIX: theta was calculated from a complex amplitude -> use its magnitude, because U3 angles must be real
+theta = 2*math.acos(abs((1+1.j)/math.sqrt(3)))
+print('theta : ', theta)
+
+sinValue = cmath.sin(theta/2)
+print(sinValue)
+
+phase = -1*(1.j/cmath.sqrt(3))/sinValue
+# FIX: phi was calculated as a complex logarithm -> use the phase angle, because U3 requires a real parameter
+phi = cmath.phase(phase)
+print('phi : ', phi)
+
+circ = QuantumCircuit(1, 1)
+# FIX: the canonical U3 form omits the state's global phase -> restore the original global phase
+circ.global_phase = math.pi/4
+circ.u3(theta, phi, 0, 0)
+
+results = execute(circ, backend=Aer.get_backend('statevector_simulator')).result()
+quantum_state = results.get_statevector(circ, decimals=3)
+print(quantum_state)
+

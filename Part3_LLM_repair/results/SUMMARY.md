@@ -1,19 +1,26 @@
 # LLM Bug-Repair Results — gpt-5.6-luna
 
-**Result: the LLM fixed 11 of 20 cases on every version they were tested on, and 12 of 20 on at least one version.** Across all case × version pairs, **125 of 276 passed (45.3%)**, 67 failed (24.3%) and 84 errored (30.4%).
+**Result: the LLM fixed 24 of 50 cases on every version they were tested on, and 27 of 50 on at least one version.** Across all case × version pairs, **321 of 701 passed (45.8%)**, 145 failed (20.7%) and 235 errored (33.5%).
 
-The cases are processed 10 at a time from `Valid_Cases_104.xlsx`: **batch 1** is issue_009 – issue_096 and **batch 2** is issue_155 – issue_315. Both batches used the same model, prompt, environments and test runner.
+The cases are processed 10 at a time from `Valid_Cases_104.xlsx`: **batch 1** is issue_009 – issue_096, **batch 2** is issue_155 – issue_315, **batch 3** is issue_344 – issue_497, **batch 4** is issue_504 – issue_662 and **batch 5** is issue_663 – issue_795. All batches used the same model, prompt, environments and test runner.
 
-| Outcome | Cases (all) | Pairs (all) | Batch 1 cases | Batch 1 pairs | Batch 2 cases | Batch 2 pairs |
-|---|---|---|---|---|---|---|
-| ✅ Passed | 11 | 125 (45.3%) | 6 | 65 (51.2%) | 5 | 60 (40.3%) |
-| ❌ Failed (ran, but wrong result) | 3 | 67 (24.3%) | 2 | 44 (34.6%) | 1 | 23 (15.4%) |
-| 💥 Error (crashed before the test could check anything) | 6 | 84 (30.4%) | 2 | 18 (14.2%) | 4 | 66 (44.3%) |
-| **Total** | **20** | **276** | **10** | **127** | **10** | **149** |
+| Outcome | Cases (all) | Pairs (all) | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 |
+|---|---|---|---|---|---|---|---|
+| ✅ Passed | 24 | 321 (45.8%) | 6 cases · 65 pairs (51.2%) | 5 cases · 60 pairs (40.3%) | 4 cases · 70 pairs (45.2%) | 4 cases · 74 pairs (55.6%) | 5 cases · 52 pairs (38.0%) |
+| ❌ Failed (ran, but wrong result) | 9 | 145 (20.7%) | 2 · 44 (34.6%) | 1 · 23 (15.4%) | 2 · 27 (17.4%) | 2 · 16 (12.0%) | 2 · 35 (25.5%) |
+| 💥 Error (crashed before the test could check anything) | 17 | 235 (33.5%) | 2 · 18 (14.2%) | 4 · 66 (44.3%) | 4 · 58 (37.4%) | 4 · 43 (32.3%) | 3 · 50 (36.5%) |
+| **Total** | **50** | **701** | **10 · 127** | **10 · 149** | **10 · 155** | **10 · 133** | **10 · 137** |
 
-A case counts as passed only if it passed on every version. One case, **issue_157**, passed on some versions but not all: it passed on 0.45.x / 0.46.x (8 versions) but crashed on 0.25.x (4), so it counts as an error case. Every other fix either passed on all of its versions or on none.
+A case counts as passed only if it passed on every version. Three cases passed on some versions but not all, so all three count as error cases:
+- **issue_157** passed on 0.45.x / 0.46.x (8 versions) but crashed on 0.25.x (4).
+- **issue_396** passed on 0.25.x – 0.46.x (12) but crashed on 1.x / 2.x (15).
+- **issue_600** passed on 0.45.x / 0.46.x (8) but crashed on 0.25.x (4).
+
+Every other fix either passed on all of its versions or on none.
 
 **Updated tests (1 Oct 2026):** the team pushed new tests for issue_021_se (`test-new.py`), issue_058_se and issue_061 (`test_new.py`), and these results use them. The only change: **issue_061 went from FAIL 0/15 to PASS 15/15**, because the old `test.py` only accepted the reference fix's exact print format. issue_021_se (still ERROR) and issue_058_se (still PASS) are unchanged. The old results are kept in the `old_test_llm_status` column of `llm_fix_results.csv` and in `logs/<case>/<version>/old_test/`.
+
+**issue_742 needs `qiskit-ibm-runtime` (batch 5):** none of the local environments include it, so on the first run even `fixed.py` crashed with `ModuleNotFoundError` on all 12 versions. Following the team's `test_validation/batch05` setup, this case now runs with a task-local support folder on `PYTHONPATH` (`C:\qiskit_envs\_support_runtime`): Runtime 0.30.0 for Qiskit 1.1 / 1.2 and Runtime 0.40.1 for 2.x, with the same pinned dependencies as the team's `support_manifest.json` (plus `packaging`, which our 2.x environments lack). Qiskit, Aer, NumPy and SciPy still come from the original environments, and no shared environment was changed. With it, `buggy.py` fails and `fixed.py` passes on all 12 versions.
 
 ---
 
@@ -49,6 +56,51 @@ A case counts as passed only if it passed on every version. One case, **issue_15
 | [issue_295](#issue_295) | `+=` to append a circuit | ✅ Pass | 0.45.0 – 0.46.3 (8) | — | `compose(..., inplace=True)`, equivalent to the reference |
 | [issue_315](#issue_315) | `max_parallel_threads` not valid for this backend | 💥 Error | — | 0.45.0 – 2.5.0 (23) | Deleted the options instead of switching to `AerSimulator` |
 
+**Batch 3**
+
+| Case | Question | Result | Passed on | Failed on | Why, in one line |
+|---|---|---|---|---|---|
+| [issue_344](#issue_344) | `entropy()`: input state is not valid | 💥 Error | — | 0.25.0 – 0.46.3 (12) | Kept `decimals=3`, so the state is still not normalized |
+| [issue_362](#issue_362) | No unitary from `AerSimulator` | ✅ Pass | 0.45.0 – 2.5.0 (23) | — | Added `save_unitary()`, the same key fix as the reference |
+| [issue_369](#issue_369) | Composing a controlled subcircuit | 💥 Error | — | 0.25.0 – 2.5.0 (27) | Right compose fix, but invented an extra gate line that crashes |
+| [issue_396](#issue_396) | Oracle with several marked states | 💥 Error | 0.25.0 – 0.46.3 (12) | 1.0.0 – 2.5.0 (15 errors) | Used `QuantumCircuit.diagonal()`, which was removed in Qiskit 1.0 |
+| [issue_415](#issue_415) | Complex `u3` angles | ❌ Fail | — | 0.25.0 – 0.25.3 (4) | Wrong relative phase, so it prepares the wrong state |
+| [issue_436](#issue_436) | `set_frequency` unsupported in the pulse simulator | ✅ Pass | 0.25.0 – 0.25.3 (4) | — | Modulated the waveform, the same approach as the reference |
+| [issue_443](#issue_443) | Registers as `append` arguments | ✅ Pass | 0.25.0 – 2.5.0 (27) | — | Flattened the registers into qubits, equivalent to the reference |
+| [issue_453](#issue_453) | Composing a wider circuit with ancillas | ❌ Fail | — | 0.45.0 – 2.5.0 (23) | Widened the circuit by hand; no ancillas, and the test wants the answer's helper by name |
+| [issue_468](#issue_468) | Commutator of density matrices | 💥 Error | — | 0.25.0 – 0.25.3 (4) | `MatrixOp` doesn't work with Aqua's legacy `commutator()` |
+| [issue_497](#issue_497) | Batching expectation values in one job | ✅ Pass | 0.25.0 – 0.25.3 (4) | — | Batched both expectations with `ListOp`, like the reference |
+
+**Batch 4**
+
+| Case | Question | Result | Passed on | Failed on | Why, in one line |
+|---|---|---|---|---|---|
+| [issue_504](#issue_504) | Grover: "qubit not in the circuit" | ✅ Pass | 0.45.0 – 2.5.0 (23) | — | Used the circuit's own qubits instead of a new `QuantumRegister(n)` each time, and ran the job |
+| [issue_505](#issue_505) | NumPy scalar times a `PauliSumOp` | ✅ Pass | 0.45.0 – 0.46.3 (8) | — | Cast `x` to `float`, the same fix as the reference |
+| [issue_565](#issue_565) | Custom QAOA mixer: no `primitive_strings` | 💥 Error | — | 0.25.0 – 0.25.3 (4) | Switched to Aqua's `PauliOp` but kept `*`, which Aqua treats as scalar multiplication |
+| [issue_595](#issue_595) | Unitary of a circuit from `AerSimulator` | ✅ Pass | 0.45.0 – 2.5.0 (23) | — | Added `save_unitary()`, the same key fix as the reference |
+| [issue_596](#issue_596) | Parameter binds mismatch in `assemble` | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Bound each parameter explicitly and kept the returned circuit, like the reference |
+| [issue_600](#issue_600) | `PauliGate.power()` with a parameter | 💥 Error | 0.45.0 – 0.46.3 (8) | 0.25.0 – 0.25.3 (4 errors) | `PauliEvolutionGate` works, but it kept the `PauliGate` import, and neither exists in 0.25 |
+| [issue_622](#issue_622) | Too many qubits for the backend | ❌ Fail | — | 0.25.0 – 0.46.3 (12) | Valid 5-qubit fake backend, but its noise gives some `01`/`10`; the test wants noise-free counts |
+| [issue_624](#issue_624) | QAOA needs an operator, not a circuit | 💥 Error | — | 0.25.0 – 0.46.3 (12) | `CircuitOp` has the right matrix, but QAOA can't evolve it |
+| [issue_635](#issue_635) | `c_if` on two classical bits at once | ❌ Fail | — | 0.25.0 – 0.25.3 (4) | Conditioned the two X gates on register values 1 and 2 instead of 3 |
+| [issue_662](#issue_662) | Count every gate in a circuit | 💥 Error | — | 0.45.0 – 2.5.0 (23) | Right loop (`op_nodes()`), but kept the buggy code's `node.type` check, which no longer exists |
+
+**Batch 5**
+
+| Case | Question | Result | Passed on | Failed on | Why, in one line |
+|---|---|---|---|---|---|
+| [issue_663](#issue_663) | Counts are always `000` | ✅ Pass | 0.45.0 – 0.46.3 (8) | — | Added the missing measurements, the same fix as the reference |
+| [issue_671](#issue_671) | A list of registers in `QuantumCircuit()` | ❌ Fail | — | 0.25.0 – 2.5.0 (27) | `QuantumCircuit(a, *v, b)` is correct; the test also wants the answer's two example gates |
+| [issue_727](#issue_727) | `2**k` with a `Parameter` | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Rewrote it as `(-k*log 2).exp()`, equivalent to the reference |
+| [issue_742](#issue_742) | `Operator` as an `EstimatorV2` observable | ✅ Pass | 1.1.0 – 2.5.0 (12) | — | `SparsePauliOp.from_operator(O)`, the same fix as the reference |
+| [issue_747](#issue_747) | Counts without `measure_all()` | ❌ Fail | — | 0.45.0 – 0.46.3 (8) | `measure_all()` adds a second register, so the keys are `000 000` instead of `000` |
+| [issue_750](#issue_750) | `Pauli(label=...)` subsystem composition | 💥 Error | — | 0.45.0 – 2.5.0 (23) | Said "no bug", but `Pauli(label=...)` no longer exists |
+| [issue_769](#issue_769) | Gate name from a unitary | 💥 Error | — | 1.0.0 – 2.5.0 (15) | Hard-coded a check for X only; no general matcher (and not the answer's function name) |
+| [issue_773](#issue_773) | Two `job_monitor` imports | ✅ Pass | 0.45.0 – 0.46.3 (8) | — | Removed the shadowing IBMQ import, like the reference |
+| [issue_775](#issue_775) | Running OpenQASM 2.0 in Qiskit | 💥 Error | — | 0.25.0 – 0.46.3 (12) | Correct `from_qasm_str` fix, but the test wants a variable named `qc` |
+| [issue_795](#issue_795) | `to_gate()` with an opflow expression | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Appended the operator's matrix with `unitary()`, the same fix as the reference |
+
 **Version ranges used above** (27 Qiskit releases in total):
 
 - **0.25.x:** 0.25.0, 0.25.1, 0.25.2, 0.25.3
@@ -65,9 +117,9 @@ Each case was tested on exactly the Qiskit versions listed for it in `Valid_Case
 2. **`fixed.py`**: the human reference fix. It should pass, which confirms the test is correct.
 3. **`llm_fix.py`**: the LLM's fix. This is what's being judged.
 
-The test was valid on all 276 pairs (127 in batch 1, 149 in batch 2): `buggy.py` failed and `fixed.py` passed everywhere. So every result below reflects the LLM fix, not a broken test. The team's batch 2 notes said issue_157's `fixed.py` failed; with the current files it passes on all 12 versions.
+The test was valid on all 701 pairs (127 in batch 1, 149 in batch 2, 155 in batch 3, 133 in batch 4, 137 in batch 5): `buggy.py` failed and `fixed.py` passed everywhere. So every result below reflects the LLM fix, not a broken test. The team's batch 2 notes said issue_157's `fixed.py` failed; with the current files it passes on all 12 versions. issue_742 is valid only with the Runtime support folder described above.
 
-Cases are listed by result. Within each result, batch 1 cases come first, then batch 2.
+Cases are listed by result. Within each result, batch 1 cases come first, then batches 2, 3, 4 and 5.
 
 | Status | Meaning |
 |---|---|
@@ -330,6 +382,295 @@ The test runs Deutsch's algorithm with all four one-bit oracles, not just the tw
 
 ---
 
+### issue_362
+**Batch 3** · **Question:** How to get unitaries, statevectors, density matrices, and everything else from the new module AerSimulator?
+
+| | Versions |
+|---|---|
+| **Tested (23)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (23)** | all 23 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** `AerSimulator(method='unitary')` only returns a unitary if the circuit asks for it to be saved, so `get_unitary()` fails.
+
+**LLM fix:** adds `circuit.save_unitary()`. This is the key line of the reference fix too; the reference also reshuffles the `job` / `result()` lines, which isn't needed.
+
+```diff
+  circuit.h(0)
++ circuit.save_unitary()
+```
+
+---
+
+### issue_436
+**Batch 3** · **Question:** Qiskit: set_frequency workaround in PulseSimulator
+
+| | Versions |
+|---|---|
+| **Tested (4)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3 |
+| ✅ **Passed (4)** | all 4 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** `pulse.set_frequency()` isn't supported by the `PulseSimulator`.
+
+**LLM fix:** drops `set_frequency` and instead plays the Gaussian envelope multiplied by \(e^{2\pi i \Delta f t}\), where \(\Delta f\) is the offset from the qubit's frequency. This is the same approach as the reference.
+
+```diff
+- pulse.set_frequency(freq*GHz, DriveChannel(qubit))
+- pulse.play(spec_pulse, DriveChannel(qubit))
++ samples = spec_pulse.get_waveform().samples
++ times = np.arange(len(samples)) * dt
++ modulated_pulse = Waveform(samples * np.exp(2j * np.pi * (freq * GHz - center_frequency[qubit]) * times))
++ pulse.play(modulated_pulse, DriveChannel(qubit))
+```
+
+---
+
+### issue_443
+**Batch 3** · **Question:** How to append an Instruction to a QuantumCircuit with variable length of QuantumRegisters as qargs?
+
+| | Versions |
+|---|---|
+| **Tested (27)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (27)** | all 27 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** `append` is given two registers as nested arguments (`[train_register, control]`), so Qiskit sees 2 arguments for a 4-qubit instruction (`CircuitError: The amount of qubit arguments 2 does not match the instruction expectation (4)`).
+
+**LLM fix:** passes one flat list of qubits. The reference writes `train_register[:] + control[:]`, which is the same list.
+
+```diff
+- circ.append(oracle, [train_register, control])
++ circ.append(oracle, list(train_register) + list(control))
+```
+
+---
+
+### issue_497
+**Batch 3** · **Question:** How to find the expectation value of several circuits using Qiskit aqua operator logic?
+
+| | Versions |
+|---|---|
+| **Tested (4)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3 |
+| ✅ **Passed (4)** | all 4 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** each expectation value is sampled in its own backend job, and the code calls an undefined `IBMQJobManager()`. The user wanted both values from one submission.
+
+**LLM fix:** puts both expectations in a `ListOp`, samples them with one `CircuitSampler` call and removes `IBMQJobManager()`. The reference also batches with `ListOp`, though it combines the operators before converting rather than after.
+
+```diff
+- sampler1 = CircuitSampler(q_instance).convert(expectation1)
+- sampler2 = CircuitSampler(q_instance).convert(expectation2)
+- IBMQJobManager()
++ expectations = ListOp([expectation1, expectation2])
++ sampler = CircuitSampler(q_instance).convert(expectations)
++ values = sampler.eval()
+```
+
+It also widened the starting state `psi` from 1 to 2 qubits to match the 2-qubit operators. That is an extra change, but the state is still all-zeros, so the values don't change. The test confirms there is exactly one backend submission and that both values are right.
+
+---
+
+### issue_504
+**Batch 4** · **Question:** How to solve circuit error in qiskit
+
+| | Versions |
+|---|---|
+| **Tested (23)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (23)** | all 23 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** every `QuantumRegister(n)` call creates a *new* register that isn't part of the circuit, so the first gate fails with `CircuitError: Bit ... is not in the circuit`. The code also treats the circuit returned by `transpile()` as a job.
+
+**LLM fix:** passes the circuit's own qubits everywhere and runs the transpiled circuit. The reference creates one register and reuses it, and calls `backend.run(circuit)`. Same effect.
+
+```diff
+-     circuit.h(QuantumRegister(n))
++     circuit.h(circuit.qubits)
+-         oracle(circuit, QuantumRegister(n), marked_state)
+-         grover_diffusion(circuit, QuantumRegister(n))
+-     circuit.measure(QuantumRegister(n), cr)
++         oracle(circuit, circuit.qubits, marked_state)
++         grover_diffusion(circuit, circuit.qubits)
++     circuit.measure(circuit.qubits, cr)
+-     job = transpile(circuit, backend)
++     job = backend.run(transpile(circuit, backend))
+```
+
+---
+
+### issue_505
+**Batch 4** · **Question:** Qiskit PrimitiveOp compose function giving weird output
+
+| | Versions |
+|---|---|
+| **Tested (8)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (8)** | all 8 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** `x` is a `numpy.float64`, so `x * operator` is handled by NumPy, which builds a deeply nested array instead of a scaled `PauliSumOp`.
+
+**LLM fix:** casts `x` to a Python `float`. This is the same cast as the reference; the reference also swaps the order to `operator * x`, which isn't needed once `x` is a `float`.
+
+```diff
+- x = 3.5 * np.sqrt(3.0 / 2)
++ x = float(3.5 * np.sqrt(3.0 / 2))
+```
+
+---
+
+### issue_595
+**Batch 4** · **Question:** How do I get the unitary matrix of a circuit?
+
+| | Versions |
+|---|---|
+| **Tested (23)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (23)** | all 23 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** `AerSimulator` only returns a unitary if the circuit saves one, so `get_unitary()` fails.
+
+**LLM fix:** adds `circ.save_unitary()`, the key line of the reference fix too (the reference also switches to `Aer.get_backend('aer_simulator')` and rounds the printout, which isn't needed).
+
+```diff
+  circ.cx(0, 1)
++ circ.save_unitary()
+```
+
+---
+
+### issue_596
+**Batch 4** · **Question:** Qiskit: Mismatch between run_config.parameter_binds and all circuit parameters
+
+| | Versions |
+|---|---|
+| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (12)** | all 12 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** `assign_parameters()` returns a new circuit and leaves `qc` unbound, so `assemble` complains. The user's loop also maps the values to the wrong parameters.
+
+**LLM fix:** builds the binding dictionary explicitly (`p` from `inp[0]`, `th` from `theta`) and keeps the returned circuit. This is the same as the reference, which stores it as `bound_qc`.
+
+```diff
+- bind_dict = {}
+- j = 0
+- for key in qc.parameters:
+-     ...
+- qc.assign_parameters(bind_dict)
++ bind_dict = {p[0]: inp[0][0], p[1]: inp[0][1], th[0]: theta[0], th[1]: theta[1]}
++ qc = qc.assign_parameters(bind_dict)
+```
+
+---
+
+### issue_663
+**Batch 5** · **Question:** Qiskit job not giving the right result after execution
+
+| | Versions |
+|---|---|
+| **Tested (8)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (8)** | all 8 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** the circuit is never measured, so the classical bits stay 0 and the counts are always `{'000': 1024}`.
+
+**LLM fix:** measures each qubit into its classical bit before `execute`. The reference writes `measure(range(3), range(3))`, which is the same.
+
+```diff
+  input_circuit.x(1)
++ input_circuit.measure([0, 1, 2], [0, 1, 2])
+```
+
+---
+
+### issue_727
+**Batch 5** · **Question:** Qiskit **Param - Power of Parameter
+
+| | Versions |
+|---|---|
+| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (12)** | all 12 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** `2 ** k` with a `Parameter` `k` raises `TypeError: unsupported operand type(s) for ** or pow(): 'int' and 'Parameter'`.
+
+**LLM fix:** uses \(2^{-k} = e^{-k\ln 2}\) with the parameter expression's own `.exp()`. The reference writes `numpy.exp(numpy.log(0.5) * k)`, the same expression.
+
+```diff
+- theta = 2 * pi / (2 ** k)
++ theta = 2 * pi * (-k * numpy.log(2)).exp()
+```
+
+The test binds integer, fractional, negative and zero values of `k` and checks the controlled-phase matrix for each.
+
+---
+
+### issue_742
+**Batch 5** · **Question:** Noisy expectation value of non-Pauli observable in qiskit
+
+| | Versions |
+|---|---|
+| **Tested (12)** | 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (12)** | all 12 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** `EstimatorV2` doesn't accept a general `Operator` as an observable (`TypeError: Invalid observable type: <class '...Operator'>`).
+
+**LLM fix:** converts it with `SparsePauliOp.from_operator(O)`. This is the same as the reference fix.
+
+```diff
+- from qiskit.quantum_info import Operator
++ from qiskit.quantum_info import Operator, SparsePauliOp
+- obs = O
++ obs = SparsePauliOp.from_operator(O)
+```
+
+This case needs `qiskit-ibm-runtime`, which the local environments don't have; see the note near the top about the Runtime support folder.
+
+---
+
+### issue_773
+**Batch 5** · **Question:** Existence of multiple job monitor in qiskit
+
+| | Versions |
+|---|---|
+| **Tested (8)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (8)** | all 8 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** `job_monitor` is imported twice, and the IBMQ provider's version shadows `qiskit.tools.monitor.job_monitor`.
+
+**LLM fix:** removes the IBMQ import and keeps `qiskit.tools.monitor.job_monitor`, like the reference. The reference also passes `quiet=True` in its own call, which isn't needed; the test calls the monitor with `quiet=True` itself.
+
+```diff
+  from qiskit.tools.monitor import job_monitor
+- from qiskit.providers.ibmq.job import job_monitor
+```
+
+---
+
+### issue_795
+**Batch 5** · **Question:** Can any Qiskit circuit be converted to a gate?
+
+| | Versions |
+|---|---|
+| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (12)** | all 12 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** appending an opflow expression puts a non-gate instruction into the circuit, so `to_gate()` raises `QiskitError: ... is not a gate instruction`.
+
+**LLM fix:** appends the expression's matrix with `circuit.unitary(...)`. This is the same as the reference, written as one line.
+
+```diff
+- circuit.append(0.5*I - 1j*np.sqrt(1-0.5**2)*Y, [0])
++ circuit.unitary((0.5*I - 1j*np.sqrt(1-0.5**2)*Y).to_matrix(), [0])
+```
+
+---
+
 ## ❌ Failed cases (ran, but wrong result)
 
 ### issue_018_se
@@ -436,6 +777,179 @@ AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]
 The question never says which control should get which power. I checked separately, and all three of the LLM's controlled-Grover matrices are correct. So the test is over-specific here (see the Test Review sheet), and a test that accepted either order would pass this fix.
 
 The first run hit the 120-second timeout on 0.46.0 and 0.46.1 (once even for `fixed.py`) because four heavy matrix builds were running at the same time. This case was rerun one run at a time, with no timeouts. The results above come from that rerun.
+
+---
+
+### issue_415
+**Batch 3** · **Question:** How to create states in Qiskit using complex phase angles?
+
+| | Versions |
+|---|---|
+| **Tested (4)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3 |
+| ✅ **Passed (0)** | — |
+| ❌ **Failed (4)** | all 4 |
+
+**Bug:** to prepare \(\frac{(1+i)|0\rangle - i|1\rangle}{\sqrt{3}}\) with `u3`, the code computes `theta` and `phi` with complex math (`cmath.acos`, `cmath.log`), so the angles come out complex and Qiskit rejects them.
+
+**Reference fix:** uses the real angles \(\theta = 2\arccos\sqrt{2/3}\) and \(\phi = 5\pi/4\), which is the phase of the \(|1\rangle\) amplitude *relative to* the \(|0\rangle\) amplitude.
+
+**LLM fix:** makes `theta` real correctly, but takes `phi` from the \(|1\rangle\) amplitude alone and adds a global phase:
+
+```diff
+- theta = 2*cmath.acos((1+1.j)/cmath.sqrt(3))
++ theta = 2*math.acos(abs((1+1.j)/math.sqrt(3)))
+- phi = cmath.log(phase)/1.j
++ phi = cmath.phase(phase)
++ circ.global_phase = math.pi/4
+```
+
+**Why it failed:** this gives \(\phi = -\pi/2\), but the right relative phase is \(5\pi/4\). It ignores the \(\pi/4\) phase of the \(|0\rangle\) amplitude. A global phase can't fix a wrong relative phase, so the prepared state is different from the target even up to global phase. The test's first check catches this (2 of 4 density-matrix entries are wrong).
+
+The test's last check also pins the printed state's global phase to the reference's. That part is over-specific, but it doesn't matter here because the fix already fails the fair check. See the Test Review sheet.
+
+---
+
+### issue_453
+**Batch 3** · **Question:** How to compose a larger circuit onto a smaller circuit in Qiskit, adding extra quantum registers to some fixed list
+
+| | Versions |
+|---|---|
+| **Tested (23)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (0)** | — |
+| ❌ **Failed (23)** | all 23 |
+
+**Bug:** the subcircuit `qc1` needs 4 data qubits plus 2 ancillas, but the main circuit has only 4 qubits, so `compose` fails. The user wanted the extra qubits to be counted as ancillas, added automatically when a subcircuit needs them.
+
+**Reference fix** (from the Stack Overflow answer): adds a `compose_with_auto_ancillas` method to `QuantumCircuit` that adds any missing `AncillaQubit`s before composing.
+
+**LLM fix:** simply makes the main circuit 6 qubits wide and composes onto all 6:
+
+```diff
+- circ = QuantumCircuit(4)
++ circ = QuantumCircuit(6)
+- circ.compose(qc1, [0, 1, 2, 3], inplace=True)
++ circ.compose(qc1, [0, 1, 2, 3, 4, 5], inplace=True)
+```
+
+**Why it failed:** the resulting state is correct, but both tests fail:
+
+| Check | Problem |
+|---|---|
+| `test_entry_point_and_clean_ancillas` | `AssertionError: 0 != 2`. The 2 extra qubits are plain qubits, not ancillas |
+| `test_allocate_reuse_and_all_basis_inputs` | `AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'` |
+
+The second check is **over-specific**: it calls the Stack Overflow answer's helper by name, which the question never mentions. But the LLM fix would still miss the question's request even under a fair test, because it hard-codes the width and adds no ancillas automatically.
+
+---
+
+### issue_622
+**Batch 4** · **Question:** Transpiler Error: Number of qubits greater than maximum in coupling map
+
+| | Versions |
+|---|---|
+| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (0)** | — |
+| ❌ **Failed (12)** | all 12 |
+
+**Bug:** a 2-qubit Bell circuit is sent to `FakeArmonk`, which has only 1 qubit, so `execute` raises `TranspilerError: Number of qubits (2) ... is greater than maximum (1)`. The answer: use a backend with 2 or more qubits.
+
+**Reference fix:** switches to the noise-free `Aer.get_backend('qasm_simulator')`.
+
+**LLM fix:** switches to `FakeYorktown`, a 5-qubit fake device:
+
+```diff
+- from qiskit.test.mock import FakeArmonk
++ from qiskit.test.mock import FakeYorktown
+- backend = FakeArmonk()
++ backend = FakeYorktown()
+```
+
+**Why it failed:** the fix removes the error and the job succeeds, but fake devices simulate the real hardware's noise. One run on 0.45.0 gave `{'00': 454, '11': 479, '01': 52, '10': 39}`, so 91% of shots are `00`/`11`. The test requires the set of outcomes to be exactly `{'00', '11'}` (`AssertionError: Items in the first set but not the second: '01' '10'`). Every other check passes: the backend has 5 qubits, `00` is within 12% of half, and the circuit is the Bell state.
+
+This test is **over-specific**: neither the question nor the answer asks for a noise-free backend, and on any real 2+ qubit device (which is what the user was running on) the same noise would appear. As with issue_189, this is the only reason the LLM fix fails.
+
+---
+
+### issue_635
+**Batch 4** · **Question:** How to implement if statement based on measurement results in qiskit?
+
+| | Versions |
+|---|---|
+| **Tested (4)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3 |
+| ✅ **Passed (0)** | — |
+| ❌ **Failed (4)** | all 4 |
+
+**Bug:** the user wants `if c[0]==1 and c[1]==1: x(q[0]); x(q[1])`, but this Qiskit version's `c_if` only accepts a whole classical register, not a single bit.
+
+**Reference fix:** measures the two condition bits into their own 2-bit register and conditions both X gates on it equal to 3 (both bits set).
+
+**LLM fix:** conditions on the whole 3-bit register, but with a different value for each gate:
+
+```diff
+- qc.x(q[0]).c_if(c[0], 1)
+- qc.x(q[1]).c_if(c[1], 1)
++ qc.x(q[0]).c_if(c, 1)
++ qc.x(q[1]).c_if(c, 2)
+```
+
+**Why it failed:** `c == 1` means only bit 0 is set and `c == 2` means only bit 1 is set, so each X fires on a different single-bit pattern, and neither fires when both bits are set. The test runs all 8 inputs and fails on the first one it checks, input `001`, where q[0] is flipped but should not be. The test is fair: it checks exactly the truth table of the user's `if`.
+
+---
+
+### issue_671
+**Batch 5** · **Question:** QuantumCircuit with list of qbits as an argument
+
+| | Versions |
+|---|---|
+| **Tested (27)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (0)** | — |
+| ❌ **Failed (27)** | all 27 |
+
+**Bug:** `QuantumCircuit(a, v, b)` is given the list `v` of four registers as one argument, which `QuantumCircuit` doesn't accept.
+
+**Reference fix** (the answer's approach): creates `QuantumCircuit(a, b)`, adds each register with `add_register`, and then also applies the answer's two example gates, `x(v[0][0])` and `cx(v[1][0], a[0])`.
+
+**LLM fix:** unpacks the list:
+
+```diff
+- c = QuantumCircuit(a, v, b)
++ c = QuantumCircuit(a, *v, b)
+```
+
+**Why it failed:** the circuit has exactly the registers the question asks for, in the right order, and every register check passes (9 qubits, 1 clbit, `qregs == [a] + v`, `cregs == [b]`, qubit order). The test then compares the full 512×512 unitary with `x(v0[0])` followed by `cx(v1[0], a[0])`. Those two gates are only an illustration in the answer; they are not in the buggy code and the question never asks for them. The LLM's circuit has no gates, so the unitary check fails (`AssertionError: Not equal to tolerance`).
+
+This test is **over-specific**. With the unitary check removed, the LLM fix passes and the buggy code still fails (checked on 0.25.0, 0.45.3, 1.0.0, 1.2.4 and 2.5.0). Like issue_189 and issue_622, this is the only reason the LLM fix fails.
+
+---
+
+### issue_747
+**Batch 5** · **Question:** Qiskit code works even without measure_all() with qasm_simulator
+
+| | Versions |
+|---|---|
+| **Tested (8)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (0)** | — |
+| ❌ **Failed (8)** | all 8 |
+
+**Bug:** the GHZ circuit is never measured, so the counts don't reflect the state (in these versions `get_counts` fails outright).
+
+**Reference fix:** `circ.measure(range(3), range(3))`, measuring into the circuit's existing 3 classical bits.
+
+**LLM fix:** uses `measure_all()`:
+
+```diff
+  circ.cx(0, 2)
++ circ.measure_all()
+```
+
+**Why it failed:** `measure_all()` always adds a *new* 3-bit register called `meas`, even though `QuantumCircuit(3, 3)` already has 3 classical bits. The original bits stay 0, so every key has two parts, `'000 000'` and `'111 000'`. The test requires the keys to be exactly `'000'` and `'111'`:
+
+```text
+AssertionError: Items in the first set but not the second: '000 000' '111 000'
+Items in the second set but not the first: '000' '111'
+```
+
+This one is **borderline**. The statistics are correct GHZ statistics, and a test that ignores the unused register passes the LLM fix (checked on 0.45.0 and 0.46.3). But leaving 3 unused classical bits in the circuit is sloppier than the reference, and the answer itself uses `measure`, not `measure_all()`.
 
 ---
 
@@ -632,6 +1146,287 @@ With only that comment line removed, the same fix passes (checked on 0.25.0 and 
 
 ---
 
+### issue_344
+**Batch 3** · **Question:** How to calculate the Von Neuman entropy on qiskit with the module quantum_info?
+
+| | Versions |
+|---|---|
+| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (12)** | all 12 |
+
+**Bug:** the statevector is fetched with `decimals=3`. The rounded amplitudes are no longer exactly normalized, so `entropy()` rejects the state, and the code also passes the raw array instead of the `Statevector`.
+
+**Reference fix:** removes `decimals=3` **and** passes the `Statevector` object.
+
+**LLM fix:** only made the second change:
+
+```diff
+- print(quantum_info.entropy(outputstate6))
++ print(quantum_info.entropy(outstatevector))
+```
+
+**Why it crashed:** `outstatevector` is built from the rounded amplitudes, so it is still not a valid state, and `entropy()` raises `QiskitError: 'Input quantum state is not a valid'` on every version. The model fixed the symptom it noticed but missed the real cause, the rounding.
+
+---
+
+### issue_369
+**Batch 3** · **Question:** How can I control multiple gate at once (qiskit)
+
+| | Versions |
+|---|---|
+| **Tested (27)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (27)** | all 27 |
+
+**Bug:** the controlled subcircuit `csub` has 17 qubits (1 control + 16), but `compose` is given only one qubit (`[i]`).
+
+**LLM fix:** passes all 17 qubits, which is the same fix as the reference. **But it also added a gate that isn't in the original code:**
+
+```diff
+  sub.ccx(14, 6, 7)
++ sub.append(C3XGate(), [14, 6, 7])
+  sub.cx(15, 7)
+  ...
+- circ.compose(csub, [i], inplace=True)
++ circ.compose(csub, list(range(17)), inplace=True)
+```
+
+**Why it crashed:** `C3XGate` needs 4 qubits but the invented line gives it 3, so building the circuit raises `CircuitError: The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4)` before anything is tested. The model seems to have "completed a pattern" it saw in the earlier lines, which breaks the prompt's rule against changing anything else. With only that line removed, the fix passes (checked on 0.25.0, 0.46.3 and 2.5.0).
+
+---
+
+### issue_396
+**Batch 3** · **Question:** Implementing Grover's oracle with multiple solutions in Qiskit
+
+| | Versions |
+|---|---|
+| **Tested (27)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| 💥 **Error (15)** | 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+
+**Bug:** `Statevector.from_label` takes one bitstring, not a list, so it can't build an oracle that marks both `101` and `110`.
+
+**Reference fix:** builds the oracle as a circuit from X, H and multi-controlled-X gates, one block per marked state.
+
+**LLM fix:** builds the oracle as a circuit with a single diagonal gate that flips the sign of `|101⟩` and `|110⟩`:
+
+```diff
+- from qiskit.quantum_info import Statevector
++ from qiskit import QuantumCircuit
+- oracle = Statevector.from_label(targets)
++ oracle = QuantumCircuit(3)
++ oracle.diagonal([1, 1, 1, 1, 1, -1, -1, 1], [0, 1, 2])
+```
+
+**Why it partly crashed:** the oracle is correct and passes on all 12 of the 0.25 – 0.46 versions. But `QuantumCircuit.diagonal()` was removed in Qiskit 1.0, so on the 15 versions from 1.x and 2.x the script stops with `AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'`. Like issue_157, this is a correct idea built on an API that doesn't exist in every tested version, this time a newer one rather than an older one.
+
+---
+
+### issue_468
+**Batch 3** · **Question:** How does Qiskit Aqua commutator work?
+
+| | Versions |
+|---|---|
+| **Tested (4)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (4)** | all 4 |
+
+**Bug:** Aqua's legacy `commutator()` is given `DensityMatrix` objects, which it can't handle.
+
+**Reference fix:** writes the same two matrices (\(|1\rangle\langle 1|\) and \(|0\rangle\langle 0|\)) as `WeightedPauliOperator`s, the operator type the legacy `commutator()` was written for.
+
+**LLM fix:** wraps the matrices in the newer `MatrixOp` class:
+
+```diff
++ from qiskit.aqua.operators import MatrixOp
+- commutator(dm0, dm1)
++ commutator(MatrixOp(dm0.data), MatrixOp(dm1.data))
+```
+
+**Why it crashed:** the legacy `commutator()` multiplies its inputs with `*`, and for `MatrixOp` that means *scalar* multiplication. So it raises `ValueError: Operators can only be scalar multiplied by float or complex, not Operator(...)`. The model picked a plausible operator type, but not one this old function supports.
+
+---
+
+### issue_565
+**Batch 4** · **Question:** Custom Mixer for QAOA: Error 'Operator' object has no attribute 'primitive_strings'
+
+| | Versions |
+|---|---|
+| **Tested (4)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (4)** | all 4 |
+
+**Bug:** the TSP mixer is built from `quantum_info.Operator` objects, which Aqua's QAOA can't evolve (`'Operator' object has no attribute 'primitive_strings'`).
+
+**Reference fix** (following the answer): rewrites the mixer by hand as a sum of simple Pauli terms (`XXXX`, `YYYY` and the two-Y terms), so Aqua never has to multiply operators with complex coefficients.
+
+**LLM fix:** keeps the user's construction and only swaps the operator type:
+
+```diff
+- from qiskit.quantum_info.operators import Operator, Pauli
++ from qiskit.quantum_info.operators import Pauli
++ from qiskit.aqua.operators import PauliOp
+-     return Operator(Pauli(label=label))
++     return PauliOp(Pauli(label=label))
+```
+
+**Why it crashed:** the mixer is still built with `first_part *= s_plus(...)`, and in Aqua `*` means *scalar* multiplication (operators are composed with `@` / `compose`). So multiplying two operators raises `ValueError: Operators can only be scalar multiplied by float or complex, not SummedOp(...)` while the mixer is being built. The answer warns about exactly this. Same mistake as issue_468 in batch 3.
+
+---
+
+### issue_600
+**Batch 4** · **Question:** Raising Pauli Gate to power gives TypeError: unsupported operand type(s) for ** or pow(): 'complex' and 'ParameterVectorElement'
+
+| | Versions |
+|---|---|
+| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (8)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| 💥 **Error (4)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3 |
+
+**Bug:** `PauliGate('XX').power(param)` only works with a number, not a circuit parameter.
+
+**Reference fix:** uses `rxx/ryy/rzz(pi * param)`, which equal \((P \otimes P)^{\alpha}\) up to a global phase.
+
+**LLM fix:** uses `PauliEvolutionGate`, which builds the same rotations:
+
+```diff
++ from qiskit.circuit.library import PauliEvolutionGate
++ from qiskit.quantum_info import Pauli
+-         xx10 = PauliGate('XX').power(self.param[0])
++         xx10 = PauliEvolutionGate(Pauli('XX'), time=np.pi * self.param[0] / 2)
+  ... (the same for the other five gates)
+```
+
+**Why it partly crashed:** \(e^{-i\frac{\pi\alpha}{2} X\otimes X}\) is exactly \(R_{xx}(\pi\alpha)\), so the fix is correct and passes on all 8 of the 0.45 / 0.46 versions. On 0.25 (Terra 0.17) it stops at the import: it kept the now-unused `from qiskit.circuit.library import PauliGate`, and `PauliGate` doesn't exist there (`ImportError: cannot import name 'PauliGate'`). Removing that line wouldn't help, because `PauliEvolutionGate` only arrived in Terra 0.19. The buggy code fails on the same import in 0.25, and the reference avoids it by dropping the import. Like issue_157, this is a correct idea built on an API that is too new for the oldest version.
+
+---
+
+### issue_624
+**Batch 4** · **Question:** qiskit qaoa.compute_minimum_eigenvalue
+
+| | Versions |
+|---|---|
+| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (12)** | all 12 |
+
+**Bug:** `QAOA.compute_minimum_eigenvalue()` needs an operator, but it is given the `QuantumCircuit` `H`.
+
+**Reference fix:** converts the circuit with `MatrixOp(Operator(H))`.
+
+**LLM fix:** wraps the circuit in `CircuitOp`:
+
+```diff
++ from qiskit.opflow import CircuitOp
+- print(qaoa.compute_minimum_eigenvalue(H))
++ print(qaoa.compute_minimum_eigenvalue(CircuitOp(H)))
+```
+
+**Why it crashed:** `CircuitOp` is an operator with the right matrix, but QAOA has to build \(e^{-i\gamma H}\) from it, and it can't do that for a circuit-backed operator. On 0.25 this raises `ValueError: Evolutions of mixed Operators not yet supported`. On 0.45 / 0.46 it raises `TypeError: ParameterExpression with unbound parameters ... cannot be cast to a float`. A `MatrixOp` (or `PauliSumOp`) can be evolved, which is why the reference converts to one.
+
+---
+
+### issue_662
+**Batch 4** · **Question:** Qiskit: Count of each gates
+
+| | Versions |
+|---|---|
+| **Tested (23)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (23)** | all 23 |
+
+**Bug:** the code counts only the gates on `dag.longest_path()` instead of every gate.
+
+**Reference fix:** `print(dict(circ.count_ops()))`.
+
+**LLM fix:** loops over every operation node instead:
+
+```diff
+- for node in dag.longest_path():
++ for node in dag.op_nodes():
+      if node.type == "op":
+          counts[node.name] = counts.get(node.name, 0) + 1
+```
+
+**Why it crashed:** the new loop is right, but the LLM kept the buggy code's `if node.type == "op"` line, and DAG nodes no longer have a `.type` attribute in any tested version (`AttributeError: 'DAGOpNode' object has no attribute 'type'`). The buggy code crashes on the same attribute. With that one check removed, the fix passes (checked on 0.45.0 and 2.5.0). This is another "right idea, broken by one line" case, like issue_174 and issue_369.
+
+---
+
+### issue_750
+**Batch 5** · **Question:** Subsystem Composition in Qiskit
+
+| | Versions |
+|---|---|
+| **Tested (23)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (23)** | all 23 |
+
+**Bug:** the tutorial code builds the operator with `Pauli(label='XZ')`, but the `label` keyword no longer exists in these versions.
+
+**Reference fix:** builds \(X \otimes I \otimes Z\) from a circuit and with `tensor` / `expand` on `Pauli('X')`, `Pauli('Z')` and `Pauli('I')`.
+
+**LLM fix:** none. It replied `# NO BUG: The code correctly composes the two-qubit XZ operator onto qubits 0 and 2 of the three-qubit identity.` and returned the code unchanged.
+
+**Why it crashed:** the math in the question is right, and that is what the model checked. But the script stops at `Pauli(label='XZ')` with `TypeError: Pauli.__init__() got an unexpected keyword argument 'label'` on every version. `Pauli('XZ')` would have been enough. The test is fair: it only checks that the resulting operator is \(X \otimes I \otimes Z\). This is the only "no bug" answer in all 50 cases so far.
+
+---
+
+### issue_769
+**Batch 5** · **Question:** Given a unitary matrix, output the gate name using Qiskit
+
+| | Versions |
+|---|---|
+| **Tested (15)** | 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (15)** | all 15 |
+
+**Bug:** `UnitaryGate(matrix).name` is always `'unitary'`, so it can't tell you which standard gate a matrix is. (The buggy code also imports `UnitaryGate` from `qiskit.extensions`, which was removed in 1.0.)
+
+**Reference fix** (the answer): a function `get_qiskit_gate(u)` that loops over every class in `qiskit.circuit.library.standard_gates` and returns the name of the one whose matrix equals `u`, or `None`.
+
+**LLM fix:** fixes the import, but only checks for X:
+
+```diff
+- from qiskit.extensions import UnitaryGate
++ from qiskit.circuit.library import UnitaryGate, XGate
+- gate = UnitaryGate(unitary)
++ gate = XGate() if np.allclose(unitary, XGate().to_matrix()) else UnitaryGate(unitary)
+  print(gate.name)
+```
+
+**Why it crashed:** the test calls the answer's function `get_qiskit_gate` on X and 10 other standard gates, and expects `None` for a rotation and a 3×3 identity. The LLM fix has no such function, so the test stops with `KeyError: 'get_qiskit_gate'`. Requiring that exact function name is over-specific, but it isn't why the fix fails: the LLM's code only recognises X (and prints `'x'`, not `'XGate'`), so it would fail any test that tried another gate.
+
+---
+
+### issue_775
+**Batch 5** · **Question:** Simulating OpenQASM 2.0 in Qiskit?
+
+| | Versions |
+|---|---|
+| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (12)** | all 12 |
+
+**Bug:** the OpenQASM text is passed straight to `execute`, which needs a `QuantumCircuit` (`AttributeError: 'str' object has no attribute 'name'`).
+
+**Reference fix:** `qc = QuantumCircuit.from_qasm_str(qasm_str)`, then `execute(qc, backend)`.
+
+**LLM fix:** the same parse, written inline:
+
+```diff
+- from qiskit import execute, Aer
++ from qiskit import execute, Aer, QuantumCircuit
+- job = execute(qasm_str, backend)
++ job = execute(QuantumCircuit.from_qasm_str(qasm_str), backend)
+```
+
+**Why it crashed:** the fix runs correctly, but the test reads the parsed circuit from a variable named `qc` (the reference's name), and the LLM never creates one, so the test stops with `KeyError: 'qc'` before any check runs.
+
+This test is **over-specific**. A test that checks the executed result instead (job succeeds, 1 experiment, 2 qubits, 2 classical bits) passes the LLM fix and still fails the buggy code (checked on 0.25.0, 0.45.0 and 0.46.3). Like issue_671, this is the only reason the LLM fix fails.
+
+---
+
 ## Patterns
 
 1. **Well-known API problems were fixed well.** issue_032_se, issue_034 and issue_036 got exactly the reference fix. issue_058_se, issue_061 and issue_072 got a different but valid fix.
@@ -652,6 +1447,32 @@ With only that comment line removed, the same fix passes (checked on 0.25.0 and 
 8. **issue_315 solved the wrong problem.** It made the error go away by deleting the options the user wanted, instead of switching to a backend that supports them.
 9. **Over-specific tests can hide valid fixes.** issue_189's fix is valid, but the test only accepts the reference's control order. Without issue_189, batch 2 has no wrong-result failures: every other non-pass was a crash.
 
+**Batch 3 adds:**
+
+10. **Simple API fixes kept working.** issue_362 (`save_unitary()`), issue_436 (modulated waveform) and issue_443 (flattened qubit list) got the reference fix or an equivalent one. issue_497 also batched its expectations correctly with `ListOp`.
+11. **Version compatibility again:** issue_396's oracle is correct, but it uses `QuantumCircuit.diagonal()`, which was removed in Qiskit 1.0. Together with issue_157 (an API that is too new for 0.25), these are the only two cases that passed on some versions and not others.
+12. **Changes outside the bug broke two fixes:**
+    - **issue_369** had the right fix but also invented an extra gate line.
+    - **issue_344** fixed the visible symptom (passing the array) but not the cause (rounding with `decimals=3`).
+13. **Math and intent were harder.** issue_415 got the relative phase wrong, and issue_453 widened the circuit by hand instead of adding ancillas automatically as the user asked. issue_468 chose an operator type the old `commutator()` doesn't support.
+14. **One more over-specific test:** issue_453 requires the Stack Overflow answer's helper method by name, although the LLM fix would also miss the question's intent.
+
+**Batch 4 adds:**
+
+15. **Simple API fixes kept working.** issue_505 (`float(x)`), issue_595 (`save_unitary()`) and issue_596 (keep the circuit `assign_parameters` returns) got the reference fix, and issue_504 an equivalent one (the circuit's own qubits instead of a new register).
+16. **Kept lines broke two otherwise-correct fixes.** issue_662 changed the loop correctly but kept `node.type`, which no longer exists. issue_600 kept an import of `PauliGate`, which doesn't exist in 0.25 (though its replacement gate doesn't either). This is the opposite of issue_369: there the model added a line it shouldn't have; here it left alone a line that was part of the problem.
+17. **Aqua / opflow operator types are still hard.** issue_565 and issue_624 both picked an operator type that looks right but can't do what QAOA needs (`*` composition in Aqua, evolving a `CircuitOp`). This is the same kind of mistake as issue_468 in batch 3.
+18. **One logic bug was missed.** issue_635 turned "bit 0 and bit 1 are both 1" into two separate conditions (register = 1, register = 2) instead of one (register = 3).
+19. **Another over-specific test:** issue_622's fix (a 5-qubit fake device) is valid, but the test requires noise-free counts. Like issue_189, this is the only reason it fails.
+
+**Batch 5 adds:**
+
+20. **Simple API fixes kept working.** issue_663 (add measurements), issue_742 (`SparsePauliOp.from_operator`), issue_773 (drop the shadowing import) and issue_795 (`unitary()` instead of appending an opflow expression) got the reference fix, and issue_727 an equivalent one (`.exp()` on the parameter expression).
+21. **Two more over-specific tests, and both hide correct fixes.** issue_671 checks the unitary of the answer's example gates, which are not in the buggy code, and issue_775 requires the answer's variable name `qc`. In both, relaxed tests that still fail the buggy code pass the LLM fix. That makes five such cases so far (issue_189, issue_622, issue_671, issue_775, plus issue_061 under its old test).
+22. **One borderline case:** issue_747's `measure_all()` gives correct GHZ statistics but adds a second register, so the count keys don't match the test's exact `'000'` / `'111'`.
+23. **First "no bug" answer:** in issue_750 the model checked the math the question asks about and missed that `Pauli(label=...)` no longer exists in any tested version.
+24. **A one-example fix:** issue_769 hard-coded the single example in the question (X) instead of writing a general matcher. The test also wants the answer's function name, but the fix would fail a fair test too.
+
 ---
 
 ## Files
@@ -659,10 +1480,12 @@ With only that comment line removed, the same fix passes (checked on 0.25.0 and 
 | File | Contents |
 |---|---|
 | `llm_fix_summary.csv` | One row per case: PASS/FAIL/ERROR/NOT_TESTED for each version, plus the error type, message and a plain-English description per version |
-| `llm_fix_results.csv` | One row per case × version (276 rows), with its batch, the status of all three files, a plain-English result description and the LLM's `# FIX:` explanation |
+| `llm_fix_results.csv` | One row per case × version (701 rows), with its batch, the status of all three files, a plain-English result description and the LLM's `# FIX:` explanation |
 | `llm_fix_summary.xlsx` | The wide table (Summary sheet); live statistics overall and per batch, the at-least-one-version table and the notes (Stats & Notes sheet); and the review of which tests ask for more than the question (Test Review sheet) |
-| `run_output.txt`, `run_output_batch2.txt`, `run_output_189_rerun.txt` | Console output of the batch 1 run, the batch 2 run and the issue_189 rerun |
+| `run_output.txt`, `run_output_batch2.txt`, `run_output_189_rerun.txt`, `run_output_batch3.txt`, `run_output_batch4.txt`, `run_output_batch5.txt` | Console output of the batch 1 run, the batch 2 run, the issue_189 rerun, the batch 3 run, the batch 4 run and the batch 5 run |
+| `run_output_batch5_742_runtime.txt` | Console output of the issue_742 rerun with the Runtime support folder (these rows replace issue_742's first-run rows) |
+| `run_output_batch4_generate.txt`, `run_output_batch5_generate.txt` | Console output of generating the batch 4 and batch 5 LLM fixes |
 | `logs/<case>/<version>/` | Full test output for `buggy.log`, `fixed.log` and `llm_fix.log`. For issue_021_se, issue_058_se and issue_061, the runs against the old `test.py` are in `old_test/` |
 | `../llm_fixes/<case>/` | `llm_fix.py`, the exact input the model saw (`buggy_stripped.py`) and its raw reply |
 
-**Setup:** model `gpt-5.6-luna`, with the same prompt for both batches (`prompt.py`; the batch lists are in `cases.py`). It saw only the question text and the buggy code with comments removed; no solution, category or hints. Batch 2 uses each case's `test.py`. The tests are the team's files in `APR_code_gen/Part2_Create_test/reconstructed_cases/`: `test.py`, or the updated `test-new.py` (issue_021_se) and `test_new.py` (issue_058_se, issue_061) pulled on 1 Oct 2026. They were run in 27 Qiskit environments (`C:\qiskit_envs\q<version>`) matching slrrla's `environments.json`, using the same rules as slrrla's `run_matrix.py` (temporary home folder per run, 120-second timeout).
+**Setup:** model `gpt-5.6-luna`, with the same prompt for all batches (`prompt.py`; the batch lists are in `cases.py`). It saw only the question text and the buggy code with comments removed; no solution, category or hints. Batches 2 to 5 use each case's `test.py`. The tests are the team's files in `APR_code_gen/Part2_Create_test/reconstructed_cases/`: `test.py`, or the updated `test-new.py` (issue_021_se) and `test_new.py` (issue_058_se, issue_061) pulled on 1 Oct 2026. They were run in 27 Qiskit environments (`C:\qiskit_envs\q<version>`) matching slrrla's `environments.json`, using the same rules as slrrla's `run_matrix.py` (temporary home folder per run, 120-second timeout). Three cases add a task-local support folder on `PYTHONPATH` and leave the environments untouched: issue_096 and issue_034 (IPython etc., `C:\qiskit_envs\_support`) and issue_742 (`qiskit-ibm-runtime`, `C:\qiskit_envs\_support_runtime`).

@@ -1,0 +1,25 @@
+
+test_backend_capacity_and_bell_counts (__main__.TestIntent) ... C:\qiskit_envs\q0252\lib\site-packages\mpmath\ctx_mp.py:35: DeprecationWarning: mpnumeric is deprecated
+  warnings.warn(f"{name} is deprecated", DeprecationWarning)
+C:\qiskit_envs\q0252\lib\site-packages\mpmath\rational.py:4: DeprecationWarning: the rational private module is deprecated
+  warnings.warn("the rational private module is deprecated",
+C:\qiskit_envs\q0252\lib\site-packages\qiskit\providers\aer\backends\qasm_simulator.py:329: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn('The `QasmSimulator` backend will be deprecated in the'
+C:\qiskit_envs\q0252\lib\site-packages\qiskit\utils\deprecation.py:56: PendingDeprecationWarning: Using a qobj for run() is deprecated and will be removed in a future release.
+  return func(*args, **kwargs)
+FAIL
+
+======================================================================
+FAIL: test_backend_capacity_and_bell_counts (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_622\test.py", line 28, in test_backend_capacity_and_bell_counts
+    self.assertEqual(set(counts), {"00", "11"})
+AssertionError: Items in the first set but not the second:
+'01'
+'10'
+
+----------------------------------------------------------------------
+Ran 1 test in 3.512s
+
+FAILED (failures=1)

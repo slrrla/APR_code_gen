@@ -1,0 +1,25 @@
+
+test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle.test_exact_marked_phases_and_grover_amplification) ... ERROR
+
+======================================================================
+ERROR: test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle.test_exact_marked_phases_and_grover_amplification)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_396\test.py", line 14, in test_exact_marked_phases_and_grover_amplification
+    m = load_target()
+        ^^^^^^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_396\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\llm_repair\llm_fixes\issue_396\llm_fix.py", line 10, in <module>
+    oracle.diagonal([1, 1, 1, 1, 1, -1, -1, 1], [0, 1, 2])
+    ^^^^^^^^^^^^^^^
+AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.990s
+
+FAILED (errors=1)

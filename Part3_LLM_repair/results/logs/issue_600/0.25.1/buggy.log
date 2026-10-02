@@ -1,0 +1,44 @@
+
+test_actual_sampled_probability (__main__.TestIntent) ... ERROR
+test_parameterized_pauli_powers_up_to_global_phase (__main__.TestIntent) ... ERROR
+
+======================================================================
+ERROR: test_actual_sampled_probability (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_600\test.py", line 45, in test_actual_sampled_probability
+    ns = load_target()
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_600\test.py", line 15, in load_target
+    return runpy.run_path(MUT)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_600\buggy.py", line 3, in <module>
+    from qiskit.circuit.library import PauliGate
+ImportError: cannot import name 'PauliGate' from 'qiskit.circuit.library' (C:\qiskit_envs\q0251\lib\site-packages\qiskit\circuit\library\__init__.py)
+
+======================================================================
+ERROR: test_parameterized_pauli_powers_up_to_global_phase (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_600\test.py", line 23, in test_parameterized_pauli_powers_up_to_global_phase
+    ns = load_target()
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_600\test.py", line 15, in load_target
+    return runpy.run_path(MUT)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_600\buggy.py", line 3, in <module>
+    from qiskit.circuit.library import PauliGate
+ImportError: cannot import name 'PauliGate' from 'qiskit.circuit.library' (C:\qiskit_envs\q0251\lib\site-packages\qiskit\circuit\library\__init__.py)
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.577s
+
+FAILED (errors=2)
