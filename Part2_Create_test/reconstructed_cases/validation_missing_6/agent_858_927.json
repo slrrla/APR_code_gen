@@ -1,0 +1,169 @@
+{
+  "checks": [
+    {
+      "case": "858",
+      "qiskit": "0.45.0",
+      "target": "fixed.py",
+      "exit_code": 0,
+      "expected": "pass",
+      "correct": true,
+      "output_tail": ".\n----------------------------------------------------------------------\nRan 1 test in 1.745s\n\nOK\n"
+    },
+    {
+      "case": "858",
+      "qiskit": "0.45.0",
+      "target": "buggy.py",
+      "exit_code": 1,
+      "expected": "fail",
+      "correct": true,
+      "output_tail": "=========================================================\nERROR: test_documented_oslo_t1_snapshot_is_available_offline (__main__.Regression.test_documented_oslo_t1_snapshot_is_available_offline)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_858\\test.py\", line 119, in test_documented_oslo_t1_snapshot_is_available_offline\n    namespace = runpy.run_path(path)\n                ^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_858\\buggy.py\", line 6, in <module>\n    provider = IBMQ.load_account()\n               ^^^^^^^^^^^^^^^^^^^\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_858\\test.py\", line 46, in blocked\n    raise OfflineAccessDenied(\"Offline snapshot fixture forbids \" + operation)\nOfflineAccessDenied: Offline snapshot fixture forbids IBMQ.load_account\n\n----------------------------------------------------------------------\nRan 1 test in 1.366s\n\nFAILED (errors=1)\n"
+    },
+    {
+      "case": "858",
+      "qiskit": "0.45.0",
+      "target": "case_858_new_fix.py",
+      "exit_code": 0,
+      "expected": "pass",
+      "correct": true,
+      "output_tail": ".\n----------------------------------------------------------------------\nRan 1 test in 1.592s\n\nOK\n"
+    },
+    {
+      "case": "858",
+      "qiskit": "0.46.3",
+      "target": "fixed.py",
+      "exit_code": 0,
+      "expected": "pass",
+      "correct": true,
+      "output_tail": ".\n----------------------------------------------------------------------\nRan 1 test in 6.454s\n\nOK\n"
+    },
+    {
+      "case": "858",
+      "qiskit": "0.46.3",
+      "target": "buggy.py",
+      "exit_code": 1,
+      "expected": "fail",
+      "correct": true,
+      "output_tail": "=========================================================\nERROR: test_documented_oslo_t1_snapshot_is_available_offline (__main__.Regression.test_documented_oslo_t1_snapshot_is_available_offline)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_858\\test.py\", line 119, in test_documented_oslo_t1_snapshot_is_available_offline\n    namespace = runpy.run_path(path)\n                ^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_858\\buggy.py\", line 6, in <module>\n    provider = IBMQ.load_account()\n               ^^^^^^^^^^^^^^^^^^^\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_858\\test.py\", line 46, in blocked\n    raise OfflineAccessDenied(\"Offline snapshot fixture forbids \" + operation)\nOfflineAccessDenied: Offline snapshot fixture forbids IBMQ.load_account\n\n----------------------------------------------------------------------\nRan 1 test in 1.996s\n\nFAILED (errors=1)\n"
+    },
+    {
+      "case": "858",
+      "qiskit": "0.46.3",
+      "target": "case_858_new_fix.py",
+      "exit_code": 0,
+      "expected": "pass",
+      "correct": true,
+      "output_tail": ".\n----------------------------------------------------------------------\nRan 1 test in 2.094s\n\nOK\n"
+    },
+    {
+      "case": "927",
+      "qiskit": "0.25.0",
+      "target": "fixed.py",
+      "exit_code": 0,
+      "expected": "pass",
+      "correct": true,
+      "output_tail": "tially with the inplace=True argument) and tensor() methods which are more flexible w.r.t circuit register compatibility.\n  prep += circuit\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\site-packages\\qiskit\\circuit\\quantumcircuit.py:876: DeprecationWarning: The QuantumCircuit.extend() method is being deprecated. Use the compose() (potentially with the inplace=True argument) and tensor() methods which are more flexible w.r.t circuit register compatibility.\n  return self.extend(rhs)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\site-packages\\qiskit\\ignis\\verification\\tomography\\basis\\circuits.py:478: DeprecationWarning: The QuantumCircuit.__add__() method is being deprecated.Use the compose() method which is more flexible w.r.t circuit register compatibility.\n  circ = prep + meas\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\site-packages\\qiskit\\circuit\\quantumcircuit.py:869: DeprecationWarning: The QuantumCircuit.combine() method is being deprecated. Use the compose() method which is more flexible w.r.t circuit register compatibility.\n  return self.combine(rhs)\n..\n----------------------------------------------------------------------\nRan 2 tests in 1.202s\n\nOK\n"
+    },
+    {
+      "case": "927",
+      "qiskit": "0.25.0",
+      "target": "buggy.py",
+      "exit_code": 1,
+      "expected": "fail",
+      "correct": true,
+      "output_tail": "duct_state\n    self.reconstruct(circuit, np.array([0, 1, 0, 0], dtype=complex))\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_927\\test.py\", line 34, in reconstruct\n    api = tomography_api()\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_927\\test.py\", line 23, in tomography_api\n    namespace = runpy.run_path(path)\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\runpy.py\", line 288, in run_path\n    return _run_module_code(code, init_globals, run_name,\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\runpy.py\", line 97, in _run_module_code\n    _run_code(code, mod_globals, init_globals,\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\runpy.py\", line 87, in _run_code\n    exec(code, run_globals)\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_927\\buggy.py\", line 1, in <module>\n    import qiskit.tools.qcvv.tomography as tomography\nModuleNotFoundError: No module named 'qiskit.tools.qcvv'\n\n----------------------------------------------------------------------\nRan 2 tests in 0.005s\n\nFAILED (errors=2)\n"
+    },
+    {
+      "case": "927",
+      "qiskit": "0.25.3",
+      "target": "fixed.py",
+      "exit_code": 0,
+      "expected": "pass",
+      "correct": true,
+      "output_tail": "tially with the inplace=True argument) and tensor() methods which are more flexible w.r.t circuit register compatibility.\n  prep += circuit\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\lib\\site-packages\\qiskit\\circuit\\quantumcircuit.py:876: DeprecationWarning: The QuantumCircuit.extend() method is being deprecated. Use the compose() (potentially with the inplace=True argument) and tensor() methods which are more flexible w.r.t circuit register compatibility.\n  return self.extend(rhs)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\lib\\site-packages\\qiskit\\ignis\\verification\\tomography\\basis\\circuits.py:478: DeprecationWarning: The QuantumCircuit.__add__() method is being deprecated.Use the compose() method which is more flexible w.r.t circuit register compatibility.\n  circ = prep + meas\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\lib\\site-packages\\qiskit\\circuit\\quantumcircuit.py:869: DeprecationWarning: The QuantumCircuit.combine() method is being deprecated. Use the compose() method which is more flexible w.r.t circuit register compatibility.\n  return self.combine(rhs)\n..\n----------------------------------------------------------------------\nRan 2 tests in 1.246s\n\nOK\n"
+    },
+    {
+      "case": "927",
+      "qiskit": "0.25.3",
+      "target": "buggy.py",
+      "exit_code": 1,
+      "expected": "fail",
+      "correct": true,
+      "output_tail": "duct_state\n    self.reconstruct(circuit, np.array([0, 1, 0, 0], dtype=complex))\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_927\\test.py\", line 34, in reconstruct\n    api = tomography_api()\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_927\\test.py\", line 23, in tomography_api\n    namespace = runpy.run_path(path)\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\lib\\runpy.py\", line 288, in run_path\n    return _run_module_code(code, init_globals, run_name,\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\lib\\runpy.py\", line 97, in _run_module_code\n    _run_code(code, mod_globals, init_globals,\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\lib\\runpy.py\", line 87, in _run_code\n    exec(code, run_globals)\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_927\\buggy.py\", line 1, in <module>\n    import qiskit.tools.qcvv.tomography as tomography\nModuleNotFoundError: No module named 'qiskit.tools.qcvv'\n\n----------------------------------------------------------------------\nRan 2 tests in 0.005s\n\nFAILED (errors=2)\n"
+    },
+    {
+      "case": "858",
+      "qiskit": "0.45.0",
+      "target": "alias_and_namespace_only",
+      "exit_code": 0,
+      "expected": "pass",
+      "correct": true,
+      "output_tail": ".\n----------------------------------------------------------------------\nRan 1 test in 1.793s\n\nOK\n"
+    },
+    {
+      "case": "858",
+      "qiskit": "0.45.0",
+      "target": "wrong_T2",
+      "exit_code": 1,
+      "expected": "fail",
+      "correct": true,
+      "output_tail": "F\n======================================================================\nFAIL: test_documented_oslo_t1_snapshot_is_available_offline (__main__.Regression.test_documented_oslo_t1_snapshot_is_available_offline)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_858\\test.py\", line 122, in test_documented_oslo_t1_snapshot_is_available_offline\n    self.assertTrue(\nAssertionError: False is not true : Expected the seven documented ibm_oslo T1 values in qubit order; got: [[7.369298024352508e-05, 3.7020155523694795e-05, 4.669878652698784e-05, 4.648766010485143e-05, 0.0001843690321834765, 4.113094933306526e-05, 0.00020846324125703032], [7.369298024352508e-05, 3.7020155523694795e-05, 4.669878652698784e-05, 4.648766010485143e-05, 0.0001843690321834765, 4.113094933306526e-05, 0.00020846324125703032]]; stdout: [7.369298024352508e-05, 3.7020155523694795e-05, 4.669878652698784e-05, 4.648766010485143e-05, 0.0001843690321834765, 4.113094933306526e-05, 0.00020846324125703032]\n\n\n----------------------------------------------------------------------\nRan 1 test in 1.706s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "case": "858",
+      "qiskit": "0.45.0",
+      "target": "missing_qubit",
+      "exit_code": 1,
+      "expected": "fail",
+      "correct": true,
+      "output_tail": "s_available_offline)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_858\\test.py\", line 122, in test_documented_oslo_t1_snapshot_is_available_offline\n    self.assertTrue(\nAssertionError: False is not true : Expected the seven documented ibm_oslo T1 values in qubit order; got: [[0.00014884747328441437, 0.00013706651413337355, 0.00021921703514896735, 0.00012128335234199257, 0.00018813842702629488, 0.00014217817897014813]]; stdout: [QubitProperties(t1=0.00014884747328441437, t2=7.369298024352508e-05, frequency=4925043161.619499), QubitProperties(t1=0.00013706651413337355, t2=3.7020155523694795e-05, frequency=5046272849.03205), QubitProperties(t1=0.00021921703514896735, t2=4.669878652698784e-05, frequency=4961998490.6786995), QubitProperties(t1=0.00012128335234199257, t2=4.648766010485143e-05, frequency=5108098767.473062), QubitProperties(t1=0.00018813842702629488, t2=0.0001843690321834765, frequency=5011074105.950458), QubitProperties(t1=0.00014217817897014813, t2=4.113094933306526e-05, frequency=5173290077.743308)]\n\n\n----------------------------------------------------------------------\nRan 1 test in 1.656s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "case": "858",
+      "qiskit": "0.45.0",
+      "target": "caught_online_attempt",
+      "exit_code": 1,
+      "expected": "fail",
+      "correct": true,
+      "output_tail": "F\n======================================================================\nFAIL: test_documented_oslo_t1_snapshot_is_available_offline (__main__.Regression.test_documented_oslo_t1_snapshot_is_available_offline)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_858\\test.py\", line 120, in test_documented_oslo_t1_snapshot_is_available_offline\n    self.assertEqual(attempted, [], \"Retired backend properties must not require online access\")\nAssertionError: Lists differ: ['IBMQ.load_account'] != []\n\nFirst list contains 1 additional elements.\nFirst extra element 0:\n'IBMQ.load_account'\n\n- ['IBMQ.load_account']\n+ [] : Retired backend properties must not require online access\n\n----------------------------------------------------------------------\nRan 1 test in 1.710s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "case": "927",
+      "qiskit": "0.25.0",
+      "target": "alias_import",
+      "exit_code": 0,
+      "expected": "pass",
+      "correct": true,
+      "output_tail": "tially with the inplace=True argument) and tensor() methods which are more flexible w.r.t circuit register compatibility.\n  prep += circuit\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\site-packages\\qiskit\\circuit\\quantumcircuit.py:876: DeprecationWarning: The QuantumCircuit.extend() method is being deprecated. Use the compose() (potentially with the inplace=True argument) and tensor() methods which are more flexible w.r.t circuit register compatibility.\n  return self.extend(rhs)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\site-packages\\qiskit\\ignis\\verification\\tomography\\basis\\circuits.py:478: DeprecationWarning: The QuantumCircuit.__add__() method is being deprecated.Use the compose() method which is more flexible w.r.t circuit register compatibility.\n  circ = prep + meas\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\site-packages\\qiskit\\circuit\\quantumcircuit.py:869: DeprecationWarning: The QuantumCircuit.combine() method is being deprecated. Use the compose() method which is more flexible w.r.t circuit register compatibility.\n  return self.combine(rhs)\n..\n----------------------------------------------------------------------\nRan 2 tests in 1.326s\n\nOK\n"
+    },
+    {
+      "case": "927",
+      "qiskit": "0.25.0",
+      "target": "direct_API_imports",
+      "exit_code": 0,
+      "expected": "pass",
+      "correct": true,
+      "output_tail": "tially with the inplace=True argument) and tensor() methods which are more flexible w.r.t circuit register compatibility.\n  prep += circuit\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\site-packages\\qiskit\\circuit\\quantumcircuit.py:876: DeprecationWarning: The QuantumCircuit.extend() method is being deprecated. Use the compose() (potentially with the inplace=True argument) and tensor() methods which are more flexible w.r.t circuit register compatibility.\n  return self.extend(rhs)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\site-packages\\qiskit\\ignis\\verification\\tomography\\basis\\circuits.py:478: DeprecationWarning: The QuantumCircuit.__add__() method is being deprecated.Use the compose() method which is more flexible w.r.t circuit register compatibility.\n  circ = prep + meas\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\site-packages\\qiskit\\circuit\\quantumcircuit.py:869: DeprecationWarning: The QuantumCircuit.combine() method is being deprecated. Use the compose() method which is more flexible w.r.t circuit register compatibility.\n  return self.combine(rhs)\n..\n----------------------------------------------------------------------\nRan 2 tests in 1.192s\n\nOK\n"
+    },
+    {
+      "case": "927",
+      "qiskit": "0.25.0",
+      "target": "unrelated_valid_import",
+      "exit_code": 1,
+      "expected": "fail",
+      "correct": true,
+      "output_tail": " tomography_api\n    raise AssertionError(\"Replacement import does not expose usable state-tomography APIs\")\nAssertionError: Replacement import does not expose usable state-tomography APIs\n\n======================================================================\nFAIL: test_replacement_import_reconstructs_a_distinct_product_state (__main__.Regression)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_927\\test.py\", line 66, in test_replacement_import_reconstructs_a_distinct_product_state\n    self.reconstruct(circuit, np.array([0, 1, 0, 0], dtype=complex))\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_927\\test.py\", line 34, in reconstruct\n    api = tomography_api()\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_927\\test.py\", line 29, in tomography_api\n    raise AssertionError(\"Replacement import does not expose usable state-tomography APIs\")\nAssertionError: Replacement import does not expose usable state-tomography APIs\n\n----------------------------------------------------------------------\nRan 2 tests in 0.005s\n\nFAILED (failures=2)\n"
+    },
+    {
+      "case": "927",
+      "qiskit": "0.25.0",
+      "target": "no_entanglement_generator",
+      "exit_code": 1,
+      "expected": "fail",
+      "correct": true,
+      "output_tail": "le \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_927\\test.py\", line 55, in reconstruct\n    self.assertGreater(fidelity, 0.98, \"Tomography must reconstruct the prepared state\")\nAssertionError: 0.4998715267311749 not greater than 0.98 : Tomography must reconstruct the prepared state\n\n======================================================================\nFAIL: test_replacement_import_reconstructs_a_distinct_product_state (__main__.Regression)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_927\\test.py\", line 66, in test_replacement_import_reconstructs_a_distinct_product_state\n    self.reconstruct(circuit, np.array([0, 1, 0, 0], dtype=complex))\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_927\\test.py\", line 55, in reconstruct\n    self.assertGreater(fidelity, 0.98, \"Tomography must reconstruct the prepared state\")\nAssertionError: 0.00010940596102732278 not greater than 0.98 : Tomography must reconstruct the prepared state\n\n----------------------------------------------------------------------\nRan 2 tests in 1.277s\n\nFAILED (failures=2)\n"
+    }
+  ],
+  "all_expected": true,
+  "network": "858 deny-only IBMQ and socket fixture; 927 real local BasicAer qasm simulation",
+  "target_sources_modified": false
+}

@@ -1,0 +1,42 @@
+
+test_gate_and_qubit_order (__main__.TestCustomGateAcrossRegisters.test_gate_and_qubit_order) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_772\buggy.py:2: PendingDeprecationWarning: The qiskit.extensions module is pending deprecation since Qiskit 0.45.0. It will be deprecated in a following release, no sooner than 3 months after the 0.45.0 release.
+  from qiskit.extensions import UnitaryGate
+ERROR
+
+======================================================================
+ERROR: test_gate_and_qubit_order (__main__.TestCustomGateAcrossRegisters.test_gate_and_qubit_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_3\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 5601, in _bit_argument_conversion
+    return [
+           ^
+TypeError: 'Qubit' object is not iterable
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_772\test.py", line 35, in test_gate_and_qubit_order
+    namespace = runpy.run_path(MUT)
+                ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_772\buggy.py", line 16, in <module>
+    circ.append(gate, qr1[1:2], qr2[0:3])
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_3\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1274, in append
+    expanded_cargs = [self.cbit_argument_conversion(carg) for carg in cargs or []]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_3\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1274, in <listcomp>
+    expanded_cargs = [self.cbit_argument_conversion(carg) for carg in cargs or []]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_3\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1159, in cbit_argument_conversion
+    return _bit_argument_conversion(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_3\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 5611, in _bit_argument_conversion
+    raise CircuitError(message) from ex
+qiskit.circuit.exceptions.CircuitError: "Incorrect bit type: expected 'Clbit' but got 'Qubit'"
+
+----------------------------------------------------------------------
+Ran 1 test in 3.553s
+
+FAILED (errors=1)

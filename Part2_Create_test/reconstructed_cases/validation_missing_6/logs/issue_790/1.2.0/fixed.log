@@ -1,0 +1,15 @@
+
+test_hamiltonian_and_evolution (__main__.TestOriginalHamiltonianEvolution.test_hamiltonian_and_evolution) ... FAIL
+
+======================================================================
+FAIL: test_hamiltonian_and_evolution (__main__.TestOriginalHamiltonianEvolution.test_hamiltonian_and_evolution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_790\test.py", line 78, in test_hamiltonian_and_evolution
+    self.assertLess(min(errors), 1e-10,
+AssertionError: np.float64(10.44171807470732) not less than 1e-10 : Hamiltonian changed: expected sum(ZZ - XX - YY) + sum(Z), U=J=h=1
+
+----------------------------------------------------------------------
+Ran 1 test in 0.059s
+
+FAILED (failures=1)

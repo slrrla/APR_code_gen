@@ -1,0 +1,120 @@
+
+test_output_preserves_full_two_qubit_unitary (__main__.Regression.test_output_preserves_full_two_qubit_unitary) ... ERROR
+test_output_uses_requested_discrete_basis (__main__.Regression.test_output_uses_requested_discrete_basis) ... ERROR
+
+======================================================================
+ERROR: test_output_preserves_full_two_qubit_unitary (__main__.Regression.test_output_preserves_full_two_qubit_unitary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\transpiler\passmanager.py", line 464, in wrapper
+    return meth(*meth_args, **meth_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\transpiler\passmanager.py", line 226, in run
+    return super().run(
+           ^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\passmanager\passmanager.py", line 231, in run
+    out = [
+          ^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\passmanager\passmanager.py", line 232, in <listcomp>
+    _run_workflow(program=program, pass_manager=self, callback=callback, **kwargs)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\passmanager\passmanager.py", line 292, in _run_workflow
+    passmanager_ir, final_state = flow_controller.execute(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\passmanager\base_tasks.py", line 218, in execute
+    passmanager_ir, state = next_task.execute(
+                            ^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\transpiler\basepasses.py", line 195, in execute
+    new_dag, state = super().execute(
+                     ^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\passmanager\base_tasks.py", line 98, in execute
+    ret = self.run(passmanager_ir)
+          ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\transpiler\passes\basis\basis_translator.py", line 224, in run
+    raise TranspilerError(
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['measure', 't', 'snapshot', 'store', 'h', 'if_else', 'reset', 'cx', 'delay', 'id', 'barrier', 'switch_case', 'for_loop', 'while_loop']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_901\test.py", line 54, in test_output_preserves_full_two_qubit_unitary
+    actual = np.asarray(Operator(target()).data)
+                                 ^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_901\test.py", line 21, in target
+    namespace = runpy.run_path(
+                ^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_901\buggy.py", line 10, in <module>
+    qc_transpiled = transpile(qc, basis_gates=basis_gates)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\compiler\transpiler.py", line 391, in transpile
+    out_circuits = pm.run(circuits, callback=callback, num_processes=num_processes)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\transpiler\passmanager.py", line 441, in run
+    return super().run(circuits, output_name, callback, num_processes=num_processes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\transpiler\passmanager.py", line 466, in wrapper
+    raise TranspilerError(ex.message) from ex
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['measure', 't', 'snapshot', 'store', 'h', 'if_else', 'reset', 'cx', 'delay', 'id', 'barrier', 'switch_case', 'for_loop', 'while_loop']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+
+======================================================================
+ERROR: test_output_uses_requested_discrete_basis (__main__.Regression.test_output_uses_requested_discrete_basis)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\transpiler\passmanager.py", line 464, in wrapper
+    return meth(*meth_args, **meth_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\transpiler\passmanager.py", line 226, in run
+    return super().run(
+           ^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\passmanager\passmanager.py", line 231, in run
+    out = [
+          ^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\passmanager\passmanager.py", line 232, in <listcomp>
+    _run_workflow(program=program, pass_manager=self, callback=callback, **kwargs)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\passmanager\passmanager.py", line 292, in _run_workflow
+    passmanager_ir, final_state = flow_controller.execute(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\passmanager\base_tasks.py", line 218, in execute
+    passmanager_ir, state = next_task.execute(
+                            ^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\transpiler\basepasses.py", line 195, in execute
+    new_dag, state = super().execute(
+                     ^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\passmanager\base_tasks.py", line 98, in execute
+    ret = self.run(passmanager_ir)
+          ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\transpiler\passes\basis\basis_translator.py", line 224, in run
+    raise TranspilerError(
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['measure', 't', 'snapshot', 'store', 'h', 'if_else', 'reset', 'cx', 'delay', 'id', 'barrier', 'switch_case', 'for_loop', 'while_loop']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_901\test.py", line 34, in test_output_uses_requested_discrete_basis
+    circuit = target()
+              ^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_901\test.py", line 21, in target
+    namespace = runpy.run_path(
+                ^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_901\buggy.py", line 10, in <module>
+    qc_transpiled = transpile(qc, basis_gates=basis_gates)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\compiler\transpiler.py", line 391, in transpile
+    out_circuits = pm.run(circuits, callback=callback, num_processes=num_processes)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\transpiler\passmanager.py", line 441, in run
+    return super().run(circuits, output_name, callback, num_processes=num_processes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_2_2\Lib\site-packages\qiskit\transpiler\passmanager.py", line 466, in wrapper
+    raise TranspilerError(ex.message) from ex
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['measure', 't', 'snapshot', 'store', 'h', 'if_else', 'reset', 'cx', 'delay', 'id', 'barrier', 'switch_case', 'for_loop', 'while_loop']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.072s
+
+FAILED (errors=2)

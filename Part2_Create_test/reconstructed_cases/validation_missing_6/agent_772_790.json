@@ -1,0 +1,239 @@
+{
+  "scope": "pilot runs only; exact listed-version matrix handled separately",
+  "tests": [
+    "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_772\\test.py",
+    "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_790\\test.py"
+  ],
+  "source_modified": false,
+  "strang_spectral_error_bound": 0.7083783494810845,
+  "runs": [
+    {
+      "case": "issue_772",
+      "version": "0.25.0",
+      "variant": "fixed",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_772\\fixed.py",
+      "outcome": "PASS",
+      "returncode": 0,
+      "seconds": 1.984,
+      "reason": ""
+    },
+    {
+      "case": "issue_772",
+      "version": "0.25.0",
+      "variant": "buggy",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_772\\buggy.py",
+      "outcome": "ERROR",
+      "returncode": 1,
+      "seconds": 1.719,
+      "reason": "qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(1)/clbit(3) arguments does not match the gate expectation (4).'"
+    },
+    {
+      "case": "issue_772",
+      "version": "0.25.0",
+      "variant": "new_fix",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\failpass_fixes\\case_772_new_fix.py",
+      "outcome": "PASS",
+      "returncode": 0,
+      "seconds": 1.718,
+      "reason": ""
+    },
+    {
+      "case": "issue_772",
+      "version": "0.45.0",
+      "variant": "fixed",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_772\\fixed.py",
+      "outcome": "PASS",
+      "returncode": 0,
+      "seconds": 2.735,
+      "reason": ""
+    },
+    {
+      "case": "issue_772",
+      "version": "0.45.0",
+      "variant": "buggy",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_772\\buggy.py",
+      "outcome": "ERROR",
+      "returncode": 1,
+      "seconds": 2.656,
+      "reason": "TypeError: 'Qubit' object is not iterable\nqiskit.circuit.exceptions.CircuitError: \"Incorrect bit type: expected 'Clbit' but got 'Qubit'\""
+    },
+    {
+      "case": "issue_772",
+      "version": "0.45.0",
+      "variant": "new_fix",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\failpass_fixes\\case_772_new_fix.py",
+      "outcome": "PASS",
+      "returncode": 0,
+      "seconds": 2.703,
+      "reason": ""
+    },
+    {
+      "case": "issue_772",
+      "version": "0.46.0",
+      "variant": "fixed",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_772\\fixed.py",
+      "outcome": "PASS",
+      "returncode": 0,
+      "seconds": 7.875,
+      "reason": ""
+    },
+    {
+      "case": "issue_772",
+      "version": "0.46.0",
+      "variant": "buggy",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_772\\buggy.py",
+      "outcome": "ERROR",
+      "returncode": 1,
+      "seconds": 2.625,
+      "reason": "TypeError: 'Qubit' object is not iterable\nqiskit.circuit.exceptions.CircuitError: \"Incorrect bit type: expected 'Clbit' but got 'Qubit'\""
+    },
+    {
+      "case": "issue_772",
+      "version": "0.46.0",
+      "variant": "new_fix",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\failpass_fixes\\case_772_new_fix.py",
+      "outcome": "PASS",
+      "returncode": 0,
+      "seconds": 2.828,
+      "reason": ""
+    },
+    {
+      "case": "issue_772",
+      "version": "2.5.0",
+      "variant": "fixed",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_772\\fixed.py",
+      "outcome": "ERROR",
+      "returncode": 1,
+      "seconds": 2.719,
+      "reason": "ModuleNotFoundError: No module named 'qiskit.extensions'"
+    },
+    {
+      "case": "issue_772",
+      "version": "2.5.0",
+      "variant": "buggy",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_772\\buggy.py",
+      "outcome": "ERROR",
+      "returncode": 1,
+      "seconds": 0.891,
+      "reason": "ModuleNotFoundError: No module named 'qiskit.extensions'"
+    },
+    {
+      "case": "issue_772",
+      "version": "2.5.0",
+      "variant": "new_fix",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\failpass_fixes\\case_772_new_fix.py",
+      "outcome": "ERROR",
+      "returncode": 1,
+      "seconds": 0.859,
+      "reason": "ModuleNotFoundError: No module named 'qiskit.extensions'"
+    },
+    {
+      "case": "issue_790",
+      "version": "0.45.0",
+      "variant": "fixed",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_790\\fixed.py",
+      "outcome": "FAIL",
+      "returncode": 1,
+      "seconds": 2.422,
+      "reason": "AssertionError: 10.44171807470732 not less than 1e-10 : Hamiltonian changed: expected sum(ZZ - XX - YY) + sum(Z), U=J=h=1"
+    },
+    {
+      "case": "issue_790",
+      "version": "0.45.0",
+      "variant": "buggy",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_790\\buggy.py",
+      "outcome": "ERROR",
+      "returncode": 1,
+      "seconds": 2.562,
+      "reason": "TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'"
+    },
+    {
+      "case": "issue_790",
+      "version": "0.45.0",
+      "variant": "new_fix",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\failpass_fixes\\case_790_new_fix.py",
+      "outcome": "PASS",
+      "returncode": 0,
+      "seconds": 3.235,
+      "reason": ""
+    },
+    {
+      "case": "issue_790",
+      "version": "1.2.4",
+      "variant": "fixed",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_790\\fixed.py",
+      "outcome": "FAIL",
+      "returncode": 1,
+      "seconds": 4.515,
+      "reason": "AssertionError: np.float64(10.44171807470732) not less than 1e-10 : Hamiltonian changed: expected sum(ZZ - XX - YY) + sum(Z), U=J=h=1"
+    },
+    {
+      "case": "issue_790",
+      "version": "1.2.4",
+      "variant": "buggy",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_790\\buggy.py",
+      "outcome": "ERROR",
+      "returncode": 1,
+      "seconds": 1.579,
+      "reason": "TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'"
+    },
+    {
+      "case": "issue_790",
+      "version": "1.2.4",
+      "variant": "new_fix",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\failpass_fixes\\case_790_new_fix.py",
+      "outcome": "PASS",
+      "returncode": 0,
+      "seconds": 1.765,
+      "reason": ""
+    },
+    {
+      "case": "issue_790",
+      "version": "2.5.0",
+      "variant": "fixed",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_790\\fixed.py",
+      "outcome": "FAIL",
+      "returncode": 1,
+      "seconds": 1.656,
+      "reason": "AssertionError: np.float64(10.441718074707323) not less than 1e-10 : Hamiltonian changed: expected sum(ZZ - XX - YY) + sum(Z), U=J=h=1"
+    },
+    {
+      "case": "issue_790",
+      "version": "2.5.0",
+      "variant": "buggy",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_790\\buggy.py",
+      "outcome": "ERROR",
+      "returncode": 1,
+      "seconds": 1.11,
+      "reason": "TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'"
+    },
+    {
+      "case": "issue_790",
+      "version": "2.5.0",
+      "variant": "new_fix",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\failpass_fixes\\case_790_new_fix.py",
+      "outcome": "PASS",
+      "returncode": 0,
+      "seconds": 1.14,
+      "reason": ""
+    }
+  ],
+  "mutations": [
+    {
+      "case": "issue_772",
+      "version": "0.45.0",
+      "mutation": "wrong_qubit_order",
+      "outcome": "FAIL",
+      "reason": "AssertionError: No circuit implements the intended custom gate: Lists differ: [Qubi[13 chars]ster(3, 'a'), 2), Qubit(QuantumRegister(3, 'a'[71 chars], 1)] != [Qubi[13 chars]ster(2, 'q'), 1), Qubit(QuantumRegister(3, 'a'[71 chars], 2)]",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_missing_6\\agent_mutation_772_wrong_qubit_order.py"
+    },
+    {
+      "case": "issue_790",
+      "version": "0.45.0",
+      "mutation": "identity_evolution",
+      "outcome": "FAIL",
+      "reason": "AssertionError: 1.9949899732081096 not less than or equal to 0.7083783495810843 : circuit does not approximate exp(-i H) within the six-step second-order bound",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_missing_6\\agent_mutation_790_identity_evolution.py"
+    }
+  ]
+}
