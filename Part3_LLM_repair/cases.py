@@ -9,6 +9,8 @@
         "issue_600", "issue_622", "issue_624", "issue_635", "issue_662"],
     5: ["issue_663", "issue_671", "issue_727", "issue_742", "issue_747",
         "issue_750", "issue_769", "issue_773", "issue_775", "issue_795"],
+    6: ["issue_803", "issue_810", "issue_816", "issue_876", "issue_877",
+        "issue_886", "issue_889", "issue_911", "issue_925", "issue_944"],
 }
 CASES = [case for cases in BATCHES.values() for case in cases]
 BATCH_OF = {case: batch for batch, cases in BATCHES.items() for case in cases}

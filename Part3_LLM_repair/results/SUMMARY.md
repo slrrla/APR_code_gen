@@ -1,15 +1,15 @@
 # LLM Bug-Repair Results — gpt-5.6-luna
 
-**Result: the LLM fixed 24 of 50 cases on every version they were tested on, and 27 of 50 on at least one version.** Across all case × version pairs, **321 of 701 passed (45.8%)**, 145 failed (20.7%) and 235 errored (33.5%).
+**Result: the LLM fixed 25 of 60 cases on every version they were tested on, and 28 of 60 on at least one version.** Across all case × version pairs, **344 of 814 passed (42.3%)**, 161 failed (19.8%) and 309 errored (38.0%).
 
-The cases are processed 10 at a time from `Valid_Cases_104.xlsx`: **batch 1** is issue_009 – issue_096, **batch 2** is issue_155 – issue_315, **batch 3** is issue_344 – issue_497, **batch 4** is issue_504 – issue_662 and **batch 5** is issue_663 – issue_795. All batches used the same model, prompt, environments and test runner.
+The cases are processed 10 at a time from `Valid_Cases_104.xlsx`: **batch 1** is issue_009 – issue_096, **batch 2** is issue_155 – issue_315, **batch 3** is issue_344 – issue_497, **batch 4** is issue_504 – issue_662, **batch 5** is issue_663 – issue_795 and **batch 6** is issue_803 – issue_944. All batches used the same model, prompt, environments and test runner.
 
-| Outcome | Cases (all) | Pairs (all) | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 |
-|---|---|---|---|---|---|---|---|
-| ✅ Passed | 24 | 321 (45.8%) | 6 cases · 65 pairs (51.2%) | 5 cases · 60 pairs (40.3%) | 4 cases · 70 pairs (45.2%) | 4 cases · 74 pairs (55.6%) | 5 cases · 52 pairs (38.0%) |
-| ❌ Failed (ran, but wrong result) | 9 | 145 (20.7%) | 2 · 44 (34.6%) | 1 · 23 (15.4%) | 2 · 27 (17.4%) | 2 · 16 (12.0%) | 2 · 35 (25.5%) |
-| 💥 Error (crashed before the test could check anything) | 17 | 235 (33.5%) | 2 · 18 (14.2%) | 4 · 66 (44.3%) | 4 · 58 (37.4%) | 4 · 43 (32.3%) | 3 · 50 (36.5%) |
-| **Total** | **50** | **701** | **10 · 127** | **10 · 149** | **10 · 155** | **10 · 133** | **10 · 137** |
+| Outcome | Cases (all) | Pairs (all) | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 |
+|---|---|---|---|---|---|---|---|---|
+| ✅ Passed | 25 | 344 (42.3%) | 6 cases · 65 pairs (51.2%) | 5 cases · 60 pairs (40.3%) | 4 cases · 70 pairs (45.2%) | 4 cases · 74 pairs (55.6%) | 5 cases · 52 pairs (38.0%) | 1 case · 23 pairs (20.4%) |
+| ❌ Failed (ran, but wrong result) | 11 | 161 (19.8%) | 2 · 44 (34.6%) | 1 · 23 (15.4%) | 2 · 27 (17.4%) | 2 · 16 (12.0%) | 2 · 35 (25.5%) | 2 · 16 (14.2%) |
+| 💥 Error (crashed before the test could check anything) | 24 | 309 (38.0%) | 2 · 18 (14.2%) | 4 · 66 (44.3%) | 4 · 58 (37.4%) | 4 · 43 (32.3%) | 3 · 50 (36.5%) | 7 · 74 (65.5%) |
+| **Total** | **60** | **814** | **10 · 127** | **10 · 149** | **10 · 155** | **10 · 133** | **10 · 137** | **10 · 113** |
 
 A case counts as passed only if it passed on every version. Three cases passed on some versions but not all, so all three count as error cases:
 - **issue_157** passed on 0.45.x / 0.46.x (8 versions) but crashed on 0.25.x (4).
@@ -20,7 +20,7 @@ Every other fix either passed on all of its versions or on none.
 
 **Updated tests (1 Oct 2026):** the team pushed new tests for issue_021_se (`test-new.py`), issue_058_se and issue_061 (`test_new.py`), and these results use them. The only change: **issue_061 went from FAIL 0/15 to PASS 15/15**, because the old `test.py` only accepted the reference fix's exact print format. issue_021_se (still ERROR) and issue_058_se (still PASS) are unchanged. The old results are kept in the `old_test_llm_status` column of `llm_fix_results.csv` and in `logs/<case>/<version>/old_test/`.
 
-**issue_742 needs `qiskit-ibm-runtime` (batch 5):** none of the local environments include it, so on the first run even `fixed.py` crashed with `ModuleNotFoundError` on all 12 versions. Following the team's `test_validation/batch05` setup, this case now runs with a task-local support folder on `PYTHONPATH` (`C:\qiskit_envs\_support_runtime`): Runtime 0.30.0 for Qiskit 1.1 / 1.2 and Runtime 0.40.1 for 2.x, with the same pinned dependencies as the team's `support_manifest.json` (plus `packaging`, which our 2.x environments lack). Qiskit, Aer, NumPy and SciPy still come from the original environments, and no shared environment was changed. With it, `buggy.py` fails and `fixed.py` passes on all 12 versions.
+**issue_742 (batch 5) and issue_876 (batch 6) need `qiskit-ibm-runtime`:** none of the local environments include it, so on the first run even `fixed.py` crashed with `ModuleNotFoundError` on every version. Following the team's `test_validation/batch05` and `batch06` setup, these two cases run with a task-local support folder on `PYTHONPATH` (`C:\qiskit_envs\_support_runtime`): Runtime 0.23.0 for Qiskit 1.0 (copied from the team's `batch06/support/py311_10`), 0.30.0 for 1.1 / 1.2 and 0.40.1 for 2.x, with the same pinned dependencies as the team's `support_manifest.json` (plus `packaging`, which our 2.x environments lack). Qiskit, Aer, NumPy and SciPy still come from the original environments (checked on every version), and no shared environment was changed. With it, `buggy.py` fails and `fixed.py` passes on all 12 versions of 742 and all 15 of 876, matching the team's own validation. The fix changed issue_742's LLM result from ERROR to PASS on all 12 versions; issue_876's LLM fix still errors, on its own bad import.
 
 ---
 
@@ -101,6 +101,21 @@ Every other fix either passed on all of its versions or on none.
 | [issue_775](#issue_775) | Running OpenQASM 2.0 in Qiskit | 💥 Error | — | 0.25.0 – 0.46.3 (12) | Correct `from_qasm_str` fix, but the test wants a variable named `qc` |
 | [issue_795](#issue_795) | `to_gate()` with an opflow expression | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Appended the operator's matrix with `unitary()`, the same fix as the reference |
 
+**Batch 6**
+
+| Case | Question | Result | Passed on | Failed on | Why, in one line |
+|---|---|---|---|---|---|
+| [issue_803](#issue_803) | `get_counts()` for several circuits | 💥 Error | — | 0.25.0 – 0.46.3 (12: 8 error, 4 fail) | Turned the count dictionaries into a NumPy array of values, losing the outcomes |
+| [issue_810](#issue_810) | Raw data from a job | ❌ Fail | — | 0.45.1, 0.46.2 (2) | Correct `get_counts()` fix; the test wants the name `counts_dict` and 100 shots |
+| [issue_816](#issue_816) | `AerSimulator(memory=True)` | ✅ Pass | 0.45.0 – 2.5.0 (23) | — | Added `memory=True`, the same fix as the reference |
+| [issue_876](#issue_876) | Noisy QFT fidelity with a real backend | 💥 Error | — | 1.0.0 – 2.5.0 (15) | Broke the import (`qiskit.ibm_runtime`) and never adds noise |
+| [issue_877](#issue_877) | Noise model without device access | 💥 Error | — | 0.45.0 – 0.46.3 (8) | Used an empty `NoiseModel()`, which has no noise |
+| [issue_886](#issue_886) | `crx` unknown to Aer | ❌ Fail | — | 0.45.0, 0.45.1 (2) | Correct transpile fix; the test wants exact `'00'` keys and the name `transpile_circ` |
+| [issue_889](#issue_889) | Time evolution of a Pauli-sum Hamiltonian | 💥 Error | — | 0.25.0 – 0.46.3 (12: 4 error, 8 fail) | `(-t*H).exp_i()` has the wrong sign |
+| [issue_911](#issue_911) | Register/index of a gate's qubits | 💥 Error | — | 0.45.0 – 2.5.0 (23) | Correct `find_bit` output; the test parses the reference's exact print format |
+| [issue_925](#issue_925) | Qubits Shor needs for N=15 | 💥 Error | — | 0.25.0 – 0.25.3 (4) | Only added a comment; the code still uses the too-small FakeMelbourne |
+| [issue_944](#issue_944) | Projection operator in opflow | 💥 Error | — | 0.25.0 – 0.46.3 (12) | Correct `(I + X) / 2` projector; the test reads `.data`, which only the reference's type has |
+
 **Version ranges used above** (27 Qiskit releases in total):
 
 - **0.25.x:** 0.25.0, 0.25.1, 0.25.2, 0.25.3
@@ -117,9 +132,9 @@ Each case was tested on exactly the Qiskit versions listed for it in `Valid_Case
 2. **`fixed.py`**: the human reference fix. It should pass, which confirms the test is correct.
 3. **`llm_fix.py`**: the LLM's fix. This is what's being judged.
 
-The test was valid on all 701 pairs (127 in batch 1, 149 in batch 2, 155 in batch 3, 133 in batch 4, 137 in batch 5): `buggy.py` failed and `fixed.py` passed everywhere. So every result below reflects the LLM fix, not a broken test. The team's batch 2 notes said issue_157's `fixed.py` failed; with the current files it passes on all 12 versions. issue_742 is valid only with the Runtime support folder described above.
+The test was valid on all 814 pairs (127 in batch 1, 149 in batch 2, 155 in batch 3, 133 in batch 4, 137 in batch 5, 113 in batch 6): `buggy.py` failed and `fixed.py` passed everywhere (for issue_018_se, `fixed.py` hits the known Windows Aer native crash, which the runner counts as valid). So every result below reflects the LLM fix, not a broken test. The team's batch 2 notes said issue_157's `fixed.py` failed; with the current files it passes on all 12 versions. issue_742 and issue_876 are valid only with the Runtime support folder described above.
 
-Cases are listed by result. Within each result, batch 1 cases come first, then batches 2, 3, 4 and 5.
+Cases are listed by result. Within each result, batch 1 cases come first, then batches 2, 3, 4, 5 and 6.
 
 | Status | Meaning |
 |---|---|
@@ -671,6 +686,26 @@ This case needs `qiskit-ibm-runtime`, which the local environments don't have; s
 
 ---
 
+### issue_816
+**Batch 6** · **Question:** What does Qiskit AerSimulator(memory=True) do?
+
+| | Versions |
+|---|---|
+| **Tested (23)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (23)** | all 23 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** the job runs without `memory=True`, so no per-shot results are stored and `get_memory()` raises `QiskitError: No memory for experiment`.
+
+**LLM fix:** passes `memory=True` to `run()`. This is the same as the reference fix.
+
+```diff
+- result = simulator.run(circ, shots=10).result()
++ result = simulator.run(circ, shots=10, memory=True).result()
+```
+
+---
+
 ## ❌ Failed cases (ran, but wrong result)
 
 ### issue_018_se
@@ -950,6 +985,60 @@ Items in the second set but not the first: '000' '111'
 ```
 
 This one is **borderline**. The statistics are correct GHZ statistics, and a test that ignores the unused register passes the LLM fix (checked on 0.45.0 and 0.46.3). But leaving 3 unused classical bits in the circuit is sloppier than the reference, and the answer itself uses `measure`, not `measure_all()`.
+
+---
+
+### issue_810
+**Batch 6** · **Question:** How can I make qiskit output raw data?
+
+| | Versions |
+|---|---|
+| **Tested (2)** | 0.45.1, 0.46.2 |
+| ✅ **Passed (0)** | — |
+| ❌ **Failed (2)** | all 2 |
+
+**Bug:** `job.result(job)` passes the job as the `timeout` argument (`TypeError: '>' not supported between instances of 'AerJob' and 'int'`), and the code prints the whole `Result` object instead of the measurement data.
+
+**Reference fix:** `result = job.result()` and `counts_dict = result.get_counts()`, and it also lowers the shots from 1024 to 100.
+
+**LLM fix:** the same call, stored in the original variable and with the original 1024 shots:
+
+```diff
+- a = job.result(job)
++ a = job.result().get_counts()
+```
+
+**Why it failed:** the test reads the reference's variable `counts_dict` and expects the counts to add up to exactly 100. The LLM's script has no `counts_dict`, so the test finds `None` (`AssertionError: None is not an instance of <class 'dict'>`).
+
+This test is **over-specific**: the question never mentions a variable name, and 100 shots is the reference's own change (the buggy code and the question use 1024). A test that accepts any counts dictionary and the script's own shot count passes the LLM fix and still fails the buggy code (checked on both versions).
+
+---
+
+### issue_886
+**Batch 6** · **Question:** Error when using crx gate in quantum circuit
+
+| | Versions |
+|---|---|
+| **Tested (2)** | 0.45.0, 0.45.1 |
+| ✅ **Passed (0)** | — |
+| ❌ **Failed (2)** | all 2 |
+
+**Bug:** a circuit containing `crx` is run on `qasm_simulator` without transpiling (`AerError: unknown instruction: crx`).
+
+**Reference fix:** `transpile_circ = transpile(circ, backend=backend)` before running. It also changes `QuantumCircuit(2, 2)` to `QuantumCircuit(2)`.
+
+**LLM fix:** transpiles inline before running and keeps the rest of the buggy code:
+
+```diff
+- from qiskit import QuantumCircuit
++ from qiskit import QuantumCircuit, transpile
+- job = Aer.get_backend('qasm_simulator').run(circ)
++ job = Aer.get_backend('qasm_simulator').run(transpile(circ, Aer.get_backend('qasm_simulator')))
+```
+
+**Why it failed:** the job now runs, but the circuit is still `QuantumCircuit(2, 2)` followed by `measure_all()`, which adds a second 2-bit register. So the result is `{'00 00': 1024}`, while the test requires exactly `{'00': 1024}` (`AssertionError: {'00 00': 1024} != {'00': 1024}`). The second check reads a variable named `transpile_circ`, which the LLM never creates.
+
+This test is **over-specific**: the unused register comes from the buggy code, not from the LLM, and the question only asks how to run a circuit with `crx`. A test that ignores the unused register and the variable name passes the LLM fix and still fails the buggy code (checked on both versions). Like issue_747, the extra register comes from `measure_all()` on a circuit that already has classical bits.
 
 ---
 
@@ -1368,7 +1457,7 @@ With only that comment line removed, the same fix passes (checked on 0.25.0 and 
 
 **LLM fix:** none. It replied `# NO BUG: The code correctly composes the two-qubit XZ operator onto qubits 0 and 2 of the three-qubit identity.` and returned the code unchanged.
 
-**Why it crashed:** the math in the question is right, and that is what the model checked. But the script stops at `Pauli(label='XZ')` with `TypeError: Pauli.__init__() got an unexpected keyword argument 'label'` on every version. `Pauli('XZ')` would have been enough. The test is fair: it only checks that the resulting operator is \(X \otimes I \otimes Z\). This is the only "no bug" answer in all 50 cases so far.
+**Why it crashed:** the math in the question is right, and that is what the model checked. But the script stops at `Pauli(label='XZ')` with `TypeError: Pauli.__init__() got an unexpected keyword argument 'label'` on every version. `Pauli('XZ')` would have been enough. The test is fair: it only checks that the resulting operator is \(X \otimes I \otimes Z\). This is the only "no bug" answer in all 60 cases so far.
 
 ---
 
@@ -1427,6 +1516,205 @@ This test is **over-specific**. A test that checks the executed result instead (
 
 ---
 
+### issue_803
+**Batch 6** · **Question:** AttributeError: 'list' object has no attribute 'values'
+
+| | Versions |
+|---|---|
+| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (8)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ❌ **Failed (4)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3 |
+
+**Bug:** with several circuits, `get_counts()` returns a list of count dictionaries, and the code calls `.values()` on that list.
+
+**Reference fix:** returns the list of dictionaries (and prints each one).
+
+**LLM fix:** keeps converting to a NumPy array, now of each dictionary's values:
+
+```diff
+- counts = np.array(list(result.values()))
++ counts = np.array([list(count_dict.values()) for count_dict in result])
+```
+
+**Why it failed:** this throws away which outcome each count belongs to: `{'0': 52, '1': 48}` and `{'1': 100}` become `[52, 48]` and `[100]`. The lists also have different lengths:
+
+| Versions | Result |
+|---|---|
+| 0.25.0 – 0.25.3 | ❌ Older NumPy makes an object array, and the test's check that `run()` returns a list of count dictionaries fails |
+| 0.45.0 – 0.46.3 | 💥 Newer NumPy refuses the uneven lists (`ValueError: ... inhomogeneous shape`) |
+
+The test is fair: it checks that each circuit's counts come back as a dictionary of outcomes.
+
+---
+
+### issue_876
+**Batch 6** · **Question:** Studying QFT circuit noise in Qiskit comparing statevectors with state_fidelity
+
+| | Versions |
+|---|---|
+| **Tested (15)** | 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (15)** | all 15 |
+
+**Bug:** the user wants the fidelity between the ideal and the *noisy* QFT state, but the code runs the circuit on an ideal simulator without saving a state (`QiskitError: No statevector for experiment`), and transpiling to FakeBrisbane alone adds no noise.
+
+**Reference fix:** builds `NoiseModel.from_backend(FakeBrisbane())`, simulates with that noise model, saves the density matrix and compares it with the ideal one.
+
+**LLM fix:** only adds `save_statevector()`, and it changed the import:
+
+```diff
+- from qiskit_ibm_runtime.fake_provider import FakeBrisbane
++ from qiskit.ibm_runtime.fake_provider import FakeBrisbane
++ qc_transpiled.save_statevector()
+```
+
+**Why it crashed:** `qiskit.ibm_runtime` doesn't exist in any Qiskit version, so the script stops at the import (`ModuleNotFoundError`). With only the import corrected it still crashes (checked on 1.0.0, 1.2.4 and 2.5.0): it simulates the transpiled 127-qubit Brisbane circuit on an ideal statevector simulator, which runs out of memory, and it still adds no noise. This case needs the Runtime support folder described at the top; with it, the buggy and reference code behave as expected on every version.
+
+---
+
+### issue_877
+**Batch 6** · **Question:** How to import noise model from IBM qiskit real device?
+
+| | Versions |
+|---|---|
+| **Tested (8)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (8)** | all 8 |
+
+**Bug:** the user has no access to a large real device, so `backend` is undefined (`NameError`).
+
+**Reference fix:** uses the offline 27-qubit `FakeKolkata` as the backend and builds `NoiseModel.from_backend(backend)`.
+
+**LLM fix:** replaces the device noise model with an empty one:
+
+```diff
+- noise_model = NoiseModel.from_backend(backend)
++ noise_model = NoiseModel()
+```
+
+**Why it crashed:** the test reads `backend`, which no longer exists (`KeyError: 'backend'`). Even without that, an empty `NoiseModel()` has no noise at all, which is not what the user asked for, so the test's non-ideal noise checks would fail too. The test pins exactly 27 qubits (any large fake device would do), but that isn't why the fix fails.
+
+---
+
+### issue_889
+**Batch 6** · **Question:** How can I implement a Hamiltonian which is sum of tensored pauli operators on qiskit?
+
+| | Versions |
+|---|---|
+| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (4)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3 |
+| ❌ **Failed (8)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+
+**Bug:** the Hamiltonian (a `PauliSumOp`) is appended to the circuit as if it were a gate, which fails with `Input matrix is not unitary`; the user needs its time evolution \(e^{-iHt}\).
+
+**Reference fix:** `circ.hamiltonian(H, time_, ...)` on a `SparsePauliOp`.
+
+**LLM fix:** exponentiates in opflow:
+
+```diff
+- circ.append(H, list(range(N)))
++ circ.append((-time_ * H).exp_i().to_instruction(), list(range(N)))
+```
+
+**Why it failed:** `exp_i()` already computes \(e^{-iX}\), so `(-time_ * H).exp_i()` is \(e^{+iHt}\), the wrong sign:
+
+| Versions | Result |
+|---|---|
+| 0.25.0 – 0.25.3 | 💥 The resulting instruction is rejected as non-unitary |
+| 0.45.0 – 0.46.3 | ❌ The circuit runs, but its unitary is \(e^{+iHt}\) instead of \(e^{-iHt}\) |
+
+With only the sign flipped (`(time_ * H).exp_i()`) the same fix passes on 0.45.0 and 0.46.3, though it still errors on 0.25.0. The test is fair: it checks the exact evolution operator.
+
+---
+
+### issue_911
+**Batch 6** · **Question:** Unable to extract the quantum registers information from qiskit quantum circuit data
+
+| | Versions |
+|---|---|
+| **Tested (23)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (23)** | all 23 |
+
+**Bug:** `qargs[1]` assumes every gate has two qubits (`IndexError` on one-qubit gates), and `Qubit` no longer has `.register` / `.index`.
+
+**Reference fix:** prints each gate's qubit indices as a list: `print("qargs : ", [qc.find_bit(qarg)[0] for qarg in qargs])`.
+
+**LLM fix:** loops over every qubit and prints its registers and index with `find_bit`, keeping the original `qargs` line:
+
+```diff
+  print("qargs : ", qargs, "\n")
+- print("qargs[1] : ", qargs[1])
+- ...
++ for qarg in qargs:
++     bit_location = qc.find_bit(qarg)
++     print("qarg : ", qarg)
++     print("register : ", bit_location.registers)
++     print("index : ", bit_location.index)
+```
+
+**Why it crashed:** the test reads every printed line that starts with `qargs :` and parses it as a Python list of integers, i.e. the reference's exact output format. The LLM's `qargs :` line still prints `Qubit` objects, so parsing fails: `ValueError: malformed node or string` on 0.45 – 1.2.4, and `SyntaxError` on 2.x, where `Qubit` prints differently.
+
+This test is **over-specific**: the LLM prints exactly the information the question asks for (each qubit's index and register), just not in the reference's format. A test that reads the printed indices in either format passes the LLM fix and still fails the buggy code (checked on 0.45.0, 1.0.0, 1.2.4 and 2.5.0).
+
+---
+
+### issue_925
+**Batch 6** · **Question:** How many Qubits does the qiskit implementation of Shor's Algorithm need to factor N=15?
+
+| | Versions |
+|---|---|
+| **Tested (4)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (4)** | all 4 |
+
+**Bug:** Shor's circuit for N=15 needs 18 qubits (4n+2), more than FakeMelbourne has (`TranspilerError: Number of qubits (18) ... is greater than maximum (14)`).
+
+**Reference fix:** switches to Aer's `qasm_simulator`.
+
+**LLM fix:** only adds a comment; the code is unchanged:
+
+```diff
++ # FIX: the Shor circuit requires 18 qubits, exceeding FakeMelbourne's 15 -> use a simulator with enough qubits, ...
+  shor = Shor(PRIME, 2)
+```
+
+**Why it crashed:** the comment says to use a simulator, but `backend = FakeMelbourne()` is still there, so it fails exactly like the buggy code. Apart from issue_750 (where the model said there was no bug), this is the only case that left the code unchanged, and here the model's own comment even describes the right fix.
+
+---
+
+### issue_944
+**Batch 6** · **Question:** Projection Operator in qiskit.opflow
+
+| | Versions |
+|---|---|
+| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (0)** | — |
+| 💥 **Error (12)** | all 12 |
+
+**Bug:** `Plus @ ~Plus` isn't allowed in opflow, and a `quantum_info.Operator` can't be passed to `NumPyEigensolver`.
+
+**Reference fix:** builds \(|+\rangle\langle+|\) as a `quantum_info` operator (`proj`), wraps it in `PrimitiveOp` (`op`) and passes that to the solver.
+
+**LLM fix:** writes the projector directly in opflow as \((I + X)/2\) and passes it to the solver:
+
+```diff
+- from qiskit.opflow import Plus
++ from qiskit.opflow import Plus, I, X
+- proj = Plus @ ~Plus
++ proj = (I + X) / 2
+- spectrum = solver.compute_eigenvalues(plus)
++ spectrum = solver.compute_eigenvalues(proj)
+```
+
+**Why it crashed:** \((I + X)/2\) is exactly \(|+\rangle\langle+|\), and the solver returns the right eigenvalue. But the test reads `proj.data`, an attribute only the reference's `quantum_info` operator has, so it raises `AttributeError: 'PauliSumOp' object has no attribute 'data'`. It also expects a variable named `op`.
+
+This test is **over-specific**: the question is about building the projector *in opflow*, which is what the LLM did. A test that accepts either operator type passes the LLM fix and still fails the buggy code (checked on 0.25.0, 0.45.0 and 0.46.3).
+
+---
+
 ## Patterns
 
 1. **Well-known API problems were fixed well.** issue_032_se, issue_034 and issue_036 got exactly the reference fix. issue_058_se, issue_061 and issue_072 got a different but valid fix.
@@ -1473,6 +1761,13 @@ This test is **over-specific**. A test that checks the executed result instead (
 23. **First "no bug" answer:** in issue_750 the model checked the math the question asks about and missed that `Pauli(label=...)` no longer exists in any tested version.
 24. **A one-example fix:** issue_769 hard-coded the single example in the question (X) instead of writing a general matcher. The test also wants the answer's function name, but the fix would fail a fair test too.
 
+**Batch 6 adds:**
+
+25. **The weakest batch so far, but largely because of strict tests.** Only issue_816 (`memory=True`) passed. Four more fixes are correct but fail on details only the reference has: a variable name and shot count (issue_810), an exact count key and variable name (issue_886), an exact print format (issue_911) and an attribute of the reference's operator type (issue_944). With relaxed tests that still fail the buggy code, batch 6 would be 5 of 10 cases and 62 of 113 pairs (54.9%). That brings the over-specific tests that hide a correct fix to nine (issue_189, issue_622, issue_671, issue_775, issue_810, issue_886, issue_911, issue_944, plus issue_061 under its old test), with issue_747 borderline.
+26. **A comment without a change:** in issue_925 the model's `# FIX:` comment says to switch to a simulator, but the code still uses FakeMelbourne.
+27. **Math and API slips:** issue_889 got the sign of the time evolution wrong (`(-t*H).exp_i()`), issue_876 renamed a working import to one that doesn't exist, and issue_803 kept a NumPy conversion that throws away the outcome labels.
+28. **Solving the wrong problem again:** issue_877 replaced the device noise model with an empty `NoiseModel()`, removing exactly what the user wanted, like issue_315 deleting the options in batch 2.
+
 ---
 
 ## Files
@@ -1480,12 +1775,12 @@ This test is **over-specific**. A test that checks the executed result instead (
 | File | Contents |
 |---|---|
 | `llm_fix_summary.csv` | One row per case: PASS/FAIL/ERROR/NOT_TESTED for each version, plus the error type, message and a plain-English description per version |
-| `llm_fix_results.csv` | One row per case × version (701 rows), with its batch, the status of all three files, a plain-English result description and the LLM's `# FIX:` explanation |
+| `llm_fix_results.csv` | One row per case × version (814 rows), with its batch, the status of all three files, a plain-English result description and the LLM's `# FIX:` explanation |
 | `llm_fix_summary.xlsx` | The wide table (Summary sheet); live statistics overall and per batch, the at-least-one-version table and the notes (Stats & Notes sheet); and the review of which tests ask for more than the question (Test Review sheet) |
-| `run_output.txt`, `run_output_batch2.txt`, `run_output_189_rerun.txt`, `run_output_batch3.txt`, `run_output_batch4.txt`, `run_output_batch5.txt` | Console output of the batch 1 run, the batch 2 run, the issue_189 rerun, the batch 3 run, the batch 4 run and the batch 5 run |
-| `run_output_batch5_742_runtime.txt` | Console output of the issue_742 rerun with the Runtime support folder (these rows replace issue_742's first-run rows) |
-| `run_output_batch4_generate.txt`, `run_output_batch5_generate.txt` | Console output of generating the batch 4 and batch 5 LLM fixes |
+| `run_output.txt`, `run_output_batch2.txt`, `run_output_189_rerun.txt`, `run_output_batch3.txt`, `run_output_batch4.txt`, `run_output_batch5.txt`, `run_output_batch6.txt` | Console output of the batch 1 run, the batch 2 run, the issue_189 rerun and the batch 3, 4, 5 and 6 runs |
+| `run_output_batch5_742_runtime.txt`, `run_output_batch6_876_runtime.txt` | Console output of the issue_742 and issue_876 reruns with the Runtime support folder (these rows replace each case's first-run rows) |
+| `run_output_batch4_generate.txt`, `run_output_batch5_generate.txt`, `run_output_batch6_generate.txt` | Console output of generating the batch 4, 5 and 6 LLM fixes |
 | `logs/<case>/<version>/` | Full test output for `buggy.log`, `fixed.log` and `llm_fix.log`. For issue_021_se, issue_058_se and issue_061, the runs against the old `test.py` are in `old_test/` |
 | `../llm_fixes/<case>/` | `llm_fix.py`, the exact input the model saw (`buggy_stripped.py`) and its raw reply |
 
-**Setup:** model `gpt-5.6-luna`, with the same prompt for all batches (`prompt.py`; the batch lists are in `cases.py`). It saw only the question text and the buggy code with comments removed; no solution, category or hints. Batches 2 to 5 use each case's `test.py`. The tests are the team's files in `APR_code_gen/Part2_Create_test/reconstructed_cases/`: `test.py`, or the updated `test-new.py` (issue_021_se) and `test_new.py` (issue_058_se, issue_061) pulled on 1 Oct 2026. They were run in 27 Qiskit environments (`C:\qiskit_envs\q<version>`) matching slrrla's `environments.json`, using the same rules as slrrla's `run_matrix.py` (temporary home folder per run, 120-second timeout). Three cases add a task-local support folder on `PYTHONPATH` and leave the environments untouched: issue_096 and issue_034 (IPython etc., `C:\qiskit_envs\_support`) and issue_742 (`qiskit-ibm-runtime`, `C:\qiskit_envs\_support_runtime`).
+**Setup:** model `gpt-5.6-luna`, with the same prompt for all batches (`prompt.py`; the batch lists are in `cases.py`). It saw only the question text and the buggy code with comments removed; no solution, category or hints. Batches 2 to 6 use each case's `test.py`. The tests are the team's files in `APR_code_gen/Part2_Create_test/reconstructed_cases/`: `test.py`, or the updated `test-new.py` (issue_021_se) and `test_new.py` (issue_058_se, issue_061) pulled on 1 Oct 2026. They were run in 27 Qiskit environments (`C:\qiskit_envs\q<version>`) matching slrrla's `environments.json`, using the same rules as slrrla's `run_matrix.py` (temporary home folder per run, 120-second timeout). Four cases add a task-local support folder on `PYTHONPATH` and leave the environments untouched: issue_096 and issue_034 (IPython etc., `C:\qiskit_envs\_support`) and issue_742 and issue_876 (`qiskit-ibm-runtime`, `C:\qiskit_envs\_support_runtime`).

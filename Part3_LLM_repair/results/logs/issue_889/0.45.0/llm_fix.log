@@ -1,0 +1,67 @@
+
+test_reconstructed_hamiltonian_and_exact_evolution (__main__.Regression.test_reconstructed_hamiltonian_and_exact_evolution) ... C:\qiskit_envs\q0450\Lib\site-packages\qiskit\utils\algorithm_globals.py:170: DeprecationWarning: The class ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+  algorithm_globals = QiskitAlgorithmGlobals()
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\utils\algorithm_globals.py:49: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  self.num_processes = settings.get("num_processes", QiskitAlgorithmGlobals.CPU_COUNT)
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\utils\algorithm_globals.py:120: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  parallel.CPU_COUNT = self.num_processes
+C:\APR2\llm_repair\llm_fixes\issue_889\llm_fix.py:3: DeprecationWarning: The ``qiskit.opflow`` module is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  from qiskit.opflow import PauliSumOp
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\opflow\primitive_ops\pauli_sum_op.py:453: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return cls(SparsePauliOp.from_list(pauli_list, dtype=dtype), coeff=coeff)
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\opflow\primitive_ops\pauli_sum_op.py:62: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.primitive_op.PrimitiveOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__(primitive, coeff=coeff)
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\opflow\primitive_ops\primitive_op.py:111: DeprecationWarning: The class ``qiskit.opflow.operator_base.OperatorBase`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\opflow\operator_base.py:55: DeprecationWarning: The class ``qiskit.opflow.mixins.star_algebra.StarAlgebraMixin`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\opflow\primitive_ops\pauli_sum_op.py:131: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return PauliSumOp(self.coeff * self.primitive + other.coeff * other.primitive, coeff=1)
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\opflow\primitive_ops\pauli_sum_op.py:146: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return PauliSumOp(scalar * self.primitive, coeff=self.coeff)
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\opflow\primitive_ops\pauli_sum_op.py:363: DeprecationWarning: The class ``qiskit.opflow.evolutions.evolved_op.EvolvedOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return EvolvedOp(self)
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\opflow\evolutions\evolved_op.py:56: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.primitive_op.PrimitiveOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__(primitive, coeff=coeff)
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\opflow\evolutions\evolved_op.py:170: DeprecationWarning: The class ``qiskit.opflow.evolutions.evolved_op.EvolvedOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  prim_mat = EvolvedOp(primitive).to_matrix(massive=massive)
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\opflow\evolutions\evolved_op.py:171: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.matrix_op.MatrixOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return MatrixOp(prim_mat, coeff=self.coeff)
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\opflow\primitive_ops\matrix_op.py:76: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.primitive_op.PrimitiveOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__(primitive, coeff=coeff)
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\opflow\primitive_ops\primitive_op.py:111: DeprecationWarning: The class ``qiskit.opflow.operator_base.OperatorBase`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\opflow\operator_base.py:55: DeprecationWarning: The class ``qiskit.opflow.mixins.star_algebra.StarAlgebraMixin`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+FAIL
+
+======================================================================
+FAIL: test_reconstructed_hamiltonian_and_exact_evolution (__main__.Regression.test_reconstructed_hamiltonian_and_exact_evolution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_889\test.py", line 29, in test_reconstructed_hamiltonian_and_exact_evolution
+    np.testing.assert_allclose(Operator(m["circ"]).data, expm(-1j*H), atol=1e-9)
+  File "C:\qiskit_envs\q0450\Lib\site-packages\numpy\testing\_private\utils.py", line 1504, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0450\Lib\site-packages\numpy\testing\_private\utils.py", line 797, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-09
+
+Mismatched elements: 32 / 64 (50%)
+Max absolute difference: 1.47707319
+Max relative difference: 1.82821962
+ x: array([[-0.864006-0.099689j,  0.      +0.j      ,  0.      +0.j      ,
+        -0.284216+0.020155j,  0.      +0.j      , -0.284216+0.020155j,
+        -0.284216+0.020155j,  0.      +0.j      ],...
+ y: array([[-0.864006+0.099689j,  0.      +0.j      ,  0.      +0.j      ,
+        -0.284216-0.020155j,  0.      +0.j      , -0.284216-0.020155j,
+        -0.284216-0.020155j,  0.      +0.j      ],...
+
+----------------------------------------------------------------------
+Ran 1 test in 2.418s
+
+FAILED (failures=1)

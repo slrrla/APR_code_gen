@@ -1,0 +1,29 @@
+
+test_projector_and_solver_conversion (__main__.Regression) ... ERROR
+
+======================================================================
+ERROR: test_projector_and_solver_conversion (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_944\test.py", line 21, in test_projector_and_solver_conversion
+    m = target()
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_944\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_944\buggy.py", line 7, in <module>
+    proj = Plus @ ~Plus  # ValueError: Composition with a Statefunctions in the first operand is not defined.
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\opflow\operator_base.py", line 576, in __matmul__
+    return self.compose(other)
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\opflow\state_fns\circuit_state_fn.py", line 154, in compose
+    raise ValueError(
+ValueError: Composition with a Statefunctions in the first operand is not defined.
+
+----------------------------------------------------------------------
+Ran 1 test in 2.013s
+
+FAILED (errors=1)

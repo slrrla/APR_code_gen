@@ -1,0 +1,33 @@
+
+test_reconstructed_hamiltonian_and_exact_evolution (__main__.Regression) ... ERROR
+
+======================================================================
+ERROR: test_reconstructed_hamiltonian_and_exact_evolution (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_889\test.py", line 23, in test_reconstructed_hamiltonian_and_exact_evolution
+    m = target()
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_889\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\llm_repair\llm_fixes\issue_889\llm_fix.py", line 30, in <module>
+    circ.append((-time_ * H).exp_i().to_instruction(), list(range(N)))
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\opflow\evolutions\evolved_op.py", line 174, in to_instruction
+    return mat_op.to_instruction()
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\opflow\primitive_ops\matrix_op.py", line 220, in to_instruction
+    return (self.coeff * self.primitive).to_instruction()
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\quantum_info\operators\operator.py", line 205, in to_instruction
+    return UnitaryGate(self.data)
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\extensions\unitary.py", line 62, in __init__
+    raise ExtensionError("Input matrix is not unitary.")
+qiskit.extensions.exceptions.ExtensionError: 'Input matrix is not unitary.'
+
+----------------------------------------------------------------------
+Ran 1 test in 1.746s
+
+FAILED (errors=1)

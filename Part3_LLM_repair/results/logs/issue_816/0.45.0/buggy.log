@@ -1,0 +1,41 @@
+
+test_each_shot_is_recorded_and_matches_counts (__main__.Regression.test_each_shot_is_recorded_and_matches_counts) ... C:\qiskit_envs\q0450\Lib\site-packages\qiskit\utils\algorithm_globals.py:170: DeprecationWarning: The class ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+  algorithm_globals = QiskitAlgorithmGlobals()
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\utils\algorithm_globals.py:49: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  self.num_processes = settings.get("num_processes", QiskitAlgorithmGlobals.CPU_COUNT)
+C:\qiskit_envs\q0450\Lib\site-packages\qiskit\utils\algorithm_globals.py:120: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  parallel.CPU_COUNT = self.num_processes
+ERROR
+
+======================================================================
+ERROR: test_each_shot_is_recorded_and_matches_counts (__main__.Regression.test_each_shot_is_recorded_and_matches_counts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\qiskit_envs\q0450\Lib\site-packages\qiskit\result\result.py", line 226, in get_memory
+    memory = self.data(experiment)["memory"]
+             ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+KeyError: 'memory'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_816\test.py", line 22, in test_each_shot_is_recorded_and_matches_counts
+    m = target()
+        ^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_816\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_816\buggy.py", line 13, in <module>
+    memory = result.get_memory(circ)  # raises: no memory data collected
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0450\Lib\site-packages\qiskit\result\result.py", line 238, in get_memory
+    raise QiskitError(
+qiskit.exceptions.QiskitError: 'No memory for experiment "<qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x0000028C4AA53C90>". Please verify that you either ran a measurement level 2 job with the memory flag set, eg., "memory=True", or a measurement level 0/1 job.'
+
+----------------------------------------------------------------------
+Ran 1 test in 2.824s
+
+FAILED (errors=1)

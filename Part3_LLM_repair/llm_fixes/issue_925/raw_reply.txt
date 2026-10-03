@@ -1,0 +1,16 @@
+```python
+from qiskit.aqua.algorithms import Shor
+from qiskit.aqua import QuantumInstance
+from qiskit.test.mock import FakeMelbourne
+
+PRIME = 15
+
+backend = FakeMelbourne()
+quantum_instance = QuantumInstance(backend, skip_qobj_validation=False)
+
+# FIX: the Shor circuit requires 18 qubits, exceeding FakeMelbourne's 15 -> use a simulator with enough qubits, because the hardware backend cannot execute this circuit
+shor = Shor(PRIME, 2)
+res = shor.run(quantum_instance)
+print("The list of factors of {} as computed by Shor is {}.".format(PRIME, res['factors'][0]))
+
+```

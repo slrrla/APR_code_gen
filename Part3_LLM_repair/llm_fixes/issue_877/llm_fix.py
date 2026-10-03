@@ -1,0 +1,4 @@
+from qiskit_aer.noise import NoiseModel
+
+# FIX: `backend` was undefined -> create a noise model directly, because no inaccessible IBM backend can be used to derive one
+noise_model = NoiseModel()
