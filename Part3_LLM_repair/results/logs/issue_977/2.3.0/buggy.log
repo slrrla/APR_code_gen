@@ -1,0 +1,36 @@
+
+test_dense_matrix_round_trip_and_pauli_coefficients (__main__.Regression.test_dense_matrix_round_trip_and_pauli_coefficients) ... ERROR
+
+======================================================================
+ERROR: test_dense_matrix_round_trip_and_pauli_coefficients (__main__.Regression.test_dense_matrix_round_trip_and_pauli_coefficients)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_977\test.py", line 22, in test_dense_matrix_round_trip_and_pauli_coefficients
+    m=target()
+      ^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_977\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_977\buggy.py", line 10, in <module>
+    H_op = SparsePauliOp(Hamiltonian).to_operator()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q230\Lib\site-packages\qiskit\quantum_info\operators\symplectic\sparse_pauli_op.py", line 139, in __init__
+    pauli_list = PauliList(data.copy() if copy and hasattr(data, "copy") else data)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q230\Lib\site-packages\qiskit\quantum_info\operators\symplectic\pauli_list.py", line 143, in __init__
+    base_z, base_x, base_phase = self._from_paulis(data)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q230\Lib\site-packages\qiskit\quantum_info\operators\symplectic\pauli_list.py", line 189, in _from_paulis
+    paulis.append(Pauli(i))
+                  ^^^^^^^^
+  File "C:\qiskit_envs\q230\Lib\site-packages\qiskit\quantum_info\operators\symplectic\pauli.py", line 203, in __init__
+    raise QiskitError("Invalid input data for Pauli.")
+qiskit.exceptions.QiskitError: 'Invalid input data for Pauli.'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.744s
+
+FAILED (errors=1)

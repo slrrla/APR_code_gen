@@ -1,0 +1,46 @@
+
+test_operator_dimension_and_diagonality (__main__.Regression) ... FAIL
+test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one (__main__.Regression) ... FAIL
+
+======================================================================
+FAIL: test_operator_dimension_and_diagonality (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_950\test.py", line 25, in test_operator_dimension_and_diagonality
+    np.testing.assert_allclose(abs(np.diag(data)), np.ones(1024), atol=1e-12)
+  File "C:\qiskit_envs\q0250\lib\site-packages\numpy\testing\_private\utils.py", line 1528, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\qiskit_envs\q0250\lib\site-packages\numpy\testing\_private\utils.py", line 842, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+Mismatched elements: 1024 / 1024 (100%)
+Max absolute difference: 1.
+Max relative difference: 1.
+ x: array([2., 2., 2., ..., 0., 0., 0.])
+ y: array([1., 1., 1., ..., 1., 1., 1.])
+
+======================================================================
+FAIL: test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_950\test.py", line 33, in test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one
+    np.testing.assert_allclose(diagonal, expected, atol=1e-12,
+  File "C:\qiskit_envs\q0250\lib\site-packages\numpy\testing\_private\utils.py", line 1528, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\qiskit_envs\q0250\lib\site-packages\numpy\testing\_private\utils.py", line 842, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+Requested Z on qubits 3..7, not on qubits 2..6
+Mismatched elements: 1024 / 1024 (100%)
+Max absolute difference: 1.
+Max relative difference: 1.
+ x: array([2.+0.j, 2.+0.j, 2.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j])
+ y: array([ 1,  1,  1, ..., -1, -1, -1])
+
+----------------------------------------------------------------------
+Ran 2 tests in 6.673s
+
+FAILED (failures=2)

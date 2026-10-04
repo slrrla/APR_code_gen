@@ -1,0 +1,9 @@
+```python
+from qiskit.quantum_info import Operator
+
+i, j, N = 2, 8, 10
+# FIX: op was only j-i-1 qubits wide -> make it N qubits wide, because qargs uses positions in the full register
+op = Operator.from_label('I' * N)
+opZ = Operator.from_label('Z' * (j - i - 1))
+op = op._add(opZ, qargs=list(range(i + 1, j)))
+```

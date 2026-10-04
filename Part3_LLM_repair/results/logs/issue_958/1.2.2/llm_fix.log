@@ -1,0 +1,49 @@
+
+test_exact_negative_h_tensor_h_not_just_global_equivalence (__main__.Regression.test_exact_negative_h_tensor_h_not_just_global_equivalence) ... 
+  test_exact_negative_h_tensor_h_not_just_global_equivalence (__main__.Regression.test_exact_negative_h_tensor_h_not_just_global_equivalence) (circuit='qc') ... FAIL
+  test_exact_negative_h_tensor_h_not_just_global_equivalence (__main__.Regression.test_exact_negative_h_tensor_h_not_just_global_equivalence) (circuit='qc2') ... ERROR
+
+======================================================================
+ERROR: test_exact_negative_h_tensor_h_not_just_global_equivalence (__main__.Regression.test_exact_negative_h_tensor_h_not_just_global_equivalence) (circuit='qc2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_958\test.py", line 27, in test_exact_negative_h_tensor_h_not_just_global_equivalence
+    np.testing.assert_allclose(Operator(m[name]).data, expected, atol=1e-12)
+                                        ~^^^^^^
+KeyError: 'qc2'
+
+======================================================================
+FAIL: test_exact_negative_h_tensor_h_not_just_global_equivalence (__main__.Regression.test_exact_negative_h_tensor_h_not_just_global_equivalence) (circuit='qc')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_958\test.py", line 27, in test_exact_negative_h_tensor_h_not_just_global_equivalence
+    np.testing.assert_allclose(Operator(m[name]).data, expected, atol=1e-12)
+  File "C:\qiskit_envs\q122\Lib\site-packages\numpy\testing\_private\utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\qiskit_envs\q122\Lib\site-packages\numpy\testing\_private\utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+Mismatched elements: 16 / 16 (100%)
+First 5 mismatches are at indices:
+ [0, 0]: (0.9999999999999997+0j) (ACTUAL), -0.4999999999999999 (DESIRED)
+ [0, 1]: 0j (ACTUAL), -0.4999999999999999 (DESIRED)
+ [0, 2]: 0j (ACTUAL), -0.4999999999999999 (DESIRED)
+ [0, 3]: 0j (ACTUAL), -0.4999999999999999 (DESIRED)
+ [1, 0]: 0j (ACTUAL), -0.4999999999999999 (DESIRED)
+Max absolute difference among violations: 1.5
+Max relative difference among violations: 3.
+ ACTUAL: array([[1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],
+       [0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j],
+       [0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j],
+       [0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j]])
+ DESIRED: array([[-0.5, -0.5, -0.5, -0.5],
+       [-0.5,  0.5, -0.5,  0.5],
+       [-0.5, -0.5,  0.5,  0.5],
+       [-0.5,  0.5,  0.5, -0.5]])
+
+----------------------------------------------------------------------
+Ran 1 test in 1.131s
+
+FAILED (failures=1, errors=1)

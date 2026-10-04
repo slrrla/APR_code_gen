@@ -1,0 +1,5 @@
+from qiskit import QuantumCircuit
+# FIX: Aer is no longer exported by qiskit -> import Aer from qiskit_aer, because Aer is distributed as a separate package
+from qiskit_aer import Aer
+
+print(Aer.backends())

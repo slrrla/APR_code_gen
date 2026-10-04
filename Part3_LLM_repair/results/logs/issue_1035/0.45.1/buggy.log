@@ -1,0 +1,35 @@
+
+test_local_fake_backend_estimation (__main__.TestIntent.test_local_fake_backend_estimation) ... FAIL
+
+======================================================================
+FAIL: test_local_fake_backend_estimation (__main__.TestIntent.test_local_fake_backend_estimation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_1035\test.py", line 40, in test_local_fake_backend_estimation
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_1035\test.py", line 18, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_1035\buggy.py", line 3, in <module>
+    from qiskit_ibm_runtime import QiskitRuntimeService, Options, Session, Estimator
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_1035\test.py", line 32, in offline_import
+    raise AssertionError("OFFLINE_CONTRACT: Runtime account/session is not a local fake backend")
+AssertionError: OFFLINE_CONTRACT: Runtime account/session is not a local fake backend
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (failures=1)
