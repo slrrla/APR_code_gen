@@ -1,0 +1,34 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -1,9 +1,9 @@
+-from qiskit.circuit.library import TwoLocal
++from qiskit.circuit.library import n_local
+ import numpy as np
+ 
+ num_qubits = 2
+ 
+-rot = TwoLocal(
++rot = n_local(
+     int(np.sum(num_qubits)),
+     "ry",
+     [],
+@@ -11,7 +11,7 @@
+     skip_final_rotation_layer=True,
+     parameter_prefix="p",
+ )
+-var = TwoLocal(
++var = n_local(
+     int(np.sum(num_qubits)),
+     "ry",
+     "cx",
+@@ -20,8 +20,8 @@
+     skip_final_rotation_layer=True,
+ )
+ 
+-print(rot.num_parameters_settable())  # >> 2
++print(rot.num_parameters)  # >> 2
+ 
+ rot.compose(var, inplace=True)
+ 
+-print(rot.num_parameters_settable())  # >> 2, unchanged, bug: should reflect combined parameters
++print(rot.num_parameters)  # >> 4 (updated to reflect combined parameters)

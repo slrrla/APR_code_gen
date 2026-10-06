@@ -1,0 +1,20 @@
+from qiskit import QuantumCircuit, Aer, execute
+
+# Define a function to create the Deutsch circuit
+def deutsch_circuit(oracle):
+    # Create a quantum circuit with two qubits and one classical bit
+    circuit = QuantumCircuit(2, 1)
+    # Initialize the input qubit to |0>
+    circuit.x(1)
+    # Apply a Hadamard gate to both qubits
+    circuit.h(0)
+    circuit.h(1)
+    # Apply the oracle gate
+    circuit.compose(oracle, inplace=True)
+    # Apply another Hadamard gate to the first qubit
+    circuit.h(0)
+    # Measure the first qubit and store the result in the classical bit
+    circuit.measure(0, 0)
+    # Return the circuit
+    return circuit
+

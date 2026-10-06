@@ -1,0 +1,20 @@
+            # Create time array for the pulse
+            times = np.arange(len(gaussian_samples)) * dt
+            
+            # Calculate the frequency offset between desired and LO frequency
+            freq_offset = freq * GHz - lo_freq
+            
+            # Apply frequency modulation to the samples
+            modulated_samples = gaussian_samples * np.exp(2j * np.pi * freq_offset * times)
+            
+            # Create a new Waveform with the modulated samples
+            modulated_pulse = Waveform(modulated_samples)
+            
+            # Play the modulated pulse
+            pulse.play(modulated_pulse, DriveChannel(qubit))
+            pulse.call(meas)
+    spec01_scheds.append(spec01_sched)
+
+qobj = assemble(spec01_scheds, backend=backend, **job_params)
+spec01_job = backend.run(qobj)
+print(spec01_job.result())

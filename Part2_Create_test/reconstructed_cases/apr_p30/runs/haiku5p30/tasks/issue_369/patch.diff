@@ -1,0 +1,12 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -17,5 +17,7 @@
+ 
+ i = 0
+ circ = QuantumCircuit(17)
+-# Bug: only providing 1 qubit for compose while csub has 17 qubits
+-circ.compose(csub, [i], inplace=True)
++# Fix: provide all 17 qubits for compose - control qubit i, then remaining qubits
++# The controlled circuit has 17 qubits: qubit 0 is the control, qubits 1-16 are the original circuit
++qubit_map = [i] + list(range(1, 17))
++circ.compose(csub, qubit_map, inplace=True)

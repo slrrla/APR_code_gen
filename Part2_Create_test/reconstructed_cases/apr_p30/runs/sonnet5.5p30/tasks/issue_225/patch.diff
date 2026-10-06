@@ -1,0 +1,11 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -29,7 +29,7 @@
+         params = np.random.uniform(-np.pi, np.pi, size)
+         ansatz = ansatze(params, N)
+         result = execute(ansatz, backend=Aer.get_backend('statevector_simulator')).result()
+-        U = result.get_statevector(ansatz, decimals=5).reshape(-1, 1)
++        U = np.asarray(result.get_statevector(ansatz, decimals=5)).reshape(-1, 1)
+         randunit_density += np.kron(U, U.conj().T)
+     return randunit_density / samples
+ 

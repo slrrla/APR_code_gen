@@ -1,0 +1,50 @@
+Help on package qiskit:
+
+NAME
+    qiskit - Main Qiskit public functionality.
+
+PACKAGE CONTENTS
+    _accelerate
+    capi (package)
+    circuit (package)
+    compiler (package)
+    converters (package)
+    dagcircuit (package)
+    exceptions
+    passmanager (package)
+    primitives (package)
+    providers (package)
+    qasm2 (package)
+    qasm3 (package)
+    qpy (package)
+    quantum_info (package)
+    result (package)
+    synthesis (package)
+    transpiler (package)
+    user_config
+    utils (package)
+    version
+    visualization (package)
+
+SUBMODULES
+    _user_config
+
+CLASSES
+    builtins.Exception(builtins.BaseException)
+        qiskit.exceptions.QiskitError
+            qiskit.exceptions.MissingOptionalLibraryError(qiskit.exceptions.QiskitError, builtins.ImportError)
+    builtins.object
+        qiskit.circuit.quantumcircuit.QuantumCircuit
+    qiskit.circuit.Register(builtins.object)
+        qiskit.circuit.ClassicalRegister
+        qiskit.circuit.QuantumRegister
+            qiskit.circuit.AncillaRegister
+
+    class AncillaRegister(QuantumRegister)
+     |  AncillaRegister(size=None, name=None, bits=None)
+     |
+     |  Implement an ancilla register.
+     |
+     |  Method resolution order:
+     |      AncillaRegister
+     |      QuantumRegister

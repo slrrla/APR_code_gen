@@ -1,0 +1,40 @@
+
+# Retrieve calibrated measurement pulse from backend
+meas = inst_sched_map.get('measure', qubits=[qubit])
+
+# The same spec pulse for both 01 and 12 spec
+drive_amp = 0.25
+drive_duration = inst_sched_map.get('x', qubits=[qubit]).duration
+# Get the LO frequency for the drive channel (default frequency)
+lo_freq = backend_defaults.qubit_freq_est[qubit]
+
+# Create the base schedule
+spec01_scheds = []
+for freq in spec_freqs_GHz:
+    with pulse.build(name="Spec Pulse at %.3f GHz" % freq) as spec01_sched:
+        with pulse.align_sequential():
+            # Workaround for set_frequency not being supported in PulseSimulator:
+            # Instead of using pulse.set_frequency(), we manually modulate the pulse
+            # by multiplying it with exp(i * 2π * freq_offset * t)
+            
+            # Get the Gaussian pulse samples
+            gaussian_wf = spec_pulse.get_waveform()
+            gaussian_samples = gaussian_wf.samples
+            
+            # Create time array for the pulse
+            times = np.arange(len(gaussian_samples)) * dt
+            
+            # Calculate the frequency offset between desired and LO frequency
+            freq_offset = freq * GHz - lo_freq
+            
+            # Apply frequency modulation to the samples
+            modulated_samples = gaussian_samples * np.exp(2j * np.pi * freq_offset * times)
+            
+            # Create a new Waveform with the modulated samples
+            modulated_pulse = Waveform(modulated_samples)
+            
+            # Play the modulated pulse
+            pulse.play(modulated_pulse, DriveChannel(qubit))
+            pulse.call(meas)
+    spec01_scheds.append(spec01_sched)
+

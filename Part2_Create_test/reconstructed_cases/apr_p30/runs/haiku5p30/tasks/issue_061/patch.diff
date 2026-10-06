@@ -1,0 +1,21 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -6,7 +6,14 @@
+ qc.h(0)
+ qc.cx(0, 1)
+ 
+-for instruction, qargs, cargs in qc.data:
+-    qbit: qiskit.circuit.Qubit = qargs[0]
+-    print(qbit.register)
+-    print(qbit.index)
++for instruction in qc.data:
++    qbit: qiskit.circuit.Qubit = instruction.qubits[0]
++    register = qbit._register
++    # Find the index of qbit in the register
++    index = None
++    for i, q in enumerate(register):
++        if q == qbit:
++            index = i
++            break
++    print(register)
++    print(index)

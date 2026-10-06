@@ -1,0 +1,31 @@
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+commutator signature:
+(op_a, op_b, op_c=None, sign=False, threshold=1e-12)
+
+commutator docstring:
+
+    Compute commutator of `op_a` and `op_b` or
+    the symmetric double commutator of `op_a`, `op_b` and `op_c`.
+
+    See McWeeny chapter 13.6 Equation of motion methods (page 479)
+
+    | If only `op_a` and `op_b` are provided:
+    |     result = A\*B - B\*A;
+    |
+    | If `op_a`, `op_b` and `op_c` are provided:
+    |     result = 0.5 \* (2\*A\*B\*C + 2\*C\*B\*A - B\*A\*C - C\*A\*B - A\*C\*B - B\*C\*A)
+
+    Args:
+        op_a (WeightedPauliOperator): operator a
+        op_b (WeightedPauliOperator): operator b
+        op_c (Optional(WeightedPauliOperator)): operator c
+        sign (bool): False anti-commutes, True commutes
+        threshold (float): the truncation threshold
+
+    Returns:
+        WeightedPauliOperator: the commutator
+
+    Note:
+        For the final chop, the original codes only contain the paulis with real coefficient.
+    

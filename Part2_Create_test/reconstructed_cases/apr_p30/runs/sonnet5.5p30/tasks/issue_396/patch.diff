@@ -1,0 +1,15 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -4,10 +4,8 @@
+ # Desired marked (solution) states for the oracle
+ targets = ['101', '110']
+ 
+-# BUG: Statevector.from_label only accepts a single bitstring label,
+-# not a list of multiple target states, so this does not build the
+-# intended oracle marking both |101> and |110>.
+-oracle = Statevector.from_label(targets)
++# Indicator vector (1 on marked states, 0 elsewhere); GroverOperator uses (-1)**data
++oracle = sum((Statevector.from_label(t) for t in targets[1:]), Statevector.from_label(targets[0]))
+ 
+ grover_op = GroverOperator(oracle)
+ print(grover_op)

@@ -1,0 +1,1541 @@
+{
+  "schema_version": 1,
+  "audited_at_utc": "2026-10-06T05:11:16.781519+00:00",
+  "passed": true,
+  "runs": {
+    "sonnet5.5p30": {
+      "folder": "sonnet5.5p30",
+      "actual_model": "claude-sonnet-5-5",
+      "cases_audited": 30,
+      "rows": [
+        {
+          "case": "issue_009",
+          "version": "0.46.3",
+          "native_responses": 5,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.03947,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262174.5441945,
+          "agent_phase_end_timestamp": 1791262174.6807854,
+          "estimated_first_test_start_timestamp": 1791262977.5390232,
+          "status_counts": {
+            "EXECUTED": 4,
+            "POLICY_REJECTED": 1,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_021_se",
+          "version": "0.46.3",
+          "native_responses": 6,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.06342,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262180.2922416,
+          "agent_phase_end_timestamp": 1791262180.421148,
+          "estimated_first_test_start_timestamp": 1791262977.5474875,
+          "status_counts": {
+            "EXECUTED": 5,
+            "POLICY_REJECTED": 1,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_032_se",
+          "version": "0.25.3",
+          "native_responses": 7,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.089622,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262214.6340706,
+          "agent_phase_end_timestamp": 1791262214.7303014,
+          "estimated_first_test_start_timestamp": 1791262977.5384462,
+          "status_counts": {
+            "EXECUTED": 6,
+            "POLICY_REJECTED": 1,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_034",
+          "version": "2.5.0",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.015694,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262239.7071981,
+          "agent_phase_end_timestamp": 1791262239.8208575,
+          "estimated_first_test_start_timestamp": 1791262985.893281,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_036",
+          "version": "2.5.0",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.012166,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262253.2973063,
+          "agent_phase_end_timestamp": 1791262253.4131846,
+          "estimated_first_test_start_timestamp": 1791262988.0054872,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_058_se",
+          "version": "0.46.3",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.033518,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262267.998915,
+          "agent_phase_end_timestamp": 1791262268.09111,
+          "estimated_first_test_start_timestamp": 1791262988.417498,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_061",
+          "version": "2.5.0",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.015668,
+          "submitted": true,
+          "generated_test_status": "FAIL",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262277.161404,
+          "agent_phase_end_timestamp": 1791262277.2678123,
+          "estimated_first_test_start_timestamp": 1791262989.627895,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_072",
+          "version": "0.25.3",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.028448,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262311.6470435,
+          "agent_phase_end_timestamp": 1791262311.735515,
+          "estimated_first_test_start_timestamp": 1791262991.3151443,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_096",
+          "version": "2.5.0",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.017194,
+          "submitted": true,
+          "generated_test_status": "FAIL",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262322.3945677,
+          "agent_phase_end_timestamp": 1791262322.5021405,
+          "estimated_first_test_start_timestamp": 1791262992.7394776,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_1035",
+          "version": "0.46.3",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.021494,
+          "submitted": true,
+          "generated_test_status": "ERROR",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262344.144697,
+          "agent_phase_end_timestamp": 1791262344.278323,
+          "estimated_first_test_start_timestamp": 1791262996.4277308,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_155",
+          "version": "0.46.3",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.028298,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262357.7234309,
+          "agent_phase_end_timestamp": 1791262357.8451471,
+          "estimated_first_test_start_timestamp": 1791262997.7547488,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_157",
+          "version": "0.46.3",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.016916,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262380.6464095,
+          "agent_phase_end_timestamp": 1791262380.7947538,
+          "estimated_first_test_start_timestamp": 1791263004.478627,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_174",
+          "version": "0.46.3",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.020796,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262393.4918487,
+          "agent_phase_end_timestamp": 1791262393.583202,
+          "estimated_first_test_start_timestamp": 1791263006.5346842,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_189",
+          "version": "2.5.0",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.026898,
+          "submitted": true,
+          "generated_test_status": "FAIL",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262407.877324,
+          "agent_phase_end_timestamp": 1791262408.0068345,
+          "estimated_first_test_start_timestamp": 1791263007.1357577,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_225",
+          "version": "0.46.3",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.02973,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262436.1131399,
+          "agent_phase_end_timestamp": 1791262436.204875,
+          "estimated_first_test_start_timestamp": 1791263011.233882,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_233",
+          "version": "2.5.0",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.019444,
+          "submitted": true,
+          "generated_test_status": "FAIL",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262445.9796488,
+          "agent_phase_end_timestamp": 1791262446.0939493,
+          "estimated_first_test_start_timestamp": 1791263013.811904,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_261",
+          "version": "0.46.3",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.019544,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262463.878075,
+          "agent_phase_end_timestamp": 1791262463.9681036,
+          "estimated_first_test_start_timestamp": 1791263016.6250546,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_280",
+          "version": "0.46.3",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.0201,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262493.1884003,
+          "agent_phase_end_timestamp": 1791262493.4122307,
+          "estimated_first_test_start_timestamp": 1791263016.838172,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_295",
+          "version": "0.46.3",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.024248,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262501.3475482,
+          "agent_phase_end_timestamp": 1791262501.4371476,
+          "estimated_first_test_start_timestamp": 1791263025.6388097,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_315",
+          "version": "2.5.0",
+          "native_responses": 4,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.025224,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262508.221708,
+          "agent_phase_end_timestamp": 1791262508.319227,
+          "estimated_first_test_start_timestamp": 1791263025.8791416,
+          "status_counts": {
+            "EXECUTED": 4,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_344",
+          "version": "0.46.3",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.02257,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262519.7193222,
+          "agent_phase_end_timestamp": 1791262519.8353257,
+          "estimated_first_test_start_timestamp": 1791263029.3493567,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_362",
+          "version": "2.5.0",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.017676,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262526.4147022,
+          "agent_phase_end_timestamp": 1791262526.5197494,
+          "estimated_first_test_start_timestamp": 1791263035.1641212,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_369",
+          "version": "2.5.0",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.019364,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262537.8921854,
+          "agent_phase_end_timestamp": 1791262538.001858,
+          "estimated_first_test_start_timestamp": 1791263038.5769384,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_396",
+          "version": "2.5.0",
+          "native_responses": 4,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.03015,
+          "submitted": true,
+          "generated_test_status": "FAIL",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262560.2265034,
+          "agent_phase_end_timestamp": 1791262560.3478982,
+          "estimated_first_test_start_timestamp": 1791263038.9595635,
+          "status_counts": {
+            "EXECUTED": 4,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_415",
+          "version": "0.25.3",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.033122,
+          "submitted": true,
+          "generated_test_status": "FAIL",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262576.006258,
+          "agent_phase_end_timestamp": 1791262576.112542,
+          "estimated_first_test_start_timestamp": 1791263041.9775007,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_436",
+          "version": "0.25.3",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.053914,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262603.5260339,
+          "agent_phase_end_timestamp": 1791262603.6308796,
+          "estimated_first_test_start_timestamp": 1791263043.3548563,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_443",
+          "version": "2.5.0",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.022056,
+          "submitted": true,
+          "generated_test_status": "FAIL",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262594.9931772,
+          "agent_phase_end_timestamp": 1791262595.0947478,
+          "estimated_first_test_start_timestamp": 1791263048.2787852,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_453",
+          "version": "2.5.0",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.017994,
+          "submitted": true,
+          "generated_test_status": "ERROR",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262613.2178745,
+          "agent_phase_end_timestamp": 1791262613.324015,
+          "estimated_first_test_start_timestamp": 1791263049.8727663,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_468",
+          "version": "0.25.3",
+          "native_responses": 5,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.057566,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262658.502067,
+          "agent_phase_end_timestamp": 1791262658.5933073,
+          "estimated_first_test_start_timestamp": 1791263051.462572,
+          "status_counts": {
+            "EXECUTED": 5,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_497",
+          "version": "0.25.3",
+          "native_responses": 3,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.028004,
+          "submitted": true,
+          "generated_test_status": "FAIL",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262676.8290317,
+          "agent_phase_end_timestamp": 1791262676.9952037,
+          "estimated_first_test_start_timestamp": 1791263053.009863,
+          "status_counts": {
+            "EXECUTED": 3,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        }
+      ],
+      "official_cost_usd": 0.870308,
+      "pipeline_smoke": {
+        "cases": [
+          {
+            "case": "issue_036",
+            "cost_usd": 0.044932,
+            "native_responses": 8
+          }
+        ],
+        "cost_usd": 0.044932,
+        "separate_from_official_30_case_budget": true
+      },
+      "native_responses": 103,
+      "submitted": 30,
+      "repaired": 20,
+      "visible_sensitive_attempts": 0,
+      "benign_policy_false_positive_count": 0,
+      "findings": [
+        {
+          "severity": "WARNING",
+          "code": "documented_post_agent_validation_adjustment",
+          "folder": "sonnet5.5p30",
+          "file": "adapter.py",
+          "before_sha256": "aad36215eac7cce5d6b5643bfe454420d48d937eb6781c864fa9942881bb88c1",
+          "after_sha256": "c7c8b58fac54e686a484a3b09ad41b63cd251ef9dc508685af09a8697e72dd33",
+          "applied_at_utc": "2026-10-06T05:02:52.105096+00:00",
+          "agent_phase_completed_at_utc": "2026-10-06T04:59:07.220713+00:00",
+          "scope_functions": [
+            "snapshot_candidate",
+            "validate_task"
+          ],
+          "runtime_environment_ast_unchanged": true,
+          "reason": "Preserve API-generated bytes through Windows snapshotting; represent a deleted candidate as missing/failed, without restoring or repairing it"
+        }
+      ],
+      "limitations": [
+        "Monitored local processes and heuristic command guards are not an OS filesystem/network sandbox.",
+        "Command matches report visible text attempts; they do not prove intent or exclude dynamically constructed access.",
+        "Input-field checks cannot prove absence of memorized training-data/reference leakage.",
+        "Final-test chronology uses native response timestamps and artifact mtimes with a two-second tolerance; it is not a tamper-proof event log.",
+        "API cost is recomputed from recorded native token usage and the experiment's explicit prices, not an invoice."
+      ],
+      "total_known_usage_cost_usd": 0.91524,
+      "passed": true
+    },
+    "haiku5p30": {
+      "folder": "haiku5p30",
+      "actual_model": "claude-haiku-4-5-20251001",
+      "cases_audited": 30,
+      "rows": [
+        {
+          "case": "issue_009",
+          "version": "0.46.3",
+          "native_responses": 16,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.117195,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262253.3931794,
+          "agent_phase_end_timestamp": 1791262253.5825436,
+          "estimated_first_test_start_timestamp": 1791263081.2449758,
+          "status_counts": {
+            "EXECUTED": 16,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_021_se",
+          "version": "0.46.3",
+          "native_responses": 19,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.106518,
+          "submitted": true,
+          "generated_test_status": "ERROR",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262316.822954,
+          "agent_phase_end_timestamp": 1791262316.931734,
+          "estimated_first_test_start_timestamp": 1791263081.233912,
+          "status_counts": {
+            "EXECUTED": 14,
+            "POLICY_REJECTED": 4,
+            "TIMEOUT": 1,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [
+            {
+              "case": "issue_021_se",
+              "command_id": 16,
+              "categories": [
+                "prior_run_or_conversation"
+              ],
+              "status": "POLICY_REJECTED",
+              "guard_reasons": [
+                "withheld tests, reference solutions, or prior runs are prohibited"
+              ],
+              "classification": "benign_policy_false_positive",
+              "command_sha256": "a99821e0d45135da9b6f1cea8db5251fbad48cf1debb92e07b0b64df06c6696b",
+              "command_excerpt": "cd /c/personal_webpage/my-portfolio/APR_code_gen/Part2_Create_test/reconstructed_cases/apr_p30/runs/haiku5p30/tasks/issue_021_se/workspace && $PY buggy.py 2>&1",
+              "visible_guard_false_positive": true,
+              "classification_reason": "own_workspace_path_contains_runs_token"
+            }
+          ],
+          "benign_policy_false_positive_count": 1,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_032_se",
+          "version": "0.25.3",
+          "native_responses": 14,
+          "billed_turns_without_executable_action": 1,
+          "cost_usd": 0.216375,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262228.3703878,
+          "agent_phase_end_timestamp": 1791262228.5093524,
+          "estimated_first_test_start_timestamp": 1791263081.2346506,
+          "status_counts": {
+            "EXECUTED": 12,
+            "POLICY_REJECTED": 1,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [
+            {
+              "case": "issue_032_se",
+              "command_id": 12,
+              "categories": [
+                "prior_run_or_conversation"
+              ],
+              "status": "POLICY_REJECTED",
+              "guard_reasons": [
+                "withheld tests, reference solutions, or prior runs are prohibited"
+              ],
+              "classification": "benign_policy_false_positive",
+              "command_sha256": "9b76c45d1ac148888648d2029e81a980c26d0e9a55805b1f0d15018cc839a45e",
+              "command_excerpt": "$PY buggy.py > /dev/null && echo \"SUCCESS: Script runs with exit code 0\"",
+              "visible_guard_false_positive": true,
+              "classification_reason": "echo_text_contains_runs_word"
+            }
+          ],
+          "benign_policy_false_positive_count": 1,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_034",
+          "version": "2.5.0",
+          "native_responses": 9,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.026576,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262244.5452845,
+          "agent_phase_end_timestamp": 1791262244.6861398,
+          "estimated_first_test_start_timestamp": 1791263088.895342,
+          "status_counts": {
+            "EXECUTED": 9,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_036",
+          "version": "2.5.0",
+          "native_responses": 10,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.039159,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262266.5381792,
+          "agent_phase_end_timestamp": 1791262266.6431181,
+          "estimated_first_test_start_timestamp": 1791263091.0792737,
+          "status_counts": {
+            "EXECUTED": 10,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_058_se",
+          "version": "0.46.3",
+          "native_responses": 10,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.074332,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262294.9409025,
+          "agent_phase_end_timestamp": 1791262295.073508,
+          "estimated_first_test_start_timestamp": 1791263091.8092508,
+          "status_counts": {
+            "EXECUTED": 9,
+            "POLICY_REJECTED": 1,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_061",
+          "version": "2.5.0",
+          "native_responses": 18,
+          "billed_turns_without_executable_action": 1,
+          "cost_usd": 0.115001,
+          "submitted": true,
+          "generated_test_status": "FAIL",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262340.867153,
+          "agent_phase_end_timestamp": 1791262340.974696,
+          "estimated_first_test_start_timestamp": 1791263093.463714,
+          "status_counts": {
+            "EXECUTED": 17,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_072",
+          "version": "0.25.3",
+          "native_responses": 8,
+          "billed_turns_without_executable_action": 1,
+          "cost_usd": 0.057676,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262313.4314778,
+          "agent_phase_end_timestamp": 1791262313.5383558,
+          "estimated_first_test_start_timestamp": 1791263095.2110069,
+          "status_counts": {
+            "EXECUTED": 7,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_096",
+          "version": "2.5.0",
+          "native_responses": 15,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.060582,
+          "submitted": true,
+          "generated_test_status": "FAIL",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262366.7525253,
+          "agent_phase_end_timestamp": 1791262366.9048014,
+          "estimated_first_test_start_timestamp": 1791263097.5963993,
+          "status_counts": {
+            "EXECUTED": 15,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_1035",
+          "version": "0.46.3",
+          "native_responses": 17,
+          "billed_turns_without_executable_action": 1,
+          "cost_usd": 0.073188,
+          "submitted": true,
+          "generated_test_status": "ERROR",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262394.9843996,
+          "agent_phase_end_timestamp": 1791262395.0835812,
+          "estimated_first_test_start_timestamp": 1791263103.7864997,
+          "status_counts": {
+            "EXECUTED": 16,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_155",
+          "version": "0.46.3",
+          "native_responses": 6,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.036472,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262371.3945243,
+          "agent_phase_end_timestamp": 1791262371.488584,
+          "estimated_first_test_start_timestamp": 1791263104.7693353,
+          "status_counts": {
+            "EXECUTED": 6,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_157",
+          "version": "0.46.3",
+          "native_responses": 20,
+          "billed_turns_without_executable_action": 1,
+          "cost_usd": 0.15493,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262450.3404007,
+          "agent_phase_end_timestamp": 1791262450.4601064,
+          "estimated_first_test_start_timestamp": 1791263111.95144,
+          "status_counts": {
+            "EXECUTED": 18,
+            "POLICY_REJECTED": 1,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_174",
+          "version": "0.46.3",
+          "native_responses": 9,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.041663,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262409.5716214,
+          "agent_phase_end_timestamp": 1791262409.6754062,
+          "estimated_first_test_start_timestamp": 1791263115.9942474,
+          "status_counts": {
+            "EXECUTED": 7,
+            "POLICY_REJECTED": 2,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_189",
+          "version": "2.5.0",
+          "native_responses": 7,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.040112,
+          "submitted": true,
+          "generated_test_status": "FAIL",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262428.076457,
+          "agent_phase_end_timestamp": 1791262428.1807625,
+          "estimated_first_test_start_timestamp": 1791263116.0153432,
+          "status_counts": {
+            "EXECUTED": 7,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_225",
+          "version": "0.46.3",
+          "native_responses": 12,
+          "billed_turns_without_executable_action": 1,
+          "cost_usd": 0.08292,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262481.658389,
+          "agent_phase_end_timestamp": 1791262481.7689502,
+          "estimated_first_test_start_timestamp": 1791263120.9018588,
+          "status_counts": {
+            "EXECUTED": 9,
+            "POLICY_REJECTED": 2,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_233",
+          "version": "2.5.0",
+          "native_responses": 20,
+          "billed_turns_without_executable_action": 1,
+          "cost_usd": 0.169966,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262483.797001,
+          "agent_phase_end_timestamp": 1791262483.9017828,
+          "estimated_first_test_start_timestamp": 1791263122.9206219,
+          "status_counts": {
+            "EXECUTED": 18,
+            "POLICY_REJECTED": 1,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_261",
+          "version": "0.46.3",
+          "native_responses": 8,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.030735,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262479.0603328,
+          "agent_phase_end_timestamp": 1791262479.171906,
+          "estimated_first_test_start_timestamp": 1791263126.4547284,
+          "status_counts": {
+            "EXECUTED": 7,
+            "POLICY_REJECTED": 1,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_280",
+          "version": "0.46.3",
+          "native_responses": 5,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.018424,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262484.002333,
+          "agent_phase_end_timestamp": 1791262484.09107,
+          "estimated_first_test_start_timestamp": 1791263127.7619784,
+          "status_counts": {
+            "EXECUTED": 5,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_295",
+          "version": "0.46.3",
+          "native_responses": 8,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.045917,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262515.6662571,
+          "agent_phase_end_timestamp": 1791262515.7818544,
+          "estimated_first_test_start_timestamp": 1791263136.9636557,
+          "status_counts": {
+            "EXECUTED": 8,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_315",
+          "version": "2.5.0",
+          "native_responses": 8,
+          "billed_turns_without_executable_action": 1,
+          "cost_usd": 0.027431,
+          "submitted": true,
+          "generated_test_status": "ERROR",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262505.3293135,
+          "agent_phase_end_timestamp": 1791262505.4145303,
+          "estimated_first_test_start_timestamp": 1791263137.458565,
+          "status_counts": {
+            "EXECUTED": 7,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_344",
+          "version": "0.46.3",
+          "native_responses": 10,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.061328,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262546.5697184,
+          "agent_phase_end_timestamp": 1791262546.725305,
+          "estimated_first_test_start_timestamp": 1791263141.5232606,
+          "status_counts": {
+            "EXECUTED": 10,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_362",
+          "version": "2.5.0",
+          "native_responses": 13,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.097339,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262553.0080109,
+          "agent_phase_end_timestamp": 1791262553.1315918,
+          "estimated_first_test_start_timestamp": 1791263147.2073767,
+          "status_counts": {
+            "EXECUTED": 13,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_369",
+          "version": "2.5.0",
+          "native_responses": 13,
+          "billed_turns_without_executable_action": 1,
+          "cost_usd": 0.079229,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262564.460501,
+          "agent_phase_end_timestamp": 1791262564.5526714,
+          "estimated_first_test_start_timestamp": 1791263151.2090993,
+          "status_counts": {
+            "EXECUTED": 12,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_396",
+          "version": "2.5.0",
+          "native_responses": 11,
+          "billed_turns_without_executable_action": 1,
+          "cost_usd": 0.051877,
+          "submitted": true,
+          "generated_test_status": "FAIL",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262583.5881014,
+          "agent_phase_end_timestamp": 1791262583.7478783,
+          "estimated_first_test_start_timestamp": 1791263152.090892,
+          "status_counts": {
+            "EXECUTED": 10,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_415",
+          "version": "0.25.3",
+          "native_responses": 7,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.044731,
+          "submitted": true,
+          "generated_test_status": "FAIL",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262583.2119906,
+          "agent_phase_end_timestamp": 1791262583.3050456,
+          "estimated_first_test_start_timestamp": 1791263155.0668511,
+          "status_counts": {
+            "EXECUTED": 7,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_436",
+          "version": "0.25.3",
+          "native_responses": 40,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.727382,
+          "submitted": false,
+          "generated_test_status": "ERROR",
+          "repaired": false,
+          "candidate_present": false,
+          "last_native_response_timestamp": 1791262712.5076547,
+          "agent_phase_end_timestamp": 1791262712.7231154,
+          "estimated_first_test_start_timestamp": 1791263156.2287014,
+          "status_counts": {
+            "EXECUTED": 31,
+            "POLICY_REJECTED": 10
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 0
+        },
+        {
+          "case": "issue_443",
+          "version": "2.5.0",
+          "native_responses": 9,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.037046,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262618.440425,
+          "agent_phase_end_timestamp": 1791262618.5465899,
+          "estimated_first_test_start_timestamp": 1791263162.8163993,
+          "status_counts": {
+            "EXECUTED": 8,
+            "POLICY_REJECTED": 1,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_453",
+          "version": "2.5.0",
+          "native_responses": 8,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.031259,
+          "submitted": true,
+          "generated_test_status": "ERROR",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262623.994591,
+          "agent_phase_end_timestamp": 1791262624.103935,
+          "estimated_first_test_start_timestamp": 1791263164.6903608,
+          "status_counts": {
+            "EXECUTED": 8,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_468",
+          "version": "0.25.3",
+          "native_responses": 21,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.22492,
+          "submitted": true,
+          "generated_test_status": "PASS",
+          "repaired": true,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262747.114341,
+          "agent_phase_end_timestamp": 1791262747.2207131,
+          "estimated_first_test_start_timestamp": 1791263166.1610577,
+          "status_counts": {
+            "EXECUTED": 21,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        },
+        {
+          "case": "issue_497",
+          "version": "0.25.3",
+          "native_responses": 7,
+          "billed_turns_without_executable_action": 0,
+          "cost_usd": 0.039959,
+          "submitted": true,
+          "generated_test_status": "FAIL",
+          "repaired": false,
+          "candidate_present": true,
+          "last_native_response_timestamp": 1791262661.3413043,
+          "agent_phase_end_timestamp": 1791262661.4391122,
+          "estimated_first_test_start_timestamp": 1791263168.240164,
+          "status_counts": {
+            "EXECUTED": 7,
+            "SUBMITTED": 1
+          },
+          "visible_attempts": [],
+          "benign_policy_false_positive_count": 0,
+          "submitted_commands": 1
+        }
+      ],
+      "official_cost_usd": 2.930242,
+      "pipeline_smoke": {
+        "cases": [
+          {
+            "case": "issue_036",
+            "cost_usd": 0.016558999999999997,
+            "native_responses": 7
+          }
+        ],
+        "cost_usd": 0.016558999999999997,
+        "separate_from_official_30_case_budget": true
+      },
+      "native_responses": 378,
+      "submitted": 29,
+      "repaired": 19,
+      "visible_sensitive_attempts": 2,
+      "benign_policy_false_positive_count": 2,
+      "findings": [
+        {
+          "severity": "WARNING",
+          "code": "documented_post_agent_validation_adjustment",
+          "folder": "haiku5p30",
+          "file": "adapter.py",
+          "before_sha256": "aad36215eac7cce5d6b5643bfe454420d48d937eb6781c864fa9942881bb88c1",
+          "after_sha256": "c7c8b58fac54e686a484a3b09ad41b63cd251ef9dc508685af09a8697e72dd33",
+          "applied_at_utc": "2026-10-06T05:02:52.105096+00:00",
+          "agent_phase_completed_at_utc": "2026-10-06T04:59:07.220713+00:00",
+          "scope_functions": [
+            "snapshot_candidate",
+            "validate_task"
+          ],
+          "runtime_environment_ast_unchanged": true,
+          "reason": "Preserve API-generated bytes through Windows snapshotting; represent a deleted candidate as missing/failed, without restoring or repairing it"
+        },
+        {
+          "severity": "WARNING",
+          "code": "benign_policy_false_positive",
+          "folder": "haiku5p30",
+          "case": "issue_021_se",
+          "command_id": 16,
+          "categories": [
+            "prior_run_or_conversation"
+          ],
+          "status": "POLICY_REJECTED",
+          "guard_reasons": [
+            "withheld tests, reference solutions, or prior runs are prohibited"
+          ],
+          "classification": "benign_policy_false_positive",
+          "command_sha256": "a99821e0d45135da9b6f1cea8db5251fbad48cf1debb92e07b0b64df06c6696b",
+          "command_excerpt": "cd /c/personal_webpage/my-portfolio/APR_code_gen/Part2_Create_test/reconstructed_cases/apr_p30/runs/haiku5p30/tasks/issue_021_se/workspace && $PY buggy.py 2>&1",
+          "visible_guard_false_positive": true,
+          "classification_reason": "own_workspace_path_contains_runs_token"
+        },
+        {
+          "severity": "WARNING",
+          "code": "benign_policy_false_positive",
+          "folder": "haiku5p30",
+          "case": "issue_032_se",
+          "command_id": 12,
+          "categories": [
+            "prior_run_or_conversation"
+          ],
+          "status": "POLICY_REJECTED",
+          "guard_reasons": [
+            "withheld tests, reference solutions, or prior runs are prohibited"
+          ],
+          "classification": "benign_policy_false_positive",
+          "command_sha256": "9b76c45d1ac148888648d2029e81a980c26d0e9a55805b1f0d15018cc839a45e",
+          "command_excerpt": "$PY buggy.py > /dev/null && echo \"SUCCESS: Script runs with exit code 0\"",
+          "visible_guard_false_positive": true,
+          "classification_reason": "echo_text_contains_runs_word"
+        }
+      ],
+      "limitations": [
+        "Monitored local processes and heuristic command guards are not an OS filesystem/network sandbox.",
+        "Command matches report visible text attempts; they do not prove intent or exclude dynamically constructed access.",
+        "Input-field checks cannot prove absence of memorized training-data/reference leakage.",
+        "Final-test chronology uses native response timestamps and artifact mtimes with a two-second tolerance; it is not a tamper-proof event log.",
+        "API cost is recomputed from recorded native token usage and the experiment's explicit prices, not an invoice."
+      ],
+      "total_known_usage_cost_usd": 2.946801,
+      "passed": true
+    }
+  },
+  "findings": [
+    {
+      "severity": "WARNING",
+      "code": "documented_post_agent_validation_adjustment",
+      "folder": "sonnet5.5p30",
+      "file": "adapter.py",
+      "before_sha256": "aad36215eac7cce5d6b5643bfe454420d48d937eb6781c864fa9942881bb88c1",
+      "after_sha256": "c7c8b58fac54e686a484a3b09ad41b63cd251ef9dc508685af09a8697e72dd33",
+      "applied_at_utc": "2026-10-06T05:02:52.105096+00:00",
+      "agent_phase_completed_at_utc": "2026-10-06T04:59:07.220713+00:00",
+      "scope_functions": [
+        "snapshot_candidate",
+        "validate_task"
+      ],
+      "runtime_environment_ast_unchanged": true,
+      "reason": "Preserve API-generated bytes through Windows snapshotting; represent a deleted candidate as missing/failed, without restoring or repairing it"
+    },
+    {
+      "severity": "WARNING",
+      "code": "documented_post_agent_validation_adjustment",
+      "folder": "haiku5p30",
+      "file": "adapter.py",
+      "before_sha256": "aad36215eac7cce5d6b5643bfe454420d48d937eb6781c864fa9942881bb88c1",
+      "after_sha256": "c7c8b58fac54e686a484a3b09ad41b63cd251ef9dc508685af09a8697e72dd33",
+      "applied_at_utc": "2026-10-06T05:02:52.105096+00:00",
+      "agent_phase_completed_at_utc": "2026-10-06T04:59:07.220713+00:00",
+      "scope_functions": [
+        "snapshot_candidate",
+        "validate_task"
+      ],
+      "runtime_environment_ast_unchanged": true,
+      "reason": "Preserve API-generated bytes through Windows snapshotting; represent a deleted candidate as missing/failed, without restoring or repairing it"
+    },
+    {
+      "severity": "WARNING",
+      "code": "benign_policy_false_positive",
+      "folder": "haiku5p30",
+      "case": "issue_021_se",
+      "command_id": 16,
+      "categories": [
+        "prior_run_or_conversation"
+      ],
+      "status": "POLICY_REJECTED",
+      "guard_reasons": [
+        "withheld tests, reference solutions, or prior runs are prohibited"
+      ],
+      "classification": "benign_policy_false_positive",
+      "command_sha256": "a99821e0d45135da9b6f1cea8db5251fbad48cf1debb92e07b0b64df06c6696b",
+      "command_excerpt": "cd /c/personal_webpage/my-portfolio/APR_code_gen/Part2_Create_test/reconstructed_cases/apr_p30/runs/haiku5p30/tasks/issue_021_se/workspace && $PY buggy.py 2>&1",
+      "visible_guard_false_positive": true,
+      "classification_reason": "own_workspace_path_contains_runs_token"
+    },
+    {
+      "severity": "WARNING",
+      "code": "benign_policy_false_positive",
+      "folder": "haiku5p30",
+      "case": "issue_032_se",
+      "command_id": 12,
+      "categories": [
+        "prior_run_or_conversation"
+      ],
+      "status": "POLICY_REJECTED",
+      "guard_reasons": [
+        "withheld tests, reference solutions, or prior runs are prohibited"
+      ],
+      "classification": "benign_policy_false_positive",
+      "command_sha256": "9b76c45d1ac148888648d2029e81a980c26d0e9a55805b1f0d15018cc839a45e",
+      "command_excerpt": "$PY buggy.py > /dev/null && echo \"SUCCESS: Script runs with exit code 0\"",
+      "visible_guard_false_positive": true,
+      "classification_reason": "echo_text_contains_runs_word"
+    }
+  ],
+  "credential_pattern_findings": [],
+  "broker_native_responses": 496,
+  "broker_request_count": 496,
+  "broker_usage_cost_usd_by_model": {
+    "claude-haiku-4-5-20251001": 2.946801,
+    "claude-sonnet-5-5": 0.91524
+  },
+  "limitations": [
+    "Monitored local processes and heuristic command guards are not an OS filesystem/network sandbox.",
+    "Command matches report visible text attempts; they do not prove intent or exclude dynamically constructed access.",
+    "Input-field checks cannot prove absence of memorized training-data/reference leakage.",
+    "Final-test chronology uses native response timestamps and artifact mtimes with a two-second tolerance; it is not a tamper-proof event log.",
+    "API cost is recomputed from recorded native token usage and the experiment's explicit prices, not an invoice."
+  ],
+  "preparation_probe_baseline_captured_at_utc": "2026-10-06T04:57:18.866959+00:00"
+}

@@ -1,0 +1,21 @@
+center_frequency = backend_defaults.qubit_freq_est
+inst_sched_map = backend_defaults.instruction_schedule_map
+
+# Retrieve calibrated measurement pulse from backend
+# The same spec pulse for both 01 and 12 spec
+drive_amp = 0.25
+
+drive_amp = 0.25
+drive_duration = inst_sched_map.get("x", qubits=[qubit]).duration
+meas = inst_sched_map.get('measure', qubits=[qubit])
+drive_sigma = drive_duration // 4  # DRAG pulses typically 4*sigma long.
+spec_pulse = Gaussian(duration=drive_duration, amp=drive_amp, sigma=drive_sigma,
+                       name=f"Spec drive amplitude = {drive_amp}")
+
+# Construct an np array of the frequencies for our experiment
+spec_freqs_GHz = get_spec01_freqs(center_frequency, qubit)
+
+# Get the LO frequency for the drive channel (default frequency)
+lo_freq = backend_defaults.qubit_freq_est[qubit]
+
+# Create the base schedule

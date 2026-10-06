@@ -1,0 +1,17 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -9,12 +9,12 @@
+ 
+ backend = FakeVigo()
+ 
+-# Using an invalid layout method name causes a TranspilerError
++# Using a valid layout method name - 'dense' replaces 'csp_layout' in Qiskit 0.46.3
+ transpiled = transpile(
+     qc,
+     backend=backend,
+     optimization_level=3,
+-    layout_method='csp_layout'
++    layout_method='dense'
+ )
+ 
+ print(transpiled)

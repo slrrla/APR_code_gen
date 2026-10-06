@@ -1,0 +1,19 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -10,13 +10,9 @@
+ 
+ backend = BasicProvider().get_backend("basic_simulator")
+ 
+-# How to define the number of processors that are used by simulator?
+-backend.set_options(
+-    max_parallel_threads=0,        # Use all CPU cores
+-    max_parallel_experiments=0,
+-    max_parallel_shots=42,
+-    statevector_parallel_threshold=16
+-)
++# Note: In Qiskit 2.5.0, BasicProvider backend supports different options.
++# The following options are no longer available: max_parallel_threads,
++# max_parallel_experiments, max_parallel_shots, statevector_parallel_threshold
+ 
+ job = backend.run(qc_combine, shots=shots_used)
+ result = job.result()

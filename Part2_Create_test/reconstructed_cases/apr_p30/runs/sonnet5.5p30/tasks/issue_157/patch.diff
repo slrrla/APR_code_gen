@@ -1,0 +1,11 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -6,7 +6,7 @@
+ state = [0.5, 0.5, 0.5, 0.5]
+ 
+ qc_gate = QuantumCircuit(2)
+-qc_gate.initialize(state, [0, 1])
++qc_gate.prepare_state(state, [0, 1])
+ 
+ # This raises an error because Initialize is not a Gate and
+ # cannot be converted with .to_gate()/.control()

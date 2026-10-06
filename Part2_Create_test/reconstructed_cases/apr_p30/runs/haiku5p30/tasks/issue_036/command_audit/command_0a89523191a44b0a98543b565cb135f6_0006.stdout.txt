@@ -1,0 +1,11 @@
+Export a circuit to an OpenQASM 2 program in a string.
+
+    Args:
+        circuit: the :class:`.QuantumCircuit` to be exported.
+
+    Returns:
+        An OpenQASM 2 string representing the circuit.
+
+    Raises:
+        QASM2ExportError: if the circuit cannot be represented by OpenQASM 2.
+    

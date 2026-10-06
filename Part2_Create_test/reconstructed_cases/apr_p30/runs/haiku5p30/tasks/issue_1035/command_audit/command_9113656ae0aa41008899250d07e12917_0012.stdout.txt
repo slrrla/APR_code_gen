@@ -1,0 +1,16 @@
+Help on function __init__ in module qiskit.primitives.backend_estimator:
+
+__init__(self, backend: 'BackendV1 | BackendV2', options: 'dict | None' = None, abelian_grouping: 'bool' = True, bound_pass_manager: 'PassManager | None' = None, skip_transpilation: 'bool' = False)
+    Initialize a new BackendEstimator instance
+    
+    Args:
+        backend: Required: the backend to run the primitive on
+        options: Default options.
+        abelian_grouping: Whether the observable should be grouped into
+            commuting
+        bound_pass_manager: An optional pass manager to run after
+            parameter binding.
+        skip_transpilation: If this is set to True the internal compilation
+            of the input circuits is skipped and the circuit objects
+            will be directly executed when this object is called.
+

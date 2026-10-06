@@ -1,0 +1,10 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -3,6 +3,7 @@
+ import numpy as np
+ from qiskit.aqua import QuantumInstance
+ from qiskit.aqua.operators import PauliExpectation, CircuitSampler, StateFn, CircuitOp, CircuitStateFn
++from qiskit.providers.ibmq import IBMQJobManager
+ 
+ qctl = QuantumRegister(1)
+ psi = QuantumCircuit(qctl)

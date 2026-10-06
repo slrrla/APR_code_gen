@@ -1,0 +1,18 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -1,4 +1,4 @@
+-from qiskit import QuantumCircuit, QuantumRegister, Aer
++from qiskit import QuantumCircuit, QuantumRegister, Aer, transpile
+ 
+ def diffuser(nqubits):
+     qc = QuantumCircuit(nqubits)
+@@ -30,6 +30,9 @@
+ # code to implement Hadamard transform and oracle
+ circuit.append(diffuser(3), psi)  # psi is a 3 qubit quantum register
+ 
++# Transpile the circuit to decompose custom gates into basic gates
++circuit = transpile(circuit, backend)
++
+ # Missing transpile step causes "Circuit contains invalid instructions" error
+ job = backend.run(circuit)
+ 

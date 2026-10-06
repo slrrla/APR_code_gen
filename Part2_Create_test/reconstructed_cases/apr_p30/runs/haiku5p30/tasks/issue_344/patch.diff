@@ -1,0 +1,15 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -10,10 +10,10 @@
+ 
+ simulator = BasicAer.get_backend('statevector_simulator')  # the device to run on
+ result6 = execute(circuit6, simulator).result()
+-outputstate6 = result6.get_statevector(circuit6, decimals=3)
++outputstate6 = result6.get_statevector(circuit6)
+ probability = np.abs(np.array(outputstate6))**2
+ outstatevector = quantum_info.states.Statevector(outputstate6)
+ print(type(outstatevector))
+ print(type(outputstate6))
+ print(outputstate6)
+-print(quantum_info.entropy(outputstate6))
++print(quantum_info.entropy(outstatevector))

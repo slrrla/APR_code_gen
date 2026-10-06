@@ -1,0 +1,14 @@
+Qubit repr: <Qubit register=(2, "q"), index=0>
+
+Circuit relevant attrs: ['_qubit_indices', 'add_register', 'has_register', 'num_qubits', 'qubit_duration', 'qubit_start_time', 'qubit_stop_time', 'qubits']
+
+Qubit _register: QuantumRegister(2, 'q')
+Qubit repr shows: register=(2, "q"), index=0
+Repr: <Qubit register=(2, "q"), index=0>
+Register name: <Qubit register=(2, "q"), index=1>
+Register size: <Qubit register=(2, "q"), index=0>
+
+Register object: QuantumRegister(2, 'q')
+Traceback (most recent call last):
+  File "<stdin>", line 35, in <module>
+AttributeError: 'qiskit.circuit.QuantumRegister' object has no attribute '_qubits'

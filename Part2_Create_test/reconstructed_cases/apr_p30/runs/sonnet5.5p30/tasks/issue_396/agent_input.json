@@ -1,0 +1,6 @@
+{
+  "case": "issue_396",
+  "version": "2.5.0",
+  "title": "Implementing Grover's oracle with multiple solutions in Qiskit",
+  "question": "Title: Implementing Grover's oracle with multiple solutions in Qiskit\n\nI want to turn a state $$ |\\Psi_1⟩ = \\frac{1}{\\sqrt{8}}(|000⟩+|001⟩+|010⟩+|011⟩+|100⟩+|101⟩+|110⟩+|111⟩) $$ into $$ |\\Psi_2⟩ = \\frac{1}{\\sqrt{8}}(|000⟩+|001⟩+|010⟩+|011⟩+|100⟩-|101⟩-|110⟩+|111⟩) $$ using a phase oracle before applying Grover's amplification. One example from Qiskit's official page for Grover's Algorithm does this by manually building a circuit with Controlled-Z gates, but another Qiskit document simply uses a class Statevector.from_label to mark the target state $|11⟩$ without constructing a circuit, which I assume can only assign single state. Having the desired states in a form of Python list, i.e. , can I directly convert this into a phase oracle that does the intended job in Qiskit?\n\n```\n[101, 110]\n```"
+}

@@ -1,0 +1,11 @@
+{
+  "case": "issue_233",
+  "version": "2.5.0",
+  "intent": "Verify printed counts 2 then 4 and independent parameter binding.",
+  "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+  "support_path": null,
+  "title": "Qiskit: total number of parameters after composing parametrized circuits",
+  "question": "Title: Qiskit: total number of parameters after composing parametrized circuits\n\nI'm trying to use the method to join two parametrized circuits, specifically instances from the . While I would expect that would be the sum of the parameters in each circuit, the final circuit will have only as many settable parameters as only one of them. Version: qiskit-0.26.2 Thank you very much for your help! My code is:\n\n```\n.compose()\n```\n\n```\nTwoLocal\n```\n\n```\nqiskit.circuit.library\n```\n\n```\n.num_parameters_settable()\n```\n\n```\nfrom qiskit.circuit.library import TwoLocal import numpy as np rot = TwoLocal( int(np.sum(num_qubits)), \"ry\", [], reps=1, skip_final_rotation_layer=True, parameter_prefix=\"p\", ) var = TwoLocal( int(np.sum(num_qubits)), \"ry\", \"cx\", entanglement=\"linear\", reps=1, skip_final_rotation_layer=True, ) rot.num_parameters_settable() >> 2 rot.compose(var, inplace=True) rot.num_parameters_settable() >> 2\n```\n\n```\nfrom qiskit.circuit.library import TwoLocal import numpy as np rot = TwoLocal( int(np.sum(num_qubits)), \"ry\", [], reps=1, skip_final_rotation_layer=True, parameter_prefix=\"p\", ) var = TwoLocal( int(np.sum(num_qubits)), \"ry\", \"cx\", entanglement=\"linear\", reps=1, skip_final_rotation_layer=True, ) rot.num_parameters_settable() >> 2 rot.compose(var, inplace=True) rot.num_parameters_settable() >> 2\n```",
+  "repair_file": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\haiku5p30\\tasks\\issue_233\\workspace\\buggy.py",
+  "completion": "A minimal truthful repair must pass the separate unchanged intent tests."
+}

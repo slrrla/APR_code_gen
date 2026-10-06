@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\sonnet5.5p30\tasks\issue_443\workspace\buggy.py", line 22, in <module>
+    circ.append(oracle, [train_register, control])
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 2937, in append
+    for qarg, carg in broadcast_iter:
+                      ^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\circuit\instruction.py", line 468, in broadcast_arguments
+    raise CircuitError(
+qiskit.circuit.exceptions.CircuitError: 'The amount of qubit arguments 2 does not match the instruction expectation (4).'

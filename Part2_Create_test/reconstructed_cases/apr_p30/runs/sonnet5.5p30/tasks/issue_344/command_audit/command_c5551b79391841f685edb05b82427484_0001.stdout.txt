@@ -1,0 +1,17 @@
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\sonnet5.5p30\tasks\issue_344\workspace\buggy.py:2: DeprecationWarning: BasicAer is deprecated since Qiskit 0.46 and will be removed in Qiskit 1.0. The BasicAer (qiskit.providers.basicaer) module has been superseded by  qiskit.providers.basic_provider, and all its classes have been renamed to follow a new naming convention. More information and migration guidelines can be found in the 0.46 API docs for BasicAer.
+  from qiskit import QuantumCircuit, BasicAer, execute
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\sonnet5.5p30\tasks\issue_344\workspace\buggy.py:12: DeprecationWarning: The function ``qiskit.execute_function.execute()`` is deprecated as of qiskit 0.46.0. It will be removed in the Qiskit 1.0 release. This function combines ``transpile`` and ``backend.run``, which is covered by ``Sampler`` :mod:`~qiskit.primitives`. Alternatively, you can also run :func:`.transpile` followed by ``backend.run()``.
+  result6 = execute(circuit6, simulator).result()
+<class 'qiskit.quantum_info.states.statevector.Statevector'>
+<class 'numpy.ndarray'>
+[ 0.621+0.j -0.339+0.j  0.339+0.j  0.621+0.j]
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\sonnet5.5p30\tasks\issue_344\workspace\buggy.py", line 19, in <module>
+    print(quantum_info.entropy(outputstate6))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\quantum_info\states\measures.py", line 126, in entropy
+    state = _format_state(state, validate=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\quantum_info\states\utils.py", line 226, in _format_state
+    raise QiskitError("Input quantum state is not a valid")
+qiskit.exceptions.QiskitError: 'Input quantum state is not a valid'

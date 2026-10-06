@@ -1,0 +1,14 @@
+Circuit created successfully!
+Number of qubits: 4
+Depth: 2
+
+Circuit diagram:
+                  ┌───┐┌─────────┐
+train_register_0: ┤ H ├┤1        ├
+                  ├───┤│         │
+train_register_1: ┤ H ├┤2        ├
+                  ├───┤│  oracle │
+train_register_2: ┤ H ├┤3        ├
+                  └───┘│         │
+         control: ─────┤0        ├
+                       └─────────┘

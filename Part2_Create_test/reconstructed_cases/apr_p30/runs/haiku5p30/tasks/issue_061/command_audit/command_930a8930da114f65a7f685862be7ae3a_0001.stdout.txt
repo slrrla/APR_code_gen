@@ -1,0 +1,7 @@
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\haiku5p30\tasks\issue_061\workspace\buggy.py:9: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  for instruction, qargs, cargs in qc.data:
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\haiku5p30\tasks\issue_061\workspace\buggy.py", line 11, in <module>
+    print(qbit.register)
+          ^^^^^^^^^^^^^
+AttributeError: 'qiskit.circuit.Qubit' object has no attribute 'register'. Did you mean: '_register'?

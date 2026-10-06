@@ -1,0 +1,31 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -1,6 +1,7 @@
+ from qiskit import QuantumCircuit
+ from qiskit.quantum_info import SparsePauliOp
+-from qiskit_ibm_runtime import QiskitRuntimeService, Options, Session, Estimator
++from qiskit.primitives import BackendEstimator
++from qiskit.providers.fake_provider import FakeManila
+ 
+ # prepare the state |Psi>
+ qc = QuantumCircuit(1)
+@@ -8,13 +9,10 @@
+ # define the operator/observable O
+ O = SparsePauliOp(['Z'])
+ 
+-# This requires a real IBM Quantum account/network connection,
+-# and only runs on a real (or cloud) simulator backend, not a local fake backend.
+-service = QiskitRuntimeService()
+-backend = 'ibmq_qasm_simulator'
+-options = Options(resilience_level=0)
++# Use a fake backend locally
++backend = FakeManila()
+ 
+-with Session(service=service, backend=backend) as session:
+-    estimator = Estimator(session=session, options=options)
+-    job = estimator.run(circuits=[qc], observables=[O])
+-    print(job.result().values)
++# Create BackendEstimator with the fake backend
++estimator = BackendEstimator(backend=backend)
++job = estimator.run(circuits=[qc], observables=[O])
++print(job.result().values)

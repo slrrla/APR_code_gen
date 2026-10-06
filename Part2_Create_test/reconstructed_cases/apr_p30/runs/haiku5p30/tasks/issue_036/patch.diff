@@ -1,0 +1,12 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -1,7 +1,8 @@
+ import qiskit
++from qiskit.qasm2 import dumps
+ 
+ c = qiskit.QuantumCircuit(1)
+ c.h(0)
+ 
+-qasm_str = c.qasm()
++qasm_str = dumps(c)
+ print(qasm_str)

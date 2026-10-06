@@ -1,0 +1,50 @@
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+       ░ ┌─┐      
+q0_0: ─░─┤M├──────
+       ░ └╥┘┌─┐   
+q0_1: ─░──╫─┤M├───
+       ░  ║ └╥┘┌─┐
+q0_2: ─░──╫──╫─┤M├
+       ░  ║  ║ └╥┘
+q0_3: ─░──╫──╫──╫─
+       ░  ║  ║  ║ 
+q0_4: ─░──╫──╫──╫─
+       ░  ║  ║  ║ 
+q0_5: ─░──╫──╫──╫─
+       ░  ║  ║  ║ 
+q0_6: ─░──╫──╫──╫─
+       ░  ║  ║  ║ 
+c0: 3/════╩══╩══╩═
+          0  1  2 
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\dagcircuit\dagcircuit.py", line 774, in depth
+    depth = rx.dag_longest_path_length(self._multi_graph) - 1
+retworkx.DAGHasCycle: Sort encountered a cycle
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\haiku5p30\tasks\issue_072\workspace\buggy.py", line 15, in <module>
+    qk.compiler.transpile(meas_calibs, backend=_backend, initial_layout=layout)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\compiler\transpiler.py", line 245, in transpile
+    circuits = parallel_map(_transpile_circuit, list(zip(circuits, transpile_args)))
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\tools\parallel.py", line 167, in parallel_map
+    result = task(value, *task_args, **task_kwargs)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\compiler\transpiler.py", line 328, in _transpile_circuit
+    result = pass_manager.run(circuit, callback=transpile_config['callback'],
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\transpiler\passmanager.py", line 216, in run
+    return self._run_single_circuit(circuits, output_name, callback)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\transpiler\passmanager.py", line 277, in _run_single_circuit
+    result = running_passmanager.run(circuit, output_name=output_name, callback=callback)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\transpiler\runningpassmanager.py", line 122, in run
+    dag = self._do_pass(pass_, dag, passset.options)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\transpiler\runningpassmanager.py", line 153, in _do_pass
+    dag = self._run_this_pass(pass_, dag)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\transpiler\runningpassmanager.py", line 186, in _run_this_pass
+    pass_.run(FencedDAGCircuit(dag))
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\transpiler\passes\analysis\depth.py", line 23, in run
+    self.property_set['depth'] = dag.depth()
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\dagcircuit\dagcircuit.py", line 776, in depth
+    raise DAGCircuitError("not a DAG") from ex
+qiskit.dagcircuit.exceptions.DAGCircuitError: 'not a DAG'

@@ -1,0 +1,12 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -13,8 +13,7 @@
+ transpiled = transpile(
+     qc,
+     backend=backend,
+-    optimization_level=3,
+-    layout_method='csp_layout'
++    optimization_level=3
+ )
+ 
+ print(transpiled)

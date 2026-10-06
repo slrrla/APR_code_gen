@@ -1,0 +1,6 @@
+{
+  "case": "issue_036",
+  "version": "2.5.0",
+  "title": "How to convert QuantumCircuit to OpenQasm 2.0 in qiskit 1.0+",
+  "question": "Title: How to convert QuantumCircuit to OpenQasm 2.0 in qiskit 1.0+\n\nI need to convert a QuantumCircuit to a string of the equivalent OpenQasm 2.0 circuit in qiskit. \n It seems like the method .qasm() disappeared from the QuantumCircuit class in qiskit 1.0\nAnd I wasn't able to find an alternative. \n I need the qiskit 1.0 version of this: \n c = qiskit.QuantumCircuit(1)\nc.h(0)\n\nc.qasm()\n\n```\nc  = qiskit.QuantumCircuit(1)\nc.h(0)\n\nc.qasm()\n```"
+}

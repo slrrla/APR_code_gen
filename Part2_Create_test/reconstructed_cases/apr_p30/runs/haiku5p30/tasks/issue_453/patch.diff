@@ -1,0 +1,21 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -10,11 +10,13 @@
+ qc1.ccx(qr1[2], anc1[0], anc1[1])
+ qc1.ccx(qr1[0], qr1[1], anc1[0])
+ 
+-# The main circuit -- has no ancillas declared, only the 4 "real" qubits
+-circ = QuantumCircuit(4)
++# The main circuit -- extend it to have the ancilla qubits needed by qc1
++# qc1 needs 4 data qubits + 2 ancilla qubits = 6 total qubits
++qr = QuantumRegister(4, name='q')
++anc = AncillaRegister(2, name='anc')
++circ = QuantumCircuit(qr, anc)
+ circ.h([0, 1, 2, 3])
+ circ.barrier()
+ 
+-# This fails: qc1 needs 2 extra ancilla qubits that circ does not have,
+-# so the qubit list passed to compose() does not match qc1's width.
+-circ.compose(qc1, [0, 1, 2, 3], inplace=True)
++# Now compose qc1 onto the first 4 qubits, and the 2 ancilla qubits
++circ.compose(qc1, [0, 1, 2, 3, 4, 5], inplace=True)

@@ -1,0 +1,43 @@
+test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle.test_exact_marked_phases_and_grover_amplification) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\sonnet5.5p30\tasks\issue_396\patched.py:10: DeprecationWarning: The class ``qiskit.circuit.library.grover_operator.GroverOperator`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use qiskit.circuit.library.grover_operator instead.
+  grover_op = GroverOperator(oracle)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\circuit\library\grover_operator.py:471: DeprecationWarning: The class ``qiskit.circuit.library.generalized_gates.diagonal.Diagonal`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use DiagonalGate instead.
+  oracle = Diagonal((-1) ** oracle.data)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\circuit\library\grover_operator.py:574: DeprecationWarning: The method ``qiskit.circuit.library.standard_gates.x.MCXGate.get_num_ancilla_qubits()`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. For an MCXGate it is no longer possible to know the number of ancilla qubits that would be eventually used by the transpiler when the gate is created. Instead, it is recommended to use MCXGate and let HighLevelSynthesis choose the best synthesis method depending on the number of ancilla qubits available. However, if a specific synthesis method using a specific number of ancilla qubits is required, one can create a custom gate by calling the corresponding synthesis function directly.
+  num_ancillas = MCXGate.get_num_ancilla_qubits(len(qubits) - 1, mcx_mode)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\circuit\library\grover_operator.py:586: DeprecationWarning: ``qiskit.circuit.quantumcircuit.QuantumCircuit.mcx()``'s argument ``mode`` is deprecated as of Qiskit 2.1. It will be removed no earlier than 3 months after the release date. Instead, add a generic MCXGate to the circuit and specify the synthesis method via the ``hls_config`` in the transpilation. Alternatively, specific decompositions are available at https://qisk.it/mcx.
+  reflection.mcx(qubits[:-1], qubits[-1], qr_ancilla[:], mode=mcx_mode)
+FAIL
+
+======================================================================
+FAIL: test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle.test_exact_marked_phases_and_grover_amplification)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\sonnet5.5p30\tasks\issue_396\validator\test.py", line 17, in test_exact_marked_phases_and_grover_amplification
+    np.testing.assert_allclose(Operator(m['oracle']).data, expected_oracle, atol=1e-12)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\numpy\testing\_private\utils.py", line 1780, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\numpy\testing\_private\utils.py", line 988, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+Mismatched elements: 10 / 64 (15.6%)
+First 5 mismatches are at indices:
+ [0, 0]: 0j (ACTUAL), 1.0 (DESIRED)
+ [1, 1]: 0j (ACTUAL), 1.0 (DESIRED)
+ [2, 2]: 0j (ACTUAL), 1.0 (DESIRED)
+ [3, 3]: 0j (ACTUAL), 1.0 (DESIRED)
+ [4, 4]: 0j (ACTUAL), 1.0 (DESIRED)
+Max absolute difference among violations: 2.
+Max relative difference among violations: 2.
+ ACTUAL: array([[0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],
+       [0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],
+       [0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],...
+ DESIRED: array([[ 1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+       [ 0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.],
+       [ 0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.],...
+
+----------------------------------------------------------------------
+Ran 1 test in 0.758s
+
+FAILED (failures=1)

@@ -1,0 +1,31 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -1,10 +1,11 @@
+ import numpy as np
+-from qiskit import QuantumCircuit, QuantumRegister, assemble, Aer
++from qiskit import QuantumCircuit, QuantumRegister
++from qiskit_aer import Aer
+ 
+ def cnotnot(gate_label='CNOTNOT'):
+     gate_circuit = QuantumCircuit(3, name=gate_label)
+-    gate_circuit.cnot(0, 1)
+-    gate_circuit.cnot(0, 2)
++    gate_circuit.cx(0, 1)
++    gate_circuit.cx(0, 2)
+     gate = gate_circuit.to_gate()
+     gate.label = gate_label
+     return gate
+@@ -21,11 +22,8 @@
+ # Let's simulate our circuit in order to get the final state vector!
+ svsim = Aer.get_backend('statevector_simulator')
+ 
+-# Create a Qobj from the circuit for the simulator to run
+-qobj = assemble(circuit)
+-
+-# Do the simulation, return the result and get the state vector
+-result = svsim.run(qobj).result().get_statevector()
++# Do the simulation by passing the circuit directly to run()
++result = svsim.run(circuit).result().get_statevector(0)
+ 
+ # Get the state vector for the first qubit
+ final_state = [result[0], result[1]]
