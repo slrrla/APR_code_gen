@@ -1,0 +1,75 @@
+{
+  "case": "issue_157",
+  "repair_engine": "codex",
+  "mcp_enabled": false,
+  "forbidden_artifacts_read": false,
+  "original_modified": false,
+  "validation_feedback_used": false,
+  "reasoning": "Use unitary prepare_state instead of reset-containing initialize; target qubits initially |00> and two-control interface retained.",
+  "steps": [
+    {
+      "action": "original_reproduction",
+      "command": "$taskPath = 'C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_157'\n$pythonPrefix = 'C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3'\n$taskRuntime = Join-Path $taskPath 'runtime_home'\nNew-Item -ItemType Directory -Path $taskRuntime -Force | Out-Null\n$env:PATH = \"$pythonPrefix;$pythonPrefix\\Library\\bin;$pythonPrefix\\Scripts;$env:PATH\"\n$env:PYTHONDONTWRITEBYTECODE = '1'\n$env:OMP_NUM_THREADS = '1'\n$env:OPENBLAS_NUM_THREADS = '1'\n$env:MKL_NUM_THREADS = '1'\n$env:RAYON_NUM_THREADS = '1'\n$env:QISKIT_IN_PARALLEL = 'FALSE'\n$env:MPLBACKEND = 'Agg'\n$env:HOME = $taskRuntime\n$env:USERPROFILE = $taskRuntime\n$env:APPDATA = $taskRuntime\n$env:LOCALAPPDATA = $taskRuntime\n$env:TMP = $taskRuntime\n$env:TEMP = $taskRuntime\n$env:PYTHONPATH = ''\n& \"$pythonPrefix\\python.exe\" (Join-Path $taskPath 'original.py') 1> (Join-Path $taskPath 'original_agent.stdout.txt') 2> (Join-Path $taskPath 'original_agent.stderr.txt')\n$scriptExit = $LASTEXITCODE\n\"Script exit: $scriptExit\"\nGet-Content -LiteralPath (Join-Path $taskPath 'original_agent.stderr.txt') -Tail 14",
+      "observed": {
+        "chunk_id": "eb3094",
+        "wall_time_seconds": 8.8e-06,
+        "exit_code": 0,
+        "original_token_count": 228,
+        "output": "Script exit: 1\r\nTraceback (most recent call last):\r\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_157\\original.py\", line 13, in <module>\r\n    gate = qc_gate.to_gate().control(2)\r\n           ^^^^^^^^^^^^^^^^^\r\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\Lib\\site-packages\\qiskit\\circuit\\quantumcircuit.py\", line 1566, in to_gate\r\n    return circuit_to_gate(self, parameter_map, label=label)\r\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\Lib\\site-packages\\qiskit\\converters\\circuit_to_gate.py\", line 64, in circuit_to_gate\r\n    raise QiskitError(\r\nqiskit.exceptions.QiskitError: 'One or more instructions cannot be converted to a gate. \"initialize\" is not a gate instruction'\r\n"
+      },
+      "stdout": "original_agent.stdout.txt",
+      "stderr": "original_agent.stderr.txt"
+    },
+    {
+      "action": "installed_sdk_documentation",
+      "command": "$taskPath = 'C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_157'\n$pythonPrefix = 'C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3'\n$taskRuntime = Join-Path $taskPath 'runtime_home'\nNew-Item -ItemType Directory -Path $taskRuntime -Force | Out-Null\n$env:PATH = \"$pythonPrefix;$pythonPrefix\\Library\\bin;$pythonPrefix\\Scripts;$env:PATH\"\n$env:PYTHONDONTWRITEBYTECODE = '1'\n$env:OMP_NUM_THREADS = '1'\n$env:OPENBLAS_NUM_THREADS = '1'\n$env:MKL_NUM_THREADS = '1'\n$env:RAYON_NUM_THREADS = '1'\n$env:QISKIT_IN_PARALLEL = 'FALSE'\n$env:MPLBACKEND = 'Agg'\n$env:HOME = $taskRuntime\n$env:USERPROFILE = $taskRuntime\n$env:APPDATA = $taskRuntime\n$env:LOCALAPPDATA = $taskRuntime\n$env:TMP = $taskRuntime\n$env:TEMP = $taskRuntime\n$env:PYTHONPATH = ''\n& \"$pythonPrefix\\python.exe\" -c 'from qiskit.circuit.library import StatePreparation, Initialize\nfrom qiskit import QuantumCircuit\nprint(StatePreparation.__doc__)\nprint(Initialize.__doc__)\nprint(QuantumCircuit.prepare_state.__doc__)'",
+      "observed": {
+        "chunk_id": "596133",
+        "wall_time_seconds": 8.0480818,
+        "exit_code": 0,
+        "original_token_count": 1102,
+        "output": "Complex amplitude state preparation.\r\n\r\n    Class that implements the (complex amplitude) state preparation of some\r\n    flexible collection of qubit registers.\r\n    \r\nComplex amplitude initialization.\r\n\r\n    Class that initializes some flexible collection of qubit registers, implemented by calling\r\n    the :class:`~.library.StatePreparation` class.\r\n    Note that ``Initialize`` is an :class:`~.circuit.Instruction` and not a :class:`.Gate` since it\r\n    contains a reset instruction, which is not unitary.\r\n    \r\nPrepare qubits in a specific state.\r\n\r\n    This class implements a state preparing unitary. Unlike\r\n    :class:`~qiskit.circuit.library.Initialize` it does not reset the qubits first.\r\n\r\n    Args:\r\n        state (str or list or int or Statevector):\r\n            * Statevector: Statevector to initialize to.\r\n            * str: labels of basis states of the Pauli eigenstates Z, X, Y. See\r\n              :meth:`.Statevector.from_label`. Notice the order of the labels is reversed with respect\r\n              to the qubit index to be applied to. Example label '01' initializes the qubit zero to\r\n              :math:`|1\\rangle` and the qubit one to :math:`|0\\rangle`.\r\n            * list: vector of complex amplitudes to initialize to.\r\n            * int: an integer that is used as a bitmap indicating which qubits to initialize\r\n              to :math:`|1\\rangle`. Example: setting params to 5 would initialize qubit 0 and qubit 2\r\n              to :math:`|1\\rangle` and qubit 1 to :math:`|0\\rangle`.\r\n\r\n        qubits (QuantumRegister or Qubit or int):\r\n            * QuantumRegister: A list of qubits to be initialized [Default: None].\r\n            * Qubit: Single qubit to be initialized [Default: None].\r\n            * int: Index of qubit to be initialized [Default: None].\r\n            * list: Indexes of qubits to be initialized [Default: None].\r\n        label (str): An optional label for the gate\r\n        normalize (bool): Whether to normalize an input array to a unit vector.\r\n\r\n    Returns:\r\n        qiskit.circuit.Instruction: a handle to the instruction that was just initialized\r\n\r\n    Examples:\r\n        Prepare a qubit in the state :math:`(|0\\rangle - |1\\rangle) / \\sqrt{2}`.\r\n\r\n        .. code-block::\r\n\r\n           import numpy as np\r\n           from qiskit import QuantumCircuit\r\n\r\n           circuit = QuantumCircuit(1)\r\n           circuit.prepare_state([1/np.sqrt(2), -1/np.sqrt(2)], 0)\r\n           circuit.draw()\r\n\r\n        output:\r\n\r\n        .. parsed-literal::\r\n\r\n                 ������������������������������������������������������������������������������\r\n            q_0: �� State Preparation(0.70711,-0.70711) ��\r\n                 ������������������������������������������������������������������������������\r\n\r\n\r\n        Prepare from a string two qubits in the state :math:`|10\\rangle`.\r\n        The order of the labels is reversed with respect to qubit index.\r\n        More information about labels for basis states are in\r\n        :meth:`.Statevector.from_label`.\r\n\r\n        .. code-block::\r\n\r\n            import numpy as np\r\n            from qiskit import QuantumCircuit\r\n\r\n            circuit = QuantumCircuit(2)\r\n            circuit.prepare_state('01', circuit.qubits)\r\n            circuit.draw()\r\n\r\n        output:\r\n\r\n        .. parsed-literal::\r\n\r\n                 ������������������������������������������������������\r\n            q_0: ��0                        ��\r\n                 ��  State Preparation(0,1) ��\r\n            q_1: ��1                        ��\r\n                 ������������������������������������������������������\r\n\r\n\r\n        Initialize two qubits from an array of complex amplitudes\r\n        .. code-block::\r\n\r\n            import numpy as np\r\n            from qiskit import QuantumCircuit\r\n\r\n            circuit = QuantumCircuit(2)\r\n            circuit.prepare_state([0, 1/np.sqrt(2), -1.j/np.sqrt(2), 0], circuit.qubits)\r\n            circuit.draw()\r\n\r\n        output:\r\n\r\n        .. parsed-literal::\r\n\r\n                 ������������������������������������������������������������������������������������������\r\n            q_0: ��0                                          ��\r\n                 ��  State Preparation(0,0.70711,-0.70711j,0) ��\r\n            q_1: ��1                                          ��\r\n                 ������������������������������������������������������������������������������������������\r\n    \r\n"
+      }
+    },
+    {
+      "action": "edit",
+      "method": "apply_patch",
+      "file": "workspace/buggy.py",
+      "reasoning": "Use unitary prepare_state instead of reset-containing initialize; target qubits initially |00> and two-control interface retained."
+    },
+    {
+      "action": "patched_entry_point",
+      "command": "$taskPath = 'C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_157'\n$pythonPrefix = 'C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3'\n$taskRuntime = Join-Path $taskPath 'runtime_home'\nNew-Item -ItemType Directory -Path $taskRuntime -Force | Out-Null\n$env:PATH = \"$pythonPrefix;$pythonPrefix\\Library\\bin;$pythonPrefix\\Scripts;$env:PATH\"\n$env:PYTHONDONTWRITEBYTECODE = '1'\n$env:OMP_NUM_THREADS = '1'\n$env:OPENBLAS_NUM_THREADS = '1'\n$env:MKL_NUM_THREADS = '1'\n$env:RAYON_NUM_THREADS = '1'\n$env:QISKIT_IN_PARALLEL = 'FALSE'\n$env:MPLBACKEND = 'Agg'\n$env:HOME = $taskRuntime\n$env:USERPROFILE = $taskRuntime\n$env:APPDATA = $taskRuntime\n$env:LOCALAPPDATA = $taskRuntime\n$env:TMP = $taskRuntime\n$env:TEMP = $taskRuntime\n$env:PYTHONPATH = ''\n& \"$pythonPrefix\\python.exe\" (Join-Path $taskPath 'workspace\\buggy.py') 1> (Join-Path $taskPath 'patched_agent.stdout.txt') 2> (Join-Path $taskPath 'patched_agent.stderr.txt')\n$scriptExit = $LASTEXITCODE\n\"Script exit: $scriptExit\"\nGet-Content -LiteralPath (Join-Path $taskPath 'patched_agent.stdout.txt') -Tail 6\nGet-Content -LiteralPath (Join-Path $taskPath 'patched_agent.stderr.txt') -Tail 3",
+      "observed": {
+        "chunk_id": "c4cdda",
+        "wall_time_seconds": 1.26e-05,
+        "exit_code": 0,
+        "original_token_count": 4,
+        "output": "Script exit: 0\r\n"
+      },
+      "script_exit": 0,
+      "stdout": "patched_agent.stdout.txt",
+      "stderr": "patched_agent.stderr.txt"
+    },
+    {
+      "action": "independent_semantic_validation",
+      "command": "$taskPath = 'C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_157'\n$pythonPrefix = 'C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3'\n$taskRuntime = Join-Path $taskPath 'runtime_home'\nNew-Item -ItemType Directory -Path $taskRuntime -Force | Out-Null\n$env:PATH = \"$pythonPrefix;$pythonPrefix\\Library\\bin;$pythonPrefix\\Scripts;$env:PATH\"\n$env:PYTHONDONTWRITEBYTECODE = '1'\n$env:OMP_NUM_THREADS = '1'\n$env:OPENBLAS_NUM_THREADS = '1'\n$env:MKL_NUM_THREADS = '1'\n$env:RAYON_NUM_THREADS = '1'\n$env:QISKIT_IN_PARALLEL = 'FALSE'\n$env:MPLBACKEND = 'Agg'\n$env:HOME = $taskRuntime\n$env:USERPROFILE = $taskRuntime\n$env:APPDATA = $taskRuntime\n$env:LOCALAPPDATA = $taskRuntime\n$env:TMP = $taskRuntime\n$env:TEMP = $taskRuntime\n$env:PYTHONPATH = ''\n$validationCode = @'\nimport runpy, numpy as np\nfrom qiskit import QuantumCircuit\nfrom qiskit.quantum_info import Statevector\nm = runpy.run_path(\"workspace/buggy.py\")\ngate = m[\"gate\"]\nassert gate.num_qubits == 4 and gate.num_ctrl_qubits == 2\nfor control in range(4):\n    circuit = QuantumCircuit(4)\n    for bit in range(2):\n        if control & (1 << bit):\n            circuit.x(bit)\n    circuit.append(gate, range(4))\n    actual = Statevector.from_instruction(circuit).data\n    expected = np.zeros(16, dtype=complex)\n    if control == 3:\n        expected[[3, 7, 11, 15]] = 0.5\n    else:\n        expected[control] = 1\n    np.testing.assert_allclose(actual, expected, atol=1e-12)\nprint(\"PASS: two-control interface and all four control branches\")\n'@\n& \"$pythonPrefix\\python.exe\" -c $validationCode 1> (Join-Path $taskPath 'semantic_agent.stdout.txt') 2> (Join-Path $taskPath 'semantic_agent.stderr.txt')\n$scriptExit = $LASTEXITCODE\n\"Validation exit: $scriptExit\"\nGet-Content -LiteralPath (Join-Path $taskPath 'semantic_agent.stdout.txt') -Tail 3\nGet-Content -LiteralPath (Join-Path $taskPath 'semantic_agent.stderr.txt') -Tail 3",
+      "observed": {
+        "chunk_id": "6462b5",
+        "wall_time_seconds": 5.6e-06,
+        "exit_code": 0,
+        "original_token_count": 20,
+        "output": "Validation exit: 0\r\nPASS: two-control interface and all four control branches\r\n"
+      },
+      "script_exit": 0,
+      "stdout": "semantic_agent.stdout.txt",
+      "stderr": "semantic_agent.stderr.txt"
+    }
+  ],
+  "status": "patched_script_and_independent_semantic_checks_pass",
+  "immutable_intent_tests": "Root runs unchanged tests separately; no benchmark test or reference code read.",
+  "original_sha256": "9d6b72ec2d5fb09c4ecf860349c2da8246db9558c6b47caa2074a8d572b29a99",
+  "patched_sha256": "fb8a9110a576633741e5ef3190dcfc8f5687b118f730c47bc29ce7ae84054cd6",
+  "final_diff": "--- original.py\n+++ workspace/buggy.py\n@@ -1,13 +1,11 @@\n from qiskit import QuantumCircuit\r\n \r\n-# Attempt to build a controlled initialization gate.\r\n-# QuantumCircuit.initialize() is not a Gate, so calling .to_gate()\r\n-# on a circuit that contains an Initialize instruction fails.\r\n+# Build a controlled state-preparation unitary for targets initially in |00>.\r\n+# Unlike initialize(), prepare_state() does not contain a nonunitary reset.\r\n state = [0.5, 0.5, 0.5, 0.5]\r\n \r\n qc_gate = QuantumCircuit(2)\r\n-qc_gate.initialize(state, [0, 1])\r\n+qc_gate.prepare_state(state, [0, 1])\r\n \r\n-# This raises an error because Initialize is not a Gate and\r\n-# cannot be converted with .to_gate()/.control()\r\n+# The state-preparation unitary can be converted to a gate with two controls.\r\n gate = qc_gate.to_gate().control(2)\r\n",
+  "record_written_utc": "2026-10-06T04:08:15.070744+00:00"
+}

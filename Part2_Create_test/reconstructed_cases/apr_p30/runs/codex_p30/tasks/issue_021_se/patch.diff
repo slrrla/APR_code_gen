@@ -1,0 +1,20 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -1,5 +1,5 @@
+ import numpy as np
+-from qiskit import QuantumCircuit, QuantumRegister, assemble, Aer
++from qiskit import QuantumCircuit, QuantumRegister, assemble, Aer, transpile
+ 
+ def cnotnot(gate_label='CNOTNOT'):
+     gate_circuit = QuantumCircuit(3, name=gate_label)
+@@ -21,8 +21,8 @@
+ # Let's simulate our circuit in order to get the final state vector!
+ svsim = Aer.get_backend('statevector_simulator')
+ 
+-# Create a Qobj from the circuit for the simulator to run
+-qobj = assemble(circuit)
++# Lower the custom gate into instructions supported by the simulator.
++qobj = assemble(transpile(circuit, svsim))
+ 
+ # Do the simulation, return the result and get the state vector
+ result = svsim.run(qobj).result().get_statevector()

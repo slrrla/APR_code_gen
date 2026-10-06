@@ -1,0 +1,18 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -1,6 +1,6 @@
+ from qiskit import QuantumCircuit
+ from qiskit.quantum_info import DensityMatrix
+-from qiskit.aqua.operators.legacy import commutator
++from qiskit.aqua.operators.legacy import commutator, MatrixOperator, op_converter
+ 
+ circ0 = QuantumCircuit(1)
+ circ1 = QuantumCircuit(1)
+@@ -13,4 +13,6 @@
+ 
+ # commutator expects WeightedPauliOperator instances, not DensityMatrix objects
+ # this raises an error
+-commutator(dm0, dm1)
++op0 = op_converter.to_weighted_pauli_operator(MatrixOperator(matrix=dm0.data))
++op1 = op_converter.to_weighted_pauli_operator(MatrixOperator(matrix=dm1.data))
++commutator_result = commutator(op0, op1)

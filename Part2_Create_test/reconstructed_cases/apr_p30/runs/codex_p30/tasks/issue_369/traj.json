@@ -1,0 +1,47 @@
+{
+  "repair_engine": "Codex",
+  "mcp_enabled": false,
+  "mcp_calls": [],
+  "reference_source_read_by_repair_author": false,
+  "test_source_read_by_repair_author": false,
+  "steps": [
+    {
+      "stage": "reproduce",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "-X",
+        "utf8",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_369\\original.py"
+      ],
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_369\\original.py",
+      "version": "2.5.0",
+      "returncode": 1,
+      "timeout": false,
+      "seconds": 1.266,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_369\\original.py\", line 21, in <module>\n    circ.compose(csub, [i], inplace=True)\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\circuit\\quantumcircuit.py\", line 2305, in compose\n    raise CircuitError(\nqiskit.circuit.exceptions.CircuitError: 'Number of items in qubits parameter (1) does not match number of qubits in the circuit (17).'\n"
+    },
+    {
+      "stage": "edit",
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_369\\workspace\\buggy.py",
+      "reason": "Map the control followed by all 16 subcircuit wires instead of only the control wire.",
+      "basis": "sanitized question, buggy source, installed SDK APIs"
+    },
+    {
+      "stage": "rerun",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "-X",
+        "utf8",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_369\\workspace\\buggy.py"
+      ],
+      "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_369\\workspace\\buggy.py",
+      "version": "2.5.0",
+      "returncode": 0,
+      "timeout": false,
+      "seconds": 0.828,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

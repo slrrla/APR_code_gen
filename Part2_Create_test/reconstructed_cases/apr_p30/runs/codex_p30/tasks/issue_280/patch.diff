@@ -1,0 +1,15 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -7,9 +7,9 @@
+ error = depolarizing_error(0.05, 1)
+ noise_model.add_all_qubit_quantum_error(error, ['u1', 'u2', 'u3'])
+ 
+-# This applies only a single-qubit depolarizing error, even though we
+-# want to apply a depolarizing error to the 2-qubit CNOT gate.
+-noise_model.add_all_qubit_quantum_error(error, ['cx'])
++# A two-qubit instruction requires a two-qubit depolarizing channel.
++error_two_qubit = depolarizing_error(0.05, 2)
++noise_model.add_all_qubit_quantum_error(error_two_qubit, ['cx'])
+ 
+ # Print noise model info
+ print(noise_model)

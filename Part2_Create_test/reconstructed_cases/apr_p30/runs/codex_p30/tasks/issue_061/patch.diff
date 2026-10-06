@@ -1,0 +1,17 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -6,7 +6,11 @@
+ qc.h(0)
+ qc.cx(0, 1)
+ 
+-for instruction, qargs, cargs in qc.data:
++for circuit_instruction in qc.data:
++    instruction = circuit_instruction.operation
++    qargs = circuit_instruction.qubits
++    cargs = circuit_instruction.clbits
+     qbit: qiskit.circuit.Qubit = qargs[0]
+-    print(qbit.register)
+-    print(qbit.index)
++    bit_locations = qc.find_bit(qbit)
++    print(bit_locations.index)
++    print(bit_locations.registers[0])

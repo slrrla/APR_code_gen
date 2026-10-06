@@ -1,0 +1,15 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -54,8 +54,10 @@
+     with pulse.build(name="Spec Pulse at %.3f GHz" % freq) as spec01_sched:
+         with pulse.align_sequential():
+             # This set_frequency call is not supported by PulseSimulator
+-            pulse.set_frequency(freq*GHz, DriveChannel(qubit))
+-            pulse.play(spec_pulse, DriveChannel(qubit))
++            samples = spec_pulse.get_waveform().samples
++            times = np.arange(drive_duration) * dt
++            modulation = np.exp(2j*np.pi*(freq*GHz-center_frequency[qubit])*times)
++            pulse.play(Waveform(samples * modulation), DriveChannel(qubit))
+             pulse.call(meas)
+     spec01_scheds.append(spec01_sched)
+ 

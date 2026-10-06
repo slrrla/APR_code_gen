@@ -1,0 +1,11 @@
+{
+  "case": "issue_174",
+  "version": "0.46.3",
+  "intent": "Validate register-wide QASM conditions and both measurement branches.",
+  "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+  "support_path": null,
+  "title": "Reading a classical register in OPENQASM",
+  "question": "Title: Reading a classical register in OPENQASM\n\nThe IBM OpenQASM program below clones a state selected from an orthogonal pair. It seems to work but there is a mystery. I declare the classical register as an array c[1] but when I try to test its contents, the assembler will not allow me to index it. That is, it rejects \"c[0]\". I get similar results if there is an array of two registers; I always have to use the array name rather than a reference to an array element. My question is, how do you reference one classical register within an array, for example in an \"if\" statement. There is a second question, less pressing but important. I don't know who to make a block of code that is executed when the \"if\" test passes. I am forced to repeat the test for each line in the block. How do you declare a block of code or, equivalently, use a branch statement to skip a block?\n\n```\ncloner1 = \"\"\" OPENQASM 2.0; include \"qelib1.inc\"; qreg q[5]; creg c[1]; x q[2]; x q[4]; x q[0]; //Set up input measure q[0] -> c[0]; if (c==1) CX q[1],q[2]; if (c==1) CX q[2],q[1]; if (c==1) CX q[1],q[2]; if (c==1) CX q[3],q[4]; if (c==1) CX q[4],q[3]; if (c==1) CX q[3],q[4]; measure q[1]->c[0]; measure q[3]->c[0]; \"\"\" ```\n```\n\n```\ncloner1 = \"\"\" OPENQASM 2.0; include \"qelib1.inc\"; qreg q[5]; creg c[1]; x q[2]; x q[4]; x q[0]; //Set up input measure q[0] -> c[0]; if (c==1) CX q[1],q[2]; if (c==1) CX q[2],q[1]; if (c==1) CX q[1],q[2]; if (c==1) CX q[3],q[4]; if (c==1) CX q[4],q[3]; if (c==1) CX q[3],q[4]; measure q[1]->c[0]; measure q[3]->c[0]; \"\"\" ```\n```",
+  "repair_file": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_174\\workspace\\buggy.py",
+  "completion": "A minimal truthful repair must pass the separate unchanged intent tests."
+}

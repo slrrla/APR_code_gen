@@ -1,0 +1,31 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -1,8 +1,7 @@
+ from qiskit import QuantumCircuit, execute
+ from qiskit import BasicAer as Aer
+ 
+-# Attempt to condition a gate on a single bit of a classical register
+-# using indexing inside the OpenQASM 2 "if" statement (c[0]==1).
++# Condition a gate on the one-bit classical register's integer value.
+ # OpenQASM 2 does not support indexing the classical register in an
+ # "if" statement -- only whole-register integer comparisons are allowed.
+ cloner1 = """
+@@ -14,12 +13,12 @@
+ x q[4];
+ x q[0]; //Set up input
+ measure q[0] -> c[0];
+-if (c[0]==1) CX q[1],q[2];
+-if (c[0]==1) CX q[2],q[1];
+-if (c[0]==1) CX q[1],q[2];
+-if (c[0]==1) CX q[3],q[4];
+-if (c[0]==1) CX q[4],q[3];
+-if (c[0]==1) CX q[3],q[4];
++if (c==1) CX q[1],q[2];
++if (c==1) CX q[2],q[1];
++if (c==1) CX q[1],q[2];
++if (c==1) CX q[3],q[4];
++if (c==1) CX q[4],q[3];
++if (c==1) CX q[3],q[4];
+ measure q[1]->c[0];
+ measure q[3]->c[0];
+ """

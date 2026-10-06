@@ -1,0 +1,17 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -9,12 +9,12 @@
+ 
+ backend = FakeVigo()
+ 
+-# Using an invalid layout method name causes a TranspilerError
++# Use a supported layout plugin; CSPLayout is a separate analysis pass.
+ transpiled = transpile(
+     qc,
+     backend=backend,
+     optimization_level=3,
+-    layout_method='csp_layout'
++    layout_method='sabre'
+ )
+ 
+ print(transpiled)

@@ -1,0 +1,4 @@
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\codex_p30\tasks\issue_225\workspace\buggy.py:31: DeprecationWarning: The 'qiskit.Aer' entry point is deprecated and will be removed in Qiskit 1.0. You should use 'qiskit_aer.Aer' directly instead.
+  result = execute(ansatz, backend=Aer.get_backend('statevector_simulator')).result()
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\codex_p30\tasks\issue_225\workspace\buggy.py:31: DeprecationWarning: The function ``qiskit.execute_function.execute()`` is deprecated as of qiskit 0.46.0. It will be removed in the Qiskit 1.0 release. This function combines ``transpile`` and ``backend.run``, which is covered by ``Sampler`` :mod:`~qiskit.primitives`. Alternatively, you can also run :func:`.transpile` followed by ``backend.run()``.
+  result = execute(ansatz, backend=Aer.get_backend('statevector_simulator')).result()
