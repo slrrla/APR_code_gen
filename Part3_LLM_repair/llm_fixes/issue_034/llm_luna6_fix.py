@@ -1,0 +1,12 @@
+# FIX: Aer is no longer exported from qiskit -> import it from qiskit_aer, because Aer is provided by the separate qiskit-aer package
+from qiskit_aer import Aer
+from qiskit import ClassicalRegister, QuantumCircuit, QuantumRegister
+
+qr = QuantumRegister(1)
+cr = ClassicalRegister(1)
+qc = QuantumCircuit(qr, cr)
+qc.h(qr[0])
+qc.measure(qr, cr)
+
+backend = Aer.get_backend('qasm_simulator')
+
