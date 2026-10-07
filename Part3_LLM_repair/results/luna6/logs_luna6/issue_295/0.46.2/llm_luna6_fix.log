@@ -1,0 +1,15 @@
+
+test_all_four_boolean_oracles (__main__.TestIntent.test_all_four_boolean_oracles) ... C:\APR2\llm_repair\llm_fixes\issue_295\llm_luna6_fix.py:24: DeprecationWarning: The 'qiskit.Aer' entry point is deprecated and will be removed in Qiskit 1.0. You should use 'qiskit_aer.Aer' directly instead.
+  backend = Aer.get_backend('qasm_simulator')
+C:\qiskit_envs\q0462\Lib\site-packages\qiskit_aer\backends\qasm_simulator.py:435: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn(
+C:\APR2\llm_repair\llm_fixes\issue_295\llm_luna6_fix.py:25: DeprecationWarning: The function ``qiskit.execute_function.execute()`` is deprecated as of qiskit 0.46.0. It will be removed in the Qiskit 1.0 release. This function combines ``transpile`` and ``backend.run``, which is covered by ``Sampler`` :mod:`~qiskit.primitives`. Alternatively, you can also run :func:`.transpile` followed by ``backend.run()``.
+  result = execute(circuit, backend).result()
+C:\APR2\llm_repair\llm_fixes\issue_295\llm_luna6_fix.py:30: DeprecationWarning: The function ``qiskit.execute_function.execute()`` is deprecated as of qiskit 0.46.0. It will be removed in the Qiskit 1.0 release. This function combines ``transpile`` and ``backend.run``, which is covered by ``Sampler`` :mod:`~qiskit.primitives`. Alternatively, you can also run :func:`.transpile` followed by ``backend.run()``.
+  result = execute(circuit, backend).result()
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.107s
+
+OK

@@ -1,0 +1,26 @@
+
+test_qpe_mapping_and_controlled_powers (__main__.TestIntent.test_qpe_mapping_and_controlled_powers) ... FAIL
+
+======================================================================
+FAIL: test_qpe_mapping_and_controlled_powers (__main__.TestIntent.test_qpe_mapping_and_controlled_powers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_189\test.py", line 32, in test_qpe_mapping_and_controlled_powers
+    self.assertEqual([qpe.qubits.index(q) for q in qargs], [i,3,4,5,6,7,8])
+AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]
+
+First differing element 0:
+2
+0
+
+- [2, 3, 4, 5, 6, 7, 8]
+?  ^
+
++ [0, 3, 4, 5, 6, 7, 8]
+?  ^
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.834s
+
+FAILED (failures=1)

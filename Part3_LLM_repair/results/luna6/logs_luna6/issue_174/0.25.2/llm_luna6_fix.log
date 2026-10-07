@@ -1,0 +1,43 @@
+
+test_register_conditions_and_both_branches (__main__.TestIntent) ... ERROR
+
+======================================================================
+ERROR: test_register_conditions_and_both_branches (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_174\test.py", line 21, in test_register_conditions_and_both_branches
+    ns = load_target()
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_174\test.py", line 14, in load_target
+    return runpy.run_path(MUT)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\llm_repair\llm_fixes\issue_174\llm_luna6_fix.py", line 24, in <module>
+    circuit = QuantumCircuit.from_qasm_str(cloner1)
+  File "C:\qiskit_envs\q0252\lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1913, in from_qasm_str
+    return _circuit_from_qasm(qasm)
+  File "C:\qiskit_envs\q0252\lib\site-packages\qiskit\circuit\quantumcircuit.py", line 2734, in _circuit_from_qasm
+    ast = qasm.parse()
+  File "C:\qiskit_envs\q0252\lib\site-packages\qiskit\qasm\qasm.py", line 54, in parse
+    return qasm_p.parse(self._data)
+  File "C:\qiskit_envs\q0252\lib\site-packages\qiskit\qasm\qasmparser.py", line 1070, in parse
+    self.parser.parse(data, lexer=self.lexer, debug=self.parse_deb)
+  File "C:\qiskit_envs\q0252\lib\site-packages\ply\yacc.py", line 333, in parse
+    return self.parseopt_notrack(input, lexer, debug, tracking, tokenfunc)
+  File "C:\qiskit_envs\q0252\lib\site-packages\ply\yacc.py", line 1063, in parseopt_notrack
+    lookahead = get_token()     # Get the next token
+  File "C:\qiskit_envs\q0252\lib\site-packages\qiskit\qasm\qasmlexer.py", line 64, in token
+    ret = self.lexer.token()
+  File "C:\qiskit_envs\q0252\lib\site-packages\ply\lex.py", line 386, in token
+    newtok = self.lexerrorf(tok)
+  File "C:\qiskit_envs\q0252\lib\site-packages\qiskit\qasm\qasmlexer.py", line 198, in t_error
+    raise QasmError("Unable to match any token rule, got -->%s<-- "
+qiskit.qasm.exceptions.QasmError: 'Unable to match any token rule, got -->#<-- Check your OPENQASM source and any include statements.'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.082s
+
+FAILED (errors=1)

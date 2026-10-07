@@ -1,0 +1,52 @@
+
+test_controlled_preparation_semantics (__main__.TestIntent) ... ERROR
+test_preserves_requested_two_controls (__main__.TestIntent) ... ERROR
+
+======================================================================
+ERROR: test_controlled_preparation_semantics (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_157\test.py", line 32, in test_controlled_preparation_semantics
+    gate = produced_gate(load_target())
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_157\test.py", line 18, in load_target
+    return runpy.run_path(MUT)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_157\buggy.py", line 13, in <module>
+    gate = qc_gate.to_gate().control(2)
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1198, in to_gate
+    return circuit_to_gate(self, parameter_map, label=label)
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\converters\circuit_to_gate.py", line 54, in circuit_to_gate
+    raise QiskitError(('One or more instructions cannot be converted to'
+qiskit.exceptions.QiskitError: 'One or more instructions cannot be converted to a gate. "initialize" is not a gate instruction'
+
+======================================================================
+ERROR: test_preserves_requested_two_controls (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_157\test.py", line 52, in test_preserves_requested_two_controls
+    gate = produced_gate(load_target())
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_157\test.py", line 18, in load_target
+    return runpy.run_path(MUT)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_157\buggy.py", line 13, in <module>
+    gate = qc_gate.to_gate().control(2)
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1198, in to_gate
+    return circuit_to_gate(self, parameter_map, label=label)
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\converters\circuit_to_gate.py", line 54, in circuit_to_gate
+    raise QiskitError(('One or more instructions cannot be converted to'
+qiskit.exceptions.QiskitError: 'One or more instructions cannot be converted to a gate. "initialize" is not a gate instruction'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.029s
+
+FAILED (errors=2)
