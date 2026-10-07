@@ -1,0 +1,27 @@
+
+test_all_five_one_hot_circuit_results_are_retrieved (__main__.Regression.test_all_five_one_hot_circuit_results_are_retrieved) ... C:\qiskit_envs\q0452\Lib\site-packages\qiskit\utils\algorithm_globals.py:170: DeprecationWarning: The class ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+  algorithm_globals = QiskitAlgorithmGlobals()
+C:\qiskit_envs\q0452\Lib\site-packages\qiskit\utils\algorithm_globals.py:49: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  self.num_processes = settings.get("num_processes", QiskitAlgorithmGlobals.CPU_COUNT)
+C:\qiskit_envs\q0452\Lib\site-packages\qiskit\utils\algorithm_globals.py:120: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  parallel.CPU_COUNT = self.num_processes
+ERROR
+
+======================================================================
+ERROR: test_all_five_one_hot_circuit_results_are_retrieved (__main__.Regression.test_all_five_one_hot_circuit_results_are_retrieved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_827\test.py", line 67, in test_all_five_one_hot_circuit_results_are_retrieved
+    namespace = runpy.run_path(path, run_name="__main__")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_827\buggy.py", line 2, in <module>
+    from qiskit import Aer, compile
+ImportError: cannot import name 'compile' from 'qiskit' (C:\qiskit_envs\q0452\Lib\site-packages\qiskit\__init__.py)
+
+----------------------------------------------------------------------
+Ran 1 test in 2.066s
+
+FAILED (errors=1)

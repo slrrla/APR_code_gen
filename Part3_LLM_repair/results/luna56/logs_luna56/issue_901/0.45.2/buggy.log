@@ -1,0 +1,138 @@
+
+test_output_preserves_full_two_qubit_unitary (__main__.Regression.test_output_preserves_full_two_qubit_unitary) ... C:\qiskit_envs\q0452\Lib\site-packages\qiskit\utils\deprecation.py:183: PendingDeprecationWarning: Building a flow controller with keyword arguments is going to be deprecated. Custom controllers must be explicitly instantiated and appended to the task list.
+  return func(*args, **kwargs)
+ERROR
+test_output_uses_requested_discrete_basis (__main__.Regression.test_output_uses_requested_discrete_basis) ... ERROR
+
+======================================================================
+ERROR: test_output_preserves_full_two_qubit_unitary (__main__.Regression.test_output_preserves_full_two_qubit_unitary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\runningpassmanager.py", line 161, in wrapper
+    return meth(*meth_args, **meth_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\passmanager\base_tasks.py", line 218, in execute
+    passmanager_ir, state = next_task.execute(
+                            ^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\basepasses.py", line 195, in execute
+    new_dag, state = super().execute(
+                     ^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\passmanager\base_tasks.py", line 98, in execute
+    ret = self.run(passmanager_ir)
+          ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\passes\basis\basis_translator.py", line 217, in run
+    raise TranspilerError(
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['t', 'cx', 'barrier', 'h', 'delay', 'id', 'snapshot', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\passmanager.py", line 553, in wrapper
+    return meth(*meth_args, **meth_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\passmanager.py", line 291, in run
+    return super().run(
+           ^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\passmanager\passmanager.py", line 222, in run
+    out_program = _run_workflow(
+                  ^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\passmanager\passmanager.py", line 284, in _run_workflow
+    passmanager_ir, _ = flow_controller.execute(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\runningpassmanager.py", line 163, in wrapper
+    raise TranspilerError(ex.message) from ex
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['t', 'cx', 'barrier', 'h', 'delay', 'id', 'snapshot', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_901\test.py", line 54, in test_output_preserves_full_two_qubit_unitary
+    actual = np.asarray(Operator(target()).data)
+                                 ^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_901\test.py", line 21, in target
+    namespace = runpy.run_path(
+                ^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_901\buggy.py", line 10, in <module>
+    qc_transpiled = transpile(qc, basis_gates=basis_gates)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\compiler\transpiler.py", line 428, in transpile
+    out_circuits = pm.run(circuits, callback=callback)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\passmanager.py", line 534, in run
+    return super().run(circuits, output_name, callback)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\passmanager.py", line 555, in wrapper
+    raise TranspilerError(ex.message) from ex
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['t', 'cx', 'barrier', 'h', 'delay', 'id', 'snapshot', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+
+======================================================================
+ERROR: test_output_uses_requested_discrete_basis (__main__.Regression.test_output_uses_requested_discrete_basis)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\runningpassmanager.py", line 161, in wrapper
+    return meth(*meth_args, **meth_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\passmanager\base_tasks.py", line 218, in execute
+    passmanager_ir, state = next_task.execute(
+                            ^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\basepasses.py", line 195, in execute
+    new_dag, state = super().execute(
+                     ^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\passmanager\base_tasks.py", line 98, in execute
+    ret = self.run(passmanager_ir)
+          ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\passes\basis\basis_translator.py", line 217, in run
+    raise TranspilerError(
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['t', 'cx', 'barrier', 'h', 'delay', 'id', 'snapshot', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\passmanager.py", line 553, in wrapper
+    return meth(*meth_args, **meth_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\passmanager.py", line 291, in run
+    return super().run(
+           ^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\passmanager\passmanager.py", line 222, in run
+    out_program = _run_workflow(
+                  ^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\passmanager\passmanager.py", line 284, in _run_workflow
+    passmanager_ir, _ = flow_controller.execute(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\runningpassmanager.py", line 163, in wrapper
+    raise TranspilerError(ex.message) from ex
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['t', 'cx', 'barrier', 'h', 'delay', 'id', 'snapshot', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_901\test.py", line 34, in test_output_uses_requested_discrete_basis
+    circuit = target()
+              ^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_901\test.py", line 21, in target
+    namespace = runpy.run_path(
+                ^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_901\buggy.py", line 10, in <module>
+    qc_transpiled = transpile(qc, basis_gates=basis_gates)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\compiler\transpiler.py", line 428, in transpile
+    out_circuits = pm.run(circuits, callback=callback)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\passmanager.py", line 534, in run
+    return super().run(circuits, output_name, callback)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\passmanager.py", line 555, in wrapper
+    raise TranspilerError(ex.message) from ex
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['t', 'cx', 'barrier', 'h', 'delay', 'id', 'snapshot', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.100s
+
+FAILED (errors=2)

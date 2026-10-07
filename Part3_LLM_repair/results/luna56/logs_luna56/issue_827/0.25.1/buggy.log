@@ -1,0 +1,23 @@
+
+test_all_five_one_hot_circuit_results_are_retrieved (__main__.Regression) ... ERROR
+
+======================================================================
+ERROR: test_all_five_one_hot_circuit_results_are_retrieved (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_827\test.py", line 67, in test_all_five_one_hot_circuit_results_are_retrieved
+    namespace = runpy.run_path(path, run_name="__main__")
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_827\buggy.py", line 2, in <module>
+    from qiskit import Aer, compile
+ImportError: cannot import name 'compile' from 'qiskit' (C:\qiskit_envs\q0251\lib\site-packages\qiskit\__init__.py)
+
+----------------------------------------------------------------------
+Ran 1 test in 6.311s
+
+FAILED (errors=1)
