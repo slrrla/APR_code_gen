@@ -1,0 +1,88 @@
+{
+  "case": "issue_415",
+  "version": "0.25.3",
+  "row": 48,
+  "original": {
+    "case": "issue_415",
+    "version": "0.25.3",
+    "variant": "original",
+    "source_sha256": "455aae41bf78b372d394b7b1192ca1b6e1d323b159873c9deb240a1a9785d436",
+    "test_sha256": "ad98a0dd7c4c537bc704a48a92a2275c1202326bb41a13f72eea40b31da0c513",
+    "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\sonnet5.5p30\\tasks\\issue_415\\validator\\test.py",
+      "-v"
+    ],
+    "runtime_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\sonnet5.5p30\\tasks\\issue_415\\runtime\\original_54gon0va",
+    "status": "ERROR",
+    "returncode": 1,
+    "tests_run": 1,
+    "skipped": 0,
+    "seconds": 2.141,
+    "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\sonnet5.5p30\\tasks\\issue_415\\logs\\original.stdout.txt",
+    "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\sonnet5.5p30\\tasks\\issue_415\\logs\\original.stderr.txt"
+  },
+  "reference": {
+    "case": "issue_415",
+    "version": "0.25.3",
+    "variant": "reference",
+    "source_sha256": "297e92e69e14611f41191c2517d1d45233f36ec887ce036f84395e00a01119ab",
+    "test_sha256": "ad98a0dd7c4c537bc704a48a92a2275c1202326bb41a13f72eea40b31da0c513",
+    "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\sonnet5.5p30\\tasks\\issue_415\\validator\\test.py",
+      "-v"
+    ],
+    "runtime_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\sonnet5.5p30\\tasks\\issue_415\\runtime\\reference_lbjlkfsf",
+    "status": "PASS",
+    "returncode": 0,
+    "tests_run": 1,
+    "skipped": 0,
+    "seconds": 2.891,
+    "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\sonnet5.5p30\\tasks\\issue_415\\logs\\reference.stdout.txt",
+    "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\sonnet5.5p30\\tasks\\issue_415\\logs\\reference.stderr.txt"
+  },
+  "baseline_valid": true,
+  "candidate": {
+    "case": "issue_415",
+    "version": "0.25.3",
+    "variant": "candidate",
+    "source_sha256": "ff0859e995c1078b85ba1b0ce81e3012584c0294beecd2769cb63c3f6c7dcc92",
+    "test_sha256": "ad98a0dd7c4c537bc704a48a92a2275c1202326bb41a13f72eea40b31da0c513",
+    "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\sonnet5.5p30\\tasks\\issue_415\\validator\\test.py",
+      "-v"
+    ],
+    "runtime_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\sonnet5.5p30\\tasks\\issue_415\\runtime\\candidate_qa3bpk7n",
+    "status": "FAIL",
+    "returncode": 1,
+    "tests_run": 1,
+    "skipped": 0,
+    "seconds": 2.844,
+    "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\sonnet5.5p30\\tasks\\issue_415\\logs\\candidate.stdout.txt",
+    "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\sonnet5.5p30\\tasks\\issue_415\\logs\\candidate.stderr.txt"
+  },
+  "audit": {
+    "syntax_ok": true,
+    "changed": true,
+    "adds_broad_except": false,
+    "length_ratio": 1.0,
+    "suspicious": false,
+    "reasons": []
+  },
+  "candidate_missing": false,
+  "repaired": false
+}

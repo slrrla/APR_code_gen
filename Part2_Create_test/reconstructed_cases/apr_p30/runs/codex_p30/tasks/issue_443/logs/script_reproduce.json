@@ -1,0 +1,16 @@
+{
+  "stage": "reproduce",
+  "command": [
+    "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+    "-X",
+    "utf8",
+    "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_443\\original.py"
+  ],
+  "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_443\\original.py",
+  "version": "2.5.0",
+  "returncode": 1,
+  "timeout": false,
+  "seconds": 1.047,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_443\\original.py\", line 22, in <module>\n    circ.append(oracle, [train_register, control])\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\circuit\\quantumcircuit.py\", line 2937, in append\n    for qarg, carg in broadcast_iter:\n                      ^^^^^^^^^^^^^^\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\circuit\\instruction.py\", line 468, in broadcast_arguments\n    raise CircuitError(\nqiskit.circuit.exceptions.CircuitError: 'The amount of qubit arguments 2 does not match the instruction expectation (4).'\n"
+}

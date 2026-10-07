@@ -1,0 +1,35 @@
+Help on method from_label in module qiskit.quantum_info.states.statevector:
+
+from_label(label: 'str') -> 'Statevector' class method of qiskit.quantum_info.states.statevector.Statevector
+    Return a tensor product of Pauli X,Y,Z eigenstates.
+
+    .. list-table:: Single-qubit state labels
+       :header-rows: 1
+
+       * - Label
+         - Statevector
+       * - ``"0"``
+         - :math:`[1, 0]`
+       * - ``"1"``
+         - :math:`[0, 1]`
+       * - ``"+"``
+         - :math:`[1 / \sqrt{2},  1 / \sqrt{2}]`
+       * - ``"-"``
+         - :math:`[1 / \sqrt{2},  -1 / \sqrt{2}]`
+       * - ``"r"``
+         - :math:`[1 / \sqrt{2},  i / \sqrt{2}]`
+       * - ``"l"``
+         - :math:`[1 / \sqrt{2},  -i / \sqrt{2}]`
+
+    Args:
+        label (string): an eigenstate string ket label (see table for
+                        allowed values).
+
+    Returns:
+        Statevector: The N-qubit basis state statevector.
+
+    Raises:
+        QiskitError: if the label contains invalid characters, or the
+                     length of the label is larger than an explicitly
+                     specified num_qubits.
+

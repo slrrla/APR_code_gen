@@ -1,0 +1,13 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -17,8 +17,8 @@
+ for i in range(n):
+     Q = circuit_to_gate(grover_operator).control().power(2 ** ((n - 1) - i))
+     j = i + 1
+-    # BUG: qp changes length on every iteration, but Q's qubit count is fixed
+-    qp = list(np.arange(n - j, n + lg + 2))
++    # One phase-estimation control followed by the same six target qubits.
++    qp = [i] + list(np.arange(n, n + lg + 2))
+     for l in range(len(qp)):
+         print(qp[l])
+     print(" ")

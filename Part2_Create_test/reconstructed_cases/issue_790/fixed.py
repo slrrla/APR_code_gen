@@ -1,37 +1,37 @@
-import numpy as np
-from qiskit.circuit import Parameter
-from qiskit.quantum_info import Pauli, SparsePauliOp
 from qiskit.circuit.library import PauliEvolutionGate
+from qiskit.quantum_info import SparsePauliOp
 from qiskit.synthesis import SuzukiTrotter
 
-J = Parameter("J")
-h = Parameter("h")
-N = 4
+N_qubit = 4
+U = 1.0
+J = 1.0
+t = 1.0
+h = [1.0] * N_qubit
 
-pauli_list = []
-coeffs = []
+labels = []
+coefficients = []
 
-for i in range(N - 1):
-    x_p = np.zeros(N, dtype=bool)
-    z_p = np.zeros(N, dtype=bool)
-    z_p[i] = True
-    z_p[i + 1] = True
-    pauli_list.append(Pauli((z_p, x_p)))
-    coeffs.append(-J)
+for j in range(N_qubit - 1):
+    for pauli, coefficient in (
+        ("Z", U),
+        ("X", -J),
+        ("Y", -J),
+    ):
+        label = ["I"] * N_qubit
+        label[j] = pauli
+        label[j + 1] = pauli
+        labels.append("".join(label))
+        coefficients.append(coefficient)
 
-for i in range(N):
-    x_p = np.zeros(N, dtype=bool)
-    z_p = np.zeros(N, dtype=bool)
-    x_p[i] = True
-    pauli_list.append(Pauli((z_p, x_p)))
-    coeffs.append(h)
+for j in range(N_qubit):
+    label = ["I"] * N_qubit
+    label[j] = "Z"
+    labels.append("".join(label))
+    coefficients.append(h[j])
 
-H = SparsePauliOp(pauli_list, coeffs=coeffs)
+H = SparsePauliOp.from_list(list(zip(labels, coefficients)))
 
-# assign J & h values:
-H = H.assign_parameters({J: 1, h: 1})
-
-gate = PauliEvolutionGate(H)
+gate = PauliEvolutionGate(H, time=t)
 
 st = SuzukiTrotter(order=2, reps=6)
-circ = st.synthesize(gate)
+qc = st.synthesize(gate)

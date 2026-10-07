@@ -1,0 +1,6 @@
+{
+  "case": "issue_061",
+  "version": "2.5.0",
+  "title": "DeprecationWarning: Back-references to from Bit instances to their containing Registers have been deprecated",
+  "question": "Title: DeprecationWarning: Back-references to from Bit instances to their containing Registers have been deprecated\n\nI have the following code the last 2 lines give me a warning: DeprecationWarning: Back-references to from Bit instances to their containing Registers have been deprecated. Instead, inspect Registers to find their contained Bits. How can I read them to avoid the warning?\n\n```\nfor instruction, qargs, cargs in qc.data: qbit: qiskit.circuit.Qubit = qargs[0] print(qbit.register) print(qbit.index)\n```\n\n```\nfor instruction, qargs, cargs in qc.data: qbit: qiskit.circuit.Qubit = qargs[0] print(qbit.register) print(qbit.index)\n```"
+}

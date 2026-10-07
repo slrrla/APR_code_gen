@@ -1,0 +1,50 @@
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import DensityMatrix
+from qiskit.aqua.operators.legacy import commutator, WeightedPauliOperator
+from qiskit.quantum_info.operators.symplectic import Pauli
+import numpy as np
+
+
+def density_matrix_to_weighted_pauli_operator(dm):
+    """Convert a DensityMatrix to a WeightedPauliOperator."""
+    matrix = dm.data
+    
+    # Pauli matrices
+    I = np.array([[1, 0], [0, 1]], dtype=complex)
+    X = np.array([[0, 1], [1, 0]], dtype=complex)
+    Y = np.array([[0, -1j], [1j, 0]], dtype=complex)
+    Z = np.array([[1, 0], [0, -1]], dtype=complex)
+    
+    # Trace inner products
+    tr_I = np.trace(matrix @ I)
+    tr_X = np.trace(matrix @ X)
+    tr_Y = np.trace(matrix @ Y)
+    tr_Z = np.trace(matrix @ Z)
+    
+    # Coefficients
+    c_I = tr_I / 2
+    c_X = tr_X / 2
+    c_Y = tr_Y / 2
+    c_Z = tr_Z / 2
+    
+    paulis = [(c_I, Pauli('I')), (c_X, Pauli('X')), (c_Y, Pauli('Y')), (c_Z, Pauli('Z'))]
+    return WeightedPauliOperator(paulis=paulis)
+
+
+circ0 = QuantumCircuit(1)
+circ1 = QuantumCircuit(1)
+
+circ0.x(0)
+dm0 = DensityMatrix.from_instruction(circ0)
+
+circ1.z(0)
+dm1 = DensityMatrix.from_instruction(circ1)
+
+# Convert DensityMatrix objects to WeightedPauliOperator objects
+wpo0 = density_matrix_to_weighted_pauli_operator(dm0)
+wpo1 = density_matrix_to_weighted_pauli_operator(dm1)
+
+# commutator expects WeightedPauliOperator instances, not DensityMatrix objects
+# this raises an error
+result = commutator(wpo0, wpo1)
+print(result)

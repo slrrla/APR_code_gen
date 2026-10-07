@@ -1,0 +1,16 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -1,11 +1,12 @@
+ from qiskit.circuit.library import TwoLocal
++from qiskit.circuit.library.standard_gates.iswap import iSwapGate
+ 
+ num_spin_orbitals = 4
+ 
+ ansatz = TwoLocal(
+     num_spin_orbitals,
+     ['ry', 'rz'],
+-    entanglement_blocks='iswap',
++    entanglement_blocks=iSwapGate(),
+     entanglement='linear'
+ )
+ 

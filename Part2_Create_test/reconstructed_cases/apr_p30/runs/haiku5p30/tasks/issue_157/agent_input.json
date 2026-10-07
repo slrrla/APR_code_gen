@@ -1,0 +1,6 @@
+{
+  "case": "issue_157",
+  "version": "0.46.3",
+  "title": "Is it possible to create a controlled initialize instruction in Qiskit?",
+  "question": "Title: Is it possible to create a controlled initialize instruction in Qiskit?\n\nI know it's possible to create custom controlled gates from a circuit, for example, However, since initialization is not considered a gate operation, one cannot do but instead, one can do This, however, does not allow for control qubits. Is there any way to get around this, to create a quantum instruction that is applied in terms of a set of control qubits?\n\n```\nqc_gate = QuantumCircuit(2) qc_gate.x(0) qc_gate.x(1) gate = qc_gate.to_gate().control(2)\n```\n\n```\nqc_gate = QuantumCircuit(2) qc_gate.x(0) qc_gate.x(1) gate = qc_gate.to_gate().control(2)\n```\n\n```\nqc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_gate().control(2)\n```\n\n```\nqc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_gate().control(2)\n```\n\n```\nqc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_instruction()\n```\n\n```\nqc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_instruction()\n```"
+}

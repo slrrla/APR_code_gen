@@ -1,0 +1,17 @@
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\codex_p30\tasks\issue_155\original.py:16: DeprecationWarning: The method ``qiskit.circuit.quantumcircuit.QuantumCircuit.cnot()`` is deprecated as of qiskit 0.45.0. It will be removed in the Qiskit 1.0.0 release. Use QuantumCircuit.cx as direct replacement.
+  qc.cnot(reg1[0], reg2[0])
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\codex_p30\tasks\issue_155\original.py:19: DeprecationWarning: The method ``qiskit.circuit.quantumcircuit.QuantumCircuit.cnot()`` is deprecated as of qiskit 0.45.0. It will be removed in the Qiskit 1.0.0 release. Use QuantumCircuit.cx as direct replacement.
+  qc.cnot(reg3[0], reg4[0])
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\codex_p30\tasks\issue_155\original.py:21: DeprecationWarning: The 'qiskit.Aer' entry point is deprecated and will be removed in Qiskit 1.0. You should use 'qiskit_aer.Aer' directly instead.
+  simulator = Aer.get_backend("aer_simulator")
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\codex_p30\tasks\issue_155\original.py", line 28, in <module>
+    density_matrix = partial_trace(result.get_statevector(), traced_over_registers)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\quantum_info\states\utils.py", line 48, in partial_trace
+    traced_shape = state._op_shape.remove(qargs=qargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\quantum_info\operators\op_shape.py", line 358, in remove
+    if qargs_l and max(qargs_l) >= self._num_qargs_l:
+                   ^^^^^^^^^^^^
+TypeError: '>' not supported between instances of 'QuantumRegister' and 'QuantumRegister'

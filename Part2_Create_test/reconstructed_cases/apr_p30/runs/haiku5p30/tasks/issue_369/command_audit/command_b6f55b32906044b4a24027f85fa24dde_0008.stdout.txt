@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\haiku5p30\tasks\issue_369\workspace\buggy.py", line 22, in <module>
+    circ.compose(csub, qubit_map, inplace=True)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 2310, in compose
+    raise CircuitError(
+qiskit.circuit.exceptions.CircuitError: 'Duplicate qubits referenced in \'qubits\' parameter: \'[<Qubit register=(17, "q"), index=0>, <Qubit register=(17, "q"), index=0>, <Qubit register=(17, "q"), index=1>, <Qubit register=(17, "q"), index=2>, <Qubit register=(17, "q"), index=3>, <Qubit register=(17, "q"), index=4>, <Qubit register=(17, "q"), index=5>, <Qubit register=(17, "q"), index=6>, <Qubit register=(17, "q"), index=7>, <Qubit register=(17, "q"), index=8>, <Qubit register=(17, "q"), index=9>, <Qubit register=(17, "q"), index=10>, <Qubit register=(17, "q"), index=11>, <Qubit register=(17, "q"), index=12>, <Qubit register=(17, "q"), index=13>, <Qubit register=(17, "q"), index=14>, <Qubit register=(17, "q"), index=15>]\''

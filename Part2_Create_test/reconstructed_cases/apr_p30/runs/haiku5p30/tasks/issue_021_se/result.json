@@ -1,0 +1,88 @@
+{
+  "case": "issue_021_se",
+  "version": "0.46.3",
+  "row": 8,
+  "original": {
+    "case": "issue_021_se",
+    "version": "0.46.3",
+    "variant": "original",
+    "source_sha256": "2fa0aafba85f1897b521d6bff48ba763cea97c51cfc2a4ae19e2273af453708f",
+    "test_sha256": "6683b8a2d43267adad523173af4bf3e43d5cae738630162daed2a8fccc00bec0",
+    "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\haiku5p30\\tasks\\issue_021_se\\validator\\test.py",
+      "-v"
+    ],
+    "runtime_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\haiku5p30\\tasks\\issue_021_se\\runtime\\original_qcp7fzw8",
+    "status": "ERROR",
+    "returncode": 1,
+    "tests_run": 1,
+    "skipped": 0,
+    "seconds": 2.875,
+    "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\haiku5p30\\tasks\\issue_021_se\\logs\\original.stdout.txt",
+    "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\haiku5p30\\tasks\\issue_021_se\\logs\\original.stderr.txt"
+  },
+  "reference": {
+    "case": "issue_021_se",
+    "version": "0.46.3",
+    "variant": "reference",
+    "source_sha256": "6ce3da791b6e3076d86b3cd55e9cc9e217af75f462598069e04dfbd3ee3232c1",
+    "test_sha256": "6683b8a2d43267adad523173af4bf3e43d5cae738630162daed2a8fccc00bec0",
+    "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\haiku5p30\\tasks\\issue_021_se\\validator\\test.py",
+      "-v"
+    ],
+    "runtime_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\haiku5p30\\tasks\\issue_021_se\\runtime\\reference_bi80k6on",
+    "status": "PASS",
+    "returncode": 0,
+    "tests_run": 1,
+    "skipped": 0,
+    "seconds": 3.187,
+    "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\haiku5p30\\tasks\\issue_021_se\\logs\\reference.stdout.txt",
+    "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\haiku5p30\\tasks\\issue_021_se\\logs\\reference.stderr.txt"
+  },
+  "baseline_valid": true,
+  "candidate": {
+    "case": "issue_021_se",
+    "version": "0.46.3",
+    "variant": "candidate",
+    "source_sha256": "a0edf2027a290a5843fda5f3fae15fe2cd924c1734891c1f4f839354442b2465",
+    "test_sha256": "6683b8a2d43267adad523173af4bf3e43d5cae738630162daed2a8fccc00bec0",
+    "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\haiku5p30\\tasks\\issue_021_se\\validator\\test.py",
+      "-v"
+    ],
+    "runtime_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\haiku5p30\\tasks\\issue_021_se\\runtime\\candidate_5c41u9ke",
+    "status": "ERROR",
+    "returncode": 1,
+    "tests_run": 1,
+    "skipped": 0,
+    "seconds": 3.734,
+    "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\haiku5p30\\tasks\\issue_021_se\\logs\\candidate.stdout.txt",
+    "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\haiku5p30\\tasks\\issue_021_se\\logs\\candidate.stderr.txt"
+  },
+  "audit": {
+    "syntax_ok": true,
+    "changed": true,
+    "adds_broad_except": false,
+    "length_ratio": 1.0,
+    "suspicious": false,
+    "reasons": []
+  },
+  "candidate_missing": false,
+  "repaired": false
+}

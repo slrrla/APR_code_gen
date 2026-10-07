@@ -1,0 +1,34 @@
+{
+  "models": [
+    {
+      "folder": "sonnet5.5p30",
+      "requested_model": "Sonnet 5.5",
+      "actual_model": "claude-sonnet-5-5",
+      "cases": 30,
+      "test_pass": 20,
+      "repaired": 20,
+      "submitted_repaired": 20,
+      "submitted": 30,
+      "cost_usd": 0.870308,
+      "pipeline_smoke_cost_usd": 0.044932,
+      "total_known_api_cost_usd": 0.91524
+    },
+    {
+      "folder": "haiku5p30",
+      "requested_model": "Haiku 5.0",
+      "actual_model": "claude-haiku-4-5-20251001",
+      "cases": 30,
+      "test_pass": 19,
+      "repaired": 19,
+      "submitted_repaired": 19,
+      "submitted": 29,
+      "cost_usd": 2.930242,
+      "pipeline_smoke_cost_usd": 0.016559,
+      "total_known_api_cost_usd": 2.946801
+    }
+  ],
+  "same_30_cases": true,
+  "mcp_used": false,
+  "candidate_test_feedback": false,
+  "not_directly_equivalent_to_prior_codex_run": true
+}

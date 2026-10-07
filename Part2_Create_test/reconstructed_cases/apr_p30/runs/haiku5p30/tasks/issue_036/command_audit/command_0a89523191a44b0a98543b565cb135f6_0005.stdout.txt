@@ -1,0 +1,115 @@
+Help on class QuantumCircuit in module qiskit.circuit.quantumcircuit:
+
+class QuantumCircuit(builtins.object)
+ |  QuantumCircuit(*regs: 'Register | int | Sequence[Bit]', name: 'str | None' = None, global_phase: 'ParameterValueType' = 0, metadata: 'dict | None' = None, inputs: 'Iterable[expr.Var]' = (), captures: 'Iterable[expr.Var | expr.Stretch]' = (), declarations: 'Mapping[expr.Var, expr.Expr] | Iterable[tuple[expr.Var, expr.Expr]]' = ())
+ |
+ |  Core Qiskit representation of a quantum circuit.
+ |
+ |  .. note::
+ |      For more details setting the :class:`QuantumCircuit` in context of all of the data
+ |      structures that go with it, how it fits into the rest of the :mod:`qiskit` package, and the
+ |      different regimes of quantum-circuit descriptions in Qiskit, see the module-level
+ |      documentation of :mod:`qiskit.circuit`.
+ |
+ |  Example:
+ |
+ |  .. plot::
+ |     :include-source:
+ |     :nofigs:
+ |
+ |     from qiskit import QuantumCircuit
+ |
+ |     # Create a new circuit with two qubits
+ |     qc = QuantumCircuit(2)
+ |
+ |     # Add a Hadamard gate to qubit 0
+ |     qc.h(0)
+ |
+ |     # Perform a controlled-X gate on qubit 1, controlled by qubit 0
+ |     qc.cx(0, 1)
+ |
+ |     # Return a text drawing of the circuit.
+ |     qc.draw()
+ |
+ |  .. code-block:: text
+ |
+ |          ┌───┐
+ |     q_0: ┤ H ├──■──
+ |          └───┘┌─┴─┐
+ |     q_1: ─────┤ X ├
+ |               └───┘
+ |
+ |  Circuit attributes
+ |  ==================
+ |
+ |  :class:`QuantumCircuit` has a small number of public attributes, which are mostly older
+ |  functionality.  Most of its functionality is accessed through methods.
+ |
+ |  A small handful of the attributes are intentionally mutable, the rest are data attributes that
+ |  should be considered immutable.
+ |
+ |  ============================== =================================================================
+ |  Mutable attribute              Summary
+ |  ============================== =================================================================
+ |  :attr:`global_phase`           The global phase of the circuit, measured in radians.
+ |  :attr:`metadata`               Arbitrary user mapping, which Qiskit will preserve through the
+ |                                 transpiler, but otherwise completely ignore.
+ |  :attr:`name`                   An optional string name for the circuit.
+ |  ============================== =================================================================
+ |
+ |  ============================== =================================================================
+ |  Immutable data attribute       Summary
+ |  ============================== =================================================================
+ |  :attr:`ancillas`               List of :class:`AncillaQubit`\ s tracked by the circuit.
+ |  :attr:`cregs`                  List of :class:`ClassicalRegister`\ s tracked by the circuit.
+ |
+ |  :attr:`clbits`                 List of :class:`Clbit`\ s tracked by the circuit.
+ |  :attr:`data`                   List of individual :class:`CircuitInstruction`\ s that make up
+ |                                 the circuit.
+ |  :attr:`_data`                  Python-space handle to the C API :c:struct:`QkCircuit` object.
+ |  :attr:`duration`               Total duration of the circuit, added by scheduling transpiler
+ |                                 passes.
+ |                                 This attribute is deprecated and :meth:`.estimate_duration`
+ |                                 should be used instead.
+ |
+ |  :attr:`layout`                 Hardware layout and routing information added by the transpiler.
+ |  :attr:`num_ancillas`           The number of ancilla qubits in the circuit.
+ |  :attr:`num_clbits`             The number of clbits in the circuit.
+ |  :attr:`num_captured_vars`      Number of captured real-time classical variables.
+ |  :attr:`num_captured_stretches` Number of captured stretches.
+ |  :attr:`num_declared_vars`      Number of locally declared real-time classical variables in the
+ |                                 outer circuit scope.
+ |  :attr:`num_declared_stretches` Number of locally declared stretches in the outer circuit scope.
+ |  :attr:`num_input_vars`         Number of input real-time classical variables.
+ |  :attr:`num_parameters`         Number of compile-time :class:`Parameter`\ s in the circuit.
+ |  :attr:`num_qubits`             Number of qubits in the circuit.
+ |
+ |  :attr:`num_vars`               Total number of real-time classical variables in the outer
+ |                                 circuit scope.
+ |  :attr:`num_stretches`          Total number of stretches in the outer circuit scope.
+ |  :attr:`num_identifiers`        Total number of both variables and stretches in the outer
+ |                                 circuit.
+ |  :attr:`op_start_times`         Start times of scheduled operations, added by scheduling
+ |                                 transpiler passes.
+ |  :attr:`parameters`             Ordered set-like view of the compile-time :class:`Parameter`\ s
+ |                                 tracked by the circuit.
+ |  :attr:`qregs`                  List of :class:`QuantumRegister`\ s tracked by the circuit.
+ |
+ |  :attr:`qubits`                 List of :class:`Qubit`\ s tracked by the circuit.
+ |  :attr:`unit`                   The unit of the :attr:`duration` field.
+ |  ============================== =================================================================
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "<frozen _sitebuiltins>", line 103, in __call__
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\pydoc.py", line 2105, in __call__
+    self.help(request)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\pydoc.py", line 2166, in help
+    else: doc(request, 'Help on %s:', output=self._output, is_cli=is_cli)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\pydoc.py", line 1879, in doc
+    pager(render_doc(thing, title, forceload))
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\pydoc.py", line 1650, in pager
+    pager(text)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\pydoc.py", line 1779, in plainpager
+    sys.stdout.write(plain(_escape_stdout(text)))
+BrokenPipeError: [Errno 32] Broken pipe

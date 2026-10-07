@@ -1,0 +1,18 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -1,5 +1,5 @@
+ from qiskit import QuantumCircuit
+-from qiskit.providers.basic_provider import BasicProvider
++from qiskit_aer import AerSimulator
+ 
+ qc_combine = QuantumCircuit(2)
+ qc_combine.h(0)
+@@ -8,7 +8,7 @@
+ 
+ shots_used = 1024
+ 
+-backend = BasicProvider().get_backend("basic_simulator")
++backend = AerSimulator(method="statevector")
+ 
+ # How to define the number of processors that are used by simulator?
+ backend.set_options(

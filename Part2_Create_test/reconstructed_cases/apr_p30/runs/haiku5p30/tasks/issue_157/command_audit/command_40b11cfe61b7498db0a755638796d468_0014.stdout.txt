@@ -1,0 +1,29 @@
+Initialize circuit:
+     ┌──────────────────────────────┐
+q_0: ┤0                             ├
+     │  Initialize(0.5,0.5,0.5,0.5) │
+q_1: ┤1                             ├
+     └──────────────────────────────┘
+Instructions: [CircuitInstruction(operation=Instruction(name='initialize', num_qubits=2, num_clbits=0, params=[(0.5+0j), (0.5+0j), (0.5+0j), (0.5+0j)]), qubits=(Qubit(QuantumRegister(2, 'q'), 0), Qubit(QuantumRegister(2, 'q'), 1)), clbits=())]
+
+StatePreparation circuit:
+     ┌─────────────────────────────────────┐
+q_0: ┤0                                    ├
+     │  State Preparation(0.5,0.5,0.5,0.5) │
+q_1: ┤1                                    ├
+     └─────────────────────────────────────┘
+Instructions: [CircuitInstruction(operation=Instruction(name='state_preparation', num_qubits=2, num_clbits=0, params=[(0.5+0j), (0.5+0j), (0.5+0j), (0.5+0j)]), qubits=(Qubit(QuantumRegister(2, 'q'), 0), Qubit(QuantumRegister(2, 'q'), 1)), clbits=())]
+
+Initialize definition:
+          ┌─────────────────────────────────────┐
+q_0: ─|0>─┤0                                    ├
+          │  State Preparation(0.5,0.5,0.5,0.5) │
+q_1: ─|0>─┤1                                    ├
+          └─────────────────────────────────────┘
+
+StatePreparation definition:
+     ┌──────────────────┐
+q_0: ┤0                 ├
+     │  disentangler_dg │
+q_1: ┤1                 ├
+     └──────────────────┘

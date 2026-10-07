@@ -1,0 +1,13 @@
+Initialize operation: Instruction(name='initialize', num_qubits=2, num_clbits=0, params=[(0.5+0j), (0.5+0j), (0.5+0j), (0.5+0j)])
+  Num qubits: 2
+  Is a Gate: False
+
+Is Initialize a Gate subclass: False
+Traceback (most recent call last):
+  File "<stdin>", line 22, in <module>
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\circuit\library\data_preparation\initializer.py", line 66, in __init__
+    self._stateprep = StatePreparation(params, num_qubits, normalize=normalize)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\circuit\library\data_preparation\state_preparation.py", line 95, in __init__
+    raise QiskitError(
+qiskit.exceptions.QiskitError: 'The num_qubits parameter to StatePreparation should only be used when params is an integer'

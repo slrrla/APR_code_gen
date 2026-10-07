@@ -1,0 +1,17 @@
+{
+  "stage": "reproduce",
+  "command": [
+    "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+    "-X",
+    "utf8",
+    "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_362\\original.py"
+  ],
+  "source": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_362\\original.py",
+  "version": "2.5.0",
+  "support_path": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\support\\py312",
+  "returncode": 1,
+  "timeout": false,
+  "seconds": 1.437,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\result\\result.py\", line 323, in get_unitary\n    return postprocess.format_unitary(self.data(experiment)[\"unitary\"], decimals=decimals)\n                                      ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^\nKeyError: 'unitary'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_362\\original.py\", line 12, in <module>\n    unitary = job.get_unitary()\n              ^^^^^^^^^^^^^^^^^\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\result\\result.py\", line 325, in get_unitary\n    raise QiskitError(f'No unitary for experiment \"{experiment!r}\"') from ex\nqiskit.exceptions.QiskitError: 'No unitary for experiment \"None\"'\n"
+}

@@ -1,0 +1,88 @@
+{
+  "source_zip": "C:\\Users\\haha9\\Desktop\\work\\APR2\\qiskit_apr.zip",
+  "bytes": 692899925,
+  "sha256": "16a623750aaa605fa72673b918cb3470d10460296b9c0c7b2ab1ef8702046ca8",
+  "applicable": true,
+  "adaptation": "Codex agent plus explicit issue/p-case adapter and stronger unchanged intent tests",
+  "original_agent_executed": false,
+  "original_model_provider_executed": false,
+  "mcp_used": false,
+  "original_agent_limits_enforced": false,
+  "native_process_timeout_seconds": 120,
+  "selection": "first30 p cases in workbook row order with current matching reference PASS evidence; skip018 native crash",
+  "scope": "one latest validated Qiskit release per case, not full multi-version matrix",
+  "original_sources_modified": false,
+  "answer_exclusion": "Question-only context; preliminary agents exposed to raw answer material were retired before repair; fresh repair agents have no inherited discovery context",
+  "limitations": [
+    "Local runtime directories are isolated but not an OS sandbox",
+    "Existing test-suite success is not a guarantee of all intended behavior",
+    "issue009 uses sabre layout rather than CSPLayout; no CSP-specific success claim",
+    "Validation feedback used for0610961035189453; not a one-shot blind benchmark"
+  ],
+  "workflow": [
+    "select",
+    "sanitized task and isolated workspace",
+    "reproduce pinned original",
+    "Codex root-cause patch",
+    "rerun pinned script",
+    "unchanged intent-test validation",
+    "diff,source hashes,trajectory and results"
+  ],
+  "verified_results": {
+    "cases": 30,
+    "original_failing": 30,
+    "reference_pass": 30,
+    "candidate_pass": 30,
+    "adapter_tests_pass": 8
+  },
+  "display_labels": {
+    "original": "buggy",
+    "reference": "fix",
+    "candidate": "generated fix"
+  },
+  "validation_method": {
+    "oracle": "existing per-case test.py",
+    "test_source_unchanged": true,
+    "MUT_variants": [
+      "buggy",
+      "fix",
+      "generated fix"
+    ],
+    "legacy_stdout_or_exit_only_oracle_used": false
+  },
+  "data_leakage": {
+    "reference_sources_provided_to_repair_agents": false,
+    "answer_exposed_discovery_agents_retired": true,
+    "intent_summary_from_validation_metadata_used": true,
+    "validation_feedback_used": true,
+    "validation_feedback_cases": [
+      "issue_061",
+      "issue_096",
+      "issue_1035",
+      "issue_189",
+      "issue_453"
+    ],
+    "strict_held_out_or_zero_test_leakage_claim": false
+  },
+  "pre_candidate_test_feedback_evidence": {
+    "passing_cases": 25,
+    "first_full_validation_pass": 26,
+    "first_full_includes_feedback_repaired_453": true,
+    "evidence": [
+      "runs\\codex_p30\\audit\\first_full_validation\\summary.json",
+      "runs\\codex_p30\\summary_issue_344_issue_362_issue_369_issue_396_issue_415_issue_436_issue_443_issue_453_issue_468_issue_497.json"
+    ],
+    "interpretation": "Cross-stage evidence; not a separate simultaneous pristine run or zero-test-information experiment"
+  },
+  "feedback_loop_implementation": {
+    "adapter_calls_repair_agent_automatically": false,
+    "actual_orchestration": "Parent Codex agent sent failing candidate-test diagnostics to repair agents then reran adapter validation",
+    "script_execution_feedback_used_in_repair": true
+  },
+  "actual_model": {
+    "provider": "openai",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "ultra",
+    "provenance_file": "model_provenance.json"
+  }
+}

@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "completed_at_utc": "2026-10-06T05:28:23.034600+00:00",
+  "scope": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30",
+  "writes_outside_scope": false,
+  "before_file_count": 13218,
+  "after_file_count": 11750,
+  "before_top_level_entry_count": 32,
+  "after_top_level_entry_count": 12,
+  "after_top_level_entries": [
+    "README.md",
+    "claude_p30_comparison.csv",
+    "haiku5p30_summary.csv",
+    "records",
+    "reports",
+    "runs",
+    "sonnet5.5p30_summary.csv",
+    "summary.csv",
+    "support",
+    "tests",
+    "tools",
+    "upstream"
+  ],
+  "verification": {
+    "passed": true,
+    "errors": [],
+    "byte_and_mtime_preserved_files": 11722,
+    "unchanged_root_csv_files": 4,
+    "archived_original_files": 1476,
+    "unchanged_run_files": 2799,
+    "unchanged_dependency_files": 8891,
+    "modified_live_source_files": 7,
+    "preserved_pre_cleanup_source_files": 14,
+    "offline_unit_tests_passed": 71,
+    "post_cleanup_audited_cases": 60,
+    "post_cleanup_audit_errors": 0,
+    "post_cleanup_audit_warnings": 4,
+    "readme_local_links_checked": 6
+  },
+  "relocations": [
+    {
+      "from": "adapter.py",
+      "to": "tools/adapter.py"
+    },
+    {
+      "from": "audit_claude_runs.py",
+      "to": "tools/audit_claude_runs.py"
+    },
+    {
+      "from": "claude_api_broker.py",
+      "to": "tools/claude_api_broker.py"
+    },
+    {
+      "from": "claude_api_preflight.json",
+      "to": "records/claude_api_preflight.json"
+    },
+    {
+      "from": "claude_environment.py",
+      "to": "tools/claude_environment.py"
+    },
+    {
+      "from": "claude_finish.py",
+      "to": "tools/claude_finish.py"
+    },
+    {
+      "from": "claude_model.py",
+      "to": "tools/claude_model.py"
+    },
+    {
+      "from": "claude_p30.py",
+      "to": "tools/claude_p30.py"
+    },
+    {
+      "from": "claude_p30_comparison.json",
+      "to": "reports/claude_p30_comparison.json"
+    },
+    {
+      "from": "claude_p30_final_audit.json",
+      "to": "records/claude_p30_final_audit.json"
+    },
+    {
+      "from": "claude_p30_probe_baseline.json",
+      "to": "records/claude_p30_probe_baseline.json"
+    },
+    {
+      "from": "CLAUDE_P30_RESULTS.md",
+      "to": "reports/CLAUDE_P30_RESULTS.md"
+    },
+    {
+      "from": "pilot_actions.py",
+      "to": "tools/pilot_actions.py"
+    },
+    {
+      "from": "README.md",
+      "to": "upstream/README_original.md"
+    },
+    {
+      "from": "RESULTS.md",
+      "to": "reports/RESULTS.md"
+    },
+    {
+      "from": "test_adapter.py",
+      "to": "tests/test_adapter.py"
+    },
+    {
+      "from": "test_audit_claude_runs.py",
+      "to": "tests/test_audit_claude_runs.py"
+    },
+    {
+      "from": "test_candidate_snapshot.py",
+      "to": "tests/test_candidate_snapshot.py"
+    },
+    {
+      "from": "test_claude_driver.py",
+      "to": "tests/test_claude_driver.py"
+    },
+    {
+      "from": "test_claude_environment.py",
+      "to": "tests/test_claude_environment.py"
+    },
+    {
+      "from": "test_claude_model.py",
+      "to": "tests/test_claude_model.py"
+    },
+    {
+      "from": "validation_audit/adapter.before_validation_fix.py",
+      "to": "records/validation_audit/adapter.before_validation_fix.py"
+    },
+    {
+      "from": "validation_audit/first_audit_before_chronology_fix.json",
+      "to": "records/validation_audit/first_audit_before_chronology_fix.json"
+    },
+    {
+      "from": "validation_audit/receipt.json",
+      "to": "records/validation_audit/receipt.json"
+    }
+  ],
+  "modified_live_sources": [
+    {
+      "original_path": "adapter.py",
+      "current_path": "tools/adapter.py",
+      "before_sha256": "c7c8b58fac54e686a484a3b09ad41b63cd251ef9dc508685af09a8697e72dd33",
+      "after_sha256": "84be844986845e8eea429d38045d469bcbcc9c48fbf68ccb36eaf1415c107426",
+      "preserved_original": "records/source_snapshots/pre_cleanup/adapter.py",
+      "reason": "Update moved tool/test paths and support reading the archived API records"
+    },
+    {
+      "original_path": "audit_claude_runs.py",
+      "current_path": "tools/audit_claude_runs.py",
+      "before_sha256": "87858652a98d6ccc2ebf91ab472d35a982880b73cd56f7b15c148cc560c57473",
+      "after_sha256": "726ac756f215c2cb1c05667208693745ab2e9903b8f65fdf929c4ed666e9d2c6",
+      "preserved_original": "records/source_snapshots/pre_cleanup/audit_claude_runs.py",
+      "reason": "Update moved tool/test paths and support reading the archived API records"
+    },
+    {
+      "original_path": "claude_finish.py",
+      "current_path": "tools/claude_finish.py",
+      "before_sha256": "0473c416c9af90eec9d0683d8ad82a130e1a69e0963ccbc8cdf8396c1dbfa1db",
+      "after_sha256": "5e3228f73fcd166c629e8df4741f78d2d8940d2fe8659118ec76b01fb0e7f114",
+      "preserved_original": "records/source_snapshots/pre_cleanup/claude_finish.py",
+      "reason": "Update moved tool/test paths and support reading the archived API records"
+    },
+    {
+      "original_path": "claude_p30.py",
+      "current_path": "tools/claude_p30.py",
+      "before_sha256": "067d90708b85484e4fb2885b2e723fc9215fdce7f421a13c1df46b9fdc86af65",
+      "after_sha256": "d73b72ef724f72e77ef7c5848f49a0f494592bce110ba5cfe1360d037eaa147c",
+      "preserved_original": "records/source_snapshots/pre_cleanup/claude_p30.py",
+      "reason": "Update moved tool/test paths and support reading the archived API records"
+    },
+    {
+      "original_path": "pilot_actions.py",
+      "current_path": "tools/pilot_actions.py",
+      "before_sha256": "2e4d47cc25ab8a7d6735ce06f0f58cdf6815569be0ee5eb8bdf754b405939011",
+      "after_sha256": "060e992feca31a99b014c9ece25cfd2637aa32949c7a36ca7100272846c86123",
+      "preserved_original": "records/source_snapshots/pre_cleanup/pilot_actions.py",
+      "reason": "Update moved tool/test paths and support reading the archived API records"
+    },
+    {
+      "original_path": "test_audit_claude_runs.py",
+      "current_path": "tests/test_audit_claude_runs.py",
+      "before_sha256": "fdb12df79a5b63b63c841f262099eb7cf6d309cb9fc9aaa6bc4cd5cf0c267ff7",
+      "after_sha256": "c0a23ceaa44c8b436b4159a1ef8db746f197424485692590971ba94bd80c37d9",
+      "preserved_original": "records/source_snapshots/pre_cleanup/test_audit_claude_runs.py",
+      "reason": "Update moved tool/test paths and support reading the archived API records"
+    },
+    {
+      "original_path": "test_claude_driver.py",
+      "current_path": "tests/test_claude_driver.py",
+      "before_sha256": "af5379525a5a06e82536d0457865de265870305e6761f9d3f58798729f3483a5",
+      "after_sha256": "fee47c760fa9ff11262693c5075ef6d0feef9072f84d5e87a496b4792352663a",
+      "preserved_original": "records/source_snapshots/pre_cleanup/test_claude_driver.py",
+      "reason": "Update moved tool/test paths and support reading the archived API records"
+    }
+  ],
+  "removed_regenerable_cache_files": [
+    "__pycache__/adapter.cpython-311.pyc",
+    "__pycache__/adapter.cpython-312.pyc",
+    "__pycache__/claude_api_broker.cpython-312.pyc",
+    "__pycache__/claude_environment.cpython-311.pyc",
+    "__pycache__/claude_environment.cpython-312.pyc",
+    "__pycache__/claude_model.cpython-312.pyc",
+    "__pycache__/claude_p30.cpython-312.pyc",
+    "__pycache__/test_adapter.cpython-312.pyc",
+    "__pycache__/test_candidate_snapshot.cpython-312.pyc",
+    "__pycache__/test_claude_driver.cpython-312.pyc",
+    "__pycache__/test_claude_environment.cpython-311.pyc",
+    "__pycache__/test_claude_environment.cpython-312.pyc",
+    "__pycache__/test_claude_model.cpython-312.pyc"
+  ],
+  "removed_empty_directories": [
+    "runtime_config",
+    "records/test_tmp",
+    "records/runtime_config"
+  ],
+  "archive_receipt": "records/api_archive_receipt.json",
+  "post_cleanup_experiment_audit": "records/cleanup_audit_verification.json",
+  "notes": [
+    "No model API calls or generated-program execution during cleanup.",
+    "Existing run manifests, code, results, logs, tests and timestamps were preserved.",
+    "Only live tool/test path support changed; original source bytes are preserved in snapshots.",
+    "API records are archived with original bytes, SHA256 and nanosecond mtimes."
+  ],
+  "before_top_level_entry_count_note": "31 entries represented in the file inventory plus the existing empty runtime_config directory"
+}

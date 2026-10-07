@@ -1,0 +1,16 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -23,6 +23,11 @@
+ transpiled_qc = transpile(qc, simulator)
+ result = simulator.run(transpiled_qc).result()
+ 
+-# BUG: passing QuantumRegister objects directly to partial_trace instead of qubit indices
++# Expand each register into its circuit-wide subsystem indices.
+ traced_over_registers = [reg2, reg4]
+-density_matrix = partial_trace(result.get_statevector(), traced_over_registers)
++traced_over_qubits = [
++    qc.find_bit(qubit).index
++    for register in traced_over_registers
++    for qubit in register
++]
++density_matrix = partial_trace(result.get_statevector(), traced_over_qubits)

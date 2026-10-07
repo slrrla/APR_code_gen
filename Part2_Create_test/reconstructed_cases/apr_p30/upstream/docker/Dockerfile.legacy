@@ -1,0 +1,34 @@
+# Qiskit 0.25.x sandbox (py3.8). Based on ../../hpc/docker/Dockerfile.legacy without the ENTRYPOINT.
+FROM python:3.8-slim
+
+ARG QISKIT_VERSIONS="0.25.3"
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    MPLBACKEND=Agg
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential gfortran git ca-certificates \
+        libopenblas-dev liblapack-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN set -eux; \
+    mkdir -p /opt/venvs /opt/build-logs; \
+    for v in ${QISKIT_VERSIONS}; do \
+        venv="/opt/venvs/qiskit-$v"; \
+        python -m venv "$venv"; \
+        "$venv/bin/pip" install -q "pip==21.3.1" "setuptools==59.8.0" "wheel==0.37.1"; \
+        "$venv/bin/pip" install -q "numpy==1.20.3" "scipy==1.7.3" \
+                                    > "/opt/build-logs/$v.log" 2>&1 || true; \
+        if ! "$venv/bin/pip" install -q "qiskit==$v" >> "/opt/build-logs/$v.log" 2>&1; then \
+            echo "CORE INSTALL FAILED: $v" >> /opt/build-logs/FAILED.txt; \
+            rm -rf "$venv"; continue; \
+        fi; \
+        "$venv/bin/pip" install -q "matplotlib==3.4.3" pylatexenc \
+                                    >> "/opt/build-logs/$v.log" 2>&1 || true; \
+        "$venv/bin/python" -c "import qiskit; print('$v ->', qiskit.__qiskit_version__)"; \
+    done; \
+    ls /opt/venvs
+
+WORKDIR /work

@@ -1,0 +1,14 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -22,9 +22,8 @@
+ 
+ # Use these theta and phi to create the circuit
+ circ = QuantumCircuit(1, 1)
+-# Verify why complex values are not allowed
+-# circ.u3(theta.real, phi.real, 0, 0)
+-circ.u3(theta, phi, 0, 0)
++# Qiskit gates accept only real parameters, so we use the real parts
++circ.u3(theta.real, phi.real, 0, 0)
+ 
+ results = execute(circ, backend=Aer.get_backend('statevector_simulator')).result()
+ quantum_state = results.get_statevector(circ, decimals=3)

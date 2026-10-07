@@ -1,0 +1,8 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -18,4 +18,4 @@
+ i = 0
+ circ = QuantumCircuit(17)
+ # Bug: only providing 1 qubit for compose while csub has 17 qubits
+-circ.compose(csub, [i], inplace=True)
++circ.compose(csub, [i] + [q for q in range(circ.num_qubits) if q != i], inplace=True)

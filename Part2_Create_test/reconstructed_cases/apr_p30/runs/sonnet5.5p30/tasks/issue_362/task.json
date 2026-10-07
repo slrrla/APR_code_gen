@@ -1,0 +1,11 @@
+{
+  "case": "issue_362",
+  "version": "2.5.0",
+  "intent": "Retrieve the saved Hadamard unitary from an actual Aer result.",
+  "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+  "support_path": "C:\\Users\\haha9\\.codex\\visualizations\\2026\\09\\07\\01a07c80-3ea3-71b3-9c09-5b72170c3cdf\\quantum_apr_batch01\\support\\py312",
+  "title": "How to get unitaries, statevectors, density matrices, and everything else from the new module AerSimulator?",
+  "question": "Title: How to get unitaries, statevectors, density matrices, and everything else from the new module AerSimulator?\n\nSo the documentation is all mixed up and I can't find how to get unitaries, statevectors, etc. in the module. For an example, see e.g. this docs. In the old days, one would get this information using only the module (as described in the previous link). But now, fresh qiskit installations do not recognize the module and instead one has to use the \"\" module. If my circuit is I call the \"backend\" as (not sure if correctly) and run The object has the attribute (?) , but I can't get the unitary matrix from it. Any idea how to extract this information?\n\n```\nAerSimulator\n```\n\n```\nAer\n```\n\n```\nAer\n```\n\n```\nAerSimulator\n```\n\n```\nqreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.h(0)\n```\n\n```\nqreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.h(0)\n```\n\n```\nbackend = AerSimulator(method='unitary')\n```\n\n```\nbackend = AerSimulator(method='unitary')\n```\n\n```\njob = backend.run(circuit).result()\n```\n\n```\njob = backend.run(circuit).result()\n```\n\n```\njob\n```\n\n```\njob.get_unitary()\n```",
+  "repair_file": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\sonnet5.5p30\\tasks\\issue_362\\workspace\\buggy.py",
+  "completion": "A minimal truthful repair must pass the separate unchanged intent tests."
+}

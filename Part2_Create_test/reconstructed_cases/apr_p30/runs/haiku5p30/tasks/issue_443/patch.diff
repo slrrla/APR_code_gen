@@ -1,0 +1,8 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -19,4 +19,4 @@
+ 
+ # create and append oracle
+ oracle = create_oracle(train_register, control)  # returns an Instruction
+-circ.append(oracle, [train_register, control])
++circ.append(oracle, list(train_register) + list(control))

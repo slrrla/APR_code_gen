@@ -1,0 +1,14 @@
+Help on function get_config in module qiskit.user_config:
+
+get_config()
+    Read the config file from the default location or env var.
+
+    It will read a config file at the location specified by the ``QISKIT_SETTINGS`` environment
+    variable if set, or ``$HOME/.qiskit/settings.conf`` if not.
+
+    If the environment variable ``QISKIT_IGNORE_USER_SETTINGS`` is set to the string ``TRUE``, this
+    will return an empty configuration, regardless of all other variables.
+
+    Returns:
+        dict: The settings dict from the parsed config file.
+

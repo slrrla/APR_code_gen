@@ -1,0 +1,34 @@
+test_clean_home (__main__.TestIntent.test_clean_home) ... FAIL
+test_existing_profile_missing_kernel_config (__main__.TestIntent.test_existing_profile_missing_kernel_config) ... FAIL
+test_preserves_existing_qiskit_settings (__main__.TestIntent.test_preserves_existing_qiskit_settings) ... ok
+
+======================================================================
+FAIL: test_clean_home (__main__.TestIntent.test_clean_home)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\codex_p30\tasks\issue_096\validator\test.py", line 57, in test_clean_home
+    self.check_configuration()
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\codex_p30\tasks\issue_096\validator\test.py", line 51, in check_configuration
+    self.assertEqual(settings.read_text(encoding="utf-8"), expected)
+AssertionError: '[default]\ncircuit_drawer = mpl\n' != '[default]\n'
+  [default]
+- circuit_drawer = mpl
+
+
+======================================================================
+FAIL: test_existing_profile_missing_kernel_config (__main__.TestIntent.test_existing_profile_missing_kernel_config)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\codex_p30\tasks\issue_096\validator\test.py", line 63, in test_existing_profile_missing_kernel_config
+    self.check_configuration(existing_profile=True)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\codex_p30\tasks\issue_096\validator\test.py", line 51, in check_configuration
+    self.assertEqual(settings.read_text(encoding="utf-8"), expected)
+AssertionError: '[default]\ncircuit_drawer = mpl\n' != '[default]\n'
+  [default]
+- circuit_drawer = mpl
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.029s
+
+FAILED (failures=2)

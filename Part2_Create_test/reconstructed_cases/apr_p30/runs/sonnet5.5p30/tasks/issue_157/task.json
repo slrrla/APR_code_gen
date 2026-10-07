@@ -1,0 +1,11 @@
+{
+  "case": "issue_157",
+  "version": "0.46.3",
+  "intent": "Prepare the controlled state and preserve the requested two-control interface.",
+  "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+  "support_path": null,
+  "title": "Is it possible to create a controlled initialize instruction in Qiskit?",
+  "question": "Title: Is it possible to create a controlled initialize instruction in Qiskit?\n\nI know it's possible to create custom controlled gates from a circuit, for example, However, since initialization is not considered a gate operation, one cannot do but instead, one can do This, however, does not allow for control qubits. Is there any way to get around this, to create a quantum instruction that is applied in terms of a set of control qubits?\n\n```\nqc_gate = QuantumCircuit(2) qc_gate.x(0) qc_gate.x(1) gate = qc_gate.to_gate().control(2)\n```\n\n```\nqc_gate = QuantumCircuit(2) qc_gate.x(0) qc_gate.x(1) gate = qc_gate.to_gate().control(2)\n```\n\n```\nqc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_gate().control(2)\n```\n\n```\nqc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_gate().control(2)\n```\n\n```\nqc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_instruction()\n```\n\n```\nqc_gate = QuantumCircuit(2) qc_gate.initialize[a,b] gate = qc_gate.to_instruction()\n```",
+  "repair_file": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\sonnet5.5p30\\tasks\\issue_157\\workspace\\buggy.py",
+  "completion": "A minimal truthful repair must pass the separate unchanged intent tests."
+}

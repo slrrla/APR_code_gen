@@ -1,0 +1,16 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -1,4 +1,4 @@
+-from qiskit import QuantumCircuit, QuantumRegister, Aer
++from qiskit import QuantumCircuit, QuantumRegister, Aer, transpile
+ 
+ def diffuser(nqubits):
+     qc = QuantumCircuit(nqubits)
+@@ -31,6 +31,6 @@
+ circuit.append(diffuser(3), psi)  # psi is a 3 qubit quantum register
+ 
+ # Missing transpile step causes "Circuit contains invalid instructions" error
+-job = backend.run(circuit)
++job = backend.run(transpile(circuit, backend))
+ 
+ v = job.result().get_statevector(circuit)

@@ -1,0 +1,25 @@
+test_options_and_bell_sampling (__main__.TestIntent.test_options_and_bell_sampling) ... ERROR
+
+======================================================================
+ERROR: test_options_and_bell_sampling (__main__.TestIntent.test_options_and_bell_sampling)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\providers\options.py", line 134, in __getattr__
+    return self._fields[name]
+           ~~~~~~~~~~~~^^^^^^
+KeyError: 'max_parallel_threads'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\haiku5p30\tasks\issue_315\validator\test.py", line 32, in test_options_and_bell_sampling
+    self.assertEqual(getattr(ns["backend"].options,name),value)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\providers\options.py", line 136, in __getattr__
+    raise AttributeError(f"Option {name} is not defined") from ex
+AttributeError: Option max_parallel_threads is not defined
+
+----------------------------------------------------------------------
+Ran 1 test in 0.014s
+
+FAILED (errors=1)

@@ -1,0 +1,10 @@
+            modulated_samples = gaussian_samples * np.exp(2j * np.pi * freq_offset * times)
+            
+            # Create a new Waveform with the modulated samples
+            modulated_pulse = Waveform(modulated_samples)
+            
+            # Play the modulated pulse
+            pulse.play(modulated_pulse, DriveChannel(qubit))
+            pulse.call(meas)
+    spec01_scheds.append(spec01_sched)
+

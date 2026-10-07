@@ -1,0 +1,121 @@
+{
+  "checks": [
+    {
+      "qiskit": "0.25.0",
+      "target": "fixed.py",
+      "expected": "PASS",
+      "actual": "PASS",
+      "exit_code": 0,
+      "correct": true,
+      "output_tail": ".\n----------------------------------------------------------------------\nRan 1 test in 2.985s\n\nOK\n"
+    },
+    {
+      "qiskit": "0.25.0",
+      "target": "buggy.py",
+      "expected": "ERROR",
+      "actual": "ERROR",
+      "exit_code": 1,
+      "correct": true,
+      "output_tail": "E\n======================================================================\nERROR: test_all_five_one_hot_circuit_results_are_retrieved (__main__.Regression)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_827\\test.py\", line 67, in test_all_five_one_hot_circuit_results_are_retrieved\n    namespace = runpy.run_path(path, run_name=\"__main__\")\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\runpy.py\", line 288, in run_path\n    return _run_module_code(code, init_globals, run_name,\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\runpy.py\", line 97, in _run_module_code\n    _run_code(code, mod_globals, init_globals,\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\runpy.py\", line 87, in _run_code\n    exec(code, run_globals)\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_827\\buggy.py\", line 2, in <module>\n    from qiskit import Aer, compile\nImportError: cannot import name 'compile' from 'qiskit' (C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_0\\lib\\site-packages\\qiskit\\__init__.py)\n\n----------------------------------------------------------------------\nRan 1 test in 1.611s\n\nFAILED (errors=1)\n"
+    },
+    {
+      "qiskit": "0.25.0",
+      "target": "case_827_new_fix.py",
+      "expected": "PASS",
+      "actual": "PASS",
+      "exit_code": 0,
+      "correct": true,
+      "output_tail": ".\n----------------------------------------------------------------------\nRan 1 test in 3.156s\n\nOK\n"
+    },
+    {
+      "qiskit": "0.46.3",
+      "target": "fixed.py",
+      "expected": "PASS",
+      "actual": "PASS",
+      "exit_code": 0,
+      "correct": true,
+      "output_tail": ".\n----------------------------------------------------------------------\nRan 1 test in 2.946s\n\nOK\n"
+    },
+    {
+      "qiskit": "0.46.3",
+      "target": "buggy.py",
+      "expected": "ERROR",
+      "actual": "ERROR",
+      "exit_code": 1,
+      "correct": true,
+      "output_tail": "E\n======================================================================\nERROR: test_all_five_one_hot_circuit_results_are_retrieved (__main__.Regression.test_all_five_one_hot_circuit_results_are_retrieved)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_827\\test.py\", line 67, in test_all_five_one_hot_circuit_results_are_retrieved\n    namespace = runpy.run_path(path, run_name=\"__main__\")\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_827\\buggy.py\", line 2, in <module>\n    from qiskit import Aer, compile\nImportError: cannot import name 'compile' from 'qiskit' (C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\Lib\\site-packages\\qiskit\\__init__.py)\n\n----------------------------------------------------------------------\nRan 1 test in 2.399s\n\nFAILED (errors=1)\n"
+    },
+    {
+      "qiskit": "0.46.3",
+      "target": "case_827_new_fix.py",
+      "expected": "PASS",
+      "actual": "PASS",
+      "exit_code": 0,
+      "correct": true,
+      "output_tail": ".\n----------------------------------------------------------------------\nRan 1 test in 2.775s\n\nOK\n"
+    },
+    {
+      "qiskit": "0.45.0",
+      "target": "missing_result",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "exit_code": 1,
+      "correct": true,
+      "output_tail": "F\n======================================================================\nFAIL: test_all_five_one_hot_circuit_results_are_retrieved (__main__.Regression.test_all_five_one_hot_circuit_results_are_retrieved)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_827\\test.py\", line 69, in test_all_five_one_hot_circuit_results_are_retrieved\n    self.assertTrue(\nAssertionError: False is not true : Expected five retrieved counts with the distinct five-bit one-hot outcomes; observed batches: [[{'00001': 1024}, {'00010': 1024}, {'00100': 1024}, {'01000': 1024}]]\n\n----------------------------------------------------------------------\nRan 1 test in 2.548s\n\nFAILED (failures=1)\n",
+      "source": "from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit\nfrom qiskit import Aer\nfrom qiskit.compiler import transpile, assemble\n\nn_qubits = 5\nqc_list = []\nfor i in range(n_qubits):\n    qr = QuantumRegister(n_qubits)\n    cr = ClassicalRegister(n_qubits)\n    qc = QuantumCircuit(qr, cr)\n    qc.x(qr[i])\n    qc.measure(qr, cr)\n    qc_list.append(qc)\n\nbackend = Aer.get_backend('qasm_simulator')\n\ntranspiled_circs = transpile(qc_list, backend=backend)\nqobjs = assemble(transpiled_circs, backend=backend)\njob_info = backend.run(qobjs)\n\n# To get the results\nfor circ_index in range(len(transpiled_circs) - 1):\n    print(job_info.result().get_counts(transpiled_circs[circ_index]))\n"
+    },
+    {
+      "qiskit": "0.45.0",
+      "target": "two_hot_wrong_bits",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "exit_code": 1,
+      "correct": true,
+      "output_tail": "F\n======================================================================\nFAIL: test_all_five_one_hot_circuit_results_are_retrieved (__main__.Regression.test_all_five_one_hot_circuit_results_are_retrieved)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_827\\test.py\", line 69, in test_all_five_one_hot_circuit_results_are_retrieved\n    self.assertTrue(\nAssertionError: False is not true : Expected five retrieved counts with the distinct five-bit one-hot outcomes; observed batches: [[{'00011': 1024}, {'00110': 1024}, {'01100': 1024}, {'11000': 1024}, {'10001': 1024}]]\n\n----------------------------------------------------------------------\nRan 1 test in 2.264s\n\nFAILED (failures=1)\n",
+      "source": "from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit\nfrom qiskit import Aer\nfrom qiskit.compiler import transpile, assemble\n\nn_qubits = 5\nqc_list = []\nfor i in range(n_qubits):\n    qr = QuantumRegister(n_qubits)\n    cr = ClassicalRegister(n_qubits)\n    qc = QuantumCircuit(qr, cr)\n    qc.x(qr[i])\n    qc.x(qr[(i + 1) % n_qubits])\n    qc.measure(qr, cr)\n    qc_list.append(qc)\n\nbackend = Aer.get_backend('qasm_simulator')\n\ntranspiled_circs = transpile(qc_list, backend=backend)\nqobjs = assemble(transpiled_circs, backend=backend)\njob_info = backend.run(qobjs)\n\n# To get the results\nfor circ_index in range(len(transpiled_circs)):\n    print(job_info.result().get_counts(transpiled_circs[circ_index]))\n"
+    },
+    {
+      "qiskit": "0.45.0",
+      "target": "all_same_retrieved_result",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "exit_code": 1,
+      "correct": true,
+      "output_tail": "F\n======================================================================\nFAIL: test_all_five_one_hot_circuit_results_are_retrieved (__main__.Regression.test_all_five_one_hot_circuit_results_are_retrieved)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_827\\test.py\", line 69, in test_all_five_one_hot_circuit_results_are_retrieved\n    self.assertTrue(\nAssertionError: False is not true : Expected five retrieved counts with the distinct five-bit one-hot outcomes; observed batches: [[{'00001': 1024}, {'00001': 1024}, {'00001': 1024}, {'00001': 1024}, {'00001': 1024}]]\n\n----------------------------------------------------------------------\nRan 1 test in 1.988s\n\nFAILED (failures=1)\n",
+      "source": "from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit\nfrom qiskit import Aer\nfrom qiskit.compiler import transpile, assemble\n\nn_qubits = 5\nqc_list = []\nfor i in range(n_qubits):\n    qr = QuantumRegister(n_qubits)\n    cr = ClassicalRegister(n_qubits)\n    qc = QuantumCircuit(qr, cr)\n    qc.x(qr[i])\n    qc.measure(qr, cr)\n    qc_list.append(qc)\n\nbackend = Aer.get_backend('qasm_simulator')\n\ntranspiled_circs = transpile(qc_list, backend=backend)\nqobjs = assemble(transpiled_circs, backend=backend)\njob_info = backend.run(qobjs)\n\n# To get the results\nfor circ_index in range(len(transpiled_circs)):\n    print(job_info.result().get_counts(transpiled_circs[0]))\n"
+    },
+    {
+      "qiskit": "0.45.0",
+      "target": "namespace_list_only",
+      "expected": "PASS",
+      "actual": "PASS",
+      "exit_code": 0,
+      "correct": true,
+      "output_tail": ".\n----------------------------------------------------------------------\nRan 1 test in 1.927s\n\nOK\n",
+      "source": "from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit\nfrom qiskit import Aer\nfrom qiskit.compiler import transpile, assemble\n\nn_qubits = 5\nqc_list = []\nfor i in range(n_qubits):\n    qr = QuantumRegister(n_qubits)\n    cr = ClassicalRegister(n_qubits)\n    qc = QuantumCircuit(qr, cr)\n    qc.x(qr[i])\n    qc.measure(qr, cr)\n    qc_list.append(qc)\n\nbackend = Aer.get_backend('qasm_simulator')\n\ntranspiled_circs = transpile(qc_list, backend=backend)\nqobjs = assemble(transpiled_circs, backend=backend)\njob_info = backend.run(qobjs)\n\n# To get the results\narbitrary_alias_for_counts = job_info.result().get_counts()\n"
+    },
+    {
+      "qiskit": "0.45.0",
+      "target": "changed_shot_count",
+      "expected": "PASS",
+      "actual": "PASS",
+      "exit_code": 0,
+      "correct": true,
+      "output_tail": ".\n----------------------------------------------------------------------\nRan 1 test in 1.998s\n\nOK\n",
+      "source": "from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit\nfrom qiskit import Aer\nfrom qiskit.compiler import transpile, assemble\n\nn_qubits = 5\nqc_list = []\nfor i in range(n_qubits):\n    qr = QuantumRegister(n_qubits)\n    cr = ClassicalRegister(n_qubits)\n    qc = QuantumCircuit(qr, cr)\n    qc.x(qr[i])\n    qc.measure(qr, cr)\n    qc_list.append(qc)\n\nbackend = Aer.get_backend('qasm_simulator')\n\ntranspiled_circs = transpile(qc_list, backend=backend)\nqobjs = assemble(transpiled_circs, backend=backend, shots=17)\njob_info = backend.run(qobjs)\n\n# To get the results\nfor circ_index in range(len(transpiled_circs)):\n    print(job_info.result().get_counts(transpiled_circs[circ_index]))\n"
+    },
+    {
+      "qiskit": "0.45.0",
+      "target": "reversed_result_order",
+      "expected": "PASS",
+      "actual": "PASS",
+      "exit_code": 0,
+      "correct": true,
+      "output_tail": ".\n----------------------------------------------------------------------\nRan 1 test in 2.159s\n\nOK\n",
+      "source": "from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit\nfrom qiskit import Aer\nfrom qiskit.compiler import transpile, assemble\n\nn_qubits = 5\nqc_list = []\nfor i in range(n_qubits):\n    qr = QuantumRegister(n_qubits)\n    cr = ClassicalRegister(n_qubits)\n    qc = QuantumCircuit(qr, cr)\n    qc.x(qr[i])\n    qc.measure(qr, cr)\n    qc_list.append(qc)\n\nbackend = Aer.get_backend('qasm_simulator')\n\ntranspiled_circs = transpile(qc_list, backend=backend)\nqobjs = assemble(transpiled_circs, backend=backend)\njob_info = backend.run(qobjs)\n\n# To get the results\nfor circ_index in reversed(range(len(transpiled_circs))):\n    print(job_info.result().get_counts(transpiled_circs[circ_index]))\n"
+    }
+  ],
+  "all_expected": true,
+  "target_sources_modified": false,
+  "oracle": "Five distinct five-bit one-hot outcomes, positive counts, all five results already retrieved by MUT; real Aer execution, no backend/result mocks."
+}

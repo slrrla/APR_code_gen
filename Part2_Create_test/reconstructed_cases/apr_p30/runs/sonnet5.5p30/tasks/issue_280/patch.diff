@@ -1,0 +1,17 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -1,4 +1,4 @@
+-from qiskit.providers.aer.noise import NoiseModel, depolarizing_error
++from qiskit_aer.noise import NoiseModel, depolarizing_error
+ 
+ # Create an empty noise model
+ noise_model = NoiseModel()
+@@ -9,7 +9,7 @@
+ 
+ # This applies only a single-qubit depolarizing error, even though we
+ # want to apply a depolarizing error to the 2-qubit CNOT gate.
+-noise_model.add_all_qubit_quantum_error(error, ['cx'])
++noise_model.add_all_qubit_quantum_error(depolarizing_error(0.05, 2), ['cx'])
+ 
+ # Print noise model info
+ print(noise_model)

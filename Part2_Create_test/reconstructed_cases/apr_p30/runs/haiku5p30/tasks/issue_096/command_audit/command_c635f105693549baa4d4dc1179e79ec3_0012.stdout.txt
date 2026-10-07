@@ -1,0 +1,26 @@
+Help on function set_config in module qiskit.user_config:
+
+set_config(key, value, section=None, file_path=None)
+    Adds or modifies a user configuration
+
+    It will add configuration to the currently configured location
+    or the value of file argument.
+
+    Only valid user config can be set in 'default' section. Custom
+    user config can be added in any other sections.
+
+    Changes to the existing config file will not be reflected in
+    the current session since the config file is parsed at import time.
+
+    Args:
+        key (str): name of the config
+        value (obj): value of the config
+        section (str, optional): if not specified, adds it to the
+            `default` section of the config file.
+        file_path (str, optional): the file to which config is added.
+            If not specified, adds it to the default config file or
+            if set, the value of `QISKIT_SETTINGS` env variable.
+
+    Raises:
+        QiskitUserConfigError: if the config is invalid
+

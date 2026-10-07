@@ -1,0 +1,14 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -14,9 +14,9 @@
+ circ = QuantumCircuit(train_register, control)
+ 
+ # initialising registers for readability
+-[control, train_register] = circ.qregs
++[train_register, control] = circ.qregs
+ circ.h(control)
+ 
+ # create and append oracle
+ oracle = create_oracle(train_register, control)  # returns an Instruction
+-circ.append(oracle, [train_register, control])
++circ.append(oracle, list(train_register) + list(control))

@@ -1,0 +1,9 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -3,5 +3,5 @@
+ c = qiskit.QuantumCircuit(1)
+ c.h(0)
+ 
+-qasm_str = c.qasm()
++qasm_str = qiskit.qasm2.dumps(c)
+ print(qasm_str)

@@ -1,0 +1,12 @@
+import qiskit
+
+c = qiskit.QuantumCircuit(1)
+c.h(0)
+
+qasm_str = c.qasm()
+print(qasm_str)
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\sonnet5.5p30\tasks\issue_036\workspace\buggy.py", line 6, in <module>
+    qasm_str = c.qasm()
+               ^^^^^^
+AttributeError: 'QuantumCircuit' object has no attribute 'qasm'

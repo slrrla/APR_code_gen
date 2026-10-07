@@ -1,0 +1,10 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -7,6 +7,7 @@
+ circuit.h(0)
+ 
+ backend = AerSimulator(method='unitary')
++circuit.save_unitary()
+ job = backend.run(circuit).result()
+ 
+ unitary = job.get_unitary()

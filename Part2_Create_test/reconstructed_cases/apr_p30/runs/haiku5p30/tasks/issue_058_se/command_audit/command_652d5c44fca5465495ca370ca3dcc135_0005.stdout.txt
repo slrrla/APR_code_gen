@@ -1,0 +1,50 @@
+Help on function transpile in module qiskit.compiler.transpiler:
+
+transpile(circuits: ~_CircuitT, backend: Optional[qiskit.providers.backend.Backend] = None, basis_gates: Optional[List[str]] = None, inst_map: Optional[List[qiskit.pulse.instruction_schedule_map.InstructionScheduleMap]] = None, coupling_map: Union[qiskit.transpiler.coupling.CouplingMap, List[List[int]], NoneType] = None, backend_properties: Optional[qiskit.providers.models.backendproperties.BackendProperties] = None, initial_layout: Union[qiskit.transpiler.layout.Layout, Dict, List, NoneType] = None, layout_method: Optional[str] = None, routing_method: Optional[str] = None, translation_method: Optional[str] = None, scheduling_method: Optional[str] = None, instruction_durations: Union[List[Tuple[str, Optional[Iterable[int]], float, Optional[Iterable[float]], str]], List[Tuple[str, Optional[Iterable[int]], float, Optional[Iterable[float]]]], List[Tuple[str, Optional[Iterable[int]], float, str]], List[Tuple[str, Optional[Iterable[int]], float]], qiskit.transpiler.instruction_durations.InstructionDurations, NoneType] = None, dt: Optional[float] = None, approximation_degree: Optional[float] = 1.0, timing_constraints: Optional[Dict[str, int]] = None, seed_transpiler: Optional[int] = None, optimization_level: Optional[int] = None, callback: Optional[Callable[[qiskit.transpiler.basepasses.BasePass, qiskit.dagcircuit.dagcircuit.DAGCircuit, float, qiskit.passmanager.compilation_status.PropertySet, int], Any]] = None, output_name: Union[str, List[str], NoneType] = None, unitary_synthesis_method: str = 'default', unitary_synthesis_plugin_config: Optional[dict] = None, target: Optional[qiskit.transpiler.target.Target] = None, hls_config: Optional[qiskit.transpiler.passes.synthesis.high_level_synthesis.HLSConfig] = None, init_method: Optional[str] = None, optimization_method: Optional[str] = None, ignore_backend_supplied_default_methods: bool = False) -> ~_CircuitT
+    Transpile one or more circuits, according to some desired transpilation targets.
+    
+    Transpilation is potentially done in parallel using multiprocessing when ``circuits``
+    is a list with > 1 :class:`~.QuantumCircuit` object depending on the local environment
+    and configuration.
+    
+    Args:
+        circuits: Circuit(s) to transpile
+        backend: If set, the transpiler will compile the input circuit to this target
+            device. If any other option is explicitly set (e.g., ``coupling_map``), it
+            will override the backend's.
+        basis_gates: List of basis gate names to unroll to
+            (e.g: ``['u1', 'u2', 'u3', 'cx']``). If ``None``, do not unroll.
+        inst_map: Mapping of unrolled gates to pulse schedules. If this is not provided,
+            transpiler tries to get from the backend. If any user defined calibration
+            is found in the map and this is used in a circuit, transpiler attaches
+            the custom gate definition to the circuit. This enables one to flexibly
+            override the low-level instruction implementation. This feature is available
+            iff the backend supports the pulse gate experiment.
+        coupling_map: Directed coupling map (perhaps custom) to target in mapping. If
+            the coupling map is symmetric, both directions need to be specified.
+    
+            Multiple formats are supported:
+    
+            #. ``CouplingMap`` instance
+            #. List, must be given as an adjacency matrix, where each entry
+               specifies all directed two-qubit interactions supported by backend,
+               e.g: ``[[0, 1], [0, 3], [1, 2], [1, 5], [2, 5], [4, 1], [5, 3]]``
+    
+        backend_properties: properties returned by a backend, including information on gate
+            errors, readout errors, qubit coherence times, etc. Find a backend
+            that provides this information with: ``backend.properties()``
+        initial_layout: Initial position of virtual qubits on physical qubits.
+            If this layout makes the circuit compatible with the coupling_map
+            constraints, it will be used. The final layout is not guaranteed to be the same,
+            as the transpiler may permute qubits through swaps or other means.
+            Multiple formats are supported:
+    
+            #. ``Layout`` instance
+            #. Dict
+               * virtual to physical::
+    
+                    {qr[0]: 0,
+                     qr[1]: 3,
+                     qr[2]: 5}
+    
+               * physical to virtual::

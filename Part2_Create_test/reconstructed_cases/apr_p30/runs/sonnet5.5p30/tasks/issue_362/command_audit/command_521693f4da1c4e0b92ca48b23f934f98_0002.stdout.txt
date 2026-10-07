@@ -1,0 +1,18 @@
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
+from qiskit_aer import AerSimulator
+
+qreg_q = QuantumRegister(1, 'q')
+creg_c = ClassicalRegister(1, 'c')
+circuit = QuantumCircuit(qreg_q, creg_c)
+circuit.h(0)
+
+backend = AerSimulator(method='unitary')
+job = backend.run(circuit).result()
+
+unitary = job.get_unitary()
+print(unitary)
+    unitary = job.get_unitary()
+              ^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\result\result.py", line 325, in get_unitary
+    raise QiskitError(f'No unitary for experiment "{experiment!r}"') from ex
+qiskit.exceptions.QiskitError: 'No unitary for experiment "None"'

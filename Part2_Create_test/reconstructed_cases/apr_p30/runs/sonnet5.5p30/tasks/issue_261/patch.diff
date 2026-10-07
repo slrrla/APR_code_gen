@@ -1,0 +1,9 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -7,5 +7,5 @@
+ hamiltonian_string = read_hamiltonian_from_file()
+ 
+ # TypeError: PauliOp can only be instantiated with Paulis, not <class 'str'>
+-hamiltonian = PauliOp(hamiltonian_string)
++hamiltonian = eval(hamiltonian_string, {"__builtins__": {}}, {"I": I, "X": X, "Y": Y, "Z": Z})
+ print(type(hamiltonian))

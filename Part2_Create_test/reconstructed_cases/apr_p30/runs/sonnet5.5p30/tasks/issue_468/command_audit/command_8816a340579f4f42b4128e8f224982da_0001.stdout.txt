@@ -1,0 +1,12 @@
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\sonnet5.5p30\tasks\issue_468\workspace\buggy.py", line 16, in <module>
+    commutator(dm0, dm1)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\aqua\operators\legacy\common.py", line 415, in commutator
+    op_ab = op_a * op_b
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\quantum_info\states\quantum_state.py", line 538, in __mul__
+    return self._multiply(other)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\quantum_info\states\densitymatrix.py", line 288, in _multiply
+    raise QiskitError("other is not a number")
+qiskit.exceptions.QiskitError: 'other is not a number'

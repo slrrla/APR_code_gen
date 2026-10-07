@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\haiku5p30\tasks\issue_453\workspace\buggy.py", line 20, in <module>
+    circ.compose(qc1, [0, 1, 2, 3], inplace=True)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 2285, in compose
+    raise CircuitError(
+qiskit.circuit.exceptions.CircuitError: 'Cannot compose onto a circuit with fewer qubits (6 > 4).'

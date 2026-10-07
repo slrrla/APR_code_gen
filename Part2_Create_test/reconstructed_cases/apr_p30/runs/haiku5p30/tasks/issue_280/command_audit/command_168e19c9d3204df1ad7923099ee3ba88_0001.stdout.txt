@@ -1,0 +1,10 @@
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\haiku5p30\tasks\issue_280\workspace\buggy.py:1: DeprecationWarning: Importing from 'qiskit.providers.aer' is deprecated. Import from 'qiskit_aer' instead, which should work identically.
+  from qiskit.providers.aer.noise import NoiseModel, depolarizing_error
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\haiku5p30\tasks\issue_280\workspace\buggy.py", line 12, in <module>
+    noise_model.add_all_qubit_quantum_error(error, ['cx'])
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit_aer\noise\noise_model.py", line 690, in add_all_qubit_quantum_error
+    self._check_number_of_qubits(error, name)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit_aer\noise\noise_model.py", line 1099, in _check_number_of_qubits
+    raise NoiseError(error_message(2))
+qiskit_aer.noise.noiseerror.NoiseError: '1 qubit QuantumError cannot be applied to 2 qubit instruction "cx".'

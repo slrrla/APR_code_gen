@@ -1,0 +1,11 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -18,7 +18,7 @@
+     Q = circuit_to_gate(grover_operator).control().power(2 ** ((n - 1) - i))
+     j = i + 1
+     # BUG: qp changes length on every iteration, but Q's qubit count is fixed
+-    qp = list(np.arange(n - j, n + lg + 2))
++    qp = [n - j] + list(np.arange(n, n + lg + 2))
+     for l in range(len(qp)):
+         print(qp[l])
+     print(" ")

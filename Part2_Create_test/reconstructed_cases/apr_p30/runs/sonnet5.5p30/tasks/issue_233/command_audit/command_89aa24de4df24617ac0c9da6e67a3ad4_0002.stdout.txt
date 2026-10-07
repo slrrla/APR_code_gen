@@ -1,0 +1,32 @@
+from qiskit.circuit.library import TwoLocal
+import numpy as np
+
+num_qubits = 2
+
+rot = TwoLocal(
+    int(np.sum(num_qubits)),
+    "ry",
+    [],
+    reps=1,
+    skip_final_rotation_layer=True,
+    parameter_prefix="p",
+)
+var = TwoLocal(
+    int(np.sum(num_qubits)),
+    "ry",
+    "cx",
+    entanglement="linear",
+    reps=1,
+    skip_final_rotation_layer=True,
+)
+
+print(rot.num_parameters_settable())  # >> 2
+
+rot.compose(var, inplace=True)
+
+print(rot.num_parameters_settable())  # >> 2, unchanged, bug: should reflect combined parameters
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\sonnet5.5p30\tasks\issue_233\workspace\buggy.py", line 23, in <module>
+    print(rot.num_parameters_settable())  # >> 2
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'int' object is not callable

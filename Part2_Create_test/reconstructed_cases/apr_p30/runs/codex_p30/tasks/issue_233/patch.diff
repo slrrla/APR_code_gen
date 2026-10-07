@@ -1,0 +1,13 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -20,8 +20,8 @@
+     skip_final_rotation_layer=True,
+ )
+ 
+-print(rot.num_parameters_settable())  # >> 2
++print(rot.num_parameters)  # >> 2
+ 
+ rot.compose(var, inplace=True)
+ 
+-print(rot.num_parameters_settable())  # >> 2, unchanged, bug: should reflect combined parameters
++print(rot.num_parameters)  # >> 4, unique parameters in the composed circuit

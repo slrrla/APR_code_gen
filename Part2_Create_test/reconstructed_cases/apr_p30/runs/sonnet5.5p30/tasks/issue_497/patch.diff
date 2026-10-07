@@ -1,0 +1,19 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -2,7 +2,7 @@
+ from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, Aer
+ import numpy as np
+ from qiskit.aqua import QuantumInstance
+-from qiskit.aqua.operators import PauliExpectation, CircuitSampler, StateFn, CircuitOp, CircuitStateFn
++from qiskit.aqua.operators import PauliExpectation, CircuitSampler, StateFn, CircuitOp, CircuitStateFn, ListOp
+ 
+ qctl = QuantumRegister(1)
+ psi = QuantumCircuit(qctl)
+@@ -36,4 +36,6 @@
+ sampler2 = CircuitSampler(q_instance).convert(expectation2)
+ print('Expectation Value 2 = ', sampler2.eval())
+ 
+-IBMQJobManager()
++batch = ListOp([StateFn(op1, is_measurement=True).compose(psi), StateFn(op2, is_measurement=True).compose(psi)])
++batch_exp = PauliExpectation().convert(batch)
++print("Batch expectation values = ", CircuitSampler(q_instance).convert(batch_exp).eval())

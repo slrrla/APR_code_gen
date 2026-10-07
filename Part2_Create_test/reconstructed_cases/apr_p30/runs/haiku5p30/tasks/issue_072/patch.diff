@@ -1,0 +1,11 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -5,7 +5,7 @@
+ _backend = Aer.get_backend('qasm_simulator')
+ 
+ qreg = qk.QuantumRegister(7)
+-layout = {qreg[0]: 12, qreg[1]: 11, qreg[2]: 13, qreg[3]: 17, qreg[4]: 14, qreg[5]: 12, qreg[6]: 6}
++layout = {qreg[0]: 12, qreg[1]: 11, qreg[2]: 13, qreg[3]: 17, qreg[4]: 14, qreg[5]: 10, qreg[6]: 6}
+ 
+ ########## error mitigation ##########
+ meas_calibs, state_labels = complete_meas_cal(

@@ -1,0 +1,11 @@
+{
+  "case": "issue_009",
+  "version": "0.46.3",
+  "intent": "Compile GHZ with a valid layout and preserve measured probabilities.",
+  "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+  "support_path": null,
+  "title": "Is CSP Layout always the first algorithm used by qiskit transpiler to map quantum circuit?",
+  "question": "Title: Is CSP Layout always the first algorithm used by qiskit transpiler to map quantum circuit?\n\nI'm using Qiskit transpile with optimization_level=3 . I was wondering if CSP layout selector is always the first algorithm tried by Qiskit, also if I set as layout_method='noise_adaptive' or other methods. \n If not, how to force the transpiler to use CSP layout selector? I tried with layout_method='csp_layout' , but I get the following exception: \n qiskit.transpiler.exceptions.TranspilerError: 'Invalid layout method csp_layout.\n\n```\nqiskit.transpiler.exceptions.TranspilerError: 'Invalid layout method csp_layout.\n```",
+  "repair_file": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\codex_p30\\tasks\\issue_009\\workspace\\buggy.py",
+  "completion": "A minimal truthful repair must pass the separate unchanged intent tests."
+}
