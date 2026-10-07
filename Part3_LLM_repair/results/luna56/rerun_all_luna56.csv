@@ -1,0 +1,1004 @@
+﻿batch,case_id,qiskit_version,recorded_llm_status,rerun_llm_status,same,rerun_error
+1,issue_009,0.45.0,ERROR,FAIL,False,AssertionError: 3 != 5
+1,issue_009,0.45.1,ERROR,ERROR,True,"qiskit.transpiler.exceptions.TranspilerError: ""The 'layout' must be full (with ancilla)."""
+1,issue_009,0.45.2,FAIL,FAIL,True,AssertionError: 3 != 5
+1,issue_009,0.45.3,FAIL,ERROR,False,"qiskit.transpiler.exceptions.TranspilerError: ""The 'layout' must be full (with ancilla)."""
+1,issue_009,0.46.0,ERROR,ERROR,True,"qiskit.transpiler.exceptions.TranspilerError: ""The 'layout' must be full (with ancilla)."""
+1,issue_009,0.46.1,ERROR,ERROR,True,"qiskit.transpiler.exceptions.TranspilerError: ""The 'layout' must be full (with ancilla)."""
+1,issue_009,0.46.2,ERROR,ERROR,True,"qiskit.transpiler.exceptions.TranspilerError: ""The 'layout' must be full (with ancilla)."""
+1,issue_009,0.46.3,ERROR,ERROR,True,"qiskit.transpiler.exceptions.TranspilerError: ""The 'layout' must be full (with ancilla)."""
+1,issue_018_se,1.0.0,FAIL,FAIL,True,RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:
+1,issue_018_se,1.0.1,FAIL,FAIL,True,RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221225477 (0xC0000005); AssertionError:
+1,issue_018_se,1.0.2,FAIL,FAIL,True,RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221225477 (0xC0000005); AssertionError:
+1,issue_018_se,1.1.0,FAIL,FAIL,True,RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:
+1,issue_018_se,1.1.1,FAIL,FAIL,True,RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:
+1,issue_018_se,1.1.2,FAIL,FAIL,True,RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:
+1,issue_018_se,1.2.0,FAIL,FAIL,True,RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:
+1,issue_018_se,1.2.1,FAIL,FAIL,True,RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:
+1,issue_018_se,1.2.2,FAIL,FAIL,True,RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221225477 (0xC0000005); AssertionError:
+1,issue_018_se,1.2.4,FAIL,FAIL,True,RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:
+1,issue_018_se,2.0.0,FAIL,FAIL,True,RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:
+1,issue_018_se,2.2.0,FAIL,FAIL,True,RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:
+1,issue_018_se,2.3.0,FAIL,FAIL,True,RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221225477 (0xC0000005); AssertionError:
+1,issue_018_se,2.4.0,FAIL,FAIL,True,RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221225477 (0xC0000005); AssertionError:
+1,issue_018_se,2.5.0,FAIL,FAIL,True,RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374); AssertionError:
+1,issue_021_se,0.25.0,ERROR,ERROR,True,"qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Circuit contains invalid instructions {""gates"": {disentangler_dg}} for ""statevector"" method ,  ERROR: Circuit contains invalid instructions {""gates"": {disentangler_dg}} for ""statevector"" method'"
+1,issue_021_se,0.25.1,ERROR,ERROR,True,"qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Circuit contains invalid instructions {""gates"": {disentangler_dg}} for ""statevector"" method ,  ERROR: Circuit contains invalid instructions {""gates"": {disentangler_dg}} for ""statevector"" method'"
+1,issue_021_se,0.25.2,ERROR,ERROR,True,"qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Circuit contains invalid instructions {""gates"": {disentangler_dg}} for ""statevector"" method ,  ERROR: Circuit contains invalid instructions {""gates"": {disentangler_dg}} for ""statevector"" method'"
+1,issue_021_se,0.25.3,ERROR,ERROR,True,"qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Circuit contains invalid instructions {""gates"": {disentangler_dg}} for ""statevector"" method ,  ERROR: Circuit contains invalid instructions {""gates"": {disentangler_dg}} for ""statevector"" method'"
+1,issue_021_se,0.45.0,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'
+1,issue_021_se,0.45.1,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'
+1,issue_021_se,0.45.2,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'
+1,issue_021_se,0.45.3,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'
+1,issue_021_se,0.46.0,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'
+1,issue_021_se,0.46.1,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'
+1,issue_021_se,0.46.2,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'
+1,issue_021_se,0.46.3,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'
+1,issue_032_se,0.25.0,PASS,PASS,True,
+1,issue_032_se,0.25.1,PASS,PASS,True,
+1,issue_032_se,0.25.2,PASS,PASS,True,
+1,issue_032_se,0.25.3,PASS,PASS,True,
+1,issue_034,1.0.0,PASS,PASS,True,
+1,issue_034,1.0.1,PASS,PASS,True,
+1,issue_034,1.0.2,PASS,PASS,True,
+1,issue_034,1.1.0,PASS,PASS,True,
+1,issue_034,1.1.1,PASS,PASS,True,
+1,issue_034,1.1.2,PASS,PASS,True,
+1,issue_034,1.2.0,PASS,PASS,True,
+1,issue_034,1.2.1,PASS,PASS,True,
+1,issue_034,1.2.2,PASS,PASS,True,
+1,issue_034,1.2.4,PASS,PASS,True,
+1,issue_034,2.0.0,PASS,PASS,True,
+1,issue_034,2.2.0,PASS,PASS,True,
+1,issue_034,2.3.0,PASS,PASS,True,
+1,issue_034,2.4.0,PASS,PASS,True,
+1,issue_034,2.5.0,PASS,PASS,True,
+1,issue_036,1.0.0,PASS,PASS,True,
+1,issue_036,1.0.1,PASS,PASS,True,
+1,issue_036,1.0.2,PASS,PASS,True,
+1,issue_036,1.1.0,PASS,PASS,True,
+1,issue_036,1.1.1,PASS,PASS,True,
+1,issue_036,1.1.2,PASS,PASS,True,
+1,issue_036,1.2.0,PASS,PASS,True,
+1,issue_036,1.2.1,PASS,PASS,True,
+1,issue_036,1.2.2,PASS,PASS,True,
+1,issue_036,1.2.4,PASS,PASS,True,
+1,issue_036,2.0.0,PASS,PASS,True,
+1,issue_036,2.2.0,PASS,PASS,True,
+1,issue_036,2.3.0,PASS,PASS,True,
+1,issue_036,2.4.0,PASS,PASS,True,
+1,issue_036,2.5.0,PASS,PASS,True,
+1,issue_058_se,0.25.0,PASS,PASS,True,
+1,issue_058_se,0.25.1,PASS,PASS,True,
+1,issue_058_se,0.25.2,PASS,PASS,True,
+1,issue_058_se,0.25.3,PASS,PASS,True,
+1,issue_058_se,0.45.0,PASS,PASS,True,
+1,issue_058_se,0.45.1,PASS,PASS,True,
+1,issue_058_se,0.45.2,PASS,PASS,True,
+1,issue_058_se,0.45.3,PASS,PASS,True,
+1,issue_058_se,0.46.0,PASS,PASS,True,
+1,issue_058_se,0.46.1,PASS,PASS,True,
+1,issue_058_se,0.46.2,PASS,PASS,True,
+1,issue_058_se,0.46.3,PASS,PASS,True,
+1,issue_061,1.0.0,PASS,PASS,True,
+1,issue_061,1.0.1,PASS,PASS,True,
+1,issue_061,1.0.2,PASS,PASS,True,
+1,issue_061,1.1.0,PASS,PASS,True,
+1,issue_061,1.1.1,PASS,PASS,True,
+1,issue_061,1.1.2,PASS,PASS,True,
+1,issue_061,1.2.0,PASS,PASS,True,
+1,issue_061,1.2.1,PASS,PASS,True,
+1,issue_061,1.2.2,PASS,PASS,True,
+1,issue_061,1.2.4,PASS,PASS,True,
+1,issue_061,2.0.0,PASS,PASS,True,
+1,issue_061,2.2.0,PASS,PASS,True,
+1,issue_061,2.3.0,PASS,PASS,True,
+1,issue_061,2.4.0,PASS,PASS,True,
+1,issue_061,2.5.0,PASS,PASS,True,
+1,issue_072,0.25.0,PASS,PASS,True,
+1,issue_072,0.25.1,PASS,PASS,True,
+1,issue_072,0.25.2,PASS,PASS,True,
+1,issue_072,0.25.3,PASS,PASS,True,
+1,issue_096,0.25.0,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,0.25.1,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,0.25.2,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,0.25.3,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,0.45.0,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,0.45.1,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,0.45.2,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,0.45.3,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,0.46.0,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,0.46.1,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,0.46.2,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,0.46.3,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,1.0.0,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,1.0.1,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,1.0.2,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,1.1.0,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,1.1.1,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,1.1.2,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,1.2.0,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,1.2.1,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,1.2.2,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,1.2.4,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,2.0.0,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,2.2.0,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,2.3.0,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,2.4.0,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+1,issue_096,2.5.0,FAIL,FAIL,True,AssertionError: '' != '[default]\n'; AssertionError: False is not true : Missing ipython_kernel_config.py (even when the profile directory already exists)
+2,issue_155,0.25.0,PASS,PASS,True,
+2,issue_155,0.25.1,PASS,PASS,True,
+2,issue_155,0.25.2,PASS,PASS,True,
+2,issue_155,0.25.3,PASS,PASS,True,
+2,issue_155,0.45.0,PASS,PASS,True,
+2,issue_155,0.45.1,PASS,PASS,True,
+2,issue_155,0.45.2,PASS,PASS,True,
+2,issue_155,0.45.3,PASS,PASS,True,
+2,issue_155,0.46.0,PASS,PASS,True,
+2,issue_155,0.46.1,PASS,PASS,True,
+2,issue_155,0.46.2,PASS,PASS,True,
+2,issue_155,0.46.3,PASS,PASS,True,
+2,issue_157,0.25.0,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'prepare_state'
+2,issue_157,0.25.1,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'prepare_state'
+2,issue_157,0.25.2,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'prepare_state'
+2,issue_157,0.25.3,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'prepare_state'
+2,issue_157,0.45.0,PASS,PASS,True,
+2,issue_157,0.45.1,PASS,PASS,True,
+2,issue_157,0.45.2,PASS,PASS,True,
+2,issue_157,0.45.3,PASS,PASS,True,
+2,issue_157,0.46.0,PASS,PASS,True,
+2,issue_157,0.46.1,PASS,PASS,True,
+2,issue_157,0.46.2,PASS,PASS,True,
+2,issue_157,0.46.3,PASS,PASS,True,
+2,issue_174,0.25.0,ERROR,ERROR,True,"qiskit.qasm.exceptions.QasmError: 'Unable to match any token rule, got -->#<-- Check your OPENQASM source and any include statements.'"
+2,issue_174,0.25.1,ERROR,ERROR,True,"qiskit.qasm.exceptions.QasmError: 'Unable to match any token rule, got -->#<-- Check your OPENQASM source and any include statements.'"
+2,issue_174,0.25.2,ERROR,ERROR,True,"qiskit.qasm.exceptions.QasmError: 'Unable to match any token rule, got -->#<-- Check your OPENQASM source and any include statements.'"
+2,issue_174,0.25.3,ERROR,ERROR,True,"qiskit.qasm.exceptions.QasmError: 'Unable to match any token rule, got -->#<-- Check your OPENQASM source and any include statements.'"
+2,issue_174,0.45.0,ERROR,ERROR,True,"qiskit.qasm2.exceptions.QASM2ParseError: ""<input>:10,0: encountered '#', which doesn't match any valid tokens"""
+2,issue_174,0.45.1,ERROR,ERROR,True,"qiskit.qasm2.exceptions.QASM2ParseError: ""<input>:10,0: encountered '#', which doesn't match any valid tokens"""
+2,issue_174,0.45.2,ERROR,ERROR,True,"qiskit.qasm2.exceptions.QASM2ParseError: ""<input>:10,0: encountered '#', which doesn't match any valid tokens"""
+2,issue_174,0.45.3,ERROR,ERROR,True,"qiskit.qasm2.exceptions.QASM2ParseError: ""<input>:10,0: encountered '#', which doesn't match any valid tokens"""
+2,issue_174,0.46.0,ERROR,ERROR,True,"qiskit.qasm2.exceptions.QASM2ParseError: ""<input>:10,0: encountered '#', which doesn't match any valid tokens"""
+2,issue_174,0.46.1,ERROR,ERROR,True,"qiskit.qasm2.exceptions.QASM2ParseError: ""<input>:10,0: encountered '#', which doesn't match any valid tokens"""
+2,issue_174,0.46.2,ERROR,ERROR,True,"qiskit.qasm2.exceptions.QASM2ParseError: ""<input>:10,0: encountered '#', which doesn't match any valid tokens"""
+2,issue_174,0.46.3,ERROR,ERROR,True,"qiskit.qasm2.exceptions.QASM2ParseError: ""<input>:10,0: encountered '#', which doesn't match any valid tokens"""
+2,issue_189,0.45.0,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,0.45.1,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,0.45.2,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,0.45.3,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,0.46.0,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,0.46.1,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,0.46.2,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,0.46.3,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,1.0.0,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,1.0.1,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,1.0.2,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,1.1.0,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,1.1.1,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,1.1.2,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,1.2.0,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,1.2.1,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,1.2.2,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,1.2.4,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,2.0.0,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,2.2.0,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,2.3.0,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,2.4.0,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_189,2.5.0,FAIL,FAIL,True,"AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]"
+2,issue_225,0.45.0,PASS,PASS,True,
+2,issue_225,0.45.1,PASS,PASS,True,
+2,issue_225,0.45.2,PASS,PASS,True,
+2,issue_225,0.45.3,PASS,PASS,True,
+2,issue_225,0.46.0,PASS,PASS,True,
+2,issue_225,0.46.1,PASS,PASS,True,
+2,issue_225,0.46.2,PASS,PASS,True,
+2,issue_225,0.46.3,PASS,PASS,True,
+2,issue_233,0.25.0,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,0.25.1,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,0.25.2,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,0.25.3,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,0.45.0,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,0.45.1,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,0.45.2,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,0.45.3,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,0.46.0,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,0.46.1,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,0.46.2,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,0.46.3,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,1.0.0,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,1.0.1,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,1.0.2,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,1.1.0,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,1.1.1,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,1.1.2,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,1.2.0,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,1.2.1,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,1.2.2,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,1.2.4,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,2.0.0,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,2.2.0,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,2.3.0,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,2.4.0,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_233,2.5.0,ERROR,ERROR,True,TypeError: 'int' object is not callable
+2,issue_261,0.25.0,PASS,PASS,True,
+2,issue_261,0.25.1,PASS,PASS,True,
+2,issue_261,0.25.2,PASS,PASS,True,
+2,issue_261,0.25.3,PASS,PASS,True,
+2,issue_261,0.45.0,PASS,PASS,True,
+2,issue_261,0.45.1,PASS,PASS,True,
+2,issue_261,0.45.2,PASS,PASS,True,
+2,issue_261,0.45.3,PASS,PASS,True,
+2,issue_261,0.46.0,PASS,PASS,True,
+2,issue_261,0.46.1,PASS,PASS,True,
+2,issue_261,0.46.2,PASS,PASS,True,
+2,issue_261,0.46.3,PASS,PASS,True,
+2,issue_280,0.25.0,PASS,PASS,True,
+2,issue_280,0.25.1,PASS,PASS,True,
+2,issue_280,0.25.2,PASS,PASS,True,
+2,issue_280,0.25.3,PASS,PASS,True,
+2,issue_280,0.45.0,PASS,PASS,True,
+2,issue_280,0.45.1,PASS,PASS,True,
+2,issue_280,0.45.2,PASS,PASS,True,
+2,issue_280,0.45.3,PASS,PASS,True,
+2,issue_280,0.46.0,PASS,PASS,True,
+2,issue_280,0.46.1,PASS,PASS,True,
+2,issue_280,0.46.2,PASS,PASS,True,
+2,issue_280,0.46.3,PASS,PASS,True,
+2,issue_295,0.45.0,PASS,PASS,True,
+2,issue_295,0.45.1,PASS,PASS,True,
+2,issue_295,0.45.2,PASS,PASS,True,
+2,issue_295,0.45.3,PASS,PASS,True,
+2,issue_295,0.46.0,PASS,PASS,True,
+2,issue_295,0.46.1,PASS,PASS,True,
+2,issue_295,0.46.2,PASS,PASS,True,
+2,issue_295,0.46.3,PASS,PASS,True,
+2,issue_315,0.45.0,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.providers.basic_provider'
+2,issue_315,0.45.1,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.providers.basic_provider'
+2,issue_315,0.45.2,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.providers.basic_provider'
+2,issue_315,0.45.3,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.providers.basic_provider'
+2,issue_315,0.46.0,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,0.46.1,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,0.46.2,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,0.46.3,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,1.0.0,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,1.0.1,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,1.0.2,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,1.1.0,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,1.1.1,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,1.1.2,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,1.2.0,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,1.2.1,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,1.2.2,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,1.2.4,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,2.0.0,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,2.2.0,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,2.3.0,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,2.4.0,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+2,issue_315,2.5.0,ERROR,ERROR,True,KeyError: 'max_parallel_threads'; AttributeError: Option max_parallel_threads is not defined
+3,issue_344,0.25.0,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'Input quantum state is not a valid'
+3,issue_344,0.25.1,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'Input quantum state is not a valid'
+3,issue_344,0.25.2,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'Input quantum state is not a valid'
+3,issue_344,0.25.3,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'Input quantum state is not a valid'
+3,issue_344,0.45.0,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'Input quantum state is not a valid'
+3,issue_344,0.45.1,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'Input quantum state is not a valid'
+3,issue_344,0.45.2,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'Input quantum state is not a valid'
+3,issue_344,0.45.3,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'Input quantum state is not a valid'
+3,issue_344,0.46.0,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'Input quantum state is not a valid'
+3,issue_344,0.46.1,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'Input quantum state is not a valid'
+3,issue_344,0.46.2,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'Input quantum state is not a valid'
+3,issue_344,0.46.3,ERROR,ERROR,True,qiskit.exceptions.QiskitError: 'Input quantum state is not a valid'
+3,issue_362,0.45.0,PASS,PASS,True,
+3,issue_362,0.45.1,PASS,PASS,True,
+3,issue_362,0.45.2,PASS,PASS,True,
+3,issue_362,0.45.3,PASS,PASS,True,
+3,issue_362,0.46.0,PASS,PASS,True,
+3,issue_362,0.46.1,PASS,PASS,True,
+3,issue_362,0.46.2,PASS,PASS,True,
+3,issue_362,0.46.3,PASS,PASS,True,
+3,issue_362,1.0.0,PASS,PASS,True,
+3,issue_362,1.0.1,PASS,PASS,True,
+3,issue_362,1.0.2,PASS,PASS,True,
+3,issue_362,1.1.0,PASS,PASS,True,
+3,issue_362,1.1.1,PASS,PASS,True,
+3,issue_362,1.1.2,PASS,PASS,True,
+3,issue_362,1.2.0,PASS,PASS,True,
+3,issue_362,1.2.1,PASS,PASS,True,
+3,issue_362,1.2.2,PASS,PASS,True,
+3,issue_362,1.2.4,PASS,PASS,True,
+3,issue_362,2.0.0,PASS,PASS,True,
+3,issue_362,2.2.0,PASS,PASS,True,
+3,issue_362,2.3.0,PASS,PASS,True,
+3,issue_362,2.4.0,PASS,PASS,True,
+3,issue_362,2.5.0,PASS,PASS,True,
+3,issue_369,0.25.0,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,0.25.1,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,0.25.2,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,0.25.3,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,0.45.0,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,0.45.1,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,0.45.2,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,0.45.3,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,0.46.0,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,0.46.1,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,0.46.2,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,0.46.3,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,1.0.0,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,1.0.1,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,1.0.2,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,1.1.0,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,1.1.1,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,1.1.2,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,1.2.0,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,1.2.1,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,1.2.2,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,1.2.4,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,2.0.0,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,2.2.0,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,2.3.0,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,2.4.0,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_369,2.5.0,ERROR,ERROR,True,qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(3)/clbit(0) arguments does not match the gate expectation (4).'
+3,issue_396,0.25.0,PASS,PASS,True,
+3,issue_396,0.25.1,PASS,PASS,True,
+3,issue_396,0.25.2,PASS,PASS,True,
+3,issue_396,0.25.3,PASS,PASS,True,
+3,issue_396,0.45.0,PASS,PASS,True,
+3,issue_396,0.45.1,PASS,PASS,True,
+3,issue_396,0.45.2,PASS,PASS,True,
+3,issue_396,0.45.3,PASS,PASS,True,
+3,issue_396,0.46.0,PASS,PASS,True,
+3,issue_396,0.46.1,PASS,PASS,True,
+3,issue_396,0.46.2,PASS,PASS,True,
+3,issue_396,0.46.3,PASS,PASS,True,
+3,issue_396,1.0.0,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+3,issue_396,1.0.1,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+3,issue_396,1.0.2,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+3,issue_396,1.1.0,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+3,issue_396,1.1.1,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+3,issue_396,1.1.2,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+3,issue_396,1.2.0,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+3,issue_396,1.2.1,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+3,issue_396,1.2.2,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+3,issue_396,1.2.4,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+3,issue_396,2.0.0,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+3,issue_396,2.2.0,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+3,issue_396,2.3.0,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+3,issue_396,2.4.0,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+3,issue_396,2.5.0,ERROR,ERROR,True,AttributeError: 'QuantumCircuit' object has no attribute 'diagonal'
+3,issue_415,0.25.0,FAIL,FAIL,True,AssertionError:
+3,issue_415,0.25.1,FAIL,FAIL,True,AssertionError:
+3,issue_415,0.25.2,FAIL,FAIL,True,AssertionError:
+3,issue_415,0.25.3,FAIL,FAIL,True,AssertionError:
+3,issue_436,0.25.0,PASS,PASS,True,
+3,issue_436,0.25.1,PASS,PASS,True,
+3,issue_436,0.25.2,PASS,PASS,True,
+3,issue_436,0.25.3,PASS,PASS,True,
+3,issue_443,0.25.0,PASS,PASS,True,
+3,issue_443,0.25.1,PASS,PASS,True,
+3,issue_443,0.25.2,PASS,PASS,True,
+3,issue_443,0.25.3,PASS,PASS,True,
+3,issue_443,0.45.0,PASS,PASS,True,
+3,issue_443,0.45.1,PASS,PASS,True,
+3,issue_443,0.45.2,PASS,PASS,True,
+3,issue_443,0.45.3,PASS,PASS,True,
+3,issue_443,0.46.0,PASS,PASS,True,
+3,issue_443,0.46.1,PASS,PASS,True,
+3,issue_443,0.46.2,PASS,PASS,True,
+3,issue_443,0.46.3,PASS,PASS,True,
+3,issue_443,1.0.0,PASS,PASS,True,
+3,issue_443,1.0.1,PASS,PASS,True,
+3,issue_443,1.0.2,PASS,PASS,True,
+3,issue_443,1.1.0,PASS,PASS,True,
+3,issue_443,1.1.1,PASS,PASS,True,
+3,issue_443,1.1.2,PASS,PASS,True,
+3,issue_443,1.2.0,PASS,PASS,True,
+3,issue_443,1.2.1,PASS,PASS,True,
+3,issue_443,1.2.2,PASS,PASS,True,
+3,issue_443,1.2.4,PASS,PASS,True,
+3,issue_443,2.0.0,PASS,PASS,True,
+3,issue_443,2.2.0,PASS,PASS,True,
+3,issue_443,2.3.0,PASS,PASS,True,
+3,issue_443,2.4.0,PASS,PASS,True,
+3,issue_443,2.5.0,PASS,PASS,True,
+3,issue_453,0.45.0,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,0.45.1,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,0.45.2,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,0.45.3,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,0.46.0,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,0.46.1,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,0.46.2,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,0.46.3,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,1.0.0,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,1.0.1,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,1.0.2,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,1.1.0,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,1.1.1,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,1.1.2,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,1.2.0,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,1.2.1,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,1.2.2,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,1.2.4,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,2.0.0,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,2.2.0,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,2.3.0,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,2.4.0,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_453,2.5.0,FAIL,FAIL,True,AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'; AssertionError: 0 != 2
+3,issue_468,0.25.0,ERROR,ERROR,True,"ValueError: Operators can only be scalar multiplied by float or complex, not Operator([[1.+0.j, 0.+0.j],"
+3,issue_468,0.25.1,ERROR,ERROR,True,"ValueError: Operators can only be scalar multiplied by float or complex, not Operator([[1.+0.j, 0.+0.j],"
+3,issue_468,0.25.2,ERROR,ERROR,True,"ValueError: Operators can only be scalar multiplied by float or complex, not Operator([[1.+0.j, 0.+0.j],"
+3,issue_468,0.25.3,ERROR,ERROR,True,"ValueError: Operators can only be scalar multiplied by float or complex, not Operator([[1.+0.j, 0.+0.j],"
+3,issue_497,0.25.0,PASS,PASS,True,
+3,issue_497,0.25.1,PASS,PASS,True,
+3,issue_497,0.25.2,PASS,PASS,True,
+3,issue_497,0.25.3,PASS,PASS,True,
+4,issue_504,0.45.0,PASS,PASS,True,
+4,issue_504,0.45.1,PASS,PASS,True,
+4,issue_504,0.45.2,PASS,PASS,True,
+4,issue_504,0.45.3,PASS,PASS,True,
+4,issue_504,0.46.0,PASS,PASS,True,
+4,issue_504,0.46.1,PASS,PASS,True,
+4,issue_504,0.46.2,PASS,PASS,True,
+4,issue_504,0.46.3,PASS,PASS,True,
+4,issue_504,1.0.0,PASS,PASS,True,
+4,issue_504,1.0.1,PASS,PASS,True,
+4,issue_504,1.0.2,PASS,PASS,True,
+4,issue_504,1.1.0,PASS,PASS,True,
+4,issue_504,1.1.1,PASS,PASS,True,
+4,issue_504,1.1.2,PASS,PASS,True,
+4,issue_504,1.2.0,PASS,PASS,True,
+4,issue_504,1.2.1,PASS,PASS,True,
+4,issue_504,1.2.2,PASS,PASS,True,
+4,issue_504,1.2.4,PASS,PASS,True,
+4,issue_504,2.0.0,PASS,PASS,True,
+4,issue_504,2.2.0,PASS,PASS,True,
+4,issue_504,2.3.0,PASS,PASS,True,
+4,issue_504,2.4.0,PASS,PASS,True,
+4,issue_504,2.5.0,PASS,PASS,True,
+4,issue_505,0.45.0,PASS,PASS,True,
+4,issue_505,0.45.1,PASS,PASS,True,
+4,issue_505,0.45.2,PASS,PASS,True,
+4,issue_505,0.45.3,PASS,PASS,True,
+4,issue_505,0.46.0,PASS,PASS,True,
+4,issue_505,0.46.1,PASS,PASS,True,
+4,issue_505,0.46.2,PASS,PASS,True,
+4,issue_505,0.46.3,PASS,PASS,True,
+4,issue_565,0.25.0,ERROR,ERROR,True,"ValueError: Operators can only be scalar multiplied by float or complex, not SummedOp(["
+4,issue_565,0.25.1,ERROR,ERROR,True,"ValueError: Operators can only be scalar multiplied by float or complex, not SummedOp(["
+4,issue_565,0.25.2,ERROR,ERROR,True,"ValueError: Operators can only be scalar multiplied by float or complex, not SummedOp(["
+4,issue_565,0.25.3,ERROR,ERROR,True,"ValueError: Operators can only be scalar multiplied by float or complex, not SummedOp(["
+4,issue_595,0.45.0,PASS,PASS,True,
+4,issue_595,0.45.1,PASS,PASS,True,
+4,issue_595,0.45.2,PASS,PASS,True,
+4,issue_595,0.45.3,PASS,PASS,True,
+4,issue_595,0.46.0,PASS,PASS,True,
+4,issue_595,0.46.1,PASS,PASS,True,
+4,issue_595,0.46.2,PASS,PASS,True,
+4,issue_595,0.46.3,PASS,PASS,True,
+4,issue_595,1.0.0,PASS,PASS,True,
+4,issue_595,1.0.1,PASS,PASS,True,
+4,issue_595,1.0.2,PASS,PASS,True,
+4,issue_595,1.1.0,PASS,PASS,True,
+4,issue_595,1.1.1,PASS,PASS,True,
+4,issue_595,1.1.2,PASS,PASS,True,
+4,issue_595,1.2.0,PASS,PASS,True,
+4,issue_595,1.2.1,PASS,PASS,True,
+4,issue_595,1.2.2,PASS,PASS,True,
+4,issue_595,1.2.4,PASS,PASS,True,
+4,issue_595,2.0.0,PASS,PASS,True,
+4,issue_595,2.2.0,PASS,PASS,True,
+4,issue_595,2.3.0,PASS,PASS,True,
+4,issue_595,2.4.0,PASS,PASS,True,
+4,issue_595,2.5.0,PASS,PASS,True,
+4,issue_596,0.25.0,PASS,PASS,True,
+4,issue_596,0.25.1,PASS,PASS,True,
+4,issue_596,0.25.2,PASS,PASS,True,
+4,issue_596,0.25.3,PASS,PASS,True,
+4,issue_596,0.45.0,PASS,PASS,True,
+4,issue_596,0.45.1,PASS,PASS,True,
+4,issue_596,0.45.2,PASS,PASS,True,
+4,issue_596,0.45.3,PASS,PASS,True,
+4,issue_596,0.46.0,PASS,PASS,True,
+4,issue_596,0.46.1,PASS,PASS,True,
+4,issue_596,0.46.2,PASS,PASS,True,
+4,issue_596,0.46.3,PASS,PASS,True,
+4,issue_600,0.25.0,ERROR,ERROR,True,ImportError: cannot import name 'PauliGate' from 'qiskit.circuit.library' (C:\qiskit_envs\q0250\lib\site-packages\qiskit\circuit\library\__init__.py)
+4,issue_600,0.25.1,ERROR,ERROR,True,ImportError: cannot import name 'PauliGate' from 'qiskit.circuit.library' (C:\qiskit_envs\q0251\lib\site-packages\qiskit\circuit\library\__init__.py)
+4,issue_600,0.25.2,ERROR,ERROR,True,ImportError: cannot import name 'PauliGate' from 'qiskit.circuit.library' (C:\qiskit_envs\q0252\lib\site-packages\qiskit\circuit\library\__init__.py)
+4,issue_600,0.25.3,ERROR,ERROR,True,ImportError: cannot import name 'PauliGate' from 'qiskit.circuit.library' (C:\qiskit_envs\q0253\lib\site-packages\qiskit\circuit\library\__init__.py)
+4,issue_600,0.45.0,PASS,PASS,True,
+4,issue_600,0.45.1,PASS,PASS,True,
+4,issue_600,0.45.2,PASS,PASS,True,
+4,issue_600,0.45.3,PASS,PASS,True,
+4,issue_600,0.46.0,PASS,PASS,True,
+4,issue_600,0.46.1,PASS,PASS,True,
+4,issue_600,0.46.2,PASS,PASS,True,
+4,issue_600,0.46.3,PASS,PASS,True,
+4,issue_622,0.25.0,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_622,0.25.1,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_622,0.25.2,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_622,0.25.3,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_622,0.45.0,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_622,0.45.1,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_622,0.45.2,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_622,0.45.3,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_622,0.46.0,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_622,0.46.1,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_622,0.46.2,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_622,0.46.3,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_624,0.25.0,ERROR,ERROR,True,ValueError: Evolutions of mixed Operators not yet supported.
+4,issue_624,0.25.1,ERROR,ERROR,True,ValueError: Evolutions of mixed Operators not yet supported.
+4,issue_624,0.25.2,ERROR,ERROR,True,ValueError: Evolutions of mixed Operators not yet supported.
+4,issue_624,0.25.3,ERROR,ERROR,True,ValueError: Evolutions of mixed Operators not yet supported.
+4,issue_624,0.45.0,ERROR,ERROR,True,TypeError: ParameterExpression with unbound parameters (dict_keys([Parameter(c)])) cannot be cast to a float.
+4,issue_624,0.45.1,ERROR,ERROR,True,TypeError: ParameterExpression with unbound parameters (dict_keys([Parameter(c)])) cannot be cast to a float.
+4,issue_624,0.45.2,ERROR,ERROR,True,TypeError: ParameterExpression with unbound parameters (dict_keys([Parameter(c)])) cannot be cast to a float.
+4,issue_624,0.45.3,ERROR,ERROR,True,TypeError: ParameterExpression with unbound parameters (dict_keys([Parameter(c)])) cannot be cast to a float.
+4,issue_624,0.46.0,ERROR,ERROR,True,TypeError: ParameterExpression with unbound parameters (dict_keys([Parameter(c)])) cannot be cast to a float.
+4,issue_624,0.46.1,ERROR,ERROR,True,TypeError: ParameterExpression with unbound parameters (dict_keys([Parameter(c)])) cannot be cast to a float.
+4,issue_624,0.46.2,ERROR,ERROR,True,TypeError: ParameterExpression with unbound parameters (dict_keys([Parameter(c)])) cannot be cast to a float.
+4,issue_624,0.46.3,ERROR,ERROR,True,TypeError: ParameterExpression with unbound parameters (dict_keys([Parameter(c)])) cannot be cast to a float.
+4,issue_635,0.25.0,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_635,0.25.1,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_635,0.25.2,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_635,0.25.3,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+4,issue_662,0.45.0,ERROR,ERROR,True,AttributeError: 'DAGOpNode' object has no attribute 'type'
+4,issue_662,0.45.1,ERROR,ERROR,True,AttributeError: 'DAGOpNode' object has no attribute 'type'
+4,issue_662,0.45.2,ERROR,ERROR,True,AttributeError: 'DAGOpNode' object has no attribute 'type'
+4,issue_662,0.45.3,ERROR,ERROR,True,AttributeError: 'DAGOpNode' object has no attribute 'type'
+4,issue_662,0.46.0,ERROR,ERROR,True,AttributeError: 'DAGOpNode' object has no attribute 'type'
+4,issue_662,0.46.1,ERROR,ERROR,True,AttributeError: 'DAGOpNode' object has no attribute 'type'
+4,issue_662,0.46.2,ERROR,ERROR,True,AttributeError: 'DAGOpNode' object has no attribute 'type'
+4,issue_662,0.46.3,ERROR,ERROR,True,AttributeError: 'DAGOpNode' object has no attribute 'type'
+4,issue_662,1.0.0,ERROR,ERROR,True,AttributeError: 'DAGOpNode' object has no attribute 'type'
+4,issue_662,1.0.1,ERROR,ERROR,True,AttributeError: 'DAGOpNode' object has no attribute 'type'
+4,issue_662,1.0.2,ERROR,ERROR,True,AttributeError: 'DAGOpNode' object has no attribute 'type'
+4,issue_662,1.1.0,ERROR,ERROR,True,AttributeError: 'DAGOpNode' object has no attribute 'type'
+4,issue_662,1.1.1,ERROR,ERROR,True,AttributeError: 'DAGOpNode' object has no attribute 'type'
+4,issue_662,1.1.2,ERROR,ERROR,True,AttributeError: 'DAGOpNode' object has no attribute 'type'
+4,issue_662,1.2.0,ERROR,ERROR,True,AttributeError: 'qiskit._accelerate.circuit.DAGOpNode' object has no attribute 'type'
+4,issue_662,1.2.1,ERROR,ERROR,True,AttributeError: 'qiskit._accelerate.circuit.DAGOpNode' object has no attribute 'type'
+4,issue_662,1.2.2,ERROR,ERROR,True,AttributeError: 'qiskit._accelerate.circuit.DAGOpNode' object has no attribute 'type'
+4,issue_662,1.2.4,ERROR,ERROR,True,AttributeError: 'qiskit._accelerate.circuit.DAGOpNode' object has no attribute 'type'
+4,issue_662,2.0.0,ERROR,ERROR,True,AttributeError: 'qiskit._accelerate.circuit.DAGOpNode' object has no attribute 'type'
+4,issue_662,2.2.0,ERROR,ERROR,True,AttributeError: 'qiskit._accelerate.circuit.DAGOpNode' object has no attribute 'type'
+4,issue_662,2.3.0,ERROR,ERROR,True,AttributeError: 'qiskit._accelerate.circuit.DAGOpNode' object has no attribute 'type'
+4,issue_662,2.4.0,ERROR,ERROR,True,AttributeError: 'qiskit._accelerate.circuit.DAGOpNode' object has no attribute 'type'
+4,issue_662,2.5.0,ERROR,ERROR,True,AttributeError: 'qiskit._accelerate.circuit.DAGOpNode' object has no attribute 'type'
+5,issue_663,0.45.0,PASS,PASS,True,
+5,issue_663,0.45.1,PASS,PASS,True,
+5,issue_663,0.45.2,PASS,PASS,True,
+5,issue_663,0.45.3,PASS,PASS,True,
+5,issue_663,0.46.0,PASS,PASS,True,
+5,issue_663,0.46.1,PASS,PASS,True,
+5,issue_663,0.46.2,PASS,PASS,True,
+5,issue_663,0.46.3,PASS,PASS,True,
+5,issue_671,0.25.0,FAIL,FAIL,True,AssertionError:
+5,issue_671,0.25.1,FAIL,FAIL,True,AssertionError:
+5,issue_671,0.25.2,FAIL,FAIL,True,AssertionError:
+5,issue_671,0.25.3,FAIL,FAIL,True,AssertionError:
+5,issue_671,0.45.0,FAIL,FAIL,True,AssertionError:
+5,issue_671,0.45.1,FAIL,FAIL,True,AssertionError:
+5,issue_671,0.45.2,FAIL,FAIL,True,AssertionError:
+5,issue_671,0.45.3,FAIL,FAIL,True,AssertionError:
+5,issue_671,0.46.0,FAIL,FAIL,True,AssertionError:
+5,issue_671,0.46.1,FAIL,FAIL,True,AssertionError:
+5,issue_671,0.46.2,FAIL,FAIL,True,AssertionError:
+5,issue_671,0.46.3,FAIL,FAIL,True,AssertionError:
+5,issue_671,1.0.0,FAIL,FAIL,True,AssertionError:
+5,issue_671,1.0.1,FAIL,FAIL,True,AssertionError:
+5,issue_671,1.0.2,FAIL,FAIL,True,AssertionError:
+5,issue_671,1.1.0,FAIL,FAIL,True,AssertionError:
+5,issue_671,1.1.1,FAIL,FAIL,True,AssertionError:
+5,issue_671,1.1.2,FAIL,FAIL,True,AssertionError:
+5,issue_671,1.2.0,FAIL,FAIL,True,AssertionError:
+5,issue_671,1.2.1,FAIL,FAIL,True,AssertionError:
+5,issue_671,1.2.2,FAIL,FAIL,True,AssertionError:
+5,issue_671,1.2.4,FAIL,FAIL,True,AssertionError:
+5,issue_671,2.0.0,FAIL,FAIL,True,AssertionError:
+5,issue_671,2.2.0,FAIL,FAIL,True,AssertionError:
+5,issue_671,2.3.0,FAIL,FAIL,True,AssertionError:
+5,issue_671,2.4.0,FAIL,FAIL,True,AssertionError:
+5,issue_671,2.5.0,FAIL,FAIL,True,AssertionError:
+5,issue_727,0.25.0,PASS,PASS,True,
+5,issue_727,0.25.1,PASS,PASS,True,
+5,issue_727,0.25.2,PASS,PASS,True,
+5,issue_727,0.25.3,PASS,PASS,True,
+5,issue_727,0.45.0,PASS,PASS,True,
+5,issue_727,0.45.1,PASS,PASS,True,
+5,issue_727,0.45.2,PASS,PASS,True,
+5,issue_727,0.45.3,PASS,PASS,True,
+5,issue_727,0.46.0,PASS,PASS,True,
+5,issue_727,0.46.1,PASS,PASS,True,
+5,issue_727,0.46.2,PASS,PASS,True,
+5,issue_727,0.46.3,PASS,PASS,True,
+5,issue_742,1.1.0,PASS,PASS,True,
+5,issue_742,1.1.1,PASS,PASS,True,
+5,issue_742,1.1.2,PASS,PASS,True,
+5,issue_742,1.2.0,PASS,PASS,True,
+5,issue_742,1.2.1,PASS,PASS,True,
+5,issue_742,1.2.2,PASS,PASS,True,
+5,issue_742,1.2.4,PASS,PASS,True,
+5,issue_742,2.0.0,PASS,PASS,True,
+5,issue_742,2.2.0,PASS,PASS,True,
+5,issue_742,2.3.0,PASS,PASS,True,
+5,issue_742,2.4.0,PASS,PASS,True,
+5,issue_742,2.5.0,PASS,PASS,True,
+5,issue_747,0.45.0,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+5,issue_747,0.45.1,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+5,issue_747,0.45.2,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+5,issue_747,0.45.3,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+5,issue_747,0.46.0,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+5,issue_747,0.46.1,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+5,issue_747,0.46.2,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+5,issue_747,0.46.3,FAIL,FAIL,True,AssertionError: Items in the first set but not the second:
+5,issue_750,0.45.0,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,0.45.1,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,0.45.2,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,0.45.3,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,0.46.0,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,0.46.1,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,0.46.2,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,0.46.3,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,1.0.0,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,1.0.1,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,1.0.2,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,1.1.0,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,1.1.1,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,1.1.2,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,1.2.0,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,1.2.1,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,1.2.2,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,1.2.4,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,2.0.0,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,2.2.0,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,2.3.0,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,2.4.0,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_750,2.5.0,ERROR,ERROR,True,TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+5,issue_769,1.0.0,ERROR,ERROR,True,KeyError: 'get_qiskit_gate'
+5,issue_769,1.0.1,ERROR,ERROR,True,KeyError: 'get_qiskit_gate'
+5,issue_769,1.0.2,ERROR,ERROR,True,KeyError: 'get_qiskit_gate'
+5,issue_769,1.1.0,ERROR,ERROR,True,KeyError: 'get_qiskit_gate'
+5,issue_769,1.1.1,ERROR,ERROR,True,KeyError: 'get_qiskit_gate'
+5,issue_769,1.1.2,ERROR,ERROR,True,KeyError: 'get_qiskit_gate'
+5,issue_769,1.2.0,ERROR,ERROR,True,KeyError: 'get_qiskit_gate'
+5,issue_769,1.2.1,ERROR,ERROR,True,KeyError: 'get_qiskit_gate'
+5,issue_769,1.2.2,ERROR,ERROR,True,KeyError: 'get_qiskit_gate'
+5,issue_769,1.2.4,ERROR,ERROR,True,KeyError: 'get_qiskit_gate'
+5,issue_769,2.0.0,ERROR,ERROR,True,KeyError: 'get_qiskit_gate'
+5,issue_769,2.2.0,ERROR,ERROR,True,KeyError: 'get_qiskit_gate'
+5,issue_769,2.3.0,ERROR,ERROR,True,KeyError: 'get_qiskit_gate'
+5,issue_769,2.4.0,ERROR,ERROR,True,KeyError: 'get_qiskit_gate'
+5,issue_769,2.5.0,ERROR,ERROR,True,KeyError: 'get_qiskit_gate'
+5,issue_773,0.45.0,PASS,PASS,True,
+5,issue_773,0.45.1,PASS,PASS,True,
+5,issue_773,0.45.2,PASS,PASS,True,
+5,issue_773,0.45.3,PASS,PASS,True,
+5,issue_773,0.46.0,PASS,PASS,True,
+5,issue_773,0.46.1,PASS,PASS,True,
+5,issue_773,0.46.2,PASS,PASS,True,
+5,issue_773,0.46.3,PASS,PASS,True,
+5,issue_775,0.25.0,ERROR,ERROR,True,KeyError: 'qc'
+5,issue_775,0.25.1,ERROR,ERROR,True,KeyError: 'qc'
+5,issue_775,0.25.2,ERROR,ERROR,True,KeyError: 'qc'
+5,issue_775,0.25.3,ERROR,ERROR,True,KeyError: 'qc'
+5,issue_775,0.45.0,ERROR,ERROR,True,KeyError: 'qc'
+5,issue_775,0.45.1,ERROR,ERROR,True,KeyError: 'qc'
+5,issue_775,0.45.2,ERROR,ERROR,True,KeyError: 'qc'
+5,issue_775,0.45.3,ERROR,ERROR,True,KeyError: 'qc'
+5,issue_775,0.46.0,ERROR,ERROR,True,KeyError: 'qc'
+5,issue_775,0.46.1,ERROR,ERROR,True,KeyError: 'qc'
+5,issue_775,0.46.2,ERROR,ERROR,True,KeyError: 'qc'
+5,issue_775,0.46.3,ERROR,ERROR,True,KeyError: 'qc'
+5,issue_795,0.25.0,PASS,PASS,True,
+5,issue_795,0.25.1,PASS,PASS,True,
+5,issue_795,0.25.2,PASS,PASS,True,
+5,issue_795,0.25.3,PASS,PASS,True,
+5,issue_795,0.45.0,PASS,PASS,True,
+5,issue_795,0.45.1,PASS,PASS,True,
+5,issue_795,0.45.2,PASS,PASS,True,
+5,issue_795,0.45.3,PASS,PASS,True,
+5,issue_795,0.46.0,PASS,PASS,True,
+5,issue_795,0.46.1,PASS,PASS,True,
+5,issue_795,0.46.2,PASS,PASS,True,
+5,issue_795,0.46.3,PASS,PASS,True,
+6,issue_803,0.25.0,FAIL,FAIL,True,"ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all(); AssertionError: array([list([42, 58]), list([100]), list([100])], dtype=object) is not an instance of <class 'list'>"
+6,issue_803,0.25.1,FAIL,FAIL,True,"ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all(); AssertionError: array([list([65, 35]), list([100]), list([100])], dtype=object) is not an instance of <class 'list'>"
+6,issue_803,0.25.2,FAIL,FAIL,True,"ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all(); AssertionError: array([list([45, 55]), list([100]), list([100])], dtype=object) is not an instance of <class 'list'>"
+6,issue_803,0.25.3,FAIL,FAIL,True,"ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all(); AssertionError: array([list([45, 55]), list([100]), list([100])], dtype=object) is not an instance of <class 'list'>"
+6,issue_803,0.45.0,ERROR,ERROR,True,"ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all(); ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (3,) + inhomogeneous part."
+6,issue_803,0.45.1,ERROR,ERROR,True,"ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all(); ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (3,) + inhomogeneous part."
+6,issue_803,0.45.2,ERROR,ERROR,True,"ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all(); ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (3,) + inhomogeneous part."
+6,issue_803,0.45.3,ERROR,ERROR,True,"ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all(); ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (3,) + inhomogeneous part."
+6,issue_803,0.46.0,ERROR,ERROR,True,"ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all(); ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (3,) + inhomogeneous part."
+6,issue_803,0.46.1,ERROR,ERROR,True,"ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all(); ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (3,) + inhomogeneous part."
+6,issue_803,0.46.2,ERROR,ERROR,True,"ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all(); ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (3,) + inhomogeneous part."
+6,issue_803,0.46.3,ERROR,ERROR,True,"ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all(); ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (3,) + inhomogeneous part."
+6,issue_810,0.45.1,FAIL,FAIL,True,"AssertionError: None is not an instance of <class 'dict'> : Expose a raw counts dictionary, not the Result object"
+6,issue_810,0.46.2,FAIL,FAIL,True,"AssertionError: None is not an instance of <class 'dict'> : Expose a raw counts dictionary, not the Result object"
+6,issue_816,0.45.0,PASS,PASS,True,
+6,issue_816,0.45.1,PASS,PASS,True,
+6,issue_816,0.45.2,PASS,PASS,True,
+6,issue_816,0.45.3,PASS,PASS,True,
+6,issue_816,0.46.0,PASS,PASS,True,
+6,issue_816,0.46.1,PASS,PASS,True,
+6,issue_816,0.46.2,PASS,PASS,True,
+6,issue_816,0.46.3,PASS,PASS,True,
+6,issue_816,1.0.0,PASS,PASS,True,
+6,issue_816,1.0.1,PASS,PASS,True,
+6,issue_816,1.0.2,PASS,PASS,True,
+6,issue_816,1.1.0,PASS,PASS,True,
+6,issue_816,1.1.1,PASS,PASS,True,
+6,issue_816,1.1.2,PASS,PASS,True,
+6,issue_816,1.2.0,PASS,PASS,True,
+6,issue_816,1.2.1,PASS,PASS,True,
+6,issue_816,1.2.2,PASS,PASS,True,
+6,issue_816,1.2.4,PASS,PASS,True,
+6,issue_816,2.0.0,PASS,PASS,True,
+6,issue_816,2.2.0,PASS,PASS,True,
+6,issue_816,2.3.0,PASS,PASS,True,
+6,issue_816,2.4.0,PASS,PASS,True,
+6,issue_816,2.5.0,PASS,PASS,True,
+6,issue_876,1.0.0,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.ibm_runtime'
+6,issue_876,1.0.1,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.ibm_runtime'
+6,issue_876,1.0.2,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.ibm_runtime'
+6,issue_876,1.1.0,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.ibm_runtime'
+6,issue_876,1.1.1,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.ibm_runtime'
+6,issue_876,1.1.2,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.ibm_runtime'
+6,issue_876,1.2.0,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.ibm_runtime'
+6,issue_876,1.2.1,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.ibm_runtime'
+6,issue_876,1.2.2,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.ibm_runtime'
+6,issue_876,1.2.4,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.ibm_runtime'
+6,issue_876,2.0.0,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.ibm_runtime'
+6,issue_876,2.2.0,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.ibm_runtime'
+6,issue_876,2.3.0,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.ibm_runtime'
+6,issue_876,2.4.0,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.ibm_runtime'
+6,issue_876,2.5.0,ERROR,ERROR,True,ModuleNotFoundError: No module named 'qiskit.ibm_runtime'
+6,issue_877,0.45.0,ERROR,ERROR,True,KeyError: 'backend'
+6,issue_877,0.45.1,ERROR,ERROR,True,KeyError: 'backend'
+6,issue_877,0.45.2,ERROR,ERROR,True,KeyError: 'backend'
+6,issue_877,0.45.3,ERROR,ERROR,True,KeyError: 'backend'
+6,issue_877,0.46.0,ERROR,ERROR,True,KeyError: 'backend'
+6,issue_877,0.46.1,ERROR,ERROR,True,KeyError: 'backend'
+6,issue_877,0.46.2,ERROR,ERROR,True,KeyError: 'backend'
+6,issue_877,0.46.3,ERROR,ERROR,True,KeyError: 'backend'
+6,issue_886,0.45.0,FAIL,FAIL,True,KeyError: 'transpile_circ'; AssertionError: {'00 00': 1024} != {'00': 1024}
+6,issue_886,0.45.1,FAIL,FAIL,True,KeyError: 'transpile_circ'; AssertionError: {'00 00': 1024} != {'00': 1024}
+6,issue_889,0.25.0,ERROR,ERROR,True,qiskit.extensions.exceptions.ExtensionError: 'Input matrix is not unitary.'
+6,issue_889,0.25.1,ERROR,ERROR,True,qiskit.extensions.exceptions.ExtensionError: 'Input matrix is not unitary.'
+6,issue_889,0.25.2,ERROR,ERROR,True,qiskit.extensions.exceptions.ExtensionError: 'Input matrix is not unitary.'
+6,issue_889,0.25.3,ERROR,ERROR,True,qiskit.extensions.exceptions.ExtensionError: 'Input matrix is not unitary.'
+6,issue_889,0.45.0,FAIL,FAIL,True,AssertionError:
+6,issue_889,0.45.1,FAIL,FAIL,True,AssertionError:
+6,issue_889,0.45.2,FAIL,FAIL,True,AssertionError:
+6,issue_889,0.45.3,FAIL,FAIL,True,AssertionError:
+6,issue_889,0.46.0,FAIL,FAIL,True,AssertionError:
+6,issue_889,0.46.1,FAIL,FAIL,True,AssertionError:
+6,issue_889,0.46.2,FAIL,FAIL,True,AssertionError:
+6,issue_889,0.46.3,FAIL,FAIL,True,AssertionError:
+6,issue_911,0.45.0,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x00000224CE2FCE80>
+6,issue_911,0.45.1,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x000002ABDF4D5030>
+6,issue_911,0.45.2,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x00000219CBB5FF40>
+6,issue_911,0.45.3,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x000001F017145FC0>
+6,issue_911,0.46.0,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x000001904AA423E0>
+6,issue_911,0.46.1,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x000001B01061B010>
+6,issue_911,0.46.2,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x00000200D00A87F0>
+6,issue_911,0.46.3,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x00000189C8AAB280>
+6,issue_911,1.0.0,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x000001A63C467D60>
+6,issue_911,1.0.1,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x0000016A40F67FA0>
+6,issue_911,1.0.2,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x000001482DDD6350>
+6,issue_911,1.1.0,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x000001A1D4819E40>
+6,issue_911,1.1.1,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x0000016087BFDE40>
+6,issue_911,1.1.2,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x000002AA938DFF10>
+6,issue_911,1.2.0,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x0000017713042B30>
+6,issue_911,1.2.1,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x000002376173C640>
+6,issue_911,1.2.2,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x000002DD96105630>
+6,issue_911,1.2.4,ERROR,ERROR,True,ValueError: malformed node or string on line 1: <ast.Call object at 0x0000021078C08D50>
+6,issue_911,2.0.0,ERROR,ERROR,True,SyntaxError: invalid syntax
+6,issue_911,2.2.0,ERROR,ERROR,True,SyntaxError: invalid syntax
+6,issue_911,2.3.0,ERROR,ERROR,True,SyntaxError: invalid syntax
+6,issue_911,2.4.0,ERROR,ERROR,True,SyntaxError: invalid syntax
+6,issue_911,2.5.0,ERROR,ERROR,True,SyntaxError: invalid syntax
+6,issue_925,0.25.0,ERROR,ERROR,True,"qiskit.transpiler.exceptions.TranspilerError: 'Number of qubits (18) in Shor(N=15, a=2) is greater than maximum (14) in the coupling_map'"
+6,issue_925,0.25.1,ERROR,ERROR,True,"qiskit.transpiler.exceptions.TranspilerError: 'Number of qubits (18) in Shor(N=15, a=2) is greater than maximum (14) in the coupling_map'"
+6,issue_925,0.25.2,ERROR,ERROR,True,"qiskit.transpiler.exceptions.TranspilerError: 'Number of qubits (18) in Shor(N=15, a=2) is greater than maximum (14) in the coupling_map'"
+6,issue_925,0.25.3,ERROR,ERROR,True,"qiskit.transpiler.exceptions.TranspilerError: 'Number of qubits (18) in Shor(N=15, a=2) is greater than maximum (14) in the coupling_map'"
+6,issue_944,0.25.0,ERROR,ERROR,True,AttributeError: 'PauliSumOp' object has no attribute 'data'
+6,issue_944,0.25.1,ERROR,ERROR,True,AttributeError: 'PauliSumOp' object has no attribute 'data'
+6,issue_944,0.25.2,ERROR,ERROR,True,AttributeError: 'PauliSumOp' object has no attribute 'data'
+6,issue_944,0.25.3,ERROR,ERROR,True,AttributeError: 'PauliSumOp' object has no attribute 'data'
+6,issue_944,0.45.0,ERROR,ERROR,True,AttributeError: 'PauliSumOp' object has no attribute 'data'
+6,issue_944,0.45.1,ERROR,ERROR,True,AttributeError: 'PauliSumOp' object has no attribute 'data'
+6,issue_944,0.45.2,ERROR,ERROR,True,AttributeError: 'PauliSumOp' object has no attribute 'data'
+6,issue_944,0.45.3,ERROR,ERROR,True,AttributeError: 'PauliSumOp' object has no attribute 'data'
+6,issue_944,0.46.0,ERROR,ERROR,True,AttributeError: 'PauliSumOp' object has no attribute 'data'
+6,issue_944,0.46.1,ERROR,ERROR,True,AttributeError: 'PauliSumOp' object has no attribute 'data'
+6,issue_944,0.46.2,ERROR,ERROR,True,AttributeError: 'PauliSumOp' object has no attribute 'data'
+6,issue_944,0.46.3,ERROR,ERROR,True,AttributeError: 'PauliSumOp' object has no attribute 'data'
+7,issue_950,0.25.0,FAIL,FAIL,True,AssertionError:
+7,issue_950,0.25.1,FAIL,FAIL,True,AssertionError:
+7,issue_950,0.25.2,FAIL,FAIL,True,AssertionError:
+7,issue_950,0.25.3,FAIL,FAIL,True,AssertionError:
+7,issue_950,0.45.0,FAIL,FAIL,True,AssertionError:
+7,issue_950,0.45.1,FAIL,FAIL,True,AssertionError:
+7,issue_950,0.45.2,FAIL,FAIL,True,AssertionError:
+7,issue_950,0.45.3,FAIL,FAIL,True,AssertionError:
+7,issue_950,0.46.0,FAIL,FAIL,True,AssertionError:
+7,issue_950,0.46.1,FAIL,FAIL,True,AssertionError:
+7,issue_950,0.46.2,FAIL,FAIL,True,AssertionError:
+7,issue_950,0.46.3,FAIL,FAIL,True,AssertionError:
+7,issue_950,1.0.0,FAIL,FAIL,True,AssertionError:
+7,issue_950,1.0.1,FAIL,FAIL,True,AssertionError:
+7,issue_950,1.0.2,FAIL,FAIL,True,AssertionError:
+7,issue_950,1.1.0,FAIL,FAIL,True,AssertionError:
+7,issue_950,1.1.1,FAIL,FAIL,True,AssertionError:
+7,issue_950,1.1.2,FAIL,FAIL,True,AssertionError:
+7,issue_950,1.2.0,FAIL,FAIL,True,AssertionError:
+7,issue_950,1.2.1,FAIL,FAIL,True,AssertionError:
+7,issue_950,1.2.2,FAIL,FAIL,True,AssertionError:
+7,issue_950,1.2.4,FAIL,FAIL,True,AssertionError:
+7,issue_950,2.0.0,FAIL,FAIL,True,AssertionError:
+7,issue_950,2.2.0,FAIL,FAIL,True,AssertionError:
+7,issue_950,2.3.0,FAIL,FAIL,True,AssertionError:
+7,issue_950,2.4.0,FAIL,FAIL,True,AssertionError:
+7,issue_950,2.5.0,FAIL,FAIL,True,AssertionError:
+7,issue_958,0.45.0,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,0.45.1,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,0.45.2,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,0.45.3,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,0.46.0,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,0.46.1,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,0.46.2,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,0.46.3,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,1.0.0,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,1.0.1,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,1.0.2,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,1.1.0,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,1.1.1,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,1.1.2,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,1.2.0,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,1.2.1,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,1.2.2,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,1.2.4,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,2.0.0,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,2.2.0,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,2.3.0,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,2.4.0,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_958,2.5.0,FAIL,FAIL,True,KeyError: 'qc2'; AssertionError:
+7,issue_977,0.45.0,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,0.45.1,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,0.45.2,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,0.45.3,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,0.46.0,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,0.46.1,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,0.46.2,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,0.46.3,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,1.0.0,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,1.0.1,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,1.0.2,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,1.1.0,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,1.1.1,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,1.1.2,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,1.2.0,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,1.2.1,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,1.2.2,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,1.2.4,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,2.0.0,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,2.2.0,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,2.3.0,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,2.4.0,ERROR,ERROR,True,KeyError: 'op'
+7,issue_977,2.5.0,ERROR,ERROR,True,KeyError: 'op'
+7,issue_985,0.45.0,FAIL,FAIL,True,AssertionError:
+7,issue_985,0.45.1,FAIL,FAIL,True,AssertionError:
+7,issue_985,0.45.2,FAIL,FAIL,True,AssertionError:
+7,issue_985,0.45.3,FAIL,FAIL,True,AssertionError:
+7,issue_985,0.46.0,FAIL,FAIL,True,AssertionError:
+7,issue_985,0.46.1,FAIL,FAIL,True,AssertionError:
+7,issue_985,0.46.2,FAIL,FAIL,True,AssertionError:
+7,issue_985,0.46.3,FAIL,FAIL,True,AssertionError:
+7,issue_985,1.0.0,FAIL,FAIL,True,AssertionError:
+7,issue_985,1.0.1,FAIL,FAIL,True,AssertionError:
+7,issue_985,1.0.2,FAIL,FAIL,True,AssertionError:
+7,issue_985,1.1.0,FAIL,FAIL,True,AssertionError:
+7,issue_985,1.1.1,FAIL,FAIL,True,AssertionError:
+7,issue_985,1.1.2,FAIL,FAIL,True,AssertionError:
+7,issue_985,1.2.0,FAIL,FAIL,True,AssertionError:
+7,issue_985,1.2.1,FAIL,FAIL,True,AssertionError:
+7,issue_985,1.2.2,FAIL,FAIL,True,AssertionError:
+7,issue_985,1.2.4,FAIL,FAIL,True,AssertionError:
+7,issue_985,2.0.0,FAIL,FAIL,True,AssertionError:
+7,issue_985,2.2.0,FAIL,FAIL,True,AssertionError:
+7,issue_985,2.3.0,FAIL,FAIL,True,AssertionError:
+7,issue_985,2.4.0,FAIL,FAIL,True,AssertionError:
+7,issue_985,2.5.0,FAIL,FAIL,True,AssertionError:
+7,issue_989,1.0.0,PASS,PASS,True,
+7,issue_989,1.0.1,PASS,PASS,True,
+7,issue_989,1.0.2,PASS,PASS,True,
+7,issue_989,1.1.0,PASS,PASS,True,
+7,issue_989,1.1.1,PASS,PASS,True,
+7,issue_989,1.1.2,PASS,PASS,True,
+7,issue_989,1.2.0,PASS,PASS,True,
+7,issue_989,1.2.1,PASS,PASS,True,
+7,issue_989,1.2.2,PASS,PASS,True,
+7,issue_989,1.2.4,PASS,PASS,True,
+7,issue_989,2.0.0,PASS,PASS,True,
+7,issue_989,2.2.0,PASS,PASS,True,
+7,issue_989,2.3.0,PASS,PASS,True,
+7,issue_989,2.4.0,PASS,PASS,True,
+7,issue_989,2.5.0,PASS,PASS,True,
+7,issue_994,0.25.0,ERROR,ERROR,True,KeyError: 'statevector'
+7,issue_994,0.25.1,ERROR,ERROR,True,KeyError: 'statevector'
+7,issue_994,0.25.2,ERROR,ERROR,True,KeyError: 'statevector'
+7,issue_994,0.25.3,ERROR,ERROR,True,KeyError: 'statevector'
+7,issue_1035,0.45.0,ERROR,ERROR,True,KeyError: 'result'
+7,issue_1035,0.45.1,ERROR,ERROR,True,KeyError: 'result'
+7,issue_1035,0.45.2,ERROR,ERROR,True,KeyError: 'result'
+7,issue_1035,0.45.3,ERROR,ERROR,True,KeyError: 'result'
+7,issue_1035,0.46.0,ERROR,ERROR,True,KeyError: 'result'
+7,issue_1035,0.46.1,ERROR,ERROR,True,KeyError: 'result'
+7,issue_1035,0.46.2,ERROR,ERROR,True,KeyError: 'result'
+7,issue_1035,0.46.3,ERROR,ERROR,True,KeyError: 'result'
+8,issue_772,0.25.0,PASS,PASS,True,
+8,issue_772,0.25.1,PASS,PASS,True,
+8,issue_772,0.25.2,PASS,PASS,True,
+8,issue_772,0.25.3,PASS,PASS,True,
+8,issue_772,0.45.0,PASS,PASS,True,
+8,issue_772,0.45.1,PASS,PASS,True,
+8,issue_772,0.45.2,PASS,PASS,True,
+8,issue_772,0.45.3,PASS,PASS,True,
+8,issue_772,0.46.0,PASS,PASS,True,
+8,issue_772,0.46.1,PASS,PASS,True,
+8,issue_772,0.46.2,PASS,PASS,True,
+8,issue_772,0.46.3,PASS,PASS,True,
+8,issue_790,0.45.0,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,0.45.1,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,0.45.2,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,0.45.3,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,0.46.0,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,0.46.1,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,0.46.2,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,0.46.3,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,1.0.0,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,1.0.1,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,1.0.2,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,1.1.0,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,1.1.1,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,1.1.2,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,1.2.0,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,1.2.1,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,1.2.2,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,1.2.4,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,2.0.0,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,2.2.0,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,2.3.0,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,2.4.0,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_790,2.5.0,ERROR,ERROR,True,TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+8,issue_858,0.45.0,ERROR,ERROR,True,
+8,issue_858,0.45.1,ERROR,ERROR,True,
+8,issue_858,0.45.2,ERROR,ERROR,True,
+8,issue_858,0.45.3,ERROR,ERROR,True,
+8,issue_858,0.46.0,ERROR,ERROR,True,
+8,issue_858,0.46.1,ERROR,ERROR,True,
+8,issue_858,0.46.2,ERROR,ERROR,True,
+8,issue_858,0.46.3,ERROR,ERROR,True,
+8,issue_901,0.45.0,PASS,PASS,True,
+8,issue_901,0.45.1,PASS,PASS,True,
+8,issue_901,0.45.2,PASS,PASS,True,
+8,issue_901,0.45.3,PASS,PASS,True,
+8,issue_901,0.46.0,PASS,PASS,True,
+8,issue_901,0.46.1,PASS,PASS,True,
+8,issue_901,0.46.2,PASS,PASS,True,
+8,issue_901,0.46.3,PASS,PASS,True,
+8,issue_901,1.0.0,PASS,PASS,True,
+8,issue_901,1.0.1,PASS,PASS,True,
+8,issue_901,1.0.2,PASS,PASS,True,
+8,issue_901,1.1.0,PASS,PASS,True,
+8,issue_901,1.1.1,PASS,PASS,True,
+8,issue_901,1.1.2,PASS,PASS,True,
+8,issue_901,1.2.0,PASS,PASS,True,
+8,issue_901,1.2.1,PASS,PASS,True,
+8,issue_901,1.2.2,PASS,PASS,True,
+8,issue_901,1.2.4,PASS,PASS,True,
+8,issue_901,2.0.0,PASS,PASS,True,
+8,issue_921,0.25.0,ERROR,ERROR,True,ImportError: cannot import name 'run_algorithm' from 'qiskit.aqua' (C:\qiskit_envs\q0250\lib\site-packages\qiskit\aqua\__init__.py)
+8,issue_921,0.25.1,ERROR,ERROR,True,ImportError: cannot import name 'run_algorithm' from 'qiskit.aqua' (C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\__init__.py)
+8,issue_921,0.25.2,ERROR,ERROR,True,ImportError: cannot import name 'run_algorithm' from 'qiskit.aqua' (C:\qiskit_envs\q0252\lib\site-packages\qiskit\aqua\__init__.py)
+8,issue_921,0.25.3,ERROR,ERROR,True,ImportError: cannot import name 'run_algorithm' from 'qiskit.aqua' (C:\qiskit_envs\q0253\lib\site-packages\qiskit\aqua\__init__.py)
