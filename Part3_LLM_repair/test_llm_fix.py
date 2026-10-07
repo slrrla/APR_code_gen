@@ -9,14 +9,17 @@ HERE = Path(__file__).resolve().parent
 REPO = next(p for p in (HERE.parent, HERE.parent / "APR_code_gen") if (p / "Part2_Create_test").is_dir())
 CASES_DIR = REPO / "Part2_Create_test" / "reconstructed_cases"
 FIXES_DIR = HERE / "llm_fixes"
-RESULTS_DIR = HERE / "results"
-LOG_DIR = RESULTS_DIR / "logs"
+MODEL_TAG = "luna56"
+RESULTS_DIR = HERE / "results" / MODEL_TAG
+LOG_DIR = RESULTS_DIR / f"logs_{MODEL_TAG}"
 XLSX = HERE / "Valid_Cases_104.xlsx"
 ENV_ROOT = Path(r"C:\qiskit_envs")
 SUPPORT_ROOT = ENV_ROOT / "_support"
 RUNTIME_SUPPORT_ROOT = ENV_ROOT / "_support_runtime"
 RUNTIME_CASES = {"issue_742", "issue_876"}
-VARIANTS = ["buggy", "fixed", "llm_fix"]
+MODEL_TAGS = {"gpt-5.6-luna": "luna56", "gpt-6-luna": "luna6"}
+LLM_VARIANT = "llm_luna56_fix"
+VARIANTS = ["buggy", "fixed", LLM_VARIANT]
 TIMEOUT = 120
 TEST_FILES = {"issue_021_se": "test-new.py", "issue_058_se": "test_new.py", "issue_061": "test_new.py"}
 
@@ -101,7 +104,7 @@ def fix_comments(code):
 
 def run_one(case, version, variant, py_tags):
     test = CASES_DIR / case / test_file(case)
-    source = FIXES_DIR / case / "llm_fix.py" if variant == "llm_fix" else CASES_DIR / case / f"{variant}.py"
+    source = FIXES_DIR / case / f"{variant}.py" if variant == LLM_VARIANT else CASES_DIR / case / f"{variant}.py"
     interpreter = env_python(version)
     record = {"case": case, "version": version, "variant": variant}
     env = os.environ.copy()
@@ -155,10 +158,18 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--cases", nargs="*")
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--model", default="gpt-5.6-luna", choices=MODEL_TAGS)
     args = ap.parse_args()
 
+    global MODEL_TAG, LLM_VARIANT, VARIANTS, RESULTS_DIR, LOG_DIR
+    MODEL_TAG = MODEL_TAGS[args.model]
+    LLM_VARIANT = f"llm_{MODEL_TAG}_fix"
+    VARIANTS = ["buggy", "fixed", LLM_VARIANT]
+    RESULTS_DIR = HERE / "results" / MODEL_TAG
+    LOG_DIR = RESULTS_DIR / f"logs_{MODEL_TAG}"
+
     sheet = load_sheet_info()
-    cases = args.cases or [c for c in CASES if (FIXES_DIR / c / "llm_fix.py").exists()]
+    cases = args.cases or [c for c in CASES if (FIXES_DIR / c / f"{LLM_VARIANT}.py").exists()]
     plan, missing = {}, set()
     for case in cases:
         versions = sheet[case_number(case)]["versions"]
@@ -182,7 +193,7 @@ def main():
     rows = []
     for case, versions in plan.items():
         buggy_code = (FIXES_DIR / case / "buggy_stripped.py").read_text(encoding="utf-8")
-        llm_code = (FIXES_DIR / case / "llm_fix.py").read_text(encoding="utf-8")
+        llm_code = (FIXES_DIR / case / f"{LLM_VARIANT}.py").read_text(encoding="utf-8")
         comments = fix_comments(llm_code)
         changed = lines_changed(buggy_code, llm_code)
         info = sheet[case_number(case)]
@@ -199,7 +210,7 @@ def main():
                 "log_dir": str(LOG_DIR / case / v),
             })
 
-    path = RESULTS_DIR / "llm_fix_results.csv"
+    path = RESULTS_DIR / f"llm_{MODEL_TAG}_results.csv"
     fields, old_rows = list(rows[0]), []
     if path.exists():
         with open(path, encoding="utf-8-sig", newline="") as fh:

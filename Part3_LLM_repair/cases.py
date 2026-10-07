@@ -1,4 +1,4 @@
-﻿BATCHES = {
+BATCHES = {
     1: ["issue_009", "issue_018_se", "issue_021_se", "issue_032_se", "issue_034",
         "issue_036", "issue_058_se", "issue_061", "issue_072", "issue_096"],
     2: ["issue_155", "issue_157", "issue_174", "issue_189", "issue_225",
@@ -13,6 +13,8 @@
         "issue_886", "issue_889", "issue_911", "issue_925", "issue_944"],
     7: ["issue_950", "issue_958", "issue_977", "issue_985", "issue_989",
         "issue_994", "issue_1035"],
+    8: ["issue_772", "issue_790", "issue_827", "issue_858", "issue_901",
+        "issue_921"],
 }
 CASES = [case for cases in BATCHES.values() for case in cases]
 BATCH_OF = {case: batch for batch, cases in BATCHES.items() for case in cases}

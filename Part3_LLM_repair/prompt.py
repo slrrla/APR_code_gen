@@ -7,7 +7,15 @@ HERE = Path(__file__).resolve().parent
 REPO = next(p for p in (HERE.parent, HERE.parent / "APR_code_gen") if (p / "Part2_Create_test").is_dir())
 CASES_DIR = REPO / "Part2_Create_test" / "reconstructed_cases"
 OUT_DIR = HERE / "llm_fixes"
+MODEL_FILES = {
+    "gpt-5.6-luna": ("llm_luna56_fix.py", "raw_reply_luna56.txt"),
+    "gpt-6-luna": ("llm_luna6_fix.py", "raw_reply_luna6.txt"),
+}
+args = sys.argv[1:]
 MODEL = "gpt-5.6-luna"
+if args[:1] == ["--model"]:
+    MODEL, args = args[1], args[2:]
+FIX_FILE, REPLY_FILE = MODEL_FILES[MODEL]
 
 SYSTEM = """You are an expert Qiskit developer repairing a buggy program with the smallest possible change.
 
@@ -74,12 +82,15 @@ def extract_code(reply):
 
 client = OpenAI(api_key=load_key())
 
-for case in sys.argv[1:] or CASES:
-    if (OUT_DIR / case / "llm_fix.py").exists():
-        print(f"skip {case}: llm_fix.py already exists")
+for case in args or CASES:
+    if (OUT_DIR / case / FIX_FILE).exists():
+        print(f"skip {case}: {FIX_FILE} already exists")
         continue
     print(f"Processing {case}...")
     code = strip_comments((CASES_DIR / case / "buggy.py").read_text(encoding="utf-8"))
+    stripped = OUT_DIR / case / "buggy_stripped.py"
+    if stripped.exists() and stripped.read_text(encoding="utf-8") != code:
+        raise SystemExit(f"{case}: buggy.py changed since {stripped} was written")
     question = clean_question((CASES_DIR / case / "original_question.txt").read_text(encoding="utf-8"))
     resp = client.chat.completions.create(
         model=MODEL,
@@ -93,9 +104,9 @@ for case in sys.argv[1:] or CASES:
 
     out = OUT_DIR / case
     out.mkdir(parents=True, exist_ok=True)
-    (out / "llm_fix.py").write_text(fixed_code, encoding="utf-8")
-    (out / "buggy_stripped.py").write_text(code, encoding="utf-8")
-    (out / "raw_reply.txt").write_text(raw_reply, encoding="utf-8")
-    print(f"done: {case}")
+    (out / FIX_FILE).write_text(fixed_code, encoding="utf-8")
+    stripped.write_text(code, encoding="utf-8")
+    (out / REPLY_FILE).write_text(raw_reply, encoding="utf-8")
+    print(f"done: {case} ({MODEL})")
 
 print("All done.")
