@@ -1,0 +1,17 @@
+from qiskit_aer import AerSimulator
+from qiskit import QuantumCircuit, transpile
+
+circ = QuantumCircuit(2)
+circ.h(0)
+circ.cx(0, 1)
+# FIX: no unitary save instruction -> save the circuit's unitary, because get_unitary needs it in the result
+circ.save_unitary()
+
+# FIX: default simulator method may not support saving a unitary -> select the unitary method, because it produces the requested result
+simulator = AerSimulator(method="unitary")
+circ = transpile(circ, simulator)
+
+result = simulator.run(circ).result()
+unitary = result.get_unitary(circ)
+print("Circuit unitary:\n", unitary)
+

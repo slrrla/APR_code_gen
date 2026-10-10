@@ -1,0 +1,12 @@
+from qiskit import QuantumCircuit, transpile
+
+lam = 0.5
+
+qc = QuantumCircuit(1)
+# FIX: u1 is not supported by the requested basis -> use rz and its compensating global phase, because u1(lam) = exp(i*lam/2) * rz(lam)
+qc.global_phase = lam / 2
+qc.rz(lam, 0)
+
+transpiled = transpile(qc, basis_gates=['rx', 'ry', 'rz'])
+print(transpiled)
+

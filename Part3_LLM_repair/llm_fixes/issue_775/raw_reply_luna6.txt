@@ -1,0 +1,20 @@
+```python
+# FIX: QuantumCircuit is missing -> import it, because OpenQASM text must be parsed into a circuit before execution
+from qiskit import execute, Aer, QuantumCircuit
+
+qasm_str = '''
+OPENQASM 2.0;
+include "qelib1.inc";
+qreg q[2];
+creg c[2];
+h q[0];
+cx q[0],q[1];
+'''
+
+backend = Aer.get_backend('qasm_simulator')
+# FIX: execute receives a string -> parse the OpenQASM into a QuantumCircuit, because execute requires a circuit
+job = execute(QuantumCircuit.from_qasm_str(qasm_str), backend)
+result = job.result()
+print(result)
+
+```

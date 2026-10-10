@@ -1,0 +1,9 @@
+import numpy as np
+# FIX: UnitaryGate does not infer standard gate names -> import XGate for matrix matching, because the circuit library provides the standard gate.
+from qiskit.circuit.library import UnitaryGate, XGate
+
+unitary = np.array([[0, 1], [1, 0]])
+# FIX: wrapping the matrix always labels it "unitary" -> match it to XGate first, because this matrix is the Pauli X matrix.
+gate = XGate() if np.allclose(unitary, XGate().to_matrix()) else UnitaryGate(unitary)
+print(gate.name)
+

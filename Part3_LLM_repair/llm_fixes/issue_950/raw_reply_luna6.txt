@@ -1,0 +1,10 @@
+```python
+from qiskit.quantum_info import Operator
+
+i, j, N = 2, 8, 10
+# FIX: The identity operator covered only the target qubits -> make it N-qubit, because qargs refer to indices in the full system.
+op = Operator.from_label('I' * N)
+opZ = Operator.from_label('Z' * (j - i - 1))
+op = op._add(opZ, qargs=list(range(i + 1, j)))
+
+```
