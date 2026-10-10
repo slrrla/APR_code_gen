@@ -1,0 +1,39 @@
+
+test_local_estimator_observable_and_expectation (__main__.TestIntent.test_local_estimator_observable_and_expectation) ... ERROR
+
+======================================================================
+ERROR: test_local_estimator_observable_and_expectation (__main__.TestIntent.test_local_estimator_observable_and_expectation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_742\test.py", line 24, in test_local_estimator_observable_and_expectation
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_742\test.py", line 18, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_742\buggy.py", line 30, in <module>
+    job = estimator.run([(qc_t,[obs])])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\_support_runtime\rt0401_py312\qiskit_ibm_runtime\estimator.py", line 148, in run
+    coerced_pubs = [EstimatorPub.coerce(pub, precision) for pub in pubs]
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q250\Lib\site-packages\qiskit\primitives\containers\estimator_pub.py", line 149, in coerce
+    observables = ObservablesArray.coerce(pub[1])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q250\Lib\site-packages\qiskit\primitives\containers\observables_array.py", line 317, in coerce
+    return cls(observables)
+           ^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q250\Lib\site-packages\qiskit\primitives\containers\observables_array.py", line 86, in __init__
+    basis_obs = self.coerce_observable(obs)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q250\Lib\site-packages\qiskit\primitives\containers\observables_array.py", line 303, in coerce_observable
+    raise TypeError(f"Invalid observable type: {type(observable)}")
+TypeError: Invalid observable type: <class 'qiskit.quantum_info.operators.operator.Operator'>
+
+----------------------------------------------------------------------
+Ran 1 test in 5.944s
+
+FAILED (errors=1)

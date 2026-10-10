@@ -1,0 +1,17 @@
+
+test_hamiltonian_and_evolution (__main__.TestOriginalHamiltonianEvolution.test_hamiltonian_and_evolution) ... C:\qiskit_envs\q0450\Lib\site-packages\qiskit\circuit\library\pauli_evolution.py:157: DeprecationWarning: The ``qiskit.opflow`` module is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  from qiskit.opflow import PauliSumOp, PauliOp
+FAIL
+
+======================================================================
+FAIL: test_hamiltonian_and_evolution (__main__.TestOriginalHamiltonianEvolution.test_hamiltonian_and_evolution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_790\test.py", line 92, in test_hamiltonian_and_evolution
+    self.assertLessEqual(min(errors), bound + 1e-10,
+AssertionError: 1.630715739004526 not less than or equal to 0.7083783495810843 : circuit does not approximate exp(-i H) within the six-step second-order bound
+
+----------------------------------------------------------------------
+Ran 1 test in 0.262s
+
+FAILED (failures=1)

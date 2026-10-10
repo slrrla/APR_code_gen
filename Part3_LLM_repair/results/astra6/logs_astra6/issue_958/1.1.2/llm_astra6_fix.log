@@ -1,0 +1,17 @@
+
+test_exact_negative_h_tensor_h_not_just_global_equivalence (__main__.Regression.test_exact_negative_h_tensor_h_not_just_global_equivalence) ... 
+  test_exact_negative_h_tensor_h_not_just_global_equivalence (__main__.Regression.test_exact_negative_h_tensor_h_not_just_global_equivalence) (circuit='qc2') ... ERROR
+
+======================================================================
+ERROR: test_exact_negative_h_tensor_h_not_just_global_equivalence (__main__.Regression.test_exact_negative_h_tensor_h_not_just_global_equivalence) (circuit='qc2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_958\test.py", line 27, in test_exact_negative_h_tensor_h_not_just_global_equivalence
+    np.testing.assert_allclose(Operator(m[name]).data, expected, atol=1e-12)
+                                        ~^^^^^^
+KeyError: 'qc2'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.999s
+
+FAILED (errors=1)

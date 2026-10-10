@@ -1,0 +1,45 @@
+global phase: π
+         ┌─────────────────┐    ┌───┐         ┌───┐                        »
+state_0: ┤0                ├────┤ H ├─────────┤ X ├─────────────────────■──»
+         │                 │┌───┴───┴────┐    ├───┤    ┌───┐            │  »
+state_1: ┤1 UCRZ(0,0,π,-π) ├┤0           ├────┤ H ├────┤ X ├────────────■──»
+         │                 ││  UCRZ(0,0) │┌───┴───┴───┐├───┤┌───┐┌───┐┌─┴─┐»
+state_2: ┤2                ├┤1           ├┤ UCRZ(π/2) ├┤ H ├┤ X ├┤ H ├┤ X ├»
+         └─────────────────┘└────────────┘└───────────┘└───┘└───┘└───┘└───┘»
+«         ┌───┐┌───┐     
+«state_0: ┤ X ├┤ H ├─────
+«         ├───┤├───┤     
+«state_1: ┤ X ├┤ H ├─────
+«         ├───┤├───┤┌───┐
+«state_2: ┤ H ├┤ X ├┤ H ├
+«         └───┘└───┘└───┘
+
+test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle) ... FAIL
+
+======================================================================
+FAIL: test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_396\test.py", line 19, in test_exact_marked_phases_and_grover_amplification
+    np.testing.assert_allclose(Operator(m['grover_op']).data, expected_grover, atol=1e-12)
+  File "C:\qiskit_envs\q0250\lib\site-packages\numpy\testing\_private\utils.py", line 1528, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\qiskit_envs\q0250\lib\site-packages\numpy\testing\_private\utils.py", line 842, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+Mismatched elements: 64 / 64 (100%)
+Max absolute difference: 0.57402515
+Max relative difference: 0.76536686
+ x: array([[-0.53033 +0.53033j ,  0.176777-0.176777j,  0.176777-0.176777j,
+         0.176777-0.176777j,  0.176777-0.176777j, -0.176777+0.176777j,
+        -0.176777+0.176777j,  0.176777-0.176777j],...
+ y: array([[-0.75,  0.25,  0.25,  0.25,  0.25, -0.25, -0.25,  0.25],
+       [ 0.25, -0.75,  0.25,  0.25,  0.25, -0.25, -0.25,  0.25],
+       [ 0.25,  0.25, -0.75,  0.25,  0.25, -0.25, -0.25,  0.25],...
+
+----------------------------------------------------------------------
+Ran 1 test in 1.367s
+
+FAILED (failures=1)

@@ -1,0 +1,32 @@
+
+test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state) ... C:\APR2\llm_repair\llm_fixes\issue_876\llm_astra6_fix.py:9: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)
+  qc = QFT(6)
+C:\qiskit_envs\q230\Lib\site-packages\qiskit\circuit\library\basis_change\qft.py:107: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.
+  super().__init__(name=name)
+C:\qiskit_envs\q230\Lib\site-packages\qiskit_aer\backends\aer_simulator.py:853: DeprecationWarning: max_circuits is deprecated as of qiskit-ibm-runtime 0.37.0 and will be removed no sooner than 3 months after the release date. Please see our documentation on job limits https://quantum.cloud.ibm.com/docs/guides/job-limits#job-limits.
+  max_experiments=backend.max_circuits,
+ERROR
+test_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical) ... ERROR
+
+======================================================================
+ERROR: test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 33, in test_fidelity_matches_independent_uniform_state
+    rho = np.asarray(m["rho_real"])
+                     ~^^^^^^^^^^^^
+KeyError: 'rho_real'
+
+======================================================================
+ERROR: test_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 22, in test_real_noisy_density_matrix_is_physical
+    rho = np.asarray(m["rho_real"])
+                     ~^^^^^^^^^^^^
+KeyError: 'rho_real'
+
+----------------------------------------------------------------------
+Ran 2 tests in 11.591s
+
+FAILED (errors=2)

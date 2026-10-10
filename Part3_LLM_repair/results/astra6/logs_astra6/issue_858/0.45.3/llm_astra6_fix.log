@@ -1,0 +1,28 @@
+
+test_documented_oslo_t1_snapshot_is_available_offline (__main__.Regression.test_documented_oslo_t1_snapshot_is_available_offline) ... C:\qiskit_envs\q0453\Lib\site-packages\qiskit\utils\algorithm_globals.py:170: DeprecationWarning: The class ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+  algorithm_globals = QiskitAlgorithmGlobals()
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\utils\algorithm_globals.py:49: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  self.num_processes = settings.get("num_processes", QiskitAlgorithmGlobals.CPU_COUNT)
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\utils\algorithm_globals.py:120: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  parallel.CPU_COUNT = self.num_processes
+ERROR
+
+======================================================================
+ERROR: test_documented_oslo_t1_snapshot_is_available_offline (__main__.Regression.test_documented_oslo_t1_snapshot_is_available_offline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_858\test.py", line 119, in test_documented_oslo_t1_snapshot_is_available_offline
+    namespace = runpy.run_path(path)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\llm_repair\llm_fixes\issue_858\llm_astra6_fix.py", line 8, in <module>
+    print(system.properties().backend_version)
+          ^^^^^^^^^^^^^^^^^
+AttributeError: 'FakeOslo' object has no attribute 'properties'
+
+----------------------------------------------------------------------
+Ran 1 test in 2.903s
+
+FAILED (errors=1)

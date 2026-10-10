@@ -1,0 +1,35 @@
+
+test_parsed_circuit_was_executed (__main__.T) ... C:\qiskit_envs\q0252\lib\site-packages\qiskit\providers\aer\backends\qasm_simulator.py:329: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn('The `QasmSimulator` backend will be deprecated in the'
+ERROR
+
+======================================================================
+ERROR: test_parsed_circuit_was_executed (__main__.T)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\llm_repair\updated_tests\issue_775_test.py", line 7, in test_parsed_circuit_was_executed
+    ns = runpy.run_path(os.environ["MUT"])
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_775\buggy.py", line 16, in <module>
+    job = execute(qasm_str, backend)
+  File "C:\qiskit_envs\q0252\lib\site-packages\qiskit\execute_function.py", line 252, in execute
+    experiments = transpile(experiments,
+  File "C:\qiskit_envs\q0252\lib\site-packages\qiskit\compiler\transpiler.py", line 235, in transpile
+    transpile_args = _parse_transpile_args(circuits, backend, basis_gates, coupling_map,
+  File "C:\qiskit_envs\q0252\lib\site-packages\qiskit\compiler\transpiler.py", line 431, in _parse_transpile_args
+    output_name = _parse_output_name(output_name, circuits)
+  File "C:\qiskit_envs\q0252\lib\site-packages\qiskit\compiler\transpiler.py", line 739, in _parse_output_name
+    return [circuit.name for circuit in circuits]
+  File "C:\qiskit_envs\q0252\lib\site-packages\qiskit\compiler\transpiler.py", line 739, in <listcomp>
+    return [circuit.name for circuit in circuits]
+AttributeError: 'str' object has no attribute 'name'
+
+----------------------------------------------------------------------
+Ran 1 test in 2.530s
+
+FAILED (errors=1)

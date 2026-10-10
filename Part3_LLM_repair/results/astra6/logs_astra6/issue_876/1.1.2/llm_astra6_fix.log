@@ -1,0 +1,26 @@
+
+test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state) ... ERROR
+test_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical) ... ERROR
+
+======================================================================
+ERROR: test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 33, in test_fidelity_matches_independent_uniform_state
+    rho = np.asarray(m["rho_real"])
+                     ~^^^^^^^^^^^^
+KeyError: 'rho_real'
+
+======================================================================
+ERROR: test_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 22, in test_real_noisy_density_matrix_is_physical
+    rho = np.asarray(m["rho_real"])
+                     ~^^^^^^^^^^^^
+KeyError: 'rho_real'
+
+----------------------------------------------------------------------
+Ran 2 tests in 10.506s
+
+FAILED (errors=2)

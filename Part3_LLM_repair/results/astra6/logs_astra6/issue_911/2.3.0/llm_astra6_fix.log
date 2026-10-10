@@ -1,0 +1,26 @@
+
+test_printed_indices_any_format (__main__.T.test_printed_indices_any_format) ... C:\APR2\llm_repair\llm_fixes\issue_911\llm_astra6_fix.py:10: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  for name_of_gate, qargs, cargs in qc.data:
+C:\APR2\llm_repair\updated_tests\issue_911_test.py:11: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  expected = [list(qc.qubits).index(q) for item in qc.data for q in item[1]]
+FAIL
+
+======================================================================
+FAIL: test_printed_indices_any_format (__main__.T.test_printed_indices_any_format)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\llm_repair\updated_tests\issue_911_test.py", line 22, in test_printed_indices_any_format
+    self.assertEqual(actual, expected)
+AssertionError: Lists differ: [] != [0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 2]
+
+Second list contains 21 additional elements.
+First extra element 0:
+0
+
+- []
++ [0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 2]
+
+----------------------------------------------------------------------
+Ran 1 test in 1.083s
+
+FAILED (failures=1)

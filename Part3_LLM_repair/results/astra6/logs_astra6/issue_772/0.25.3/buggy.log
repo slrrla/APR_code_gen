@@ -1,0 +1,27 @@
+
+test_gate_and_qubit_order (__main__.TestCustomGateAcrossRegisters) ... ERROR
+
+======================================================================
+ERROR: test_gate_and_qubit_order (__main__.TestCustomGateAcrossRegisters)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_772\test.py", line 35, in test_gate_and_qubit_order
+    namespace = runpy.run_path(MUT)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_772\buggy.py", line 16, in <module>
+    circ.append(gate, qr1[1:2], qr2[0:3])
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1012, in append
+    for (qarg, carg) in instruction.broadcast_arguments(expanded_qargs, expanded_cargs):
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\circuit\gate.py", line 222, in broadcast_arguments
+    raise CircuitError(
+qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(1)/clbit(3) arguments does not match the gate expectation (4).'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.436s
+
+FAILED (errors=1)

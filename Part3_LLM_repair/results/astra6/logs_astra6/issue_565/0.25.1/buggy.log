@@ -1,0 +1,125 @@
+
+test_constructed_qaoa_circuits (__main__.TestIntent) ... C:\qiskit_envs\q0251\lib\site-packages\mpmath\ctx_mp.py:35: DeprecationWarning: mpnumeric is deprecated
+  warnings.warn(f"{name} is deprecated", DeprecationWarning)
+C:\qiskit_envs\q0251\lib\site-packages\mpmath\rational.py:4: DeprecationWarning: the rational private module is deprecated
+  warnings.warn("the rational private module is deprecated",
+C:\qiskit_envs\q0251\lib\site-packages\docplex\mp\utils.py:48: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
+Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  __int_types.add(numpy.bool)
+C:\qiskit_envs\q0251\lib\site-packages\qiskit\optimization\__init__.py:92: DeprecationWarning: The package qiskit.optimization is deprecated. It was moved/refactored to qiskit_optimization (pip install qiskit-optimization). For more information see <https://github.com/Qiskit/qiskit-aqua/blob/master/README.md#migration-guide>
+  warn_package('optimization', 'qiskit_optimization', 'qiskit-optimization')
+C:\qiskit_envs\q0251\lib\site-packages\qiskit\optimization\applications\ising\tsp.py:67: DeprecationWarning: The variable qiskit.aqua.aqua_globals is deprecated. It was moved/refactored to qiskit.utils.algorithm_globals (pip install qiskit-terra). For more information see <https://github.com/Qiskit/qiskit-aqua/blob/master/README.md#migration-guide>
+  aqua_globals.random_seed = seed
+C:\qiskit_envs\q0251\lib\site-packages\qiskit\optimization\applications\ising\tsp.py:207: DeprecationWarning: The package qiskit.aqua.operators is deprecated. It was moved/refactored to qiskit.opflow (pip install qiskit-terra). For more information see <https://github.com/Qiskit/qiskit-aqua/blob/master/README.md#migration-guide>
+  return WeightedPauliOperator(paulis=pauli_list), shift
+C:\qiskit_envs\q0251\lib\site-packages\qiskit\providers\aer\backends\qasm_simulator.py:329: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn('The `QasmSimulator` backend will be deprecated in the'
+C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\quantum_instance.py:135: DeprecationWarning: The class qiskit.aqua.QuantumInstance is deprecated. It was moved/refactored to qiskit.utils.QuantumInstance (pip install qiskit-terra). For more information see <https://github.com/Qiskit/qiskit-aqua/blob/master/README.md#migration-guide>
+  warn_class('aqua.QuantumInstance',
+C:\qiskit_envs\q0251\lib\site-packages\qiskit\providers\ibmq\api\clients\websocket.py:27: DeprecationWarning: websockets.client.WebSocketClientProtocol is deprecated
+  from websockets.client import WebSocketClientProtocol
+C:\qiskit_envs\q0251\lib\site-packages\websockets\legacy\__init__.py:6: DeprecationWarning: websockets.legacy is deprecated; see https://websockets.readthedocs.io/en/stable/howto/upgrade.html for upgrade instructions
+  warnings.warn(  # deprecated in 14.0 - 2024-11-09
+C:\qiskit_envs\q0251\lib\site-packages\qiskit\quantum_info\operators\symplectic\pauli.py:187: DeprecationWarning: Initializing Pauli from `Pauli(label=l)` kwarg is deprecated as of version 0.17.0 and will be removed no earlier than 3 months after the release date. Use `Pauli(l)` instead.
+  base_z, base_x, base_phase = self._from_label_deprecated(label)
+C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_565\buggy.py:45: DeprecationWarning: Using the `__mul__` operator `A * B` as shorthand for `A.dot(B)` is deprecated as of version 0.17.0 and will be  removed no earlier than 3 months after the release date. As an alternative, use the compose operator `B & A` in place of `A * B` as a replacement.
+  first_part *= s_plus(n, v, i + 1)
+C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\components\optimizers\optimizer.py:49: DeprecationWarning: The package qiskit.aqua.components.optimizers is deprecated. It was moved/refactored to qiskit.algorithms.optimizers (pip install qiskit-terra). For more information see <https://github.com/Qiskit/qiskit-aqua/blob/master/README.md#migration-guide>
+  warn_package('aqua.components.optimizers',
+C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\algorithms\vq_algorithm.py:70: DeprecationWarning: The class qiskit.aqua.algorithms.VQAlgorithm is deprecated. It was moved/refactored to qiskit.algorithms.VariationalAlgorithm (pip install qiskit-terra). For more information see <https://github.com/Qiskit/qiskit-aqua/blob/master/README.md#migration-guide>
+  warn_class('aqua.algorithms.VQAlgorithm',
+C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\components\variational_forms\variational_form.py:48: DeprecationWarning: The package qiskit.aqua.components.variational_forms is deprecated. For more information see <https://github.com/Qiskit/qiskit-aqua/blob/master/README.md#migration-guide>
+  warn_package('aqua.components.variational_forms')
+ERROR
+test_mixer_hermitian_and_tour_preserving (__main__.TestIntent) ... C:\qiskit_envs\q0251\lib\site-packages\qiskit\providers\aer\backends\qasm_simulator.py:329: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn('The `QasmSimulator` backend will be deprecated in the'
+ERROR
+
+======================================================================
+ERROR: test_constructed_qaoa_circuits (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_565\test.py", line 22, in test_constructed_qaoa_circuits
+    ns = load_target()
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_565\test.py", line 15, in load_target
+    return runpy.run_path(MUT)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_565\buggy.py", line 76, in <module>
+    circuits = qaoa.construct_circuit([0] * (2 * p))
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\algorithms\minimum_eigen_solvers\vqe.py", line 383, in construct_circuit
+    expect_op = self.construct_expectation(parameter).to_circuit_op()
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\algorithms\minimum_eigen_solvers\vqe.py", line 356, in construct_expectation
+    wave_function = self.var_form.construct_circuit(parameter)
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\algorithms\minimum_eigen_solvers\qaoa\var_form.py", line 119, in construct_circuit
+    circuit_op = evolution.convert(circuit_op)
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\evolutions\pauli_trotter_evolution.py", line 100, in convert
+    return self._recursive_convert(operator)
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\evolutions\pauli_trotter_evolution.py", line 139, in _recursive_convert
+    return operator.traverse(self.convert).reduce()
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\list_ops\list_op.py", line 198, in traverse
+    return self.__class__([convert_fn(op) for op in self.oplist],  # type: ignore
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\list_ops\list_op.py", line 198, in <listcomp>
+    return self.__class__([convert_fn(op) for op in self.oplist],  # type: ignore
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\evolutions\pauli_trotter_evolution.py", line 100, in convert
+    return self._recursive_convert(operator)
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\evolutions\pauli_trotter_evolution.py", line 104, in _recursive_convert
+    if not {'Pauli'} == operator.primitive_strings():
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\evolutions\evolved_op.py", line 53, in primitive_strings
+    return self.primitive.primitive_strings()  # type: ignore
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\list_ops\list_op.py", line 151, in primitive_strings
+    return reduce(set.union, [op.primitive_strings() for op in self.oplist])
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\list_ops\list_op.py", line 151, in <listcomp>
+    return reduce(set.union, [op.primitive_strings() for op in self.oplist])
+AttributeError: 'Operator' object has no attribute 'primitive_strings'
+
+======================================================================
+ERROR: test_mixer_hermitian_and_tour_preserving (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_565\test.py", line 28, in test_mixer_hermitian_and_tour_preserving
+    ns = load_target()
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_565\test.py", line 15, in load_target
+    return runpy.run_path(MUT)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_565\buggy.py", line 76, in <module>
+    circuits = qaoa.construct_circuit([0] * (2 * p))
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\algorithms\minimum_eigen_solvers\vqe.py", line 383, in construct_circuit
+    expect_op = self.construct_expectation(parameter).to_circuit_op()
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\algorithms\minimum_eigen_solvers\vqe.py", line 356, in construct_expectation
+    wave_function = self.var_form.construct_circuit(parameter)
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\algorithms\minimum_eigen_solvers\qaoa\var_form.py", line 119, in construct_circuit
+    circuit_op = evolution.convert(circuit_op)
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\evolutions\pauli_trotter_evolution.py", line 100, in convert
+    return self._recursive_convert(operator)
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\evolutions\pauli_trotter_evolution.py", line 139, in _recursive_convert
+    return operator.traverse(self.convert).reduce()
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\list_ops\list_op.py", line 198, in traverse
+    return self.__class__([convert_fn(op) for op in self.oplist],  # type: ignore
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\list_ops\list_op.py", line 198, in <listcomp>
+    return self.__class__([convert_fn(op) for op in self.oplist],  # type: ignore
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\evolutions\pauli_trotter_evolution.py", line 100, in convert
+    return self._recursive_convert(operator)
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\evolutions\pauli_trotter_evolution.py", line 104, in _recursive_convert
+    if not {'Pauli'} == operator.primitive_strings():
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\evolutions\evolved_op.py", line 53, in primitive_strings
+    return self.primitive.primitive_strings()  # type: ignore
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\list_ops\list_op.py", line 151, in primitive_strings
+    return reduce(set.union, [op.primitive_strings() for op in self.oplist])
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\aqua\operators\list_ops\list_op.py", line 151, in <listcomp>
+    return reduce(set.union, [op.primitive_strings() for op in self.oplist])
+AttributeError: 'Operator' object has no attribute 'primitive_strings'
+
+----------------------------------------------------------------------
+Ran 2 tests in 64.959s
+
+FAILED (errors=2)

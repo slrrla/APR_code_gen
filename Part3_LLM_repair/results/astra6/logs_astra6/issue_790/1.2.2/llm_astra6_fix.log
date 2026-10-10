@@ -1,0 +1,15 @@
+
+test_hamiltonian_and_evolution (__main__.TestOriginalHamiltonianEvolution.test_hamiltonian_and_evolution) ... FAIL
+
+======================================================================
+FAIL: test_hamiltonian_and_evolution (__main__.TestOriginalHamiltonianEvolution.test_hamiltonian_and_evolution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_790\test.py", line 92, in test_hamiltonian_and_evolution
+    self.assertLessEqual(min(errors), bound + 1e-10,
+AssertionError: np.float64(1.6307157390045257) not less than or equal to np.float64(0.7083783495810843) : circuit does not approximate exp(-i H) within the six-step second-order bound
+
+----------------------------------------------------------------------
+Ran 1 test in 0.180s
+
+FAILED (failures=1)

@@ -1,0 +1,15 @@
+
+test_parameter_count_and_independent_binding (__main__.TestIntent.test_parameter_count_and_independent_binding) ... C:\APR2\llm_repair\llm_fixes\issue_233\llm_astra6_fix.py:6: DeprecationWarning: The class ``qiskit.circuit.library.n_local.two_local.TwoLocal`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use the function qiskit.circuit.library.n_local instead.
+  rot = TwoLocal(
+C:\qiskit_envs\q250\Lib\site-packages\qiskit\circuit\library\n_local\two_local.py:217: DeprecationWarning: The class ``qiskit.circuit.library.n_local.n_local.NLocal`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. This applies to NLocal subclasses too. Use the corresponding function from the module qiskit.circuit.library.n_local instead.
+  super().__init__(
+C:\qiskit_envs\q250\Lib\site-packages\qiskit\circuit\library\n_local\n_local.py:379: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.
+  super().__init__(name=name)
+C:\APR2\llm_repair\llm_fixes\issue_233\llm_astra6_fix.py:14: DeprecationWarning: The class ``qiskit.circuit.library.n_local.two_local.TwoLocal`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use the function qiskit.circuit.library.n_local instead.
+  var = TwoLocal(
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.108s
+
+OK

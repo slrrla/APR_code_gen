@@ -1,0 +1,31 @@
+
+test_backend_capacity_and_bell_counts (__main__.TestIntent) ... ERROR
+
+======================================================================
+ERROR: test_backend_capacity_and_bell_counts (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\llm_repair\updated_tests\issue_622_test.py", line 22, in test_backend_capacity_and_bell_counts
+    ns = load_target()
+  File "C:\APR2\llm_repair\updated_tests\issue_622_test.py", line 15, in load_target
+    return runpy.run_path(MUT)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_622\buggy.py", line 15, in <module>
+    job_exp = qiskit.execute(qc, backend=backend, shots=1024, max_credits=3)
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\execute_function.py", line 252, in execute
+    experiments = transpile(experiments,
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\compiler\transpiler.py", line 242, in transpile
+    _check_circuits_coupling_map(circuits, transpile_args, backend)
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\compiler\transpiler.py", line 279, in _check_circuits_coupling_map
+    raise TranspilerError('Number of qubits ({}) '.format(num_qubits) +
+qiskit.transpiler.exceptions.TranspilerError: 'Number of qubits (2) in circuit-2 is greater than maximum (1) in the coupling_map'
+
+----------------------------------------------------------------------
+Ran 1 test in 2.932s
+
+FAILED (errors=1)

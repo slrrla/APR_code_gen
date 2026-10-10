@@ -1,0 +1,26 @@
+[0.57735027+0.57735027j 0.        -0.57735027j]
+theta :  (2.135521592658412-1.2374811137735784j)
+(1.0492498332510383-0.31768728740277213j)
+phi :  (-1.2767950250211129+0.6412373393653841j)
+[0.577+0.577j 0.   -0.577j]
+
+test_real_angles_prepare_requested_state_up_to_global_phase (__main__.TestComplexState) ... C:\qiskit_envs\q0252\lib\site-packages\qiskit\providers\aer\backends\statevector_simulator.py:152: PendingDeprecationWarning: The `StatevectorSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend. To obtain legacy functionality initalize with `AerSimulator(method="statevector")` and append run circuits with the `save_state` instruction.
+  warn('The `StatevectorSimulator` backend will be deprecated in the'
+C:\qiskit_envs\q0252\lib\site-packages\mpmath\ctx_mp.py:35: DeprecationWarning: mpnumeric is deprecated
+  warnings.warn(f"{name} is deprecated", DeprecationWarning)
+C:\qiskit_envs\q0252\lib\site-packages\mpmath\rational.py:4: DeprecationWarning: the rational private module is deprecated
+  warnings.warn("the rational private module is deprecated",
+FAIL
+
+======================================================================
+FAIL: test_real_angles_prepare_requested_state_up_to_global_phase (__main__.TestComplexState)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_415\test.py", line 19, in test_real_angles_prepare_requested_state_up_to_global_phase
+    self.assertAlmostEqual(complex(m[name]).imag, 0)
+AssertionError: -1.2374811137735784 != 0 within 7 places (1.2374811137735784 difference)
+
+----------------------------------------------------------------------
+Ran 1 test in 3.183s
+
+FAILED (failures=1)

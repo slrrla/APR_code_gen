@@ -1,0 +1,29 @@
+
+test_hamiltonian_and_evolution (__main__.TestOriginalHamiltonianEvolution.test_hamiltonian_and_evolution) ... C:\qiskit_envs\q0463\Lib\site-packages\qiskit\opflow\state_fns\circuit_state_fn.py:20: DeprecationWarning: BasicAer is deprecated since Qiskit 0.46 and will be removed in Qiskit 1.0. The BasicAer (qiskit.providers.basicaer) module has been superseded by  qiskit.providers.basic_provider, and all its classes have been renamed to follow a new naming convention. More information and migration guidelines can be found in the 0.46 API docs for BasicAer.
+  from qiskit import (  # pylint: disable=no-name-in-module
+C:\qiskit_envs\q0463\Lib\site-packages\qiskit\providers\basicaer\__init__.py:164: DeprecationWarning: The class ``qiskit.providers.basicaer.basicaerprovider.BasicAerProvider`` is deprecated as of qiskit 0.46.0. It will be removed in Qiskit 1.0.0. The qiskit.providers.basicaer module has been superseded by qiskit.providers.basic_provider, and all its classes have been renamed to follow a new naming convention. Use the new qiskit.providers.basic_provider.BasicProvider class instead.
+  BasicAer = BasicAerProvider()
+C:\qiskit_envs\q0463\Lib\site-packages\qiskit\providers\basicaer\basicaerprovider.py:129: DeprecationWarning: The class ``qiskit.providers.basicaer.qasm_simulator.QasmSimulatorPy`` is deprecated as of qiskit 0.46.0. It will be removed in Qiskit 1.0.0. The qiskit.providers.basicaer module has been superseded by qiskit.providers.basic_provider. Use the new qiskit.providers.basic_provider.BasicSimulator class instead.
+  backend_instance = backend_cls(provider=self)
+C:\qiskit_envs\q0463\Lib\site-packages\qiskit\providers\basicaer\basicaerprovider.py:129: DeprecationWarning: The class ``qiskit.providers.basicaer.statevector_simulator.StatevectorSimulatorPy`` is deprecated as of qiskit 0.46.0. It will be removed in Qiskit 1.0.0. The qiskit.providers.basicaer module has been superseded by qiskit.providers.basic_provider. The new module has no replacement for this class. Use the qiskit.quantum_info.Statevector class instead.
+  backend_instance = backend_cls(provider=self)
+C:\qiskit_envs\q0463\Lib\site-packages\qiskit\providers\basicaer\statevector_simulator.py:97: DeprecationWarning: The class ``qiskit.providers.basicaer.qasm_simulator.QasmSimulatorPy`` is deprecated as of qiskit 0.46.0. It will be removed in Qiskit 1.0.0. The qiskit.providers.basicaer module has been superseded by qiskit.providers.basic_provider. Use the new qiskit.providers.basic_provider.BasicSimulator class instead.
+  super().__init__(
+C:\qiskit_envs\q0463\Lib\site-packages\qiskit\providers\basicaer\basicaerprovider.py:129: DeprecationWarning: The class ``qiskit.providers.basicaer.unitary_simulator.UnitarySimulatorPy`` is deprecated as of qiskit 0.46.0. It will be removed in Qiskit 1.0.0. The qiskit.providers.basicaer module has been superseded by qiskit.providers.basic_provider. The new module has no replacement for this class. Use the qiskit.quantum_info.Operator class instead.
+  backend_instance = backend_cls(provider=self)
+C:\qiskit_envs\q0463\Lib\site-packages\qiskit\circuit\library\pauli_evolution.py:157: DeprecationWarning: The ``qiskit.opflow`` module is deprecated as of qiskit-terra 0.24.0. It will be removed in Qiskit 1.0. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  from qiskit.opflow import PauliSumOp, PauliOp
+FAIL
+
+======================================================================
+FAIL: test_hamiltonian_and_evolution (__main__.TestOriginalHamiltonianEvolution.test_hamiltonian_and_evolution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_790\test.py", line 92, in test_hamiltonian_and_evolution
+    self.assertLessEqual(min(errors), bound + 1e-10,
+AssertionError: np.float64(1.6307157390045257) not less than or equal to np.float64(0.7083783495810843) : circuit does not approximate exp(-i H) within the six-step second-order bound
+
+----------------------------------------------------------------------
+Ran 1 test in 0.335s
+
+FAILED (failures=1)

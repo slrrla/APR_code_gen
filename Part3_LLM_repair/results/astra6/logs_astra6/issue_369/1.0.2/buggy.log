@@ -1,0 +1,26 @@
+
+test_complete_mapping_and_controlled_permutation (__main__.TestControlledSubcircuit.test_complete_mapping_and_controlled_permutation) ... ERROR
+
+======================================================================
+ERROR: test_complete_mapping_and_controlled_permutation (__main__.TestControlledSubcircuit.test_complete_mapping_and_controlled_permutation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_369\test.py", line 14, in test_complete_mapping_and_controlled_permutation
+    m = load_target()
+        ^^^^^^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_369\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_369\buggy.py", line 21, in <module>
+    circ.compose(csub, [i], inplace=True)
+  File "C:\qiskit_envs\q102\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 956, in compose
+    raise CircuitError(
+qiskit.circuit.exceptions.CircuitError: 'Number of items in qubits parameter (1) does not match number of qubits in the circuit (17).'
+
+----------------------------------------------------------------------
+Ran 1 test in 1.182s
+
+FAILED (errors=1)
