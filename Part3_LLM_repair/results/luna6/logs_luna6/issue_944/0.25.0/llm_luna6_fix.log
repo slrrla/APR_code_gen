@@ -1,0 +1,29 @@
+
+test_projector_any_operator_type (__main__.T) ... C:\qiskit_envs\q0250\lib\site-packages\mpmath\ctx_mp.py:35: DeprecationWarning: mpnumeric is deprecated
+  warnings.warn(f"{name} is deprecated", DeprecationWarning)
+C:\qiskit_envs\q0250\lib\site-packages\mpmath\rational.py:4: DeprecationWarning: the rational private module is deprecated
+  warnings.warn("the rational private module is deprecated",
+FAIL
+
+======================================================================
+FAIL: test_projector_any_operator_type (__main__.T)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\llm_repair\updated_tests\issue_944_test.py", line 17, in test_projector_any_operator_type
+    np.testing.assert_allclose(matrix(ns["proj"]), expected, atol=1e-12)
+  File "C:\qiskit_envs\q0250\lib\site-packages\numpy\testing\_private\utils.py", line 1528, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\qiskit_envs\q0250\lib\site-packages\numpy\testing\_private\utils.py", line 761, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+(shapes (1,), (2, 2) mismatch)
+ x: array([1.+6.1e-17j])
+ y: array([[0.5, 0.5],
+       [0.5, 0.5]])
+
+----------------------------------------------------------------------
+Ran 1 test in 4.552s
+
+FAILED (failures=1)

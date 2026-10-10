@@ -1,0 +1,44 @@
+
+test_parsed_circuit_was_executed (__main__.T.test_parsed_circuit_was_executed) ... C:\qiskit_envs\q0452\Lib\site-packages\qiskit\utils\algorithm_globals.py:170: DeprecationWarning: The class ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+  algorithm_globals = QiskitAlgorithmGlobals()
+C:\qiskit_envs\q0452\Lib\site-packages\qiskit\utils\algorithm_globals.py:49: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  self.num_processes = settings.get("num_processes", QiskitAlgorithmGlobals.CPU_COUNT)
+C:\qiskit_envs\q0452\Lib\site-packages\qiskit\utils\algorithm_globals.py:120: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  parallel.CPU_COUNT = self.num_processes
+C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_775\buggy.py:13: PendingDeprecationWarning: The qiskit.Aer entry point will be deprecated in a future release and subsequently removed. Instead you should use this directly from the root of the qiskit-aer package.
+  backend = Aer.get_backend('qasm_simulator')
+C:\qiskit_envs\q0452\Lib\site-packages\qiskit_aer\backends\qasm_simulator.py:435: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn(
+ERROR
+
+======================================================================
+ERROR: test_parsed_circuit_was_executed (__main__.T.test_parsed_circuit_was_executed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\llm_repair\updated_tests\issue_775_test.py", line 7, in test_parsed_circuit_was_executed
+    ns = runpy.run_path(os.environ["MUT"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_775\buggy.py", line 16, in <module>
+    job = execute(qasm_str, backend)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\execute_function.py", line 286, in execute
+    experiments = transpile(
+                  ^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\compiler\transpiler.py", line 332, in transpile
+    output_name = _parse_output_name(output_name, circuits)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\compiler\transpiler.py", line 596, in _parse_output_name
+    return [circuit.name for circuit in circuits]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\compiler\transpiler.py", line 596, in <listcomp>
+    return [circuit.name for circuit in circuits]
+            ^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'name'
+
+----------------------------------------------------------------------
+Ran 1 test in 3.999s
+
+FAILED (errors=1)

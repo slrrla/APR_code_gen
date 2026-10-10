@@ -1,0 +1,25 @@
+
+test_all_supplied_operator_constructions (__main__.TestIntent.test_all_supplied_operator_constructions) ... ERROR
+
+======================================================================
+ERROR: test_all_supplied_operator_constructions (__main__.TestIntent.test_all_supplied_operator_constructions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_750\test.py", line 21, in test_all_supplied_operator_constructions
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_750\test.py", line 16, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\llm_repair\llm_fixes\issue_750\llm_luna6_fix.py", line 6, in <module>
+    XZ = Operator(Pauli(label='XZ'))
+                  ^^^^^^^^^^^^^^^^^
+TypeError: Pauli.__init__() got an unexpected keyword argument 'label'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.975s
+
+FAILED (errors=1)

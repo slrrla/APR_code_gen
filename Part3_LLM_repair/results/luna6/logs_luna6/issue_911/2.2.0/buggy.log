@@ -1,0 +1,24 @@
+
+test_printed_indices_any_format (__main__.T.test_printed_indices_any_format) ... C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_911\buggy.py:10: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  for name_of_gate, qargs, cargs in qc.data:
+ERROR
+
+======================================================================
+ERROR: test_printed_indices_any_format (__main__.T.test_printed_indices_any_format)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_911\test.py", line 8, in test_printed_indices_any_format
+    ns = runpy.run_path(os.environ["MUT"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_911\buggy.py", line 15, in <module>
+    print("qargs[1] : ", qargs[1])
+                         ~~~~~^^^
+IndexError: list index out of range
+
+----------------------------------------------------------------------
+Ran 1 test in 3.655s
+
+FAILED (errors=1)

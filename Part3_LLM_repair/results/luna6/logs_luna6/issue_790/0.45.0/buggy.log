@@ -1,0 +1,22 @@
+
+test_hamiltonian_and_evolution (__main__.TestOriginalHamiltonianEvolution.test_hamiltonian_and_evolution) ... ERROR
+
+======================================================================
+ERROR: test_hamiltonian_and_evolution (__main__.TestOriginalHamiltonianEvolution.test_hamiltonian_and_evolution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_790\test.py", line 65, in test_hamiltonian_and_evolution
+    namespace = runpy.run_path(MUT)
+                ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_790\buggy.py", line 20, in <module>
+    H = (U * Z ^ Z) - (J * X ^ X) - (J * Y ^ Y)
+        ~~~~~~~~~~~~^~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (errors=1)

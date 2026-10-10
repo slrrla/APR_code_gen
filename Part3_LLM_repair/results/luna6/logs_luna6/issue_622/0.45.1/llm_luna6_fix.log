@@ -1,0 +1,33 @@
+
+test_backend_capacity_and_bell_counts (__main__.TestIntent.test_backend_capacity_and_bell_counts) ... C:\qiskit_envs\q0451\Lib\site-packages\qiskit\utils\algorithm_globals.py:170: DeprecationWarning: The class ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+  algorithm_globals = QiskitAlgorithmGlobals()
+C:\qiskit_envs\q0451\Lib\site-packages\qiskit\utils\algorithm_globals.py:49: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  self.num_processes = settings.get("num_processes", QiskitAlgorithmGlobals.CPU_COUNT)
+C:\qiskit_envs\q0451\Lib\site-packages\qiskit\utils\algorithm_globals.py:120: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  parallel.CPU_COUNT = self.num_processes
+C:\APR2\llm_repair\llm_fixes\issue_622\llm_luna6_fix.py:2: DeprecationWarning: The module 'qiskit.test.mock' is deprecated since Qiskit Terra 0.21.0, and will be removed 3 months or more later. Instead, you should import the desired object directly 'qiskit.providers.fake_provider'.
+  from qiskit.test.mock import FakeVigo
+ERROR
+
+======================================================================
+ERROR: test_backend_capacity_and_bell_counts (__main__.TestIntent.test_backend_capacity_and_bell_counts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\llm_repair\updated_tests\issue_622_test.py", line 22, in test_backend_capacity_and_bell_counts
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\APR2\llm_repair\updated_tests\issue_622_test.py", line 15, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\llm_repair\llm_fixes\issue_622\llm_luna6_fix.py", line 7, in <module>
+    q = qiskit.QuantumRegister(2)
+        ^^^^^^
+NameError: name 'qiskit' is not defined
+
+----------------------------------------------------------------------
+Ran 1 test in 3.278s
+
+FAILED (errors=1)

@@ -1,5 +1,5 @@
 
-test_qpe_mapping_and_controlled_powers (__main__.TestIntent.test_qpe_mapping_and_controlled_powers) ... C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_189\buggy.py:10: DeprecationWarning: The class ``qiskit.circuit.library.grover_operator.GroverOperator`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use qiskit.circuit.library.grover_operator instead.
+test_controlled_powers_either_control_order (__main__.T.test_controlled_powers_either_control_order) ... C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_189\buggy.py:10: DeprecationWarning: The class ``qiskit.circuit.library.grover_operator.GroverOperator`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use qiskit.circuit.library.grover_operator instead.
   grover_operator = GroverOperator(oracle)
 C:\qiskit_envs\q230\Lib\site-packages\qiskit\circuit\library\grover_operator.py:573: DeprecationWarning: The method ``qiskit.circuit.library.standard_gates.x.MCXGate.get_num_ancilla_qubits()`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. For an MCXGate it is no longer possible to know the number of ancilla qubits that would be eventually used by the transpiler when the gate is created. Instead, it is recommended to use MCXGate and let HighLevelSynthesis choose the best synthesis method depending on the number of ancilla qubits available. However, if a specific synthesis method using a specific number of ancilla qubits is require, one can create a custom gate by calling the corresponding synthesis function directly.
   num_ancillas = MCXGate.get_num_ancilla_qubits(len(qubits) - 1, mcx_mode)
@@ -22,15 +22,12 @@ C:\qiskit_envs\q230\Lib\site-packages\qiskit\circuit\library\standard_gates\x.py
 ERROR
 
 ======================================================================
-ERROR: test_qpe_mapping_and_controlled_powers (__main__.TestIntent.test_qpe_mapping_and_controlled_powers)
+ERROR: test_controlled_powers_either_control_order (__main__.T.test_controlled_powers_either_control_order)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_189\test.py", line 22, in test_qpe_mapping_and_controlled_powers
-    ns = load_target()
-         ^^^^^^^^^^^^^
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_189\test.py", line 14, in load_target
-    return runpy.run_path(MUT)
-           ^^^^^^^^^^^^^^^^^^^
+  File "C:\APR2\llm_repair\updated_tests\issue_189_test.py", line 10, in test_controlled_powers_either_control_order
+    ns = runpy.run_path(os.environ["MUT"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "<frozen runpy>", line 287, in run_path
   File "<frozen runpy>", line 98, in _run_module_code
   File "<frozen runpy>", line 88, in _run_code
@@ -43,6 +40,6 @@ Traceback (most recent call last):
 qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(8)/clbit(0) arguments does not match the gate expectation (7).'
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.478s
+Ran 1 test in 1.299s
 
 FAILED (errors=1)

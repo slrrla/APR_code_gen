@@ -1,0 +1,32 @@
+
+test_local_estimation_any_result_variable (__main__.T.test_local_estimation_any_result_variable) ... FAIL
+
+======================================================================
+FAIL: test_local_estimation_any_result_variable (__main__.T.test_local_estimation_any_result_variable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\llm_repair\updated_tests\issue_1035_test.py", line 27, in test_local_estimation_any_result_variable
+    ns = runpy.run_path(os.environ["MUT"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_1035\buggy.py", line 3, in <module>
+    from qiskit_ibm_runtime import QiskitRuntimeService, Options, Session, Estimator
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\APR2\llm_repair\updated_tests\issue_1035_test.py", line 15, in offline_import
+    raise AssertionError("OFFLINE_CONTRACT: Runtime account/session is not a local fake backend")
+AssertionError: OFFLINE_CONTRACT: Runtime account/session is not a local fake backend
+
+----------------------------------------------------------------------
+Ran 1 test in 0.040s
+
+FAILED (failures=1)

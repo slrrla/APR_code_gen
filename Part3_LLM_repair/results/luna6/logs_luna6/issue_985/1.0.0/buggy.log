@@ -1,0 +1,44 @@
+
+test_no_go_determinant_and_explicit_missing_phase (__main__.Regression.test_no_go_determinant_and_explicit_missing_phase) ... ERROR
+test_requested_rotation_basis_and_equivalence_up_to_phase (__main__.Regression.test_requested_rotation_basis_and_equivalence_up_to_phase) ... ERROR
+
+======================================================================
+ERROR: test_no_go_determinant_and_explicit_missing_phase (__main__.Regression.test_no_go_determinant_and_explicit_missing_phase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_985\test.py", line 34, in test_no_go_determinant_and_explicit_missing_phase
+    m=target()
+      ^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_985\test.py", line 19, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_985\buggy.py", line 6, in <module>
+    qc.u1(lam, 0)
+    ^^^^^
+AttributeError: 'QuantumCircuit' object has no attribute 'u1'
+
+======================================================================
+ERROR: test_requested_rotation_basis_and_equivalence_up_to_phase (__main__.Regression.test_requested_rotation_basis_and_equivalence_up_to_phase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_985\test.py", line 26, in test_requested_rotation_basis_and_equivalence_up_to_phase
+    m=target()
+      ^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_985\test.py", line 19, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_985\buggy.py", line 6, in <module>
+    qc.u1(lam, 0)
+    ^^^^^
+AttributeError: 'QuantumCircuit' object has no attribute 'u1'
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.000s
+
+FAILED (errors=2)

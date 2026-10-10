@@ -1,0 +1,58 @@
+
+test_operator_dimension_and_diagonality (__main__.Regression.test_operator_dimension_and_diagonality) ... FAIL
+test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one (__main__.Regression.test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one) ... FAIL
+
+======================================================================
+FAIL: test_operator_dimension_and_diagonality (__main__.Regression.test_operator_dimension_and_diagonality)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_950\test.py", line 25, in test_operator_dimension_and_diagonality
+    np.testing.assert_allclose(abs(np.diag(data)), np.ones(1024), atol=1e-12)
+  File "C:\qiskit_envs\q111\Lib\site-packages\numpy\testing\_private\utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\qiskit_envs\q111\Lib\site-packages\numpy\testing\_private\utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+Mismatched elements: 1024 / 1024 (100%)
+First 5 mismatches are at indices:
+ [0]: 2.0 (ACTUAL), 1.0 (DESIRED)
+ [1]: 2.0 (ACTUAL), 1.0 (DESIRED)
+ [2]: 2.0 (ACTUAL), 1.0 (DESIRED)
+ [3]: 2.0 (ACTUAL), 1.0 (DESIRED)
+ [4]: 2.0 (ACTUAL), 1.0 (DESIRED)
+Max absolute difference among violations: 1.
+Max relative difference among violations: 1.
+ ACTUAL: array([2., 2., 2., ..., 0., 0., 0.], shape=(1024,))
+ DESIRED: array([1., 1., 1., ..., 1., 1., 1.], shape=(1024,))
+
+======================================================================
+FAIL: test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one (__main__.Regression.test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_950\test.py", line 33, in test_z_acts_on_requested_qiskit_qubits_i_plus_one_to_j_minus_one
+    np.testing.assert_allclose(diagonal, expected, atol=1e-12,
+  File "C:\qiskit_envs\q111\Lib\site-packages\numpy\testing\_private\utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\qiskit_envs\q111\Lib\site-packages\numpy\testing\_private\utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+Requested Z on qubits 3..7, not on qubits 2..6
+Mismatched elements: 1024 / 1024 (100%)
+First 5 mismatches are at indices:
+ [0]: (2+0j) (ACTUAL), 1 (DESIRED)
+ [1]: (2+0j) (ACTUAL), 1 (DESIRED)
+ [2]: (2+0j) (ACTUAL), 1 (DESIRED)
+ [3]: (2+0j) (ACTUAL), 1 (DESIRED)
+ [4]: (2+0j) (ACTUAL), 1 (DESIRED)
+Max absolute difference among violations: 1.
+Max relative difference among violations: 1.
+ ACTUAL: array([2.+0.j, 2.+0.j, 2.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j], shape=(1024,))
+ DESIRED: array([ 1,  1,  1, ..., -1, -1, -1], shape=(1024,))
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.633s
+
+FAILED (failures=2)

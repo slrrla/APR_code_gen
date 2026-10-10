@@ -1,0 +1,22 @@
+
+test_printed_indices_any_format (__main__.T.test_printed_indices_any_format) ... FAIL
+
+======================================================================
+FAIL: test_printed_indices_any_format (__main__.T.test_printed_indices_any_format)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_911\test.py", line 22, in test_printed_indices_any_format
+    self.assertEqual(actual, expected)
+AssertionError: Lists differ: [] != [1, 2, 0]
+
+Second list contains 3 additional elements.
+First extra element 0:
+1
+
+- []
++ [1, 2, 0]
+
+----------------------------------------------------------------------
+Ran 1 test in 3.292s
+
+FAILED (failures=1)

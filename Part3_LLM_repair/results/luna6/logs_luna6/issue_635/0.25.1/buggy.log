@@ -1,0 +1,29 @@
+
+test_full_conditional_truth_table (__main__.TestIntent) ... ERROR
+
+======================================================================
+ERROR: test_full_conditional_truth_table (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_635\test.py", line 21, in test_full_conditional_truth_table
+    ns = load_target()
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_635\test.py", line 15, in load_target
+    return runpy.run_path(MUT)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_635\buggy.py", line 11, in <module>
+    qc.x(q[0]).c_if(c[0], 1)
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\circuit\instructionset.py", line 59, in c_if
+    gate.c_if(classical, val)
+  File "C:\qiskit_envs\q0251\lib\site-packages\qiskit\circuit\instruction.py", line 346, in c_if
+    raise CircuitError("c_if must be used with a classical register")
+qiskit.circuit.exceptions.CircuitError: 'c_if must be used with a classical register'
+
+----------------------------------------------------------------------
+Ran 1 test in 1.256s
+
+FAILED (errors=1)

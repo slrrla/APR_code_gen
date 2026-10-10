@@ -1,0 +1,64 @@
+
+test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state) ... ERROR
+test_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical) ... ERROR
+
+======================================================================
+ERROR: test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\qiskit_envs\q100\Lib\site-packages\qiskit\result\result.py", line 314, in get_statevector
+    self.data(experiment)["statevector"], decimals=decimals
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+KeyError: 'statevector'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 31, in test_fidelity_matches_independent_uniform_state
+    m = target()
+        ^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\buggy.py", line 28, in <module>
+    statevector_real = job_real.result().get_statevector()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q100\Lib\site-packages\qiskit\result\result.py", line 317, in get_statevector
+    raise QiskitError(f'No statevector for experiment "{repr(experiment)}"') from ex
+qiskit.exceptions.QiskitError: 'No statevector for experiment "None"'
+
+======================================================================
+ERROR: test_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\qiskit_envs\q100\Lib\site-packages\qiskit\result\result.py", line 314, in get_statevector
+    self.data(experiment)["statevector"], decimals=decimals
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+KeyError: 'statevector'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 21, in test_real_noisy_density_matrix_is_physical
+    m = target()
+        ^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\buggy.py", line 28, in <module>
+    statevector_real = job_real.result().get_statevector()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q100\Lib\site-packages\qiskit\result\result.py", line 317, in get_statevector
+    raise QiskitError(f'No statevector for experiment "{repr(experiment)}"') from ex
+qiskit.exceptions.QiskitError: 'No statevector for experiment "None"'
+
+----------------------------------------------------------------------
+Ran 2 tests in 4.889s
+
+FAILED (errors=2)

@@ -1,28 +1,9 @@
 
-test_qpe_mapping_and_controlled_powers (__main__.TestIntent.test_qpe_mapping_and_controlled_powers) ... C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_189\test.py:31: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 2.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
-  for i,(op,qargs,cargs) in enumerate(qpe.data):
-FAIL
-
-======================================================================
-FAIL: test_qpe_mapping_and_controlled_powers (__main__.TestIntent.test_qpe_mapping_and_controlled_powers)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_189\test.py", line 32, in test_qpe_mapping_and_controlled_powers
-    self.assertEqual([qpe.qubits.index(q) for q in qargs], [i,3,4,5,6,7,8])
-AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]
-
-First differing element 0:
-2
-0
-
-- [2, 3, 4, 5, 6, 7, 8]
-?  ^
-
-+ [0, 3, 4, 5, 6, 7, 8]
-?  ^
-
+test_controlled_powers_either_control_order (__main__.T.test_controlled_powers_either_control_order) ... C:\APR2\llm_repair\updated_tests\issue_189_test.py:19: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 2.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  for op, qargs, cargs in qpe.data:
+ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.449s
+Ran 1 test in 1.568s
 
-FAILED (failures=1)
+OK

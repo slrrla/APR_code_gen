@@ -1,0 +1,118 @@
+
+test_projector_any_operator_type (__main__.T.test_projector_any_operator_type) ... C:\qiskit_envs\q0453\Lib\site-packages\qiskit\utils\algorithm_globals.py:170: DeprecationWarning: The class ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+  algorithm_globals = QiskitAlgorithmGlobals()
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\utils\algorithm_globals.py:49: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  self.num_processes = settings.get("num_processes", QiskitAlgorithmGlobals.CPU_COUNT)
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\utils\algorithm_globals.py:120: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  parallel.CPU_COUNT = self.num_processes
+C:\APR2\llm_repair\llm_fixes\issue_944\llm_luna6_fix.py:4: DeprecationWarning: The ``qiskit.opflow`` module is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  from qiskit.opflow import Plus, MatrixOp
+C:\APR2\llm_repair\llm_fixes\issue_944\llm_luna6_fix.py:5: DeprecationWarning: ``qiskit.algorithms`` has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. The ``qiskit.algorithms`` import path is deprecated as of qiskit-terra 0.25.0 and will be removed no earlier than 3 months after the release date. Please run ``pip install qiskit_algorithms`` and use ``import qiskit_algorithms`` instead.
+  from qiskit.algorithms import NumPyEigensolver
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\circuit_state_fn.py:170: DeprecationWarning: The class ``qiskit.opflow.state_fns.circuit_state_fn.CircuitStateFn`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return CircuitStateFn(
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\circuit_state_fn.py:84: DeprecationWarning: The class ``qiskit.opflow.state_fns.state_fn.StateFn`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__(primitive, coeff=coeff, is_measurement=is_measurement)
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\state_fn.py:143: DeprecationWarning: The class ``qiskit.opflow.operator_base.OperatorBase`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\operator_base.py:55: DeprecationWarning: The class ``qiskit.opflow.mixins.star_algebra.StarAlgebraMixin`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\state_fn.py:264: DeprecationWarning: The class ``qiskit.opflow.state_fns.dict_state_fn.DictStateFn`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  if self == StateFn({"0": 1}, is_measurement=True):
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\dict_state_fn.py:91: DeprecationWarning: The class ``qiskit.opflow.state_fns.state_fn.StateFn`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__(primitive, coeff=coeff, is_measurement=is_measurement)
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\circuit_state_fn.py:205: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.circuit_op.CircuitOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return self.compose(CircuitOp(other.primitive)).compose(
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\primitive_ops\circuit_op.py:67: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.primitive_op.PrimitiveOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__(primitive, coeff)
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\primitive_ops\primitive_op.py:111: DeprecationWarning: The class ``qiskit.opflow.operator_base.OperatorBase`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\circuit_state_fn.py:188: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.circuit_op.CircuitOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  op_circuit_self = CircuitOp(self.primitive)
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\state_fn.py:251: DeprecationWarning: The class ``qiskit.opflow.state_fns.dict_state_fn.DictStateFn`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  temp = StateFn(
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\primitive_ops\circuit_op.py:150: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.circuit_op.CircuitOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return CircuitOp(new_qc, coeff=new_self.coeff * other.coeff)
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\circuit_state_fn.py:194: DeprecationWarning: The class ``qiskit.opflow.state_fns.circuit_state_fn.CircuitStateFn`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return CircuitStateFn(
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\state_fn.py:215: DeprecationWarning: The class ``qiskit.opflow.state_fns.dict_state_fn.DictStateFn`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return self.__class__(
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\state_fn.py:269: DeprecationWarning: The class ``qiskit.opflow.state_fns.dict_state_fn.DictStateFn`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return self, StateFn("0" * self.num_qubits)
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\circuit_state_fn.py:209: DeprecationWarning: The class ``qiskit.opflow.list_ops.composed_op.ComposedOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return ComposedOp([new_self, other])
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\list_ops\composed_op.py:54: DeprecationWarning: The class ``qiskit.opflow.list_ops.list_op.ListOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__(oplist, combo_fn=partial(reduce, np.dot), coeff=coeff, abelian=abelian)
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\list_ops\list_op.py:81: DeprecationWarning: The class ``qiskit.opflow.operator_base.OperatorBase`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\APR2\llm_repair\llm_fixes\issue_944\llm_luna6_fix.py:11: DeprecationWarning: The class ``qiskit.algorithms.eigen_solvers.numpy_eigen_solver.NumPyEigensolver`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.eigensolvers.NumPyEigensolver``. See https://qisk.it/algo_migration for a migration guide.
+  solver = NumPyEigensolver()
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\algorithms\eigen_solvers\numpy_eigen_solver.py:76: DeprecationWarning: The function ``qiskit.utils.validation.validate_min()`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+  validate_min("k", k, 1)
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\algorithms\eigen_solvers\numpy_eigen_solver.py:86: DeprecationWarning: The class ``qiskit.algorithms.eigen_solvers.eigen_solver.EigensolverResult`` is deprecated as of qiskit 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.eigensolvers.EigensolverResult``. See https://qisk.it/algo_migration for a migration guide.
+  self._ret = EigensolverResult()
+C:\APR2\llm_repair\llm_fixes\issue_944\llm_luna6_fix.py:13: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.matrix_op.MatrixOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  spectrum = solver.compute_eigenvalues(MatrixOp(plus.data))
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\primitive_ops\matrix_op.py:76: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.primitive_op.PrimitiveOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__(primitive, coeff=coeff)
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\primitive_ops\primitive_op.py:111: DeprecationWarning: The class ``qiskit.opflow.operator_base.OperatorBase`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\operator_base.py:55: DeprecationWarning: The class ``qiskit.opflow.mixins.star_algebra.StarAlgebraMixin`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\algorithms\eigen_solvers\eigen_solver.py:68: DeprecationWarning: The class ``qiskit.algorithms.eigen_solvers.eigen_solver.EigensolverResult`` is deprecated as of qiskit 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.eigensolvers.EigensolverResult``. See https://qisk.it/algo_migration for a migration guide.
+  return EigensolverResult()
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\primitive_ops\primitive_op.py:173: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.pauli_op.PauliOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  temp = PrimitiveOp(self.primitive, coeff=self.coeff)  # type: OperatorBase
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\primitive_ops\pauli_op.py:55: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.primitive_op.PrimitiveOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__(primitive, coeff=coeff)
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\primitive_ops\primitive_op.py:162: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.pauli_op.PauliOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return self.__class__(self.primitive, coeff=self.coeff * scalar)
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\algorithms\eigen_solvers\numpy_eigen_solver.py:237: DeprecationWarning: The class ``qiskit.algorithms.eigen_solvers.eigen_solver.EigensolverResult`` is deprecated as of qiskit 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.eigensolvers.EigensolverResult``. See https://qisk.it/algo_migration for a migration guide.
+  self._ret = EigensolverResult()
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\algorithms\eigen_solvers\numpy_eigen_solver.py:276: DeprecationWarning: The class ``qiskit.opflow.state_fns.vector_state_fn.VectorStateFn`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  self._ret.eigenstates = ListOp([StateFn(vec) for vec in self._ret.eigenstates])
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\vector_state_fn.py:63: DeprecationWarning: The class ``qiskit.opflow.state_fns.state_fn.StateFn`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__(primitive, coeff=coeff, is_measurement=is_measurement)
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\state_fn.py:143: DeprecationWarning: The class ``qiskit.opflow.operator_base.OperatorBase`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\algorithms\eigen_solvers\numpy_eigen_solver.py:276: DeprecationWarning: The class ``qiskit.opflow.list_ops.list_op.ListOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  self._ret.eigenstates = ListOp([StateFn(vec) for vec in self._ret.eigenstates])
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\list_ops\list_op.py:81: DeprecationWarning: The class ``qiskit.opflow.operator_base.OperatorBase`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\circuit_state_fn.py:170: DeprecationWarning: The class ``qiskit.opflow.state_fns.circuit_state_fn.CircuitStateFn`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return CircuitStateFn(
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\circuit_state_fn.py:84: DeprecationWarning: The class ``qiskit.opflow.state_fns.state_fn.StateFn`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__(primitive, coeff=coeff, is_measurement=is_measurement)
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\state_fns\state_fn.py:143: DeprecationWarning: The class ``qiskit.opflow.operator_base.OperatorBase`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\opflow\operator_base.py:55: DeprecationWarning: The class ``qiskit.opflow.mixins.star_algebra.StarAlgebraMixin`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0453\Lib\site-packages\qiskit\utils\deprecation.py:183: PendingDeprecationWarning: Building a flow controller with keyword arguments is going to be deprecated. Custom controllers must be explicitly instantiated and appended to the task list.
+  return func(*args, **kwargs)
+FAIL
+
+======================================================================
+FAIL: test_projector_any_operator_type (__main__.T.test_projector_any_operator_type)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\llm_repair\updated_tests\issue_944_test.py", line 17, in test_projector_any_operator_type
+    np.testing.assert_allclose(matrix(ns["proj"]), expected, atol=1e-12)
+  File "C:\qiskit_envs\q0453\Lib\site-packages\numpy\testing\_private\utils.py", line 1504, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q0453\Lib\site-packages\numpy\testing\_private\utils.py", line 713, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+(shapes (1,), (2, 2) mismatch)
+ x: array([1.+6.1e-17j])
+ y: array([[0.5, 0.5],
+       [0.5, 0.5]])
+
+----------------------------------------------------------------------
+Ran 1 test in 6.013s
+
+FAILED (failures=1)

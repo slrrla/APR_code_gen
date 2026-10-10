@@ -1,0 +1,24 @@
+
+test_aer_simulator_available_and_operational (__main__.Regression.test_aer_simulator_available_and_operational) ... ERROR
+
+======================================================================
+ERROR: test_aer_simulator_available_and_operational (__main__.Regression.test_aer_simulator_available_and_operational)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_989\test.py", line 21, in test_aer_simulator_available_and_operational
+    m=target()
+      ^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_989\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_989\buggy.py", line 2, in <module>
+    from qiskit import Aer
+ImportError: cannot import name 'Aer' from 'qiskit' (C:\qiskit_envs\q112\Lib\site-packages\qiskit\__init__.py)
+
+----------------------------------------------------------------------
+Ran 1 test in 1.147s
+
+FAILED (errors=1)

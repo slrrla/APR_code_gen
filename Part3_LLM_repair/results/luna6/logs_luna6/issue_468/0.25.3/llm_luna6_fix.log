@@ -1,0 +1,72 @@
+
+test_commutator_math_for_supplied_operands (__main__.TestCommutator) ... C:\qiskit_envs\q0253\lib\site-packages\mpmath\ctx_mp.py:35: DeprecationWarning: mpnumeric is deprecated
+  warnings.warn(f"{name} is deprecated", DeprecationWarning)
+C:\qiskit_envs\q0253\lib\site-packages\mpmath\rational.py:4: DeprecationWarning: the rational private module is deprecated
+  warnings.warn("the rational private module is deprecated",
+ERROR
+test_preserves_original_density_matrix_problem (__main__.TestCommutator) ... ERROR
+
+======================================================================
+ERROR: test_commutator_math_for_supplied_operands (__main__.TestCommutator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 30, in test_commutator_math_for_supplied_operands
+    a,b,result=captured_commutator()
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 21, in captured_commutator
+    load_target()
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\llm_repair\llm_fixes\issue_468\llm_luna6_fix.py", line 17, in <module>
+    commutator(MatrixOp(dm0.data), MatrixOp(dm1.data))
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 17, in observe
+    result=original(a,b,*args,**kwargs)
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\aqua\operators\legacy\common.py", line 415, in commutator
+    op_ab = op_a * op_b
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\opflow\operator_base.py", line 343, in __mul__
+    return self.mul(other)
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\opflow\primitive_ops\primitive_op.py", line 135, in mul
+    raise ValueError('Operators can only be scalar multiplied by float or complex, not '
+ValueError: Operators can only be scalar multiplied by float or complex, not Operator([[1.+0.j, 0.+0.j],
+          [0.+0.j, 0.+0.j]],
+         input_dims=(2,), output_dims=(2,)) of type <class 'qiskit.opflow.primitive_ops.matrix_op.MatrixOp'>.
+
+======================================================================
+ERROR: test_preserves_original_density_matrix_problem (__main__.TestCommutator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 35, in test_preserves_original_density_matrix_problem
+    a,b,result=captured_commutator()
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 21, in captured_commutator
+    load_target()
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\llm_repair\llm_fixes\issue_468\llm_luna6_fix.py", line 17, in <module>
+    commutator(MatrixOp(dm0.data), MatrixOp(dm1.data))
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 17, in observe
+    result=original(a,b,*args,**kwargs)
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\aqua\operators\legacy\common.py", line 415, in commutator
+    op_ab = op_a * op_b
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\opflow\operator_base.py", line 343, in __mul__
+    return self.mul(other)
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\opflow\primitive_ops\primitive_op.py", line 135, in mul
+    raise ValueError('Operators can only be scalar multiplied by float or complex, not '
+ValueError: Operators can only be scalar multiplied by float or complex, not Operator([[1.+0.j, 0.+0.j],
+          [0.+0.j, 0.+0.j]],
+         input_dims=(2,), output_dims=(2,)) of type <class 'qiskit.opflow.primitive_ops.matrix_op.MatrixOp'>.
+
+----------------------------------------------------------------------
+Ran 2 tests in 3.275s
+
+FAILED (errors=2)

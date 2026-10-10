@@ -1,0 +1,29 @@
+
+test_registers_only (__main__.T) ... ERROR
+
+======================================================================
+ERROR: test_registers_only (__main__.T)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\llm_repair\updated_tests\issue_671_test.py", line 7, in test_registers_only
+    ns = runpy.run_path(os.environ["MUT"])
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_671\buggy.py", line 11, in <module>
+    c = QuantumCircuit(a, v, b)
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\circuit\quantumcircuit.py", line 191, in __init__
+    self.add_register(*regs)
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1122, in add_register
+    self.add_bits(register)
+  File "C:\qiskit_envs\q0253\lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1144, in add_bits
+    raise CircuitError("Expected an instance of Qubit, Clbit, or "
+qiskit.circuit.exceptions.CircuitError: "Expected an instance of Qubit, Clbit, or AncillaQubit, but was passed QuantumRegister(2, 'v0')"
+
+----------------------------------------------------------------------
+Ran 1 test in 3.575s
+
+FAILED (errors=1)

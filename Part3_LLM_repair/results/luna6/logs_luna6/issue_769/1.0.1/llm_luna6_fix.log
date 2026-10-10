@@ -1,0 +1,26 @@
+
+test_pauli_x_example_and_multiple_known_gates (__main__.TestIntent.test_pauli_x_example_and_multiple_known_gates) ... ERROR
+test_unknown_and_parameterized_gate_return_none (__main__.TestIntent.test_unknown_and_parameterized_gate_return_none) ... ERROR
+
+======================================================================
+ERROR: test_pauli_x_example_and_multiple_known_gates (__main__.TestIntent.test_pauli_x_example_and_multiple_known_gates)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_769\test.py", line 23, in test_pauli_x_example_and_multiple_known_gates
+    recognize = ns["get_qiskit_gate"]
+                ~~^^^^^^^^^^^^^^^^^^^
+KeyError: 'get_qiskit_gate'
+
+======================================================================
+ERROR: test_unknown_and_parameterized_gate_return_none (__main__.TestIntent.test_unknown_and_parameterized_gate_return_none)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_769\test.py", line 35, in test_unknown_and_parameterized_gate_return_none
+    self.assertIsNone(ns["get_qiskit_gate"](matrix))
+                      ~~^^^^^^^^^^^^^^^^^^^
+KeyError: 'get_qiskit_gate'
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.093s
+
+FAILED (errors=2)

@@ -1,0 +1,68 @@
+
+test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state) ... Simulation failed and returned the following error message:
+ERROR:  [Experiment 0] Insufficient memory to run circuit QFT using the density_matrix simulator. Required memory: 18446744073709551615M, max memory: 16024M
+ERROR
+test_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical) ... Simulation failed and returned the following error message:
+ERROR:  [Experiment 0] Insufficient memory to run circuit QFT using the density_matrix simulator. Required memory: 18446744073709551615M, max memory: 16024M
+ERROR
+
+======================================================================
+ERROR: test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\qiskit_envs\q100\Lib\site-packages\qiskit\result\result.py", line 115, in __getattr__
+    return self._metadata[name]
+           ~~~~~~~~~~~~~~^^^^^^
+KeyError: 'get_density_matrix'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 31, in test_fidelity_matches_independent_uniform_state
+    m = target()
+        ^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\llm_repair\llm_fixes\issue_876\llm_luna6_fix.py", line 24, in <module>
+    statevector_real = job_real.result().get_density_matrix()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q100\Lib\site-packages\qiskit\result\result.py", line 117, in __getattr__
+    raise AttributeError(f"Attribute {name} is not defined") from ex
+AttributeError: Attribute get_density_matrix is not defined
+
+======================================================================
+ERROR: test_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\qiskit_envs\q100\Lib\site-packages\qiskit\result\result.py", line 115, in __getattr__
+    return self._metadata[name]
+           ~~~~~~~~~~~~~~^^^^^^
+KeyError: 'get_density_matrix'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 21, in test_real_noisy_density_matrix_is_physical
+    m = target()
+        ^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\llm_repair\llm_fixes\issue_876\llm_luna6_fix.py", line 24, in <module>
+    statevector_real = job_real.result().get_density_matrix()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\qiskit_envs\q100\Lib\site-packages\qiskit\result\result.py", line 117, in __getattr__
+    raise AttributeError(f"Attribute {name} is not defined") from ex
+AttributeError: Attribute get_density_matrix is not defined
+
+----------------------------------------------------------------------
+Ran 2 tests in 22.296s
+
+FAILED (errors=2)
