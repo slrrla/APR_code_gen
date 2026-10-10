@@ -17,7 +17,7 @@ ENV_ROOT = Path(r"C:\qiskit_envs")
 SUPPORT_ROOT = ENV_ROOT / "_support"
 RUNTIME_SUPPORT_ROOT = ENV_ROOT / "_support_runtime"
 RUNTIME_CASES = {"issue_742", "issue_876"}
-MODEL_TAGS = {"gpt-5.6-luna": "luna56", "gpt-6-luna": "luna6"}
+MODEL_TAGS = {"gpt-5.6-luna": "luna56", "gpt-6-luna": "luna6", "gpt-6-astra": "astra6"}
 LLM_VARIANT = "llm_luna56_fix"
 VARIANTS = ["buggy", "fixed", LLM_VARIANT]
 TIMEOUT = 120
@@ -26,6 +26,10 @@ TEST_FILES = {"issue_021_se": "test-new.py", "issue_058_se": "test_new.py", "iss
 
 def test_file(case):
     return TEST_FILES.get(case, "test.py")
+
+
+def test_path(case):
+    return CASES_DIR / case / test_file(case)
 
 
 def read_sheet(path):
@@ -103,7 +107,7 @@ def fix_comments(code):
 
 
 def run_one(case, version, variant, py_tags):
-    test = CASES_DIR / case / test_file(case)
+    test = test_path(case)
     source = FIXES_DIR / case / f"{variant}.py" if variant == LLM_VARIANT else CASES_DIR / case / f"{variant}.py"
     interpreter = env_python(version)
     record = {"case": case, "version": version, "variant": variant}
@@ -207,7 +211,7 @@ def main():
                 "llm_status": l["status"], "llm_failed_checks": l["failed_checks"],
                 "llm_error": l["detail"], "lines_changed": changed,
                 "llm_fix_explanation": " | ".join(comments), "llm_runtime_s": l["seconds"],
-                "log_dir": str(LOG_DIR / case / v),
+                "log_dir": (LOG_DIR / case / v).relative_to(HERE).as_posix(),
             })
 
     path = RESULTS_DIR / f"llm_{MODEL_TAG}_results.csv"

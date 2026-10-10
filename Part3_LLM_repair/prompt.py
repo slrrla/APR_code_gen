@@ -10,6 +10,7 @@ OUT_DIR = HERE / "llm_fixes"
 MODEL_FILES = {
     "gpt-5.6-luna": ("llm_luna56_fix.py", "raw_reply_luna56.txt"),
     "gpt-6-luna": ("llm_luna6_fix.py", "raw_reply_luna6.txt"),
+    "gpt-6-astra": ("llm_astra6_fix.py", "raw_reply_astra6.txt"),
 }
 args = sys.argv[1:]
 MODEL = "gpt-5.6-luna"
