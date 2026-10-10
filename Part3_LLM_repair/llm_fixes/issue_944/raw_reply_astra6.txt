@@ -1,0 +1,16 @@
+```python
+import numpy as np
+from qiskit.quantum_info import Statevector
+# FIX: Projectors need an opflow operator wrapper -> import MatrixOp, because it wraps matrices and quantum_info operators.
+from qiskit.opflow import Plus, MatrixOp
+from qiskit.algorithms import NumPyEigensolver
+
+# FIX: StateFn composition does not support ket-bra products -> explicitly form the outer product, because it produces the projector matrix.
+proj = MatrixOp(np.outer(Plus.to_matrix(), Plus.to_matrix().conj()))
+
+plus = Statevector([1/np.sqrt(2), 1/np.sqrt(2)]).to_operator()
+solver = NumPyEigensolver()
+# FIX: quantum_info.Operator lacks to_spmatrix -> wrap plus in MatrixOp, because NumPyEigensolver requires the opflow interface.
+spectrum = solver.compute_eigenvalues(MatrixOp(plus))
+
+```

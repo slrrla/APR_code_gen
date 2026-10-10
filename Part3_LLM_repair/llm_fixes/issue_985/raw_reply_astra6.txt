@@ -1,0 +1,13 @@
+```python
+from qiskit import QuantumCircuit, transpile
+
+lam = 0.5
+
+qc = QuantumCircuit(1)
+# FIX: u1 is no longer available -> use p, because it is the identical phase gate and transpiles to rz with the required global phase.
+qc.p(lam, 0)
+
+transpiled = transpile(qc, basis_gates=['rx', 'ry', 'rz'])
+print(transpiled)
+
+```

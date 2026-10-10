@@ -1,0 +1,13 @@
+```python
+import qiskit
+# FIX: The QASM 2 exporter was not imported -> import qiskit.qasm2, because it provides the supported serialization API.
+import qiskit.qasm2
+
+c = qiskit.QuantumCircuit(1)
+c.h(0)
+
+# FIX: QuantumCircuit.qasm() was removed -> use qiskit.qasm2.dumps(c), because it returns an OpenQASM 2.0 string in Qiskit 1.0+.
+qasm_str = qiskit.qasm2.dumps(c)
+print(qasm_str)
+
+```

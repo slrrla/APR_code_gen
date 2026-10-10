@@ -1,0 +1,14 @@
+# NO BUG: Aqua's Shor implementation needs 4n+2 = 18 qubits for N=15, exceeding FakeMelbourne's 15 qubits; execution requires changing the backend or circuit, both disallowed here.
+from qiskit.aqua.algorithms import Shor
+from qiskit.aqua import QuantumInstance
+from qiskit.test.mock import FakeMelbourne
+
+PRIME = 15
+
+backend = FakeMelbourne()
+quantum_instance = QuantumInstance(backend, skip_qobj_validation=False)
+
+shor = Shor(PRIME, 2)
+res = shor.run(quantum_instance)
+print("The list of factors of {} as computed by Shor is {}.".format(PRIME, res['factors'][0]))
+
