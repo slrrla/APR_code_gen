@@ -5,9 +5,9 @@ test_backend_capacity_and_bell_counts (__main__.TestIntent) ... ERROR
 ERROR: test_backend_capacity_and_bell_counts (__main__.TestIntent)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_622\test.py", line 22, in test_backend_capacity_and_bell_counts
+  File "C:\APR2\llm_repair\updated_tests\issue_622_test.py", line 22, in test_backend_capacity_and_bell_counts
     ns = load_target()
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_622\test.py", line 15, in load_target
+  File "C:\APR2\llm_repair\updated_tests\issue_622_test.py", line 15, in load_target
     return runpy.run_path(MUT)
   File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
     return _run_module_code(code, init_globals, run_name,
@@ -26,6 +26,6 @@ Traceback (most recent call last):
 qiskit.transpiler.exceptions.TranspilerError: 'Number of qubits (2) in circuit-2 is greater than maximum (1) in the coupling_map'
 
 ----------------------------------------------------------------------
-Ran 1 test in 2.002s
+Ran 1 test in 8.192s
 
 FAILED (errors=1)

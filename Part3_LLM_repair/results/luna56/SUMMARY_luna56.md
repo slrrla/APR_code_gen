@@ -1,16 +1,16 @@
 # LLM Bug-Repair Results — gpt-5.6-luna
 
-**Result: the LLM fixed 28 of 73 cases on every version they were tested on, and 31 of 73 on at least one version.** Across all case × version pairs, **390 of 1015 passed (38.4%)**, 234 failed (23.1%) and 391 errored (38.5%).
+**Result: the LLM fixed 40 of 73 cases on every version they were tested on, and 43 of 73 on at least one version.** Across all case × version pairs, **546 of 1015 passed (53.8%)**, 160 failed (15.8%) and 309 errored (30.4%).
 
-**With fair tests: 39 of 73 cases (53.4%) and 538 of 1015 pairs (53.0%).** Eleven tests ask for a detail only the reference fix has. Relaxed versions of them, run on every version, still fail the buggy code and pass the reference, and the LLM fix passes all 148 of those pairs. See [Relaxed tests on every version](#relaxed-tests-on-every-version).
+**Updated tests (9 Oct 2026):** twelve of the team's `test.py` files asked for a detail that only the reference fix has (a variable name, a print format, an operator type, a control order, noise-free counts, exact count keys or the answer's example gates). For issue_189, issue_622, issue_671, issue_747, issue_775, issue_810, issue_886, issue_911, issue_944, issue_977, issue_994 and issue_1035 each case's `test.py` is replaced by the updated test, so it is the only test used for those cases. Each one fails `buggy.py` and passes `fixed.py` on every version, and the LLM fix passes all 12 on every version (156 pairs). Under the replaced tests the LLM fixed 28 cases and 390 pairs. See [Updated tests](#updated-tests).
 
 The cases are processed 10 at a time from `Valid_Cases_104.xlsx`: **batch 1** is issue_009 – issue_096, **batch 2** is issue_155 – issue_315, **batch 3** is issue_344 – issue_497, **batch 4** is issue_504 – issue_662, **batch 5** is issue_663 – issue_795, **batch 6** is issue_803 – issue_944, **batch 7** is issue_950 – issue_1035 and **batch 8** (the final cases) is issue_772 – issue_921. All batches used the same model, prompt, environments and test runner. issue_827 got its test on 6 Oct 2026 and is now counted.
 
 | Outcome | Cases (all) | Pairs (all) | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Batch 7 | Batch 8 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| ✅ Passed | 28 | 390 (38.4%) | 6 cases · 65 pairs (51.2%) | 5 cases · 60 pairs (40.3%) | 4 cases · 70 pairs (45.2%) | 4 cases · 74 pairs (55.6%) | 5 cases · 52 pairs (38.0%) | 1 case · 23 pairs (20.4%) | 1 case · 15 pairs (12.2%) | 2 cases · 31 pairs (39.7%) |
-| ❌ Failed (ran, but wrong result) | 14 | 234 (23.1%) | 2 · 44 (34.6%) | 1 · 23 (15.4%) | 2 · 27 (17.4%) | 2 · 16 (12.0%) | 2 · 35 (25.5%) | 2 · 16 (14.2%) | 3 · 73 (59.3%) | 0 · 0 (0.0%) |
-| 💥 Error (crashed before the test could check anything) | 31 | 391 (38.5%) | 2 · 18 (14.2%) | 4 · 66 (44.3%) | 4 · 58 (37.4%) | 4 · 43 (32.3%) | 3 · 50 (36.5%) | 7 · 74 (65.5%) | 3 · 35 (28.5%) | 4 · 47 (60.3%) |
+| ✅ Passed | 40 | 546 (53.8%) | 6 cases · 65 pairs (51.2%) | 6 cases · 83 pairs (55.7%) | 4 cases · 70 pairs (45.2%) | 5 cases · 86 pairs (64.7%) | 8 cases · 99 pairs (72.3%) | 5 cases · 62 pairs (54.9%) | 4 cases · 50 pairs (40.7%) | 2 cases · 31 pairs (39.7%) |
+| ❌ Failed (ran, but wrong result) | 8 | 160 (15.8%) | 2 · 44 (34.6%) | 0 · 0 (0.0%) | 2 · 27 (17.4%) | 1 · 4 (3.0%) | 0 · 0 (0.0%) | 0 · 12 (10.6%) | 3 · 73 (59.3%) | 0 · 0 (0.0%) |
+| 💥 Error (crashed before the test could check anything) | 25 | 309 (30.4%) | 2 · 18 (14.2%) | 4 · 66 (44.3%) | 4 · 58 (37.4%) | 4 · 43 (32.3%) | 2 · 38 (27.7%) | 5 · 39 (34.5%) | 0 · 0 (0.0%) | 4 · 47 (60.3%) |
 | **Total** | **73** | **1015** | **10 · 127** | **10 · 149** | **10 · 155** | **10 · 133** | **10 · 137** | **10 · 113** | **7 · 123** | **6 · 78** |
 
 A case counts as passed only if it passed on every version. Three cases passed on some versions but not all, so all three count as error cases:
@@ -50,7 +50,7 @@ Every other fix either passed on all of its versions or on none.
 | [issue_155](#issue_155) | Partial trace over registers | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Same fix as the reference |
 | [issue_157](#issue_157) | Controlled `initialize` | 💥 Error | 0.45.0 – 0.46.3 (8) | 0.25.0 – 0.25.3 (4 errors) | Used `prepare_state()`, which works but doesn't exist yet in 0.25 |
 | [issue_174](#issue_174) | Conditions on a classical register in OpenQASM 2 | 💥 Error | — | 0.25.0 – 0.46.3 (12) | Correct QASM fix, but it put its `# FIX:` comment inside the QASM string |
-| [issue_189](#issue_189) | Qubit count mismatch in a QPE loop | ❌ Fail | — | 0.45.0 – 2.5.0 (23) | Valid fix with a different control order; the test only accepts the reference's order |
+| [issue_189](#issue_189) | Qubit count mismatch in a QPE loop | ✅ Pass | 0.45.0 – 2.5.0 (23) | — | Valid fix with the usual QPE control order; the updated test accepts either order |
 | [issue_225](#issue_225) | `Statevector` has no `reshape` | ✅ Pass | 0.45.0 – 0.46.3 (8) | — | Used `.data`, equivalent to the reference's `np.asarray` |
 | [issue_233](#issue_233) | Parameter count after `compose` | 💥 Error | — | 0.25.0 – 2.5.0 (27) | Fixed only the second of two broken calls |
 | [issue_261](#issue_261) | `PauliOp` from a string | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Same fix as the reference |
@@ -83,7 +83,7 @@ Every other fix either passed on all of its versions or on none.
 | [issue_595](#issue_595) | Unitary of a circuit from `AerSimulator` | ✅ Pass | 0.45.0 – 2.5.0 (23) | — | Added `save_unitary()`, the same key fix as the reference |
 | [issue_596](#issue_596) | Parameter binds mismatch in `assemble` | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Bound each parameter explicitly and kept the returned circuit, like the reference |
 | [issue_600](#issue_600) | `PauliGate.power()` with a parameter | 💥 Error | 0.45.0 – 0.46.3 (8) | 0.25.0 – 0.25.3 (4 errors) | `PauliEvolutionGate` works, but it kept the `PauliGate` import, and neither exists in 0.25 |
-| [issue_622](#issue_622) | Too many qubits for the backend | ❌ Fail | — | 0.25.0 – 0.46.3 (12) | Valid 5-qubit fake backend, but its noise gives some `01`/`10`; the test wants noise-free counts |
+| [issue_622](#issue_622) | Too many qubits for the backend | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | 5-qubit fake backend; the updated test allows the device's noise in the counts |
 | [issue_624](#issue_624) | QAOA needs an operator, not a circuit | 💥 Error | — | 0.25.0 – 0.46.3 (12) | `CircuitOp` has the right matrix, but QAOA can't evolve it |
 | [issue_635](#issue_635) | `c_if` on two classical bits at once | ❌ Fail | — | 0.25.0 – 0.25.3 (4) | Conditioned the two X gates on register values 1 and 2 instead of 3 |
 | [issue_662](#issue_662) | Count every gate in a circuit | 💥 Error | — | 0.45.0 – 2.5.0 (23) | Right loop (`op_nodes()`), but kept the buggy code's `node.type` check, which no longer exists |
@@ -93,14 +93,14 @@ Every other fix either passed on all of its versions or on none.
 | Case | Question | Result | Passed on | Failed on | Why, in one line |
 |---|---|---|---|---|---|
 | [issue_663](#issue_663) | Counts are always `000` | ✅ Pass | 0.45.0 – 0.46.3 (8) | — | Added the missing measurements, the same fix as the reference |
-| [issue_671](#issue_671) | A list of registers in `QuantumCircuit()` | ❌ Fail | — | 0.25.0 – 2.5.0 (27) | `QuantumCircuit(a, *v, b)` is correct; the test also wants the answer's two example gates |
+| [issue_671](#issue_671) | A list of registers in `QuantumCircuit()` | ✅ Pass | 0.25.0 – 2.5.0 (27) | — | `QuantumCircuit(a, *v, b)`; the updated test no longer needs the answer's example gates |
 | [issue_727](#issue_727) | `2**k` with a `Parameter` | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Rewrote it as `(-k*log 2).exp()`, equivalent to the reference |
 | [issue_742](#issue_742) | `Operator` as an `EstimatorV2` observable | ✅ Pass | 1.1.0 – 2.5.0 (12) | — | `SparsePauliOp.from_operator(O)`, the same fix as the reference |
-| [issue_747](#issue_747) | Counts without `measure_all()` | ❌ Fail | — | 0.45.0 – 0.46.3 (8) | `measure_all()` adds a second register, so the keys are `000 000` instead of `000` |
+| [issue_747](#issue_747) | Counts without `measure_all()` | ✅ Pass | 0.45.0 – 0.46.3 (8) | — | `measure_all()` gives correct GHZ counts; the updated test ignores the extra empty register |
 | [issue_750](#issue_750) | `Pauli(label=...)` subsystem composition | 💥 Error | — | 0.45.0 – 2.5.0 (23) | Said "no bug", but `Pauli(label=...)` no longer exists |
 | [issue_769](#issue_769) | Gate name from a unitary | 💥 Error | — | 1.0.0 – 2.5.0 (15) | Hard-coded a check for X only; no general matcher (and not the answer's function name) |
 | [issue_773](#issue_773) | Two `job_monitor` imports | ✅ Pass | 0.45.0 – 0.46.3 (8) | — | Removed the shadowing IBMQ import, like the reference |
-| [issue_775](#issue_775) | Running OpenQASM 2.0 in Qiskit | 💥 Error | — | 0.25.0 – 0.46.3 (12) | Correct `from_qasm_str` fix, but the test wants a variable named `qc` |
+| [issue_775](#issue_775) | Running OpenQASM 2.0 in Qiskit | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Correct `from_qasm_str` fix; the updated test doesn't need a variable named `qc` |
 | [issue_795](#issue_795) | `to_gate()` with an opflow expression | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Appended the operator's matrix with `unitary()`, the same fix as the reference |
 
 **Batch 6**
@@ -108,15 +108,15 @@ Every other fix either passed on all of its versions or on none.
 | Case | Question | Result | Passed on | Failed on | Why, in one line |
 |---|---|---|---|---|---|
 | [issue_803](#issue_803) | `get_counts()` for several circuits | 💥 Error | — | 0.25.0 – 0.46.3 (12: 8 error, 4 fail) | Turned the count dictionaries into a NumPy array of values, losing the outcomes |
-| [issue_810](#issue_810) | Raw data from a job | ❌ Fail | — | 0.45.1, 0.46.2 (2) | Correct `get_counts()` fix; the test wants the name `counts_dict` and 100 shots |
+| [issue_810](#issue_810) | Raw data from a job | ✅ Pass | 0.45.1, 0.46.2 (2) | — | Correct `get_counts()` fix; the updated test accepts any counts dictionary and shot count |
 | [issue_816](#issue_816) | `AerSimulator(memory=True)` | ✅ Pass | 0.45.0 – 2.5.0 (23) | — | Added `memory=True`, the same fix as the reference |
 | [issue_876](#issue_876) | Noisy QFT fidelity with a real backend | 💥 Error | — | 1.0.0 – 2.5.0 (15) | Broke the import (`qiskit.ibm_runtime`) and never adds noise |
 | [issue_877](#issue_877) | Noise model without device access | 💥 Error | — | 0.45.0 – 0.46.3 (8) | Used an empty `NoiseModel()`, which has no noise |
-| [issue_886](#issue_886) | `crx` unknown to Aer | ❌ Fail | — | 0.45.0, 0.45.1 (2) | Correct transpile fix; the test wants exact `'00'` keys and the name `transpile_circ` |
+| [issue_886](#issue_886) | `crx` unknown to Aer | ✅ Pass | 0.45.0, 0.45.1 (2) | — | Correct transpile fix; the updated test ignores the unused register and the variable name |
 | [issue_889](#issue_889) | Time evolution of a Pauli-sum Hamiltonian | 💥 Error | — | 0.25.0 – 0.46.3 (12: 4 error, 8 fail) | `(-t*H).exp_i()` has the wrong sign |
-| [issue_911](#issue_911) | Register/index of a gate's qubits | 💥 Error | — | 0.45.0 – 2.5.0 (23) | Correct `find_bit` output; the test parses the reference's exact print format |
+| [issue_911](#issue_911) | Register/index of a gate's qubits | ✅ Pass | 0.45.0 – 2.5.0 (23) | — | Correct `find_bit` output; the updated test reads the indices in either print format |
 | [issue_925](#issue_925) | Qubits Shor needs for N=15 | 💥 Error | — | 0.25.0 – 0.25.3 (4) | Only added a comment; the code still uses the too-small FakeMelbourne |
-| [issue_944](#issue_944) | Projection operator in opflow | 💥 Error | — | 0.25.0 – 0.46.3 (12) | Correct `(I + X) / 2` projector; the test reads `.data`, which only the reference's type has |
+| [issue_944](#issue_944) | Projection operator in opflow | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Correct `(I + X) / 2` projector; the updated test accepts either operator type |
 
 **Batch 7**
 
@@ -124,11 +124,11 @@ Every other fix either passed on all of its versions or on none.
 |---|---|---|---|---|---|
 | [issue_950](#issue_950) | Operator acting on certain qubits | ❌ Fail | — | 0.25.0 – 2.5.0 (27) | Widened the identity but kept `_add`, which sums the operators instead of placing Z |
 | [issue_958](#issue_958) | Negative of a gate | ❌ Fail | — | 0.45.0 – 2.5.0 (23) | Applied H a second time, giving the identity instead of a -1 phase |
-| [issue_977](#issue_977) | Matrix to `SparsePauliOp` | 💥 Error | — | 0.45.0 – 2.5.0 (23) | Correct `from_operator` fix; the test wants the variable name `op` |
+| [issue_977](#issue_977) | Matrix to `SparsePauliOp` | ✅ Pass | 0.45.0 – 2.5.0 (23) | — | Correct `from_operator` fix; the updated test accepts any variable name |
 | [issue_985](#issue_985) | U1 from Rx, Ry, Rz keeping the phase | ❌ Fail | — | 0.45.0 – 2.5.0 (23) | Kept the phase exactly with `global_phase`; the test requires it to be dropped (debatable) |
 | [issue_989](#issue_989) | Aer simulator after the upgrade | ✅ Pass | 1.0.0 – 2.5.0 (15) | — | Imported `Aer` from `qiskit_aer`, the same fix as the reference |
-| [issue_994](#issue_994) | Statevector from QasmSimulator | 💥 Error | — | 0.25.0 – 0.25.3 (4) | Correct `save_statevector()` fix; the test wants the reference's snapshot variable |
-| [issue_1035](#issue_1035) | Fake backends with Runtime primitives | 💥 Error | — | 0.45.0 – 0.46.3 (8) | Correct local Aer estimator; the test wants the variable name `result` |
+| [issue_994](#issue_994) | Statevector from QasmSimulator | ✅ Pass | 0.25.0 – 0.25.3 (4) | — | Correct `save_statevector()` fix; the updated test also reads `get_statevector()` |
+| [issue_1035](#issue_1035) | Fake backends with Runtime primitives | ✅ Pass | 0.45.0 – 0.46.3 (8) | — | Correct local Aer estimator; the updated test also accepts `job.result()` |
 
 **Batch 8**
 
@@ -151,7 +151,7 @@ Every other fix either passed on all of its versions or on none.
 
 ## How to read the results
 
-Each case was tested on exactly the Qiskit versions listed for it in `Valid_Cases_104.xlsx`. On each version, three files were run through the case's test: `test.py`, or the team's updated `test_new.py` / `test-new.py` for issue_021_se, issue_058_se and issue_061:
+Each case was tested on exactly the Qiskit versions listed for it in `Valid_Cases_104.xlsx`. On each version, three files were run through the case's test: `test.py`, the team's updated `test_new.py` / `test-new.py` for issue_021_se, issue_058_se and issue_061, for the 12 cases in [Updated tests](#updated-tests) the `test.py` now holds the updated test:
 
 1. **`buggy.py`**: the original code. It should fail, which confirms the bug shows up in that version.
 2. **`fixed.py`**: the human reference fix. It should pass, which confirms the test is correct.
@@ -161,7 +161,9 @@ The test was valid on all 1015 pairs (127 in batch 1, 149 in batch 2, 155 in bat
 
 **Full rerun (4 Oct 2026):** every LLM fix was run again against its test on every listed version (1003 runs, before issue_827 had a test). The totals were identical (390 PASS, 234 FAIL, 379 ERROR) and every status matched, except that issue_009's random layout swapped which of 0.45.0 and 0.45.3 fails and which crashes. The comparison is in `rerun_all_luna56.csv`.
 
-**Retest (6 Oct 2026):** after the team's 6 Oct push, issue_790 (new `fixed.py`) and issue_827 (new `test.py`) were run on all their versions, and the relaxed tests for the strict cases were run on every version (see [Relaxed tests on every version](#relaxed-tests-on-every-version)). The other cases' tests did not change.
+**Retest (6 Oct 2026):** after the team's 6 Oct push, issue_790 (new `fixed.py`) and issue_827 (new `test.py`) were run on all their versions. The other cases' tests did not change.
+
+**Updated tests (9 Oct 2026):** the 12 cases whose `test.py` was replaced were run again on all their versions with the updated test (`run_output_luna56_updated_tests.txt`). On every one of those 156 pairs `buggy.py` fails and `fixed.py` passes, so the baseline is still valid on all 1015 pairs.
 
 Cases are listed by result. Within each result, batch 1 cases come first, then batches 2 to 8.
 
@@ -339,6 +341,47 @@ The team's updated `test_new.py` accepts the register plus register-local index 
 - traced_over_registers = [reg2, reg4]
 + traced_over_registers = [qc.qubits.index(qubit) for register in (reg2, reg4) for qubit in register]
 ```
+
+---
+
+### issue_189
+**Batch 2** · **Question:** Why For loop is not appending the circuit in the first iteration causing qubit argument mismatch with the gate expectation?
+
+| | Versions |
+|---|---|
+| **Tested (23)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (23)** | all 23 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** the controlled Grover power needs 7 qubits, but the loop's qubit list grows every iteration (7, then 8, then 9 qubits), so the second `append` fails.
+
+**Reference fix** (the Stack Overflow answer): control qubit `i` plus the six target qubits:
+
+```diff
++ qp = list(np.arange(n, n + lg + 2))
+  for i in range(n):
+-     qpe.append(Q, qp)
++     qpe.append(Q, [i] + qp)
+```
+
+**LLM fix:** also one control plus the six targets, but it keeps the asker's original first qubit `n - j`:
+
+```diff
+-     qp = list(np.arange(n - j, n + lg + 2))
++     qp = [n - j] + list(np.arange(n, n + lg + 2))
+```
+
+**Why it failed the original `test.py` (now replaced):** both fixes solve the qubit-count error, but they pair the controls with the powers in opposite orders. The reference gives control `i` the power \(2^{2-i}\). The LLM gives control `k` the power \(2^k\), which is the usual QPE layout. The test hard-codes the reference's order, so it fails on the first instruction:
+
+```text
+AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]
+```
+
+The question never says which control should get which power. I checked separately, and all three of the LLM's controlled-Grover matrices are correct. So the original test was over-specific here (see the Test Review sheet), and a test that accepted either order passes this fix and still fails the buggy code (this is what the updated test does).
+
+The first run hit the 120-second timeout on 0.46.0 and 0.46.1 (once even for `fixed.py`) because four heavy matrix builds were running at the same time. This case was rerun one run at a time, with no timeouts. The results above come from that rerun.
+
+**Updated test (9 Oct 2026):** the updated `test.py` fails `buggy.py` and passes `fixed.py` on all 23 versions, and the LLM fix ✅ passes it on all 23.
 
 ---
 
@@ -609,6 +652,36 @@ It also widened the starting state `psi` from 1 to 2 qubits to match the 2-qubit
 
 ---
 
+### issue_622
+**Batch 4** · **Question:** Transpiler Error: Number of qubits greater than maximum in coupling map
+
+| | Versions |
+|---|---|
+| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (12)** | all 12 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** a 2-qubit Bell circuit is sent to `FakeArmonk`, which has only 1 qubit, so `execute` raises `TranspilerError: Number of qubits (2) ... is greater than maximum (1)`. The answer: use a backend with 2 or more qubits.
+
+**Reference fix:** switches to the noise-free `Aer.get_backend('qasm_simulator')`.
+
+**LLM fix:** switches to `FakeYorktown`, a 5-qubit fake device:
+
+```diff
+- from qiskit.test.mock import FakeArmonk
++ from qiskit.test.mock import FakeYorktown
+- backend = FakeArmonk()
++ backend = FakeYorktown()
+```
+
+**Why it failed the original `test.py` (now replaced):** the fix removes the error and the job succeeds, but fake devices simulate the real hardware's noise. One run on 0.45.0 gave `{'00': 454, '11': 479, '01': 52, '10': 39}`, so 91% of shots are `00`/`11`. The test requires the set of outcomes to be exactly `{'00', '11'}` (`AssertionError: Items in the first set but not the second: '01' '10'`). Every other check passes: the backend has 5 qubits, `00` is within 12% of half, and the circuit is the Bell state.
+
+That test was **over-specific**: neither the question nor the answer asks for a noise-free backend, and on any real 2+ qubit device (which is what the user was running on) the same noise would appear. A test that allows device noise passes the LLM fix and still fails the buggy code (this is what the updated test does). As with issue_189, this was the only reason the LLM fix failed.
+
+**Updated test (9 Oct 2026):** the updated `test.py` fails `buggy.py` and passes `fixed.py` on all 12 versions, and the LLM fix ✅ passes it on all 12.
+
+---
+
 ### issue_663
 **Batch 5** · **Question:** Qiskit job not giving the right result after execution
 
@@ -626,6 +699,34 @@ It also widened the starting state `psi` from 1 to 2 qubits to match the 2-qubit
   input_circuit.x(1)
 + input_circuit.measure([0, 1, 2], [0, 1, 2])
 ```
+
+---
+
+### issue_671
+**Batch 5** · **Question:** QuantumCircuit with list of qbits as an argument
+
+| | Versions |
+|---|---|
+| **Tested (27)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (27)** | all 27 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** `QuantumCircuit(a, v, b)` is given the list `v` of four registers as one argument, which `QuantumCircuit` doesn't accept.
+
+**Reference fix** (the answer's approach): creates `QuantumCircuit(a, b)`, adds each register with `add_register`, and then also applies the answer's two example gates, `x(v[0][0])` and `cx(v[1][0], a[0])`.
+
+**LLM fix:** unpacks the list:
+
+```diff
+- c = QuantumCircuit(a, v, b)
++ c = QuantumCircuit(a, *v, b)
+```
+
+**Why it failed the original `test.py` (now replaced):** the circuit has exactly the registers the question asks for, in the right order, and every register check passes (9 qubits, 1 clbit, `qregs == [a] + v`, `cregs == [b]`, qubit order). The test then compares the full 512×512 unitary with `x(v0[0])` followed by `cx(v1[0], a[0])`. Those two gates are only an illustration in the answer; they are not in the buggy code and the question never asks for them. The LLM's circuit has no gates, so the unitary check fails (`AssertionError: Not equal to tolerance`).
+
+That test was **over-specific**. With the unitary check removed, the LLM fix passes and the buggy code still fails (this is what the updated test does). Like issue_189 and issue_622, this was the only reason the LLM fix failed.
+
+**Updated test (9 Oct 2026):** the updated `test.py` fails `buggy.py` and passes `fixed.py` on all 27 versions, and the LLM fix ✅ passes it on all 27.
 
 ---
 
@@ -675,6 +776,39 @@ This case needs `qiskit-ibm-runtime`, which the local environments don't have; s
 
 ---
 
+### issue_747
+**Batch 5** · **Question:** Qiskit code works even without measure_all() with qasm_simulator
+
+| | Versions |
+|---|---|
+| **Tested (8)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (8)** | all 8 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** the GHZ circuit is never measured, so the counts don't reflect the state (in these versions `get_counts` fails outright).
+
+**Reference fix:** `circ.measure(range(3), range(3))`, measuring into the circuit's existing 3 classical bits.
+
+**LLM fix:** uses `measure_all()`:
+
+```diff
+  circ.cx(0, 2)
++ circ.measure_all()
+```
+
+**Why it failed the original `test.py` (now replaced):** `measure_all()` always adds a *new* 3-bit register called `meas`, even though `QuantumCircuit(3, 3)` already has 3 classical bits. The original bits stay 0, so every key has two parts, `'000 000'` and `'111 000'`. The test requires the keys to be exactly `'000'` and `'111'`:
+
+```text
+AssertionError: Items in the first set but not the second: '000 000' '111 000'
+Items in the second set but not the first: '000' '111'
+```
+
+That test was **borderline**. The statistics are correct GHZ statistics, and a test that ignores the unused register passes the LLM fix and still fails the buggy code (this is what the updated test does). But leaving 3 unused classical bits in the circuit is sloppier than the reference, and the answer itself uses `measure`, not `measure_all()`.
+
+**Updated test (9 Oct 2026):** the updated `test.py` fails `buggy.py` and passes `fixed.py` on all 8 versions, and the LLM fix ✅ passes it on all 8.
+
+---
+
 ### issue_773
 **Batch 5** · **Question:** Existence of multiple job monitor in qiskit
 
@@ -692,6 +826,36 @@ This case needs `qiskit-ibm-runtime`, which the local environments don't have; s
   from qiskit.tools.monitor import job_monitor
 - from qiskit.providers.ibmq.job import job_monitor
 ```
+
+---
+
+### issue_775
+**Batch 5** · **Question:** Simulating OpenQASM 2.0 in Qiskit?
+
+| | Versions |
+|---|---|
+| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (12)** | all 12 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** the OpenQASM text is passed straight to `execute`, which needs a `QuantumCircuit` (`AttributeError: 'str' object has no attribute 'name'`).
+
+**Reference fix:** `qc = QuantumCircuit.from_qasm_str(qasm_str)`, then `execute(qc, backend)`.
+
+**LLM fix:** the same parse, written inline:
+
+```diff
+- from qiskit import execute, Aer
++ from qiskit import execute, Aer, QuantumCircuit
+- job = execute(qasm_str, backend)
++ job = execute(QuantumCircuit.from_qasm_str(qasm_str), backend)
+```
+
+**Why it crashed on the original `test.py` (now replaced):** the fix runs correctly, but the test reads the parsed circuit from a variable named `qc` (the reference's name), and the LLM never creates one, so the test stops with `KeyError: 'qc'` before any check runs.
+
+That test was **over-specific**. A test that checks the executed result instead (job succeeds, 1 experiment, 2 qubits, 2 classical bits) passes the LLM fix and still fails the buggy code (this is what the updated test does). Like issue_671, this was the only reason the LLM fix failed.
+
+**Updated test (9 Oct 2026):** the updated `test.py` fails `buggy.py` and passes `fixed.py` on all 12 versions, and the LLM fix ✅ passes it on all 12.
 
 ---
 
@@ -715,6 +879,34 @@ This case needs `qiskit-ibm-runtime`, which the local environments don't have; s
 
 ---
 
+### issue_810
+**Batch 6** · **Question:** How can I make qiskit output raw data?
+
+| | Versions |
+|---|---|
+| **Tested (2)** | 0.45.1, 0.46.2 |
+| ✅ **Passed (2)** | all 2 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** `job.result(job)` passes the job as the `timeout` argument (`TypeError: '>' not supported between instances of 'AerJob' and 'int'`), and the code prints the whole `Result` object instead of the measurement data.
+
+**Reference fix:** `result = job.result()` and `counts_dict = result.get_counts()`, and it also lowers the shots from 1024 to 100.
+
+**LLM fix:** the same call, stored in the original variable and with the original 1024 shots:
+
+```diff
+- a = job.result(job)
++ a = job.result().get_counts()
+```
+
+**Why it failed the original `test.py` (now replaced):** the test reads the reference's variable `counts_dict` and expects the counts to add up to exactly 100. The LLM's script has no `counts_dict`, so the test finds `None` (`AssertionError: None is not an instance of <class 'dict'>`).
+
+That test was **over-specific**: the question never mentions a variable name, and 100 shots is the reference's own change (the buggy code and the question use 1024). A test that accepts any counts dictionary and the script's own shot count passes the LLM fix and still fails the buggy code (this is what the updated test does).
+
+**Updated test (9 Oct 2026):** the updated `test.py` fails `buggy.py` and passes `fixed.py` on all 2 versions, and the LLM fix ✅ passes it on all 2.
+
+---
+
 ### issue_816
 **Batch 6** · **Question:** What does Qiskit AerSimulator(memory=True) do?
 
@@ -735,6 +927,130 @@ This case needs `qiskit-ibm-runtime`, which the local environments don't have; s
 
 ---
 
+### issue_886
+**Batch 6** · **Question:** Error when using crx gate in quantum circuit
+
+| | Versions |
+|---|---|
+| **Tested (2)** | 0.45.0, 0.45.1 |
+| ✅ **Passed (2)** | all 2 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** a circuit containing `crx` is run on `qasm_simulator` without transpiling (`AerError: unknown instruction: crx`).
+
+**Reference fix:** `transpile_circ = transpile(circ, backend=backend)` before running. It also changes `QuantumCircuit(2, 2)` to `QuantumCircuit(2)`.
+
+**LLM fix:** transpiles inline before running and keeps the rest of the buggy code:
+
+```diff
+- from qiskit import QuantumCircuit
++ from qiskit import QuantumCircuit, transpile
+- job = Aer.get_backend('qasm_simulator').run(circ)
++ job = Aer.get_backend('qasm_simulator').run(transpile(circ, Aer.get_backend('qasm_simulator')))
+```
+
+**Why it failed the original `test.py` (now replaced):** the job now runs, but the circuit is still `QuantumCircuit(2, 2)` followed by `measure_all()`, which adds a second 2-bit register. So the result is `{'00 00': 1024}`, while the test requires exactly `{'00': 1024}` (`AssertionError: {'00 00': 1024} != {'00': 1024}`). The second check reads a variable named `transpile_circ`, which the LLM never creates.
+
+That test was **over-specific**: the unused register comes from the buggy code, not from the LLM, and the question only asks how to run a circuit with `crx`. A test that ignores the unused register and the variable name passes the LLM fix and still fails the buggy code (this is what the updated test does). Like issue_747, the extra register comes from `measure_all()` on a circuit that already has classical bits.
+
+**Updated test (9 Oct 2026):** the updated `test.py` fails `buggy.py` and passes `fixed.py` on all 2 versions, and the LLM fix ✅ passes it on all 2.
+
+---
+
+### issue_911
+**Batch 6** · **Question:** Unable to extract the quantum registers information from qiskit quantum circuit data
+
+| | Versions |
+|---|---|
+| **Tested (23)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (23)** | all 23 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** `qargs[1]` assumes every gate has two qubits (`IndexError` on one-qubit gates), and `Qubit` no longer has `.register` / `.index`.
+
+**Reference fix:** prints each gate's qubit indices as a list: `print("qargs : ", [qc.find_bit(qarg)[0] for qarg in qargs])`.
+
+**LLM fix:** loops over every qubit and prints its registers and index with `find_bit`, keeping the original `qargs` line:
+
+```diff
+  print("qargs : ", qargs, "\n")
+- print("qargs[1] : ", qargs[1])
+- ...
++ for qarg in qargs:
++     bit_location = qc.find_bit(qarg)
++     print("qarg : ", qarg)
++     print("register : ", bit_location.registers)
++     print("index : ", bit_location.index)
+```
+
+**Why it crashed on the original `test.py` (now replaced):** the test reads every printed line that starts with `qargs :` and parses it as a Python list of integers, i.e. the reference's exact output format. The LLM's `qargs :` line still prints `Qubit` objects, so parsing fails: `ValueError: malformed node or string` on 0.45 – 1.2.4, and `SyntaxError` on 2.x, where `Qubit` prints differently.
+
+That test was **over-specific**: the LLM prints exactly the information the question asks for (each qubit's index and register), just not in the reference's format. A test that reads the printed indices in either format passes the LLM fix and still fails the buggy code (this is what the updated test does).
+
+**Updated test (9 Oct 2026):** the updated `test.py` fails `buggy.py` and passes `fixed.py` on all 23 versions, and the LLM fix ✅ passes it on all 23.
+
+---
+
+### issue_944
+**Batch 6** · **Question:** Projection Operator in qiskit.opflow
+
+| | Versions |
+|---|---|
+| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (12)** | all 12 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** `Plus @ ~Plus` isn't allowed in opflow, and a `quantum_info.Operator` can't be passed to `NumPyEigensolver`.
+
+**Reference fix:** builds \(|+\rangle\langle+|\) as a `quantum_info` operator (`proj`), wraps it in `PrimitiveOp` (`op`) and passes that to the solver.
+
+**LLM fix:** writes the projector directly in opflow as \((I + X)/2\) and passes it to the solver:
+
+```diff
+- from qiskit.opflow import Plus
++ from qiskit.opflow import Plus, I, X
+- proj = Plus @ ~Plus
++ proj = (I + X) / 2
+- spectrum = solver.compute_eigenvalues(plus)
++ spectrum = solver.compute_eigenvalues(proj)
+```
+
+**Why it crashed on the original `test.py` (now replaced):** \((I + X)/2\) is exactly \(|+\rangle\langle+|\), and the solver returns the right eigenvalue. But the test reads `proj.data`, an attribute only the reference's `quantum_info` operator has, so it raises `AttributeError: 'PauliSumOp' object has no attribute 'data'`. It also expects a variable named `op`.
+
+That test was **over-specific**: the question is about building the projector *in opflow*, which is what the LLM did. A test that accepts either operator type passes the LLM fix and still fails the buggy code (this is what the updated test does).
+
+**Updated test (9 Oct 2026):** the updated `test.py` fails `buggy.py` and passes `fixed.py` on all 12 versions, and the LLM fix ✅ passes it on all 12.
+
+---
+
+### issue_977
+**Batch 7** · **Question:** qiskit.exceptions.QiskitError: 'Invalid input data for Pauli.'
+
+| | Versions |
+|---|---|
+| **Tested (23)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
+| ✅ **Passed (23)** | all 23 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** `SparsePauliOp(Hamiltonian)` treats the 4 × 4 matrix as Pauli data (`QiskitError: 'Invalid input data for Pauli.'`). The user wants the Pauli decomposition of the matrix.
+
+**Reference fix:** `op = SparsePauliOp.from_operator(Hamiltonian)`.
+
+**LLM fix:**
+
+```diff
+- H_op = SparsePauliOp(Hamiltonian).to_operator()
++ H_op = SparsePauliOp.from_operator(Hamiltonian)
+```
+
+**Why it crashed on the original `test.py` (now replaced):** this is the same call as the reference, under the buggy code's name `H_op`. The test reads a variable named `op`, so it raises `KeyError: 'op'`.
+
+That test was **over-specific**: the name `op` comes only from the reference. A test that accepts any variable name passes the LLM fix and still fails the buggy code (this is what the updated test does).
+
+**Updated test (9 Oct 2026):** the updated `test.py` fails `buggy.py` and passes `fixed.py` on all 23 versions, and the LLM fix ✅ passes it on all 23.
+
+---
+
 ### issue_989
 **Batch 7** · **Question:** Which Qiskit Aer ideal quantum circuit simulator to use when aer_simulator is no longer available?
 
@@ -752,6 +1068,75 @@ This case needs `qiskit-ibm-runtime`, which the local environments don't have; s
 - from qiskit import Aer
 + from qiskit_aer import Aer
 ```
+
+---
+
+### issue_994
+**Batch 7** · **Question:** How to get state vector from QasmSimulator in Qiskit
+
+| | Versions |
+|---|---|
+| **Tested (4)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3 |
+| ✅ **Passed (4)** | all 4 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** the QasmSimulator doesn't store the statevector unless asked to, so `get_statevector(qc)` fails (`QiskitError: No statevector for experiment`).
+
+**Reference fix:** adds a statevector snapshot (`qc.snapshot('final', snapshot_type='statevector')`) and reads it from the result into a variable named `statevector`.
+
+**LLM fix:**
+
+```diff
+  qc.cx(0, 1)
++ qc.save_statevector()
+```
+
+**Why it crashed on the original `test.py` (now replaced):** `save_statevector()` makes `get_statevector()` work, and the script prints the Bell state. The test reads the reference's variable `statevector` and its snapshot data, so it raises `KeyError: 'statevector'`.
+
+That test was **over-specific**: saving the statevector and taking a snapshot store the same state. A test that takes the statevector from either the variable or `get_statevector()` passes the LLM fix and still fails the buggy code (this is what the updated test does).
+
+**Updated test (9 Oct 2026):** the updated `test.py` fails `buggy.py` and passes `fixed.py` on all 4 versions, and the LLM fix ✅ passes it on all 4.
+
+---
+
+### issue_1035
+**Batch 7** · **Question:** Is it possible to use fake backends to run Qiskit Runtime primitives?
+
+| | Versions |
+|---|---|
+| **Tested (8)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
+| ✅ **Passed (8)** | all 8 |
+| ❌ **Failed (0)** | — |
+
+**Bug:** the code needs the IBM Runtime service and a cloud session, which don't work with a fake backend. The test runs offline and blocks any `qiskit_ibm_runtime` import, so the buggy code fails at its first line.
+
+**Reference fix:** `estimator = BackendEstimator(backend=FakeNairobi())`, then stores `result = job.result()`.
+
+**LLM fix:** replaces the service and session with Aer's local `Estimator` and FakeManila's noise model (15 lines changed):
+
+```diff
+- from qiskit_ibm_runtime import QiskitRuntimeService, Options, Session, Estimator
++ from qiskit_aer.noise import NoiseModel
++ from qiskit_aer.primitives import Estimator
++ from qiskit.providers.fake_provider import FakeManila
+- service = QiskitRuntimeService()
+- backend = 'ibmq_qasm_simulator'
+- options = Options(resilience_level=0)
+- with Session(service=service, backend=backend) as session:
+-     estimator = Estimator(session=session, options=options)
+-     job = estimator.run(circuits=[qc], observables=[O])
+-     print(job.result().values)
++ backend = FakeManila()
++ estimator = Estimator(backend_options={'noise_model': NoiseModel.from_backend(backend)})
++ job = estimator.run(circuits=[qc], observables=[O])
++ print(job.result().values)
+```
+
+**Why it crashed on the original `test.py` (now replaced):** the fix runs offline and returns an expectation value near +1. But it prints `job.result().values` without storing it, and the test reads a variable named `result`, so it raises `KeyError: 'result'`.
+
+That test was **over-specific**: the name `result` comes only from the reference. A test that also accepts `job.result()` passes the LLM fix and still fails the buggy code (this is what the updated test does).
+
+**Updated test (9 Oct 2026):** the updated `test.py` fails `buggy.py` and passes `fixed.py` on all 8 versions, and the LLM fix ✅ passes it on all 8.
 
 ---
 
@@ -869,45 +1254,6 @@ The Excel note for this case says: *"not sure this should be considered quantum 
 
 ---
 
-### issue_189
-**Batch 2** · **Question:** Why For loop is not appending the circuit in the first iteration causing qubit argument mismatch with the gate expectation?
-
-| | Versions |
-|---|---|
-| **Tested (23)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
-| ✅ **Passed (0)** | — |
-| ❌ **Failed (23)** | all 23 |
-
-**Bug:** the controlled Grover power needs 7 qubits, but the loop's qubit list grows every iteration (7, then 8, then 9 qubits), so the second `append` fails.
-
-**Reference fix** (the Stack Overflow answer): control qubit `i` plus the six target qubits:
-
-```diff
-+ qp = list(np.arange(n, n + lg + 2))
-  for i in range(n):
--     qpe.append(Q, qp)
-+     qpe.append(Q, [i] + qp)
-```
-
-**LLM fix:** also one control plus the six targets, but it keeps the asker's original first qubit `n - j`:
-
-```diff
--     qp = list(np.arange(n - j, n + lg + 2))
-+     qp = [n - j] + list(np.arange(n, n + lg + 2))
-```
-
-**Why it failed:** both fixes solve the qubit-count error, but they pair the controls with the powers in opposite orders. The reference gives control `i` the power \(2^{2-i}\). The LLM gives control `k` the power \(2^k\), which is the usual QPE layout. The test hard-codes the reference's order, so it fails on the first instruction:
-
-```text
-AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]
-```
-
-The question never says which control should get which power. I checked separately, and all three of the LLM's controlled-Grover matrices are correct. So the test is over-specific here (see the Test Review sheet), and a test that accepted either order passes this fix and still fails the buggy code (checked on all 23 versions, see [Relaxed tests on every version](#relaxed-tests-on-every-version)).
-
-The first run hit the 120-second timeout on 0.46.0 and 0.46.1 (once even for `fixed.py`) because four heavy matrix builds were running at the same time. This case was rerun one run at a time, with no timeouts. The results above come from that rerun.
-
----
-
 ### issue_415
 **Batch 3** · **Question:** How to create states in Qiskit using complex phase angles?
 
@@ -970,34 +1316,6 @@ The second check is **over-specific**: it calls the Stack Overflow answer's help
 
 ---
 
-### issue_622
-**Batch 4** · **Question:** Transpiler Error: Number of qubits greater than maximum in coupling map
-
-| | Versions |
-|---|---|
-| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
-| ✅ **Passed (0)** | — |
-| ❌ **Failed (12)** | all 12 |
-
-**Bug:** a 2-qubit Bell circuit is sent to `FakeArmonk`, which has only 1 qubit, so `execute` raises `TranspilerError: Number of qubits (2) ... is greater than maximum (1)`. The answer: use a backend with 2 or more qubits.
-
-**Reference fix:** switches to the noise-free `Aer.get_backend('qasm_simulator')`.
-
-**LLM fix:** switches to `FakeYorktown`, a 5-qubit fake device:
-
-```diff
-- from qiskit.test.mock import FakeArmonk
-+ from qiskit.test.mock import FakeYorktown
-- backend = FakeArmonk()
-+ backend = FakeYorktown()
-```
-
-**Why it failed:** the fix removes the error and the job succeeds, but fake devices simulate the real hardware's noise. One run on 0.45.0 gave `{'00': 454, '11': 479, '01': 52, '10': 39}`, so 91% of shots are `00`/`11`. The test requires the set of outcomes to be exactly `{'00', '11'}` (`AssertionError: Items in the first set but not the second: '01' '10'`). Every other check passes: the backend has 5 qubits, `00` is within 12% of half, and the circuit is the Bell state.
-
-This test is **over-specific**: neither the question nor the answer asks for a noise-free backend, and on any real 2+ qubit device (which is what the user was running on) the same noise would appear. A test that allows device noise passes the LLM fix and still fails the buggy code (checked on all 12 versions, see [Relaxed tests on every version](#relaxed-tests-on-every-version)). As with issue_189, this is the only reason the LLM fix fails.
-
----
-
 ### issue_635
 **Batch 4** · **Question:** How to implement if statement based on measurement results in qiskit?
 
@@ -1021,117 +1339,6 @@ This test is **over-specific**: neither the question nor the answer asks for a n
 ```
 
 **Why it failed:** `c == 1` means only bit 0 is set and `c == 2` means only bit 1 is set, so each X fires on a different single-bit pattern, and neither fires when both bits are set. The test runs all 8 inputs and fails on the first one it checks, input `001`, where q[0] is flipped but should not be. The test is fair: it checks exactly the truth table of the user's `if`.
-
----
-
-### issue_671
-**Batch 5** · **Question:** QuantumCircuit with list of qbits as an argument
-
-| | Versions |
-|---|---|
-| **Tested (27)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
-| ✅ **Passed (0)** | — |
-| ❌ **Failed (27)** | all 27 |
-
-**Bug:** `QuantumCircuit(a, v, b)` is given the list `v` of four registers as one argument, which `QuantumCircuit` doesn't accept.
-
-**Reference fix** (the answer's approach): creates `QuantumCircuit(a, b)`, adds each register with `add_register`, and then also applies the answer's two example gates, `x(v[0][0])` and `cx(v[1][0], a[0])`.
-
-**LLM fix:** unpacks the list:
-
-```diff
-- c = QuantumCircuit(a, v, b)
-+ c = QuantumCircuit(a, *v, b)
-```
-
-**Why it failed:** the circuit has exactly the registers the question asks for, in the right order, and every register check passes (9 qubits, 1 clbit, `qregs == [a] + v`, `cregs == [b]`, qubit order). The test then compares the full 512×512 unitary with `x(v0[0])` followed by `cx(v1[0], a[0])`. Those two gates are only an illustration in the answer; they are not in the buggy code and the question never asks for them. The LLM's circuit has no gates, so the unitary check fails (`AssertionError: Not equal to tolerance`).
-
-This test is **over-specific**. With the unitary check removed, the LLM fix passes and the buggy code still fails (checked on all 27 versions, see [Relaxed tests on every version](#relaxed-tests-on-every-version)). Like issue_189 and issue_622, this is the only reason the LLM fix fails.
-
----
-
-### issue_747
-**Batch 5** · **Question:** Qiskit code works even without measure_all() with qasm_simulator
-
-| | Versions |
-|---|---|
-| **Tested (8)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
-| ✅ **Passed (0)** | — |
-| ❌ **Failed (8)** | all 8 |
-
-**Bug:** the GHZ circuit is never measured, so the counts don't reflect the state (in these versions `get_counts` fails outright).
-
-**Reference fix:** `circ.measure(range(3), range(3))`, measuring into the circuit's existing 3 classical bits.
-
-**LLM fix:** uses `measure_all()`:
-
-```diff
-  circ.cx(0, 2)
-+ circ.measure_all()
-```
-
-**Why it failed:** `measure_all()` always adds a *new* 3-bit register called `meas`, even though `QuantumCircuit(3, 3)` already has 3 classical bits. The original bits stay 0, so every key has two parts, `'000 000'` and `'111 000'`. The test requires the keys to be exactly `'000'` and `'111'`:
-
-```text
-AssertionError: Items in the first set but not the second: '000 000' '111 000'
-Items in the second set but not the first: '000' '111'
-```
-
-This one is **borderline**. The statistics are correct GHZ statistics, and a test that ignores the unused register passes the LLM fix and still fails the buggy code (checked on all 8 versions, see [Relaxed tests on every version](#relaxed-tests-on-every-version)). But leaving 3 unused classical bits in the circuit is sloppier than the reference, and the answer itself uses `measure`, not `measure_all()`.
-
----
-
-### issue_810
-**Batch 6** · **Question:** How can I make qiskit output raw data?
-
-| | Versions |
-|---|---|
-| **Tested (2)** | 0.45.1, 0.46.2 |
-| ✅ **Passed (0)** | — |
-| ❌ **Failed (2)** | all 2 |
-
-**Bug:** `job.result(job)` passes the job as the `timeout` argument (`TypeError: '>' not supported between instances of 'AerJob' and 'int'`), and the code prints the whole `Result` object instead of the measurement data.
-
-**Reference fix:** `result = job.result()` and `counts_dict = result.get_counts()`, and it also lowers the shots from 1024 to 100.
-
-**LLM fix:** the same call, stored in the original variable and with the original 1024 shots:
-
-```diff
-- a = job.result(job)
-+ a = job.result().get_counts()
-```
-
-**Why it failed:** the test reads the reference's variable `counts_dict` and expects the counts to add up to exactly 100. The LLM's script has no `counts_dict`, so the test finds `None` (`AssertionError: None is not an instance of <class 'dict'>`).
-
-This test is **over-specific**: the question never mentions a variable name, and 100 shots is the reference's own change (the buggy code and the question use 1024). A test that accepts any counts dictionary and the script's own shot count passes the LLM fix and still fails the buggy code (checked on all 2 versions, see [Relaxed tests on every version](#relaxed-tests-on-every-version)).
-
----
-
-### issue_886
-**Batch 6** · **Question:** Error when using crx gate in quantum circuit
-
-| | Versions |
-|---|---|
-| **Tested (2)** | 0.45.0, 0.45.1 |
-| ✅ **Passed (0)** | — |
-| ❌ **Failed (2)** | all 2 |
-
-**Bug:** a circuit containing `crx` is run on `qasm_simulator` without transpiling (`AerError: unknown instruction: crx`).
-
-**Reference fix:** `transpile_circ = transpile(circ, backend=backend)` before running. It also changes `QuantumCircuit(2, 2)` to `QuantumCircuit(2)`.
-
-**LLM fix:** transpiles inline before running and keeps the rest of the buggy code:
-
-```diff
-- from qiskit import QuantumCircuit
-+ from qiskit import QuantumCircuit, transpile
-- job = Aer.get_backend('qasm_simulator').run(circ)
-+ job = Aer.get_backend('qasm_simulator').run(transpile(circ, Aer.get_backend('qasm_simulator')))
-```
-
-**Why it failed:** the job now runs, but the circuit is still `QuantumCircuit(2, 2)` followed by `measure_all()`, which adds a second 2-bit register. So the result is `{'00 00': 1024}`, while the test requires exactly `{'00': 1024}` (`AssertionError: {'00 00': 1024} != {'00': 1024}`). The second check reads a variable named `transpile_circ`, which the LLM never creates.
-
-This test is **over-specific**: the unused register comes from the buggy code, not from the LLM, and the question only asks how to run a circuit with `crx`. A test that ignores the unused register and the variable name passes the LLM fix and still fails the buggy code (checked on all 2 versions, see [Relaxed tests on every version](#relaxed-tests-on-every-version)). Like issue_747, the extra register comes from `measure_all()` on a circuit that already has classical bits.
 
 ---
 
@@ -1206,7 +1413,7 @@ This test is **over-specific**: the unused register comes from the buggy code, n
 
 **Why it failed:** the transpiled circuit uses only rx/ry/rz and, thanks to `global_phase`, equals U1(0.5) exactly, so it passes the first check. The second check requires the opposite: determinant 1 and *not* equal to U1, i.e. the phase must be missing (`AssertionError` on the determinant).
 
-This test is **debatable** rather than plainly over-specific. The answer's point is right (no product of rotation gates has the phase), and the test enforces it. But the question asks for "maintaining the phase ... in practice (in Qiskit)", and the circuit's `global_phase` does exactly that. The team's earlier `test_before.py` required the exact phase: the LLM fix passes it and the reference fails it (checked on all 23 versions, see [Relaxed tests on every version](#relaxed-tests-on-every-version)).
+This test is **debatable** rather than plainly over-specific. The answer's point is right (no product of rotation gates has the phase), and the test enforces it. But the question asks for "maintaining the phase ... in practice (in Qiskit)", and the circuit's `global_phase` does exactly that. The team's earlier `test_before.py` required the exact phase: the LLM fix passes it and the reference fails it (checked on all 23 versions), so it can't serve as a valid test, and issue_985 keeps the team's `test.py`.
 
 ---
 
@@ -1658,34 +1865,6 @@ With only that comment line removed, the same fix passes (checked on 0.25.0 and 
 
 ---
 
-### issue_775
-**Batch 5** · **Question:** Simulating OpenQASM 2.0 in Qiskit?
-
-| | Versions |
-|---|---|
-| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
-| ✅ **Passed (0)** | — |
-| 💥 **Error (12)** | all 12 |
-
-**Bug:** the OpenQASM text is passed straight to `execute`, which needs a `QuantumCircuit` (`AttributeError: 'str' object has no attribute 'name'`).
-
-**Reference fix:** `qc = QuantumCircuit.from_qasm_str(qasm_str)`, then `execute(qc, backend)`.
-
-**LLM fix:** the same parse, written inline:
-
-```diff
-- from qiskit import execute, Aer
-+ from qiskit import execute, Aer, QuantumCircuit
-- job = execute(qasm_str, backend)
-+ job = execute(QuantumCircuit.from_qasm_str(qasm_str), backend)
-```
-
-**Why it crashed:** the fix runs correctly, but the test reads the parsed circuit from a variable named `qc` (the reference's name), and the LLM never creates one, so the test stops with `KeyError: 'qc'` before any check runs.
-
-This test is **over-specific**. A test that checks the executed result instead (job succeeds, 1 experiment, 2 qubits, 2 classical bits) passes the LLM fix and still fails the buggy code (checked on all 12 versions, see [Relaxed tests on every version](#relaxed-tests-on-every-version)). Like issue_671, this is the only reason the LLM fix fails.
-
----
-
 ### issue_803
 **Batch 6** · **Question:** AttributeError: 'list' object has no attribute 'values'
 
@@ -1799,38 +1978,6 @@ With only the sign flipped (`(time_ * H).exp_i()`) the same fix passes on 0.45.0
 
 ---
 
-### issue_911
-**Batch 6** · **Question:** Unable to extract the quantum registers information from qiskit quantum circuit data
-
-| | Versions |
-|---|---|
-| **Tested (23)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
-| ✅ **Passed (0)** | — |
-| 💥 **Error (23)** | all 23 |
-
-**Bug:** `qargs[1]` assumes every gate has two qubits (`IndexError` on one-qubit gates), and `Qubit` no longer has `.register` / `.index`.
-
-**Reference fix:** prints each gate's qubit indices as a list: `print("qargs : ", [qc.find_bit(qarg)[0] for qarg in qargs])`.
-
-**LLM fix:** loops over every qubit and prints its registers and index with `find_bit`, keeping the original `qargs` line:
-
-```diff
-  print("qargs : ", qargs, "\n")
-- print("qargs[1] : ", qargs[1])
-- ...
-+ for qarg in qargs:
-+     bit_location = qc.find_bit(qarg)
-+     print("qarg : ", qarg)
-+     print("register : ", bit_location.registers)
-+     print("index : ", bit_location.index)
-```
-
-**Why it crashed:** the test reads every printed line that starts with `qargs :` and parses it as a Python list of integers, i.e. the reference's exact output format. The LLM's `qargs :` line still prints `Qubit` objects, so parsing fails: `ValueError: malformed node or string` on 0.45 – 1.2.4, and `SyntaxError` on 2.x, where `Qubit` prints differently.
-
-This test is **over-specific**: the LLM prints exactly the information the question asks for (each qubit's index and register), just not in the reference's format. A test that reads the printed indices in either format passes the LLM fix and still fails the buggy code (checked on all 23 versions, see [Relaxed tests on every version](#relaxed-tests-on-every-version)).
-
----
-
 ### issue_925
 **Batch 6** · **Question:** How many Qubits does the qiskit implementation of Shor's Algorithm need to factor N=15?
 
@@ -1852,127 +1999,6 @@ This test is **over-specific**: the LLM prints exactly the information the quest
 ```
 
 **Why it crashed:** the comment says to use a simulator, but `backend = FakeMelbourne()` is still there, so it fails exactly like the buggy code. Apart from issue_750 (where the model said there was no bug), this is the only case that left the code unchanged, and here the model's own comment even describes the right fix.
-
----
-
-### issue_944
-**Batch 6** · **Question:** Projection Operator in qiskit.opflow
-
-| | Versions |
-|---|---|
-| **Tested (12)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3, 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
-| ✅ **Passed (0)** | — |
-| 💥 **Error (12)** | all 12 |
-
-**Bug:** `Plus @ ~Plus` isn't allowed in opflow, and a `quantum_info.Operator` can't be passed to `NumPyEigensolver`.
-
-**Reference fix:** builds \(|+\rangle\langle+|\) as a `quantum_info` operator (`proj`), wraps it in `PrimitiveOp` (`op`) and passes that to the solver.
-
-**LLM fix:** writes the projector directly in opflow as \((I + X)/2\) and passes it to the solver:
-
-```diff
-- from qiskit.opflow import Plus
-+ from qiskit.opflow import Plus, I, X
-- proj = Plus @ ~Plus
-+ proj = (I + X) / 2
-- spectrum = solver.compute_eigenvalues(plus)
-+ spectrum = solver.compute_eigenvalues(proj)
-```
-
-**Why it crashed:** \((I + X)/2\) is exactly \(|+\rangle\langle+|\), and the solver returns the right eigenvalue. But the test reads `proj.data`, an attribute only the reference's `quantum_info` operator has, so it raises `AttributeError: 'PauliSumOp' object has no attribute 'data'`. It also expects a variable named `op`.
-
-This test is **over-specific**: the question is about building the projector *in opflow*, which is what the LLM did. A test that accepts either operator type passes the LLM fix and still fails the buggy code (checked on all 12 versions, see [Relaxed tests on every version](#relaxed-tests-on-every-version)).
-
----
-
-### issue_977
-**Batch 7** · **Question:** qiskit.exceptions.QiskitError: 'Invalid input data for Pauli.'
-
-| | Versions |
-|---|---|
-| **Tested (23)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3, 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
-| ✅ **Passed (0)** | — |
-| 💥 **Error (23)** | all 23 |
-
-**Bug:** `SparsePauliOp(Hamiltonian)` treats the 4 × 4 matrix as Pauli data (`QiskitError: 'Invalid input data for Pauli.'`). The user wants the Pauli decomposition of the matrix.
-
-**Reference fix:** `op = SparsePauliOp.from_operator(Hamiltonian)`.
-
-**LLM fix:**
-
-```diff
-- H_op = SparsePauliOp(Hamiltonian).to_operator()
-+ H_op = SparsePauliOp.from_operator(Hamiltonian)
-```
-
-**Why it crashed:** this is the same call as the reference, under the buggy code's name `H_op`. The test reads a variable named `op`, so it raises `KeyError: 'op'`.
-
-This test is **over-specific**: the name `op` comes only from the reference. A test that accepts any variable name passes the LLM fix and still fails the buggy code (checked on all 23 versions, see [Relaxed tests on every version](#relaxed-tests-on-every-version)).
-
----
-
-### issue_994
-**Batch 7** · **Question:** How to get state vector from QasmSimulator in Qiskit
-
-| | Versions |
-|---|---|
-| **Tested (4)** | 0.25.0, 0.25.1, 0.25.2, 0.25.3 |
-| ✅ **Passed (0)** | — |
-| 💥 **Error (4)** | all 4 |
-
-**Bug:** the QasmSimulator doesn't store the statevector unless asked to, so `get_statevector(qc)` fails (`QiskitError: No statevector for experiment`).
-
-**Reference fix:** adds a statevector snapshot (`qc.snapshot('final', snapshot_type='statevector')`) and reads it from the result into a variable named `statevector`.
-
-**LLM fix:**
-
-```diff
-  qc.cx(0, 1)
-+ qc.save_statevector()
-```
-
-**Why it crashed:** `save_statevector()` makes `get_statevector()` work, and the script prints the Bell state. The test reads the reference's variable `statevector` and its snapshot data, so it raises `KeyError: 'statevector'`.
-
-This test is **over-specific**: saving the statevector and taking a snapshot store the same state. A test that takes the statevector from either the variable or `get_statevector()` passes the LLM fix and still fails the buggy code (checked on all 4 versions, see [Relaxed tests on every version](#relaxed-tests-on-every-version)).
-
----
-
-### issue_1035
-**Batch 7** · **Question:** Is it possible to use fake backends to run Qiskit Runtime primitives?
-
-| | Versions |
-|---|---|
-| **Tested (8)** | 0.45.0, 0.45.1, 0.45.2, 0.45.3, 0.46.0, 0.46.1, 0.46.2, 0.46.3 |
-| ✅ **Passed (0)** | — |
-| 💥 **Error (8)** | all 8 |
-
-**Bug:** the code needs the IBM Runtime service and a cloud session, which don't work with a fake backend. The test runs offline and blocks any `qiskit_ibm_runtime` import, so the buggy code fails at its first line.
-
-**Reference fix:** `estimator = BackendEstimator(backend=FakeNairobi())`, then stores `result = job.result()`.
-
-**LLM fix:** replaces the service and session with Aer's local `Estimator` and FakeManila's noise model (15 lines changed):
-
-```diff
-- from qiskit_ibm_runtime import QiskitRuntimeService, Options, Session, Estimator
-+ from qiskit_aer.noise import NoiseModel
-+ from qiskit_aer.primitives import Estimator
-+ from qiskit.providers.fake_provider import FakeManila
-- service = QiskitRuntimeService()
-- backend = 'ibmq_qasm_simulator'
-- options = Options(resilience_level=0)
-- with Session(service=service, backend=backend) as session:
--     estimator = Estimator(session=session, options=options)
--     job = estimator.run(circuits=[qc], observables=[O])
--     print(job.result().values)
-+ backend = FakeManila()
-+ estimator = Estimator(backend_options={'noise_model': NoiseModel.from_backend(backend)})
-+ job = estimator.run(circuits=[qc], observables=[O])
-+ print(job.result().values)
-```
-
-**Why it crashed:** the fix runs offline and returns an expectation value near +1. But it prints `job.result().values` without storing it, and the test reads a variable named `result`, so it raises `KeyError: 'result'`.
-
-This test is **over-specific**: the name `result` comes only from the reference. A test that also accepts `job.result()` passes the LLM fix and still fails the buggy code (checked on all 8 versions, see [Relaxed tests on every version](#relaxed-tests-on-every-version)).
 
 ---
 
@@ -2096,7 +2122,7 @@ This test is **over-specific**: the name `result` comes only from the reference.
    - **issue_174** got the QASM fix right but put its `# FIX:` comment inside the QASM string.
    - **issue_157** used an API (`prepare_state`) that doesn't exist yet in the oldest tested version.
 8. **issue_315 solved the wrong problem.** It made the error go away by deleting the options the user wanted, instead of switching to a backend that supports them.
-9. **Over-specific tests can hide valid fixes.** issue_189's fix is valid, but the test only accepts the reference's control order. Without issue_189, batch 2 has no wrong-result failures: every other non-pass was a crash.
+9. **Over-specific tests hid valid fixes.** issue_189's fix is valid, but the original test only accepted the reference's control order. It passes the updated test, so batch 2 has no wrong-result failures: every non-pass is a crash.
 
 **Batch 3 adds:**
 
@@ -2114,26 +2140,26 @@ This test is **over-specific**: the name `result` comes only from the reference.
 16. **Kept lines broke two otherwise-correct fixes.** issue_662 changed the loop correctly but kept `node.type`, which no longer exists. issue_600 kept an import of `PauliGate`, which doesn't exist in 0.25 (though its replacement gate doesn't either). This is the opposite of issue_369: there the model added a line it shouldn't have; here it left alone a line that was part of the problem.
 17. **Aqua / opflow operator types are still hard.** issue_565 and issue_624 both picked an operator type that looks right but can't do what QAOA needs (`*` composition in Aqua, evolving a `CircuitOp`). This is the same kind of mistake as issue_468 in batch 3.
 18. **One logic bug was missed.** issue_635 turned "bit 0 and bit 1 are both 1" into two separate conditions (register = 1, register = 2) instead of one (register = 3).
-19. **Another over-specific test:** issue_622's fix (a 5-qubit fake device) is valid, but the test requires noise-free counts. Like issue_189, this is the only reason it fails.
+19. **Another over-specific test:** issue_622's fix (a 5-qubit fake device) is valid, but the original test required noise-free counts. The updated test allows the device's noise, and the fix passes.
 
 **Batch 5 adds:**
 
 20. **Simple API fixes kept working.** issue_663 (add measurements), issue_742 (`SparsePauliOp.from_operator`), issue_773 (drop the shadowing import) and issue_795 (`unitary()` instead of appending an opflow expression) got the reference fix, and issue_727 an equivalent one (`.exp()` on the parameter expression).
-21. **Two more over-specific tests, and both hide correct fixes.** issue_671 checks the unitary of the answer's example gates, which are not in the buggy code, and issue_775 requires the answer's variable name `qc`. In both, relaxed tests that still fail the buggy code pass the LLM fix. That makes five such cases so far (issue_189, issue_622, issue_671, issue_775, plus issue_061 under its old test).
-22. **One borderline case:** issue_747's `measure_all()` gives correct GHZ statistics but adds a second register, so the count keys don't match the test's exact `'000'` / `'111'`.
+21. **Two more over-specific tests that hid correct fixes.** issue_671's original test checked the unitary of the answer's example gates, which are not in the buggy code, and issue_775's required the answer's variable name `qc`. Both fixes pass the updated tests.
+22. **One borderline case:** issue_747's `measure_all()` gives correct GHZ statistics but adds a second register, so the count keys didn't match the original test's exact `'000'` / `'111'`. The updated test ignores the empty register, and the fix passes. Leaving 3 unused classical bits is still sloppier than the reference.
 23. **First "no bug" answer:** in issue_750 the model checked the math the question asks about and missed that `Pauli(label=...)` no longer exists in any tested version.
 24. **A one-example fix:** issue_769 hard-coded the single example in the question (X) instead of writing a general matcher. The test also wants the answer's function name, but the fix would fail a fair test too.
 
 **Batch 6 adds:**
 
-25. **The weakest batch so far, but largely because of strict tests.** Only issue_816 (`memory=True`) passed. Four more fixes are correct but fail on details only the reference has: a variable name and shot count (issue_810), an exact count key and variable name (issue_886), an exact print format (issue_911) and an attribute of the reference's operator type (issue_944). With relaxed tests that still fail the buggy code, batch 6 would be 5 of 10 cases and 62 of 113 pairs (54.9%). That brings the over-specific tests that hide a correct fix to nine (issue_189, issue_622, issue_671, issue_775, issue_810, issue_886, issue_911, issue_944, plus issue_061 under its old test), with issue_747 borderline.
+25. **Strict tests caused most of batch 6's misses.** Under the original tests only issue_816 (`memory=True`) passed. Four more fixes are correct but failed on details only the reference has: a variable name and shot count (issue_810), an exact count key and variable name (issue_886), an exact print format (issue_911) and an attribute of the reference's operator type (issue_944). All four pass the updated tests, so batch 6 is 5 of 10 cases and 62 of 113 pairs (54.9%).
 26. **A comment without a change:** in issue_925 the model's `# FIX:` comment says to switch to a simulator, but the code still uses FakeMelbourne.
 27. **Math and API slips:** issue_889 got the sign of the time evolution wrong (`(-t*H).exp_i()`), issue_876 renamed a working import to one that doesn't exist, and issue_803 kept a NumPy conversion that throws away the outcome labels.
 28. **Solving the wrong problem again:** issue_877 replaced the device noise model with an empty `NoiseModel()`, removing exactly what the user wanted, like issue_315 deleting the options in batch 2.
 
 **Batch 7 adds:**
 
-29. **Strict tests again hide most of the correct fixes.** Only issue_989 (the `qiskit_aer` import) passed. Three more fixes are correct but fail on details only the reference has: the variable name `op` (issue_977), the reference's snapshot method and variable (issue_994) and the variable name `result` (issue_1035). With relaxed tests that still fail the buggy code, batch 7 would be 4 of 7 cases and 50 of 123 pairs (40.7%). That brings the over-specific tests that hide a correct fix to twelve (issue_189, issue_622, issue_671, issue_775, issue_810, issue_886, issue_911, issue_944, issue_977, issue_994, issue_1035, plus issue_061 under its old test).
+29. **Strict tests again hid most of the correct fixes.** Under the original tests only issue_989 (the `qiskit_aer` import) passed. Three more fixes are correct but failed on details only the reference has: the variable name `op` (issue_977), the reference's snapshot method and variable (issue_994) and the variable name `result` (issue_1035). All three pass the updated tests, so batch 7 is 4 of 7 cases and 50 of 123 pairs (40.7%).
 30. **A debatable test:** issue_985's test requires the U1 phase to be *dropped*, while the question asks to keep it and the LLM does, exactly, with `global_phase`. The team's earlier test required the opposite, and the LLM fix passes that one. Counting it too, batch 7 would be 5 of 7 cases and 73 of 123 pairs (59.3%).
 31. **Intent and math were still the weak spot:** issue_950 removed the crash but kept `_add`, which sums operators instead of placing Z on the chosen qubits (a kept line, like issue_662 and issue_600), and issue_958 applied H a second time instead of adding a -1 phase.
 
@@ -2144,17 +2170,22 @@ This test is **over-specific**: the name `result` comes only from the reference.
 34. **First reply that ignored the output rules:** issue_921 came back as the unchanged buggy code, with neither a `# FIX:` comment nor the required `# NO BUG:` line.
 35. **All batch 8 tests are fair.** None of them is over-specific. issue_790's first reference fix failed its own test; the team replaced it on 6 Oct 2026, and now every one of the 1015 pairs has a valid baseline.
 
+**Updated tests (9 Oct 2026) add:**
+
+36. **Every over-specific test is replaced, and the LLM fix passes all twelve updated tests.** issue_189, issue_622, issue_671, issue_747, issue_775, issue_810, issue_886, issue_911, issue_944, issue_977, issue_994 and issue_1035 now pass on all their versions (156 pairs), which moves the totals from 28 to 40 cases and from 390 to 546 pairs. issue_453 and issue_769 also ask for the answer's helper by name, but no updated test exists for them, and both LLM fixes would miss the question's intent anyway. issue_985 keeps the team's `test.py`.
+
 ---
 
-## Relaxed tests on every version
+## Updated tests
 
-Eleven tests ask for a detail that only the reference fix has: a variable name, a print format, an operator type, a control order, noise-free counts or the answer's example gates. Each was rewritten without that detail and run on **every** version of its case (6 Oct 2026), on all three files. A relaxed test is only used if it still fails `buggy.py` and passes `fixed.py` on that version.
+Twelve of the team's tests asked for a detail that only the reference fix has: a variable name, a print format, an operator type, a control order, noise-free counts, exact count keys or the answer's example gates. On 9 Oct 2026 each case's `test.py` was replaced by an updated test that drops that detail and keeps every other check. The original versions are no longer used, and their results are not counted anywhere in this report.
 
-| Case | Batch | What the official test over-specifies | Versions | Relaxed test valid | LLM fix, official test | LLM fix, relaxed test |
+| Case | Batch | What the original test over-specified | Versions | Updated test valid (buggy fails, reference passes) | LLM fix, original test | LLM fix, updated test |
 |---|---|---|---|---|---|---|
 | [issue_189](#issue_189) | 2 | the reference's control order | 23 | 23 / 23 | ❌ FAIL 23 | ✅ PASS 23 |
 | [issue_622](#issue_622) | 4 | noise-free counts | 12 | 12 / 12 | ❌ FAIL 12 | ✅ PASS 12 |
 | [issue_671](#issue_671) | 5 | the answer's example gates | 27 | 27 / 27 | ❌ FAIL 27 | ✅ PASS 27 |
+| [issue_747](#issue_747) | 5 | exact `'000'` / `'111'` keys, which `measure_all()`'s extra register breaks | 8 | 8 / 8 | ❌ FAIL 8 | ✅ PASS 8 |
 | [issue_775](#issue_775) | 5 | the variable name `qc` | 12 | 12 / 12 | 💥 ERROR 12 | ✅ PASS 12 |
 | [issue_810](#issue_810) | 6 | a variable name and shot count | 2 | 2 / 2 | ❌ FAIL 2 | ✅ PASS 2 |
 | [issue_886](#issue_886) | 6 | an exact count key and variable name | 2 | 2 / 2 | ❌ FAIL 2 | ✅ PASS 2 |
@@ -2163,20 +2194,14 @@ Eleven tests ask for a detail that only the reference fix has: a variable name, 
 | [issue_977](#issue_977) | 7 | the variable name `op` | 23 | 23 / 23 | 💥 ERROR 23 | ✅ PASS 23 |
 | [issue_994](#issue_994) | 7 | the reference's snapshot method and variable | 4 | 4 / 4 | 💥 ERROR 4 | ✅ PASS 4 |
 | [issue_1035](#issue_1035) | 7 | the variable name `result` | 8 | 8 / 8 | 💥 ERROR 8 | ✅ PASS 8 |
-| **Total (11)** | | | **148** | **148 / 148** | **0 PASS** | **✅ PASS 148** |
-| [issue_747](#issue_747) (borderline) | 5 | exact `'000'` / `'111'` keys, which `measure_all()`'s extra register breaks | 8 | 8 / 8 | ❌ FAIL 8 | ✅ PASS 8 |
-| [issue_985](#issue_985) (debatable) | 7 | the team's earlier `test_before.py`, which requires the exact U1 phase | 23 | 0 / 23 (the reference drops the phase, so it fails) | ❌ FAIL 23 | ✅ PASS 23 |
+| **Total (12)** | | | **156** | **156 / 156** | **0 PASS** | **✅ PASS 156** |
 
-**Result:** for the 11 over-specific cases and issue_747, the relaxed test fails the buggy code and passes the reference on every version, and the LLM fix passes it on every version. So the earlier spot checks, which covered only a few versions per case, hold on all of them. For issue_985 the LLM fix passes `test_before.py` on all 23 versions while the reference fails it, which is why that case stays debatable.
+**issue_985 keeps the team's `test.py`.** Its earlier `test_before.py` requires the exact U1 phase; the LLM fix passes it on all 23 versions, but the reference fails it, so it can't serve as a valid test. Counting it anyway would give 41 / 73 cases and 569 / 1015 pairs.
 
 | Counting | Cases passed | Pairs passed |
 |---|---|---|
-| Official tests (the headline numbers) | 28 / 73 (38.4%) | 390 / 1015 (38.4%) |
-| Relaxed tests for the 11 over-specific cases | **39 / 73 (53.4%)** | **538 / 1015 (53.0%)** |
-| Also counting issue_747 (borderline) | 40 / 73 (54.8%) | 546 / 1015 (53.8%) |
-| Also counting issue_985 (debatable) | 41 / 73 (56.2%) | 569 / 1015 (56.1%) |
-
-The official results are unchanged everywhere else in this report; the relaxed numbers are a second view, kept in the `relaxed_test` and `llm_status_relaxed_test` columns of `llm_luna56_results.csv`, in `relaxed_test_results_luna56.csv` and on the Relaxed Tests sheet of the xlsx.
+| Original tests (before 9 Oct 2026) | 28 / 73 (38.4%) | 390 / 1015 (38.4%) |
+| **Updated tests (the headline numbers)** | **40 / 73 (54.8%)** | **546 / 1015 (53.8%)** |
 
 ---
 
@@ -2185,10 +2210,10 @@ The official results are unchanged everywhere else in this report; the relaxed n
 | File | Contents |
 |---|---|
 | `llm_luna56_summary.csv` | One row per case: PASS/FAIL/ERROR/NOT_TESTED for each version, plus the error type, message and a plain-English description per version |
-| `llm_luna56_results.csv` | One row per case × version (1015 rows), with its batch, the status of all three files, a plain-English result description, the LLM's `# FIX:` explanation and, for the 13 strict / borderline / debatable cases, the relaxed test used and the LLM fix's status on it (`relaxed_test`, `llm_status_relaxed_test`) |
-| `llm_luna56_summary.xlsx` | The wide table (Summary sheet); live statistics overall and per batch, the at-least-one-version table and the notes (Stats & Notes sheet); the review of which tests ask for more than the question (Test Review sheet); and the relaxed tests run on every version (Relaxed Tests sheet) |
-| `relaxed_test_results_luna56.csv` | The 6 Oct 2026 relaxed-test run: per case × version, the relaxed test, the status of `buggy.py`, `fixed.py` and `llm_luna56_fix.py` on it and whether the relaxed test is valid (179 rows) |
-| `../../relaxed_tests/` | The 12 relaxed tests (`<number>_relaxed_test.py`); issue_985 uses the team's own `test_before.py` in its case folder |
+| `llm_luna56_results.csv` | One row per case × version (1015 rows), with its batch, the status of all three files, a plain-English result description, the LLM's `# FIX:` explanation. `test_file` shows the test used |
+| `llm_luna56_summary.xlsx` | The wide table (Summary sheet); live statistics overall and per batch, the at-least-one-version table and the notes (Stats & Notes sheet); and the review of which tests ask for more than the question, including the 12 tests replaced on 9 Oct 2026 (Test Review sheet) |
+| `APR_code_gen/Part2_Create_test/reconstructed_cases/<case>/test.py` | For issue_189, issue_622, issue_671, issue_747, issue_775, issue_810, issue_886, issue_911, issue_944, issue_977, issue_994 and issue_1035, the updated test that replaced the team's original `test.py` on 9 Oct 2026 (the originals are in the repo's git history) |
+| `run_output_luna56_updated_tests.txt` | Console output of the 9 Oct 2026 run of those 12 cases with their updated tests |
 | `run_output_luna56_batch8_retest_790_827.txt` | Console output of the 6 Oct 2026 retest of issue_790 (new `fixed.py`) and issue_827 (new `test.py`) |
 | `run_output_luna56_batch1.txt`, `run_output_luna56_batch2.txt`, `run_output_luna56_189_rerun.txt`, `run_output_luna56_batch3.txt`, `run_output_luna56_batch4.txt`, `run_output_luna56_batch5.txt`, `run_output_luna56_batch6.txt`, `run_output_luna56_batch7.txt`, `run_output_luna56_batch8.txt` | Console output of the batch 1 run, the batch 2 run, the issue_189 rerun and the batch 3 to 8 runs |
 | `run_output_luna56_batch5_742_runtime.txt`, `run_output_luna56_batch6_876_runtime.txt` | Console output of the issue_742 and issue_876 reruns with the Runtime support folder (these rows replace each case's first-run rows) |
@@ -2198,4 +2223,4 @@ The official results are unchanged everywhere else in this report; the relaxed n
 | `../../llm_fixes/<case>/` | `llm_luna56_fix.py`, the exact input the model saw (`buggy_stripped.py`) and its raw reply (`raw_reply_luna56.txt`). Until 7 Oct 2026 these were called `llm_fix.py` and `raw_reply.txt` (renamed only; contents unchanged) |
 | `rerun_fixed_all_luna56.json`, `rerun_issue_009_luna56.json`, `rerun_new_tests_luna56.json` | Raw records of the earlier reruns (every reference fix, issue_009, and the 1 Oct 2026 updated tests) |
 
-**Setup:** model `gpt-5.6-luna`, with the same prompt for all batches (`prompt.py`; the batch lists are in `cases.py`). It saw only the question text and the buggy code with comments removed; no solution, category or hints. Batches 2 to 8 use each case's `test.py`. The tests are the team's files in `APR_code_gen/Part2_Create_test/reconstructed_cases/`: `test.py`, or the updated `test-new.py` (issue_021_se) and `test_new.py` (issue_058_se, issue_061) pulled on 1 Oct 2026. issue_827's `test.py` and issue_790's new `fixed.py` were pulled on 6 Oct 2026. They were run in 27 Qiskit environments (`C:\qiskit_envs\q<version>`) matching slrrla's `environments.json`, using the same rules as slrrla's `run_matrix.py` (temporary home folder per run, 120-second timeout). Four cases add a task-local support folder on `PYTHONPATH` and leave the environments untouched: issue_096 and issue_034 (IPython etc., `C:\qiskit_envs\_support`) and issue_742 and issue_876 (`qiskit-ibm-runtime`, `C:\qiskit_envs\_support_runtime`).
+**Setup:** model `gpt-5.6-luna`, with the same prompt for all batches (`prompt.py`; the batch lists are in `cases.py`). It saw only the question text and the buggy code with comments removed; no solution, category or hints. Batches 2 to 8 use each case's `test.py`; for the 12 cases above it holds the updated test (replaced on 9 Oct 2026). The tests are the team's files in `APR_code_gen/Part2_Create_test/reconstructed_cases/`: `test.py`, or the updated `test-new.py` (issue_021_se) and `test_new.py` (issue_058_se, issue_061) pulled on 1 Oct 2026. issue_827's `test.py` and issue_790's new `fixed.py` were pulled on 6 Oct 2026. They were run in 27 Qiskit environments (`C:\qiskit_envs\q<version>`) matching slrrla's `environments.json`, using the same rules as slrrla's `run_matrix.py` (temporary home folder per run, 120-second timeout). Four cases add a task-local support folder on `PYTHONPATH` and leave the environments untouched: issue_096 and issue_034 (IPython etc., `C:\qiskit_envs\_support`) and issue_742 and issue_876 (`qiskit-ibm-runtime`, `C:\qiskit_envs\_support_runtime`).

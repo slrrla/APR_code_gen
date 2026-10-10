@@ -1,5 +1,5 @@
 
-test_actual_qasm_snapshot_contains_bell_state (__main__.Regression) ... C:\qiskit_envs\q0252\lib\site-packages\qiskit\providers\aer\backends\qasm_simulator.py:329: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+test_qasm_run_returns_bell_statevector_any_method (__main__.T) ... C:\qiskit_envs\q0252\lib\site-packages\qiskit\providers\aer\backends\qasm_simulator.py:329: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
   warn('The `QasmSimulator` backend will be deprecated in the'
 C:\qiskit_envs\q0252\lib\site-packages\mpmath\ctx_mp.py:35: DeprecationWarning: mpnumeric is deprecated
   warnings.warn(f"{name} is deprecated", DeprecationWarning)
@@ -10,7 +10,7 @@ C:\qiskit_envs\q0252\lib\site-packages\qiskit\execute_function.py:343: Deprecati
 ERROR
 
 ======================================================================
-ERROR: test_actual_qasm_snapshot_contains_bell_state (__main__.Regression)
+ERROR: test_qasm_run_returns_bell_statevector_any_method (__main__.T)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "C:\qiskit_envs\q0252\lib\site-packages\qiskit\result\result.py", line 305, in get_statevector
@@ -20,10 +20,8 @@ KeyError: 'statevector'
 The above exception was the direct cause of the following exception:
 
 Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_994\test.py", line 21, in test_actual_qasm_snapshot_contains_bell_state
-    m=target()
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_994\test.py", line 15, in target
-    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+  File "C:\APR2\llm_repair\updated_tests\issue_994_test.py", line 9, in test_qasm_run_returns_bell_statevector_any_method
+    ns = runpy.run_path(os.environ["MUT"])
   File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
     return _run_module_code(code, init_globals, run_name,
   File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
@@ -34,9 +32,9 @@ Traceback (most recent call last):
     print(job_result.get_statevector(qc))
   File "C:\qiskit_envs\q0252\lib\site-packages\qiskit\result\result.py", line 308, in get_statevector
     raise QiskitError(f'No statevector for experiment "{repr(experiment)}"') from ex
-qiskit.exceptions.QiskitError: 'No statevector for experiment "<qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x0000023F3889D6A0>"'
+qiskit.exceptions.QiskitError: 'No statevector for experiment "<qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x0000020B9A298F40>"'
 
 ----------------------------------------------------------------------
-Ran 1 test in 4.744s
+Ran 1 test in 7.721s
 
 FAILED (errors=1)

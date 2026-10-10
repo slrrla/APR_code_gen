@@ -1,11 +1,11 @@
 
-test_printed_indices_match_actual_circuit_operands (__main__.Regression.test_printed_indices_match_actual_circuit_operands) ... C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_911\fixed.py:10: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 2.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+test_printed_indices_any_format (__main__.T.test_printed_indices_any_format) ... C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_911\fixed.py:10: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 2.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
   for name_of_gate, qargs, cargs in qc.data:
-C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_911\test.py:26: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 2.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
-  expected = [[list(qc.qubits).index(q) for q in item[1]] for item in qc.data]
+C:\APR2\llm_repair\updated_tests\issue_911_test.py:11: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 2.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  expected = [list(qc.qubits).index(q) for item in qc.data for q in item[1]]
 ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 1.140s
+Ran 1 test in 1.722s
 
 OK

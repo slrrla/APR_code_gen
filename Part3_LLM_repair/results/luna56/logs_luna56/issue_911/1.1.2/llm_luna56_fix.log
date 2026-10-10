@@ -1,35 +1,7 @@
 
-test_printed_indices_match_actual_circuit_operands (__main__.Regression.test_printed_indices_match_actual_circuit_operands) ... ERROR
-
-======================================================================
-ERROR: test_printed_indices_match_actual_circuit_operands (__main__.Regression.test_printed_indices_match_actual_circuit_operands)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_911\test.py", line 23, in test_printed_indices_match_actual_circuit_operands
-    actual = [ast.literal_eval(line.split(":",1)[1].strip())
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_911\test.py", line 23, in <listcomp>
-    actual = [ast.literal_eval(line.split(":",1)[1].strip())
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\ast.py", line 110, in literal_eval
-    return _convert(node_or_string)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\ast.py", line 90, in _convert
-    return list(map(_convert, node.elts))
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\ast.py", line 109, in _convert
-    return _convert_signed_num(node)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\ast.py", line 83, in _convert_signed_num
-    return _convert_num(node)
-           ^^^^^^^^^^^^^^^^^^
-  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\ast.py", line 74, in _convert_num
-    _raise_malformed_node(node)
-  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\ast.py", line 71, in _raise_malformed_node
-    raise ValueError(msg + f': {node!r}')
-ValueError: malformed node or string on line 1: <ast.Call object at 0x000001E68EF39E40>
+test_printed_indices_any_format (__main__.T.test_printed_indices_any_format) ... ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 1.167s
+Ran 1 test in 1.632s
 
-FAILED (errors=1)
+OK

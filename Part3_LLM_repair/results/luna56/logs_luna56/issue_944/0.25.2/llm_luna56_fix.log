@@ -1,15 +1,7 @@
 
-test_projector_and_solver_conversion (__main__.Regression) ... ERROR
-
-======================================================================
-ERROR: test_projector_and_solver_conversion (__main__.Regression)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_944\test.py", line 23, in test_projector_and_solver_conversion
-    np.testing.assert_allclose(m["proj"].data, expected, atol=1e-12)
-AttributeError: 'PauliSumOp' object has no attribute 'data'
+test_projector_any_operator_type (__main__.T) ... ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 1.940s
+Ran 1 test in 1.934s
 
-FAILED (errors=1)
+OK

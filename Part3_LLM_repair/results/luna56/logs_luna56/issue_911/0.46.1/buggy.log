@@ -1,5 +1,5 @@
 
-test_printed_indices_match_actual_circuit_operands (__main__.Regression.test_printed_indices_match_actual_circuit_operands) ... C:\qiskit_envs\q0461\Lib\site-packages\qiskit\utils\algorithm_globals.py:20: DeprecationWarning: Accessing 'parallel' from 'qiskit.tools' is deprecated since Qiskit 0.46.0 and will be removed in Qiskit 1.0.0. Import from 'qiskit.utils.parallel' instead 
+test_printed_indices_any_format (__main__.T.test_printed_indices_any_format) ... C:\qiskit_envs\q0461\Lib\site-packages\qiskit\utils\algorithm_globals.py:20: DeprecationWarning: Accessing 'parallel' from 'qiskit.tools' is deprecated since Qiskit 0.46.0 and will be removed in Qiskit 1.0.0. Import from 'qiskit.utils.parallel' instead 
   from qiskit.tools import parallel
 C:\qiskit_envs\q0461\Lib\site-packages\qiskit\utils\parallel.py:56: DeprecationWarning: qiskit.tools.events is deprecated and will be removed in Qiskit 1.0.0
   from qiskit.tools.events.pubsub import Publisher
@@ -16,15 +16,12 @@ C:\qiskit_envs\q0461\Lib\site-packages\qiskit\converters\ast_to_dag.py:23: Depre
 ERROR
 
 ======================================================================
-ERROR: test_printed_indices_match_actual_circuit_operands (__main__.Regression.test_printed_indices_match_actual_circuit_operands)
+ERROR: test_printed_indices_any_format (__main__.T.test_printed_indices_any_format)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_911\test.py", line 22, in test_printed_indices_match_actual_circuit_operands
-    m = target()
-        ^^^^^^^^
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_911\test.py", line 15, in target
-    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\APR2\llm_repair\updated_tests\issue_911_test.py", line 8, in test_printed_indices_any_format
+    ns = runpy.run_path(os.environ["MUT"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "<frozen runpy>", line 291, in run_path
   File "<frozen runpy>", line 98, in _run_module_code
   File "<frozen runpy>", line 88, in _run_code
@@ -34,6 +31,6 @@ Traceback (most recent call last):
 IndexError: list index out of range
 
 ----------------------------------------------------------------------
-Ran 1 test in 2.513s
+Ran 1 test in 2.746s
 
 FAILED (errors=1)

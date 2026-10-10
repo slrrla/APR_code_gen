@@ -1,5 +1,5 @@
 
-test_qpe_mapping_and_controlled_powers (__main__.TestIntent.test_qpe_mapping_and_controlled_powers) ... C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_189\fixed.py:10: DeprecationWarning: The class ``qiskit.circuit.library.grover_operator.GroverOperator`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use qiskit.circuit.library.grover_operator instead.
+test_controlled_powers_either_control_order (__main__.T.test_controlled_powers_either_control_order) ... C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_189\fixed.py:10: DeprecationWarning: The class ``qiskit.circuit.library.grover_operator.GroverOperator`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use qiskit.circuit.library.grover_operator instead.
   grover_operator = GroverOperator(oracle)
 C:\qiskit_envs\q250\Lib\site-packages\qiskit\circuit\library\grover_operator.py:574: DeprecationWarning: The method ``qiskit.circuit.library.standard_gates.x.MCXGate.get_num_ancilla_qubits()`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. For an MCXGate it is no longer possible to know the number of ancilla qubits that would be eventually used by the transpiler when the gate is created. Instead, it is recommended to use MCXGate and let HighLevelSynthesis choose the best synthesis method depending on the number of ancilla qubits available. However, if a specific synthesis method using a specific number of ancilla qubits is required, one can create a custom gate by calling the corresponding synthesis function directly.
   num_ancillas = MCXGate.get_num_ancilla_qubits(len(qubits) - 1, mcx_mode)
@@ -19,11 +19,11 @@ C:\qiskit_envs\q250\Lib\site-packages\qiskit\circuit\library\grover_operator.py:
   reflection.mcx(qubits[:-1], qubits[-1], qr_ancilla[:], mode=mcx_mode)
 C:\qiskit_envs\q250\Lib\site-packages\qiskit\circuit\library\standard_gates\x.py:951: DeprecationWarning: The method ``qiskit.circuit.library.standard_gates.x.MCXGate.get_num_ancilla_qubits()`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. For an MCXGate it is no longer possible to know the number of ancilla qubits that would be eventually used by the transpiler when the gate is created. Instead, it is recommended to use MCXGate and let HighLevelSynthesis choose the best synthesis method depending on the number of ancilla qubits available. However, if a specific synthesis method using a specific number of ancilla qubits is required, one can create a custom gate by calling the corresponding synthesis function directly.
   return self.get_num_ancilla_qubits(self.num_ctrl_qubits)
-C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_189\test.py:31: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
-  for i,(op,qargs,cargs) in enumerate(qpe.data):
+C:\APR2\llm_repair\updated_tests\issue_189_test.py:19: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  for op, qargs, cargs in qpe.data:
 ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.357s
+Ran 1 test in 0.696s
 
 OK

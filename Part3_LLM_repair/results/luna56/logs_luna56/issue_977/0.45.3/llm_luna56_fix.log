@@ -1,22 +1,13 @@
 
-test_dense_matrix_round_trip_and_pauli_coefficients (__main__.Regression.test_dense_matrix_round_trip_and_pauli_coefficients) ... C:\qiskit_envs\q0453\Lib\site-packages\qiskit\utils\algorithm_globals.py:170: DeprecationWarning: The class ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+test_pauli_decomposition_any_variable_name (__main__.T.test_pauli_decomposition_any_variable_name) ... C:\qiskit_envs\q0453\Lib\site-packages\qiskit\utils\algorithm_globals.py:170: DeprecationWarning: The class ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
   algorithm_globals = QiskitAlgorithmGlobals()
 C:\qiskit_envs\q0453\Lib\site-packages\qiskit\utils\algorithm_globals.py:49: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
   self.num_processes = settings.get("num_processes", QiskitAlgorithmGlobals.CPU_COUNT)
 C:\qiskit_envs\q0453\Lib\site-packages\qiskit\utils\algorithm_globals.py:120: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
   parallel.CPU_COUNT = self.num_processes
-ERROR
-
-======================================================================
-ERROR: test_dense_matrix_round_trip_and_pauli_coefficients (__main__.Regression.test_dense_matrix_round_trip_and_pauli_coefficients)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_977\test.py", line 27, in test_dense_matrix_round_trip_and_pauli_coefficients
-    op=m["op"]
-       ~^^^^^^
-KeyError: 'op'
+ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 1.695s
+Ran 1 test in 4.386s
 
-FAILED (errors=1)
+OK

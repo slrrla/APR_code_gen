@@ -1,16 +1,13 @@
 
-test_registered_bits_and_full_permutation (__main__.TestIntent.test_registered_bits_and_full_permutation) ... ERROR
+test_registers_only (__main__.T.test_registers_only) ... ERROR
 
 ======================================================================
-ERROR: test_registered_bits_and_full_permutation (__main__.TestIntent.test_registered_bits_and_full_permutation)
+ERROR: test_registers_only (__main__.T.test_registers_only)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_671\test.py", line 22, in test_registered_bits_and_full_permutation
-    ns = load_target()
-         ^^^^^^^^^^^^^
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_671\test.py", line 16, in load_target
-    return runpy.run_path(MUT)
-           ^^^^^^^^^^^^^^^^^^^
+  File "C:\APR2\llm_repair\updated_tests\issue_671_test.py", line 7, in test_registers_only
+    ns = runpy.run_path(os.environ["MUT"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "<frozen runpy>", line 287, in run_path
   File "<frozen runpy>", line 98, in _run_module_code
   File "<frozen runpy>", line 88, in _run_code
@@ -26,6 +23,6 @@ Traceback (most recent call last):
 qiskit.circuit.exceptions.CircuitError: "Expected an instance of Qubit, Clbit, or AncillaQubit, but was passed QuantumRegister(2, 'v0')"
 
 ----------------------------------------------------------------------
-Ran 1 test in 1.594s
+Ran 1 test in 1.876s
 
 FAILED (errors=1)

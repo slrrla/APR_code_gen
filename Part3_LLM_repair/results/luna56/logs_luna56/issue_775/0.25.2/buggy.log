@@ -1,16 +1,14 @@
 
-test_parsed_operator_and_original_job (__main__.TestIntent) ... C:\qiskit_envs\q0252\lib\site-packages\qiskit\providers\aer\backends\qasm_simulator.py:329: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+test_parsed_circuit_was_executed (__main__.T) ... C:\qiskit_envs\q0252\lib\site-packages\qiskit\providers\aer\backends\qasm_simulator.py:329: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
   warn('The `QasmSimulator` backend will be deprecated in the'
 ERROR
 
 ======================================================================
-ERROR: test_parsed_operator_and_original_job (__main__.TestIntent)
+ERROR: test_parsed_circuit_was_executed (__main__.T)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_775\test.py", line 24, in test_parsed_operator_and_original_job
-    ns = load_target()
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_775\test.py", line 18, in load_target
-    return runpy.run_path(MUT)
+  File "C:\APR2\llm_repair\updated_tests\issue_775_test.py", line 7, in test_parsed_circuit_was_executed
+    ns = runpy.run_path(os.environ["MUT"])
   File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
     return _run_module_code(code, init_globals, run_name,
   File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
@@ -32,6 +30,6 @@ Traceback (most recent call last):
 AttributeError: 'str' object has no attribute 'name'
 
 ----------------------------------------------------------------------
-Ran 1 test in 2.058s
+Ran 1 test in 2.283s
 
 FAILED (errors=1)

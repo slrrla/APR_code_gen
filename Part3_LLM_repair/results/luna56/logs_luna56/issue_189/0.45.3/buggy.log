@@ -1,16 +1,13 @@
 
-test_qpe_mapping_and_controlled_powers (__main__.TestIntent.test_qpe_mapping_and_controlled_powers) ... ERROR
+test_controlled_powers_either_control_order (__main__.T.test_controlled_powers_either_control_order) ... ERROR
 
 ======================================================================
-ERROR: test_qpe_mapping_and_controlled_powers (__main__.TestIntent.test_qpe_mapping_and_controlled_powers)
+ERROR: test_controlled_powers_either_control_order (__main__.T.test_controlled_powers_either_control_order)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_189\test.py", line 22, in test_qpe_mapping_and_controlled_powers
-    ns = load_target()
-         ^^^^^^^^^^^^^
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_189\test.py", line 14, in load_target
-    return runpy.run_path(MUT)
-           ^^^^^^^^^^^^^^^^^^^
+  File "C:\APR2\llm_repair\updated_tests\issue_189_test.py", line 10, in test_controlled_powers_either_control_order
+    ns = runpy.run_path(os.environ["MUT"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "<frozen runpy>", line 291, in run_path
   File "<frozen runpy>", line 98, in _run_module_code
   File "<frozen runpy>", line 88, in _run_code
@@ -24,6 +21,6 @@ Traceback (most recent call last):
 qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(8)/clbit(0) arguments does not match the gate expectation (7).'
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.374s
+Ran 1 test in 3.010s
 
 FAILED (errors=1)

@@ -1,16 +1,13 @@
 
-test_printed_indices_match_actual_circuit_operands (__main__.Regression.test_printed_indices_match_actual_circuit_operands) ... ERROR
+test_printed_indices_any_format (__main__.T.test_printed_indices_any_format) ... ERROR
 
 ======================================================================
-ERROR: test_printed_indices_match_actual_circuit_operands (__main__.Regression.test_printed_indices_match_actual_circuit_operands)
+ERROR: test_printed_indices_any_format (__main__.T.test_printed_indices_any_format)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_911\test.py", line 22, in test_printed_indices_match_actual_circuit_operands
-    m = target()
-        ^^^^^^^^
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_911\test.py", line 15, in target
-    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\APR2\llm_repair\updated_tests\issue_911_test.py", line 8, in test_printed_indices_any_format
+    ns = runpy.run_path(os.environ["MUT"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "<frozen runpy>", line 291, in run_path
   File "<frozen runpy>", line 98, in _run_module_code
   File "<frozen runpy>", line 88, in _run_code
@@ -20,6 +17,6 @@ Traceback (most recent call last):
 IndexError: list index out of range
 
 ----------------------------------------------------------------------
-Ran 1 test in 1.179s
+Ran 1 test in 2.255s
 
 FAILED (errors=1)

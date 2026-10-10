@@ -1,21 +1,12 @@
 
-test_local_fake_backend_estimation (__main__.TestIntent.test_local_fake_backend_estimation) ... C:\qiskit_envs\q0460\Lib\site-packages\qiskit\providers\fake_provider\fake_pulse_backend.py:32: DeprecationWarning: All fake backend instances based on real device snapshots (`FakeVigo`,`FakeSherbrooke`,...) have been migrated to the `qiskit_ibm_runtime` package. These classes are deprecated as of qiskit 0.46.0 and will be removed in qiskit 1.0.0. To migrate your code, run `pip install qiskit-ibm-runtime` and use `from qiskit_ibm_runtime.fake_provider import FakeExample` instead of `from qiskit.providers.fake_provider import FakeExample`. If you are using a custom fake backend implementation, you don't need to take any action.
+test_local_estimation_any_result_variable (__main__.T.test_local_estimation_any_result_variable) ... C:\qiskit_envs\q0460\Lib\site-packages\qiskit\providers\fake_provider\fake_pulse_backend.py:32: DeprecationWarning: All fake backend instances based on real device snapshots (`FakeVigo`,`FakeSherbrooke`,...) have been migrated to the `qiskit_ibm_runtime` package. These classes are deprecated as of qiskit 0.46.0 and will be removed in qiskit 1.0.0. To migrate your code, run `pip install qiskit-ibm-runtime` and use `from qiskit_ibm_runtime.fake_provider import FakeExample` instead of `from qiskit.providers.fake_provider import FakeExample`. If you are using a custom fake backend implementation, you don't need to take any action.
   super().__init__()
-C:\APR2\llm_repair\llm_fixes\issue_1035\llm_fix.py:13: DeprecationWarning: All fake backend instances based on real device snapshots (`FakeVigo`,`FakeSherbrooke`,...) have been migrated to the `qiskit_ibm_runtime` package. These classes are deprecated as of qiskit 0.46.0 and will be removed in qiskit 1.0.0. To migrate your code, run `pip install qiskit-ibm-runtime` and use `from qiskit_ibm_runtime.fake_provider import FakeExample` instead of `from qiskit.providers.fake_provider import FakeExample`. If you are using a custom fake backend implementation, you don't need to take any action.
+C:\APR2\llm_repair\llm_fixes\issue_1035\llm_luna56_fix.py:13: DeprecationWarning: All fake backend instances based on real device snapshots (`FakeVigo`,`FakeSherbrooke`,...) have been migrated to the `qiskit_ibm_runtime` package. These classes are deprecated as of qiskit 0.46.0 and will be removed in qiskit 1.0.0. To migrate your code, run `pip install qiskit-ibm-runtime` and use `from qiskit_ibm_runtime.fake_provider import FakeExample` instead of `from qiskit.providers.fake_provider import FakeExample`. If you are using a custom fake backend implementation, you don't need to take any action.
   backend = FakeManila()
 <frozen runpy>:88: DeprecationWarning: Option approximation=False is deprecated as of qiskit-aer 0.13. It will be removed no earlier than 3 months after the release date. Instead, use BackendEstimator from qiskit.primitives.
-ERROR
-
-======================================================================
-ERROR: test_local_fake_backend_estimation (__main__.TestIntent.test_local_fake_backend_estimation)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_1035\test.py", line 43, in test_local_fake_backend_estimation
-    values = np.asarray(ns["result"].values, dtype=float)
-                        ~~^^^^^^^^^^
-KeyError: 'result'
+ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.458s
+Ran 1 test in 1.207s
 
-FAILED (errors=1)
+OK

@@ -1,14 +1,12 @@
 
-test_projector_and_solver_conversion (__main__.Regression) ... ERROR
+test_projector_any_operator_type (__main__.T) ... ERROR
 
 ======================================================================
-ERROR: test_projector_and_solver_conversion (__main__.Regression)
+ERROR: test_projector_any_operator_type (__main__.T)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_944\test.py", line 21, in test_projector_and_solver_conversion
-    m = target()
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_944\test.py", line 15, in target
-    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+  File "C:\APR2\llm_repair\updated_tests\issue_944_test.py", line 15, in test_projector_any_operator_type
+    ns = runpy.run_path(os.environ["MUT"])
   File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
     return _run_module_code(code, init_globals, run_name,
   File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 97, in _run_module_code
@@ -24,6 +22,6 @@ Traceback (most recent call last):
 ValueError: Composition with a Statefunctions in the first operand is not defined.
 
 ----------------------------------------------------------------------
-Ran 1 test in 2.013s
+Ran 1 test in 2.355s
 
 FAILED (errors=1)

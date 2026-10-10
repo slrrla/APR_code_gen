@@ -1,5 +1,5 @@
 
-test_projector_and_solver_conversion (__main__.Regression.test_projector_and_solver_conversion) ... C:\qiskit_envs\q0461\Lib\site-packages\qiskit\utils\algorithm_globals.py:20: DeprecationWarning: Accessing 'parallel' from 'qiskit.tools' is deprecated since Qiskit 0.46.0 and will be removed in Qiskit 1.0.0. Import from 'qiskit.utils.parallel' instead 
+test_projector_any_operator_type (__main__.T.test_projector_any_operator_type) ... C:\qiskit_envs\q0461\Lib\site-packages\qiskit\utils\algorithm_globals.py:20: DeprecationWarning: Accessing 'parallel' from 'qiskit.tools' is deprecated since Qiskit 0.46.0 and will be removed in Qiskit 1.0.0. Import from 'qiskit.utils.parallel' instead 
   from qiskit.tools import parallel
 C:\qiskit_envs\q0461\Lib\site-packages\qiskit\utils\parallel.py:56: DeprecationWarning: qiskit.tools.events is deprecated and will be removed in Qiskit 1.0.0
   from qiskit.tools.events.pubsub import Publisher
@@ -25,9 +25,9 @@ C:\qiskit_envs\q0461\Lib\site-packages\qiskit\providers\basicaer\statevector_sim
   super().__init__(
 C:\qiskit_envs\q0461\Lib\site-packages\qiskit\providers\basicaer\basicaerprovider.py:129: DeprecationWarning: The class ``qiskit.providers.basicaer.unitary_simulator.UnitarySimulatorPy`` is deprecated as of qiskit 0.46.0. It will be removed in Qiskit 1.0.0. The qiskit.providers.basicaer module has been superseded by qiskit.providers.basic_provider. The new module has no replacement for this class. Use the qiskit.quantum_info.Operator class instead.
   backend_instance = backend_cls(provider=self)
-C:\APR2\llm_repair\llm_fixes\issue_944\llm_fix.py:4: DeprecationWarning: The ``qiskit.opflow`` module is deprecated as of qiskit-terra 0.24.0. It will be removed in Qiskit 1.0. For code migration guidelines, visit https://qisk.it/opflow_migration.
+C:\APR2\llm_repair\llm_fixes\issue_944\llm_luna56_fix.py:4: DeprecationWarning: The ``qiskit.opflow`` module is deprecated as of qiskit-terra 0.24.0. It will be removed in Qiskit 1.0. For code migration guidelines, visit https://qisk.it/opflow_migration.
   from qiskit.opflow import Plus, I, X
-C:\APR2\llm_repair\llm_fixes\issue_944\llm_fix.py:5: DeprecationWarning: ``qiskit.algorithms`` has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. The ``qiskit.algorithms`` import path is deprecated as of qiskit-terra 0.25.0 and will be removed in Qiskit 1.0. Please run ``pip install qiskit_algorithms`` and use ``import qiskit_algorithms`` instead.
+C:\APR2\llm_repair\llm_fixes\issue_944\llm_luna56_fix.py:5: DeprecationWarning: ``qiskit.algorithms`` has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. The ``qiskit.algorithms`` import path is deprecated as of qiskit-terra 0.25.0 and will be removed in Qiskit 1.0. Please run ``pip install qiskit_algorithms`` and use ``import qiskit_algorithms`` instead.
   from qiskit.algorithms import NumPyEigensolver
 C:\qiskit_envs\q0461\Lib\site-packages\qiskit\opflow\primitive_ops\pauli_op.py:83: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration.
   return PauliSumOp(
@@ -39,7 +39,7 @@ C:\qiskit_envs\q0461\Lib\site-packages\qiskit\opflow\operator_base.py:56: Deprec
   super().__init__()
 C:\qiskit_envs\q0461\Lib\site-packages\qiskit\opflow\primitive_ops\pauli_sum_op.py:147: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration.
   return PauliSumOp(scalar * self.primitive, coeff=self.coeff)
-C:\APR2\llm_repair\llm_fixes\issue_944\llm_fix.py:11: DeprecationWarning: The class ``qiskit.algorithms.eigen_solvers.numpy_eigen_solver.NumPyEigensolver`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.eigensolvers.NumPyEigensolver``. See https://qisk.it/algo_migration for a migration guide.
+C:\APR2\llm_repair\llm_fixes\issue_944\llm_luna56_fix.py:11: DeprecationWarning: The class ``qiskit.algorithms.eigen_solvers.numpy_eigen_solver.NumPyEigensolver`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.eigensolvers.NumPyEigensolver``. See https://qisk.it/algo_migration for a migration guide.
   solver = NumPyEigensolver()
 C:\qiskit_envs\q0461\Lib\site-packages\qiskit\algorithms\eigen_solvers\numpy_eigen_solver.py:76: DeprecationWarning: The function ``qiskit.utils.validation.validate_min()`` is deprecated as of qiskit 0.45.0. It will be removed in the Qiskit 1.0 release. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
   validate_min("k", k, 1)
@@ -71,18 +71,41 @@ C:\qiskit_envs\q0461\Lib\site-packages\qiskit\algorithms\eigen_solvers\numpy_eig
   self._ret.eigenstates = ListOp([StateFn(vec) for vec in self._ret.eigenstates])
 C:\qiskit_envs\q0461\Lib\site-packages\qiskit\opflow\list_ops\list_op.py:82: DeprecationWarning: The class ``qiskit.opflow.operator_base.OperatorBase`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration.
   super().__init__()
-ERROR
+C:\APR2\llm_repair\updated_tests\issue_944_test.py:20: DeprecationWarning: The class ``qiskit.algorithms.eigen_solvers.numpy_eigen_solver.NumPyEigensolver`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.eigensolvers.NumPyEigensolver``. See https://qisk.it/algo_migration for a migration guide.
+  full = ns["NumPyEigensolver"](k=2).compute_eigenvalues(solver_input)
+C:\qiskit_envs\q0461\Lib\site-packages\qiskit\algorithms\eigen_solvers\numpy_eigen_solver.py:76: DeprecationWarning: The function ``qiskit.utils.validation.validate_min()`` is deprecated as of qiskit 0.45.0. It will be removed in the Qiskit 1.0 release. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+  validate_min("k", k, 1)
+C:\qiskit_envs\q0461\Lib\site-packages\qiskit\algorithms\eigen_solvers\numpy_eigen_solver.py:86: DeprecationWarning: The class ``qiskit.algorithms.eigen_solvers.eigen_solver.EigensolverResult`` is deprecated as of qiskit 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.eigensolvers.EigensolverResult``. See https://qisk.it/algo_migration for a migration guide.
+  self._ret = EigensolverResult()
+C:\qiskit_envs\q0461\Lib\site-packages\qiskit\algorithms\eigen_solvers\eigen_solver.py:68: DeprecationWarning: The class ``qiskit.algorithms.eigen_solvers.eigen_solver.EigensolverResult`` is deprecated as of qiskit 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.eigensolvers.EigensolverResult``. See https://qisk.it/algo_migration for a migration guide.
+  return EigensolverResult()
+C:\qiskit_envs\q0461\Lib\site-packages\qiskit\opflow\primitive_ops\primitive_op.py:174: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.pauli_op.PauliOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  temp = PrimitiveOp(self.primitive, coeff=self.coeff)  # type: OperatorBase
+C:\qiskit_envs\q0461\Lib\site-packages\qiskit\opflow\primitive_ops\pauli_op.py:56: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.primitive_op.PrimitiveOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__(primitive, coeff=coeff)
+C:\qiskit_envs\q0461\Lib\site-packages\qiskit\opflow\primitive_ops\primitive_op.py:112: DeprecationWarning: The class ``qiskit.opflow.operator_base.OperatorBase`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0461\Lib\site-packages\qiskit\opflow\operator_base.py:56: DeprecationWarning: The class ``qiskit.opflow.mixins.star_algebra.StarAlgebraMixin`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0461\Lib\site-packages\qiskit\opflow\primitive_ops\primitive_op.py:163: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.pauli_op.PauliOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  return self.__class__(self.primitive, coeff=self.coeff * scalar)
+C:\qiskit_envs\q0461\Lib\site-packages\qiskit\algorithms\eigen_solvers\numpy_eigen_solver.py:237: DeprecationWarning: The class ``qiskit.algorithms.eigen_solvers.eigen_solver.EigensolverResult`` is deprecated as of qiskit 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.eigensolvers.EigensolverResult``. See https://qisk.it/algo_migration for a migration guide.
+  self._ret = EigensolverResult()
+C:\qiskit_envs\q0461\Lib\site-packages\qiskit\algorithms\eigen_solvers\numpy_eigen_solver.py:276: DeprecationWarning: The class ``qiskit.opflow.state_fns.vector_state_fn.VectorStateFn`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  self._ret.eigenstates = ListOp([StateFn(vec) for vec in self._ret.eigenstates])
+C:\qiskit_envs\q0461\Lib\site-packages\qiskit\opflow\state_fns\vector_state_fn.py:64: DeprecationWarning: The class ``qiskit.opflow.state_fns.state_fn.StateFn`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__(primitive, coeff=coeff, is_measurement=is_measurement)
+C:\qiskit_envs\q0461\Lib\site-packages\qiskit\opflow\state_fns\state_fn.py:144: DeprecationWarning: The class ``qiskit.opflow.operator_base.OperatorBase`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0461\Lib\site-packages\qiskit\opflow\operator_base.py:56: DeprecationWarning: The class ``qiskit.opflow.mixins.star_algebra.StarAlgebraMixin`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+C:\qiskit_envs\q0461\Lib\site-packages\qiskit\algorithms\eigen_solvers\numpy_eigen_solver.py:276: DeprecationWarning: The class ``qiskit.opflow.list_ops.list_op.ListOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  self._ret.eigenstates = ListOp([StateFn(vec) for vec in self._ret.eigenstates])
+C:\qiskit_envs\q0461\Lib\site-packages\qiskit\opflow\list_ops\list_op.py:82: DeprecationWarning: The class ``qiskit.opflow.operator_base.OperatorBase`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration.
+  super().__init__()
+ok
 
-======================================================================
-ERROR: test_projector_and_solver_conversion (__main__.Regression.test_projector_and_solver_conversion)
 ----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_944\test.py", line 23, in test_projector_and_solver_conversion
-    np.testing.assert_allclose(m["proj"].data, expected, atol=1e-12)
-                               ^^^^^^^^^^^^^^
-AttributeError: 'PauliSumOp' object has no attribute 'data'
+Ran 1 test in 8.445s
 
-----------------------------------------------------------------------
-Ran 1 test in 3.867s
-
-FAILED (errors=1)
+OK

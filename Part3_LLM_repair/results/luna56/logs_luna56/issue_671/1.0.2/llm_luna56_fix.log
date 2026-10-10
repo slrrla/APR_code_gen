@@ -1,33 +1,7 @@
 
-test_registered_bits_and_full_permutation (__main__.TestIntent.test_registered_bits_and_full_permutation) ... FAIL
-
-======================================================================
-FAIL: test_registered_bits_and_full_permutation (__main__.TestIntent.test_registered_bits_and_full_permutation)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_671\test.py", line 36, in test_registered_bits_and_full_permutation
-    np.testing.assert_allclose(matrix,expected,atol=1e-10)
-  File "C:\qiskit_envs\q102\Lib\site-packages\numpy\testing\_private\utils.py", line 1504, in assert_allclose
-    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
-  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 81, in inner
-    return func(*args, **kwds)
-           ^^^^^^^^^^^^^^^^^^^
-  File "C:\qiskit_envs\q102\Lib\site-packages\numpy\testing\_private\utils.py", line 797, in assert_array_compare
-    raise AssertionError(msg)
-AssertionError: 
-Not equal to tolerance rtol=1e-07, atol=1e-10
-
-Mismatched elements: 1024 / 262144 (0.391%)
-Max absolute difference: 1.
-Max relative difference: 1.
- x: array([[1.+0.j, 0.+0.j, 0.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],
-       [0.+0.j, 1.+0.j, 0.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],
-       [0.+0.j, 0.+0.j, 1.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],...
- y: array([[0.+0.j, 0.+0.j, 1.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],
-       [0.+0.j, 0.+0.j, 0.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],
-       [1.+0.j, 0.+0.j, 0.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],...
+test_registers_only (__main__.T.test_registers_only) ... ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.951s
+Ran 1 test in 1.492s
 
-FAILED (failures=1)
+OK
