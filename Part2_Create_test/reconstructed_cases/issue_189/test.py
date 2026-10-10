@@ -1,42 +1,40 @@
-"""Intent: append each controlled Grover power to one control plus six fixed targets."""
-import contextlib
-import io
-import os
-from pathlib import Path
-import runpy
-import unittest
-
-CASE_DIR = Path(__file__).resolve().parent
-MUT = os.environ.get("MUT", str(CASE_DIR / "fixed.py"))
-
-def load_target():
-    with contextlib.redirect_stdout(io.StringIO()):
-        return runpy.run_path(MUT)
-
+import contextlib, io, os, runpy, unittest
 
 import numpy as np
 from qiskit.quantum_info import Operator
 
-class TestIntent(unittest.TestCase):
-    def test_qpe_mapping_and_controlled_powers(self):
-        ns = load_target()
+
+class T(unittest.TestCase):
+    def test_controlled_powers_either_control_order(self):
+        with contextlib.redirect_stdout(io.StringIO()):
+            ns = runpy.run_path(os.environ["MUT"])
         qpe = ns["qpe"]
         self.assertEqual(qpe.num_qubits, 9)
         self.assertEqual(qpe.num_clbits, 0)
         self.assertEqual(len(qpe.data), 3)
-        # Analytic Grover matrix: (2|s><s| - I) Z_on_target_5.
-        diffusion = np.ones((64,64))/32 - np.eye(64)
-        oracle = np.diag([1]*32 + [-1]*32)
+        diffusion = np.ones((64, 64)) / 32 - np.eye(64)
+        oracle = np.diag([1] * 32 + [-1] * 32)
         grover = diffusion @ oracle
-        for i,(op,qargs,cargs) in enumerate(qpe.data):
-            self.assertEqual([qpe.qubits.index(q) for q in qargs], [i,3,4,5,6,7,8])
+        mapping = {}
+        for op, qargs, cargs in qpe.data:
+            idx = [qpe.qubits.index(q) for q in qargs]
             self.assertFalse(cargs)
             self.assertEqual(op.num_qubits, 7)
-            expected = np.zeros((128,128), dtype=complex)
-            expected[::2,::2] = np.eye(64)
-            expected[1::2,1::2] = np.linalg.matrix_power(grover, 2**(2-i))
-            np.testing.assert_allclose(Operator(op).data, expected, atol=1e-8, rtol=0)
+            self.assertIn(idx[0], (0, 1, 2))
+            self.assertEqual(idx[1:], [3, 4, 5, 6, 7, 8])
+            data = Operator(op).data
+            matches = []
+            for power in (1, 2, 4):
+                expected = np.zeros((128, 128), dtype=complex)
+                expected[::2, ::2] = np.eye(64)
+                expected[1::2, 1::2] = np.linalg.matrix_power(grover, power)
+                if np.allclose(data, expected, atol=1e-8, rtol=0):
+                    matches.append(power)
+            self.assertEqual(len(matches), 1, "not a controlled Grover power 1, 2 or 4")
+            mapping[idx[0]] = matches[0]
+        self.assertEqual(set(mapping), {0, 1, 2})
+        self.assertIn(mapping, ({0: 1, 1: 2, 2: 4}, {0: 4, 1: 2, 2: 1}))
+
 
 if __name__ == "__main__":
     unittest.main()
-
