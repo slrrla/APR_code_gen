@@ -17,7 +17,7 @@ ENV_ROOT = Path(r"C:\qiskit_envs")
 SUPPORT_ROOT = ENV_ROOT / "_support"
 RUNTIME_SUPPORT_ROOT = ENV_ROOT / "_support_runtime"
 RUNTIME_CASES = {"issue_742", "issue_876"}
-MODEL_TAGS = {"gpt-5.6-luna": "luna56", "gpt-6-luna": "luna6", "gpt-6-astra": "astra6"}
+MODEL_TAGS = {"gpt-5.6-luna": "luna56", "gpt-6-luna": "luna6", "gpt-6-astra": "astra6", "gpt-6.1-sol": "sol61"}
 LLM_VARIANT = "llm_luna56_fix"
 VARIANTS = ["buggy", "fixed", LLM_VARIANT]
 TIMEOUT = 120
@@ -225,8 +225,8 @@ def main():
     previous = {(r["case_id"], r["qiskit_version"]): r for r in old_rows}
     for r in rows:
         old = previous.get((r["case_id"], r["qiskit_version"]))
-        if old and old.get("llm_status") == r["llm_status"]:
-            r["result_description"] = old.get("result_description", "")
+        if old and old.get("llm_status") == r["llm_status"] and "result_description" in old:
+            r["result_description"] = old["result_description"]
     merged = [r for r in old_rows if r["case_id"] not in plan] + rows
     for r in merged:
         r["batch"] = r.get("batch") or BATCH_OF.get(r["case_id"], "")
