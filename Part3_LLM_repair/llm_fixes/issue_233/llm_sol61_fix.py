@@ -1,0 +1,30 @@
+from qiskit.circuit.library import TwoLocal
+import numpy as np
+
+num_qubits = 2
+
+rot = TwoLocal(
+    int(np.sum(num_qubits)),
+    "ry",
+    [],
+    reps=1,
+    skip_final_rotation_layer=True,
+    parameter_prefix="p",
+)
+var = TwoLocal(
+    int(np.sum(num_qubits)),
+    "ry",
+    "cx",
+    entanglement="linear",
+    reps=1,
+    skip_final_rotation_layer=True,
+)
+
+# FIX: Called the template parameter count -> read num_parameters, because it counts the circuit's actual free parameters.
+print(rot.num_parameters)
+
+rot.compose(var, inplace=True)
+
+# FIX: Queried the original template's parameter count -> read num_parameters, because it includes parameters added by composition.
+print(rot.num_parameters)
+

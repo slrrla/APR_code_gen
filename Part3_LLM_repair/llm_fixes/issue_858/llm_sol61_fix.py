@@ -1,0 +1,11 @@
+# FIX: IBMQ cannot retrieve a retired backend -> import FakeOslo, because it contains a saved snapshot of Oslo's properties.
+from qiskit.providers.fake_provider import FakeOslo
+
+# FIX: Account loading and live backend lookup cannot access retired ibm_oslo -> use FakeOslo(), because its saved properties are available locally.
+backend = FakeOslo()
+
+system = backend
+print(system.properties().backend_version)
+print(system.properties().last_update_date)
+print(system.properties().qubits)
+

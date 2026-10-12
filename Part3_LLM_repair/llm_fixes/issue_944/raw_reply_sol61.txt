@@ -1,0 +1,16 @@
+```python
+import numpy as np
+from qiskit.quantum_info import Statevector
+# FIX: State-function composition cannot represent this projector -> import MatrixOp, because it wraps matrices as opflow operators.
+from qiskit.opflow import Plus, MatrixOp
+from qiskit.algorithms import NumPyEigensolver
+
+# FIX: Plus @ ~Plus is unsupported state-function composition -> wrap the outer product in MatrixOp, because it constructs the projector |+><+|.
+proj = MatrixOp(np.outer(Plus.to_matrix(), Plus.to_matrix().conj()))
+
+plus = Statevector([1/np.sqrt(2), 1/np.sqrt(2)]).to_operator()
+solver = NumPyEigensolver()
+# FIX: quantum_info.Operator lacks to_spmatrix -> wrap plus in MatrixOp, because NumPyEigensolver expects an opflow operator.
+spectrum = solver.compute_eigenvalues(MatrixOp(plus))
+
+```

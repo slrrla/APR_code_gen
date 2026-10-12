@@ -1,0 +1,21 @@
+```python
+from qiskit.circuit import QuantumCircuit
+from qiskit import transpile
+# FIX: The translator lacks an S-to-T equivalence -> import the equivalence library and S gate, because the missing rule must be registered.
+from qiskit.circuit.equivalence_library import SessionEquivalenceLibrary
+from qiskit.circuit.library import SGate
+
+qc = QuantumCircuit(2)
+qc.h(0)
+qc.s(0)
+qc.cx(0, 1)
+
+# FIX: S cannot be translated into the requested basis using the existing rules -> register S = T T, because this exact decomposition uses only allowed gates.
+s_decomposition = QuantumCircuit(1)
+s_decomposition.t(0)
+s_decomposition.t(0)
+SessionEquivalenceLibrary.add_equivalence(SGate(), s_decomposition)
+basis_gates = ["h", "t", "cx", "id"]
+qc_transpiled = transpile(qc, basis_gates=basis_gates)
+
+```
