@@ -1,0 +1,99 @@
+Title:
+Choosing a different optimizer when running QAOA in qiskit
+
+Category:
+
+
+Question:
+Title: Choosing a different optimizer when running QAOA in qiskit
+
+I am trying to reproduce the QAOA example from https://qiskit.org/textbook/ch-applications/qaoa.html and learn how to opt for a different optimizer. The relevant block in the example is (towards the end of the example): This effectively calls for COBYLA from scipy. However, in qiskit.algorithms.optimizers we can see a lot of other options: https://qiskit.org/documentation/stubs/qiskit.algorithms.optimizers.html At the moment, for the block of code given above I cannot figure out how to change my optimizer. Say I want to apply ADAM or GradientDescent or SPSA. It is not clear to me how I can do that since just passing the argument 'ADAM' (for example) as below give a error. I get the corresponding error when I try other optimizers too. How can I deal with this?
+
+```
+from scipy.optimize import minimize expectation = get_expectation(G, p=1) res = minimize(expectation, [1.0, 1.0], method='COBYLA') res
+```
+
+```
+from scipy.optimize import minimize expectation = get_expectation(G, p=1) res = minimize(expectation, [1.0, 1.0], method='COBYLA') res
+```
+
+```
+res = minimize(expectation, [1.0, 1.0], method='ADAM')
+```
+
+```
+res = minimize(expectation, [1.0, 1.0], method='ADAM')
+```
+
+```
+ValueError: Unknown solver ADAM
+```
+
+Original buggy code:
+from scipy.optimize import minimize expectation = get_expectation(G, p=1) res = minimize(expectation, [1.0, 1.0], method='COBYLA') res
+
+---CODE_BLOCK---
+
+from scipy.optimize import minimize expectation = get_expectation(G, p=1) res = minimize(expectation, [1.0, 1.0], method='COBYLA') res
+
+---CODE_BLOCK---
+
+res = minimize(expectation, [1.0, 1.0], method='ADAM')
+
+---CODE_BLOCK---
+
+res = minimize(expectation, [1.0, 1.0], method='ADAM')
+
+---CODE_BLOCK---
+
+ValueError: Unknown solver ADAM
+
+Solution explanation:
+The in need to be instantiated then you can call their method. e.g. So instead of the optimizer internally being created via a name passed to the argument of scipy (where name is one of the optimizers available via scipy) here you create an instance and configure it via the constructor parameters, and use the minimize method on that instance.
+
+```
+optimizers
+```
+
+```
+Qiskit
+```
+
+```
+minimize()
+```
+
+```
+from qiskit.algorithms.optimizers import SPSA opt = SPSA(maxiter=300) res = opt.minimize(expectation, [1.0, 1.0])
+```
+
+```
+from qiskit.algorithms.optimizers import SPSA opt = SPSA(maxiter=300) res = opt.minimize(expectation, [1.0, 1.0])
+```
+
+```
+method
+```
+
+Original fixed code:
+optimizers
+
+---CODE_BLOCK---
+
+Qiskit
+
+---CODE_BLOCK---
+
+minimize()
+
+---CODE_BLOCK---
+
+from qiskit.algorithms.optimizers import SPSA opt = SPSA(maxiter=300) res = opt.minimize(expectation, [1.0, 1.0])
+
+---CODE_BLOCK---
+
+from qiskit.algorithms.optimizers import SPSA opt = SPSA(maxiter=300) res = opt.minimize(expectation, [1.0, 1.0])
+
+---CODE_BLOCK---
+
+method

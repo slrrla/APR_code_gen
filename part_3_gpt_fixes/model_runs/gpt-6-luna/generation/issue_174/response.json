@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWVwM2EpVyTOWBmfUeFHmFPl8sy2E",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import QuantumCircuit, execute\nfrom qiskit import BasicAer as Aer\n\ncloner1 = \"\"\"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[5];\ncreg c[1];\nx q[2];\nx q[4];\nx q[0]; //Set up input\nmeasure q[0] -> c[0];\n# FIX: OpenQASM 2 conditionals compare classical registers, not indexed bits -> use c, because the parser requires a register identifier.\nif (c==1) CX q[1],q[2];\nif (c==1) CX q[2],q[1];\nif (c==1) CX q[1],q[2];\nif (c==1) CX q[3],q[4];\nif (c==1) CX q[4],q[3];\nif (c==1) CX q[3],q[4];\nmeasure q[1]->c[0];\nmeasure q[3]->c[0];\n\"\"\"\n\ncircuit = QuantumCircuit.from_qasm_str(cloner1)\n\nbackend = Aer.get_backend('qasm_simulator')\njob = execute(circuit, backend, shots=1024)\nresult = job.result()\nprint(result.get_counts())\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791417982,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 521,
+    "prompt_tokens": 1221,
+    "total_tokens": 1742,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 241,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1218,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

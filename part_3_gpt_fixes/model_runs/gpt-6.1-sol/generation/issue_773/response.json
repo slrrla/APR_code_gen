@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWAZpxTB4BQEdGFkz1SHPSB3kCZf",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\n# NO BUG: The second import shadows the first, but its job monitor also works with this simulator job.\nfrom qiskit import QuantumCircuit, execute, Aer\nfrom qiskit.tools.monitor import job_monitor\nfrom qiskit.providers.ibmq.job import job_monitor\n\nqc = QuantumCircuit(1, 1)\nqc.h(0)\nqc.measure(0, 0)\n\nbackend = Aer.get_backend('qasm_simulator')\njob = execute(qc, backend)\n\njob_monitor(job)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418863,
+  "model": "gpt-6.1-sol",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 526,
+    "prompt_tokens": 632,
+    "total_tokens": 1158,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 411,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

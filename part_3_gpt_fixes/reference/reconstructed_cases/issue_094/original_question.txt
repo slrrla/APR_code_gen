@@ -1,0 +1,113 @@
+Title:
+Qiskit - Simpler way to create a Hamiltonian
+
+Category:
+import
+
+Why AI Wins in This Category:
+
+In this import-related category, clarity, scalability, and integration matter. The AI-generated response:
+
+Builds scalable Hamiltonians,
+
+Integrates seamlessly with downstream VQE usage,
+
+Provides full, executable code,
+
+Explains each step clearly.
+
+Hence, it significantly outperforms the Stack Overflow answer in depth, accuracy, and usability.
+
+Question:
+Title: Qiskit - Simpler way to create a Hamiltonian
+
+I am looking for an efficient way to create a Hamiltonian in Qiskit. Following are my desired input and outputs input: 'ZZI' output: Z^Z^I, where Z and I are operators. Here is how I am doing it right now: If I have to run the same experiment on a 4 qubit, I need to redo the again. For example it would be: This option is not scalable when I have a 15 qubit circuit. I would really appreciate it if anyone can guide me in a way that I can build a scalable . I tried the following method and no luck: Any guidance would be really appreciated!
+
+```
+from qiskit.circuit.library import TwoLocal from qiskit.opflow import X, Y, Z, I from qiskit.utils import QuantumInstance from qiskit import * from qiskit.algorithms.optimizers import COBYLA from qiskit.algorithms import VQE weights = [i for i in range(1,4)] hamiltonian = weights[0]*(Z^Z^I) + weights[1]*(Z^I^Z) + weights[2]*(I^Z^Z) num_qubits = hamiltonian.num_qubits ansatz = TwoLocal(num_qubits, ['ry','rz'], 'cx', 'linear', reps=1, insert_barriers=True) qi = QuantumInstance(Aer.get_backend('statevector_simulator')) optimizer = COBYLA(maxiter=100) vqe = VQE(ansatz, optimizer=optimizer, quantum_instance=qi) result = vqe.compute_minimum_eigenvalue(hamiltonian)
+```
+
+```
+from qiskit.circuit.library import TwoLocal from qiskit.opflow import X, Y, Z, I from qiskit.utils import QuantumInstance from qiskit import * from qiskit.algorithms.optimizers import COBYLA from qiskit.algorithms import VQE weights = [i for i in range(1,4)] hamiltonian = weights[0]*(Z^Z^I) + weights[1]*(Z^I^Z) + weights[2]*(I^Z^Z) num_qubits = hamiltonian.num_qubits ansatz = TwoLocal(num_qubits, ['ry','rz'], 'cx', 'linear', reps=1, insert_barriers=True) qi = QuantumInstance(Aer.get_backend('statevector_simulator')) optimizer = COBYLA(maxiter=100) vqe = VQE(ansatz, optimizer=optimizer, quantum_instance=qi) result = vqe.compute_minimum_eigenvalue(hamiltonian)
+```
+
+```
+hamiltonian
+```
+
+```
+hamiltonian = weights[0]*(Z^Z^I^I) + weights[1]*(Z^I^Z^I) + weights[2]*(Z^I^I^Z) + weights[3]*(I^Z^Z^I) + weights[4]*(I^Z^I^Z) + + weights[4]*(I^I^Z^Z)
+```
+
+```
+hamiltonian = weights[0]*(Z^Z^I^I) + weights[1]*(Z^I^Z^I) + weights[2]*(Z^I^I^Z) + weights[3]*(I^Z^Z^I) + weights[4]*(I^Z^I^Z) + + weights[4]*(I^I^Z^Z)
+```
+
+```
+hamiltonian
+```
+
+```
+from qiskit.quantum_info.operators import Operator, Pauli hamiltonian = Operator(Pauli(label='ZZI')) + Operator(Pauli(label='ZIZ')) + Operator(Pauli(label='IZZ'))
+```
+
+```
+from qiskit.quantum_info.operators import Operator, Pauli hamiltonian = Operator(Pauli(label='ZZI')) + Operator(Pauli(label='ZIZ')) + Operator(Pauli(label='IZZ'))
+```
+
+Original buggy code:
+from qiskit.circuit.library import TwoLocal from qiskit.opflow import X, Y, Z, I from qiskit.utils import QuantumInstance from qiskit import * from qiskit.algorithms.optimizers import COBYLA from qiskit.algorithms import VQE weights = [i for i in range(1,4)] hamiltonian = weights[0]*(Z^Z^I) + weights[1]*(Z^I^Z) + weights[2]*(I^Z^Z) num_qubits = hamiltonian.num_qubits ansatz = TwoLocal(num_qubits, ['ry','rz'], 'cx', 'linear', reps=1, insert_barriers=True) qi = QuantumInstance(Aer.get_backend('statevector_simulator')) optimizer = COBYLA(maxiter=100) vqe = VQE(ansatz, optimizer=optimizer, quantum_instance=qi) result = vqe.compute_minimum_eigenvalue(hamiltonian)
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import TwoLocal from qiskit.opflow import X, Y, Z, I from qiskit.utils import QuantumInstance from qiskit import * from qiskit.algorithms.optimizers import COBYLA from qiskit.algorithms import VQE weights = [i for i in range(1,4)] hamiltonian = weights[0]*(Z^Z^I) + weights[1]*(Z^I^Z) + weights[2]*(I^Z^Z) num_qubits = hamiltonian.num_qubits ansatz = TwoLocal(num_qubits, ['ry','rz'], 'cx', 'linear', reps=1, insert_barriers=True) qi = QuantumInstance(Aer.get_backend('statevector_simulator')) optimizer = COBYLA(maxiter=100) vqe = VQE(ansatz, optimizer=optimizer, quantum_instance=qi) result = vqe.compute_minimum_eigenvalue(hamiltonian)
+
+---CODE_BLOCK---
+
+hamiltonian
+
+---CODE_BLOCK---
+
+hamiltonian = weights[0]*(Z^Z^I^I) + weights[1]*(Z^I^Z^I) + weights[2]*(Z^I^I^Z) + weights[3]*(I^Z^Z^I) + weights[4]*(I^Z^I^Z) + + weights[4]*(I^I^Z^Z)
+
+---CODE_BLOCK---
+
+hamiltonian = weights[0]*(Z^Z^I^I) + weights[1]*(Z^I^Z^I) + weights[2]*(Z^I^I^Z) + weights[3]*(I^Z^Z^I) + weights[4]*(I^Z^I^Z) + + weights[4]*(I^I^Z^Z)
+
+---CODE_BLOCK---
+
+hamiltonian
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info.operators import Operator, Pauli hamiltonian = Operator(Pauli(label='ZZI')) + Operator(Pauli(label='ZIZ')) + Operator(Pauli(label='IZZ'))
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info.operators import Operator, Pauli hamiltonian = Operator(Pauli(label='ZZI')) + Operator(Pauli(label='ZIZ')) + Operator(Pauli(label='IZZ'))
+
+Solution explanation:
+You use PauliSumOp to do (for example) the following: You can then pass this object into the VQE instance like you did.
+
+```
+from qiskit.opflow.primitive_ops import PauliSumOp paulis = ['IZ', 'XZ', 'YZ', 'ZZ', 'XX'] weights = [1,2,3,4,5] pauli_op = [([pauli,weight]) for pauli,weight in zip(paulis,weights)] hamiltonian = PauliSumOp.from_list([ op for op in pauli_op ])
+```
+
+```
+from qiskit.opflow.primitive_ops import PauliSumOp paulis = ['IZ', 'XZ', 'YZ', 'ZZ', 'XX'] weights = [1,2,3,4,5] pauli_op = [([pauli,weight]) for pauli,weight in zip(paulis,weights)] hamiltonian = PauliSumOp.from_list([ op for op in pauli_op ])
+```
+
+```
+hamiltonian
+```
+
+Original fixed code:
+from qiskit.opflow.primitive_ops import PauliSumOp paulis = ['IZ', 'XZ', 'YZ', 'ZZ', 'XX'] weights = [1,2,3,4,5] pauli_op = [([pauli,weight]) for pauli,weight in zip(paulis,weights)] hamiltonian = PauliSumOp.from_list([ op for op in pauli_op ])
+
+---CODE_BLOCK---
+
+from qiskit.opflow.primitive_ops import PauliSumOp paulis = ['IZ', 'XZ', 'YZ', 'ZZ', 'XX'] weights = [1,2,3,4,5] pauli_op = [([pauli,weight]) for pauli,weight in zip(paulis,weights)] hamiltonian = PauliSumOp.from_list([ op for op in pauli_op ])
+
+---CODE_BLOCK---
+
+hamiltonian

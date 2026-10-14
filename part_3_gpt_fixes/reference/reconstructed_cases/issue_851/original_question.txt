@@ -1,0 +1,123 @@
+Title:
+Getting combined counts when using qiskit_ibm_runtime.SamplerV2
+
+Category:
+
+
+Question:
+Title: Getting combined counts when using qiskit_ibm_runtime.SamplerV2
+
+Earlier it was very easy and straightforward to get counts for all classical registers using just one line of code: However, when I run such code on QPU I'm getting a warning that such call is deprecated and will be removed soon and a link to a documentation how to use the new SamplerV2 instead. Using SamplerV2 I can get the 'combined' counts in such way: The problem is that if I want to use the meas property I need to invoke measure_all() on the circuit. Otherwise I have to obtain count for each register individually in such way: However, such approach brings some problems. First of all, it is quite messy and error-prone to use a register name as a property in results. Also for my algo the value of one register measurement has no sense and I need to analyse the output in total for all registers (for example, how many times 101 was measured in one shot and so on). Additionally I can't use measure_all() as measurements happen on my circuit on different stages. How can I get combined counts when using qiskit_ibm_runtime.SamplerV2? Or using any other 'modern' approach without having 'deprecated' warnings.
+
+```
+counts = backend.run(qc, shots=1000).result().get_counts()
+```
+
+```
+counts = backend.run(qc, shots=1000).result().get_counts()
+```
+
+```
+job = sampler.run([qc]) result = job.result()[0] counts = result.data.meas.get_counts()
+```
+
+```
+job = sampler.run([qc]) result = job.result()[0] counts = result.data.meas.get_counts()
+```
+
+```
+counts_c_reg0 = result.data.c_reg0.get_counts()
+```
+
+```
+counts_c_reg0 = result.data.c_reg0.get_counts()
+```
+
+Original buggy code:
+counts = backend.run(qc, shots=1000).result().get_counts()
+
+---CODE_BLOCK---
+
+counts = backend.run(qc, shots=1000).result().get_counts()
+
+---CODE_BLOCK---
+
+job = sampler.run([qc]) result = job.result()[0] counts = result.data.meas.get_counts()
+
+---CODE_BLOCK---
+
+job = sampler.run([qc]) result = job.result()[0] counts = result.data.meas.get_counts()
+
+---CODE_BLOCK---
+
+counts_c_reg0 = result.data.c_reg0.get_counts()
+
+---CODE_BLOCK---
+
+counts_c_reg0 = result.data.c_reg0.get_counts()
+
+Solution explanation:
+Great question. I struggled with this myself recently. Luckily, there is a simple solution, which unfortunately isn’t easy to find since it has not been used in any demos/tutorials. You can use the method from the class as follows: This will combine the results of all registers. And the nice thing is that, even if you only have one register in your circuit, you don't need to specify its name as an attribute to extract the result. Getting counts for separate registers I know your question was explicitly about combined counts, but in case you want to extract separate register results and still "avoid" the messiness of dealing with register names explicitly, you can do the following: The first loop will iterate over each PUB result. The second loop will iterate over each of the register results, which are stored in a dictionary-like object where they keys are the register names, and the values have the experiment results. I store all results in another dictionary where the keys are strings with the circuit number and the register name, but of course you can change this to whatever works best for your needs. You will need an extra for loop if you have parametrized circuits in order to iterate over each set of parameters.
+
+```
+.join_data
+```
+
+```
+SamplerPubResult
+```
+
+```
+job = sampler.run([qc]) result = job.result()[0] counts = result.join_data().get_counts()
+```
+
+```
+job = sampler.run([qc]) result = job.result()[0] counts = result.join_data().get_counts()
+```
+
+```
+counts_dict = {} for i, pub_res in enumerate(result): for key, val in pub_res.data.items(): reg_name = f'cir_{i}_{key}' counts_dict[reg_name] = val.get_counts()
+```
+
+```
+counts_dict = {} for i, pub_res in enumerate(result): for key, val in pub_res.data.items(): reg_name = f'cir_{i}_{key}' counts_dict[reg_name] = val.get_counts()
+```
+
+```
+for
+```
+
+```
+for
+```
+
+Original fixed code:
+.join_data
+
+---CODE_BLOCK---
+
+SamplerPubResult
+
+---CODE_BLOCK---
+
+job = sampler.run([qc]) result = job.result()[0] counts = result.join_data().get_counts()
+
+---CODE_BLOCK---
+
+job = sampler.run([qc]) result = job.result()[0] counts = result.join_data().get_counts()
+
+---CODE_BLOCK---
+
+counts_dict = {} for i, pub_res in enumerate(result): for key, val in pub_res.data.items(): reg_name = f'cir_{i}_{key}' counts_dict[reg_name] = val.get_counts()
+
+---CODE_BLOCK---
+
+counts_dict = {} for i, pub_res in enumerate(result): for key, val in pub_res.data.items(): reg_name = f'cir_{i}_{key}' counts_dict[reg_name] = val.get_counts()
+
+---CODE_BLOCK---
+
+for
+
+---CODE_BLOCK---
+
+for

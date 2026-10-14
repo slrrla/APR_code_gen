@@ -1,0 +1,11 @@
+Title: Qiskit **Param - Power of Parameter [closed]
+
+Closed. This question is off-topic. It is not currently accepting answers. This question does not appear to be about quantum computing or quantum information, within the scope defined in the help center. Closed 3 years ago. Improve this question Trying to create gate, that its angle is parametrized, where my parameter is k, and I want to assign to theta = 1/2**k - 2 in the power of k. Looks like: And I get this error: TypeError: unsupported operand type(s) for ** or pow(): 'int' and 'Parameter' Suggestions? Thanks!
+
+```
+k = Parameter('k') # Build a sub-circuit q = QuantumRegister(2) CROT_circ = QuantumCircuit(q, name='CROT') theta = 2*pi/(2**k) CROT_circ.cp(theta, 0, 1)
+```
+
+```
+k = Parameter('k') # Build a sub-circuit q = QuantumRegister(2) CROT_circ = QuantumCircuit(q, name='CROT') theta = 2*pi/(2**k) CROT_circ.cp(theta, 0, 1)
+```

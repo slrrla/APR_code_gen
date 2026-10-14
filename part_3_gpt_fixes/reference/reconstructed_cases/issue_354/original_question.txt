@@ -1,0 +1,149 @@
+Title:
+QiskitError: 'Sum of amplitudes-squared does not equal one.'
+
+Category:
+Category
+Import (QiskitError due to invalid input state vector for initialize())
+ 
+Why AI Solution Wins in This Category
+In the Import category, where initialization errors occur due to incorrect state formatting, clarity, reproducibility, and normalization correctness are essential. The AI's step-by-step full solution:
+•        Removes ambiguity about vector construction,
+•        Applies correct linear algebra principles, and
+•        Ensures a valid input for quantum state initialization.
+Thus, AI provides a more complete and beginner-safe resolution to a common initialization issue.
+
+
+
+Question:
+Title: QiskitError: 'Sum of amplitudes-squared does not equal one.'
+
+I'm coding a 429 element length string to compare to other same length strings, but I keep getting that error. I used to fill the string to a 512 element length. I'm using 2 qubits for coding and 7 for indexing. In the last line I get the error Any help would be appreciated. Thanks
+
+```
+ljust
+```
+
+```
+import numpy as np from math import ceil, log2 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit.extensions import Initialize bitstring = "ATGGTGCTGTCTGCGGCTGACAAGACCAACGTCAAGGGTGTCTTCTCCAAAATCGGTGGC\ CATGCTGAGGAGTATGGCGCCGAGACCCTGGAGAGGATGTTCATCGCCTACCCCCAGACC\ AAGACCTACTTCCCCCACTTTGACCTGCAGCACGGCTCTGCTCAGATCAAGGCCCATGGC\ AAGAAGGTGGCGGCTGCCCTAGTTGAAGCTGTCAACCACATCGATGACATTGCGGGTGCT\ CTCTCCAAGCTCAGTGACCTCCACGCCCAAAAGCTCCGTGTGGACCCTGTCAACTTCAAA\ TTCCTGGGCCACTGCTTCCTGGTGGTGGTTGCCATCCACCACCCCGCTGCCCTGACCCCA\ GAGGTCCACGCTTCCCTGGACAAGTTCATGTGCGCCGTGGGTGCTGTGCTGACTGCCAAG\ TACCGTTAG" bitstring = bitstring.ljust(512, 'A') bitstring_len = len(bitstring) bitstring = bitstring.replace("A", "00") bitstring = bitstring.replace("C", "01") bitstring = bitstring.replace("G", "10") bitstring = bitstring.replace("T", "11") n = ceil(log2(len(bitstring))) + 1 amplitude = np.sqrt(1.0/2**(n-1)) desired_vector = np.array(list(bitstring)) desired_vector = [int(x) for x in desired_vector] desired_vector = np.multiply(desired_vector,amplitude) qr = QuantumRegister(n) cr = ClassicalRegister(n) qc = QuantumCircuit(qr, cr) qc_init = QuantumCircuit(n) inverse_qc_init = QuantumCircuit(n)
+```
+
+```
+import numpy as np from math import ceil, log2 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit.extensions import Initialize bitstring = "ATGGTGCTGTCTGCGGCTGACAAGACCAACGTCAAGGGTGTCTTCTCCAAAATCGGTGGC\ CATGCTGAGGAGTATGGCGCCGAGACCCTGGAGAGGATGTTCATCGCCTACCCCCAGACC\ AAGACCTACTTCCCCCACTTTGACCTGCAGCACGGCTCTGCTCAGATCAAGGCCCATGGC\ AAGAAGGTGGCGGCTGCCCTAGTTGAAGCTGTCAACCACATCGATGACATTGCGGGTGCT\ CTCTCCAAGCTCAGTGACCTCCACGCCCAAAAGCTCCGTGTGGACCCTGTCAACTTCAAA\ TTCCTGGGCCACTGCTTCCTGGTGGTGGTTGCCATCCACCACCCCGCTGCCCTGACCCCA\ GAGGTCCACGCTTCCCTGGACAAGTTCATGTGCGCCGTGGGTGCTGTGCTGACTGCCAAG\ TACCGTTAG" bitstring = bitstring.ljust(512, 'A') bitstring_len = len(bitstring) bitstring = bitstring.replace("A", "00") bitstring = bitstring.replace("C", "01") bitstring = bitstring.replace("G", "10") bitstring = bitstring.replace("T", "11") n = ceil(log2(len(bitstring))) + 1 amplitude = np.sqrt(1.0/2**(n-1)) desired_vector = np.array(list(bitstring)) desired_vector = [int(x) for x in desired_vector] desired_vector = np.multiply(desired_vector,amplitude) qr = QuantumRegister(n) cr = ClassicalRegister(n) qc = QuantumCircuit(qr, cr) qc_init = QuantumCircuit(n) inverse_qc_init = QuantumCircuit(n)
+```
+
+```
+QiskitError: 'Sum of amplitudes-squared does not equal one.'
+```
+
+Original buggy code:
+ljust
+
+---CODE_BLOCK---
+
+import numpy as np from math import ceil, log2 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit.extensions import Initialize bitstring = "ATGGTGCTGTCTGCGGCTGACAAGACCAACGTCAAGGGTGTCTTCTCCAAAATCGGTGGC\ CATGCTGAGGAGTATGGCGCCGAGACCCTGGAGAGGATGTTCATCGCCTACCCCCAGACC\ AAGACCTACTTCCCCCACTTTGACCTGCAGCACGGCTCTGCTCAGATCAAGGCCCATGGC\ AAGAAGGTGGCGGCTGCCCTAGTTGAAGCTGTCAACCACATCGATGACATTGCGGGTGCT\ CTCTCCAAGCTCAGTGACCTCCACGCCCAAAAGCTCCGTGTGGACCCTGTCAACTTCAAA\ TTCCTGGGCCACTGCTTCCTGGTGGTGGTTGCCATCCACCACCCCGCTGCCCTGACCCCA\ GAGGTCCACGCTTCCCTGGACAAGTTCATGTGCGCCGTGGGTGCTGTGCTGACTGCCAAG\ TACCGTTAG" bitstring = bitstring.ljust(512, 'A') bitstring_len = len(bitstring) bitstring = bitstring.replace("A", "00") bitstring = bitstring.replace("C", "01") bitstring = bitstring.replace("G", "10") bitstring = bitstring.replace("T", "11") n = ceil(log2(len(bitstring))) + 1 amplitude = np.sqrt(1.0/2**(n-1)) desired_vector = np.array(list(bitstring)) desired_vector = [int(x) for x in desired_vector] desired_vector = np.multiply(desired_vector,amplitude) qr = QuantumRegister(n) cr = ClassicalRegister(n) qc = QuantumCircuit(qr, cr) qc_init = QuantumCircuit(n) inverse_qc_init = QuantumCircuit(n)
+
+---CODE_BLOCK---
+
+import numpy as np from math import ceil, log2 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit.extensions import Initialize bitstring = "ATGGTGCTGTCTGCGGCTGACAAGACCAACGTCAAGGGTGTCTTCTCCAAAATCGGTGGC\ CATGCTGAGGAGTATGGCGCCGAGACCCTGGAGAGGATGTTCATCGCCTACCCCCAGACC\ AAGACCTACTTCCCCCACTTTGACCTGCAGCACGGCTCTGCTCAGATCAAGGCCCATGGC\ AAGAAGGTGGCGGCTGCCCTAGTTGAAGCTGTCAACCACATCGATGACATTGCGGGTGCT\ CTCTCCAAGCTCAGTGACCTCCACGCCCAAAAGCTCCGTGTGGACCCTGTCAACTTCAAA\ TTCCTGGGCCACTGCTTCCTGGTGGTGGTTGCCATCCACCACCCCGCTGCCCTGACCCCA\ GAGGTCCACGCTTCCCTGGACAAGTTCATGTGCGCCGTGGGTGCTGTGCTGACTGCCAAG\ TACCGTTAG" bitstring = bitstring.ljust(512, 'A') bitstring_len = len(bitstring) bitstring = bitstring.replace("A", "00") bitstring = bitstring.replace("C", "01") bitstring = bitstring.replace("G", "10") bitstring = bitstring.replace("T", "11") n = ceil(log2(len(bitstring))) + 1 amplitude = np.sqrt(1.0/2**(n-1)) desired_vector = np.array(list(bitstring)) desired_vector = [int(x) for x in desired_vector] desired_vector = np.multiply(desired_vector,amplitude) qr = QuantumRegister(n) cr = ClassicalRegister(n) qc = QuantumCircuit(qr, cr) qc_init = QuantumCircuit(n) inverse_qc_init = QuantumCircuit(n)
+
+---CODE_BLOCK---
+
+QiskitError: 'Sum of amplitudes-squared does not equal one.'
+
+Solution explanation:
+In this row: You set the varibale to be a vector with $1024$ entries of zeros and ones, something of the form: $$\begin{bmatrix} 0 \\1 \\0 \\ \cdots \\ 0\end{bmatrix}$$ And then in the row after: You are trying to normalize the vector by multiplying it with a normalization factor of $\frac{1}{\sqrt{1024}}$. But this normzalization factor is erroneous in that case - It would have been OK if ‘s magnitude would have been $32 = \sqrt{1024}$ - Like in the case where all the $1024$ entries are $1$, for example. A normalized version of a vector is a vector in the same "direction" but of magnitude $1$ - Given a vector $v$ of dimension $N$, its norm is $\lvert \lvert v \rvert \rvert = \sqrt{v_0^2 + v_1^2 + \cdots + v_{N-1}^2}$, and its normalized version is $\frac{v}{\lvert \lvert v \rvert \rvert}$. A normalized version of a vector is not dividing a vector by its dimension (that's what the code above is doing). As @KAJ226 mentioned - this issue can easily be solved using the method - which calculates the norm for a given vector. Then we normalize by dividing the vector by its norm. In your piece of code, replace this: with this: And now is properly normalized. If you initialize a quantum circuit of $10$ qubits ($2^{10} = 1024$) with this vector, it should be fine. For 9 qubits you need a $512$-dimensional vector.
+
+```
+desired_vector = [int(x) for x in desired_vector]
+```
+
+```
+desired_vector = [int(x) for x in desired_vector]
+```
+
+```
+desired_vector
+```
+
+```
+desired_vector = np.multiply(desired_vector,amplitude)
+```
+
+```
+desired_vector = np.multiply(desired_vector,amplitude)
+```
+
+```
+desired_vector
+```
+
+```
+np.linalg.norm()
+```
+
+```
+amplitude = np.sqrt(1.0/2**(n-1)) desired_vector = np.array(list(bitstring)) desired_vector = [int(x) for x in desired_vector] desired_vector = np.multiply(desired_vector,amplitude)
+```
+
+```
+amplitude = np.sqrt(1.0/2**(n-1)) desired_vector = np.array(list(bitstring)) desired_vector = [int(x) for x in desired_vector] desired_vector = np.multiply(desired_vector,amplitude)
+```
+
+```
+desired_vector = np.array(list(bitstring)) desired_vector = [int(x) for x in desired_vector] norm = np.linalg.norm(desired_vector) desired_vector = desired_vector / norm
+```
+
+```
+desired_vector = np.array(list(bitstring)) desired_vector = [int(x) for x in desired_vector] norm = np.linalg.norm(desired_vector) desired_vector = desired_vector / norm
+```
+
+```
+desired_vector
+```
+
+Original fixed code:
+desired_vector = [int(x) for x in desired_vector]
+
+---CODE_BLOCK---
+
+desired_vector = [int(x) for x in desired_vector]
+
+---CODE_BLOCK---
+
+desired_vector
+
+---CODE_BLOCK---
+
+desired_vector = np.multiply(desired_vector,amplitude)
+
+---CODE_BLOCK---
+
+desired_vector = np.multiply(desired_vector,amplitude)
+
+---CODE_BLOCK---
+
+desired_vector
+
+---CODE_BLOCK---
+
+np.linalg.norm()
+
+---CODE_BLOCK---
+
+amplitude = np.sqrt(1.0/2**(n-1)) desired_vector = np.array(list(bitstring)) desired_vector = [int(x) for x in desired_vector] desired_vector = np.multiply(desired_vector,amplitude)
+
+---CODE_BLOCK---
+
+amplitude = np.sqrt(1.0/2**(n-1)) desired_vector = np.array(list(bitstring)) desired_vector = [int(x) for x in desired_vector] desired_vector = np.multiply(desired_vector,amplitude)
+
+---CODE_BLOCK---
+
+desired_vector = np.array(list(bitstring)) desired_vector = [int(x) for x in desired_vector] norm = np.linalg.norm(desired_vector) desired_vector = desired_vector / norm
+
+---CODE_BLOCK---
+
+desired_vector = np.array(list(bitstring)) desired_vector = [int(x) for x in desired_vector] norm = np.linalg.norm(desired_vector) desired_vector = desired_vector / norm
+
+---CODE_BLOCK---
+
+desired_vector

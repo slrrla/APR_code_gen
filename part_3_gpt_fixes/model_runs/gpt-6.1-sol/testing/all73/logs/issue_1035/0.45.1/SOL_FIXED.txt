@@ -1,0 +1,36 @@
+CASE=issue_1035
+QISKIT=0.45.1
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\gpt-6.1-sol\generation\issue_1035\fix_1035.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_1035\test.py
+
+F
+======================================================================
+FAIL: test_local_fake_backend_estimation (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_1035\test.py", line 40, in test_local_fake_backend_estimation
+    ns = load_target()
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_1035\test.py", line 18, in load_target
+    return runpy.run_path(MUT)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\gpt-6.1-sol\generation\issue_1035\fix_1035.py", line 3, in <module>
+    from qiskit_ibm_runtime import QiskitRuntimeService, Options, Session, Estimator
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\unittest\mock.py", line 1081, in __call__
+    return self._mock_call(*args, **kwargs)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\unittest\mock.py", line 1085, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\unittest\mock.py", line 1146, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_1035\test.py", line 32, in offline_import
+    raise AssertionError("OFFLINE_CONTRACT: Runtime account/session is not a local fake backend")
+AssertionError: OFFLINE_CONTRACT: Runtime account/session is not a local fake backend
+
+----------------------------------------------------------------------
+Ran 1 test in 0.004s
+
+FAILED (failures=1)

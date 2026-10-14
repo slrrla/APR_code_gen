@@ -1,0 +1,23 @@
+Title: Qiskit code works even without measure_all() with qasm_simulator
+
+I am need help in understanding about the of the qiskit. The below code is correct even though is not being used. It would be great if someone can explain about the concept, where to use it and where not to use it?
+
+```
+measure_all()
+```
+
+```
+measure_all()
+```
+
+```
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+```
+
+```
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+```
+
+```
+measure_all()
+```

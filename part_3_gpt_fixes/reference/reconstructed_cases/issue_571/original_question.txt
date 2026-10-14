@@ -1,0 +1,107 @@
+Title:
+Difference between run, measure, transpile, execute?
+
+Category:
+
+
+Question:
+Title: Difference between run, measure, transpile, execute?
+
+quite new to quantum computing and I have to do a small presentation on quantum gates using python code(notebook).Also, please review the small code I have written for its correctness. I have some questions also as below: U gate has a lambda argument. What does it mean by lambda and what effect it have on the bloch sphere? What is this Statevector function? I am not getting it at all. Also, is the bloch sphere showing the effect different angles applied to the gate and state achieved due to effect of lambda, theta and phi? How to know the effect of lambda? What is the effect of transpile function? Does it break the gate into its individual components? Not able to understand its effect? What is the function of run? Also, what is the get_unitary giving? Is this get_unitary same as statevector(discussed above)? Now, I donot know where to put the measure, execute and how to see the histogram and the counts? Also, in this example, I am using "unitary simulator". Is this simulator same as qasm simulator? Thank you in advance for resolving me doubts.
+
+```
+import matplotlib.pyplot as plt import numpy as np from math import pi from qiskit.quantum_info import Statevector from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, transpile from qiskit.tools.visualization import circuit_drawer from qiskit.quantum_info import state_fidelity from qiskit import BasicAer from qiskit.visualization import plot_bloch_multivector backend = BasicAer.get_backend('unitary_simulator') qc = QuantumCircuit(q) qc.u(pi/2,pi/4,pi/8,q) qc.draw(output='mpl')
+```
+
+```
+import matplotlib.pyplot as plt import numpy as np from math import pi from qiskit.quantum_info import Statevector from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, transpile from qiskit.tools.visualization import circuit_drawer from qiskit.quantum_info import state_fidelity from qiskit import BasicAer from qiskit.visualization import plot_bloch_multivector backend = BasicAer.get_backend('unitary_simulator') qc = QuantumCircuit(q) qc.u(pi/2,pi/4,pi/8,q) qc.draw(output='mpl')
+```
+
+```
+state = Statevector(qc) plot_bloch_multivector(state) # argument is a statevector
+```
+
+```
+state = Statevector(qc) plot_bloch_multivector(state) # argument is a statevector
+```
+
+```
+transpiled_circuit= transpile(qc, backend) transpiled_circuit.draw(output= "mpl")
+```
+
+```
+transpiled_circuit= transpile(qc, backend) transpiled_circuit.draw(output= "mpl")
+```
+
+```
+job = backend.run(transpiled_circuit) job.result().get_unitary(qc, decimals=3)
+```
+
+```
+job = backend.run(transpiled_circuit) job.result().get_unitary(qc, decimals=3)
+```
+
+Original buggy code:
+import matplotlib.pyplot as plt import numpy as np from math import pi from qiskit.quantum_info import Statevector from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, transpile from qiskit.tools.visualization import circuit_drawer from qiskit.quantum_info import state_fidelity from qiskit import BasicAer from qiskit.visualization import plot_bloch_multivector backend = BasicAer.get_backend('unitary_simulator') qc = QuantumCircuit(q) qc.u(pi/2,pi/4,pi/8,q) qc.draw(output='mpl')
+
+---CODE_BLOCK---
+
+import matplotlib.pyplot as plt import numpy as np from math import pi from qiskit.quantum_info import Statevector from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, transpile from qiskit.tools.visualization import circuit_drawer from qiskit.quantum_info import state_fidelity from qiskit import BasicAer from qiskit.visualization import plot_bloch_multivector backend = BasicAer.get_backend('unitary_simulator') qc = QuantumCircuit(q) qc.u(pi/2,pi/4,pi/8,q) qc.draw(output='mpl')
+
+---CODE_BLOCK---
+
+state = Statevector(qc) plot_bloch_multivector(state) # argument is a statevector
+
+---CODE_BLOCK---
+
+state = Statevector(qc) plot_bloch_multivector(state) # argument is a statevector
+
+---CODE_BLOCK---
+
+transpiled_circuit= transpile(qc, backend) transpiled_circuit.draw(output= "mpl")
+
+---CODE_BLOCK---
+
+transpiled_circuit= transpile(qc, backend) transpiled_circuit.draw(output= "mpl")
+
+---CODE_BLOCK---
+
+job = backend.run(transpiled_circuit) job.result().get_unitary(qc, decimals=3)
+
+---CODE_BLOCK---
+
+job = backend.run(transpiled_circuit) job.result().get_unitary(qc, decimals=3)
+
+Solution explanation:
+So many questions in your question! Not sure I'll be able to answer them all, but I'll hopefully get you started! 1)U gate has a lambda argument. What does it mean by lambda and what effect it have on the bloch sphere? This is a link to the documentation for the gate that you used. From this I can see that the their u gate is the universal gate that uses three sequential rotations (Rz,Ry and Rz) to to change the state. The lamda you are referring to is that final rotation around z. For additional information on the u gate, see this SE post. 2)What is this Statevector function? I am not getting it at all. Also, is the bloch sphere showing the effect different angles applied to the gate and state achieved due to effect of lambda, theta and phi? How to know the effect of lambda? Yes, your Bloch vector should show the resulting state after putting your state, $|0\rangle$, through the u gate with your given rotation angles of $\pi/2$, $\pi/4$, and $\pi/8$. The $\theta$ relates to the rotation around y axis, the $\phi$ and $\lambda$ are around the z axis As for the statevector function, what it does was it took the output of your circuit and converted it into a statevector which you have then displayed on the Bloch Sphere. You could also display it in Dirac notation using in another cell. 3)What is the effect of transpile function? Does it break the gate into its individual components? Not able to understand its effect? Transpile is a function that is used to convert the circuit you have built, to one readable by actual quantum computers at IBMQ. Every time a complex circuit is transpiled it may be done slightly differently. This is not an effect you tend to see, but if you get to the point where you are worried about circuit depth, then the different transpile results become important. 4)What is the function of run? Also, what is the get_unitary giving? Is this get_unitary same as statevector(discussed above)? tells the backend to actually run the circuit rather than just looking at it. (You are no longer building it, you want to run it to see the result) Find more information on here will output the matrix that evolved your statevector. Click here for the documentation. 5)Now, I do not know where to put the measure, execute and how to see the histogram and the counts? Also, in this example, I am using "unitary simulator". Is this simulator same as qasm simulator? Thank you in advance for resolving me doubts. Measure will go at the end of your circuit. You then use the same way you used only you will execute your circuit on a different backend, as the unitary simulator is used for generating unitaries, while the qasm_simulator can simulate the measurement. After you have executed your function you will need to plot_histogram``` I'm deliberately not showing you what this code would look like in full, because I beleive that is probably a part of the assignment, but I will say that if you look at this Qiskit tutorial page, you should be able to find some examples that may help you. Best of luck!
+
+```
+state.draw()
+```
+
+```
+.run
+```
+
+```
+.run
+```
+
+```
+get_unitary
+```
+
+```
+.execute
+```
+
+```
+.run
+```
+
+```
+get_counts`` in order to
+```
+
+Original fixed code:
+I'm deliberately not showing you what this code would look like in full, because I beleive that is probably a part of the assignment, but I will say that if you look at this Qiskit tutorial page, you should be able to find some examples that may help you. Best of luck!

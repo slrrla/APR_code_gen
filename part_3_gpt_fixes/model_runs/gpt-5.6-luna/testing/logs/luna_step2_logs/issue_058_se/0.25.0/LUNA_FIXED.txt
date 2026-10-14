@@ -1,0 +1,19 @@
+﻿python.exe : C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an API. See 
+https://setuptools.pypa.io/en/latest/pkg_resources.html
+At line:54 char:32
++                 $outputLines = & $python $test 2>&1
++                                ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\Mitali..._resources.html:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  import pkg_resources
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\qiskit\providers\aer\backends\statevector_simulator.py:152: PendingDeprecationWarning: The 
+`StatevectorSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend. To obtain legacy functionality initalize with 
+`AerSimulator(method="statevector")` and append run circuits with the `save_state` instruction.
+  warn('The `StatevectorSimulator` backend will be deprecated in the'
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.066s
+
+OK
+

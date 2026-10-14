@@ -1,0 +1,95 @@
+Title:
+How to implement Shor's 9-Qubit-Code in Qiskit?
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why AI Wins in This Category:
+In circuit logic problems—especially those involving multi-step workflows like Shor encoding—the solution's clarity and integration matter. The AI provides:
+
+Directly executable code in a real QEC context.
+
+Step-by-step explanation of both state initialization and circuit operations.
+
+An educational and complete approach, which is especially useful for beginners exploring quantum error correction.
+
+These aspects make the AI solution better suited for this category.
+
+Question:
+Title: How to implement Shor's 9-Qubit-Code in Qiskit?
+
+I am new to qiskit and currently trying to implement Shor's 9-Qubit_Code. I am trying to orient my code on the example given in the official qiskit-tutorial and so far I have the following: However, I still need to be able to set the first qubit in an arbitrary state, but I do not know how to do this and I can not find something like that on the tutorials page. Could you please help me? Remark: This is not supposed to be a "serious" program, it is just for me to get a feel of what is going on.
+
+```
+import matplotlib.pyplot as plt import numpy as np import math from qiskit import * circuit = QuantumCircuit(9) circuit.cnot(0, 3) circuit.cnot(0, 6) circuit.h(0) circuit.h(3) circuit.h(6) circuit.cnot(0, 1) circuit.cnot(3, 4) circuit.cnot(6, 7) circuit.cnot(0, 2) circuit.cnot(3, 5) circuit.cnot(6, 8) # Insert some error here circuit.barrier() circuit.x(0) circuit.id(1) circuit.id(2) circuit.id(3) circuit.id(4) circuit.id(5) circuit.id(6) circuit.id(7) circuit.id(8) circuit.barrier() circuit.cnot(0, 1) circuit.cnot(3, 4) circuit.cnot(6, 7) circuit.cnot(0, 2) circuit.cnot(3, 5) circuit.cnot(6, 8) circuit.ccx(2, 1, 0) circuit.ccx(5, 4, 3) circuit.ccx(8, 7, 6) circuit.h(0) circuit.h(3) circuit.h(6) circuit.cnot(0, 3) circuit.cnot(0, 6) circuit.ccx(8, 3, 0) circuit.draw(output='mpl') plt.show() # Run the quantum circuit on a statevector simulator backend backend = Aer.get_backend('statevector_simulator') # Create a Quantum Program for execution job = backend.run(circuit) result = job.result() outputstate = result.get_statevector(circuit, decimals=3) print(outputstate)
+```
+
+```
+import matplotlib.pyplot as plt import numpy as np import math from qiskit import * circuit = QuantumCircuit(9) circuit.cnot(0, 3) circuit.cnot(0, 6) circuit.h(0) circuit.h(3) circuit.h(6) circuit.cnot(0, 1) circuit.cnot(3, 4) circuit.cnot(6, 7) circuit.cnot(0, 2) circuit.cnot(3, 5) circuit.cnot(6, 8) # Insert some error here circuit.barrier() circuit.x(0) circuit.id(1) circuit.id(2) circuit.id(3) circuit.id(4) circuit.id(5) circuit.id(6) circuit.id(7) circuit.id(8) circuit.barrier() circuit.cnot(0, 1) circuit.cnot(3, 4) circuit.cnot(6, 7) circuit.cnot(0, 2) circuit.cnot(3, 5) circuit.cnot(6, 8) circuit.ccx(2, 1, 0) circuit.ccx(5, 4, 3) circuit.ccx(8, 7, 6) circuit.h(0) circuit.h(3) circuit.h(6) circuit.cnot(0, 3) circuit.cnot(0, 6) circuit.ccx(8, 3, 0) circuit.draw(output='mpl') plt.show() # Run the quantum circuit on a statevector simulator backend backend = Aer.get_backend('statevector_simulator') # Create a Quantum Program for execution job = backend.run(circuit) result = job.result() outputstate = result.get_statevector(circuit, decimals=3) print(outputstate)
+```
+
+Original buggy code:
+import matplotlib.pyplot as plt import numpy as np import math from qiskit import * circuit = QuantumCircuit(9) circuit.cnot(0, 3) circuit.cnot(0, 6) circuit.h(0) circuit.h(3) circuit.h(6) circuit.cnot(0, 1) circuit.cnot(3, 4) circuit.cnot(6, 7) circuit.cnot(0, 2) circuit.cnot(3, 5) circuit.cnot(6, 8) # Insert some error here circuit.barrier() circuit.x(0) circuit.id(1) circuit.id(2) circuit.id(3) circuit.id(4) circuit.id(5) circuit.id(6) circuit.id(7) circuit.id(8) circuit.barrier() circuit.cnot(0, 1) circuit.cnot(3, 4) circuit.cnot(6, 7) circuit.cnot(0, 2) circuit.cnot(3, 5) circuit.cnot(6, 8) circuit.ccx(2, 1, 0) circuit.ccx(5, 4, 3) circuit.ccx(8, 7, 6) circuit.h(0) circuit.h(3) circuit.h(6) circuit.cnot(0, 3) circuit.cnot(0, 6) circuit.ccx(8, 3, 0) circuit.draw(output='mpl') plt.show() # Run the quantum circuit on a statevector simulator backend backend = Aer.get_backend('statevector_simulator') # Create a Quantum Program for execution job = backend.run(circuit) result = job.result() outputstate = result.get_statevector(circuit, decimals=3) print(outputstate)
+
+---CODE_BLOCK---
+
+import matplotlib.pyplot as plt import numpy as np import math from qiskit import * circuit = QuantumCircuit(9) circuit.cnot(0, 3) circuit.cnot(0, 6) circuit.h(0) circuit.h(3) circuit.h(6) circuit.cnot(0, 1) circuit.cnot(3, 4) circuit.cnot(6, 7) circuit.cnot(0, 2) circuit.cnot(3, 5) circuit.cnot(6, 8) # Insert some error here circuit.barrier() circuit.x(0) circuit.id(1) circuit.id(2) circuit.id(3) circuit.id(4) circuit.id(5) circuit.id(6) circuit.id(7) circuit.id(8) circuit.barrier() circuit.cnot(0, 1) circuit.cnot(3, 4) circuit.cnot(6, 7) circuit.cnot(0, 2) circuit.cnot(3, 5) circuit.cnot(6, 8) circuit.ccx(2, 1, 0) circuit.ccx(5, 4, 3) circuit.ccx(8, 7, 6) circuit.h(0) circuit.h(3) circuit.h(6) circuit.cnot(0, 3) circuit.cnot(0, 6) circuit.ccx(8, 3, 0) circuit.draw(output='mpl') plt.show() # Run the quantum circuit on a statevector simulator backend backend = Aer.get_backend('statevector_simulator') # Create a Quantum Program for execution job = backend.run(circuit) result = job.result() outputstate = result.get_statevector(circuit, decimals=3) print(outputstate)
+
+Solution explanation:
+I didn't check all of your code, but this answer addresses the following: I still need to be able to set the first qubit in an arbitrary state To do this, you can use the function to get a random 1-qubit vector (this vector has dimension 2 so that is why we pass the argument to the function) from the uniform Haar measure. Then, you initialize your first qubit (index 0) to this vector using the method. This method takes as its first argument the vector to initialize to and as its second argument the index of the qubit to initialize.
+
+```
+quantum_info.random_statevector
+```
+
+```
+2
+```
+
+```
+QuantumCircuit.initialize
+```
+
+```
+import qiskit import numpy as np sv = qiskit.quantum_info.random_statevector(2) qc = qiskit.QuantumCircuit(1) qc.initialize(sv.data, 0)
+```
+
+```
+import qiskit import numpy as np sv = qiskit.quantum_info.random_statevector(2) qc = qiskit.QuantumCircuit(1) qc.initialize(sv.data, 0)
+```
+
+```
+┌─────────────────────────────────────────────────┐ q: ┤ Initialize(0.95024-0.10594j,-0.067802+0.28499j) ├ └─────────────────────────────────────────────────┘
+```
+
+```
+┌─────────────────────────────────────────────────┐ q: ┤ Initialize(0.95024-0.10594j,-0.067802+0.28499j) ├ └─────────────────────────────────────────────────┘
+```
+
+Original fixed code:
+quantum_info.random_statevector
+
+---CODE_BLOCK---
+
+2
+
+---CODE_BLOCK---
+
+QuantumCircuit.initialize
+
+---CODE_BLOCK---
+
+import qiskit import numpy as np sv = qiskit.quantum_info.random_statevector(2) qc = qiskit.QuantumCircuit(1) qc.initialize(sv.data, 0)
+
+---CODE_BLOCK---
+
+import qiskit import numpy as np sv = qiskit.quantum_info.random_statevector(2) qc = qiskit.QuantumCircuit(1) qc.initialize(sv.data, 0)
+
+---CODE_BLOCK---
+
+┌─────────────────────────────────────────────────┐ q: ┤ Initialize(0.95024-0.10594j,-0.067802+0.28499j) ├ └─────────────────────────────────────────────────┘
+
+---CODE_BLOCK---
+
+┌─────────────────────────────────────────────────┐ q: ┤ Initialize(0.95024-0.10594j,-0.067802+0.28499j) ├ └─────────────────────────────────────────────────┘

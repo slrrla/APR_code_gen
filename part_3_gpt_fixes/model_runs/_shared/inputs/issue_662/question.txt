@@ -1,0 +1,15 @@
+Title: Qiskit: Count of each gates
+
+I wanted to calculate the count of each gate used in the specific quantum circuit. For example in the below circuit, the result should be something like: I saw a similar question asked, but it counts all the gates only in the longest path of the dag circuit which it creates using .
+
+```
+{'rz': 1, 'h': 4, 'cx': 3, 'measure': 4}
+```
+
+```
+{'rz': 1, 'h': 4, 'cx': 3, 'measure': 4}
+```
+
+```
+circuit_to_dag
+```

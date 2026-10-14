@@ -1,0 +1,39 @@
+Title:
+How do Hadamard and CNOT gates work on Qiskit SDK? Why is the output reversed?
+
+Category:
+Category:
+Import / Conceptual (Endian-based Misinterpretation)
+
+Why AI Wins in This Category:
+For misunderstandings caused by Qiskit’s internal design conventions (e.g., endianness), a clear explanation with a hands-on demo is essential. The AI solution wins because:
+
+It breaks down the root cause (little-endian indexing).
+
+Uses Statevector evolution to directly demonstrate what happens.
+
+Empowers users to resolve similar confusions in the future via simulation.
+
+This level of detail and user-friendly guidance is especially useful for newcomers using Qiskit in educational or exploratory contexts.
+
+Question:
+Title: How do Hadamard and CNOT gates work on Qiskit SDK? Why is the output reversed?
+
+Here is the code that I have been using on IBM Q Experience (should be the latest version of Qiskit). From my understanding it seems like the outputs of Hadamard and CNOT gates are reversed in a 2-qubit system in Qiskit: A Hadamard gate operating on state 0 actually acts on state 1 and vice versa, similarly with a CNOT gate. Is there something wrong with my understanding? The comments in my code summarize the output results I find surprising.
+
+```
+%matplotlib inline # Importing standard Qiskit libraries from qiskit import QuantumCircuit, execute, Aer, IBMQ from qiskit.compiler import transpile, assemble from qiskit.tools.jupyter import * from qiskit.visualization import * from iqx import * from qiskit.quantum_info import Statevector sv01 = Statevector.from_label('01') print(sv01) plot_state_qsphere(sv01.data) h0circuit = QuantumCircuit(2) h0circuit.h(0) h0circuit.draw("mpl") final01 = sv01.evolve(h0circuit) print(final01) plot_state_qsphere(final01.data) #Shouldn't the output be state 1/sqrt(2) (|01> + |11>) ???? #And why is the phase on the state |00> pi? #Shouldn't the phase be pi for |01> instead on the qsphere (ambiguous, probably doesn't matter)? h1circuit = QuantumCircuit(2) h1circuit.h(1) h1circuit.draw("mpl") final01 = sv01.evolve(h1circuit) print(final01) plot_state_qsphere(final01.data) #Shouldn't the output be state 1/sqrt(2) (|00> - |01>) ???? #Conclusion of the above. An H gate on qubit 0 seems to apply to qubit 1. An H gate on qubit 1 seems to apply to qubit 0. sv01 = Statevector.from_label('01') print(sv01) plot_state_qsphere(sv01.data) c0xCircuit = QuantumCircuit(2) c0xCircuit.cx(0,1) c0xCircuit.draw('mpl') final01 = sv01.evolve(c0xCircuit) print(final01) plot_state_qsphere(final01.data) #Shouldn't this result be |01> ? c1xCircuit = QuantumCircuit(2) c1xCircuit.cx(1,0) c1xCircuit.draw('mpl') final01 = sv01.evolve(c1xCircuit) print(final01) plot_state_qsphere(final01.data) #Shouldn't this result be |11> ? #Conclusion of the above. The cnot (0,1) gate actually acts as a cnot (1,0) gate. The cnot (1,0) gate actually #acts as a cnot (0,1) gate. The states 0 and 1 are flipped somehow. ```
+```
+
+```
+%matplotlib inline # Importing standard Qiskit libraries from qiskit import QuantumCircuit, execute, Aer, IBMQ from qiskit.compiler import transpile, assemble from qiskit.tools.jupyter import * from qiskit.visualization import * from iqx import * from qiskit.quantum_info import Statevector sv01 = Statevector.from_label('01') print(sv01) plot_state_qsphere(sv01.data) h0circuit = QuantumCircuit(2) h0circuit.h(0) h0circuit.draw("mpl") final01 = sv01.evolve(h0circuit) print(final01) plot_state_qsphere(final01.data) #Shouldn't the output be state 1/sqrt(2) (|01> + |11>) ???? #And why is the phase on the state |00> pi? #Shouldn't the phase be pi for |01> instead on the qsphere (ambiguous, probably doesn't matter)? h1circuit = QuantumCircuit(2) h1circuit.h(1) h1circuit.draw("mpl") final01 = sv01.evolve(h1circuit) print(final01) plot_state_qsphere(final01.data) #Shouldn't the output be state 1/sqrt(2) (|00> - |01>) ???? #Conclusion of the above. An H gate on qubit 0 seems to apply to qubit 1. An H gate on qubit 1 seems to apply to qubit 0. sv01 = Statevector.from_label('01') print(sv01) plot_state_qsphere(sv01.data) c0xCircuit = QuantumCircuit(2) c0xCircuit.cx(0,1) c0xCircuit.draw('mpl') final01 = sv01.evolve(c0xCircuit) print(final01) plot_state_qsphere(final01.data) #Shouldn't this result be |01> ? c1xCircuit = QuantumCircuit(2) c1xCircuit.cx(1,0) c1xCircuit.draw('mpl') final01 = sv01.evolve(c1xCircuit) print(final01) plot_state_qsphere(final01.data) #Shouldn't this result be |11> ? #Conclusion of the above. The cnot (0,1) gate actually acts as a cnot (1,0) gate. The cnot (1,0) gate actually #acts as a cnot (0,1) gate. The states 0 and 1 are flipped somehow. ```
+```
+
+Original buggy code:
+%matplotlib inline # Importing standard Qiskit libraries from qiskit import QuantumCircuit, execute, Aer, IBMQ from qiskit.compiler import transpile, assemble from qiskit.tools.jupyter import * from qiskit.visualization import * from iqx import * from qiskit.quantum_info import Statevector sv01 = Statevector.from_label('01') print(sv01) plot_state_qsphere(sv01.data) h0circuit = QuantumCircuit(2) h0circuit.h(0) h0circuit.draw("mpl") final01 = sv01.evolve(h0circuit) print(final01) plot_state_qsphere(final01.data) #Shouldn't the output be state 1/sqrt(2) (|01> + |11>) ???? #And why is the phase on the state |00> pi? #Shouldn't the phase be pi for |01> instead on the qsphere (ambiguous, probably doesn't matter)? h1circuit = QuantumCircuit(2) h1circuit.h(1) h1circuit.draw("mpl") final01 = sv01.evolve(h1circuit) print(final01) plot_state_qsphere(final01.data) #Shouldn't the output be state 1/sqrt(2) (|00> - |01>) ???? #Conclusion of the above. An H gate on qubit 0 seems to apply to qubit 1. An H gate on qubit 1 seems to apply to qubit 0. sv01 = Statevector.from_label('01') print(sv01) plot_state_qsphere(sv01.data) c0xCircuit = QuantumCircuit(2) c0xCircuit.cx(0,1) c0xCircuit.draw('mpl') final01 = sv01.evolve(c0xCircuit) print(final01) plot_state_qsphere(final01.data) #Shouldn't this result be |01> ? c1xCircuit = QuantumCircuit(2) c1xCircuit.cx(1,0) c1xCircuit.draw('mpl') final01 = sv01.evolve(c1xCircuit) print(final01) plot_state_qsphere(final01.data) #Shouldn't this result be |11> ? #Conclusion of the above. The cnot (0,1) gate actually acts as a cnot (1,0) gate. The cnot (1,0) gate actually #acts as a cnot (0,1) gate. The states 0 and 1 are flipped somehow.
+
+Solution explanation:
+This has to do with Qiskit uses little-endian for ordering. In Qiskit’s convention, higher qubit indices are more significant (little endian convention). Thus the CNOT (CX) gate matrix representation in Qiskit is actually: $$ CX\ q_0, q_1 = I \otimes |0\rangle\langle0| + X \otimes |1\rangle\langle1| = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \end{pmatrix} $$ Here is the link to the Qiskit's documentation.
+
+Original fixed code:
+This has to do with Qiskit uses little-endian for ordering. In Qiskit’s convention, higher qubit indices are more significant (little endian convention). Thus the CNOT (CX) gate matrix representation in Qiskit is actually: $$ CX\ q_0, q_1 = I \otimes |0\rangle\langle0| + X \otimes |1\rangle\langle1| = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \end{pmatrix} $$ Here is the link to the Qiskit's documentation.

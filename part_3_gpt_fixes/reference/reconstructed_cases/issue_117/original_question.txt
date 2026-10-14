@@ -1,0 +1,111 @@
+Title:
+Using statevector in latest version of qiskit==1.0
+
+Category:
+Category:
+Import / Simulation
+
+Why AI Wins in This Category:
+In import/simulation issues, correctness and clarity are equally important. The AI response not only solves the problem but helps the user understand how Qiskit's result API changed in 1.0 and what steps are required to extract the statevector correctly. It guides beginners clearly and avoids ambiguity or outdated practices.
+
+Question:
+Title: Using statevector in latest version of qiskit==1.0
+
+I am trying to use migrate my code from old version of qiskit to the latest version for the . Not sure how to put the statevector in the variable . Presently what I have in is as below: I am doing something wrong. It would be great help if someone can help with this issue. The link I am using is: https://qiskit.github.io/qiskit-aer/tutorials/1_aersimulator.html#Simulating-a-Quantum-Circuit
+
+```
+qiskit==1.0
+```
+
+```
+statevector
+```
+
+```
+import numpy as np from qiskit_aer import AerSimulator from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager backend = AerSimulator(method='statevector') backend.set_options( max_parallel_threads = 0, max_parallel_experiments = 0, max_parallel_shots = 1, statevector_parallel_threshold = 16 ) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) qc_combine = pm.run(qc_combine) result = backend.run(qc_combine, shots= 1) psi_out_complex = result.result()
+```
+
+```
+import numpy as np from qiskit_aer import AerSimulator from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager backend = AerSimulator(method='statevector') backend.set_options( max_parallel_threads = 0, max_parallel_experiments = 0, max_parallel_shots = 1, statevector_parallel_threshold = 16 ) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) qc_combine = pm.run(qc_combine) result = backend.run(qc_combine, shots= 1) psi_out_complex = result.result()
+```
+
+```
+psi_out_complex
+```
+
+```
+psi_out_complex
+```
+
+```
+(Pdb) psi_out_complex Result(backend_name='aer_simulator_statevector', backend_version='0.14.2', qobj_id='', job_id='690d4191-80ae-40d3-b3e8-96ad1098cf21', success=True, results=[ExperimentResult(shots=1, success=True, meas_level=2, data=ExperimentResultData(), header=QobjExperimentHeader(creg_sizes=[], global_phase=0.0, memory_slots=0, n_qubits=2, name='circuit-166', qreg_sizes=[['q', 2]], metadata={}), status=DONE, seed_simulator=4294967295, metadata={'time_taken': 3.2642e-05, 'num_bind_params': 1, 'required_memory_mb': 1, 'input_qubit_map': [], 'method': 'statevector', 'device': 'CPU', 'num_qubits': 0, 'parallel_state_update': 32, 'active_input_qubits': [], 'num_clbits': 0, 'remapped_qubits': False, 'parallel_shots': 1, 'runtime_parameter_bind': False, 'max_memory_mb': 257792, 'measure_sampling': False, 'batched_shots_optimization': False}, time_taken=3.2642e-05)], date=2024-07-27T00:53:22.831294, status=COMPLETED, header=None, metadata={'time_taken_parameter_binding': 5.481e-06, 'time_taken_execute': 6.312e-05, 'omp_enabled': True, 'max_gpu_memory_mb': 0, 'max_memory_mb': 257792, 'parallel_experiments': 1}, time_taken=0.0009953975677490234) (Pdb) type(psi_out_complex) <class 'qiskit.result.result.Result'>
+```
+
+```
+(Pdb) psi_out_complex Result(backend_name='aer_simulator_statevector', backend_version='0.14.2', qobj_id='', job_id='690d4191-80ae-40d3-b3e8-96ad1098cf21', success=True, results=[ExperimentResult(shots=1, success=True, meas_level=2, data=ExperimentResultData(), header=QobjExperimentHeader(creg_sizes=[], global_phase=0.0, memory_slots=0, n_qubits=2, name='circuit-166', qreg_sizes=[['q', 2]], metadata={}), status=DONE, seed_simulator=4294967295, metadata={'time_taken': 3.2642e-05, 'num_bind_params': 1, 'required_memory_mb': 1, 'input_qubit_map': [], 'method': 'statevector', 'device': 'CPU', 'num_qubits': 0, 'parallel_state_update': 32, 'active_input_qubits': [], 'num_clbits': 0, 'remapped_qubits': False, 'parallel_shots': 1, 'runtime_parameter_bind': False, 'max_memory_mb': 257792, 'measure_sampling': False, 'batched_shots_optimization': False}, time_taken=3.2642e-05)], date=2024-07-27T00:53:22.831294, status=COMPLETED, header=None, metadata={'time_taken_parameter_binding': 5.481e-06, 'time_taken_execute': 6.312e-05, 'omp_enabled': True, 'max_gpu_memory_mb': 0, 'max_memory_mb': 257792, 'parallel_experiments': 1}, time_taken=0.0009953975677490234) (Pdb) type(psi_out_complex) <class 'qiskit.result.result.Result'>
+```
+
+Original buggy code:
+qiskit==1.0
+
+---CODE_BLOCK---
+
+statevector
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit_aer import AerSimulator from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager backend = AerSimulator(method='statevector') backend.set_options( max_parallel_threads = 0, max_parallel_experiments = 0, max_parallel_shots = 1, statevector_parallel_threshold = 16 ) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) qc_combine = pm.run(qc_combine) result = backend.run(qc_combine, shots= 1) psi_out_complex = result.result()
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit_aer import AerSimulator from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager backend = AerSimulator(method='statevector') backend.set_options( max_parallel_threads = 0, max_parallel_experiments = 0, max_parallel_shots = 1, statevector_parallel_threshold = 16 ) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) qc_combine = pm.run(qc_combine) result = backend.run(qc_combine, shots= 1) psi_out_complex = result.result()
+
+---CODE_BLOCK---
+
+psi_out_complex
+
+---CODE_BLOCK---
+
+psi_out_complex
+
+---CODE_BLOCK---
+
+(Pdb) psi_out_complex Result(backend_name='aer_simulator_statevector', backend_version='0.14.2', qobj_id='', job_id='690d4191-80ae-40d3-b3e8-96ad1098cf21', success=True, results=[ExperimentResult(shots=1, success=True, meas_level=2, data=ExperimentResultData(), header=QobjExperimentHeader(creg_sizes=[], global_phase=0.0, memory_slots=0, n_qubits=2, name='circuit-166', qreg_sizes=[['q', 2]], metadata={}), status=DONE, seed_simulator=4294967295, metadata={'time_taken': 3.2642e-05, 'num_bind_params': 1, 'required_memory_mb': 1, 'input_qubit_map': [], 'method': 'statevector', 'device': 'CPU', 'num_qubits': 0, 'parallel_state_update': 32, 'active_input_qubits': [], 'num_clbits': 0, 'remapped_qubits': False, 'parallel_shots': 1, 'runtime_parameter_bind': False, 'max_memory_mb': 257792, 'measure_sampling': False, 'batched_shots_optimization': False}, time_taken=3.2642e-05)], date=2024-07-27T00:53:22.831294, status=COMPLETED, header=None, metadata={'time_taken_parameter_binding': 5.481e-06, 'time_taken_execute': 6.312e-05, 'omp_enabled': True, 'max_gpu_memory_mb': 0, 'max_memory_mb': 257792, 'parallel_experiments': 1}, time_taken=0.0009953975677490234) (Pdb) type(psi_out_complex) <class 'qiskit.result.result.Result'>
+
+---CODE_BLOCK---
+
+(Pdb) psi_out_complex Result(backend_name='aer_simulator_statevector', backend_version='0.14.2', qobj_id='', job_id='690d4191-80ae-40d3-b3e8-96ad1098cf21', success=True, results=[ExperimentResult(shots=1, success=True, meas_level=2, data=ExperimentResultData(), header=QobjExperimentHeader(creg_sizes=[], global_phase=0.0, memory_slots=0, n_qubits=2, name='circuit-166', qreg_sizes=[['q', 2]], metadata={}), status=DONE, seed_simulator=4294967295, metadata={'time_taken': 3.2642e-05, 'num_bind_params': 1, 'required_memory_mb': 1, 'input_qubit_map': [], 'method': 'statevector', 'device': 'CPU', 'num_qubits': 0, 'parallel_state_update': 32, 'active_input_qubits': [], 'num_clbits': 0, 'remapped_qubits': False, 'parallel_shots': 1, 'runtime_parameter_bind': False, 'max_memory_mb': 257792, 'measure_sampling': False, 'batched_shots_optimization': False}, time_taken=3.2642e-05)], date=2024-07-27T00:53:22.831294, status=COMPLETED, header=None, metadata={'time_taken_parameter_binding': 5.481e-06, 'time_taken_execute': 6.312e-05, 'omp_enabled': True, 'max_gpu_memory_mb': 0, 'max_memory_mb': 257792, 'parallel_experiments': 1}, time_taken=0.0009953975677490234) (Pdb) type(psi_out_complex) <class 'qiskit.result.result.Result'>
+
+Solution explanation:
+You can use save_statevector() to save a statevector. Here's a related post here
+
+```
+from qiskit_aer import AerSimulator from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit import QuantumCircuit from qiskit_aer import AerSimulator import numpy as np circ = QuantumCircuit(2) circ.h(0) circ.cx(0, 1) circ.save_statevector() #save the system's statevector backend = AerSimulator(method='statevector') backend.set_options( max_parallel_threads = 0, max_parallel_experiments = 0, max_parallel_shots = 1, statevector_parallel_threshold = 16 ) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) qc_combine = pm.run(circ) result = backend.run(qc_combine, shots= 1) psi_out_complex = result.result() print(psi_out_complex.get_statevector())
+```
+
+```
+from qiskit_aer import AerSimulator from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit import QuantumCircuit from qiskit_aer import AerSimulator import numpy as np circ = QuantumCircuit(2) circ.h(0) circ.cx(0, 1) circ.save_statevector() #save the system's statevector backend = AerSimulator(method='statevector') backend.set_options( max_parallel_threads = 0, max_parallel_experiments = 0, max_parallel_shots = 1, statevector_parallel_threshold = 16 ) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) qc_combine = pm.run(circ) result = backend.run(qc_combine, shots= 1) psi_out_complex = result.result() print(psi_out_complex.get_statevector())
+```
+
+```
+Statevector([0.70710678+0.j, 0. +0.j, 0. +0.j, 0.70710678+0.j], dims=(2, 2))
+```
+
+```
+Statevector([0.70710678+0.j, 0. +0.j, 0. +0.j, 0.70710678+0.j], dims=(2, 2))
+```
+
+Original fixed code:
+from qiskit_aer import AerSimulator from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit import QuantumCircuit from qiskit_aer import AerSimulator import numpy as np circ = QuantumCircuit(2) circ.h(0) circ.cx(0, 1) circ.save_statevector() #save the system's statevector backend = AerSimulator(method='statevector') backend.set_options( max_parallel_threads = 0, max_parallel_experiments = 0, max_parallel_shots = 1, statevector_parallel_threshold = 16 ) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) qc_combine = pm.run(circ) result = backend.run(qc_combine, shots= 1) psi_out_complex = result.result() print(psi_out_complex.get_statevector())
+
+---CODE_BLOCK---
+
+from qiskit_aer import AerSimulator from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit import QuantumCircuit from qiskit_aer import AerSimulator import numpy as np circ = QuantumCircuit(2) circ.h(0) circ.cx(0, 1) circ.save_statevector() #save the system's statevector backend = AerSimulator(method='statevector') backend.set_options( max_parallel_threads = 0, max_parallel_experiments = 0, max_parallel_shots = 1, statevector_parallel_threshold = 16 ) pm = generate_preset_pass_manager(backend=backend, optimization_level=1) qc_combine = pm.run(circ) result = backend.run(qc_combine, shots= 1) psi_out_complex = result.result() print(psi_out_complex.get_statevector())
+
+---CODE_BLOCK---
+
+Statevector([0.70710678+0.j, 0. +0.j, 0. +0.j, 0.70710678+0.j], dims=(2, 2))
+
+---CODE_BLOCK---
+
+Statevector([0.70710678+0.j, 0. +0.j, 0. +0.j, 0.70710678+0.j], dims=(2, 2))

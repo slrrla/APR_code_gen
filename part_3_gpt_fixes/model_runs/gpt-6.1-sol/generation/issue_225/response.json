@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWW63IOXNfFhCyulc2oDRYirWFZ3f",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport numpy as np\nimport scipy as sp\nfrom qiskit import QuantumCircuit, execute, Aer\n\ndef random_unitary(N):\n    \"\"\" Return a Haar distributed random unitary from U(N) \"\"\"\n    Z = np.random.randn(N, N) + 1.0j * np.random.randn(N, N)\n    [Q, R] = sp.linalg.qr(Z)\n    D = np.diag(np.diagonal(R) / np.abs(np.diagonal(R)))\n    return np.dot(Q, D)\n\ndef haar_integral(num_qubits, samples):\n    \"\"\" Return calculation of Haar Integral for a specified number of samples. \"\"\"\n    N = 2**num_qubits\n    randunit_density = np.zeros((N, N), dtype=complex)\n    zero_state = np.zeros(N, dtype=complex)\n    zero_state[0] = 1\n    for _ in range(samples):\n        A = np.matmul(zero_state, random_unitary(N)).reshape(-1, 1)\n        randunit_density += np.kron(A, A.conj().T)\n    randunit_density /= samples\n    return randunit_density\n\ndef pqc_integral(num_qubits, ansatze, size, samples):\n    \"\"\" Return calculation of Integral for a PQC over the uniformly sampled the parameters theta for the specified number of samples. \"\"\"\n    N = num_qubits\n    randunit_density = np.zeros((2**N, 2**N), dtype=complex)\n    for _ in range(samples):\n        params = np.random.uniform(-np.pi, np.pi, size)\n        ansatz = ansatze(params, N)\n        result = execute(ansatz, backend=Aer.get_backend('statevector_simulator')).result()\n        # FIX: Statevector has no reshape method -> reshape its data array, because data exposes the amplitudes as a NumPy array.\n        U = result.get_statevector(ansatz, decimals=5).data.reshape(-1, 1)\n        randunit_density += np.kron(U, U.conj().T)\n    return randunit_density / samples\n\ndef ansatz2(params, num_qubits):\n    params = np.array(params).reshape(1)\n    ansatz = QuantumCircuit(num_qubits, num_qubits)\n    ansatz.h(0)\n    ansatz.cx(0, 1)\n    ansatz.rx(params[0], 0)\n    return ansatz\n\nprint(np.linalg.norm(haar_integral(2, 2048) - pqc_integral(2, ansatz2, 1, 2048)))\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418583,
+  "model": "gpt-6.1-sol",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 542,
+    "prompt_tokens": 2046,
+    "total_tokens": 2588,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 2043,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

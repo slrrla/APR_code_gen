@@ -1,0 +1,4 @@
+# NO BUG: NoiseModel.from_backend is the correct API for an available backend; it cannot retrieve calibration data from a device you cannot access.
+from qiskit_aer.noise import NoiseModel
+
+noise_model = NoiseModel.from_backend(backend)

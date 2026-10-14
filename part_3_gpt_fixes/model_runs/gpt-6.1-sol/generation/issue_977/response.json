@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWDmzX3fGPG4x5rQuCrDvx7bJEsE",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit.quantum_info import SparsePauliOp\n\nHamiltonian = [\n    [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319],\n    [-3.6713615 , 5.88262911, -4.14084507, 1.37558685],\n    [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577],\n    [-1.05164319, 1.37558685, -3.54929577, 3.79812207]\n]\n\n# FIX: The constructor expects Pauli data, not a matrix -> use from_operator, because it decomposes the Hamiltonian matrix into Pauli terms.\nH_op = SparsePauliOp.from_operator(Hamiltonian)\nprint(H_op)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419062,
+  "model": "gpt-6.1-sol",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 350,
+    "prompt_tokens": 1063,
+    "total_tokens": 1413,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 153,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1060,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

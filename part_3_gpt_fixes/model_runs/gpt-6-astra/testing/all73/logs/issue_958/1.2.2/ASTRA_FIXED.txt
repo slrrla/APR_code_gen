@@ -1,0 +1,18 @@
+CASE=issue_958
+QISKIT=1.2.2
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\gpt-6-astra\generation\issue_958\fix_958.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_958\test.py
+
+
+======================================================================
+ERROR: test_exact_negative_h_tensor_h_not_just_global_equivalence (__main__.Regression) (circuit='qc2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_958\test.py", line 27, in test_exact_negative_h_tensor_h_not_just_global_equivalence
+    np.testing.assert_allclose(Operator(m[name]).data, expected, atol=1e-12)
+KeyError: 'qc2'
+
+----------------------------------------------------------------------
+Ran 1 test in 1.237s
+
+FAILED (errors=1)

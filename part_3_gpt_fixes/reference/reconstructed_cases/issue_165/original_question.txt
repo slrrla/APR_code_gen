@@ -1,0 +1,587 @@
+Title:
+Substitute for QuantumInstance in latest qiskit==1.0
+
+Category:
+category:
+Version Compatibility / Deprecated API
+
+Why Stack Overflow Wins in This Category:
+Stack Overflow is better because it shows the correct migration path from QuantumInstance to primitives (Estimator), aligned with Qiskit 1.0’s API. It preserves functionality (shots, seeds, transpiler options), whereas the AI suggestion is incomplete and not executable.
+
+Question:
+Title: Substitute for QuantumInstance in latest qiskit==1.0
+
+I have a old version of code which uses the below syntax: This API no longer works in the latest version of . Please suggest me a API which exactly do this function in the latest ? Edit1 Explaining the problem more clearly. Below is the complete code: This code fails at when I use the ? Need some substitute for ? Edit2 This code works on . Just to be sure I am not missing anything,the other qiskit related packages in my conda env are : , ,
+
+```
+qiskit==0.46
+```
+
+```
+quantum_instance = QuantumInstance(backend= backend, shots= self.shots_done, seed_simulator= 28, seed_transpiler= 28, basis_gates= None, optimization_level=self.optimization_level_used)
+```
+
+```
+quantum_instance = QuantumInstance(backend= backend, shots= self.shots_done, seed_simulator= 28, seed_transpiler= 28, basis_gates= None, optimization_level=self.optimization_level_used)
+```
+
+```
+qiskit==1.0
+```
+
+```
+qiskit==1.0
+```
+
+```
+from qiskit_aer import AerSimulator import numpy as np from qiskit.quantum_info import SparsePauliOp from qiskit.circuit.library import EfficientSU2 # from qiskit.utils import QuantumInstance # Need to replace it with something else from qiskit_algorithms import VQE Hamiltonian = [ [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207] ] H_op = SparsePauliOp.from_operator(Hamiltonian) ansatz = EfficientSU2(num_qubits=num_qubits, entanglement= 'linear', reps= depth, skip_final_rotation_layer= True) backend = AerSimulator() ansatz_opt = transpile(circuits=ansatz, backend = backend, optimization_level =self.optimization_level_used) optimizer = COBYLA(maxiter= 1500) quantum_instance = QuantumInstance(backend= backend, shots= 1000, seed_simulator= 28, seed_transpiler= 28, basis_gates= None, optimization_level=1) initial_point_values = 2*np.pi*np.random.rand(ansatz_opt.num_parameters) vqe = VQE(ansatz=ansatz_opt, optimizer= optimizer, quantum_instance=quantum_instance, initial_point=initial_point_values )
+```
+
+```
+from qiskit_aer import AerSimulator import numpy as np from qiskit.quantum_info import SparsePauliOp from qiskit.circuit.library import EfficientSU2 # from qiskit.utils import QuantumInstance # Need to replace it with something else from qiskit_algorithms import VQE Hamiltonian = [ [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207] ] H_op = SparsePauliOp.from_operator(Hamiltonian) ansatz = EfficientSU2(num_qubits=num_qubits, entanglement= 'linear', reps= depth, skip_final_rotation_layer= True) backend = AerSimulator() ansatz_opt = transpile(circuits=ansatz, backend = backend, optimization_level =self.optimization_level_used) optimizer = COBYLA(maxiter= 1500) quantum_instance = QuantumInstance(backend= backend, shots= 1000, seed_simulator= 28, seed_transpiler= 28, basis_gates= None, optimization_level=1) initial_point_values = 2*np.pi*np.random.rand(ansatz_opt.num_parameters) vqe = VQE(ansatz=ansatz_opt, optimizer= optimizer, quantum_instance=quantum_instance, initial_point=initial_point_values )
+```
+
+```
+QuantumInstance
+```
+
+```
+qiskit==1.0
+```
+
+```
+QuantumInstance
+```
+
+```
+qiskit==0.46
+```
+
+```
+qiskit-aer==0.13.3
+```
+
+```
+qiskit-ibmq-provider==0.20.2
+```
+
+```
+qiskit-terra==0.46.0
+```
+
+```
+from qiskit import transpile from qiskit import Aer import numpy as np from qiskit.opflow import MatrixOp from qiskit.circuit.library import EfficientSU2 from qiskit.algorithms.optimizers import COBYLA from qiskit.utils import QuantumInstance from qiskit.algorithms import VQE backend = Aer.get_backend('qasm_simulator') Hamiltonian = [ [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207] ] H_op = MatrixOp(Hamiltonian).to_pauli_op() ansatz = EfficientSU2(num_qubits=2, entanglement= 'linear', reps= 5, skip_final_rotation_layer= True) ansatz_opt = transpile(circuits=ansatz, backend = backend, optimization_level =3) optimizer = COBYLA(maxiter= 1500) quantum_instance = QuantumInstance(backend= backend, shots= 1024, # default is 1024 # changing the number of shots to 32M seed_simulator= 28, ## seed_transpiler= 28, basis_gates= None, optimization_level=2) initial_point_values = 2*np.pi*np.random.rand(ansatz_opt.num_parameters) vqe = VQE(ansatz=ansatz_opt, optimizer= optimizer, quantum_instance=quantum_instance, initial_point=initial_point_values ) result = vqe.compute_minimum_eigenvalue(H_op) print(result) (VQE_backup) m2c693@alveo:~/RESEARCH_WORK$ python TESTING_VQE_CODE.py : DeprecationWarning: The ``qiskit.opflow`` module is deprecated as of qiskit-terra 0.24.0. It will be removed in Qiskit 1.0. For code migration guidelines, visit https://qisk.it/opflow_migration. from qiskit.opflow import MatrixOp /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:10: DeprecationWarning: ``qiskit.algorithms`` has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. The ``qiskit.algorithms`` import path is deprecated as of qiskit-terra 0.25.0 and will be removed in Qiskit 1.0. Please run ``pip install qiskit_algorithms`` and use ``import qiskit_algorithms`` instead. from qiskit.algorithms.optimizers import COBYLA /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:14: DeprecationWarning: The 'qiskit.Aer' entry point is deprecated and will be removed in Qiskit 1.0. You should use 'qiskit_aer.Aer' directly instead. backend = Aer.get_backend('qasm_simulator') /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:21: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.matrix_op.MatrixOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration. H_op = MatrixOp(Hamiltonian).to_pauli_op() /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:30: DeprecationWarning: The class ``qiskit.utils.quantum_instance.QuantumInstance`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/qi_migration. quantum_instance = QuantumInstance(backend= backend, /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:39: DeprecationWarning: The class ``qiskit.algorithms.minimum_eigen_solvers.vqe.VQE`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.minimum_eigensolvers.VQE``. See https://qisk.it/algo_migration for a migration guide. vqe = VQE(ansatz=ansatz_opt, { 'aux_operator_eigenvalues': None, 'cost_function_evals': 204, 'eigenstate': { '00': 0.44743190822738604, '01': 0.46351240544347894, '10': 0.5321683239352001, '11': 0.5493248697264671}, 'eigenvalue': (0.4073778676855462+0j), 'optimal_circuit': None, 'optimal_parameters': { ParameterVectorElement(θ[0]): 3.413149701335303, ParameterVectorElement(θ[1]): 6.122673310049739, ParameterVectorElement(θ[2]): 5.007510090575305, ParameterVectorElement(θ[3]): 6.471417603085951, ParameterVectorElement(θ[4]): 5.5825713635512635, ParameterVectorElement(θ[5]): 3.612049649783617, ParameterVectorElement(θ[6]): 1.1964266917131818, ParameterVectorElement(θ[7]): 1.2636714562893496, ParameterVectorElement(θ[8]): 2.7107242130163205, ParameterVectorElement(θ[9]): 1.4162337151620497, ParameterVectorElement(θ[10]): 3.4685412184905724, ParameterVectorElement(θ[11]): 7.0531779235955145, ParameterVectorElement(θ[12]): 4.759785290450675, ParameterVectorElement(θ[13]): 7.005034463907616, ParameterVectorElement(θ[14]): 3.0544374104242245, ParameterVectorElement(θ[15]): 3.6712390616198993, ParameterVectorElement(θ[16]): 0.8180247608411803, ParameterVectorElement(θ[17]): 2.890632566254878, ParameterVectorElement(θ[18]): 3.2114389132830734, ParameterVectorElement(θ[19]): 1.1110070869050546}, 'optimal_point': array([3.4131497 , 6.12267331, 5.00751009, 6.4714176 , 5.58257136, 3.61204965, 1.19642669, 1.26367146, 2.71072421, 1.41623372, 3.46854122, 7.05317792, 4.75978529, 7.00503446, 3.05443741, 3.67123906, 0.81802476, 2.89063257, 3.21143891, 1.11100709]), 'optimal_value': 0.4073778676855462, 'optimizer_evals': None, 'optimizer_result': None, 'optimizer_time': 4.511643648147583}
+```
+
+```
+from qiskit import transpile from qiskit import Aer import numpy as np from qiskit.opflow import MatrixOp from qiskit.circuit.library import EfficientSU2 from qiskit.algorithms.optimizers import COBYLA from qiskit.utils import QuantumInstance from qiskit.algorithms import VQE backend = Aer.get_backend('qasm_simulator') Hamiltonian = [ [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207] ] H_op = MatrixOp(Hamiltonian).to_pauli_op() ansatz = EfficientSU2(num_qubits=2, entanglement= 'linear', reps= 5, skip_final_rotation_layer= True) ansatz_opt = transpile(circuits=ansatz, backend = backend, optimization_level =3) optimizer = COBYLA(maxiter= 1500) quantum_instance = QuantumInstance(backend= backend, shots= 1024, # default is 1024 # changing the number of shots to 32M seed_simulator= 28, ## seed_transpiler= 28, basis_gates= None, optimization_level=2) initial_point_values = 2*np.pi*np.random.rand(ansatz_opt.num_parameters) vqe = VQE(ansatz=ansatz_opt, optimizer= optimizer, quantum_instance=quantum_instance, initial_point=initial_point_values ) result = vqe.compute_minimum_eigenvalue(H_op) print(result) (VQE_backup) m2c693@alveo:~/RESEARCH_WORK$ python TESTING_VQE_CODE.py : DeprecationWarning: The ``qiskit.opflow`` module is deprecated as of qiskit-terra 0.24.0. It will be removed in Qiskit 1.0. For code migration guidelines, visit https://qisk.it/opflow_migration. from qiskit.opflow import MatrixOp /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:10: DeprecationWarning: ``qiskit.algorithms`` has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. The ``qiskit.algorithms`` import path is deprecated as of qiskit-terra 0.25.0 and will be removed in Qiskit 1.0. Please run ``pip install qiskit_algorithms`` and use ``import qiskit_algorithms`` instead. from qiskit.algorithms.optimizers import COBYLA /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:14: DeprecationWarning: The 'qiskit.Aer' entry point is deprecated and will be removed in Qiskit 1.0. You should use 'qiskit_aer.Aer' directly instead. backend = Aer.get_backend('qasm_simulator') /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:21: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.matrix_op.MatrixOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration. H_op = MatrixOp(Hamiltonian).to_pauli_op() /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:30: DeprecationWarning: The class ``qiskit.utils.quantum_instance.QuantumInstance`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/qi_migration. quantum_instance = QuantumInstance(backend= backend, /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:39: DeprecationWarning: The class ``qiskit.algorithms.minimum_eigen_solvers.vqe.VQE`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.minimum_eigensolvers.VQE``. See https://qisk.it/algo_migration for a migration guide. vqe = VQE(ansatz=ansatz_opt, { 'aux_operator_eigenvalues': None, 'cost_function_evals': 204, 'eigenstate': { '00': 0.44743190822738604, '01': 0.46351240544347894, '10': 0.5321683239352001, '11': 0.5493248697264671}, 'eigenvalue': (0.4073778676855462+0j), 'optimal_circuit': None, 'optimal_parameters': { ParameterVectorElement(θ[0]): 3.413149701335303, ParameterVectorElement(θ[1]): 6.122673310049739, ParameterVectorElement(θ[2]): 5.007510090575305, ParameterVectorElement(θ[3]): 6.471417603085951, ParameterVectorElement(θ[4]): 5.5825713635512635, ParameterVectorElement(θ[5]): 3.612049649783617, ParameterVectorElement(θ[6]): 1.1964266917131818, ParameterVectorElement(θ[7]): 1.2636714562893496, ParameterVectorElement(θ[8]): 2.7107242130163205, ParameterVectorElement(θ[9]): 1.4162337151620497, ParameterVectorElement(θ[10]): 3.4685412184905724, ParameterVectorElement(θ[11]): 7.0531779235955145, ParameterVectorElement(θ[12]): 4.759785290450675, ParameterVectorElement(θ[13]): 7.005034463907616, ParameterVectorElement(θ[14]): 3.0544374104242245, ParameterVectorElement(θ[15]): 3.6712390616198993, ParameterVectorElement(θ[16]): 0.8180247608411803, ParameterVectorElement(θ[17]): 2.890632566254878, ParameterVectorElement(θ[18]): 3.2114389132830734, ParameterVectorElement(θ[19]): 1.1110070869050546}, 'optimal_point': array([3.4131497 , 6.12267331, 5.00751009, 6.4714176 , 5.58257136, 3.61204965, 1.19642669, 1.26367146, 2.71072421, 1.41623372, 3.46854122, 7.05317792, 4.75978529, 7.00503446, 3.05443741, 3.67123906, 0.81802476, 2.89063257, 3.21143891, 1.11100709]), 'optimal_value': 0.4073778676855462, 'optimizer_evals': None, 'optimizer_result': None, 'optimizer_time': 4.511643648147583}
+```
+
+Original buggy code:
+qiskit==0.46
+
+---CODE_BLOCK---
+
+quantum_instance = QuantumInstance(backend= backend, shots= self.shots_done, seed_simulator= 28, seed_transpiler= 28, basis_gates= None, optimization_level=self.optimization_level_used)
+
+---CODE_BLOCK---
+
+quantum_instance = QuantumInstance(backend= backend, shots= self.shots_done, seed_simulator= 28, seed_transpiler= 28, basis_gates= None, optimization_level=self.optimization_level_used)
+
+---CODE_BLOCK---
+
+qiskit==1.0
+
+---CODE_BLOCK---
+
+qiskit==1.0
+
+---CODE_BLOCK---
+
+from qiskit_aer import AerSimulator import numpy as np from qiskit.quantum_info import SparsePauliOp from qiskit.circuit.library import EfficientSU2 # from qiskit.utils import QuantumInstance # Need to replace it with something else from qiskit_algorithms import VQE Hamiltonian = [ [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207] ] H_op = SparsePauliOp.from_operator(Hamiltonian) ansatz = EfficientSU2(num_qubits=num_qubits, entanglement= 'linear', reps= depth, skip_final_rotation_layer= True) backend = AerSimulator() ansatz_opt = transpile(circuits=ansatz, backend = backend, optimization_level =self.optimization_level_used) optimizer = COBYLA(maxiter= 1500) quantum_instance = QuantumInstance(backend= backend, shots= 1000, seed_simulator= 28, seed_transpiler= 28, basis_gates= None, optimization_level=1) initial_point_values = 2*np.pi*np.random.rand(ansatz_opt.num_parameters) vqe = VQE(ansatz=ansatz_opt, optimizer= optimizer, quantum_instance=quantum_instance, initial_point=initial_point_values )
+
+---CODE_BLOCK---
+
+from qiskit_aer import AerSimulator import numpy as np from qiskit.quantum_info import SparsePauliOp from qiskit.circuit.library import EfficientSU2 # from qiskit.utils import QuantumInstance # Need to replace it with something else from qiskit_algorithms import VQE Hamiltonian = [ [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207] ] H_op = SparsePauliOp.from_operator(Hamiltonian) ansatz = EfficientSU2(num_qubits=num_qubits, entanglement= 'linear', reps= depth, skip_final_rotation_layer= True) backend = AerSimulator() ansatz_opt = transpile(circuits=ansatz, backend = backend, optimization_level =self.optimization_level_used) optimizer = COBYLA(maxiter= 1500) quantum_instance = QuantumInstance(backend= backend, shots= 1000, seed_simulator= 28, seed_transpiler= 28, basis_gates= None, optimization_level=1) initial_point_values = 2*np.pi*np.random.rand(ansatz_opt.num_parameters) vqe = VQE(ansatz=ansatz_opt, optimizer= optimizer, quantum_instance=quantum_instance, initial_point=initial_point_values )
+
+---CODE_BLOCK---
+
+QuantumInstance
+
+---CODE_BLOCK---
+
+qiskit==1.0
+
+---CODE_BLOCK---
+
+QuantumInstance
+
+---CODE_BLOCK---
+
+qiskit==0.46
+
+---CODE_BLOCK---
+
+qiskit-aer==0.13.3
+
+---CODE_BLOCK---
+
+qiskit-ibmq-provider==0.20.2
+
+---CODE_BLOCK---
+
+qiskit-terra==0.46.0
+
+---CODE_BLOCK---
+
+from qiskit import transpile from qiskit import Aer import numpy as np from qiskit.opflow import MatrixOp from qiskit.circuit.library import EfficientSU2 from qiskit.algorithms.optimizers import COBYLA from qiskit.utils import QuantumInstance from qiskit.algorithms import VQE backend = Aer.get_backend('qasm_simulator') Hamiltonian = [ [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207] ] H_op = MatrixOp(Hamiltonian).to_pauli_op() ansatz = EfficientSU2(num_qubits=2, entanglement= 'linear', reps= 5, skip_final_rotation_layer= True) ansatz_opt = transpile(circuits=ansatz, backend = backend, optimization_level =3) optimizer = COBYLA(maxiter= 1500) quantum_instance = QuantumInstance(backend= backend, shots= 1024, # default is 1024 # changing the number of shots to 32M seed_simulator= 28, ## seed_transpiler= 28, basis_gates= None, optimization_level=2) initial_point_values = 2*np.pi*np.random.rand(ansatz_opt.num_parameters) vqe = VQE(ansatz=ansatz_opt, optimizer= optimizer, quantum_instance=quantum_instance, initial_point=initial_point_values ) result = vqe.compute_minimum_eigenvalue(H_op) print(result) (VQE_backup) m2c693@alveo:~/RESEARCH_WORK$ python TESTING_VQE_CODE.py : DeprecationWarning: The ``qiskit.opflow`` module is deprecated as of qiskit-terra 0.24.0. It will be removed in Qiskit 1.0. For code migration guidelines, visit https://qisk.it/opflow_migration. from qiskit.opflow import MatrixOp /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:10: DeprecationWarning: ``qiskit.algorithms`` has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. The ``qiskit.algorithms`` import path is deprecated as of qiskit-terra 0.25.0 and will be removed in Qiskit 1.0. Please run ``pip install qiskit_algorithms`` and use ``import qiskit_algorithms`` instead. from qiskit.algorithms.optimizers import COBYLA /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:14: DeprecationWarning: The 'qiskit.Aer' entry point is deprecated and will be removed in Qiskit 1.0. You should use 'qiskit_aer.Aer' directly instead. backend = Aer.get_backend('qasm_simulator') /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:21: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.matrix_op.MatrixOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration. H_op = MatrixOp(Hamiltonian).to_pauli_op() /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:30: DeprecationWarning: The class ``qiskit.utils.quantum_instance.QuantumInstance`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/qi_migration. quantum_instance = QuantumInstance(backend= backend, /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:39: DeprecationWarning: The class ``qiskit.algorithms.minimum_eigen_solvers.vqe.VQE`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.minimum_eigensolvers.VQE``. See https://qisk.it/algo_migration for a migration guide. vqe = VQE(ansatz=ansatz_opt, { 'aux_operator_eigenvalues': None, 'cost_function_evals': 204, 'eigenstate': { '00': 0.44743190822738604, '01': 0.46351240544347894, '10': 0.5321683239352001, '11': 0.5493248697264671}, 'eigenvalue': (0.4073778676855462+0j), 'optimal_circuit': None, 'optimal_parameters': { ParameterVectorElement(θ[0]): 3.413149701335303, ParameterVectorElement(θ[1]): 6.122673310049739, ParameterVectorElement(θ[2]): 5.007510090575305, ParameterVectorElement(θ[3]): 6.471417603085951, ParameterVectorElement(θ[4]): 5.5825713635512635, ParameterVectorElement(θ[5]): 3.612049649783617, ParameterVectorElement(θ[6]): 1.1964266917131818, ParameterVectorElement(θ[7]): 1.2636714562893496, ParameterVectorElement(θ[8]): 2.7107242130163205, ParameterVectorElement(θ[9]): 1.4162337151620497, ParameterVectorElement(θ[10]): 3.4685412184905724, ParameterVectorElement(θ[11]): 7.0531779235955145, ParameterVectorElement(θ[12]): 4.759785290450675, ParameterVectorElement(θ[13]): 7.005034463907616, ParameterVectorElement(θ[14]): 3.0544374104242245, ParameterVectorElement(θ[15]): 3.6712390616198993, ParameterVectorElement(θ[16]): 0.8180247608411803, ParameterVectorElement(θ[17]): 2.890632566254878, ParameterVectorElement(θ[18]): 3.2114389132830734, ParameterVectorElement(θ[19]): 1.1110070869050546}, 'optimal_point': array([3.4131497 , 6.12267331, 5.00751009, 6.4714176 , 5.58257136, 3.61204965, 1.19642669, 1.26367146, 2.71072421, 1.41623372, 3.46854122, 7.05317792, 4.75978529, 7.00503446, 3.05443741, 3.67123906, 0.81802476, 2.89063257, 3.21143891, 1.11100709]), 'optimal_value': 0.4073778676855462, 'optimizer_evals': None, 'optimizer_result': None, 'optimizer_time': 4.511643648147583}
+
+---CODE_BLOCK---
+
+from qiskit import transpile from qiskit import Aer import numpy as np from qiskit.opflow import MatrixOp from qiskit.circuit.library import EfficientSU2 from qiskit.algorithms.optimizers import COBYLA from qiskit.utils import QuantumInstance from qiskit.algorithms import VQE backend = Aer.get_backend('qasm_simulator') Hamiltonian = [ [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207] ] H_op = MatrixOp(Hamiltonian).to_pauli_op() ansatz = EfficientSU2(num_qubits=2, entanglement= 'linear', reps= 5, skip_final_rotation_layer= True) ansatz_opt = transpile(circuits=ansatz, backend = backend, optimization_level =3) optimizer = COBYLA(maxiter= 1500) quantum_instance = QuantumInstance(backend= backend, shots= 1024, # default is 1024 # changing the number of shots to 32M seed_simulator= 28, ## seed_transpiler= 28, basis_gates= None, optimization_level=2) initial_point_values = 2*np.pi*np.random.rand(ansatz_opt.num_parameters) vqe = VQE(ansatz=ansatz_opt, optimizer= optimizer, quantum_instance=quantum_instance, initial_point=initial_point_values ) result = vqe.compute_minimum_eigenvalue(H_op) print(result) (VQE_backup) m2c693@alveo:~/RESEARCH_WORK$ python TESTING_VQE_CODE.py : DeprecationWarning: The ``qiskit.opflow`` module is deprecated as of qiskit-terra 0.24.0. It will be removed in Qiskit 1.0. For code migration guidelines, visit https://qisk.it/opflow_migration. from qiskit.opflow import MatrixOp /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:10: DeprecationWarning: ``qiskit.algorithms`` has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. The ``qiskit.algorithms`` import path is deprecated as of qiskit-terra 0.25.0 and will be removed in Qiskit 1.0. Please run ``pip install qiskit_algorithms`` and use ``import qiskit_algorithms`` instead. from qiskit.algorithms.optimizers import COBYLA /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:14: DeprecationWarning: The 'qiskit.Aer' entry point is deprecated and will be removed in Qiskit 1.0. You should use 'qiskit_aer.Aer' directly instead. backend = Aer.get_backend('qasm_simulator') /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:21: DeprecationWarning: The class ``qiskit.opflow.primitive_ops.matrix_op.MatrixOp`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/opflow_migration. H_op = MatrixOp(Hamiltonian).to_pauli_op() /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:30: DeprecationWarning: The class ``qiskit.utils.quantum_instance.QuantumInstance`` is deprecated as of qiskit-terra 0.24.0. It will be removed in the Qiskit 1.0 release. For code migration guidelines, visit https://qisk.it/qi_migration. quantum_instance = QuantumInstance(backend= backend, /home/m2c693/RESEARCH_WORK/TESTING_VQE_CODE.py:39: DeprecationWarning: The class ``qiskit.algorithms.minimum_eigen_solvers.vqe.VQE`` is deprecated as of qiskit-terra 0.24.0. It will be removed no earlier than 3 months after the release date. Instead, use the class ``qiskit.algorithms.minimum_eigensolvers.VQE``. See https://qisk.it/algo_migration for a migration guide. vqe = VQE(ansatz=ansatz_opt, { 'aux_operator_eigenvalues': None, 'cost_function_evals': 204, 'eigenstate': { '00': 0.44743190822738604, '01': 0.46351240544347894, '10': 0.5321683239352001, '11': 0.5493248697264671}, 'eigenvalue': (0.4073778676855462+0j), 'optimal_circuit': None, 'optimal_parameters': { ParameterVectorElement(θ[0]): 3.413149701335303, ParameterVectorElement(θ[1]): 6.122673310049739, ParameterVectorElement(θ[2]): 5.007510090575305, ParameterVectorElement(θ[3]): 6.471417603085951, ParameterVectorElement(θ[4]): 5.5825713635512635, ParameterVectorElement(θ[5]): 3.612049649783617, ParameterVectorElement(θ[6]): 1.1964266917131818, ParameterVectorElement(θ[7]): 1.2636714562893496, ParameterVectorElement(θ[8]): 2.7107242130163205, ParameterVectorElement(θ[9]): 1.4162337151620497, ParameterVectorElement(θ[10]): 3.4685412184905724, ParameterVectorElement(θ[11]): 7.0531779235955145, ParameterVectorElement(θ[12]): 4.759785290450675, ParameterVectorElement(θ[13]): 7.005034463907616, ParameterVectorElement(θ[14]): 3.0544374104242245, ParameterVectorElement(θ[15]): 3.6712390616198993, ParameterVectorElement(θ[16]): 0.8180247608411803, ParameterVectorElement(θ[17]): 2.890632566254878, ParameterVectorElement(θ[18]): 3.2114389132830734, ParameterVectorElement(θ[19]): 1.1110070869050546}, 'optimal_point': array([3.4131497 , 6.12267331, 5.00751009, 6.4714176 , 5.58257136, 3.61204965, 1.19642669, 1.26367146, 2.71072421, 1.41623372, 3.46854122, 7.05317792, 4.75978529, 7.00503446, 3.05443741, 3.67123906, 0.81802476, 2.89063257, 3.21143891, 1.11100709]), 'optimal_value': 0.4073778676855462, 'optimizer_evals': None, 'optimizer_result': None, 'optimizer_time': 4.511643648147583}
+
+Solution explanation:
+I strongly encourage you to read the Qiskit 1.0 migration guide, in which you can find most of the info you need to update your code. I'll give you that the Aer and Algorithms docs are not very helpful for now though. Your code with Qiskit 1.0 is supposed to use the primitive, to which you can then pass some of these options. Most of them will be passed to the pass manager though. In the following, I'll let as a comment your previous code, to see which lines you have to replace In order to transpile your circuit with the options you set in your post, you should use the pass manager: is not a part of Qiskit anymore, you have to use : The module has been largely superseded by the one: The module doesn't exist anymore, you have to use the package: As mentioned earlier, the is supposed to be replaced with an Now, there is a slight problem, in the fact that you want to use a . So clearly, you want to perform a simulation. You can't use the from for that: the is supposed to be backend-agnostic, and it doesn't make sense to talk about a seed for a real quantum computer. So, we could either use the from , or the one from . Let's say that we want to use the one from , since it is designed to be as efficient as possible. Let's stop briefly on this. The from Aer is a V1 primitive. So, preferably, we should instead use the V2 version (which isn't present in the docs, but definitely present in the code). That's especially true since Qiskit won't support V1 primitives anymore on 15 August 2024. But there's a slight problem: the class from only supports... V1 primitives. So, we're left with essentially three choices here: Use the V1 primitive for now, and see whether this becomes a problem in the future; Pray that the V2 support for VQE in arrive soon (which should be the case); Implement our own version of the VQE algorithm. The latter isn't as hard as it seems, you can find plenty of tutorials online. But for the sake of not reinventing the wheel, I'll go for solution #1 here. The should now be defined using the : Note however that this backend is only used when transpiling the ansatz. When using the Aer primitives, a new backend is defined using the options directly passed to the primitives. So, there isn't really a reason to define it if you only intend to perform a simulation. The only perk is that if you want to use a real quantum machine later on, then you won't have to change the lines concerning the transpilation when redefining your variable. But you'll have to pas it to an from . End of the digression. The operator should use the class: You should transpile using a pass manager. Note that this is where you will pass most of the options of : Now, we replace the with our Note that if we were to use the V2 version, we would have had to write: This is also where you can put backend options, using the keyword argument of , in a simialr way: a where the key is the option name, and the value the option value. This configuration is then used to crate an backend internally. All in all, adapting the code you provided yields:
+
+```
+Estimator
+```
+
+```
+# from qiskit import transpile from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+```
+
+```
+# from qiskit import transpile from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+```
+
+```
+Aer
+```
+
+```
+qiskit-aer
+```
+
+```
+# from qiskit import Aer from qiskit_aer import AerSimulator
+```
+
+```
+# from qiskit import Aer from qiskit_aer import AerSimulator
+```
+
+```
+opflow
+```
+
+```
+quantum_info
+```
+
+```
+# from qiskit.opflow import MatrixOp from qiskit.quantum_info import SparsePauliOp
+```
+
+```
+# from qiskit.opflow import MatrixOp from qiskit.quantum_info import SparsePauliOp
+```
+
+```
+algorithms
+```
+
+```
+qiskit-algorithms
+```
+
+```
+# from qiskit.algorithms.optimizers import COBYLA # from qiskit.algorithms import VQE from qiskit_algorithms import VQE from qiskit_algorithms.optimizers import COBYLA
+```
+
+```
+# from qiskit.algorithms.optimizers import COBYLA # from qiskit.algorithms import VQE from qiskit_algorithms import VQE from qiskit_algorithms.optimizers import COBYLA
+```
+
+```
+QuantumInstance
+```
+
+```
+Estimator
+```
+
+```
+seed
+```
+
+```
+Estimator
+```
+
+```
+qiskit-ibm-runtime
+```
+
+```
+Estimator
+```
+
+```
+Estimator
+```
+
+```
+qiskit
+```
+
+```
+qiskit-aer
+```
+
+```
+qiskit-aer
+```
+
+```
+# from qiskit.utils import QuantumInstance from qiskit_aer.primitives import Estimator
+```
+
+```
+# from qiskit.utils import QuantumInstance from qiskit_aer.primitives import Estimator
+```
+
+```
+Estimator
+```
+
+```
+VQE
+```
+
+```
+qiskit-algorithms
+```
+
+```
+qiskit-algorithms
+```
+
+```
+backend
+```
+
+```
+AerSimulator
+```
+
+```
+# backend = Aer.get_backend('qasm_simulator') backend = AerSimulator()
+```
+
+```
+# backend = Aer.get_backend('qasm_simulator') backend = AerSimulator()
+```
+
+```
+backend
+```
+
+```
+EstimatorV2
+```
+
+```
+qiskit-ibm-runtime
+```
+
+```
+SparsePauliOp
+```
+
+```
+# H_op = MatrixOp(Hamiltonian).to_pauli_op() H_op = SparsePauliOp.from_operator(Hamiltonian)
+```
+
+```
+# H_op = MatrixOp(Hamiltonian).to_pauli_op() H_op = SparsePauliOp.from_operator(Hamiltonian)
+```
+
+```
+QuantumInstance
+```
+
+```
+# ansatz_opt = transpile(circuits=ansatz, # backend = backend, # optimization_level =3) pm = generate_preset_pass_manager( optimization_level=3, backend=backend, basis_gates=None, seed_transpiler=28 ) ansatz_opt = pm.run(ansatz)
+```
+
+```
+# ansatz_opt = transpile(circuits=ansatz, # backend = backend, # optimization_level =3) pm = generate_preset_pass_manager( optimization_level=3, backend=backend, basis_gates=None, seed_transpiler=28 ) ansatz_opt = pm.run(ansatz)
+```
+
+```
+QuantumInstance
+```
+
+```
+Estimator
+```
+
+```
+# quantum_instance = QuantumInstance(backend= backend, # shots= 1024, # default is 1024 # changing the number of shots to 32M # seed_simulator= 28, ## # seed_transpiler= 28, # basis_gates= None, # optimization_level=2) estimator = Estimator( run_options = {"shots": 1024, "seed": 28}, )
+```
+
+```
+# quantum_instance = QuantumInstance(backend= backend, # shots= 1024, # default is 1024 # changing the number of shots to 32M # seed_simulator= 28, ## # seed_transpiler= 28, # basis_gates= None, # optimization_level=2) estimator = Estimator( run_options = {"shots": 1024, "seed": 28}, )
+```
+
+```
+estimator = EstimatorV2( options={ "run_options": {"shots": 1024, "seed": 28} } )
+```
+
+```
+estimator = EstimatorV2( options={ "run_options": {"shots": 1024, "seed": 28} } )
+```
+
+```
+backend_options
+```
+
+```
+EstimatorV1
+```
+
+```
+dict
+```
+
+```
+AerSimulator
+```
+
+```
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_aer import AerSimulator import numpy as np from qiskit.quantum_info import SparsePauliOp from qiskit.circuit.library import EfficientSU2 from qiskit_algorithms import VQE from qiskit_algorithms.optimizers import COBYLA from qiskit_aer.primitives import Estimator as Estimator backend = AerSimulator() Hamiltonian = [ [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207] ] H_op = SparsePauliOp.from_operator(Hamiltonian) ansatz = EfficientSU2(num_qubits=2, entanglement= 'linear', reps= 5, skip_final_rotation_layer= True) pm = generate_preset_pass_manager( optimization_level=3, backend=backend, basis_gates=None, seed_transpiler=28 ) ansatz_opt = pm.run(ansatz) optimizer = COBYLA(maxiter= 1500) estimator = Estimator( run_options = {"shots": 1024, "seed": 28}, ) initial_point_values = 2*np.pi*np.random.rand(ansatz_opt.num_parameters) vqe = VQE( estimator=estimator, ansatz=ansatz_opt, optimizer=optimizer, initial_point=initial_point_values ) result = vqe.compute_minimum_eigenvalue(H_op) print(result) ```
+```
+
+```
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_aer import AerSimulator import numpy as np from qiskit.quantum_info import SparsePauliOp from qiskit.circuit.library import EfficientSU2 from qiskit_algorithms import VQE from qiskit_algorithms.optimizers import COBYLA from qiskit_aer.primitives import Estimator as Estimator backend = AerSimulator() Hamiltonian = [ [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207] ] H_op = SparsePauliOp.from_operator(Hamiltonian) ansatz = EfficientSU2(num_qubits=2, entanglement= 'linear', reps= 5, skip_final_rotation_layer= True) pm = generate_preset_pass_manager( optimization_level=3, backend=backend, basis_gates=None, seed_transpiler=28 ) ansatz_opt = pm.run(ansatz) optimizer = COBYLA(maxiter= 1500) estimator = Estimator( run_options = {"shots": 1024, "seed": 28}, ) initial_point_values = 2*np.pi*np.random.rand(ansatz_opt.num_parameters) vqe = VQE( estimator=estimator, ansatz=ansatz_opt, optimizer=optimizer, initial_point=initial_point_values ) result = vqe.compute_minimum_eigenvalue(H_op) print(result) ```
+```
+
+Original fixed code:
+Estimator
+
+---CODE_BLOCK---
+
+# from qiskit import transpile from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+
+---CODE_BLOCK---
+
+# from qiskit import transpile from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+
+---CODE_BLOCK---
+
+Aer
+
+---CODE_BLOCK---
+
+qiskit-aer
+
+---CODE_BLOCK---
+
+# from qiskit import Aer from qiskit_aer import AerSimulator
+
+---CODE_BLOCK---
+
+# from qiskit import Aer from qiskit_aer import AerSimulator
+
+---CODE_BLOCK---
+
+opflow
+
+---CODE_BLOCK---
+
+quantum_info
+
+---CODE_BLOCK---
+
+# from qiskit.opflow import MatrixOp from qiskit.quantum_info import SparsePauliOp
+
+---CODE_BLOCK---
+
+# from qiskit.opflow import MatrixOp from qiskit.quantum_info import SparsePauliOp
+
+---CODE_BLOCK---
+
+algorithms
+
+---CODE_BLOCK---
+
+qiskit-algorithms
+
+---CODE_BLOCK---
+
+# from qiskit.algorithms.optimizers import COBYLA # from qiskit.algorithms import VQE from qiskit_algorithms import VQE from qiskit_algorithms.optimizers import COBYLA
+
+---CODE_BLOCK---
+
+# from qiskit.algorithms.optimizers import COBYLA # from qiskit.algorithms import VQE from qiskit_algorithms import VQE from qiskit_algorithms.optimizers import COBYLA
+
+---CODE_BLOCK---
+
+QuantumInstance
+
+---CODE_BLOCK---
+
+Estimator
+
+---CODE_BLOCK---
+
+seed
+
+---CODE_BLOCK---
+
+Estimator
+
+---CODE_BLOCK---
+
+qiskit-ibm-runtime
+
+---CODE_BLOCK---
+
+Estimator
+
+---CODE_BLOCK---
+
+Estimator
+
+---CODE_BLOCK---
+
+qiskit
+
+---CODE_BLOCK---
+
+qiskit-aer
+
+---CODE_BLOCK---
+
+qiskit-aer
+
+---CODE_BLOCK---
+
+# from qiskit.utils import QuantumInstance from qiskit_aer.primitives import Estimator
+
+---CODE_BLOCK---
+
+# from qiskit.utils import QuantumInstance from qiskit_aer.primitives import Estimator
+
+---CODE_BLOCK---
+
+Estimator
+
+---CODE_BLOCK---
+
+VQE
+
+---CODE_BLOCK---
+
+qiskit-algorithms
+
+---CODE_BLOCK---
+
+qiskit-algorithms
+
+---CODE_BLOCK---
+
+backend
+
+---CODE_BLOCK---
+
+AerSimulator
+
+---CODE_BLOCK---
+
+# backend = Aer.get_backend('qasm_simulator') backend = AerSimulator()
+
+---CODE_BLOCK---
+
+# backend = Aer.get_backend('qasm_simulator') backend = AerSimulator()
+
+---CODE_BLOCK---
+
+backend
+
+---CODE_BLOCK---
+
+EstimatorV2
+
+---CODE_BLOCK---
+
+qiskit-ibm-runtime
+
+---CODE_BLOCK---
+
+SparsePauliOp
+
+---CODE_BLOCK---
+
+# H_op = MatrixOp(Hamiltonian).to_pauli_op() H_op = SparsePauliOp.from_operator(Hamiltonian)
+
+---CODE_BLOCK---
+
+# H_op = MatrixOp(Hamiltonian).to_pauli_op() H_op = SparsePauliOp.from_operator(Hamiltonian)
+
+---CODE_BLOCK---
+
+QuantumInstance
+
+---CODE_BLOCK---
+
+# ansatz_opt = transpile(circuits=ansatz, # backend = backend, # optimization_level =3) pm = generate_preset_pass_manager( optimization_level=3, backend=backend, basis_gates=None, seed_transpiler=28 ) ansatz_opt = pm.run(ansatz)
+
+---CODE_BLOCK---
+
+# ansatz_opt = transpile(circuits=ansatz, # backend = backend, # optimization_level =3) pm = generate_preset_pass_manager( optimization_level=3, backend=backend, basis_gates=None, seed_transpiler=28 ) ansatz_opt = pm.run(ansatz)
+
+---CODE_BLOCK---
+
+QuantumInstance
+
+---CODE_BLOCK---
+
+Estimator
+
+---CODE_BLOCK---
+
+# quantum_instance = QuantumInstance(backend= backend, # shots= 1024, # default is 1024 # changing the number of shots to 32M # seed_simulator= 28, ## # seed_transpiler= 28, # basis_gates= None, # optimization_level=2) estimator = Estimator( run_options = {"shots": 1024, "seed": 28}, )
+
+---CODE_BLOCK---
+
+# quantum_instance = QuantumInstance(backend= backend, # shots= 1024, # default is 1024 # changing the number of shots to 32M # seed_simulator= 28, ## # seed_transpiler= 28, # basis_gates= None, # optimization_level=2) estimator = Estimator( run_options = {"shots": 1024, "seed": 28}, )
+
+---CODE_BLOCK---
+
+estimator = EstimatorV2( options={ "run_options": {"shots": 1024, "seed": 28} } )
+
+---CODE_BLOCK---
+
+estimator = EstimatorV2( options={ "run_options": {"shots": 1024, "seed": 28} } )
+
+---CODE_BLOCK---
+
+backend_options
+
+---CODE_BLOCK---
+
+EstimatorV1
+
+---CODE_BLOCK---
+
+dict
+
+---CODE_BLOCK---
+
+AerSimulator
+
+---CODE_BLOCK---
+
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_aer import AerSimulator import numpy as np from qiskit.quantum_info import SparsePauliOp from qiskit.circuit.library import EfficientSU2 from qiskit_algorithms import VQE from qiskit_algorithms.optimizers import COBYLA from qiskit_aer.primitives import Estimator as Estimator backend = AerSimulator() Hamiltonian = [ [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319], [-3.6713615 , 5.88262911, -4.14084507, 1.37558685], [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577], [-1.05164319, 1.37558685, -3.54929577, 3.79812207] ] H_op = SparsePauliOp.from_operator(Hamiltonian) ansatz = EfficientSU2(num_qubits=2, entanglement= 'linear', reps= 5, skip_final_rotation_layer= True) pm = generate_preset_pass_manager( optimization_level=3, backend=backend, basis_gates=None, seed_transpiler=28 ) ansatz_opt = pm.run(ansatz) optimizer = COBYLA(maxiter= 1500) estimator = Estimator( run_options = {"shots": 1024, "seed": 28}, ) initial_point_values = 2*np.pi*np.random.rand(ansatz_opt.num_parameters) vqe = VQE( estimator=estimator, ansatz=ansatz_opt, optimizer=optimizer, initial_point=initial_point_values ) result = vqe.compute_minimum_eigenvalue(H_op) print(result)

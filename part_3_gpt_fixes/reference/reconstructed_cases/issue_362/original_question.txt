@@ -1,0 +1,190 @@
+Title:
+How to get unitaries, statevectors, density matrices, and everything else from the new module AerSimulator?
+
+Category:
+Category: Import / Output Interpretation
+
+Why Stack Overflow Solution Wins in This Category:
+This issue is about correctly interfacing with the AerSimulator API to retrieve internal simulation data. The Stack Overflow solution directly addresses the API change by showing that save_* instructions are now required, which is the key to resolving the user's confusion. The AI-generated solution fails to mention this Qiskit-specific requirement, leading to runtime errors or empty results. Therefore, Stack Overflow is more accurate and actionable for the user in this context.
+
+Question:
+Title: How to get unitaries, statevectors, density matrices, and everything else from the new module AerSimulator?
+
+So the documentation is all mixed up and I can't find how to get unitaries, statevectors, etc. in the module. For an example, see e.g. this docs. In the old days, one would get this information using only the module (as described in the previous link). But now, fresh qiskit installations do not recognize the module and instead one has to use the "" module. If my circuit is I call the "backend" as (not sure if correctly) and run The object has the attribute (?) , but I can't get the unitary matrix from it. Any idea how to extract this information?
+
+```
+AerSimulator
+```
+
+```
+Aer
+```
+
+```
+Aer
+```
+
+```
+AerSimulator
+```
+
+```
+qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.h(0)
+```
+
+```
+qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.h(0)
+```
+
+```
+backend = AerSimulator(method='unitary')
+```
+
+```
+backend = AerSimulator(method='unitary')
+```
+
+```
+job = backend.run(circuit).result()
+```
+
+```
+job = backend.run(circuit).result()
+```
+
+```
+job
+```
+
+```
+job.get_unitary()
+```
+
+Original buggy code:
+AerSimulator
+
+---CODE_BLOCK---
+
+Aer
+
+---CODE_BLOCK---
+
+Aer
+
+---CODE_BLOCK---
+
+AerSimulator
+
+---CODE_BLOCK---
+
+qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.h(0)
+
+---CODE_BLOCK---
+
+qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.h(0)
+
+---CODE_BLOCK---
+
+backend = AerSimulator(method='unitary')
+
+---CODE_BLOCK---
+
+backend = AerSimulator(method='unitary')
+
+---CODE_BLOCK---
+
+job = backend.run(circuit).result()
+
+---CODE_BLOCK---
+
+job = backend.run(circuit).result()
+
+---CODE_BLOCK---
+
+job
+
+---CODE_BLOCK---
+
+job.get_unitary()
+
+Solution explanation:
+You will need to add one of the save instructions to your circuit. For example, to get the unitary, add instruction as follows: Then, run the simulator: Now, you can get the unitary: Similarly, you can get the statevector by calling and density matrix by calling , ...etc. You can also use instruction which will automatically select the format based on the simulation method.
+
+```
+SaveUnitary
+```
+
+```
+circuit.save_unitary()
+```
+
+```
+circuit.save_unitary()
+```
+
+```
+backend = AerSimulator(method='unitary') job = backend.run(circuit)
+```
+
+```
+backend = AerSimulator(method='unitary') job = backend.run(circuit)
+```
+
+```
+unitary = job.result().get_unitary()
+```
+
+```
+unitary = job.result().get_unitary()
+```
+
+```
+circuit.save_statevector
+```
+
+```
+circuit.save_density_matrix
+```
+
+```
+SaveState
+```
+
+Original fixed code:
+SaveUnitary
+
+---CODE_BLOCK---
+
+circuit.save_unitary()
+
+---CODE_BLOCK---
+
+circuit.save_unitary()
+
+---CODE_BLOCK---
+
+backend = AerSimulator(method='unitary') job = backend.run(circuit)
+
+---CODE_BLOCK---
+
+backend = AerSimulator(method='unitary') job = backend.run(circuit)
+
+---CODE_BLOCK---
+
+unitary = job.result().get_unitary()
+
+---CODE_BLOCK---
+
+unitary = job.result().get_unitary()
+
+---CODE_BLOCK---
+
+circuit.save_statevector
+
+---CODE_BLOCK---
+
+circuit.save_density_matrix
+
+---CODE_BLOCK---
+
+SaveState

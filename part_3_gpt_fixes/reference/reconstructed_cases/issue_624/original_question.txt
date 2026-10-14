@@ -1,0 +1,139 @@
+Title:
+qiskit qaoa.compute_minimum_eigenvalue
+
+Category:
+
+
+Question:
+Title: qiskit qaoa.compute_minimum_eigenvalue
+
+I am having some trouble running the method from qiskit's : the documentation states that one need to pass (" Qubit operator of the Observable" as ). My question is, given that I implemented as , how can I convert it to the right format? Thanks a lot!
+
+```
+compute_minimum_eigenvalue
+```
+
+```
+QAOA
+```
+
+```
+H
+```
+
+```
+OperatorBase
+```
+
+```
+H
+```
+
+```
+QuantumCircuit
+```
+
+Original buggy code:
+compute_minimum_eigenvalue
+
+---CODE_BLOCK---
+
+QAOA
+
+---CODE_BLOCK---
+
+H
+
+---CODE_BLOCK---
+
+OperatorBase
+
+---CODE_BLOCK---
+
+H
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+Solution explanation:
+I had suggested in my comment above how you might do this. is not an opflow (it's a - different type) but can be used to create an opflow which is. Given your code sample above, I did the following based on it, which runs and prints values. Note: you should use an from the package - the is part of the now deprecated and unsupported , and that specific module you had used (CobylaOptimizer), in any case, had a different purpose.
+
+```
+Operator
+```
+
+```
+OperatorBase
+```
+
+```
+BaseOperator
+```
+
+```
+MatrixOp
+```
+
+```
+import numpy as np from qiskit import BasicAer, QuantumCircuit from qiskit.algorithms import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.quantum_info.operators import Operator from qiskit.opflow import MatrixOp nqubits = 4 H = QuantumCircuit(nqubits) for i in range(nqubits): H.z(i) H_op = MatrixOp(Operator(H)) qaoa = QAOA(optimizer= COBYLA(), reps=1, mixer=H, initial_point=np.array([1.0]), quantum_instance=BasicAer.get_backend('statevector_simulator')) print(qaoa.compute_minimum_eigenvalue(H_op))
+```
+
+```
+import numpy as np from qiskit import BasicAer, QuantumCircuit from qiskit.algorithms import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.quantum_info.operators import Operator from qiskit.opflow import MatrixOp nqubits = 4 H = QuantumCircuit(nqubits) for i in range(nqubits): H.z(i) H_op = MatrixOp(Operator(H)) qaoa = QAOA(optimizer= COBYLA(), reps=1, mixer=H, initial_point=np.array([1.0]), quantum_instance=BasicAer.get_backend('statevector_simulator')) print(qaoa.compute_minimum_eigenvalue(H_op))
+```
+
+```
+optimizer
+```
+
+```
+qiskit.algorithms.optimizers
+```
+
+```
+qiskit.optimization
+```
+
+```
+Qiskit Aqua
+```
+
+Original fixed code:
+Operator
+
+---CODE_BLOCK---
+
+OperatorBase
+
+---CODE_BLOCK---
+
+BaseOperator
+
+---CODE_BLOCK---
+
+MatrixOp
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import BasicAer, QuantumCircuit from qiskit.algorithms import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.quantum_info.operators import Operator from qiskit.opflow import MatrixOp nqubits = 4 H = QuantumCircuit(nqubits) for i in range(nqubits): H.z(i) H_op = MatrixOp(Operator(H)) qaoa = QAOA(optimizer= COBYLA(), reps=1, mixer=H, initial_point=np.array([1.0]), quantum_instance=BasicAer.get_backend('statevector_simulator')) print(qaoa.compute_minimum_eigenvalue(H_op))
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import BasicAer, QuantumCircuit from qiskit.algorithms import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.quantum_info.operators import Operator from qiskit.opflow import MatrixOp nqubits = 4 H = QuantumCircuit(nqubits) for i in range(nqubits): H.z(i) H_op = MatrixOp(Operator(H)) qaoa = QAOA(optimizer= COBYLA(), reps=1, mixer=H, initial_point=np.array([1.0]), quantum_instance=BasicAer.get_backend('statevector_simulator')) print(qaoa.compute_minimum_eigenvalue(H_op))
+
+---CODE_BLOCK---
+
+optimizer
+
+---CODE_BLOCK---
+
+qiskit.algorithms.optimizers
+
+---CODE_BLOCK---
+
+qiskit.optimization
+
+---CODE_BLOCK---
+
+Qiskit Aqua

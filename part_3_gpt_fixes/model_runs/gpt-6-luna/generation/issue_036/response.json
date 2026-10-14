@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWVvknh5dzEpQ8VcYX5hfA0Y9WlZL",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport qiskit\n# FIX: Qiskit 1.0 removed QuantumCircuit.qasm() -> import the OpenQASM 2 exporter, because serialization is now provided by qiskit.qasm2.\nfrom qiskit import qasm2\n\nc = qiskit.QuantumCircuit(1)\nc.h(0)\n\n# FIX: QuantumCircuit.qasm() is no longer available -> use qasm2.dumps(), because it returns the circuit as an OpenQASM 2 string.\nqasm_str = qasm2.dumps(c)\nprint(qasm_str)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791417944,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 398,
+    "prompt_tokens": 598,
+    "total_tokens": 996,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 268,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

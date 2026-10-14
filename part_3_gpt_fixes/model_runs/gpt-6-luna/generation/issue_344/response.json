@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWVx8pDta27wyuWC2XmgnKBFBQE6m",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport numpy as np\nfrom qiskit import QuantumCircuit, BasicAer, execute\nfrom qiskit import quantum_info\n\ncircuit6 = QuantumCircuit(2)\ncircuit6.h(0)\ncircuit6.cx(0, 1)\ncircuit6.ry(1.0, 1)\n\nsimulator = BasicAer.get_backend('statevector_simulator')\nresult6 = execute(circuit6, simulator).result()\n# FIX: rounding the amplitudes makes the state non-normalized -> retrieve full-precision amplitudes, because entropy requires a valid normalized state\noutputstate6 = result6.get_statevector(circuit6)\nprobability = np.abs(np.array(outputstate6))**2\noutstatevector = quantum_info.states.Statevector(outputstate6)\nprint(type(outstatevector))\nprint(type(outputstate6))\nprint(outputstate6)\nprint(quantum_info.entropy(outputstate6))\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418030,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 393,
+    "prompt_tokens": 1052,
+    "total_tokens": 1445,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 193,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1049,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

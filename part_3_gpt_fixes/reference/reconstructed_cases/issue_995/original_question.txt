@@ -1,0 +1,99 @@
+Title:
+Building a realistic noise model in Qiskit
+
+Category:
+
+
+Question:
+Title: Building a realistic noise model in Qiskit
+
+I am trying to build a realistic noise model in Qiskit for a quantum computer that might be available 2-3 few years from now on. I tried to start from an existing noise model generated from a fake device, use method, tweak the dictionary a bit and load it back using the method. Unfortunately, the method is now deprecated. Is there another method to adjust an existing noise model? There are several examples around on how to build a custom noise model in Qiskit, but I do not trust myself building a realistic one because there are so many settings that can be adjusted.
+
+```
+NoiseModel.to_dict()
+```
+
+```
+NoiseModel.from_dict()
+```
+
+```
+from_dict()
+```
+
+Original buggy code:
+NoiseModel.to_dict()
+
+---CODE_BLOCK---
+
+NoiseModel.from_dict()
+
+---CODE_BLOCK---
+
+from_dict()
+
+Solution explanation:
+There might be a better manner to do that, but anyway: You can generate a instance from an actual backend (or from fake V1 backends) by using the method. Then it is possible to further customize the noise model using the methods and attributes of the class. For example, this piece of code generates a noise model from and alters one of its readout errors: This is an example for altering existing definitions. Adding error deifnitions is easier, and can be done using the methods of the class (there are several).
+
+```
+NoiseModel
+```
+
+```
+NoiseModel.from_backend()
+```
+
+```
+NoiseModel
+```
+
+```
+ibmq_quito
+```
+
+```
+from qiskit import IBMQ from qiskit.providers.aer.noise import NoiseModel, ReadoutError provider = IBMQ.load_account() backend = provider.get_backend('ibmq_quito') nm_1 = NoiseModel.from_backend(backend) print('The readout errors defined before altering are:') print(nm_1._local_readout_errors) q0_RO_er = ReadoutError([[0.8,0.2],[0.2,0.8]]) nm_1._local_readout_errors[(0,)] = q0_RO_er print() print('The readout errors after altering are:') print(nm_1._local_readout_errors)
+```
+
+```
+from qiskit import IBMQ from qiskit.providers.aer.noise import NoiseModel, ReadoutError provider = IBMQ.load_account() backend = provider.get_backend('ibmq_quito') nm_1 = NoiseModel.from_backend(backend) print('The readout errors defined before altering are:') print(nm_1._local_readout_errors) q0_RO_er = ReadoutError([[0.8,0.2],[0.2,0.8]]) nm_1._local_readout_errors[(0,)] = q0_RO_er print() print('The readout errors after altering are:') print(nm_1._local_readout_errors)
+```
+
+```
+add_XXX
+```
+
+```
+NoiseModel
+```
+
+Original fixed code:
+NoiseModel
+
+---CODE_BLOCK---
+
+NoiseModel.from_backend()
+
+---CODE_BLOCK---
+
+NoiseModel
+
+---CODE_BLOCK---
+
+ibmq_quito
+
+---CODE_BLOCK---
+
+from qiskit import IBMQ from qiskit.providers.aer.noise import NoiseModel, ReadoutError provider = IBMQ.load_account() backend = provider.get_backend('ibmq_quito') nm_1 = NoiseModel.from_backend(backend) print('The readout errors defined before altering are:') print(nm_1._local_readout_errors) q0_RO_er = ReadoutError([[0.8,0.2],[0.2,0.8]]) nm_1._local_readout_errors[(0,)] = q0_RO_er print() print('The readout errors after altering are:') print(nm_1._local_readout_errors)
+
+---CODE_BLOCK---
+
+from qiskit import IBMQ from qiskit.providers.aer.noise import NoiseModel, ReadoutError provider = IBMQ.load_account() backend = provider.get_backend('ibmq_quito') nm_1 = NoiseModel.from_backend(backend) print('The readout errors defined before altering are:') print(nm_1._local_readout_errors) q0_RO_er = ReadoutError([[0.8,0.2],[0.2,0.8]]) nm_1._local_readout_errors[(0,)] = q0_RO_er print() print('The readout errors after altering are:') print(nm_1._local_readout_errors)
+
+---CODE_BLOCK---
+
+add_XXX
+
+---CODE_BLOCK---
+
+NoiseModel

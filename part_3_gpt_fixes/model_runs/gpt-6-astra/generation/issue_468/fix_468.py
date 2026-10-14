@@ -1,0 +1,16 @@
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import DensityMatrix
+# FIX: Aqua's commutator requires legacy operators -> import MatrixOperator, because it provides the expected operator interface.
+from qiskit.aqua.operators.legacy import commutator, MatrixOperator
+
+circ0 = QuantumCircuit(1)
+circ1 = QuantumCircuit(1)
+
+circ0.x(0)
+dm0 = DensityMatrix.from_instruction(circ0)
+
+circ1.z(0)
+dm1 = DensityMatrix.from_instruction(circ1)
+
+# FIX: DensityMatrix inputs are incompatible with Aqua's commutator -> wrap their matrices in MatrixOperator, because legacy operators implement the required algebra.
+commutator(MatrixOperator(matrix=dm0.data), MatrixOperator(matrix=dm1.data))

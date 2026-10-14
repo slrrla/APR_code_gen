@@ -1,0 +1,59 @@
+Title:
+Decompose native gates using Qiskit framework [closed]
+
+Category:
+
+
+Question:
+Title: Decompose native gates using Qiskit framework [closed]
+
+Closed. This question needs to be more focused. It is not currently accepting answers. Want to improve this question? Guide the asker to update the question so it focuses on a single, specific problem. Narrowing the question will help others answer the question concisely. You may edit the question if you feel you can improve it yourself. If edited, the question will be reviewed and might be reopened. Closed 3 years ago. Improve this question I've read the papers about quantum hardware. These papers [1] [2] mention that native gates of IBM quantum computer are $R_x(\pi/2), R_z(\lambda)\space and \space CR \space (Cross Resonance)$ My questions are: Getting native gates in qikit, we use . So, does "rx" does it equal to $R_x(\pi/2)$? How to decompose CX to CR gates from that ? For Ion trapped native qubits, there is $Rxy(\theta,\phi)$, so does it equal to "rx" and "ry" in ? Code example:
+
+```
+transpile()
+```
+
+```
+transpile()
+```
+
+```
+transpile()
+```
+
+```
+from qiskit import QuantumCircuit, transpile qc = QuantumCircuit(2) qc.h(0) qc.cx(0,1) qc = transpile(qc, basis_gates=['rx', 'ry', 'cx']) print(qc)
+```
+
+```
+from qiskit import QuantumCircuit, transpile qc = QuantumCircuit(2) qc.h(0) qc.cx(0,1) qc = transpile(qc, basis_gates=['rx', 'ry', 'cx']) print(qc)
+```
+
+Original buggy code:
+transpile()
+
+---CODE_BLOCK---
+
+transpile()
+
+---CODE_BLOCK---
+
+transpile()
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, transpile qc = QuantumCircuit(2) qc.h(0) qc.cx(0,1) qc = transpile(qc, basis_gates=['rx', 'ry', 'cx']) print(qc)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, transpile qc = QuantumCircuit(2) qc.h(0) qc.cx(0,1) qc = transpile(qc, basis_gates=['rx', 'ry', 'cx']) print(qc)
+
+Solution explanation:
+About the native gates on IBM Quantum computers, you can see for example on ibmq_bogota here that the basis gates are CX, ID, RZ, SX, X : CX is the usual 2-qubits CNOT gate; ID is the single qubit identity gate; X is the single qubit NOT gate and SX is its square root; RZ is the single qubit rotation about the Z-axis, see here its definition, and it is the single parameterised gate of the basis gates set so technically it will be $RZ(\lambda)$ but we'll denote it via RZ by misuse of language since it's clear it is $RZ(\lambda)$. To sum up you'll have to pass to the transpiler to use basis gates of ibm machines. Now about $R_{X,Y}$ I can't seem to find it on qiskit but if its definition is similar to $R_{Z,X}$ then by using this kind of tools you can implement it easily I think. Finally, if you wish to play more with hardware, then you might be interested in qiskit pulse, see some tutos in the documentation or the textbook.
+
+```
+basis_gates=['cx', 'id', 'rz', 'x', 'sx']
+```
+
+Original fixed code:
+basis_gates=['cx', 'id', 'rz', 'x', 'sx']

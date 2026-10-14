@@ -1,0 +1,75 @@
+Title:
+How to use if_else in qiskit?
+
+Category:
+
+
+Question:
+Title: How to use if_else in qiskit?
+
+I have a single qubit that I need to act on based on its measurement within my circuit. I've searched for some time, checked the documentation and ended up doing the exact thing as this video at 24:00 with : https://www.youtube.com/watch?v=QLMVfImNc0o&ab_channel=Qiskit . But both the "if" and "else" block are executed in my code, which is not what it is suppose to do obviously. Did I do something wrong? Is it not how it should be done?
+
+```
+.if_test()
+```
+
+Original buggy code:
+.if_test()
+
+Solution explanation:
+Both the and parts of these code will be executed because these are not an Python statement, but rather just names given to the conditions of a context manager. The job of the context manager is to create a circuit conditioned on the results stored in a classical register, therefore all the code will be executed. Only when you run the circuit the if/else condition will be reflected in what the circuit is doing. Here's a concrete (simpler) example from qiskit's documentation: The resulting circuit will look like this: Notice how the constructed circuit contains both the conditioned H gate and the condition X gate, which means all the code within the and portions were executed. But once you run the circuit, only the H or the X gate will be applied based on the result stored in the classical register.
+
+```
+if
+```
+
+```
+else
+```
+
+```
+if-else
+```
+
+```
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit_aer import AerSimulator qubits = QuantumRegister(2) clbits = ClassicalRegister(2) circuit = QuantumCircuit(qubits, clbits) (q0, q1) = qubits (c0, c1) = clbits circuit.h(q0) circuit.measure(q0, c0) with circuit.if_test((c0, 1)) as else_: circuit.h(q1) with else_: circuit.x(q1) circuit.measure(q1, c1) circuit.draw()
+```
+
+```
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit_aer import AerSimulator qubits = QuantumRegister(2) clbits = ClassicalRegister(2) circuit = QuantumCircuit(qubits, clbits) (q0, q1) = qubits (c0, c1) = clbits circuit.h(q0) circuit.measure(q0, c0) with circuit.if_test((c0, 1)) as else_: circuit.h(q1) with else_: circuit.x(q1) circuit.measure(q1, c1) circuit.draw()
+```
+
+```
+with circuit.if_test((c0, 1))
+```
+
+```
+with _else
+```
+
+Original fixed code:
+if
+
+---CODE_BLOCK---
+
+else
+
+---CODE_BLOCK---
+
+if-else
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit_aer import AerSimulator qubits = QuantumRegister(2) clbits = ClassicalRegister(2) circuit = QuantumCircuit(qubits, clbits) (q0, q1) = qubits (c0, c1) = clbits circuit.h(q0) circuit.measure(q0, c0) with circuit.if_test((c0, 1)) as else_: circuit.h(q1) with else_: circuit.x(q1) circuit.measure(q1, c1) circuit.draw()
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit_aer import AerSimulator qubits = QuantumRegister(2) clbits = ClassicalRegister(2) circuit = QuantumCircuit(qubits, clbits) (q0, q1) = qubits (c0, c1) = clbits circuit.h(q0) circuit.measure(q0, c0) with circuit.if_test((c0, 1)) as else_: circuit.h(q1) with else_: circuit.x(q1) circuit.measure(q1, c1) circuit.draw()
+
+---CODE_BLOCK---
+
+with circuit.if_test((c0, 1))
+
+---CODE_BLOCK---
+
+with _else

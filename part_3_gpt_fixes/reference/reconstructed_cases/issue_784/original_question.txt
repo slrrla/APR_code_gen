@@ -1,0 +1,59 @@
+Title:
+Can I get the job variable from the job_id？
+
+Category:
+
+
+Question:
+Title: Can I get the job variable from the job_id？
+
+Suppose I run the following code： Then the job takes a long time to run. We know that job_id (from ) is a unique identifier for a job. Can I just save job_id and then turn it off and restore the job variable with job_id the next day? Or what information can I save that will allow me to get the after I drop the line? The motivation for this problem is that I don't want to increase the workload due to network reasons when I am waiting for many tasks to run. It will be much easier to handle data when there is . Otherwise, I can only go to to download the result data, and the data format is not easy to use. thank you for your help!
+
+```
+job = execute(qc, backend = backend, shots = 1024, optimization_level = 0)
+```
+
+```
+job.job_id()
+```
+
+```
+job.result()
+```
+
+```
+job.result()
+```
+
+```
+https://quantum-computing.ibm.com/
+```
+
+Original buggy code:
+job = execute(qc, backend = backend, shots = 1024, optimization_level = 0)
+
+---CODE_BLOCK---
+
+job.job_id()
+
+---CODE_BLOCK---
+
+job.result()
+
+---CODE_BLOCK---
+
+job.result()
+
+---CODE_BLOCK---
+
+https://quantum-computing.ibm.com/
+
+Solution explanation:
+I take it you're running the jobs on an IBMQ backend and not one of the local simulators. If so, just keep track of , then use the retrieve_job function to retrieve the job at a later point in time and get its result.
+
+```
+job_id
+```
+
+Original fixed code:
+job_id

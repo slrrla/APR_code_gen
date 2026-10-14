@@ -1,0 +1,31 @@
+Title:
+Stabilizer State - efficient calculation of measurement probabilities - Qiskit
+
+Category:
+
+
+Question:
+Title: Stabilizer State - efficient calculation of measurement probabilities - Qiskit
+
+I would like to calculate the probability of measuring some state $U\rho U^\dagger$ in the basis state $b \in (0,1)^{\otimes n}$, i.e. $<b|U\rho U^\dagger|b>$. Now, according to Gottesmann and Knill’s theorem, this can be efficiently calculated, if $\rho$ is a stabilizer state and U is some Clifford operation. I made several attempts, figuring this out by myself. In order to achieve at least some result, I resorted to calculate the problem the old fashioned way, matrix multiplication style. But as one expects, the bigger the system size, the longer it takes to calculate. Also i am planning to calculate up to 5000 probabilities, each for different basis states and clifford operations. In qiskit I tried the following: I want to iterate this procedure many times and save the results to a list. Especially for many iterations and high dimensionality (exponential in qubits) of the GHZ state, this can take a long while to calculate. So my question is: Is there a more efficient way to calculate $<b|U\rho U^\dagger|b>$, given the prerequisites of $\rho$ being a stabilizer state and U being some Clifford Operator, i.e. making use of Gottesmann and Knills theorem? Anoher idea i had, would be to maybe make use of the $\texttt{qiskit.quantum_info.StabilizerState.probabilities_dict}$ method, and to then get the dictionary entry for the desired basis b
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import DensityMatrix, random_clifford, StabilizerState from numpy import zeros qc = ghz(3) rnd_clifford = random_clifford(3) #generates a random clifford operation rho_ghz = DensityMatrix(qc) rho_ghz.evolve(rnd_clifford) #evolves the GHZ state with random clifford operation #this should be equivalent to U*rho*U† prob_b = basis(3, b).transpose()@rho_ghz@basis(3, b) #calculation of <b|U*rho*U†|b> def ghz(num_qubits): qc = QuantumCircuit(num_qubits) qc.h(0) for k in range(1, num_qubits, 1): qc.cx(0,k) qc.barrier() return qc def basis(num_qubits, bitstring): bas = zeros(2**num_qubits); bas[int(bitstring, 2)] = 1 return bas
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import DensityMatrix, random_clifford, StabilizerState from numpy import zeros qc = ghz(3) rnd_clifford = random_clifford(3) #generates a random clifford operation rho_ghz = DensityMatrix(qc) rho_ghz.evolve(rnd_clifford) #evolves the GHZ state with random clifford operation #this should be equivalent to U*rho*U† prob_b = basis(3, b).transpose()@rho_ghz@basis(3, b) #calculation of <b|U*rho*U†|b> def ghz(num_qubits): qc = QuantumCircuit(num_qubits) qc.h(0) for k in range(1, num_qubits, 1): qc.cx(0,k) qc.barrier() return qc def basis(num_qubits, bitstring): bas = zeros(2**num_qubits); bas[int(bitstring, 2)] = 1 return bas
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit from qiskit.quantum_info import DensityMatrix, random_clifford, StabilizerState from numpy import zeros qc = ghz(3) rnd_clifford = random_clifford(3) #generates a random clifford operation rho_ghz = DensityMatrix(qc) rho_ghz.evolve(rnd_clifford) #evolves the GHZ state with random clifford operation #this should be equivalent to U*rho*U† prob_b = basis(3, b).transpose()@rho_ghz@basis(3, b) #calculation of <b|U*rho*U†|b> def ghz(num_qubits): qc = QuantumCircuit(num_qubits) qc.h(0) for k in range(1, num_qubits, 1): qc.cx(0,k) qc.barrier() return qc def basis(num_qubits, bitstring): bas = zeros(2**num_qubits); bas[int(bitstring, 2)] = 1 return bas
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import DensityMatrix, random_clifford, StabilizerState from numpy import zeros qc = ghz(3) rnd_clifford = random_clifford(3) #generates a random clifford operation rho_ghz = DensityMatrix(qc) rho_ghz.evolve(rnd_clifford) #evolves the GHZ state with random clifford operation #this should be equivalent to U*rho*U† prob_b = basis(3, b).transpose()@rho_ghz@basis(3, b) #calculation of <b|U*rho*U†|b> def ghz(num_qubits): qc = QuantumCircuit(num_qubits) qc.h(0) for k in range(1, num_qubits, 1): qc.cx(0,k) qc.barrier() return qc def basis(num_qubits, bitstring): bas = zeros(2**num_qubits); bas[int(bitstring, 2)] = 1 return bas
+
+Solution explanation:
+You have indicated that $\rho$ is a pure $n$-qubit GHZ state, $$ |G_n\rangle = \frac{|0\rangle^{\otimes n} + |1\rangle^{\otimes n}}{\sqrt{2}}. $$ Then, $$ \langle b| U\rho U^\dagger |b\rangle = \langle b| U |G_n\rangle\langle G_n| U^\dagger |b\rangle = |\langle b| U |G_n\rangle|^2. $$ You have further indicated that $|b\rangle$ is the standard computational basis, so there is a 1 in exactly one spot of the vector $|b\rangle$. Furthermore, $|G_n\rangle$ only has non-zero entries in the first and last spot. So, $U|G_n\rangle$ is just the sum of the first and last columns of $U$. And $\langle b| U |G_n\rangle$ is the $b$-th entry of $U|G_n\rangle$. In other words, $\langle b| U |G_n\rangle$ is the sum of the matrix elements $U_{b,0} + U_{b,2^n-1}$. So, once you generate your $U$, only a trivial computation is needed to compute $\langle b| U\rho U^\dagger |b\rangle$.
+
+Original fixed code:
+You have indicated that $\rho$ is a pure $n$-qubit GHZ state, $$ |G_n\rangle = \frac{|0\rangle^{\otimes n} + |1\rangle^{\otimes n}}{\sqrt{2}}. $$ Then, $$ \langle b| U\rho U^\dagger |b\rangle = \langle b| U |G_n\rangle\langle G_n| U^\dagger |b\rangle = |\langle b| U |G_n\rangle|^2. $$ You have further indicated that $|b\rangle$ is the standard computational basis, so there is a 1 in exactly one spot of the vector $|b\rangle$. Furthermore, $|G_n\rangle$ only has non-zero entries in the first and last spot. So, $U|G_n\rangle$ is just the sum of the first and last columns of $U$. And $\langle b| U |G_n\rangle$ is the $b$-th entry of $U|G_n\rangle$. In other words, $\langle b| U |G_n\rangle$ is the sum of the matrix elements $U_{b,0} + U_{b,2^n-1}$. So, once you generate your $U$, only a trivial computation is needed to compute $\langle b| U\rho U^\dagger |b\rangle$.

@@ -1,0 +1,11 @@
+Title: QuantumCircuit with list of qbits as an argument
+
+How to create a variable qbit QuantumCirciut like this ? I need to put v list on QuantumCircuit() method
+
+```
+n = 4 #number of vector to encode v = list() #list of register qbits to encode 4 vectors a = QuantumRegister(1,"a") #ancilla qbit for i in range(n): v.append(QuantumRegister(2,"v"+str(i))) #creates n QuantumRegister b = ClassicalRegister(1,"b") #classical bit c = QuantumCircuit(a,?,b)
+```
+
+```
+n = 4 #number of vector to encode v = list() #list of register qbits to encode 4 vectors a = QuantumRegister(1,"a") #ancilla qbit for i in range(n): v.append(QuantumRegister(2,"v"+str(i))) #creates n QuantumRegister b = ClassicalRegister(1,"b") #classical bit c = QuantumCircuit(a,?,b)
+```

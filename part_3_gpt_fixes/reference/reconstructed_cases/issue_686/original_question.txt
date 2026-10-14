@@ -1,0 +1,67 @@
+Title:
+Simulating readout errors on aer simulator
+
+Category:
+
+
+Question:
+Title: Simulating readout errors on aer simulator
+
+I'm trying to simulate quantum experiments using a customized noise model. Here's my code: However, as I run the code, it returns me I don't know why this happens since I could find . How can I set up the noise model for readout errors? Thanks so much for the help!
+
+```
+probabilities[0] = [0.9, 0.15] probabilities[1] = [0.1, 0.85] readout_noise_model = NoiseModel() readout_noise_model.add_readout_error(probabilities[0], [0]) readout_noise_model.add_readout_error(probabilities[1], [0])
+```
+
+```
+probabilities[0] = [0.9, 0.15] probabilities[1] = [0.1, 0.85] readout_noise_model = NoiseModel() readout_noise_model.add_readout_error(probabilities[0], [0]) readout_noise_model.add_readout_error(probabilities[1], [0])
+```
+
+```
+--> 259 num_outcomes = len(probabilities[0]) 260 num_qubits = int(np.log2(num_outcomes)) 261 if 2**num_qubits != num_outcomes: TypeError: object of type 'float' has no len()
+```
+
+```
+--> 259 num_outcomes = len(probabilities[0]) 260 num_qubits = int(np.log2(num_outcomes)) 261 if 2**num_qubits != num_outcomes: TypeError: object of type 'float' has no len()
+```
+
+```
+len(probabilities[0])=2
+```
+
+Original buggy code:
+probabilities[0] = [0.9, 0.15] probabilities[1] = [0.1, 0.85] readout_noise_model = NoiseModel() readout_noise_model.add_readout_error(probabilities[0], [0]) readout_noise_model.add_readout_error(probabilities[1], [0])
+
+---CODE_BLOCK---
+
+probabilities[0] = [0.9, 0.15] probabilities[1] = [0.1, 0.85] readout_noise_model = NoiseModel() readout_noise_model.add_readout_error(probabilities[0], [0]) readout_noise_model.add_readout_error(probabilities[1], [0])
+
+---CODE_BLOCK---
+
+--> 259 num_outcomes = len(probabilities[0]) 260 num_qubits = int(np.log2(num_outcomes)) 261 if 2**num_qubits != num_outcomes: TypeError: object of type 'float' has no len()
+
+---CODE_BLOCK---
+
+--> 259 num_outcomes = len(probabilities[0]) 260 num_qubits = int(np.log2(num_outcomes)) 261 if 2**num_qubits != num_outcomes: TypeError: object of type 'float' has no len()
+
+---CODE_BLOCK---
+
+len(probabilities[0])=2
+
+Solution explanation:
+According to the link that you provide in the first sentence of the question, you should write a single line
+
+```
+readout_noise_model.add_readout_error(probabilities, [0])
+```
+
+```
+readout_noise_model.add_readout_error(probabilities, [0])
+```
+
+Original fixed code:
+readout_noise_model.add_readout_error(probabilities, [0])
+
+---CODE_BLOCK---
+
+readout_noise_model.add_readout_error(probabilities, [0])

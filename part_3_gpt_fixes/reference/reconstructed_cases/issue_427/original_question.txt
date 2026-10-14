@@ -1,0 +1,23 @@
+Title:
+Textbook 2.5 (Qiskit) - Unitary and Hermitian matrices
+
+Category:
+Category:
+Other (General Questions)
+
+Why AI Wins in This Category:
+In general conceptual questions, the goal is not just to give the right answer, but to clarify why the misunderstanding occurred and guide the user through both theory and practice. The AI's response excels in explanation, correction, and verification. It delivers higher learning value than the shorter Stack Overflow response.
+
+Question:
+Title: Textbook 2.5 (Qiskit) - Unitary and Hermitian matrices
+
+In section 2.5 of the Qiskit textbook, it states that $X$, $Y$, $Z$ and $H$ are examples of unitary Hermitian matrices. As I understand it, this means that the following rule applies: $$UU^\dagger=U^\dagger U=1$$ I can't get the second part of this to work. Taking $X$ as an example: $$\begin{bmatrix}0 & 1\\1 & 0\end{bmatrix}.\begin{bmatrix}0 & 1\\1 & 0\end{bmatrix}$$ We can immediately see that $U U^ \dagger=U^\dagger U$ (as they're the same), but when I do an inner product, I get: $$(0\times0)+(1\times1)+(1\times1)+(0\times0)=2$$ Am I doing my matrix multiplication wrong, or am I forgetting something?
+
+Original buggy code:
+In section 2.5 of the Qiskit textbook, it states that $X$, $Y$, $Z$ and $H$ are examples of unitary Hermitian matrices. As I understand it, this means that the following rule applies: $$UU^\dagger=U^\dagger U=1$$ I can't get the second part of this to work. Taking $X$ as an example: $$\begin{bmatrix}0 & 1\\1 & 0\end{bmatrix}.\begin{bmatrix}0 & 1\\1 & 0\end{bmatrix}$$ We can immediately see that $U U^ \dagger=U^\dagger U$ (as they're the same), but when I do an inner product, I get: $$(0\times0)+(1\times1)+(1\times1)+(0\times0)=2$$ Am I doing my matrix multiplication wrong, or am I forgetting something?
+
+Solution explanation:
+$UU^{\dagger}=I$ rather than $1$. Simply multiply $U$ and $U^{\dagger}$ as follows: $$ \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} \times \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} (0\times0) + (1\times1) & (0\times1)+(1\times0) \\ (1\times0) + (0\times1) & (1\times1) + (0\times0)\end{pmatrix}$$ $$ = \begin{pmatrix} 1 & 0 \\ 0 & 1\end{pmatrix}$$ It'll make more sense if you remember that appending $U$ and $U^{\dagger}$ one after the other in a circuit will make them equivalent to an identity gate, i.e. the net effect is cancelled out. For example, $H|0\rangle=|+\rangle$ and $H|+\rangle=|0\rangle$
+
+Original fixed code:
+$UU^{\dagger}=I$ rather than $1$. Simply multiply $U$ and $U^{\dagger}$ as follows: $$ \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} \times \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} (0\times0) + (1\times1) & (0\times1)+(1\times0) \\ (1\times0) + (0\times1) & (1\times1) + (0\times0)\end{pmatrix}$$ $$ = \begin{pmatrix} 1 & 0 \\ 0 & 1\end{pmatrix}$$ It'll make more sense if you remember that appending $U$ and $U^{\dagger}$ one after the other in a circuit will make them equivalent to an identity gate, i.e. the net effect is cancelled out. For example, $H|0\rangle=|+\rangle$ and $H|+\rangle=|0\rangle$

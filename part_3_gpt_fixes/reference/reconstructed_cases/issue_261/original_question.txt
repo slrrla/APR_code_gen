@@ -1,0 +1,77 @@
+Title:
+Qiskit: PauliOp from string
+
+Category:
+Category: Error / Debugging
+Why AI Solution Wins in This Category:
+For error handling and safe debugging, avoiding unsafe methods like eval() is critical. The AI’s method demonstrates better error resilience, extensibility, and aligns with best practices for parsing and validation, making it superior for this use case.
+
+Question:
+Title: Qiskit: PauliOp from string
+
+I save my (lenghty) Hamiltonian in a file as a string. My naive attempt: But copy-pasting from the file into Jupyter notebook works (of course): Is there a way to initiate a PauliOp from a string?
+
+```
+hamiltonian_string = read_hamiltonian_from_file() # some function hamiltonian = PauliOp(hamiltonian_string) TypeError: PauliOp can only be instantiated with Paulis, not <class 'str'>
+```
+
+```
+hamiltonian_string = read_hamiltonian_from_file() # some function hamiltonian = PauliOp(hamiltonian_string) TypeError: PauliOp can only be instantiated with Paulis, not <class 'str'>
+```
+
+```
+hamiltonian = 1*(X^X^X) - 2*(X^Z^X) + 3*(X^I^X) print(type(hamiltonian)) <class 'qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp'>
+```
+
+```
+hamiltonian = 1*(X^X^X) - 2*(X^Z^X) + 3*(X^I^X) print(type(hamiltonian)) <class 'qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp'>
+```
+
+Original buggy code:
+hamiltonian_string = read_hamiltonian_from_file() # some function hamiltonian = PauliOp(hamiltonian_string) TypeError: PauliOp can only be instantiated with Paulis, not <class 'str'>
+
+---CODE_BLOCK---
+
+hamiltonian_string = read_hamiltonian_from_file() # some function hamiltonian = PauliOp(hamiltonian_string) TypeError: PauliOp can only be instantiated with Paulis, not <class 'str'>
+
+---CODE_BLOCK---
+
+hamiltonian = 1*(X^X^X) - 2*(X^Z^X) + 3*(X^I^X) print(type(hamiltonian)) <class 'qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp'>
+
+---CODE_BLOCK---
+
+hamiltonian = 1*(X^X^X) - 2*(X^Z^X) + 3*(X^I^X) print(type(hamiltonian)) <class 'qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp'>
+
+Solution explanation:
+You can simply use Python's function: There are some security concerns regarding you need to be aware of. See here for details.
+
+```
+eval()
+```
+
+```
+from qiskit.opflow import I, X, Y, Z hamiltonian_string = '1*(X^X^X) - 2*(X^Z^X) + 3*(X^I^X)' hamiltonian = eval(hamiltonian_string) print(type(hamiltonian))
+```
+
+```
+from qiskit.opflow import I, X, Y, Z hamiltonian_string = '1*(X^X^X) - 2*(X^Z^X) + 3*(X^I^X)' hamiltonian = eval(hamiltonian_string) print(type(hamiltonian))
+```
+
+```
+eval()
+```
+
+Original fixed code:
+eval()
+
+---CODE_BLOCK---
+
+from qiskit.opflow import I, X, Y, Z hamiltonian_string = '1*(X^X^X) - 2*(X^Z^X) + 3*(X^I^X)' hamiltonian = eval(hamiltonian_string) print(type(hamiltonian))
+
+---CODE_BLOCK---
+
+from qiskit.opflow import I, X, Y, Z hamiltonian_string = '1*(X^X^X) - 2*(X^Z^X) + 3*(X^I^X)' hamiltonian = eval(hamiltonian_string) print(type(hamiltonian))
+
+---CODE_BLOCK---
+
+eval()

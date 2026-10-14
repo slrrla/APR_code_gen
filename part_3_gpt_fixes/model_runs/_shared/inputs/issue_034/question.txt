@@ -1,0 +1,48 @@
+Title: Colab Google using qiskit Aer
+
+Here is my code: 
+ #!pip3 install qiskit
+!pip3 install qiskit-aer
+from qiskit import Aer, ClassicalRegister, QuantumCircuit, QuantumRegister
+
+ This is the Error I get: 
+ ImportError Traceback (most recent call last)
+
+<ipython-input-14-2acb4a3b8d5d> in <cell line: 4>()
+ 2 !pip3 install qiskit
+ 3 get_ipython().system('pip3 install qiskit-aer')
+----> 4 from qiskit import Aer, ClassicalRegister, QuantumCircuit, QuantumRegister
+ 5 
+ 6 # Load training data
+
+ImportError: cannot import name 'Aer' from 'qiskit' (/usr/local/lib/python3.10/dist-packages/qiskit/__init__.py)
+
+ I use Google Colab. I also used the following: 
+ !pip3 install qiskit
+and !pip install qiskit
+
+ And I got the same error.
+
+```
+#!pip3 install qiskit
+!pip3 install qiskit-aer
+from qiskit import Aer, ClassicalRegister, QuantumCircuit, QuantumRegister
+```
+
+```
+ImportError                               Traceback (most recent call last)
+
+<ipython-input-14-2acb4a3b8d5d> in <cell line: 4>()
+      2 !pip3 install qiskit
+      3 get_ipython().system('pip3 install qiskit-aer')
+----> 4 from qiskit import Aer, ClassicalRegister, QuantumCircuit, QuantumRegister
+      5 
+      6 # Load training data
+
+ImportError: cannot import name 'Aer' from 'qiskit' (/usr/local/lib/python3.10/dist-packages/qiskit/__init__.py)
+```
+
+```
+!pip3 install qiskit
+and !pip install qiskit
+```

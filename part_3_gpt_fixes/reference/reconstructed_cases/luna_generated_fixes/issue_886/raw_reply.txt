@@ -1,0 +1,16 @@
+```python
+from qiskit import QuantumCircuit
+# FIX: transpile was not imported -> import transpile, because Aer does not automatically decompose unsupported gates
+from qiskit import transpile
+from qiskit_aer import Aer
+import numpy as np
+
+circ = QuantumCircuit(2, 2)
+circ.crx(np.pi/2, 0, 1)
+circ.measure_all()
+
+# FIX: the CRX instruction was sent directly to Aer -> transpile for the backend first, because Aer requires supported basis gates
+job = Aer.get_backend('qasm_simulator').run(transpile(circ, Aer.get_backend('qasm_simulator')))
+job.result().get_counts()
+
+```

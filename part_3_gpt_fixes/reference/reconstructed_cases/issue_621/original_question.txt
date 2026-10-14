@@ -1,0 +1,51 @@
+Title:
+How to fix an error: 'module 'qiskit.result' has no attribute 'get_counts'' [closed]
+
+Category:
+
+
+Question:
+Title: How to fix an error: 'module 'qiskit.result' has no attribute 'get_counts'' [closed]
+
+Closed. This question needs details or clarity. It is not currently accepting answers. Want to improve this question? As written, this question is lacking some of the information it needs to be answered. If the author adds details in comments, consider editing them into the question. Once there's sufficient detail to answer, vote to reopen the question. Closed 4 years ago. Improve this question
+
+```
+execute(circuit, backend = simulator).result() plot_histogram(result.get_counts(circuit)) Error: module 'qiskit.result' has no attribute 'get_counts'
+```
+
+```
+execute(circuit, backend = simulator).result() plot_histogram(result.get_counts(circuit)) Error: module 'qiskit.result' has no attribute 'get_counts'
+```
+
+Original buggy code:
+execute(circuit, backend = simulator).result() plot_histogram(result.get_counts(circuit)) Error: module 'qiskit.result' has no attribute 'get_counts'
+
+---CODE_BLOCK---
+
+execute(circuit, backend = simulator).result() plot_histogram(result.get_counts(circuit)) Error: module 'qiskit.result' has no attribute 'get_counts'
+
+Solution explanation:
+You did not assign the variable . Try the following:
+
+```
+result
+```
+
+```
+result = execute(circuit, backend = simulator).result() plot_histogram(result.get_counts(circuit))
+```
+
+```
+result = execute(circuit, backend = simulator).result() plot_histogram(result.get_counts(circuit))
+```
+
+Original fixed code:
+result
+
+---CODE_BLOCK---
+
+result = execute(circuit, backend = simulator).result() plot_histogram(result.get_counts(circuit))
+
+---CODE_BLOCK---
+
+result = execute(circuit, backend = simulator).result() plot_histogram(result.get_counts(circuit))

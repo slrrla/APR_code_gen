@@ -1,0 +1,383 @@
+Title:
+understanding QuantumCircuit.x() function
+
+Category:
+Category:
+Circuit editing / Code debugging
+
+Why AI Wins in This Category:
+For syntax-related errors in circuit construction, what matters most is clear guidance, minimal assumptions, and working code. The AI answer directly corrects the misuse of arguments in qc.x() and explains the parameter expectations. It offers better educational value with less complexity.
+
+Question:
+Title: understanding QuantumCircuit.x() function
+
+For Code 1 throws error but not for code 2 . Please help me to understand code 1 The above code throws following error: Note: work fine. why is it throwing error for putting X gate at q0? Code 2 output I have gone through the documentation but couldn't find the answer https://qiskit.org/documentation/stubs/qiskit.circuit.QuantumCircuit.x.html
+
+```
+qc.x(0,1)
+```
+
+```
+qc = QuantumCircuit(2) qc.x(0,1) qc.draw()
+```
+
+```
+qc = QuantumCircuit(2) qc.x(0,1) qc.draw()
+```
+
+```
+Traceback (most recent call last): Input In [19] in <cell line: 3> qc.draw() File /opt/conda/lib/python3.8/site-packages/qiskit/circuit/quantumcircuit.py:1835 in draw return circuit_drawer( File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/circuit_visualization.py:231 in circuit_drawer image = _matplotlib_circuit_drawer( File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/circuit_visualization.py:601 in _matplotlib_circuit_drawer return qcd.draw(filename) File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/matplotlib.py:317 in draw self._get_layer_widths() File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/matplotlib.py:433 in _get_layer_widths and len(gate_text) < 3 TypeError: object of type 'int' has no len() Use %tb to get the full traceback.
+```
+
+```
+Traceback (most recent call last): Input In [19] in <cell line: 3> qc.draw() File /opt/conda/lib/python3.8/site-packages/qiskit/circuit/quantumcircuit.py:1835 in draw return circuit_drawer( File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/circuit_visualization.py:231 in circuit_drawer image = _matplotlib_circuit_drawer( File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/circuit_visualization.py:601 in _matplotlib_circuit_drawer return qcd.draw(filename) File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/matplotlib.py:317 in draw self._get_layer_widths() File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/matplotlib.py:433 in _get_layer_widths and len(gate_text) < 3 TypeError: object of type 'int' has no len() Use %tb to get the full traceback.
+```
+
+```
+qc.x(1,0)
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector qc = QuantumCircuit(2) ket = Statevector(qc) print(ket.draw()) print('-'*50) qc.x(0,1) ket = Statevector(qc) print(ket.draw()) print('-'*50)
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector qc = QuantumCircuit(2) ket = Statevector(qc) print(ket.draw()) print('-'*50) qc.x(0,1) ket = Statevector(qc) print(ket.draw()) print('-'*50)
+```
+
+```
+Statevector([1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], dims=(2, 2)) -------------------------------------------------- Statevector([0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j], dims=(2, 2)) --------------------------------------------------
+```
+
+```
+Statevector([1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], dims=(2, 2)) -------------------------------------------------- Statevector([0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j], dims=(2, 2)) --------------------------------------------------
+```
+
+Original buggy code:
+qc.x(0,1)
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(2) qc.x(0,1) qc.draw()
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(2) qc.x(0,1) qc.draw()
+
+---CODE_BLOCK---
+
+Traceback (most recent call last): Input In [19] in <cell line: 3> qc.draw() File /opt/conda/lib/python3.8/site-packages/qiskit/circuit/quantumcircuit.py:1835 in draw return circuit_drawer( File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/circuit_visualization.py:231 in circuit_drawer image = _matplotlib_circuit_drawer( File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/circuit_visualization.py:601 in _matplotlib_circuit_drawer return qcd.draw(filename) File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/matplotlib.py:317 in draw self._get_layer_widths() File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/matplotlib.py:433 in _get_layer_widths and len(gate_text) < 3 TypeError: object of type 'int' has no len() Use %tb to get the full traceback.
+
+---CODE_BLOCK---
+
+Traceback (most recent call last): Input In [19] in <cell line: 3> qc.draw() File /opt/conda/lib/python3.8/site-packages/qiskit/circuit/quantumcircuit.py:1835 in draw return circuit_drawer( File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/circuit_visualization.py:231 in circuit_drawer image = _matplotlib_circuit_drawer( File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/circuit_visualization.py:601 in _matplotlib_circuit_drawer return qcd.draw(filename) File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/matplotlib.py:317 in draw self._get_layer_widths() File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/matplotlib.py:433 in _get_layer_widths and len(gate_text) < 3 TypeError: object of type 'int' has no len() Use %tb to get the full traceback.
+
+---CODE_BLOCK---
+
+qc.x(1,0)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector qc = QuantumCircuit(2) ket = Statevector(qc) print(ket.draw()) print('-'*50) qc.x(0,1) ket = Statevector(qc) print(ket.draw()) print('-'*50)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector qc = QuantumCircuit(2) ket = Statevector(qc) print(ket.draw()) print('-'*50) qc.x(0,1) ket = Statevector(qc) print(ket.draw()) print('-'*50)
+
+---CODE_BLOCK---
+
+Statevector([1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], dims=(2, 2)) -------------------------------------------------- Statevector([0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j], dims=(2, 2)) --------------------------------------------------
+
+---CODE_BLOCK---
+
+Statevector([1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], dims=(2, 2)) -------------------------------------------------- Statevector([0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j], dims=(2, 2)) --------------------------------------------------
+
+Solution explanation:
+In Code 1 you are trying to draw QuantumCircuit, not ket. Error goes directly from code which tries to print quantum circuit in output type 'mpl' (line 231): Normally in draw you should provide output type (text, latex, mpl ...): But when it is not provided then default value should be taken: And the default value should be . But what I see from the code is that if there is some config? and default_output is auto? and project uses matplotlib? then default_output is set to 'mpl'? I am not familiar with Python, neither Qiskit but for debugging I suggest to provide output type explicitly and verify what will happen: So this is how we looked at source code raising error without any knowledge about Python and Qiskit. But before trying to deep dive in such complex code let's check something simple, first try to define as because source code says that the second argument is string and not integer: and maybe that is the reason for error that gate can't be visualized as suggested in that line: Where this string label is used? We can see from the code below: XGate is defined here: \qiskit-terra\qiskit\circuit\library\standard_gates\x.py: So analysing the code above or any next code we will find its usage at some point. I see inheritance from Gate class where we have label: and then in Instruction class label is present too: Do you see that? We have got to the error in source code :) Then we have a code that smells ... badly? :) Well, at that point we need to investigate what is going on because the purpose of that label should be rather obvious when exposed on such a high level of X gate, unless it propagates through all classes just to be used for some specific reason in classes below... But then it should be commented better on the highest level... Let's check documentation: https://qiskit.org/documentation/stubs/qiskit.circuit.library.XGate.html Ok, so it looks like purpose of label is to use in Instruction class. This is very generic class: Still I do not know how it is uased but after using Google I have found that interesting ticket: https://github.com/Qiskit/qiskit-terra/issues/3766 Is that an answer? :) I have found yet another interesting link which may suggest that the code we have was created for specific reason: How to plot custom gate labels in Qiskit? And the last link where custom gate is using 'label' and for sure inherits from Gate and Instruction classes: Custom labelling of randomly generated unitaries in Qiskit Bingo! :)
+
+```
+elif output == "mpl": image = _matplotlib_circuit_drawer(
+```
+
+```
+elif output == "mpl": image = _matplotlib_circuit_drawer(
+```
+
+```
+method
+```
+
+```
+qc.draw('mpl')
+```
+
+```
+qc.draw('mpl')
+```
+
+```
+def circuit_drawer( ... default_output = "text" # <- here is default output set if config: # <- there should be some cnfig somewere? default_output = config.get("circuit_drawer", "text") if default_output == "auto": if _optionals.HAS_MATPLOTLIB: default_output = "mpl" # <- with config somewhere and default_output == "auto" and _optionals.HAS_MATPLOTLIB default_output is redefined to 'mpl' else: default_output = "text" if output is None: output = default_output ... elif output == "mpl": image = _matplotlib_circuit_drawer(
+```
+
+```
+def circuit_drawer( ... default_output = "text" # <- here is default output set if config: # <- there should be some cnfig somewere? default_output = config.get("circuit_drawer", "text") if default_output == "auto": if _optionals.HAS_MATPLOTLIB: default_output = "mpl" # <- with config somewhere and default_output == "auto" and _optionals.HAS_MATPLOTLIB default_output is redefined to 'mpl' else: default_output = "text" if output is None: output = default_output ... elif output == "mpl": image = _matplotlib_circuit_drawer(
+```
+
+```
+text
+```
+
+```
+qc.draw('mpl') # 'text', 'latex', 'latex_source' etc.
+```
+
+```
+qc.draw('mpl') # 'text', 'latex', 'latex_source' etc.
+```
+
+```
+qc.x(0,1)
+```
+
+```
+qc.x(0,1)
+```
+
+```
+qc.x(0,'1')
+```
+
+```
+qc.x(0,'1')
+```
+
+```
+def x(self, qubit: QubitSpecifier, label: Optional[str] = None) -> InstructionSet: r"""Apply :class:`~qiskit.circuit.library.XGate`. For the full matrix form of this gate, see the underlying gate documentation. Args: qubit: The qubit(s) to apply the gate to. label: The string label of the gate in the circuit.
+```
+
+```
+def x(self, qubit: QubitSpecifier, label: Optional[str] = None) -> InstructionSet: r"""Apply :class:`~qiskit.circuit.library.XGate`. For the full matrix form of this gate, see the underlying gate documentation. Args: qubit: The qubit(s) to apply the gate to. label: The string label of the gate in the circuit.
+```
+
+```
+File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/matplotlib.py:433 in _get_layer_widths and len(gate_text) < 3
+```
+
+```
+File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/matplotlib.py:433 in _get_layer_widths and len(gate_text) < 3
+```
+
+```
+def x(self, qubit: QubitSpecifier, label: Optional[str] = None) -> InstructionSet: r"""Apply :class:`~qiskit.circuit.library.XGate`. For the full matrix form of this gate, see the underlying gate documentation. Args: qubit: The qubit(s) to apply the gate to. label: The string label of the gate in the circuit. Returns: A handle to the instructions created. """ from .library.standard_gates.x import XGate return self.append(XGate(label=label), [qubit], [])
+```
+
+```
+def x(self, qubit: QubitSpecifier, label: Optional[str] = None) -> InstructionSet: r"""Apply :class:`~qiskit.circuit.library.XGate`. For the full matrix form of this gate, see the underlying gate documentation. Args: qubit: The qubit(s) to apply the gate to. label: The string label of the gate in the circuit. Returns: A handle to the instructions created. """ from .library.standard_gates.x import XGate return self.append(XGate(label=label), [qubit], [])
+```
+
+```
+def __init__(self, label: Optional[str] = None): """Create new X gate.""" super().__init__("x", 1, [], label=label) ... def control( self, num_ctrl_qubits: int = 1, label: Optional[str] = None, ctrl_state: Optional[Union[str, int]] = None, ): """Return a (multi-)controlled-X gate. One control returns a CX gate. Two controls returns a CCX gate. Args: num_ctrl_qubits (int): number of control qubits. label (str or None): An optional label for the gate [Default: None]
+```
+
+```
+def __init__(self, label: Optional[str] = None): """Create new X gate.""" super().__init__("x", 1, [], label=label) ... def control( self, num_ctrl_qubits: int = 1, label: Optional[str] = None, ctrl_state: Optional[Union[str, int]] = None, ): """Return a (multi-)controlled-X gate. One control returns a CX gate. Two controls returns a CCX gate. Args: num_ctrl_qubits (int): number of control qubits. label (str or None): An optional label for the gate [Default: None]
+```
+
+```
+class Gate(Instruction): """Unitary gate.""" def __init__( self, name: str, num_qubits: int, params: List, label: Optional[str] = None ) -> None: """Create a new gate. Args: name: The Qobj name of the gate. num_qubits: The number of qubits the gate acts on. params: A list of parameters. label: An optional label for the gate.
+```
+
+```
+class Gate(Instruction): """Unitary gate.""" def __init__( self, name: str, num_qubits: int, params: List, label: Optional[str] = None ) -> None: """Create a new gate. Args: name: The Qobj name of the gate. num_qubits: The number of qubits the gate acts on. params: A list of parameters. label: An optional label for the gate.
+```
+
+```
+class Instruction: """Generic quantum instruction.""" ... label (str or None): An optional label for identifying the instruction. Raises: CircuitError: when the register is not in the correct format. TypeError: when the optional label is provided, but it is not a string.
+```
+
+```
+class Instruction: """Generic quantum instruction.""" ... label (str or None): An optional label for identifying the instruction. Raises: CircuitError: when the register is not in the correct format. TypeError: when the optional label is provided, but it is not a string.
+```
+
+```
+TypeError: when the optional label is provided, but it is not a string.
+```
+
+```
+TypeError: when the optional label is provided, but it is not a string.
+```
+
+```
+# Custom instruction label # NOTE: The conditional statement checking if the `_label` attribute is # already set is a temporary work around that can be removed after # the next stable qiskit-aer release if not hasattr(self, "_label"): if label is not None and not isinstance(label, str): raise TypeError("label expects a string or None") self._label = label
+```
+
+```
+# Custom instruction label # NOTE: The conditional statement checking if the `_label` attribute is # already set is a temporary work around that can be removed after # the next stable qiskit-aer release if not hasattr(self, "_label"): if label is not None and not isinstance(label, str): raise TypeError("label expects a string or None") self._label = label
+```
+
+```
+label¶ Return instruction label Return type str
+```
+
+```
+label¶ Return instruction label Return type str
+```
+
+```
+class Instruction: """Generic quantum instruction.""" # Class attribute to treat like barrier for transpiler, unroller, drawer # NOTE: Using this attribute may change in the future (See issue # 5811) ... def __init__(self, name, num_qubits, num_clbits, params, duration=None, unit="dt", label=None): """Create a new instruction. ... label (str or None): An optional label for identifying the instruction. Raises: CircuitError: when the register is not in the correct format. TypeError: when the optional label is provided, but it is not a string.
+```
+
+```
+class Instruction: """Generic quantum instruction.""" # Class attribute to treat like barrier for transpiler, unroller, drawer # NOTE: Using this attribute may change in the future (See issue # 5811) ... def __init__(self, name, num_qubits, num_clbits, params, duration=None, unit="dt", label=None): """Create a new instruction. ... label (str or None): An optional label for identifying the instruction. Raises: CircuitError: when the register is not in the correct format. TypeError: when the optional label is provided, but it is not a string.
+```
+
+```
+MPL drawer should prioritize instruction label over name #3766 When an instruction has a label, the label should be used. If a no-boxing instruction has a label, a box should be used.
+```
+
+```
+MPL drawer should prioritize instruction label over name #3766 When an instruction has a label, the label should be used. If a no-boxing instruction has a label, a box should be used.
+```
+
+Original fixed code:
+elif output == "mpl": image = _matplotlib_circuit_drawer(
+
+---CODE_BLOCK---
+
+elif output == "mpl": image = _matplotlib_circuit_drawer(
+
+---CODE_BLOCK---
+
+method
+
+---CODE_BLOCK---
+
+qc.draw('mpl')
+
+---CODE_BLOCK---
+
+qc.draw('mpl')
+
+---CODE_BLOCK---
+
+def circuit_drawer( ... default_output = "text" # <- here is default output set if config: # <- there should be some cnfig somewere? default_output = config.get("circuit_drawer", "text") if default_output == "auto": if _optionals.HAS_MATPLOTLIB: default_output = "mpl" # <- with config somewhere and default_output == "auto" and _optionals.HAS_MATPLOTLIB default_output is redefined to 'mpl' else: default_output = "text" if output is None: output = default_output ... elif output == "mpl": image = _matplotlib_circuit_drawer(
+
+---CODE_BLOCK---
+
+def circuit_drawer( ... default_output = "text" # <- here is default output set if config: # <- there should be some cnfig somewere? default_output = config.get("circuit_drawer", "text") if default_output == "auto": if _optionals.HAS_MATPLOTLIB: default_output = "mpl" # <- with config somewhere and default_output == "auto" and _optionals.HAS_MATPLOTLIB default_output is redefined to 'mpl' else: default_output = "text" if output is None: output = default_output ... elif output == "mpl": image = _matplotlib_circuit_drawer(
+
+---CODE_BLOCK---
+
+text
+
+---CODE_BLOCK---
+
+qc.draw('mpl') # 'text', 'latex', 'latex_source' etc.
+
+---CODE_BLOCK---
+
+qc.draw('mpl') # 'text', 'latex', 'latex_source' etc.
+
+---CODE_BLOCK---
+
+qc.x(0,1)
+
+---CODE_BLOCK---
+
+qc.x(0,1)
+
+---CODE_BLOCK---
+
+qc.x(0,'1')
+
+---CODE_BLOCK---
+
+qc.x(0,'1')
+
+---CODE_BLOCK---
+
+def x(self, qubit: QubitSpecifier, label: Optional[str] = None) -> InstructionSet: r"""Apply :class:`~qiskit.circuit.library.XGate`. For the full matrix form of this gate, see the underlying gate documentation. Args: qubit: The qubit(s) to apply the gate to. label: The string label of the gate in the circuit.
+
+---CODE_BLOCK---
+
+def x(self, qubit: QubitSpecifier, label: Optional[str] = None) -> InstructionSet: r"""Apply :class:`~qiskit.circuit.library.XGate`. For the full matrix form of this gate, see the underlying gate documentation. Args: qubit: The qubit(s) to apply the gate to. label: The string label of the gate in the circuit.
+
+---CODE_BLOCK---
+
+File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/matplotlib.py:433 in _get_layer_widths and len(gate_text) < 3
+
+---CODE_BLOCK---
+
+File /opt/conda/lib/python3.8/site-packages/qiskit/visualization/matplotlib.py:433 in _get_layer_widths and len(gate_text) < 3
+
+---CODE_BLOCK---
+
+def x(self, qubit: QubitSpecifier, label: Optional[str] = None) -> InstructionSet: r"""Apply :class:`~qiskit.circuit.library.XGate`. For the full matrix form of this gate, see the underlying gate documentation. Args: qubit: The qubit(s) to apply the gate to. label: The string label of the gate in the circuit. Returns: A handle to the instructions created. """ from .library.standard_gates.x import XGate return self.append(XGate(label=label), [qubit], [])
+
+---CODE_BLOCK---
+
+def x(self, qubit: QubitSpecifier, label: Optional[str] = None) -> InstructionSet: r"""Apply :class:`~qiskit.circuit.library.XGate`. For the full matrix form of this gate, see the underlying gate documentation. Args: qubit: The qubit(s) to apply the gate to. label: The string label of the gate in the circuit. Returns: A handle to the instructions created. """ from .library.standard_gates.x import XGate return self.append(XGate(label=label), [qubit], [])
+
+---CODE_BLOCK---
+
+def __init__(self, label: Optional[str] = None): """Create new X gate.""" super().__init__("x", 1, [], label=label) ... def control( self, num_ctrl_qubits: int = 1, label: Optional[str] = None, ctrl_state: Optional[Union[str, int]] = None, ): """Return a (multi-)controlled-X gate. One control returns a CX gate. Two controls returns a CCX gate. Args: num_ctrl_qubits (int): number of control qubits. label (str or None): An optional label for the gate [Default: None]
+
+---CODE_BLOCK---
+
+def __init__(self, label: Optional[str] = None): """Create new X gate.""" super().__init__("x", 1, [], label=label) ... def control( self, num_ctrl_qubits: int = 1, label: Optional[str] = None, ctrl_state: Optional[Union[str, int]] = None, ): """Return a (multi-)controlled-X gate. One control returns a CX gate. Two controls returns a CCX gate. Args: num_ctrl_qubits (int): number of control qubits. label (str or None): An optional label for the gate [Default: None]
+
+---CODE_BLOCK---
+
+class Gate(Instruction): """Unitary gate.""" def __init__( self, name: str, num_qubits: int, params: List, label: Optional[str] = None ) -> None: """Create a new gate. Args: name: The Qobj name of the gate. num_qubits: The number of qubits the gate acts on. params: A list of parameters. label: An optional label for the gate.
+
+---CODE_BLOCK---
+
+class Gate(Instruction): """Unitary gate.""" def __init__( self, name: str, num_qubits: int, params: List, label: Optional[str] = None ) -> None: """Create a new gate. Args: name: The Qobj name of the gate. num_qubits: The number of qubits the gate acts on. params: A list of parameters. label: An optional label for the gate.
+
+---CODE_BLOCK---
+
+class Instruction: """Generic quantum instruction.""" ... label (str or None): An optional label for identifying the instruction. Raises: CircuitError: when the register is not in the correct format. TypeError: when the optional label is provided, but it is not a string.
+
+---CODE_BLOCK---
+
+class Instruction: """Generic quantum instruction.""" ... label (str or None): An optional label for identifying the instruction. Raises: CircuitError: when the register is not in the correct format. TypeError: when the optional label is provided, but it is not a string.
+
+---CODE_BLOCK---
+
+TypeError: when the optional label is provided, but it is not a string.
+
+---CODE_BLOCK---
+
+TypeError: when the optional label is provided, but it is not a string.
+
+---CODE_BLOCK---
+
+# Custom instruction label # NOTE: The conditional statement checking if the `_label` attribute is # already set is a temporary work around that can be removed after # the next stable qiskit-aer release if not hasattr(self, "_label"): if label is not None and not isinstance(label, str): raise TypeError("label expects a string or None") self._label = label
+
+---CODE_BLOCK---
+
+# Custom instruction label # NOTE: The conditional statement checking if the `_label` attribute is # already set is a temporary work around that can be removed after # the next stable qiskit-aer release if not hasattr(self, "_label"): if label is not None and not isinstance(label, str): raise TypeError("label expects a string or None") self._label = label
+
+---CODE_BLOCK---
+
+label¶ Return instruction label Return type str
+
+---CODE_BLOCK---
+
+label¶ Return instruction label Return type str
+
+---CODE_BLOCK---
+
+class Instruction: """Generic quantum instruction.""" # Class attribute to treat like barrier for transpiler, unroller, drawer # NOTE: Using this attribute may change in the future (See issue # 5811) ... def __init__(self, name, num_qubits, num_clbits, params, duration=None, unit="dt", label=None): """Create a new instruction. ... label (str or None): An optional label for identifying the instruction. Raises: CircuitError: when the register is not in the correct format. TypeError: when the optional label is provided, but it is not a string.
+
+---CODE_BLOCK---
+
+class Instruction: """Generic quantum instruction.""" # Class attribute to treat like barrier for transpiler, unroller, drawer # NOTE: Using this attribute may change in the future (See issue # 5811) ... def __init__(self, name, num_qubits, num_clbits, params, duration=None, unit="dt", label=None): """Create a new instruction. ... label (str or None): An optional label for identifying the instruction. Raises: CircuitError: when the register is not in the correct format. TypeError: when the optional label is provided, but it is not a string.
+
+---CODE_BLOCK---
+
+MPL drawer should prioritize instruction label over name #3766 When an instruction has a label, the label should be used. If a no-boxing instruction has a label, a box should be used.
+
+---CODE_BLOCK---
+
+MPL drawer should prioritize instruction label over name #3766 When an instruction has a label, the label should be used. If a no-boxing instruction has a label, a box should be used.

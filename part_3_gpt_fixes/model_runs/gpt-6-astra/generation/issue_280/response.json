@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWHCEMpWJ45FM8gNzRR0QlIMfG7A",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit.providers.aer.noise import NoiseModel, depolarizing_error\n\nnoise_model = NoiseModel()\n\nerror = depolarizing_error(0.05, 1)\nnoise_model.add_all_qubit_quantum_error(error, ['u1', 'u2', 'u3'])\n\n# FIX: A one-qubit error was assigned to cx -> use a two-qubit depolarizing error, because the error must match the gate's two-qubit width.\nnoise_model.add_all_qubit_quantum_error(depolarizing_error(0.05, 2), ['cx'])\n\nprint(noise_model)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419274,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 133,
+    "prompt_tokens": 1027,
+    "total_tokens": 1160,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1024,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

@@ -1,0 +1,83 @@
+Title:
+ket statevector of a 2-quibit system
+
+Category:
+
+
+Question:
+Title: ket statevector of a 2-quibit system
+
+Given the following code: when executed, will output: which is expected result, as per my understanding, as $|00\rangle = [1 0 0 0 ]$ But when we apply $x$-gate on qubit 0 as in: the output is: which is not correct, as per my understanding, because applying the $x$-gate on first qubit will make the multi-qubit state $|10\rangle = [0 0 1 0]$, but the output of the above is $[0 1 0 0]$. Please help me to understand this? Also, here in the outputs , shouldn't it be ?
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector qc = QuantumCircuit(2) # This calculates what the state vector of our qubits would be # after passing through the circuit 'qc' ket = Statevector(qc) # The code below writes down the state vector. # Since it's the last line in the cell, the cell will display it as output ket.draw()
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector qc = QuantumCircuit(2) # This calculates what the state vector of our qubits would be # after passing through the circuit 'qc' ket = Statevector(qc) # The code below writes down the state vector. # Since it's the last line in the cell, the cell will display it as output ket.draw()
+```
+
+```
+Statevector([1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j] \n dims=(2, 2))
+```
+
+```
+qc.x(0) ket = Statevector(qc) ket.draw()
+```
+
+```
+qc.x(0) ket = Statevector(qc) ket.draw()
+```
+
+```
+Statevector([0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j]\n dims=(2, 2))
+```
+
+```
+dims=(2, 2))
+```
+
+```
+dims=(4, 1))
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector qc = QuantumCircuit(2) # This calculates what the state vector of our qubits would be # after passing through the circuit 'qc' ket = Statevector(qc) # The code below writes down the state vector. # Since it's the last line in the cell, the cell will display it as output ket.draw()
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector qc = QuantumCircuit(2) # This calculates what the state vector of our qubits would be # after passing through the circuit 'qc' ket = Statevector(qc) # The code below writes down the state vector. # Since it's the last line in the cell, the cell will display it as output ket.draw()
+
+---CODE_BLOCK---
+
+Statevector([1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j] \n dims=(2, 2))
+
+---CODE_BLOCK---
+
+qc.x(0) ket = Statevector(qc) ket.draw()
+
+---CODE_BLOCK---
+
+qc.x(0) ket = Statevector(qc) ket.draw()
+
+---CODE_BLOCK---
+
+Statevector([0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j]\n dims=(2, 2))
+
+---CODE_BLOCK---
+
+dims=(2, 2))
+
+---CODE_BLOCK---
+
+dims=(4, 1))
+
+Solution explanation:
+Note that qiskit orders qubits oppositely from what you might have expected: it uses the "little endian" convention. This is explained in (slightly) greater detail in previous questions such as this one. The function on statevector is not giving you the dimensions of the vector. It is giving you a list of the dimensions of the individual quantum systems. Here you have two qubits (i.e. each of dimension 2).
+
+```
+dims
+```
+
+Original fixed code:
+dims

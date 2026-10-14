@@ -1,0 +1,115 @@
+Title:
+How to remove last n layers of Quantum Circuit in Qiskit?
+
+Category:
+
+
+Question:
+Title: How to remove last n layers of Quantum Circuit in Qiskit?
+
+Let's say I have a with $d$ layers. How can I generate a new with the last n layers removed. For example, let's say the has $d=8$ layers as follows: And let's say the last n=4 layers are desired to be removed then the resulting should be as follows leaving only the first 4 layers of the above : How can this be done in Qiskit?
+
+```
+QuantumCircuit
+```
+
+```
+depth
+```
+
+```
+QuantumCircuit
+```
+
+```
+QuantumCircuit
+```
+
+```
+QuantumCircuit
+```
+
+```
+QuantumCircuit
+```
+
+Original buggy code:
+QuantumCircuit
+
+---CODE_BLOCK---
+
+depth
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+Solution explanation:
+Please notice that the previous answer may unnecessarily remove gates. It depends on the order you insert them in your circuit. For example, constructing the circuit you provided with the following code and after removing the last 2 layers with your method we get Notice how the last 3 gates acting on qubit 1 disappear although we should keep one extra Hadamard. For a more robust solution, we should work with a representation of the circuit that captures the topological dependencies present, i.e .
+
+```
+qc = QuantumCircuit(2) qc.sdg(0) qc.h(0) qc.y(1) qc.h(1) qc.s(1) qc.cx(0, 1) qc.cx(1, 0) qc.h(0) qc.s(0) qc.h(0) qc.h(1) qc.s(1) qc.h(1) print(qc) --- ┌─────┐┌───┐ ┌───┐┌───┐┌───┐┌───┐ q_0: ┤ SDG ├┤ H ├───────■──┤ X ├┤ H ├┤ S ├┤ H ├ └┬───┬┘├───┤┌───┐┌─┴─┐└─┬─┘├───┤├───┤├───┤ q_1: ─┤ Y ├─┤ H ├┤ S ├┤ X ├──■──┤ H ├┤ S ├┤ H ├ └───┘ └───┘└───┘└───┘ └───┘└───┘└───┘
+```
+
+```
+qc = QuantumCircuit(2) qc.sdg(0) qc.h(0) qc.y(1) qc.h(1) qc.s(1) qc.cx(0, 1) qc.cx(1, 0) qc.h(0) qc.s(0) qc.h(0) qc.h(1) qc.s(1) qc.h(1) print(qc) --- ┌─────┐┌───┐ ┌───┐┌───┐┌───┐┌───┐ q_0: ┤ SDG ├┤ H ├───────■──┤ X ├┤ H ├┤ S ├┤ H ├ └┬───┬┘├───┤┌───┐┌─┴─┐└─┬─┘├───┤├───┤├───┤ q_1: ─┤ Y ├─┤ H ├┤ S ├┤ X ├──■──┤ H ├┤ S ├┤ H ├ └───┘ └───┘└───┘└───┘ └───┘└───┘└───┘
+```
+
+```
+┌─────┐┌───┐ ┌───┐┌───┐ q_0: ┤ SDG ├┤ H ├───────■──┤ X ├┤ H ├ └┬───┬┘├───┤┌───┐┌─┴─┐└─┬─┘└───┘ q_1: ─┤ Y ├─┤ H ├┤ S ├┤ X ├──■─────── └───┘ └───┘└───┘└───┘
+```
+
+```
+┌─────┐┌───┐ ┌───┐┌───┐ q_0: ┤ SDG ├┤ H ├───────■──┤ X ├┤ H ├ └┬───┬┘├───┤┌───┐┌─┴─┐└─┬─┘└───┘ q_1: ─┤ Y ├─┤ H ├┤ S ├┤ X ├──■─────── └───┘ └───┘└───┘└───┘
+```
+
+```
+DAGCircuit
+```
+
+```
+from qiskit.converters import circuit_to_dag, dag_to_circuit dag = circuit_to_dag(qc) layers = list(dag.multigraph_layers()) n_remove = 2 # the extra minus 1 since the last layer consists of output nodes (qubits and clbits). for layer in layers[- n_remove - 1:]: for node in layer: if node.type == 'op': dag.remove_op_node(node) new_qc = dag_to_circuit(dag) print(new_qc) --- ┌─────┐┌───┐ ┌───┐┌───┐ q_0: ┤ SDG ├┤ H ├───────■──┤ X ├┤ H ├ └┬───┬┘├───┤┌───┐┌─┴─┐└─┬─┘├───┤ q_1: ─┤ Y ├─┤ H ├┤ S ├┤ X ├──■──┤ H ├ └───┘ └───┘└───┘└───┘ └───┘
+```
+
+```
+from qiskit.converters import circuit_to_dag, dag_to_circuit dag = circuit_to_dag(qc) layers = list(dag.multigraph_layers()) n_remove = 2 # the extra minus 1 since the last layer consists of output nodes (qubits and clbits). for layer in layers[- n_remove - 1:]: for node in layer: if node.type == 'op': dag.remove_op_node(node) new_qc = dag_to_circuit(dag) print(new_qc) --- ┌─────┐┌───┐ ┌───┐┌───┐ q_0: ┤ SDG ├┤ H ├───────■──┤ X ├┤ H ├ └┬───┬┘├───┤┌───┐┌─┴─┐└─┬─┘├───┤ q_1: ─┤ Y ├─┤ H ├┤ S ├┤ X ├──■──┤ H ├ └───┘ └───┘└───┘└───┘ └───┘
+```
+
+Original fixed code:
+qc = QuantumCircuit(2) qc.sdg(0) qc.h(0) qc.y(1) qc.h(1) qc.s(1) qc.cx(0, 1) qc.cx(1, 0) qc.h(0) qc.s(0) qc.h(0) qc.h(1) qc.s(1) qc.h(1) print(qc) --- ┌─────┐┌───┐ ┌───┐┌───┐┌───┐┌───┐ q_0: ┤ SDG ├┤ H ├───────■──┤ X ├┤ H ├┤ S ├┤ H ├ └┬───┬┘├───┤┌───┐┌─┴─┐└─┬─┘├───┤├───┤├───┤ q_1: ─┤ Y ├─┤ H ├┤ S ├┤ X ├──■──┤ H ├┤ S ├┤ H ├ └───┘ └───┘└───┘└───┘ └───┘└───┘└───┘
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(2) qc.sdg(0) qc.h(0) qc.y(1) qc.h(1) qc.s(1) qc.cx(0, 1) qc.cx(1, 0) qc.h(0) qc.s(0) qc.h(0) qc.h(1) qc.s(1) qc.h(1) print(qc) --- ┌─────┐┌───┐ ┌───┐┌───┐┌───┐┌───┐ q_0: ┤ SDG ├┤ H ├───────■──┤ X ├┤ H ├┤ S ├┤ H ├ └┬───┬┘├───┤┌───┐┌─┴─┐└─┬─┘├───┤├───┤├───┤ q_1: ─┤ Y ├─┤ H ├┤ S ├┤ X ├──■──┤ H ├┤ S ├┤ H ├ └───┘ └───┘└───┘└───┘ └───┘└───┘└───┘
+
+---CODE_BLOCK---
+
+┌─────┐┌───┐ ┌───┐┌───┐ q_0: ┤ SDG ├┤ H ├───────■──┤ X ├┤ H ├ └┬───┬┘├───┤┌───┐┌─┴─┐└─┬─┘└───┘ q_1: ─┤ Y ├─┤ H ├┤ S ├┤ X ├──■─────── └───┘ └───┘└───┘└───┘
+
+---CODE_BLOCK---
+
+┌─────┐┌───┐ ┌───┐┌───┐ q_0: ┤ SDG ├┤ H ├───────■──┤ X ├┤ H ├ └┬───┬┘├───┤┌───┐┌─┴─┐└─┬─┘└───┘ q_1: ─┤ Y ├─┤ H ├┤ S ├┤ X ├──■─────── └───┘ └───┘└───┘└───┘
+
+---CODE_BLOCK---
+
+DAGCircuit
+
+---CODE_BLOCK---
+
+from qiskit.converters import circuit_to_dag, dag_to_circuit dag = circuit_to_dag(qc) layers = list(dag.multigraph_layers()) n_remove = 2 # the extra minus 1 since the last layer consists of output nodes (qubits and clbits). for layer in layers[- n_remove - 1:]: for node in layer: if node.type == 'op': dag.remove_op_node(node) new_qc = dag_to_circuit(dag) print(new_qc) --- ┌─────┐┌───┐ ┌───┐┌───┐ q_0: ┤ SDG ├┤ H ├───────■──┤ X ├┤ H ├ └┬───┬┘├───┤┌───┐┌─┴─┐└─┬─┘├───┤ q_1: ─┤ Y ├─┤ H ├┤ S ├┤ X ├──■──┤ H ├ └───┘ └───┘└───┘└───┘ └───┘
+
+---CODE_BLOCK---
+
+from qiskit.converters import circuit_to_dag, dag_to_circuit dag = circuit_to_dag(qc) layers = list(dag.multigraph_layers()) n_remove = 2 # the extra minus 1 since the last layer consists of output nodes (qubits and clbits). for layer in layers[- n_remove - 1:]: for node in layer: if node.type == 'op': dag.remove_op_node(node) new_qc = dag_to_circuit(dag) print(new_qc) --- ┌─────┐┌───┐ ┌───┐┌───┐ q_0: ┤ SDG ├┤ H ├───────■──┤ X ├┤ H ├ └┬───┬┘├───┤┌───┐┌─┴─┐└─┬─┘├───┤ q_1: ─┤ Y ├─┤ H ├┤ S ├┤ X ├──■──┤ H ├ └───┘ └───┘└───┘└───┘ └───┘

@@ -1,0 +1,86 @@
+Title:
+Can I 'shuffle' the qubits in my circuit?
+
+Category:
+Category: Circuit Construction / Logic / Gates
+
+Why Stack Overflow Solution Wins in This Category:
+In circuit construction tasks, especially involving qubit remapping or optimization for specific layouts, using transpile() with an initial_layout is both correct and flexible. The Stack Overflow answer demonstrates this standard and fully supported Qiskit feature, providing a valid and executable solution. The AI's suggestion, based on a nonexistent method, is misleading and would result in an execution error.
+
+Question:
+Title: Can I 'shuffle' the qubits in my circuit?
+
+If I have such a quantum circuit: Can I 'shuffle' the quantum circuit, such that the qubits are mapped to ? I know in principle I could directly define my circuit in that order, but I'm still wondering if I could first define it like the original code and then 'shuffle' the qubits with those mapping rules? Thanks a lot:)
+
+```
+quanc = QuantumCircuit(5) quanc.crz(np.pi,1,0) quanc.cx(1,[i for i in range(2,5)])
+```
+
+```
+quanc = QuantumCircuit(5) quanc.crz(np.pi,1,0) quanc.cx(1,[i for i in range(2,5)])
+```
+
+```
+[0,1,2,3,4]
+```
+
+```
+[4,2,3,0,1]
+```
+
+Original buggy code:
+quanc = QuantumCircuit(5) quanc.crz(np.pi,1,0) quanc.cx(1,[i for i in range(2,5)])
+
+---CODE_BLOCK---
+
+quanc = QuantumCircuit(5) quanc.crz(np.pi,1,0) quanc.cx(1,[i for i in range(2,5)])
+
+---CODE_BLOCK---
+
+[0,1,2,3,4]
+
+---CODE_BLOCK---
+
+[4,2,3,0,1]
+
+Solution explanation:
+On a simulator it doesn't matter since you would assume that all the qubits are connected. So I assuming you thinking of mapping this onto actual qubit on the hardware. If that is the case, then you can do it through the function. For example: Now, I can remap the qubit when I do my transpilation onto the qubit layout of Athens as follows: Hopefully this is what you were thinking of...
+
+```
+transpile
+```
+
+```
+quanc = QuantumCircuit(5) print(quanc) q_0: q_1: q_2: q_3: q_4:
+```
+
+```
+quanc = QuantumCircuit(5) print(quanc) q_0: q_1: q_2: q_3: q_4:
+```
+
+```
+qc_transpiled= transpile(quanc, backend = provider.get_backend('ibmq_athens') , optimization_level = 3, initial_layout = [4,2,3,0,1] ) qc_transpiled.draw( 'mpl',style={'name': 'bw'}, scale = 0.5)
+```
+
+```
+qc_transpiled= transpile(quanc, backend = provider.get_backend('ibmq_athens') , optimization_level = 3, initial_layout = [4,2,3,0,1] ) qc_transpiled.draw( 'mpl',style={'name': 'bw'}, scale = 0.5)
+```
+
+Original fixed code:
+transpile
+
+---CODE_BLOCK---
+
+quanc = QuantumCircuit(5) print(quanc) q_0: q_1: q_2: q_3: q_4:
+
+---CODE_BLOCK---
+
+quanc = QuantumCircuit(5) print(quanc) q_0: q_1: q_2: q_3: q_4:
+
+---CODE_BLOCK---
+
+qc_transpiled= transpile(quanc, backend = provider.get_backend('ibmq_athens') , optimization_level = 3, initial_layout = [4,2,3,0,1] ) qc_transpiled.draw( 'mpl',style={'name': 'bw'}, scale = 0.5)
+
+---CODE_BLOCK---
+
+qc_transpiled= transpile(quanc, backend = provider.get_backend('ibmq_athens') , optimization_level = 3, initial_layout = [4,2,3,0,1] ) qc_transpiled.draw( 'mpl',style={'name': 'bw'}, scale = 0.5)

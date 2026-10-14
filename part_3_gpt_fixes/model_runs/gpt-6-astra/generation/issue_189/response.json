@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWGokIJ107N3tSuphtHn7ipsh2zW",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport numpy as np\nfrom qiskit import QuantumCircuit\nfrom qiskit.circuit.library import GroverOperator\nfrom qiskit.transpiler.passes import RemoveBarriers\nfrom qiskit.converters import circuit_to_gate\n\noracle = QuantumCircuit(6)\noracle.z(5)\ngrover_operator = GroverOperator(oracle)\ngrover_operator = RemoveBarriers()(grover_operator)\n\nn = 3\nlg = 4\nqpe = QuantumCircuit(n + lg + 2)\n\nfor i in range(n):\n    Q = circuit_to_gate(grover_operator).control().power(2 ** ((n - 1) - i))\n    j = i + 1\n    # FIX: The range included extra counting qubits after the first iteration -> use one control and the fixed target register, because Q always expects seven qubits.\n    qp = [n - j] + list(np.arange(n, n + lg + 2))\n    for l in range(len(qp)):\n        print(qp[l])\n    print(\" \")\n    qpe.append(Q, qp)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419250,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 234,
+    "prompt_tokens": 1471,
+    "total_tokens": 1705,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1468,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

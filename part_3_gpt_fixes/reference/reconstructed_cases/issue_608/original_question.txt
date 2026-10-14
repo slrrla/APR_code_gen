@@ -1,0 +1,35 @@
+Title:
+What's meant by the depth of a quantum circuit?
+
+Category:
+
+
+Question:
+Title: What's meant by the depth of a quantum circuit?
+
+I'm using Qiskit to create quantum circuits wherein I've this attribute called . The documentation states it is the length of the critical path here. What does it represent and how to find it out manually?
+
+```
+depth
+```
+
+Original buggy code:
+depth
+
+Solution explanation:
+The depth of a circuit is the longest path in the circuit. The path length is always an integer number, representing the number of gates it has to execute in that path. For example, the following circuit has depth 3: if you look at the second qubit, there are 3 gates acting upon it. First by the CNOT gate, then by the RZ gate, then by another CNOT gate. A depth 3 example could be the following circuit: However, the above circuit would have depth of $1$ after optimization. This is because a CNOT gate followed by another CNOT gate is the same as doing nothing. That is, CNOT $\cdot$ CNOT $\cdot$ CNOT = CNOT. So you don't really need to do an additional two CNOTs. Another example, consider this other circuit which has depth = 5 (Can you now see why this circuit has a depth of 5? ): But let's say you want to run it on a quantum computer, and you choose to run it on one of the IBM machine, in particular ibmq_ourense which has the following qubit layout: Because not all the qubits are connected and not all the gates we've defined in our above circuit are actually native gates of ibmq_ourense, your circuit needs to be transpiled to be run on the real hardware. Fortunately, this can be done automatically with Qiskit. And it is a feature that I believe they are still working to improve upon. So when you submit your depth 5 circuit to be run on the hardware, Qiskit will transpile your circuit to the following circuit: This circuit has depth 29, instead of depth 5 like the circuit we originally defined. The point I wanted to make is that the depth of your circuit might change under the optimization and transpilation process so make sure you keep this in mind. There is actually an option within Qiskit that lets you check the depth of your circuit. This can be very useful. Here is an example of how you can do that: I see that there is another similar question here: How to calculate circuit depth properly? There are a couple of really good answers there as well. So I hope it helps!
+
+```
+provider = IBMQ.load_account() qc = QuantumCircuit(1,1) qc.x(0) qc.y(0) qc.rz(1,0) print(qc) print("The circuit depth is:", qc.depth()) qc_transpiled = transpile(qc, provider.get_backend('ibmq_ourense') , optimization_level=3) print("The TRANSPILED circuit depth is:", qc_transpiled.depth())
+```
+
+```
+provider = IBMQ.load_account() qc = QuantumCircuit(1,1) qc.x(0) qc.y(0) qc.rz(1,0) print(qc) print("The circuit depth is:", qc.depth()) qc_transpiled = transpile(qc, provider.get_backend('ibmq_ourense') , optimization_level=3) print("The TRANSPILED circuit depth is:", qc_transpiled.depth())
+```
+
+Original fixed code:
+provider = IBMQ.load_account() qc = QuantumCircuit(1,1) qc.x(0) qc.y(0) qc.rz(1,0) print(qc) print("The circuit depth is:", qc.depth()) qc_transpiled = transpile(qc, provider.get_backend('ibmq_ourense') , optimization_level=3) print("The TRANSPILED circuit depth is:", qc_transpiled.depth())
+
+---CODE_BLOCK---
+
+provider = IBMQ.load_account() qc = QuantumCircuit(1,1) qc.x(0) qc.y(0) qc.rz(1,0) print(qc) print("The circuit depth is:", qc.depth()) qc_transpiled = transpile(qc, provider.get_backend('ibmq_ourense') , optimization_level=3) print("The TRANSPILED circuit depth is:", qc_transpiled.depth())

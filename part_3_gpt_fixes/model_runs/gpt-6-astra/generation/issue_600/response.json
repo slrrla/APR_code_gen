@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWJuC4j5KCNNKMSilrt8O2xEfvUL",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport qiskit\nfrom qiskit import QuantumRegister, ClassicalRegister, transpile, execute, Aer\n# FIX: PauliGate.power does not support symbolic exponents -> import parameterized Pauli rotation gates, because they support symbolic angles.\nfrom qiskit.circuit.library import RXXGate, RYYGate, RZZGate\nimport numpy as np\n\n\nclass MyQuantumCircuit:\n    def __init__(self, backend, shots=100):\n        self._q = QuantumRegister(3, 'q')\n        self._c = ClassicalRegister(1, 'c')\n        self._circuit = qiskit.QuantumCircuit(self._q, self._c)\n        self.inp = qiskit.circuit.ParameterVector('inp', 2)\n        self.param = qiskit.circuit.ParameterVector('param', 6)\n\n        self._circuit.rx(self.inp[0], 0)\n        self._circuit.rx(self.inp[1], 1)\n\n        # FIX: symbolic XX powers fail -> use RXX with angle pi times the exponent, because this implements the power up to a global phase restored below.\n        xx10 = RXXGate(np.pi * self.param[0])\n        xx11 = RXXGate(np.pi * self.param[1])\n        self._circuit.append(xx10, [0, 2])\n        self._circuit.append(xx11, [1, 2])\n\n        # FIX: symbolic YY powers fail -> use RYY with angle pi times the exponent, because this implements the power up to a global phase restored below.\n        yy10 = RYYGate(np.pi * self.param[2])\n        yy11 = RYYGate(np.pi * self.param[3])\n        self._circuit.append(yy10, [0, 2])\n        self._circuit.append(yy11, [1, 2])\n\n        # FIX: symbolic ZZ powers fail -> use RZZ with angle pi times the exponent, because this implements the power up to a global phase restored below.\n        zz10 = RZZGate(np.pi * self.param[4])\n        zz11 = RZZGate(np.pi * self.param[5])\n        self._circuit.append(zz10, [0, 2])\n        self._circuit.append(zz11, [1, 2])\n\n        # FIX: Pauli rotations omit the powers' global phases -> restore their sum, because P**a = exp(i*pi*a/2) exp(-i*pi*a*P/2).\n        self._circuit.global_phase += np.pi * sum(self.param) / 2\n        self._circuit.measure(2, 0)\n        self.backend = backend\n        self.shots = shots\n\n    def run(self, inp, theta):\n        qc = transpile(self._circuit, self.backend)\n        bind_dict = {}\n        j = 0\n        k = 0\n        for key in qc.parameters:\n            if j <= 1:\n                bind_dict[key] = inp[j]\n                j += 1\n            else:\n                bind_dict[key] = theta[k]\n                k += 1\n        qc.assign_parameters(bind_dict, inplace=True)\n        job = execute(qc, self.backend, shots=self.shots)\n        result = job.result()\n        c = result.get_counts()\n        states = np.array(list(c.keys())).astype(float)\n        counts = np.array(list(c.values())).astype(int)\n        dist = counts / self.shots\n        E = np.array([np.sum(states * dist)])\n        return E\n\n\nbackend = Aer.get_backend('qasm_simulator')\ncirc = MyQuantumCircuit(backend, shots=10)\ninp = np.array([0.50002703, 0.56683592])\ntheta = np.array([2.37624305, 5.00052773, 1.60817906, 1.01813369, 1.36693303, 2.58211921])\nprint(circ.run(inp, theta))\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419442,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 946,
+    "prompt_tokens": 2741,
+    "total_tokens": 3687,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 96,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 2738,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

@@ -1,0 +1,71 @@
+Title:
+Implementing a Global Observable in Qiskit v1.1.0
+
+Category:
+
+
+Question:
+Title: Implementing a Global Observable in Qiskit v1.1.0
+
+In the following article the authors consider a quantum autoencoder in their numerical results, near to the equation (22). In more detail, the authors consider a bipartite quantum system $A B$ composed of $n_{\mathrm{A}}$ and $n_{\mathrm{B}}$ qubits, respectively, and let $\left\{p_\mu,\left|\psi_\mu\right\rangle\right\}$ be an ensemble of pure states on $A B$. The goal of the quantum autoencoder is to train a gate sequence $V(\theta)$ to compress this ensemble into the $A$ subsystem, such that one can recover each state $\left|\psi_\mu\right\rangle$ with high fidelity from the information in subsystem $A$. One can think of $B$ as the "trash" since it is discarded after the action of $V(\boldsymbol{\theta})$. To quantify the degree of data compression, the author's proposal is to use a cost function of the form: $$ \begin{aligned} & C_{\mathrm{G}}^{\prime}=1-\operatorname{Tr}\left[|\mathbf{0}\rangle\langle\mathbf{0}| \rho_{\mathrm{B}}^{\mathrm{out}}\right] \\ & =\operatorname{Tr}\left[O_{\mathrm{G}}^{\prime} V(\boldsymbol{\theta}) \rho_{\mathrm{AB}}^{\mathrm{in}} V(\boldsymbol{\theta})^{\dagger}\right] \end{aligned} $$ where $\rho_{\mathrm{AB}}^{\mathrm{in}}=\sum_\mu p_\mu\left|\psi_\mu\right\rangle\left\langle\psi_\mu\right|$ is the ensemble-average input state, $\rho_{\mathrm{B}}^{\text {out }}=\sum_\mu p_\mu \operatorname{Tr}_{\mathrm{A}}\left[\left|\psi^{\prime}\right\rangle\left\langle\psi^{\prime}\right|\right]$ is the ensemble-average trash state, and $\left|\psi^{\prime}\right\rangle=V(\boldsymbol{\theta})\left|\psi_\mu\right\rangle$ The previous equation makes it clear that $C_{\mathrm{G}}^{\prime}$ has the form in equation (6), and $O_{\mathrm{G}}^{\prime}=\mathbb{1}_{\mathrm{AB}}-\mathbb{1}_{\mathrm{A}} \otimes|\mathbf{0}\rangle\langle\mathbf{0}|$ is a global observable of the form in (10). Hence, according to Corollary $1, C_{\mathrm{G}}^{\prime}$ exhibits a barren plateau for large $n_{\mathrm{B}}$. (Specifically, Corollary 1 applies in this context when $n_{\mathrm{A}}<n_{\mathrm{B}}$ ). As a result, large-scale data compression, where one is interested in discarding large numbers of qubits, will not be possible with $C_{\mathrm{G}}^{\prime}$. What is a good approach to implement the global observable in this context using Qiskit v1.1.0?
+
+Original buggy code:
+In the following article the authors consider a quantum autoencoder in their numerical results, near to the equation (22). In more detail, the authors consider a bipartite quantum system $A B$ composed of $n_{\mathrm{A}}$ and $n_{\mathrm{B}}$ qubits, respectively, and let $\left\{p_\mu,\left|\psi_\mu\right\rangle\right\}$ be an ensemble of pure states on $A B$. The goal of the quantum autoencoder is to train a gate sequence $V(\theta)$ to compress this ensemble into the $A$ subsystem, such that one can recover each state $\left|\psi_\mu\right\rangle$ with high fidelity from the information in subsystem $A$. One can think of $B$ as the "trash" since it is discarded after the action of $V(\boldsymbol{\theta})$. To quantify the degree of data compression, the author's proposal is to use a cost function of the form: $$ \begin{aligned} & C_{\mathrm{G}}^{\prime}=1-\operatorname{Tr}\left[|\mathbf{0}\rangle\langle\mathbf{0}| \rho_{\mathrm{B}}^{\mathrm{out}}\right] \\ & =\operatorname{Tr}\left[O_{\mathrm{G}}^{\prime} V(\boldsymbol{\theta}) \rho_{\mathrm{AB}}^{\mathrm{in}} V(\boldsymbol{\theta})^{\dagger}\right] \end{aligned} $$ where $\rho_{\mathrm{AB}}^{\mathrm{in}}=\sum_\mu p_\mu\left|\psi_\mu\right\rangle\left\langle\psi_\mu\right|$ is the ensemble-average input state, $\rho_{\mathrm{B}}^{\text {out }}=\sum_\mu p_\mu \operatorname{Tr}_{\mathrm{A}}\left[\left|\psi^{\prime}\right\rangle\left\langle\psi^{\prime}\right|\right]$ is the ensemble-average trash state, and $\left|\psi^{\prime}\right\rangle=V(\boldsymbol{\theta})\left|\psi_\mu\right\rangle$ The previous equation makes it clear that $C_{\mathrm{G}}^{\prime}$ has the form in equation (6), and $O_{\mathrm{G}}^{\prime}=\mathbb{1}_{\mathrm{AB}}-\mathbb{1}_{\mathrm{A}} \otimes|\mathbf{0}\rangle\langle\mathbf{0}|$ is a global observable of the form in (10). Hence, according to Corollary $1, C_{\mathrm{G}}^{\prime}$ exhibits a barren plateau for large $n_{\mathrm{B}}$. (Specifically, Corollary 1 applies in this context when $n_{\mathrm{A}}<n_{\mathrm{B}}$ ). As a result, large-scale data compression, where one is interested in discarding large numbers of qubits, will not be possible with $C_{\mathrm{G}}^{\prime}$. What is a good approach to implement the global observable in this context using Qiskit v1.1.0?
+
+Solution explanation:
+To implement $O'_G$, just use numpy: You can then do things like calculating the expectation value of a state with respect to $O'_G$ using qiskit's or the Estimator primitive. With quantum info: Using the Estimator from qiskit:
+
+```
+import numpy as np n = 2 # Size of A m = 3 # Size of B k = n + m # Size of AB I_AB = np.eye(2**k,2**k) I_A = np.eye(2**n,2**n) Zr_B = np.zeros((2**m,2**m)) Zr_B[0,0] = 1 OG = I_AB - np.kron(I_A,Zr_B)
+```
+
+```
+import numpy as np n = 2 # Size of A m = 3 # Size of B k = n + m # Size of AB I_AB = np.eye(2**k,2**k) I_A = np.eye(2**n,2**n) Zr_B = np.zeros((2**m,2**m)) Zr_B[0,0] = 1 OG = I_AB - np.kron(I_A,Zr_B)
+```
+
+```
+quantum_info
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector, Operator # Arbitrary circuit to generate |ψ⟩ qc = QuantumCircuit(k) qc.h(k-1) qc.cx(k-1,k-2) for qb in range(m,0,-1): qc.cx(qb,qb-1) # Compute ⟨ψ|OG|ψ⟩ sv = Statevector(qc) OG_op = Operator(OG) exp_val = sv.expectation_value(OG_op)
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector, Operator # Arbitrary circuit to generate |ψ⟩ qc = QuantumCircuit(k) qc.h(k-1) qc.cx(k-1,k-2) for qb in range(m,0,-1): qc.cx(qb,qb-1) # Compute ⟨ψ|OG|ψ⟩ sv = Statevector(qc) OG_op = Operator(OG) exp_val = sv.expectation_value(OG_op)
+```
+
+```
+from qiskit.primitives.statevector_estimator import StatevectorEstimator from qiskit.quantum_info import SparsePauliOp OG_pauli = SparsePauliOp.from_operator(OG_op) estimator = StatevectorEstimator() exp_val = estimator.run([(qc,OG_pauli)]).result()[0].data.evs
+```
+
+```
+from qiskit.primitives.statevector_estimator import StatevectorEstimator from qiskit.quantum_info import SparsePauliOp OG_pauli = SparsePauliOp.from_operator(OG_op) estimator = StatevectorEstimator() exp_val = estimator.run([(qc,OG_pauli)]).result()[0].data.evs
+```
+
+Original fixed code:
+import numpy as np n = 2 # Size of A m = 3 # Size of B k = n + m # Size of AB I_AB = np.eye(2**k,2**k) I_A = np.eye(2**n,2**n) Zr_B = np.zeros((2**m,2**m)) Zr_B[0,0] = 1 OG = I_AB - np.kron(I_A,Zr_B)
+
+---CODE_BLOCK---
+
+import numpy as np n = 2 # Size of A m = 3 # Size of B k = n + m # Size of AB I_AB = np.eye(2**k,2**k) I_A = np.eye(2**n,2**n) Zr_B = np.zeros((2**m,2**m)) Zr_B[0,0] = 1 OG = I_AB - np.kron(I_A,Zr_B)
+
+---CODE_BLOCK---
+
+quantum_info
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector, Operator # Arbitrary circuit to generate |ψ⟩ qc = QuantumCircuit(k) qc.h(k-1) qc.cx(k-1,k-2) for qb in range(m,0,-1): qc.cx(qb,qb-1) # Compute ⟨ψ|OG|ψ⟩ sv = Statevector(qc) OG_op = Operator(OG) exp_val = sv.expectation_value(OG_op)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import Statevector, Operator # Arbitrary circuit to generate |ψ⟩ qc = QuantumCircuit(k) qc.h(k-1) qc.cx(k-1,k-2) for qb in range(m,0,-1): qc.cx(qb,qb-1) # Compute ⟨ψ|OG|ψ⟩ sv = Statevector(qc) OG_op = Operator(OG) exp_val = sv.expectation_value(OG_op)
+
+---CODE_BLOCK---
+
+from qiskit.primitives.statevector_estimator import StatevectorEstimator from qiskit.quantum_info import SparsePauliOp OG_pauli = SparsePauliOp.from_operator(OG_op) estimator = StatevectorEstimator() exp_val = estimator.run([(qc,OG_pauli)]).result()[0].data.evs
+
+---CODE_BLOCK---
+
+from qiskit.primitives.statevector_estimator import StatevectorEstimator from qiskit.quantum_info import SparsePauliOp OG_pauli = SparsePauliOp.from_operator(OG_op) estimator = StatevectorEstimator() exp_val = estimator.run([(qc,OG_pauli)]).result()[0].data.evs

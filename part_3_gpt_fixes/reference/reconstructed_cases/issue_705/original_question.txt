@@ -1,0 +1,115 @@
+Title:
+How to quickly calculate the custom U3 gate parameters $\theta, \phi$ and $\lambda$ for any unitary?
+
+Category:
+
+
+Question:
+Title: How to quickly calculate the custom U3 gate parameters $\theta, \phi$ and $\lambda$ for any unitary?
+
+In IBM Qiskit and Quantum Experience, the custom gate is defined as $$ U(\theta, \phi, \lambda) = \begin{pmatrix} \cos\left(\frac{\theta}{2}\right) & -e^{i\lambda} \sin\left(\frac{\theta}{2}\right) \\ e^{i\phi} \sin\left(\frac{\theta}{2}\right) & e^{i(\lambda + \phi)} \cos\left(\frac{\theta}{2}\right) \end{pmatrix} $$ Is there any way to quickly obtain the parameters $\theta, \phi$ and $\lambda$ for any arbitrary $2\times 2$ unitary $X$? I know it's possible to write up a lengthy program which could do this, but is there already a similar program out there? Any of the common programming languages would be fine. Related: What are theta, phi and lambda in cu1(theta, ctl, tgt) and cu3(theta, phi, lam, ctl, tgt)? What are the rotation matrices being used?
+
+```
+U3
+```
+
+Original buggy code:
+U3
+
+Solution explanation:
+Python - Sympy It could be done in python using . I am not really an expert and maybe there could be ways to optimize this, but the following works fine for me. Assuming you have the matrix $$\begin{bmatrix}a & b\\ c & d\end{bmatrix}$$ My program Note that for Qiskit matrix you should only check if the first number is imaginary and, if it so, you could divide the whole matrix by it. It is not really necessary to divide by the determinant, provided that the matrix represent indeed a valid quantum gate (or, said differently, the magnitude are all less than 1). To avoid Python evaluation of fractions, instead of simply using a common trick is to use or Examples A generic unitary returns $$ \left[ \left\{ \lambda : \pi, \ \phi : \pi, \ \theta : 2 \operatorname{acos}{\left(\frac{\sqrt{5}}{5} \right)}\right\}\right] $$ Pauli-Y matrix $$\begin{bmatrix} 0 & -i \\ i & 0 \end{bmatrix}$$ returns $$ \left[ \left\{ \lambda : \frac{\pi}{2}, \ \phi : \frac{\pi}{2}, \ \theta : \pi\right\}\right] $$ $\sqrt{NOT}$ $$ \left[ \left\{ \lambda : \frac{\pi}{2}, \ \phi : \frac{3 \pi}{2}, \ \theta : \frac{\pi}{2}\right\}\right] $$ Matrix of Sanchayan Dutta answer $$ \left[ \left\{ \lambda : \frac{\pi}{2}, \ \phi : \frac{3 \pi}{2}, \ \theta : \frac{\pi}{2}\right\}\right] $$
+
+```
+sympy
+```
+
+```
+from sympy import * def get_angles(a, b, c, d): if im(a) == 0: print("Not phasing") s = _compute_angles(a, b, c, d) res = _final_constraint(s) if len(res) != 0: return res print("Phasing by first element...") matr = Matrix([[a, b], [c, d]]) ph = arg(matr[0]) matr_phased = simplify(matr/(cos(ph) + I*sin(ph))) s = _compute_angles(matr_phased[0], matr_phased[1], matr_phased[2], matr_phased[3]) return _final_constraint(s) def _compute_angles(a, b, c, d): theta, phi, lamb = symbols('\\theta \\phi \\lambda', real=True) a_eq = Eq(cos(theta / 2), a) b_eq = Eq(-exp(I * lamb) * sin(theta / 2), b) c_eq = Eq(exp(I * phi) * sin(theta / 2), c) d_eq = Eq(exp(I * (phi + lamb)) * cos(theta / 2), d) return solve([a_eq, b_eq, c_eq, d_eq], [theta, phi, lamb], dict=True) def _final_constraint(result): res = [] for sol in result: to_add = True for k, v in sol.items(): if str(k) == '\\theta' and (v < 0 or v > pi): to_add = False break elif str(k) == '\\phi' and (v < 0 or v >= 2 * pi): to_add = False break if to_add: res.append(simplify(sol)) return res
+```
+
+```
+from sympy import * def get_angles(a, b, c, d): if im(a) == 0: print("Not phasing") s = _compute_angles(a, b, c, d) res = _final_constraint(s) if len(res) != 0: return res print("Phasing by first element...") matr = Matrix([[a, b], [c, d]]) ph = arg(matr[0]) matr_phased = simplify(matr/(cos(ph) + I*sin(ph))) s = _compute_angles(matr_phased[0], matr_phased[1], matr_phased[2], matr_phased[3]) return _final_constraint(s) def _compute_angles(a, b, c, d): theta, phi, lamb = symbols('\\theta \\phi \\lambda', real=True) a_eq = Eq(cos(theta / 2), a) b_eq = Eq(-exp(I * lamb) * sin(theta / 2), b) c_eq = Eq(exp(I * phi) * sin(theta / 2), c) d_eq = Eq(exp(I * (phi + lamb)) * cos(theta / 2), d) return solve([a_eq, b_eq, c_eq, d_eq], [theta, phi, lamb], dict=True) def _final_constraint(result): res = [] for sol in result: to_add = True for k, v in sol.items(): if str(k) == '\\theta' and (v < 0 or v > pi): to_add = False break elif str(k) == '\\phi' and (v < 0 or v >= 2 * pi): to_add = False break if to_add: res.append(simplify(sol)) return res
+```
+
+```
+U
+```
+
+```
+1/2
+```
+
+```
+S(1)/2
+```
+
+```
+Rational(1,2)
+```
+
+```
+get_angles(sqrt(S(1)/5), sqrt(S(4)/5), -sqrt(S(4)/5), sqrt(S(1)/5))
+```
+
+```
+get_angles(0, -I, I, 0)
+```
+
+```
+sqnot = Matrix([[1+I, 1-I], [1-I, 1+I]]) * Rational(1,2) get_angles(sqnot[0], sqnot[1], sqnot[2], sqnot[3])
+```
+
+```
+sqnot = Matrix([[1+I, 1-I], [1-I, 1+I]]) * Rational(1,2) get_angles(sqnot[0], sqnot[1], sqnot[2], sqnot[3])
+```
+
+```
+get_angles(-1/sqrt(2), I/sqrt(2), I/sqrt(2), -1/sqrt(2))
+```
+
+Original fixed code:
+sympy
+
+---CODE_BLOCK---
+
+from sympy import * def get_angles(a, b, c, d): if im(a) == 0: print("Not phasing") s = _compute_angles(a, b, c, d) res = _final_constraint(s) if len(res) != 0: return res print("Phasing by first element...") matr = Matrix([[a, b], [c, d]]) ph = arg(matr[0]) matr_phased = simplify(matr/(cos(ph) + I*sin(ph))) s = _compute_angles(matr_phased[0], matr_phased[1], matr_phased[2], matr_phased[3]) return _final_constraint(s) def _compute_angles(a, b, c, d): theta, phi, lamb = symbols('\\theta \\phi \\lambda', real=True) a_eq = Eq(cos(theta / 2), a) b_eq = Eq(-exp(I * lamb) * sin(theta / 2), b) c_eq = Eq(exp(I * phi) * sin(theta / 2), c) d_eq = Eq(exp(I * (phi + lamb)) * cos(theta / 2), d) return solve([a_eq, b_eq, c_eq, d_eq], [theta, phi, lamb], dict=True) def _final_constraint(result): res = [] for sol in result: to_add = True for k, v in sol.items(): if str(k) == '\\theta' and (v < 0 or v > pi): to_add = False break elif str(k) == '\\phi' and (v < 0 or v >= 2 * pi): to_add = False break if to_add: res.append(simplify(sol)) return res
+
+---CODE_BLOCK---
+
+from sympy import * def get_angles(a, b, c, d): if im(a) == 0: print("Not phasing") s = _compute_angles(a, b, c, d) res = _final_constraint(s) if len(res) != 0: return res print("Phasing by first element...") matr = Matrix([[a, b], [c, d]]) ph = arg(matr[0]) matr_phased = simplify(matr/(cos(ph) + I*sin(ph))) s = _compute_angles(matr_phased[0], matr_phased[1], matr_phased[2], matr_phased[3]) return _final_constraint(s) def _compute_angles(a, b, c, d): theta, phi, lamb = symbols('\\theta \\phi \\lambda', real=True) a_eq = Eq(cos(theta / 2), a) b_eq = Eq(-exp(I * lamb) * sin(theta / 2), b) c_eq = Eq(exp(I * phi) * sin(theta / 2), c) d_eq = Eq(exp(I * (phi + lamb)) * cos(theta / 2), d) return solve([a_eq, b_eq, c_eq, d_eq], [theta, phi, lamb], dict=True) def _final_constraint(result): res = [] for sol in result: to_add = True for k, v in sol.items(): if str(k) == '\\theta' and (v < 0 or v > pi): to_add = False break elif str(k) == '\\phi' and (v < 0 or v >= 2 * pi): to_add = False break if to_add: res.append(simplify(sol)) return res
+
+---CODE_BLOCK---
+
+U
+
+---CODE_BLOCK---
+
+1/2
+
+---CODE_BLOCK---
+
+S(1)/2
+
+---CODE_BLOCK---
+
+Rational(1,2)
+
+---CODE_BLOCK---
+
+get_angles(sqrt(S(1)/5), sqrt(S(4)/5), -sqrt(S(4)/5), sqrt(S(1)/5))
+
+---CODE_BLOCK---
+
+get_angles(0, -I, I, 0)
+
+---CODE_BLOCK---
+
+sqnot = Matrix([[1+I, 1-I], [1-I, 1+I]]) * Rational(1,2) get_angles(sqnot[0], sqnot[1], sqnot[2], sqnot[3])
+
+---CODE_BLOCK---
+
+sqnot = Matrix([[1+I, 1-I], [1-I, 1+I]]) * Rational(1,2) get_angles(sqnot[0], sqnot[1], sqnot[2], sqnot[3])
+
+---CODE_BLOCK---
+
+get_angles(-1/sqrt(2), I/sqrt(2), I/sqrt(2), -1/sqrt(2))

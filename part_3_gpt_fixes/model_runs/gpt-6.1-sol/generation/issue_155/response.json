@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWW5hUGRg00TUywK3MVpIp57OLwMO",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import Aer, QuantumCircuit, QuantumRegister, transpile\nfrom qiskit.quantum_info import partial_trace\n\nqc = QuantumCircuit()\nreg1 = QuantumRegister(2)\nqc.add_register(reg1)\nreg2 = QuantumRegister(2)\nqc.add_register(reg2)\nreg3 = QuantumRegister(2)\nqc.add_register(reg3)\nreg4 = QuantumRegister(2)\nqc.add_register(reg4)\n\nqc.h(reg1[0])\nqc.cnot(reg1[0], reg2[0])\nqc.h(reg3[0])\nqc.x(reg4[0])\nqc.cnot(reg3[0], reg4[0])\n\nsimulator = Aer.get_backend(\"aer_simulator\")\nqc.save_statevector()\ntranspiled_qc = transpile(qc, simulator)\nresult = simulator.run(transpiled_qc).result()\n\ntraced_over_registers = [reg2, reg4]\n# FIX: Register objects were passed to partial_trace -> pass their qubits' circuit indices, because partial_trace requires subsystem indices.\ndensity_matrix = partial_trace(result.get_statevector(), [qc.find_bit(qubit).index for register in traced_over_registers for qubit in register])\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418561,
+  "model": "gpt-6.1-sol",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 308,
+    "prompt_tokens": 1590,
+    "total_tokens": 1898,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 48,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1587,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

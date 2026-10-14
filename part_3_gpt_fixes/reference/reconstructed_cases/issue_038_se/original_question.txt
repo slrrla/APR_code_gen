@@ -1,0 +1,74 @@
+Title:
+How do I check my remaining IBM Q credits?
+
+Category:
+Category:
+Error
+
+Why Stack Overflow Wins in This Category:
+In the Error category, accuracy about the current API and system status is critical.
+Stack Overflow:
+
+Recognizes deprecated libraries (IBMQuantumExperience).
+
+Clarifies that credit tracking is no longer available.
+
+Provides the correct current state of the IBM Q system.
+
+AI response is useful but assumes outdated fields (.credits) are still meaningful, which could mislead users.
+
+Thus, Stack Overflow wins for being precise and up-to-date on backend policy changes.
+
+Question:
+Title: How do I check my remaining IBM Q credits?
+
+I've already tried the approach in this answer, but I'm getting this error: However, I've already accepted the terms, and have already successfully run two experiments using the Qiskit SDK, like the ones in the docs. I'm suspecting , and by extension qiskit-api-py might be out of date, superceded by qiskit. My question is then this: is it possible to check my remaining credits using the new library, and if so, how? If not, how else can I check my credits?
+
+```
+IBMQuantumExperience.IBMQuantumExperience.CredentialsError: error during login: License required. You need to accept the License from Web Platform. https://quantumexperience.ng.bluemix.net
+```
+
+```
+IBMQuantumExperience.IBMQuantumExperience.CredentialsError: error during login: License required. You need to accept the License from Web Platform. https://quantumexperience.ng.bluemix.net
+```
+
+```
+IBMQuantumExperience
+```
+
+Original buggy code:
+IBMQuantumExperience.IBMQuantumExperience.CredentialsError: error during login: License required. You need to accept the License from Web Platform. https://quantumexperience.ng.bluemix.net
+
+---CODE_BLOCK---
+
+IBMQuantumExperience.IBMQuantumExperience.CredentialsError: error during login: License required. You need to accept the License from Web Platform. https://quantumexperience.ng.bluemix.net
+
+---CODE_BLOCK---
+
+IBMQuantumExperience
+
+Solution explanation:
+You are correct that is a deprecated library. Anything you wanted to use to do you can now do through . To answer your main question, the credit system is being removed in the future, so there is currently no way to check your remaining credits. The feature used to be in the old IBM Q Experience page, but since the new, beta version has been launched it no longer has that capability.
+
+```
+IBMQuantumExperience
+```
+
+```
+IBMQuantumExperience
+```
+
+```
+qiskit-ibmq-provider
+```
+
+Original fixed code:
+IBMQuantumExperience
+
+---CODE_BLOCK---
+
+IBMQuantumExperience
+
+---CODE_BLOCK---
+
+qiskit-ibmq-provider

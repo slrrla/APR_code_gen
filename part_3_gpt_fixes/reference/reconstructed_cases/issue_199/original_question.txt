@@ -1,0 +1,71 @@
+Title:
+How do I get the Unitary matrix of a circuit without using the 'unitary_simulator'?
+
+Category:
+Category:
+Circuit
+
+Why Stack Overflow Wins in This Category:
+In the Circuit category, users typically want an exact working code snippet that reproduces the correct unitary. The Stack Overflow answer:
+
+Fixes the specific error in the user’s Kronecker order.
+
+Provides the correct 8x8 unitary result.
+
+Is immediately runnable without modification.
+
+The AI answer is conceptually fine but less exact for this particular circuit. Accuracy and direct reproducibility give Stack Overflow the edge here.
+
+Question:
+Title: How do I get the Unitary matrix of a circuit without using the 'unitary_simulator'?
+
+I am using jupyter notebook and qiskit. I have a simple quantum circuit and I want to know how to get the unitary matrix of the circuit without using 'get_unitary' from the Aer unitary_simulator. i.e.:By just using matrix manipulation, how do I get the unitary matrix of the circuit below by just using numpy and normal matrix properties? The result should equal this: [[1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [0.+0.j 0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 1.+0.j 0.+0.j] [0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j] [0.+0.j 0.+0.j 0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j] [0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 1.+0.j] [0.+0.j 0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j] [0.+0.j 1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j]] I tried doing the following but it did not result in the correct Unitary matrix The result: [[1. 0. 0. 0. 0. 0. 0. 0.] [0. 0. 0. 0. 0. 0. 0. 1.] [0. 0. 0. 0. 0. 0. 1. 0.] [0. 1. 0. 0. 0. 0. 0. 0.] [0. 0. 0. 0. 1. 0. 0. 0.] [0. 0. 0. 1. 0. 0. 0. 0.] [0. 0. 1. 0. 0. 0. 0. 0.] [0. 0. 0. 0. 0. 1. 0. 0.]]
+
+```
+swapcnot = np.array([[1, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0], [0, 1, 0, 0]]) layer1 = np.kron( swapcnot,np.eye(2) ) layer2 = np.kron( np.eye(2),swapcnot ) print( np.matmul(layer2,layer1) )
+```
+
+```
+swapcnot = np.array([[1, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0], [0, 1, 0, 0]]) layer1 = np.kron( swapcnot,np.eye(2) ) layer2 = np.kron( np.eye(2),swapcnot ) print( np.matmul(layer2,layer1) )
+```
+
+Original buggy code:
+swapcnot = np.array([[1, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0], [0, 1, 0, 0]]) layer1 = np.kron( swapcnot,np.eye(2) ) layer2 = np.kron( np.eye(2),swapcnot ) print( np.matmul(layer2,layer1) )
+
+---CODE_BLOCK---
+
+swapcnot = np.array([[1, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0], [0, 1, 0, 0]]) layer1 = np.kron( swapcnot,np.eye(2) ) layer2 = np.kron( np.eye(2),swapcnot ) print( np.matmul(layer2,layer1) )
+
+Solution explanation:
+For the first layer of your circuit, compute the tensor product between the unitary matrix of the (swapped) CNOT gate and the identity matrix (using numpy's kron()). Do a similar operation for the second layer. You will obtain two 8x8 matrices. Then multiply them using numpy's matmul(). Here you have the working code: Output:
+
+```
+import numpy as np swapcnot = np.array([[1, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0], [0, 1, 0, 0]]) layer1 = np.kron(np.eye(2),swapcnot ) layer2 = np.kron( swapcnot, np.eye(2) ) print( np.matmul(layer2,layer1) )
+```
+
+```
+import numpy as np swapcnot = np.array([[1, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0], [0, 1, 0, 0]]) layer1 = np.kron(np.eye(2),swapcnot ) layer2 = np.kron( swapcnot, np.eye(2) ) print( np.matmul(layer2,layer1) )
+```
+
+```
+[[1. 0. 0. 0. 0. 0. 0. 0.] [0. 0. 0. 1. 0. 0. 0. 0.] [0. 0. 0. 0. 0. 0. 1. 0.] [0. 0. 0. 0. 0. 1. 0. 0.] [0. 0. 0. 0. 1. 0. 0. 0.] [0. 0. 0. 0. 0. 0. 0. 1.] [0. 0. 1. 0. 0. 0. 0. 0.] [0. 1. 0. 0. 0. 0. 0. 0.]]
+```
+
+```
+[[1. 0. 0. 0. 0. 0. 0. 0.] [0. 0. 0. 1. 0. 0. 0. 0.] [0. 0. 0. 0. 0. 0. 1. 0.] [0. 0. 0. 0. 0. 1. 0. 0.] [0. 0. 0. 0. 1. 0. 0. 0.] [0. 0. 0. 0. 0. 0. 0. 1.] [0. 0. 1. 0. 0. 0. 0. 0.] [0. 1. 0. 0. 0. 0. 0. 0.]]
+```
+
+Original fixed code:
+import numpy as np swapcnot = np.array([[1, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0], [0, 1, 0, 0]]) layer1 = np.kron(np.eye(2),swapcnot ) layer2 = np.kron( swapcnot, np.eye(2) ) print( np.matmul(layer2,layer1) )
+
+---CODE_BLOCK---
+
+import numpy as np swapcnot = np.array([[1, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0], [0, 1, 0, 0]]) layer1 = np.kron(np.eye(2),swapcnot ) layer2 = np.kron( swapcnot, np.eye(2) ) print( np.matmul(layer2,layer1) )
+
+---CODE_BLOCK---
+
+[[1. 0. 0. 0. 0. 0. 0. 0.] [0. 0. 0. 1. 0. 0. 0. 0.] [0. 0. 0. 0. 0. 0. 1. 0.] [0. 0. 0. 0. 0. 1. 0. 0.] [0. 0. 0. 0. 1. 0. 0. 0.] [0. 0. 0. 0. 0. 0. 0. 1.] [0. 0. 1. 0. 0. 0. 0. 0.] [0. 1. 0. 0. 0. 0. 0. 0.]]
+
+---CODE_BLOCK---
+
+[[1. 0. 0. 0. 0. 0. 0. 0.] [0. 0. 0. 1. 0. 0. 0. 0.] [0. 0. 0. 0. 0. 0. 1. 0.] [0. 0. 0. 0. 0. 1. 0. 0.] [0. 0. 0. 0. 1. 0. 0. 0.] [0. 0. 0. 0. 0. 0. 0. 1.] [0. 0. 1. 0. 0. 0. 0. 0.] [0. 1. 0. 0. 0. 0. 0. 0.]]

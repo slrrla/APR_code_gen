@@ -1,0 +1,75 @@
+Title:
+Equivalent matrix for operators in qiskit
+
+Category:
+
+
+Question:
+Title: Equivalent matrix for operators in qiskit
+
+What is eqivalent matrix to : I thought it is the following: $$X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \\ \end{pmatrix} \begin{pmatrix} 1 \\ 0 \\ \end{pmatrix} =\begin{pmatrix} 0 & 1 \\ 0 & 0 \\ \end{pmatrix} $$ but it is not, because of different result. And what would be equivalent matrices in case:
+
+```
+qc.rx(np.pi, 0)
+```
+
+```
+import numpy as np from qiskit import QuantumCircuit, Aer, execute from qiskit.quantum_info import Operator qc = QuantumCircuit(1) qc.rx(np.pi, 0) print('Final matrix:', np.round(Operator(qc).data, 3))
+```
+
+```
+import numpy as np from qiskit import QuantumCircuit, Aer, execute from qiskit.quantum_info import Operator qc = QuantumCircuit(1) qc.rx(np.pi, 0) print('Final matrix:', np.round(Operator(qc).data, 3))
+```
+
+```
+qc.rx(np.pi, 0) qc.ry(np.pi, 0)
+```
+
+```
+qc.rx(np.pi, 0) qc.ry(np.pi, 0)
+```
+
+Original buggy code:
+qc.rx(np.pi, 0)
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumCircuit, Aer, execute from qiskit.quantum_info import Operator qc = QuantumCircuit(1) qc.rx(np.pi, 0) print('Final matrix:', np.round(Operator(qc).data, 3))
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumCircuit, Aer, execute from qiskit.quantum_info import Operator qc = QuantumCircuit(1) qc.rx(np.pi, 0) print('Final matrix:', np.round(Operator(qc).data, 3))
+
+---CODE_BLOCK---
+
+qc.rx(np.pi, 0) qc.ry(np.pi, 0)
+
+---CODE_BLOCK---
+
+qc.rx(np.pi, 0) qc.ry(np.pi, 0)
+
+Solution explanation:
+Qiskit defines the $RX$ gate as follows: $$ RX(\theta) = \exp\left(-i \frac{\theta}{2} X\right) = \begin{pmatrix} \cos{\frac{\theta}{2}} & -i\sin{\frac{\theta}{2}} \\ -i\sin{\frac{\theta}{2}} & \cos{\frac{\theta}{2}} \end{pmatrix} $$ Thus, setting $\theta = \pi$, would give us: $$ RX(\pi) = \begin{pmatrix} 0 & -i \\ -i & 0 \end{pmatrix} = -iX $$ Which is what I suspect you got as output to in the first code cell. Thus, a rotation of $\pi$ radians about the $x$-axis is equivalent to the normal bit flip gate $X$ up to a global phase of $-i$. I thought it is the following: $$X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \\ \end{pmatrix} \begin{pmatrix} 1 \\ 0 \\ \end{pmatrix} =\begin{pmatrix} 0 & 1 \\ 0 & 0 \\ \end{pmatrix} $$ I think you got confused about matrix multiplication here. First of all, $X$ is only $\begin{pmatrix} 0 & 1 \\ 1& 0 \end{pmatrix}$. I suspect you are trying to get the final state of the circuit, which would correspond to the operation you do in the middle of the above equation (up to the global phase we discussed earlier). But, remember that the product of a matrix of size $2 \times 2$ with a vector of size $2 \times 1$ is another vector of size $2 \times 1$. Thus, you can't get a matrix from this operation. The correct operation to get the final state of your circuit would be the following: $$ RX(\pi)|0\rangle = \begin{pmatrix} 0 & -i \\ -i & 0 \end{pmatrix} \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} 0 \\ -i \end{pmatrix} = -i|1\rangle $$ Which is equivalent to $|1\rangle$ up to a global phase that we can ignore here since we only have one qubit. If there were more qubits, this global phase would turn into a relative phase. And what would be equivalent matrices in case: The $RY$ gate is defined as follows: $$ RY(\theta) = \exp\left(-i \frac{\theta}{2} Y\right) = \begin{pmatrix} \cos{\frac{\theta}{2}} & -\sin{\frac{\theta}{2}} \\ \sin{\frac{\theta}{2}} & \cos{\frac{\theta}{2}} \end{pmatrix} $$ Thus, to get the unitary corresponding to that circuit, plug in the angle to each of the gates definition and perform matrix multiplication. The operation you need to do is $RY(\pi)RX(\pi)$. And then you could get the final state of the circuit following the same steps as with the first example.
+
+```
+Operator(qc).data
+```
+
+```
+qc.rx(np.pi, 0) qc.ry(np.pi, 0)
+```
+
+```
+qc.rx(np.pi, 0) qc.ry(np.pi, 0)
+```
+
+Original fixed code:
+Operator(qc).data
+
+---CODE_BLOCK---
+
+qc.rx(np.pi, 0) qc.ry(np.pi, 0)
+
+---CODE_BLOCK---
+
+qc.rx(np.pi, 0) qc.ry(np.pi, 0)

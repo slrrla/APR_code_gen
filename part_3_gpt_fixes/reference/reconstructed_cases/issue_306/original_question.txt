@@ -1,0 +1,145 @@
+Title:
+Grover' object has no attribute 'run'
+
+Category:
+Category:
+Import / Env Config / API Version Compatibility
+
+Why Stack Overflow Wins in This Category:
+In import or compatibility issues, it's critical to provide version-aware, future-proof solutions. The Stack Overflow answer reflects the correct usage in Qiskit ≥ 0.43, avoids deprecated components, and explains how to restructure the code using primitives. The AI solution risks leading users to deprecated syntax without clear warnings.
+
+
+
+Question:
+Title: 'Grover' object has no attribute 'run'
+
+Trying to do an application of Grover's algorithm. I am referring to Qiskit's video on the satisfiability problem however aqua does not exist so I am trying some work arounds. and get:
+
+```
+from qiskit import BasicAer from qiskit.algorithms import Grover, AmplificationProblem from qiskit.circuit.library import PhaseOracle log_expr = '((A & B) | (B & C)) & ~ (B & D)' algorithm = Grover(PhaseOracle(log_expr)) backend = BasicAer.get_backend('qasm_simulator') result = algorithm.run(backend)
+```
+
+```
+from qiskit import BasicAer from qiskit.algorithms import Grover, AmplificationProblem from qiskit.circuit.library import PhaseOracle log_expr = '((A & B) | (B & C)) & ~ (B & D)' algorithm = Grover(PhaseOracle(log_expr)) backend = BasicAer.get_backend('qasm_simulator') result = algorithm.run(backend)
+```
+
+```
+1 backend = BasicAer.get_backend('qasm_simulator') ----> 2 result = algorithm.run(backend) AttributeError: 'Grover' object has no attribute 'run'
+```
+
+```
+1 backend = BasicAer.get_backend('qasm_simulator') ----> 2 result = algorithm.run(backend) AttributeError: 'Grover' object has no attribute 'run'
+```
+
+Original buggy code:
+from qiskit import BasicAer from qiskit.algorithms import Grover, AmplificationProblem from qiskit.circuit.library import PhaseOracle log_expr = '((A & B) | (B & C)) & ~ (B & D)' algorithm = Grover(PhaseOracle(log_expr)) backend = BasicAer.get_backend('qasm_simulator') result = algorithm.run(backend)
+
+---CODE_BLOCK---
+
+from qiskit import BasicAer from qiskit.algorithms import Grover, AmplificationProblem from qiskit.circuit.library import PhaseOracle log_expr = '((A & B) | (B & C)) & ~ (B & D)' algorithm = Grover(PhaseOracle(log_expr)) backend = BasicAer.get_backend('qasm_simulator') result = algorithm.run(backend)
+
+---CODE_BLOCK---
+
+1 backend = BasicAer.get_backend('qasm_simulator') ----> 2 result = algorithm.run(backend) AttributeError: 'Grover' object has no attribute 'run'
+
+---CODE_BLOCK---
+
+1 backend = BasicAer.get_backend('qasm_simulator') ----> 2 result = algorithm.run(backend) AttributeError: 'Grover' object has no attribute 'run'
+
+Solution explanation:
+Just replace this line with And with Note, however, that it is recommended to use Qiskit primitives to run the algorithms instead of dealing with backends directly (see here). So, for your code to be future-proof use primitive instead of
+
+```
+algorithm = Grover(PhaseOracle(log_expr))
+```
+
+```
+algorithm = Grover(PhaseOracle(log_expr))
+```
+
+```
+problem = AmplificationProblem(PhaseOracle(log_expr))
+```
+
+```
+problem = AmplificationProblem(PhaseOracle(log_expr))
+```
+
+```
+result = algorithm.run(backend)
+```
+
+```
+result = algorithm.run(backend)
+```
+
+```
+grover = Grover(quantum_instance=backend) result = grover.amplify(problem)
+```
+
+```
+grover = Grover(quantum_instance=backend) result = grover.amplify(problem)
+```
+
+```
+Sampler
+```
+
+```
+QuantumInstance
+```
+
+```
+from qiskit.primitives import Sampler from qiskit.algorithms import Grover, AmplificationProblem from qiskit.circuit.library import PhaseOracle log_expr = '((A & B) | (B & C)) & ~ (B & D)' problem = AmplificationProblem(PhaseOracle(log_expr)) sampler = Sampler() grover = Grover(sampler=sampler) result = grover.amplify(problem)
+```
+
+```
+from qiskit.primitives import Sampler from qiskit.algorithms import Grover, AmplificationProblem from qiskit.circuit.library import PhaseOracle log_expr = '((A & B) | (B & C)) & ~ (B & D)' problem = AmplificationProblem(PhaseOracle(log_expr)) sampler = Sampler() grover = Grover(sampler=sampler) result = grover.amplify(problem)
+```
+
+Original fixed code:
+algorithm = Grover(PhaseOracle(log_expr))
+
+---CODE_BLOCK---
+
+algorithm = Grover(PhaseOracle(log_expr))
+
+---CODE_BLOCK---
+
+problem = AmplificationProblem(PhaseOracle(log_expr))
+
+---CODE_BLOCK---
+
+problem = AmplificationProblem(PhaseOracle(log_expr))
+
+---CODE_BLOCK---
+
+result = algorithm.run(backend)
+
+---CODE_BLOCK---
+
+result = algorithm.run(backend)
+
+---CODE_BLOCK---
+
+grover = Grover(quantum_instance=backend) result = grover.amplify(problem)
+
+---CODE_BLOCK---
+
+grover = Grover(quantum_instance=backend) result = grover.amplify(problem)
+
+---CODE_BLOCK---
+
+Sampler
+
+---CODE_BLOCK---
+
+QuantumInstance
+
+---CODE_BLOCK---
+
+from qiskit.primitives import Sampler from qiskit.algorithms import Grover, AmplificationProblem from qiskit.circuit.library import PhaseOracle log_expr = '((A & B) | (B & C)) & ~ (B & D)' problem = AmplificationProblem(PhaseOracle(log_expr)) sampler = Sampler() grover = Grover(sampler=sampler) result = grover.amplify(problem)
+
+---CODE_BLOCK---
+
+from qiskit.primitives import Sampler from qiskit.algorithms import Grover, AmplificationProblem from qiskit.circuit.library import PhaseOracle log_expr = '((A & B) | (B & C)) & ~ (B & D)' problem = AmplificationProblem(PhaseOracle(log_expr)) sampler = Sampler() grover = Grover(sampler=sampler) result = grover.amplify(problem)

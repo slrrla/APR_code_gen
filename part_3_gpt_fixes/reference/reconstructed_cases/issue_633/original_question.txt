@@ -1,0 +1,155 @@
+Title:
+Initialization time for StatevectorSimulator Qiskit
+
+Category:
+
+
+Question:
+Title: Initialization time for StatevectorSimulator Qiskit
+
+I have a question about initializing a quantum circuit to a custom state using Qiskit's . My naive understanding is that eventually, the simulator would be doing matrix multiplications on the backend (I might be wrong here, if so please correct me). And thus it seems to me that there should be a way of setting a custom initial state with no extra time cost each time you run the circuit. Here is an example. The following code compares the run time of two circuits: has initialization to some custom state using , and which doesn't has such initialization. This gives the following output: My assumption is that, using , there should be a way to set up such that the initialization process takes virtually no extra time. This way would be just like saying, instead of using the '0' vector to start multiplying the gates to, use the cutom statevector. This way there should be no extra time cost, correct? Again I understand that this way of thinking only applies to .
+
+```
+StatevectorSimulator()
+```
+
+```
+qc_1
+```
+
+```
+qc_1.initialize(state_vec, q_args)
+```
+
+```
+qc_2
+```
+
+```
+import time from numpy import pi from numpy.random import random from qiskit import QuantumCircuit, transpile from qiskit.providers.aer import StatevectorSimulator qc = QuantumCircuit(16) # This for loop is irrelevant. Just used to get some nontrivial statevector for i in range(num_terms): rz_pos = (i//2) % 14 + 1 for j in range(rz_pos): qc.cx(j, j+1) qc.rz(pi*random(1)[0], rz_pos) for j in range(rz_pos)[::-1]: qc.cx(j, j+1) qc.h([*range(rz_pos)]) qc = transpile(qc) simulator = StatevectorSimulator() result = simulator.run(qc).result() state_vec = result.get_statevector() qc_1 = QuantumCircuit(16) qc_1.initialize(state_vec, [*range(16)]) # pylint: disable=no-member qc_2 = QuantumCircuit(16) start = time.time() for i in range(1000): result = simulator.run(qc_1).result() time_1 = time.time() - start print(f'time took to run circuit w initialization {1000} times: {round(time_1,3)}s') start = time.time() for i in range(1000): result = simulator.run(qc_2).result() time_2 = time.time() - start print(f'time took to run circuit w/o initialization {1000} times: {round(time_2,3)}s')
+```
+
+```
+import time from numpy import pi from numpy.random import random from qiskit import QuantumCircuit, transpile from qiskit.providers.aer import StatevectorSimulator qc = QuantumCircuit(16) # This for loop is irrelevant. Just used to get some nontrivial statevector for i in range(num_terms): rz_pos = (i//2) % 14 + 1 for j in range(rz_pos): qc.cx(j, j+1) qc.rz(pi*random(1)[0], rz_pos) for j in range(rz_pos)[::-1]: qc.cx(j, j+1) qc.h([*range(rz_pos)]) qc = transpile(qc) simulator = StatevectorSimulator() result = simulator.run(qc).result() state_vec = result.get_statevector() qc_1 = QuantumCircuit(16) qc_1.initialize(state_vec, [*range(16)]) # pylint: disable=no-member qc_2 = QuantumCircuit(16) start = time.time() for i in range(1000): result = simulator.run(qc_1).result() time_1 = time.time() - start print(f'time took to run circuit w initialization {1000} times: {round(time_1,3)}s') start = time.time() for i in range(1000): result = simulator.run(qc_2).result() time_2 = time.time() - start print(f'time took to run circuit w/o initialization {1000} times: {round(time_2,3)}s')
+```
+
+```
+time took to run circuit w initialization 1000 times: 5.93s time took to run circuit w/o initialization 1000 times: 0.62s
+```
+
+```
+time took to run circuit w initialization 1000 times: 5.93s time took to run circuit w/o initialization 1000 times: 0.62s
+```
+
+```
+StatevectorSimulator()
+```
+
+```
+qc_1
+```
+
+```
+StatevectorSimulator()
+```
+
+Original buggy code:
+StatevectorSimulator()
+
+---CODE_BLOCK---
+
+qc_1
+
+---CODE_BLOCK---
+
+qc_1.initialize(state_vec, q_args)
+
+---CODE_BLOCK---
+
+qc_2
+
+---CODE_BLOCK---
+
+import time from numpy import pi from numpy.random import random from qiskit import QuantumCircuit, transpile from qiskit.providers.aer import StatevectorSimulator qc = QuantumCircuit(16) # This for loop is irrelevant. Just used to get some nontrivial statevector for i in range(num_terms): rz_pos = (i//2) % 14 + 1 for j in range(rz_pos): qc.cx(j, j+1) qc.rz(pi*random(1)[0], rz_pos) for j in range(rz_pos)[::-1]: qc.cx(j, j+1) qc.h([*range(rz_pos)]) qc = transpile(qc) simulator = StatevectorSimulator() result = simulator.run(qc).result() state_vec = result.get_statevector() qc_1 = QuantumCircuit(16) qc_1.initialize(state_vec, [*range(16)]) # pylint: disable=no-member qc_2 = QuantumCircuit(16) start = time.time() for i in range(1000): result = simulator.run(qc_1).result() time_1 = time.time() - start print(f'time took to run circuit w initialization {1000} times: {round(time_1,3)}s') start = time.time() for i in range(1000): result = simulator.run(qc_2).result() time_2 = time.time() - start print(f'time took to run circuit w/o initialization {1000} times: {round(time_2,3)}s')
+
+---CODE_BLOCK---
+
+import time from numpy import pi from numpy.random import random from qiskit import QuantumCircuit, transpile from qiskit.providers.aer import StatevectorSimulator qc = QuantumCircuit(16) # This for loop is irrelevant. Just used to get some nontrivial statevector for i in range(num_terms): rz_pos = (i//2) % 14 + 1 for j in range(rz_pos): qc.cx(j, j+1) qc.rz(pi*random(1)[0], rz_pos) for j in range(rz_pos)[::-1]: qc.cx(j, j+1) qc.h([*range(rz_pos)]) qc = transpile(qc) simulator = StatevectorSimulator() result = simulator.run(qc).result() state_vec = result.get_statevector() qc_1 = QuantumCircuit(16) qc_1.initialize(state_vec, [*range(16)]) # pylint: disable=no-member qc_2 = QuantumCircuit(16) start = time.time() for i in range(1000): result = simulator.run(qc_1).result() time_1 = time.time() - start print(f'time took to run circuit w initialization {1000} times: {round(time_1,3)}s') start = time.time() for i in range(1000): result = simulator.run(qc_2).result() time_2 = time.time() - start print(f'time took to run circuit w/o initialization {1000} times: {round(time_2,3)}s')
+
+---CODE_BLOCK---
+
+time took to run circuit w initialization 1000 times: 5.93s time took to run circuit w/o initialization 1000 times: 0.62s
+
+---CODE_BLOCK---
+
+time took to run circuit w initialization 1000 times: 5.93s time took to run circuit w/o initialization 1000 times: 0.62s
+
+---CODE_BLOCK---
+
+StatevectorSimulator()
+
+---CODE_BLOCK---
+
+qc_1
+
+---CODE_BLOCK---
+
+StatevectorSimulator()
+
+Solution explanation:
+The method is exactly what you are searching for. Adding at the end of your code snippet illustrates how to use it. On my benchmarks, it is faster than but still way slower than : I suspect that copying the statevector is the costly part, but I have no data to backup my claim.
+
+```
+QuantumCircuit.set_statevector
+```
+
+```
+from qiskit.quantum_info import Statevector qc_3 = QuantumCircuit(16) qc_3.set_statevector(state_vec) start = time.time() for i in range(1000): result = simulator.run(qc_3).result() time_3 = time.time() - start print(f"time took to run circuit w set_statevector {1000} times: {round(time_3,3)}s")
+```
+
+```
+from qiskit.quantum_info import Statevector qc_3 = QuantumCircuit(16) qc_3.set_statevector(state_vec) start = time.time() for i in range(1000): result = simulator.run(qc_3).result() time_3 = time.time() - start print(f"time took to run circuit w set_statevector {1000} times: {round(time_3,3)}s")
+```
+
+```
+QuantumCircuit.initialize
+```
+
+```
+noop
+```
+
+```
+time took to run circuit w initialization 1000 times: 11.65s time took to run circuit w/o initialization 1000 times: 1.056s time took to run circuit w set_statevector 1000 times: 7.663s
+```
+
+```
+time took to run circuit w initialization 1000 times: 11.65s time took to run circuit w/o initialization 1000 times: 1.056s time took to run circuit w set_statevector 1000 times: 7.663s
+```
+
+Original fixed code:
+QuantumCircuit.set_statevector
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Statevector qc_3 = QuantumCircuit(16) qc_3.set_statevector(state_vec) start = time.time() for i in range(1000): result = simulator.run(qc_3).result() time_3 = time.time() - start print(f"time took to run circuit w set_statevector {1000} times: {round(time_3,3)}s")
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Statevector qc_3 = QuantumCircuit(16) qc_3.set_statevector(state_vec) start = time.time() for i in range(1000): result = simulator.run(qc_3).result() time_3 = time.time() - start print(f"time took to run circuit w set_statevector {1000} times: {round(time_3,3)}s")
+
+---CODE_BLOCK---
+
+QuantumCircuit.initialize
+
+---CODE_BLOCK---
+
+noop
+
+---CODE_BLOCK---
+
+time took to run circuit w initialization 1000 times: 11.65s time took to run circuit w/o initialization 1000 times: 1.056s time took to run circuit w set_statevector 1000 times: 7.663s
+
+---CODE_BLOCK---
+
+time took to run circuit w initialization 1000 times: 11.65s time took to run circuit w/o initialization 1000 times: 1.056s time took to run circuit w set_statevector 1000 times: 7.663s

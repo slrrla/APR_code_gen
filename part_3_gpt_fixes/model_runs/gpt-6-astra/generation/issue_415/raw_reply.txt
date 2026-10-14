@@ -1,0 +1,33 @@
+```python
+import math
+import cmath
+import numpy as np
+from qiskit import QuantumCircuit, execute, Aer
+
+ket_0 = np.array([1, 0])
+ket_1 = np.array([0, 1])
+
+arb_quantum_state = ((1+1.j)/math.sqrt(3))*ket_0 - (1.j/math.sqrt(3))*ket_1
+print(arb_quantum_state)
+
+# FIX: Complex amplitude produced a complex rotation -> use its magnitude, because theta must be a real Bloch-sphere angle.
+theta = 2*math.acos(abs(arb_quantum_state[0]))
+print('theta : ', theta)
+
+sinValue = cmath.sin(theta/2)
+print(sinValue)
+
+phase = -1*(1.j/cmath.sqrt(3))/sinValue
+# FIX: Complex logarithm omitted the first amplitude's phase -> compute the real relative phase, because U3 requires a real azimuthal angle.
+phi = cmath.phase(phase) - cmath.phase(arb_quantum_state[0])
+print('phi : ', phi)
+
+circ = QuantumCircuit(1, 1)
+# FIX: U3 alone makes the first amplitude real -> restore its global phase, because the requested statevector includes that phase.
+circ.global_phase = cmath.phase(arb_quantum_state[0])
+circ.u3(theta, phi, 0, 0)
+
+results = execute(circ, backend=Aer.get_backend('statevector_simulator')).result()
+quantum_state = results.get_statevector(circ, decimals=3)
+print(quantum_state)
+```

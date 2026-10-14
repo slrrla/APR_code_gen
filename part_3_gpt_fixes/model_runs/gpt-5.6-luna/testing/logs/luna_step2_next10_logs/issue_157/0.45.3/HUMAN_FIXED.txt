@@ -1,0 +1,24 @@
+﻿python.exe : C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_157\fixed.py:3: 
+PendingDeprecationWarning: The qiskit.extensions module is pending deprecation since Qiskit 0.45.0. It will be deprecated in a following release, no sooner than 3 
+months after the 0.45.0 release.
+At line:63 char:36
++                     $outputLines = & $python $testPath 2>&1
++                                    ~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\Mitali...0.45.0 release.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  from qiskit.extensions import UnitaryGate
+C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_157\fixed.py:10: PendingDeprecationWarning: The 
+method ``qiskit.circuit.quantumcircuit.QuantumCircuit.iso()`` is pending deprecation as of qiskit 0.45.0. It will be marked deprecated in a future release, and then 
+removed no earlier than 3 months after the release date. Instead, append a qiskit.circuit.library.Isometry to the circuit.
+  qc_iso.isometry(state, [0, 1], [])
+.C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_157\fixed.py:10: PendingDeprecationWarning: The 
+method ``qiskit.circuit.quantumcircuit.QuantumCircuit.iso()`` is pending deprecation as of qiskit 0.45.0. It will be marked deprecated in a future release, and then 
+removed no earlier than 3 months after the release date. Instead, append a qiskit.circuit.library.Isometry to the circuit.
+  qc_iso.isometry(state, [0, 1], [])
+.
+----------------------------------------------------------------------
+Ran 2 tests in 0.395s
+
+OK
+

@@ -1,0 +1,101 @@
+Title:
+How are the experiments ordered in a Qiskit Job?
+
+Category:
+Category:
+
+Qiskit Backend
+
+Question:
+Title: How are the experiments ordered in a Qiskit Job?
+
+Using the execute function, assuming the parameter is a , would each circuit execute on the device in the order specified by the list?
+
+```
+experiments
+```
+
+```
+list[QuantumCircuit]
+```
+
+Original buggy code:
+experiments
+
+---CODE_BLOCK---
+
+list[QuantumCircuit]
+
+Solution explanation:
+If the parameter is a , then the function will run the circuits using a parallel map, and append the results in the returned list in the order they finish. After the parallel run, you can sort the results list to match the ordering of the input circuits. For an example of how to do so, see https://quantumcomputing.stackexchange.com/a/23382/13991. Edit: Lists of jobs sent to actual IBMQ quantum devices are processed through the parallel map function as well, but appear to be submitted asynchronously. Tracking a run down through the stack, you'll find: ${\rightarrow}$ ${\rightarrow}$ ${\rightarrow}$ ManagedJob.submit invokes ThreadPoolExecutor.submit with callable _async_submit: It doesn't seem to be the case that the order in which circuits are executed necessarily matches the order in which they are specified. However, you should be able to find the mechanism that dicates execution / submission order by following the IBMQJobManager.run bread trail that I've started to layout above.
+
+```
+experiments
+```
+
+```
+list[QuantumCircuit]
+```
+
+```
+qiskit.execute_function
+```
+
+```
+IBMQJobManager.run
+```
+
+```
+ManagedJobSet.run
+```
+
+```
+ManagedJob.submit
+```
+
+```
+concurrent.futures.ThreadPoolExecutor.submit
+```
+
+```
+def _async_submit( self, circuits: Union[QuantumCircuit, Schedule, List[Union[QuantumCircuit, Schedule]]], job_name: str, backend: IBMQBackend, submit_lock: Lock, job_tags: Optional[List[str]] = None, **run_config: Dict ) -> None: """Run circuits asynchronously and populate instance attributes. Args: circuits: Circuits to run. job_name: Name of the job. backend: Backend to execute the experiments on. submit_lock: Lock used to synchronize job submission. job_tags: Tags to be assigned to the job. **run_config: Extra arguments used to configure the run. """
+```
+
+```
+def _async_submit( self, circuits: Union[QuantumCircuit, Schedule, List[Union[QuantumCircuit, Schedule]]], job_name: str, backend: IBMQBackend, submit_lock: Lock, job_tags: Optional[List[str]] = None, **run_config: Dict ) -> None: """Run circuits asynchronously and populate instance attributes. Args: circuits: Circuits to run. job_name: Name of the job. backend: Backend to execute the experiments on. submit_lock: Lock used to synchronize job submission. job_tags: Tags to be assigned to the job. **run_config: Extra arguments used to configure the run. """
+```
+
+Original fixed code:
+experiments
+
+---CODE_BLOCK---
+
+list[QuantumCircuit]
+
+---CODE_BLOCK---
+
+qiskit.execute_function
+
+---CODE_BLOCK---
+
+IBMQJobManager.run
+
+---CODE_BLOCK---
+
+ManagedJobSet.run
+
+---CODE_BLOCK---
+
+ManagedJob.submit
+
+---CODE_BLOCK---
+
+concurrent.futures.ThreadPoolExecutor.submit
+
+---CODE_BLOCK---
+
+def _async_submit( self, circuits: Union[QuantumCircuit, Schedule, List[Union[QuantumCircuit, Schedule]]], job_name: str, backend: IBMQBackend, submit_lock: Lock, job_tags: Optional[List[str]] = None, **run_config: Dict ) -> None: """Run circuits asynchronously and populate instance attributes. Args: circuits: Circuits to run. job_name: Name of the job. backend: Backend to execute the experiments on. submit_lock: Lock used to synchronize job submission. job_tags: Tags to be assigned to the job. **run_config: Extra arguments used to configure the run. """
+
+---CODE_BLOCK---
+
+def _async_submit( self, circuits: Union[QuantumCircuit, Schedule, List[Union[QuantumCircuit, Schedule]]], job_name: str, backend: IBMQBackend, submit_lock: Lock, job_tags: Optional[List[str]] = None, **run_config: Dict ) -> None: """Run circuits asynchronously and populate instance attributes. Args: circuits: Circuits to run. job_name: Name of the job. backend: Backend to execute the experiments on. submit_lock: Lock used to synchronize job submission. job_tags: Tags to be assigned to the job. **run_config: Extra arguments used to configure the run. """

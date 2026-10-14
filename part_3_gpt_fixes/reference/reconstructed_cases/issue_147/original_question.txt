@@ -1,0 +1,81 @@
+Title:
+Optimization using Quantum Logics
+
+Category:
+Category:
+General
+
+Why AI Wins in This Category:
+The AI-generated solution:
+
+Uses modern, actively supported Qiskit APIs
+
+Avoids deprecated Aqua modules
+
+Presents more maintainable and future-proof code
+
+Includes proper problem formulation, operator conversion, and solver integration
+
+With minor correction, it is superior in both code quality and long-term usability.
+
+Question:
+Title: Optimization using Quantum Logics
+
+Is it possible to solve the following kind of optimization using Quantum Computing? If yes, is it possible to have a sample code using ?
+
+```
+Minimize 5*x1 - 7*x2 binary x1 x2
+```
+
+```
+Minimize 5*x1 - 7*x2 binary x1 x2
+```
+
+```
+QISKit
+```
+
+Original buggy code:
+Minimize 5*x1 - 7*x2 binary x1 x2
+
+---CODE_BLOCK---
+
+Minimize 5*x1 - 7*x2 binary x1 x2
+
+---CODE_BLOCK---
+
+QISKit
+
+Solution explanation:
+Qiskit has an optimization module and you can find tutorials that illustrate its functionality here. To solve the example you posted, e.g., with the Quantum Approximate Optimization Algorithm (QAOA), you can do the following: which prints: Qiskit's optimization module also provides other quantum optimization algorithms for quadratic programs and you can find a more detailed description here.
+
+```
+from qiskit import Aer from qiskit.optimization import QuadraticProgram from qiskit.aqua.algorithms import QAOA from qiskit.optimization.algorithms import MinimumEigenOptimizer # construct optimization problem qp = QuadraticProgram() qp.binary_var('x1') qp.binary_var('x2') qp.minimize(linear=[5, -7]) # initialize optimizer qaoa_mes = QAOA(quantum_instance=Aer.get_backend('statevector_simulator')) qaoa = MinimumEigenOptimizer(qaoa_mes) # solve problem result = qaoa.solve(qp) print(result)
+```
+
+```
+from qiskit import Aer from qiskit.optimization import QuadraticProgram from qiskit.aqua.algorithms import QAOA from qiskit.optimization.algorithms import MinimumEigenOptimizer # construct optimization problem qp = QuadraticProgram() qp.binary_var('x1') qp.binary_var('x2') qp.minimize(linear=[5, -7]) # initialize optimizer qaoa_mes = QAOA(quantum_instance=Aer.get_backend('statevector_simulator')) qaoa = MinimumEigenOptimizer(qaoa_mes) # solve problem result = qaoa.solve(qp) print(result)
+```
+
+```
+optimal function value: -7.0 optimal value: [0. 1.] status: SUCCESS
+```
+
+```
+optimal function value: -7.0 optimal value: [0. 1.] status: SUCCESS
+```
+
+Original fixed code:
+from qiskit import Aer from qiskit.optimization import QuadraticProgram from qiskit.aqua.algorithms import QAOA from qiskit.optimization.algorithms import MinimumEigenOptimizer # construct optimization problem qp = QuadraticProgram() qp.binary_var('x1') qp.binary_var('x2') qp.minimize(linear=[5, -7]) # initialize optimizer qaoa_mes = QAOA(quantum_instance=Aer.get_backend('statevector_simulator')) qaoa = MinimumEigenOptimizer(qaoa_mes) # solve problem result = qaoa.solve(qp) print(result)
+
+---CODE_BLOCK---
+
+from qiskit import Aer from qiskit.optimization import QuadraticProgram from qiskit.aqua.algorithms import QAOA from qiskit.optimization.algorithms import MinimumEigenOptimizer # construct optimization problem qp = QuadraticProgram() qp.binary_var('x1') qp.binary_var('x2') qp.minimize(linear=[5, -7]) # initialize optimizer qaoa_mes = QAOA(quantum_instance=Aer.get_backend('statevector_simulator')) qaoa = MinimumEigenOptimizer(qaoa_mes) # solve problem result = qaoa.solve(qp) print(result)
+
+---CODE_BLOCK---
+
+optimal function value: -7.0 optimal value: [0. 1.] status: SUCCESS
+
+---CODE_BLOCK---
+
+optimal function value: -7.0 optimal value: [0. 1.] status: SUCCESS

@@ -1,0 +1,10 @@
+# FIX: The phase needed to negate a gate was unavailable -> import pi, because exp(i*pi) = -1.
+from math import pi
+from qiskit import QuantumCircuit
+
+qc = QuantumCircuit(2)
+qc.h([0, 1])
+
+gate1 = qc.h
+# FIX: Multiplying a circuit method by -1 is invalid -> add a pi global phase, because H ⊗ (-H) = -(H ⊗ H).
+qc.global_phase += pi

@@ -1,0 +1,97 @@
+Title:
+Why does composing a Clifford circuit to another circuit not work? (Qiskit)
+
+Category:
+Category: Import / Circuit Composition
+Why AI Performs Well in This Category:
+The AI clearly explains both ways to resolve the issue (inplace=True and reassignment).
+Uses structured reasoning and clean code to demonstrate the fix.
+Stack Overflow provides a shorter explanation but the same fix.
+his is a common beginner mistake in Qiskit, and the AI handles it very well by offering not just a fix but also the explanation of the default behavior of compose()
+Thus, AI performs equally well in this category.
+
+Question:
+Title: Why does composing a Clifford circuit to another circuit not work? (Qiskit)
+
+I need to use a random Clifford operator and add it to another circuit. However, the Clifford operator does not seem to be there after application of . An example code which illustrates the problem is: If I draw alone, it gives a nice example of a random Clifford gate. Thus, I guess the error lies in the application of , but how can I solve this? It does not throw an error, it just does not happen anything.
+
+```
+compose
+```
+
+```
+import qiskit as qk from qiskit.quantum_info import random_clifford from qiskit.quantum_info import Clifford qc = qk.QuantumCircuit(3) U = random_clifford(3,seed=123) U = Clifford.to_circuit(U) qc.compose(U,qubits=[0,1,2]) qc.draw("mpl")
+```
+
+```
+import qiskit as qk from qiskit.quantum_info import random_clifford from qiskit.quantum_info import Clifford qc = qk.QuantumCircuit(3) U = random_clifford(3,seed=123) U = Clifford.to_circuit(U) qc.compose(U,qubits=[0,1,2]) qc.draw("mpl")
+```
+
+```
+U
+```
+
+```
+compose
+```
+
+Original buggy code:
+compose
+
+---CODE_BLOCK---
+
+import qiskit as qk from qiskit.quantum_info import random_clifford from qiskit.quantum_info import Clifford qc = qk.QuantumCircuit(3) U = random_clifford(3,seed=123) U = Clifford.to_circuit(U) qc.compose(U,qubits=[0,1,2]) qc.draw("mpl")
+
+---CODE_BLOCK---
+
+import qiskit as qk from qiskit.quantum_info import random_clifford from qiskit.quantum_info import Clifford qc = qk.QuantumCircuit(3) U = random_clifford(3,seed=123) U = Clifford.to_circuit(U) qc.compose(U,qubits=[0,1,2]) qc.draw("mpl")
+
+---CODE_BLOCK---
+
+U
+
+---CODE_BLOCK---
+
+compose
+
+Solution explanation:
+By default, method returns the composed circuit and keep the original circuit unchanged. For in-place composition, you need to set parameter to :
+
+```
+compose()
+```
+
+```
+inplace
+```
+
+```
+True
+```
+
+```
+qc.compose(U,qubits=[0,1,2], inplace=True)
+```
+
+```
+qc.compose(U,qubits=[0,1,2], inplace=True)
+```
+
+Original fixed code:
+compose()
+
+---CODE_BLOCK---
+
+inplace
+
+---CODE_BLOCK---
+
+True
+
+---CODE_BLOCK---
+
+qc.compose(U,qubits=[0,1,2], inplace=True)
+
+---CODE_BLOCK---
+
+qc.compose(U,qubits=[0,1,2], inplace=True)

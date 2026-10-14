@@ -1,0 +1,14 @@
+```python
+# FIX: Statevector.from_label accepts one label, not a multi-target phase oracle -> import Diagonal, because it constructs a circuit with a phase for each basis state
+from qiskit.circuit.library import Diagonal
+from qiskit.circuit.library import GroverOperator
+
+targets = ['101', '110']
+
+# FIX: Passing a list to Statevector.from_label cannot mark multiple solutions -> assign -1 to each target's diagonal entry, because this flips only the requested basis-state phases
+oracle = Diagonal([-1 if format(i, f'0{len(targets[0])}b') in targets else 1 for i in range(2 ** len(targets[0]))])
+
+grover_op = GroverOperator(oracle)
+print(grover_op)
+
+```

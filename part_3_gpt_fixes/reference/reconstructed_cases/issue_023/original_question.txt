@@ -1,0 +1,39 @@
+Title:
+Qiskit RealAmplitudes changes bits ordering
+
+Category:
+Category:
+Version Compatibility / Deprecated API
+
+Why Stack Overflow Wins in This Category:
+For questions involving default behavior of circuit templates like RealAmplitudes, accuracy about the internal circuit structure is essential. The Stack Overflow answer rightly attributes state change to CX gates, while the AI makes a false assumption. In compatibility and circuit design topics, correct interpretation of built-in libraries outweighs extra runnable code if the code supports a flawed understanding.
+
+Question:
+Title: Qiskit RealAmplitudes changes bits ordering
+
+I use qiskit 1.1.2. The RealAmplitudes circuit should be the identity operator if all the parameters are set to zero. Is that right? Even for 3-qbit system, the Statevectors seem to change when evolved by this circuit. For example taking Statevector as a pure state corresponding to some binary string, I obtain a different pure state. The simplest example of this behaviour can be reconstructed using the following instructions: Why the states (present in probability distribution) are labeled differently? How can I fix it?
+
+```
+import numpy as np from qiskit.quantum_info import Statevector from qiskit_aer import AerSimulator from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit.circuit.library import RealAmplitudes noQBits = 3 linear_dim = 2**noQBits ansatz = RealAmplitudes(noQBits, reps=1, entanglement='full', insert_barriers=True) psiTime0 = [0]*(linear_dim) psiTime0[2] = 1 psiTime0 = Statevector(psiTime0,) aer_sim = AerSimulator() pm = generate_preset_pass_manager(backend=aer_sim, optimization_level=1) gateEvolver = ansatz.assign_parameters(np.zeros(ansatz.num_parameters)) psiTest0 = psiTime0.evolve(gateEvolver) prob0 = psiTime0.probabilities_dict() probTest0 = psiTest0.probabilities_dict() print(prob0) print(probTest0)
+```
+
+```
+import numpy as np from qiskit.quantum_info import Statevector from qiskit_aer import AerSimulator from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit.circuit.library import RealAmplitudes noQBits = 3 linear_dim = 2**noQBits ansatz = RealAmplitudes(noQBits, reps=1, entanglement='full', insert_barriers=True) psiTime0 = [0]*(linear_dim) psiTime0[2] = 1 psiTime0 = Statevector(psiTime0,) aer_sim = AerSimulator() pm = generate_preset_pass_manager(backend=aer_sim, optimization_level=1) gateEvolver = ansatz.assign_parameters(np.zeros(ansatz.num_parameters)) psiTest0 = psiTime0.evolve(gateEvolver) prob0 = psiTime0.probabilities_dict() probTest0 = psiTest0.probabilities_dict() print(prob0) print(probTest0)
+```
+
+Original buggy code:
+import numpy as np from qiskit.quantum_info import Statevector from qiskit_aer import AerSimulator from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit.circuit.library import RealAmplitudes noQBits = 3 linear_dim = 2**noQBits ansatz = RealAmplitudes(noQBits, reps=1, entanglement='full', insert_barriers=True) psiTime0 = [0]*(linear_dim) psiTime0[2] = 1 psiTime0 = Statevector(psiTime0,) aer_sim = AerSimulator() pm = generate_preset_pass_manager(backend=aer_sim, optimization_level=1) gateEvolver = ansatz.assign_parameters(np.zeros(ansatz.num_parameters)) psiTest0 = psiTime0.evolve(gateEvolver) prob0 = psiTime0.probabilities_dict() probTest0 = psiTest0.probabilities_dict() print(prob0) print(probTest0)
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit.quantum_info import Statevector from qiskit_aer import AerSimulator from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit.circuit.library import RealAmplitudes noQBits = 3 linear_dim = 2**noQBits ansatz = RealAmplitudes(noQBits, reps=1, entanglement='full', insert_barriers=True) psiTime0 = [0]*(linear_dim) psiTime0[2] = 1 psiTime0 = Statevector(psiTime0,) aer_sim = AerSimulator() pm = generate_preset_pass_manager(backend=aer_sim, optimization_level=1) gateEvolver = ansatz.assign_parameters(np.zeros(ansatz.num_parameters)) psiTest0 = psiTime0.evolve(gateEvolver) prob0 = psiTime0.probabilities_dict() probTest0 = psiTest0.probabilities_dict() print(prob0) print(probTest0)
+
+Solution explanation:
+is composed using a two-local circuit, which "consists of alternating layers of $Y$ rotations and $CX$ entanglements." So even with all rotations being $0$, the circuit is not the identity. This is how the circuit looks like for the code you have, so of course the $CX$ gates will change the state at the output:
+
+```
+RealAmplitudes
+```
+
+Original fixed code:
+RealAmplitudes

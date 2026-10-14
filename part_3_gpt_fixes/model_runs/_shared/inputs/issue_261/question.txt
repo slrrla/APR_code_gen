@@ -1,0 +1,19 @@
+Title: Qiskit: PauliOp from string
+
+I save my (lenghty) Hamiltonian in a file as a string. My naive attempt: But copy-pasting from the file into Jupyter notebook works (of course): Is there a way to initiate a PauliOp from a string?
+
+```
+hamiltonian_string = read_hamiltonian_from_file() # some function hamiltonian = PauliOp(hamiltonian_string) TypeError: PauliOp can only be instantiated with Paulis, not <class 'str'>
+```
+
+```
+hamiltonian_string = read_hamiltonian_from_file() # some function hamiltonian = PauliOp(hamiltonian_string) TypeError: PauliOp can only be instantiated with Paulis, not <class 'str'>
+```
+
+```
+hamiltonian = 1*(X^X^X) - 2*(X^Z^X) + 3*(X^I^X) print(type(hamiltonian)) <class 'qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp'>
+```
+
+```
+hamiltonian = 1*(X^X^X) - 2*(X^Z^X) + 3*(X^I^X) print(type(hamiltonian)) <class 'qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp'>
+```

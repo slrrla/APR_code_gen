@@ -1,0 +1,3 @@
+Title: How can I find the documented T1 time of a retired IBM system?
+
+I need to find the published mean T1 time for the 'ibm_oslo' system that I used in an experiment a while back. Unfortunately, that system has now been retired and there's seemingly no way for me to access the system properties window that I can access for all the active systems. I have tried to run on IBM Quantum Labs/Qiskit some code along the lines of: backend = provider.get_backend('ibm_oslo') system.properties().backend_version system.properties().last_update_date system.properties().qubits but to no avail. The error is something about this backend cannot be reached... Is there any way to access the system properties of a retired IBM system? Thanks :)

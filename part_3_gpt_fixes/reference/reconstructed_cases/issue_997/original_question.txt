@@ -1,0 +1,123 @@
+Title:
+How to flatten a QuantumCircuit object to a single QuantumRegister and ClassicalRegister form in Qiskit?
+
+Category:
+
+
+Question:
+Title: How to flatten a QuantumCircuit object to a single QuantumRegister and ClassicalRegister form in Qiskit?
+
+In Qiskit, I am looking for a convenient way to "strip-off" a object from its multiple and objects, such that in the final object there will be only 1 and 1 , without any loss of the circuit's qubits, bits or content. I haven't found any built-in option in Qiskit for this feature so far. However, when I look at a job page in IBM Quantum website I see a QASM code of the job's circuit exactly as I am looking for (with 1 qreg and 1 creg). So I infer there is a convenient way to implement this.
+
+```
+QuantumCircuit
+```
+
+```
+QuantumRegister
+```
+
+```
+ClassicalRegister
+```
+
+```
+QuantumCircuit
+```
+
+```
+QuantumRegister
+```
+
+```
+ClassicalRegister
+```
+
+Original buggy code:
+QuantumCircuit
+
+---CODE_BLOCK---
+
+QuantumRegister
+
+---CODE_BLOCK---
+
+ClassicalRegister
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+QuantumRegister
+
+---CODE_BLOCK---
+
+ClassicalRegister
+
+Solution explanation:
+The easiest way from the top of my head is to simply compose your multiregistered circuit to a flat one: Say you have this circuit: You can compose it to a flat one like this, resulting in a circuit like the one you are searching for:
+
+```
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister qreg1 = QuantumRegister(1, 'qreg1') qreg2 = QuantumRegister(1, 'qreg2') creg1 = ClassicalRegister(1, 'creg1') creg2 = ClassicalRegister(1, 'creg2') circuit = QuantumCircuit(qreg1, qreg2, creg1, creg2) circuit.h(qreg1) circuit.cx(qreg1, qreg2) circuit.measure(qreg1, creg1) circuit.measure(qreg2, creg2) circuit.draw()
+```
+
+```
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister qreg1 = QuantumRegister(1, 'qreg1') qreg2 = QuantumRegister(1, 'qreg2') creg1 = ClassicalRegister(1, 'creg1') creg2 = ClassicalRegister(1, 'creg2') circuit = QuantumCircuit(qreg1, qreg2, creg1, creg2) circuit.h(qreg1) circuit.cx(qreg1, qreg2) circuit.measure(qreg1, creg1) circuit.measure(qreg2, creg2) circuit.draw()
+```
+
+```
+┌───┐ ┌─┐ qreg1: ┤ H ├──■──┤M├─── └───┘┌─┴─┐└╥┘┌─┐ qreg2: ─────┤ X ├─╫─┤M├ └───┘ ║ └╥┘ creg1: 1/═══════════╩══╬═ 0 ║ creg2: 1/══════════════╩═ 0
+```
+
+```
+┌───┐ ┌─┐ qreg1: ┤ H ├──■──┤M├─── └───┘┌─┴─┐└╥┘┌─┐ qreg2: ─────┤ X ├─╫─┤M├ └───┘ ║ └╥┘ creg1: 1/═══════════╩══╬═ 0 ║ creg2: 1/══════════════╩═ 0
+```
+
+```
+flat_circuit = QuantumCircuit(circuit.num_qubits, circuit.num_clbits) flat_circuit.compose(circuit, inplace=True) flat_circuit.draw()
+```
+
+```
+flat_circuit = QuantumCircuit(circuit.num_qubits, circuit.num_clbits) flat_circuit.compose(circuit, inplace=True) flat_circuit.draw()
+```
+
+```
+┌───┐ ┌─┐ q_0: ┤ H ├──■──┤M├─── └───┘┌─┴─┐└╥┘┌─┐ q_1: ─────┤ X ├─╫─┤M├ └───┘ ║ └╥┘ c: 2/═══════════╩══╩═ 0 1
+```
+
+```
+┌───┐ ┌─┐ q_0: ┤ H ├──■──┤M├─── └───┘┌─┴─┐└╥┘┌─┐ q_1: ─────┤ X ├─╫─┤M├ └───┘ ║ └╥┘ c: 2/═══════════╩══╩═ 0 1
+```
+
+Original fixed code:
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister qreg1 = QuantumRegister(1, 'qreg1') qreg2 = QuantumRegister(1, 'qreg2') creg1 = ClassicalRegister(1, 'creg1') creg2 = ClassicalRegister(1, 'creg2') circuit = QuantumCircuit(qreg1, qreg2, creg1, creg2) circuit.h(qreg1) circuit.cx(qreg1, qreg2) circuit.measure(qreg1, creg1) circuit.measure(qreg2, creg2) circuit.draw()
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister qreg1 = QuantumRegister(1, 'qreg1') qreg2 = QuantumRegister(1, 'qreg2') creg1 = ClassicalRegister(1, 'creg1') creg2 = ClassicalRegister(1, 'creg2') circuit = QuantumCircuit(qreg1, qreg2, creg1, creg2) circuit.h(qreg1) circuit.cx(qreg1, qreg2) circuit.measure(qreg1, creg1) circuit.measure(qreg2, creg2) circuit.draw()
+
+---CODE_BLOCK---
+
+┌───┐ ┌─┐ qreg1: ┤ H ├──■──┤M├─── └───┘┌─┴─┐└╥┘┌─┐ qreg2: ─────┤ X ├─╫─┤M├ └───┘ ║ └╥┘ creg1: 1/═══════════╩══╬═ 0 ║ creg2: 1/══════════════╩═ 0
+
+---CODE_BLOCK---
+
+┌───┐ ┌─┐ qreg1: ┤ H ├──■──┤M├─── └───┘┌─┴─┐└╥┘┌─┐ qreg2: ─────┤ X ├─╫─┤M├ └───┘ ║ └╥┘ creg1: 1/═══════════╩══╬═ 0 ║ creg2: 1/══════════════╩═ 0
+
+---CODE_BLOCK---
+
+flat_circuit = QuantumCircuit(circuit.num_qubits, circuit.num_clbits) flat_circuit.compose(circuit, inplace=True) flat_circuit.draw()
+
+---CODE_BLOCK---
+
+flat_circuit = QuantumCircuit(circuit.num_qubits, circuit.num_clbits) flat_circuit.compose(circuit, inplace=True) flat_circuit.draw()
+
+---CODE_BLOCK---
+
+┌───┐ ┌─┐ q_0: ┤ H ├──■──┤M├─── └───┘┌─┴─┐└╥┘┌─┐ q_1: ─────┤ X ├─╫─┤M├ └───┘ ║ └╥┘ c: 2/═══════════╩══╩═ 0 1
+
+---CODE_BLOCK---
+
+┌───┐ ┌─┐ q_0: ┤ H ├──■──┤M├─── └───┘┌─┴─┐└╥┘┌─┐ q_1: ─────┤ X ├─╫─┤M├ └───┘ ║ └╥┘ c: 2/═══════════╩══╩═ 0 1

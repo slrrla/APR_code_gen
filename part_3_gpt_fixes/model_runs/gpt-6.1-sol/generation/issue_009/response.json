@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWW4LA2LG4wjkptJTqoxW42dUTtIH",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import QuantumCircuit, transpile\nfrom qiskit.providers.fake_provider import FakeVigo\n# FIX: CSPLayout is not a transpile layout method -> import the explicit pass and its supporting classes, because CSP must be run through a pass manager.\nfrom qiskit.transpiler import CouplingMap, PassManager\nfrom qiskit.transpiler.passes import CSPLayout\n\nqc = QuantumCircuit(3)\nqc.h(0)\nqc.cx(0, 1)\nqc.cx(1, 2)\nqc.measure_all()\n\nbackend = FakeVigo()\n\n# FIX: No CSP layout was computed -> run CSPLayout on the backend coupling map, because its resulting layout can be supplied to transpile.\npass_manager = PassManager(CSPLayout(CouplingMap(backend.configuration().coupling_map)))\npass_manager.run(qc)\n\ntranspiled = transpile(\n    qc,\n    backend=backend,\n    optimization_level=3,\n    # FIX: 'csp_layout' is an invalid layout method -> supply the computed CSP layout as initial_layout, because transpile accepts an explicit layout.\n    initial_layout=pass_manager.property_set['layout']\n)\n\nprint(transpiled)\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418477,
+  "model": "gpt-6.1-sol",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 503,
+    "prompt_tokens": 662,
+    "total_tokens": 1165,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 244,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

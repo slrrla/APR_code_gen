@@ -1,0 +1,59 @@
+Title:
+How can I resolve this get_count issue from running multiple circuits?
+
+Category:
+
+
+Question:
+Title: How can I resolve this get_count issue from running multiple circuits?
+
+I'm running a couple of circuits at the same time using an array of variables. However, I met an issue regarding accessing the counts. Here's part of the code I have: I'm not able to get the counts since the line is referenced before the definition in the last line. However, there will be similar issues pop up if I remove the bottom lines before the for loop. How can I resolve this issue? Thanks:)
+
+```
+probsu = [] circuits = [] for i in range(len(Variable)): circuit = QuantumCircuit(qrz,crz) circuit = qc(Variable[i]) circuits.append(circuit) prob = counts['1001'] / sum(counts.values()) **Issue here** probsu.append(prob) **Issue here** circuits = transpile(circuits, backend=backend) job_manager = IBMQJobManager() MyExperiments = job_manager. run(circuits, backend=backend, name='MyExperiment') results = MyExperiments.results() counts = results.get_counts(circuit)
+```
+
+```
+probsu = [] circuits = [] for i in range(len(Variable)): circuit = QuantumCircuit(qrz,crz) circuit = qc(Variable[i]) circuits.append(circuit) prob = counts['1001'] / sum(counts.values()) **Issue here** probsu.append(prob) **Issue here** circuits = transpile(circuits, backend=backend) job_manager = IBMQJobManager() MyExperiments = job_manager. run(circuits, backend=backend, name='MyExperiment') results = MyExperiments.results() counts = results.get_counts(circuit)
+```
+
+Original buggy code:
+probsu = [] circuits = [] for i in range(len(Variable)): circuit = QuantumCircuit(qrz,crz) circuit = qc(Variable[i]) circuits.append(circuit) prob = counts['1001'] / sum(counts.values()) **Issue here** probsu.append(prob) **Issue here** circuits = transpile(circuits, backend=backend) job_manager = IBMQJobManager() MyExperiments = job_manager. run(circuits, backend=backend, name='MyExperiment') results = MyExperiments.results() counts = results.get_counts(circuit)
+
+---CODE_BLOCK---
+
+probsu = [] circuits = [] for i in range(len(Variable)): circuit = QuantumCircuit(qrz,crz) circuit = qc(Variable[i]) circuits.append(circuit) prob = counts['1001'] / sum(counts.values()) **Issue here** probsu.append(prob) **Issue here** circuits = transpile(circuits, backend=backend) job_manager = IBMQJobManager() MyExperiments = job_manager. run(circuits, backend=backend, name='MyExperiment') results = MyExperiments.results() counts = results.get_counts(circuit)
+
+Solution explanation:
+You mean something like this? which generate the output: the output above corresponds to the probabilities of reading out $|11\rangle$ on each of the 5 circuits... You can modify this circuit to your purpose... as this is only an example.
+
+```
+%matplotlib inline # Importing standard Qiskit libraries from qiskit import QuantumCircuit, QuantumRegister, IBMQ, ClassicalRegister from qiskit.circuit import QuantumCircuit, ParameterVector from qiskit.compiler import transpile, assemble from qiskit.providers.ibmq.managed import IBMQJobManager from qiskit.visualization import * provider = IBMQ.load_account() backend = provider.get_backend('ibmq_qasm_simulator') def qc(Variable): var_form = QuantumCircuit(2,2) var_form.ry(Variable,0) var_form.cx(0,1) var_form.h(1) var_form.measure([0,1],[0,1]) return var_form Variables = [1,2,3,4,5] circuits = [] for i in range(len(Variables) ): circuit = QuantumCircuit(2,2) circuit = qc(Variables[i]) circuits.append( circuit ) circuits = transpile(circuits, backend=backend) job_manager = IBMQJobManager() MyExperiments = job_manager.run(circuits, backend=backend, shots =1000, name='MyExperiment') results = MyExperiments.results() probsu = [] for i in range(len(Variables) ): prob = results.get_counts(i)['11']/sum( results.get_counts(i).values() ) probsu.append(prob) print('probability of getting |11> at each circuit:', probsu)
+```
+
+```
+%matplotlib inline # Importing standard Qiskit libraries from qiskit import QuantumCircuit, QuantumRegister, IBMQ, ClassicalRegister from qiskit.circuit import QuantumCircuit, ParameterVector from qiskit.compiler import transpile, assemble from qiskit.providers.ibmq.managed import IBMQJobManager from qiskit.visualization import * provider = IBMQ.load_account() backend = provider.get_backend('ibmq_qasm_simulator') def qc(Variable): var_form = QuantumCircuit(2,2) var_form.ry(Variable,0) var_form.cx(0,1) var_form.h(1) var_form.measure([0,1],[0,1]) return var_form Variables = [1,2,3,4,5] circuits = [] for i in range(len(Variables) ): circuit = QuantumCircuit(2,2) circuit = qc(Variables[i]) circuits.append( circuit ) circuits = transpile(circuits, backend=backend) job_manager = IBMQJobManager() MyExperiments = job_manager.run(circuits, backend=backend, shots =1000, name='MyExperiment') results = MyExperiments.results() probsu = [] for i in range(len(Variables) ): prob = results.get_counts(i)['11']/sum( results.get_counts(i).values() ) probsu.append(prob) print('probability of getting |11> at each circuit:', probsu)
+```
+
+```
+probability of getting |11> at each circuit: [0.121, 0.33, 0.458, 0.417, 0.178]
+```
+
+```
+probability of getting |11> at each circuit: [0.121, 0.33, 0.458, 0.417, 0.178]
+```
+
+Original fixed code:
+%matplotlib inline # Importing standard Qiskit libraries from qiskit import QuantumCircuit, QuantumRegister, IBMQ, ClassicalRegister from qiskit.circuit import QuantumCircuit, ParameterVector from qiskit.compiler import transpile, assemble from qiskit.providers.ibmq.managed import IBMQJobManager from qiskit.visualization import * provider = IBMQ.load_account() backend = provider.get_backend('ibmq_qasm_simulator') def qc(Variable): var_form = QuantumCircuit(2,2) var_form.ry(Variable,0) var_form.cx(0,1) var_form.h(1) var_form.measure([0,1],[0,1]) return var_form Variables = [1,2,3,4,5] circuits = [] for i in range(len(Variables) ): circuit = QuantumCircuit(2,2) circuit = qc(Variables[i]) circuits.append( circuit ) circuits = transpile(circuits, backend=backend) job_manager = IBMQJobManager() MyExperiments = job_manager.run(circuits, backend=backend, shots =1000, name='MyExperiment') results = MyExperiments.results() probsu = [] for i in range(len(Variables) ): prob = results.get_counts(i)['11']/sum( results.get_counts(i).values() ) probsu.append(prob) print('probability of getting |11> at each circuit:', probsu)
+
+---CODE_BLOCK---
+
+%matplotlib inline # Importing standard Qiskit libraries from qiskit import QuantumCircuit, QuantumRegister, IBMQ, ClassicalRegister from qiskit.circuit import QuantumCircuit, ParameterVector from qiskit.compiler import transpile, assemble from qiskit.providers.ibmq.managed import IBMQJobManager from qiskit.visualization import * provider = IBMQ.load_account() backend = provider.get_backend('ibmq_qasm_simulator') def qc(Variable): var_form = QuantumCircuit(2,2) var_form.ry(Variable,0) var_form.cx(0,1) var_form.h(1) var_form.measure([0,1],[0,1]) return var_form Variables = [1,2,3,4,5] circuits = [] for i in range(len(Variables) ): circuit = QuantumCircuit(2,2) circuit = qc(Variables[i]) circuits.append( circuit ) circuits = transpile(circuits, backend=backend) job_manager = IBMQJobManager() MyExperiments = job_manager.run(circuits, backend=backend, shots =1000, name='MyExperiment') results = MyExperiments.results() probsu = [] for i in range(len(Variables) ): prob = results.get_counts(i)['11']/sum( results.get_counts(i).values() ) probsu.append(prob) print('probability of getting |11> at each circuit:', probsu)
+
+---CODE_BLOCK---
+
+probability of getting |11> at each circuit: [0.121, 0.33, 0.458, 0.417, 0.178]
+
+---CODE_BLOCK---
+
+probability of getting |11> at each circuit: [0.121, 0.33, 0.458, 0.417, 0.178]

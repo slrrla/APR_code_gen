@@ -1,0 +1,15 @@
+﻿python.exe : .
+At line:41 char:31
++                     $output = & $python $test 2>&1 | Out-String
++                               ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+----------------------------------------------------------------------
+Ran 1 test in 2.704s
+
+OK
+Operator([[ 0.70710678+0.00000000e+00j,  0.70710678-8.65956056e-17j],
+          [ 0.70710678+0.00000000e+00j, -0.70710678+8.65956056e-17j]],
+         input_dims=(2,), output_dims=(2,))
+

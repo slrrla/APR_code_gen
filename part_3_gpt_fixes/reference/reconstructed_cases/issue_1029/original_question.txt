@@ -1,0 +1,75 @@
+Title:
+Can I get a result with more detail from Result.get_statevector?
+
+Category:
+
+
+Question:
+Title: Can I get a result with more detail from Result.get_statevector?
+
+I'd like to get a statevector result through Result.get_statevector in Qiskit. However, since my circuit has too many qubits(13qubits) to represent the whole statevector results at a time, I'm searching how I can see the skipped results. For example, after such code I could see the result like, [ 0.0221-0.j 0.0221-0.j 0.0221-0.j ... -0. -0.j -0. -0.j 0. +0.j] Is there any way to see these omitted results or to handle 'qiskit_aer.backends.compatibility.Statevector' class?
+
+```
+circuit.save_statevector() job= execute(circuit, simulator) result = job.result() job_result = result.get_statevector(circuit)
+```
+
+```
+circuit.save_statevector() job= execute(circuit, simulator) result = job.result() job_result = result.get_statevector(circuit)
+```
+
+Original buggy code:
+circuit.save_statevector() job= execute(circuit, simulator) result = job.result() job_result = result.get_statevector(circuit)
+
+---CODE_BLOCK---
+
+circuit.save_statevector() job= execute(circuit, simulator) result = job.result() job_result = result.get_statevector(circuit)
+
+Solution explanation:
+If you really want to look at the numerical complex value of each single amplitude in the statevector, you can use something like the following: Note that you have to remove all the final measurements (if present) to create the object without errors. However, this is likely to crash because $2^{13} = 8192$ may be already too many complex numbers to be visualized properly. What you could do instead, is to fill an histogram by using the probabilities vector $p = \left( \left | \alpha_1 \right |^2, \left | \alpha_2 \right |^2,\dots, \left | \alpha_{2^n} \right |^2 \right)$, where $\alpha_i$ is the $i$-th amplitude in your $n$-qubits statevector. This histogram can be easily created in by the following code:
+
+```
+from qiskit.quantum_info import Statevector from qiskit.visualization import array_to_latex num_qubits = 13 qc = circuit.remove_final_measurements(inplace=False) array_to_latex(Statevector(qc), max_size=2**num_qubits)
+```
+
+```
+from qiskit.quantum_info import Statevector from qiskit.visualization import array_to_latex num_qubits = 13 qc = circuit.remove_final_measurements(inplace=False) array_to_latex(Statevector(qc), max_size=2**num_qubits)
+```
+
+```
+Statevector
+```
+
+```
+matplotlib
+```
+
+```
+import pylab as plt x = range(2**num_qubits) p = Statevector(qc).probabilities() plt.bar(x=x, height=p)
+```
+
+```
+import pylab as plt x = range(2**num_qubits) p = Statevector(qc).probabilities() plt.bar(x=x, height=p)
+```
+
+Original fixed code:
+from qiskit.quantum_info import Statevector from qiskit.visualization import array_to_latex num_qubits = 13 qc = circuit.remove_final_measurements(inplace=False) array_to_latex(Statevector(qc), max_size=2**num_qubits)
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Statevector from qiskit.visualization import array_to_latex num_qubits = 13 qc = circuit.remove_final_measurements(inplace=False) array_to_latex(Statevector(qc), max_size=2**num_qubits)
+
+---CODE_BLOCK---
+
+Statevector
+
+---CODE_BLOCK---
+
+matplotlib
+
+---CODE_BLOCK---
+
+import pylab as plt x = range(2**num_qubits) p = Statevector(qc).probabilities() plt.bar(x=x, height=p)
+
+---CODE_BLOCK---
+
+import pylab as plt x = range(2**num_qubits) p = Statevector(qc).probabilities() plt.bar(x=x, height=p)

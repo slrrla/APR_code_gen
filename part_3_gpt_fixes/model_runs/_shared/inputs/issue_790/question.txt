@@ -1,0 +1,19 @@
+Title: Applying Suzuki-Trotter approximation to a Quantum Circuit in Qiskit
+
+I am trying to apply the Suzuki-Trotter approximation to a quantum circuit in Qiskit. However, when I attempt to use the st.synthesize() method on my quantum circuit, I encounter the following error: Here is the relevant code part: I want to apply the Suzuki-Trotter approximation to my quantum circuit after adding the gates. How can I resolve the AttributeError and successfully apply the Suzuki-Trotter transformation to my circuit? Also if someone can explain does it matter to apply SuzukiTrotter transformation on each gate individually or on the whole circuit, it'd be quite helpful. Any insights or suggestions would be greatly appreciated! Thank you.
+
+```
+AttributeError: 'QuantumCircuit' object has no attribute 'operator'
+```
+
+```
+AttributeError: 'QuantumCircuit' object has no attribute 'operator'
+```
+
+```
+for j in range(0, N_qubit, 2): H = (U * Z^Z) - (J * X^X) - (J * Y^Y) pauli_ev_gate = PauliEvolutionGate(H, time=t) if j != N_qubit - 1: qc.append(pauli_ev_gate, [j, j+1]) for j in range(1, N_qubit, 2): H = (U * Z^Z) - (J * X^X) - (J * Y^Y) pauli_ev_gate = PauliEvolutionGate(H, time=t) if j != N_qubit - 1: qc.append(pauli_ev_gate, [j, j+1]) for j in range(N_qubit): pauli_ev_gate = PauliEvolutionGate(h[j]*Z, time=t) qc.append(pauli_ev_gate, [j]) st = SuzukiTrotter(order=2, reps=6) qc = st.synthesize(qc)
+```
+
+```
+for j in range(0, N_qubit, 2): H = (U * Z^Z) - (J * X^X) - (J * Y^Y) pauli_ev_gate = PauliEvolutionGate(H, time=t) if j != N_qubit - 1: qc.append(pauli_ev_gate, [j, j+1]) for j in range(1, N_qubit, 2): H = (U * Z^Z) - (J * X^X) - (J * Y^Y) pauli_ev_gate = PauliEvolutionGate(H, time=t) if j != N_qubit - 1: qc.append(pauli_ev_gate, [j, j+1]) for j in range(N_qubit): pauli_ev_gate = PauliEvolutionGate(h[j]*Z, time=t) qc.append(pauli_ev_gate, [j]) st = SuzukiTrotter(order=2, reps=6) qc = st.synthesize(qc)
+```

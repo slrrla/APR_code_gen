@@ -1,0 +1,11 @@
+from qiskit import QuantumCircuit
+# FIX: qc.h is a circuit method, not a gate object -> import HGate, because it exposes the Hadamard matrix.
+from qiskit.circuit.library import HGate
+
+qc = QuantumCircuit(2)
+qc.h([0, 1])
+
+# FIX: gate1 held a bound method -> create an HGate, because a gate matrix is needed to construct its negative.
+gate1 = HGate()
+# FIX: multiplying a method by -1 fails -> append the negated gate matrix to qubit 1, because -H is a valid unitary.
+qc.unitary(-gate1.to_matrix(), [1])

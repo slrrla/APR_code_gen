@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWITCxittts2s3Rh0lawBsNEOVse",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import QuantumCircuit\nfrom qiskit.quantum_info import DensityMatrix\n# FIX: Aqua's commutator requires legacy operators -> import MatrixOperator, because it provides the expected operator interface.\nfrom qiskit.aqua.operators.legacy import commutator, MatrixOperator\n\ncirc0 = QuantumCircuit(1)\ncirc1 = QuantumCircuit(1)\n\ncirc0.x(0)\ndm0 = DensityMatrix.from_instruction(circ0)\n\ncirc1.z(0)\ndm1 = DensityMatrix.from_instruction(circ1)\n\n# FIX: DensityMatrix inputs are incompatible with Aqua's commutator -> wrap their matrices in MatrixOperator, because legacy operators implement the required algebra.\ncommutator(MatrixOperator(matrix=dm0.data), MatrixOperator(matrix=dm1.data))\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419353,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 413,
+    "prompt_tokens": 945,
+    "total_tokens": 1358,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 240,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

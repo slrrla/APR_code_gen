@@ -1,0 +1,31 @@
+CASE=issue_985
+QISKIT=1.0.0
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\gpt-6.1-sol\generation\issue_985\fix_985.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_985\test.py
+
+F.
+======================================================================
+FAIL: test_no_go_determinant_and_explicit_missing_phase (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_985\test.py", line 37, in test_no_go_determinant_and_explicit_missing_phase
+    np.testing.assert_allclose(np.linalg.det(actual), 1, atol=1e-12)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_100\lib\site-packages\numpy\testing\_private\utils.py", line 1504, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_100\lib\contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_100\lib\site-packages\numpy\testing\_private\utils.py", line 797, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+Mismatched elements: 1 / 1 (100%)
+Max absolute difference: 0.49480792
+Max relative difference: 0.49480792
+ x: array(0.877583+0.479426j)
+ y: array(1)
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.739s
+
+FAILED (failures=1)

@@ -1,0 +1,127 @@
+Title:
+On number of parameters and operators in UCCSD in qiskit
+
+Category:
+Category:Version Compatibility / Advanced Circuit Import
+Why Stack Overflow Wins in This Category:
+Stack Overflow clearly explains quantum chemistry rules behind UCCSD excitation pruning, not just how the code behaves.
+It gives a better educational perspective on why fewer parameters exist, helping the user understand how Qiskit optimizes ansatz construction.
+The AI's explanation is practically helpful but lacks the physical context, which is critical in quantum chemistry applications.
+
+Question:
+Title: On number of parameters and operators in UCCSD in qiskit
+
+I have two questions on UCCSD in qiskit, please see the code below. The outputs are (without the plot of the circuit) My questions are 1. Why there are only 3 free parameters in UCCSD? Since I have 4 spin-orbs, I should expect there are at least 4^4 free parameters from the double excitation operators? 2. Is there a way to see which operators are involved in UCCSD? I plot out the circuit, but there are “Evolution^1” block involved. If I use “decompose().“, it shows all the 1 and 2 qubit operations? Would it be possible to show something in between, by which I mean for example adding barrier for the decomposed circuit, or showing which fermionic excitation operators are involved? Many thanks!
+
+```
+import numpy as np from qiskit.chemistry.components.variational_forms import UCCSD from qiskit.chemistry.drivers import PySCFDriver, UnitsType from qiskit.chemistry import FermionicOperator from qiskit.aqua import QuantumInstance def get_qubit_op( atom , basis , map_type ): driver = PySCFDriver(atom=atom, unit=UnitsType.ANGSTROM, charge=0, spin=0, basis=basis) molecule = driver.run() repulsion_energy = molecule.nuclear_repulsion_energy num_particles = molecule.num_alpha + molecule.num_beta num_spin_orbitals = molecule.num_orbitals * 2 ferOp = FermionicOperator(h1=molecule.one_body_integrals, h2=molecule.two_body_integrals) qubitOp = ferOp.mapping(map_type=map_type, threshold=0.00000001) # qubitOp = Z2Symmetries.two_qubit_reduction(qubitOp, num_particles) shift = repulsion_energy return qubitOp, num_particles, num_spin_orbitals, shift atom='H .0 .0 .0; H .0 .0 0.74' qubitOp, num_particles, num_spin_orbitals, shift = get_qubit_op( atom , basis = 'sto3g' , map_type = 'parity' ) num_qubits = qubitOp.num_qubits print( 'num_qubits = ' , num_qubits ) from qiskit.chemistry.components.initial_states import HartreeFock init_state = HartreeFock( num_spin_orbitals , num_particles , 'parity' , two_qubit_reduction=False ) # setup the variational form for VQE from qiskit.chemistry.components.variational_forms import UCCSD var_form_vqe = UCCSD( num_orbitals=num_spin_orbitals, num_particles=num_particles, initial_state=init_state, qubit_mapping='parity' , two_qubit_reduction = False ) print( 'var_form_vqe.num_parameters = ' , var_form_vqe.num_parameters ) var_form_vqe.construct_circuit([1,1,1]).draw() # Give some random para
+```
+
+```
+import numpy as np from qiskit.chemistry.components.variational_forms import UCCSD from qiskit.chemistry.drivers import PySCFDriver, UnitsType from qiskit.chemistry import FermionicOperator from qiskit.aqua import QuantumInstance def get_qubit_op( atom , basis , map_type ): driver = PySCFDriver(atom=atom, unit=UnitsType.ANGSTROM, charge=0, spin=0, basis=basis) molecule = driver.run() repulsion_energy = molecule.nuclear_repulsion_energy num_particles = molecule.num_alpha + molecule.num_beta num_spin_orbitals = molecule.num_orbitals * 2 ferOp = FermionicOperator(h1=molecule.one_body_integrals, h2=molecule.two_body_integrals) qubitOp = ferOp.mapping(map_type=map_type, threshold=0.00000001) # qubitOp = Z2Symmetries.two_qubit_reduction(qubitOp, num_particles) shift = repulsion_energy return qubitOp, num_particles, num_spin_orbitals, shift atom='H .0 .0 .0; H .0 .0 0.74' qubitOp, num_particles, num_spin_orbitals, shift = get_qubit_op( atom , basis = 'sto3g' , map_type = 'parity' ) num_qubits = qubitOp.num_qubits print( 'num_qubits = ' , num_qubits ) from qiskit.chemistry.components.initial_states import HartreeFock init_state = HartreeFock( num_spin_orbitals , num_particles , 'parity' , two_qubit_reduction=False ) # setup the variational form for VQE from qiskit.chemistry.components.variational_forms import UCCSD var_form_vqe = UCCSD( num_orbitals=num_spin_orbitals, num_particles=num_particles, initial_state=init_state, qubit_mapping='parity' , two_qubit_reduction = False ) print( 'var_form_vqe.num_parameters = ' , var_form_vqe.num_parameters ) var_form_vqe.construct_circuit([1,1,1]).draw() # Give some random para
+```
+
+```
+num_qubits = 4 var_form_vqe.num_parameters = 3
+```
+
+```
+num_qubits = 4 var_form_vqe.num_parameters = 3
+```
+
+Original buggy code:
+import numpy as np from qiskit.chemistry.components.variational_forms import UCCSD from qiskit.chemistry.drivers import PySCFDriver, UnitsType from qiskit.chemistry import FermionicOperator from qiskit.aqua import QuantumInstance def get_qubit_op( atom , basis , map_type ): driver = PySCFDriver(atom=atom, unit=UnitsType.ANGSTROM, charge=0, spin=0, basis=basis) molecule = driver.run() repulsion_energy = molecule.nuclear_repulsion_energy num_particles = molecule.num_alpha + molecule.num_beta num_spin_orbitals = molecule.num_orbitals * 2 ferOp = FermionicOperator(h1=molecule.one_body_integrals, h2=molecule.two_body_integrals) qubitOp = ferOp.mapping(map_type=map_type, threshold=0.00000001) # qubitOp = Z2Symmetries.two_qubit_reduction(qubitOp, num_particles) shift = repulsion_energy return qubitOp, num_particles, num_spin_orbitals, shift atom='H .0 .0 .0; H .0 .0 0.74' qubitOp, num_particles, num_spin_orbitals, shift = get_qubit_op( atom , basis = 'sto3g' , map_type = 'parity' ) num_qubits = qubitOp.num_qubits print( 'num_qubits = ' , num_qubits ) from qiskit.chemistry.components.initial_states import HartreeFock init_state = HartreeFock( num_spin_orbitals , num_particles , 'parity' , two_qubit_reduction=False ) # setup the variational form for VQE from qiskit.chemistry.components.variational_forms import UCCSD var_form_vqe = UCCSD( num_orbitals=num_spin_orbitals, num_particles=num_particles, initial_state=init_state, qubit_mapping='parity' , two_qubit_reduction = False ) print( 'var_form_vqe.num_parameters = ' , var_form_vqe.num_parameters ) var_form_vqe.construct_circuit([1,1,1]).draw() # Give some random para
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit.chemistry.components.variational_forms import UCCSD from qiskit.chemistry.drivers import PySCFDriver, UnitsType from qiskit.chemistry import FermionicOperator from qiskit.aqua import QuantumInstance def get_qubit_op( atom , basis , map_type ): driver = PySCFDriver(atom=atom, unit=UnitsType.ANGSTROM, charge=0, spin=0, basis=basis) molecule = driver.run() repulsion_energy = molecule.nuclear_repulsion_energy num_particles = molecule.num_alpha + molecule.num_beta num_spin_orbitals = molecule.num_orbitals * 2 ferOp = FermionicOperator(h1=molecule.one_body_integrals, h2=molecule.two_body_integrals) qubitOp = ferOp.mapping(map_type=map_type, threshold=0.00000001) # qubitOp = Z2Symmetries.two_qubit_reduction(qubitOp, num_particles) shift = repulsion_energy return qubitOp, num_particles, num_spin_orbitals, shift atom='H .0 .0 .0; H .0 .0 0.74' qubitOp, num_particles, num_spin_orbitals, shift = get_qubit_op( atom , basis = 'sto3g' , map_type = 'parity' ) num_qubits = qubitOp.num_qubits print( 'num_qubits = ' , num_qubits ) from qiskit.chemistry.components.initial_states import HartreeFock init_state = HartreeFock( num_spin_orbitals , num_particles , 'parity' , two_qubit_reduction=False ) # setup the variational form for VQE from qiskit.chemistry.components.variational_forms import UCCSD var_form_vqe = UCCSD( num_orbitals=num_spin_orbitals, num_particles=num_particles, initial_state=init_state, qubit_mapping='parity' , two_qubit_reduction = False ) print( 'var_form_vqe.num_parameters = ' , var_form_vqe.num_parameters ) var_form_vqe.construct_circuit([1,1,1]).draw() # Give some random para
+
+---CODE_BLOCK---
+
+num_qubits = 4 var_form_vqe.num_parameters = 3
+
+---CODE_BLOCK---
+
+num_qubits = 4 var_form_vqe.num_parameters = 3
+
+Solution explanation:
+Since UCCSD is a particle- and spin-conserving variational form, the number of parameters does not only depend on the number of spin orbitals but also their "nature". What I mean by that is that you also need to consider these conservation rules which leads to the following scenario in your case: H2 has 2 electrons in 2 molecular orbitals, which correspond to 4 spin orbitals (and, thus, 4 qubits since you do not apply any reductions, here). Taking into account the spin-conservation you have the following possible single excitations: where I use Qiskit's notation in which spin orbitals are ordered block-wise (i.e. first all alpha orbitals, then all beta ones). If the spin was not conserved, then you would also see excitations such as and . The double excitations are a little bit simpler in this case because there is only one possibility regardless: However, if the example was more complex, the same reasoning would apply here, too. Regarding your second question: if you would like to see the excitation lists as I have written them above you can take a look at the and attributes of the class. I am not aware of any "partial" functionality which could otherwise provide that you describe above.
+
+```
+0 -> 1 2 -> 3
+```
+
+```
+0 -> 1 2 -> 3
+```
+
+```
+0 -> 3
+```
+
+```
+1 -> 2
+```
+
+```
+0, 1 -> 2, 3
+```
+
+```
+0, 1 -> 2, 3
+```
+
+```
+single_excitations
+```
+
+```
+double_excitations
+```
+
+```
+UCCSD
+```
+
+```
+decompose()
+```
+
+Original fixed code:
+0 -> 1 2 -> 3
+
+---CODE_BLOCK---
+
+0 -> 1 2 -> 3
+
+---CODE_BLOCK---
+
+0 -> 3
+
+---CODE_BLOCK---
+
+1 -> 2
+
+---CODE_BLOCK---
+
+0, 1 -> 2, 3
+
+---CODE_BLOCK---
+
+0, 1 -> 2, 3
+
+---CODE_BLOCK---
+
+single_excitations
+
+---CODE_BLOCK---
+
+double_excitations
+
+---CODE_BLOCK---
+
+UCCSD
+
+---CODE_BLOCK---
+
+decompose()

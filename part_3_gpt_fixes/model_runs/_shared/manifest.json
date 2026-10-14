@@ -1,0 +1,2211 @@
+{
+  "models": [
+    "gpt-5.6-luna",
+    "gpt-6-luna",
+    "gpt-6.1-sol",
+    "gpt-6-astra",
+    "gpt-6-sol"
+  ],
+  "new_models": [
+    "gpt-6-luna",
+    "gpt-6.1-sol",
+    "gpt-6-astra",
+    "gpt-6-sol"
+  ],
+  "reasoning_effort": "medium",
+  "endpoint": "chat.completions.create",
+  "source_workbook": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\73_cases_5.6_luna_fixes_pass_error_fail.xlsx",
+  "source_valid_workbook": "C:\\Users\\Mitali Hukkeri\\Downloads\\Valid_Cases_104 (2).xlsx",
+  "cases": [
+    {
+      "case": "issue_009",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 6,
+      "valid_label": 9.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_009",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "db47ba1b965117c86f3f7096abe90550a364e1c658689b900bb9cff34b3039a0",
+        "question.txt": "bf0988c0839459142ae5efbbf0774aed44757279e2e54a122ce845a9afcf91be",
+        "messages.json": "fd83b75cf504093eba34131bbdce07765e49f654322863f491a9c43e9637cdc4"
+      }
+    },
+    {
+      "case": "issue_018_se",
+      "versions": [
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 7,
+      "valid_label": 18.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_018_se",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "23dea63c66e4f3da49acc277239d4e9f24e13b003b259d81dc6c554f66d674f6",
+        "question.txt": "3d827ac40a2c760be6c5cd878b2e3d1b8ba69af6a36e460976073893a8401edc",
+        "messages.json": "37e45bd73c313078ca0274c63fa6f2dca8976ef3bf5360058dcbb2fb23998361"
+      }
+    },
+    {
+      "case": "issue_021_se",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 8,
+      "valid_label": 21.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_021_se",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "5ee4bd183705aa6a70e3064ba00865cb3f6bcc5b62d4a46226ad34bab1172602",
+        "question.txt": "f7d858dba472c2b0ddd3956a1b8b0f673a409601f2dd3bd79c289d9eb5f7f416",
+        "messages.json": "0356f7749298af9c2b07072f862ae12bc722f68d78c4bfdefc42e689cfa3bec4"
+      }
+    },
+    {
+      "case": "issue_032_se",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3"
+      ],
+      "valid_row": 10,
+      "valid_label": 32.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_032_se",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "b75e4982a45ec7ee394336d236a2ad134bfc7c071300755c63b753b703c106f2",
+        "question.txt": "5cb07d9f0238de1104787d654def35b387998745b67a5387b17ec0a179b62b24",
+        "messages.json": "2e6b4ecb3abd7566abbcc04da173276fff7a54b0183cb377f6c0367d0418b7e6"
+      }
+    },
+    {
+      "case": "issue_034",
+      "versions": [
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 11,
+      "valid_label": 34.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_034",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "a7e8439e4f0e765696b07311729d8fd6878a707aef68b80786888ab2217002b0",
+        "question.txt": "c16737a46db86a1956e0a6ba408de2db2fb300b8da1e941d9d6859bf310b007f",
+        "messages.json": "85a7f8950aa234cb4c7dc92992e76d36bccdd3337cd6d95e9f71dcbcf78ff6e3"
+      }
+    },
+    {
+      "case": "issue_036",
+      "versions": [
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 12,
+      "valid_label": 36.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_036",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "fbffbcbe4d5005cef6cafa5f4319395df03c5820d50aeaaa4f603e1ac04d369a",
+        "question.txt": "a5407528b891016939a532c786c77b540dc89df3ab344d5bdffafbbc7dbedbaf",
+        "messages.json": "5cbc95b3bab872c9bad69343eb3565cb8c5903e028a2525e8892d8bf070044d4"
+      }
+    },
+    {
+      "case": "issue_058_se",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 13,
+      "valid_label": 58.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_058_se",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "5ebdeb14e0cc24ed4d2f4c7fd4b6a1950730f718555697a44e1facbfc581da63",
+        "question.txt": "4b21247c28436e9413e74811507b563e1f456f66b983e2bd596b618614720427",
+        "messages.json": "9070b99a89a14eeef843f6f203aaa9cde50d71a1823ce15fd2ffd54a87fc60a9"
+      }
+    },
+    {
+      "case": "issue_061",
+      "versions": [
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 14,
+      "valid_label": 61.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_061",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "2f55b2a9fdac54e36366004ccee054f33896f20867691ba1eeb14912656cab12",
+        "question.txt": "073ab0b7ec2025848bc374f431677c4545fda8c7866ed9d35dcb0988a25ed132",
+        "messages.json": "6a98d41844b8538e62699754dfec8b30a90c1b6e2d68cb1a7467d0be74c57d15"
+      }
+    },
+    {
+      "case": "issue_072",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3"
+      ],
+      "valid_row": 17,
+      "valid_label": 72.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_072",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "8f1fcf2a71e65e37a9af477f6b86bf6fbb55998d97136f4b19c560bdecc59818",
+        "question.txt": "96ae0cf9d29d7f10bd4112b6b4ef3af900b2da6eadc866171baa04d8cc8ec346",
+        "messages.json": "a7972737d52c779235b3820e7bccf7a27ffced0998c5ea9f8878c9dc60953899"
+      }
+    },
+    {
+      "case": "issue_096",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 18,
+      "valid_label": 96.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_096",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "08ee3c23690b2ecf61df63f7b62a59c9818f0ca0c3580110a03a61d6d4a6ef84",
+        "question.txt": "fe8e991e880c1c1d438ceff8b5f07476c1080e83390b551f484cc43d07e22e04",
+        "messages.json": "78c05a00f78fd8c2eef50648eb72015e4638bb68a3598cd56396da3cfa4a85dc"
+      }
+    },
+    {
+      "case": "issue_155",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 26,
+      "valid_label": 155.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_155",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "ac5658c6ecdc172d2993fb0aab7a959e6f71899f0dfcdbca3cc5f46ef1dfece8",
+        "question.txt": "c4c9e8697949ee770522700f2858cd26899b419706a9dddfde482b947341a848",
+        "messages.json": "a59b4a3ea792329c75e44a5cf6327ada4d5db27edc66641f2eb687190d1d5256"
+      }
+    },
+    {
+      "case": "issue_157",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 27,
+      "valid_label": 157.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_157",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "3ce820e3c310f179c26435057af7d4cac8f72879676842015f66237b363d6141",
+        "question.txt": "ce300421369a490cd19482b6964d8bf003429167a3c7a9bc1a6d20abcf8b3ae9",
+        "messages.json": "ea6fb81a1928d074c126a18fe70c3dd10f92f024a006e394680ad3ddc8cf6f53"
+      }
+    },
+    {
+      "case": "issue_174",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 29,
+      "valid_label": 174.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_174",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "e5dd4888d88c1144b224402aed425320fbc374e397f6a3576956509ad88ab854",
+        "question.txt": "c726fd26105759a5d14eee273f92b2ace70df6fa49c563365f03256d7a68e0f8",
+        "messages.json": "1e5d0fdb72d5cf96a815c55d57237ba941045a62527c41f748ffae0330cfb97c"
+      }
+    },
+    {
+      "case": "issue_189",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 31,
+      "valid_label": 189.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_189",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "e065b340aea3781749d354e7a2a943728f2bb1c85cec81cfc152babb3a221c04",
+        "question.txt": "69a8264e91736a6cd844dd7b8dd6c3459525048838b05543d5f04fba1c3e98ee",
+        "messages.json": "f7b7341184eb501045b1ce109bd3b7df15431e3be6a08e8b328db614a94ce072"
+      }
+    },
+    {
+      "case": "issue_225",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 32,
+      "valid_label": 225.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_225",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "af8d0f27cf93864174f877cd45a3181a6cf08d62c25b2ee8a8e9699e26cb389f",
+        "question.txt": "4c20be92fa400132f195ef1860a031e92a8539653b96bdabebdc7c5f580ad356",
+        "messages.json": "f4106af782d5cc82d66dcd9162dd61e0568240648676d8c5ec2bc4c8fb718ff8"
+      }
+    },
+    {
+      "case": "issue_233",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 34,
+      "valid_label": 233.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_233",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "93b184867eda756c1517737fc10309f6ffa05e200aaca4e6fdbe0adec667f433",
+        "question.txt": "bd5142152cf9ad1e1577a5ba4fdb6abb610f53dbcfd0ec667fcf0098c26f0dd1",
+        "messages.json": "fdb02deafe022ade6f2df07f0f56576000585b73d24c3cada84ae86a9647350d"
+      }
+    },
+    {
+      "case": "issue_261",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 36,
+      "valid_label": 261.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_261",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "6c3d684c764c84366644498a6f9ffe49e406e4fd340dec77f4fc83919ed15b1e",
+        "question.txt": "45ad905e01242d60679965d9edd7885cafd7fbe22a3330bc30c05b95a0733872",
+        "messages.json": "86e70591562f4e6411f972d5032d9beac9db5a1d343691e30d991c6041695ee5"
+      }
+    },
+    {
+      "case": "issue_280",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 37,
+      "valid_label": 280.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_280",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "5cce2d9096780bf0316fbf7c2bbb2930abc0836f35bf1d442fe46b7dc1f81988",
+        "question.txt": "197b83a82793331018a7580ca21ac10062e9f2b3d235b70b59b8fa533e30967c",
+        "messages.json": "eb6714094ce7e83a84919eea07bdc71a8ca2dee8f18a73d464b70b0c78588121"
+      }
+    },
+    {
+      "case": "issue_295",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 38,
+      "valid_label": 295.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_295",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "91c7abccc11b1b3f6ae6217ebb4a305bd18a96bee4d7e5a62276f05f50f7e979",
+        "question.txt": "91e79f50d3f27f3936a8898499fd2c96323cd029471ac62f2c54b8a981cbb4a8",
+        "messages.json": "bca688e6e0150dfd63e2e59cd9c017efc02e0cf13651d3b37dab35257bc7ea3c"
+      }
+    },
+    {
+      "case": "issue_315",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 42,
+      "valid_label": 315.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_315",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "2525185d5d2fe2cfa53631ec0a12feeb055d0e394c059a5fab93eca5f6016fe5",
+        "question.txt": "0af3f5ff311bb01a6d6449c36d99a11ee1e51d8281fc2c56eb495f799634452b",
+        "messages.json": "ae60cdc0344c61fcef4a5cf3be66acf4e291ea5a10a9859f7d663037c204cd08"
+      }
+    },
+    {
+      "case": "issue_344",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 44,
+      "valid_label": 344.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_344",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "8a538b70afb194ce644200308569ac690e0df701da747fbdf4ed7832f31a2510",
+        "question.txt": "68ba82e0c612099d018340cfc3bbd766c4e57494ae53290f6f67307986ccb097",
+        "messages.json": "bb5be8d24a7179a499bb204ff4366bddb2323f048f228e168e1322bf859dcf32"
+      }
+    },
+    {
+      "case": "issue_362",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 45,
+      "valid_label": 362.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_362",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "4d002205cc1b74a12de89b0693c652a91424ab9f0cf5754adbcee8d8c13a85d7",
+        "question.txt": "39be2d0fc2805da79d00b41ee8d7ded01e2bc6bea03069e68797fc3f3229878a",
+        "messages.json": "23ef17b8418cbdcff7fac00913f2f9a88bd99db8f583f378914a24b916da2248"
+      }
+    },
+    {
+      "case": "issue_369",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 46,
+      "valid_label": 369.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_369",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "03212340643d30e4f2d76c28be3f4f783c48972e59e4b7c96c5c2a0667fd11a2",
+        "question.txt": "ffd7ff32d69421a29c1abdd0e09b23fd0a7ada54e0e429c1db4754091040f4f2",
+        "messages.json": "ed92f0e24426fec2160eca7962018663fb9a2b10afe6f030bb5a5e601747995e"
+      }
+    },
+    {
+      "case": "issue_396",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 47,
+      "valid_label": 396.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_396",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "a0c4f2e4d52c2d444b5fd7c88013b80849c3d43eec1123eb0cd74cbc9ec2adfc",
+        "question.txt": "ec513ae0787dfdcabb9383569e8f048b5059cbb56196e0e3791313c84ec308c1",
+        "messages.json": "910d9956748e03c428d4bdc3071e5dddf81fbc364634c7d9cfa2f392131bbdb2"
+      }
+    },
+    {
+      "case": "issue_415",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3"
+      ],
+      "valid_row": 48,
+      "valid_label": 415.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_415",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "88c290d303ca598c3afba6df6def174ce0a237e8e4dc6e133042a3e04ef191a5",
+        "question.txt": "b25e43d7a1788043483639914d45da8cf973e9b06d936e0e96a94e579d95f6ba",
+        "messages.json": "ba520d4dfa43a7f975b0687a0306d49fb9b5a36b5f6bbe3df2be25c6b57a1906"
+      }
+    },
+    {
+      "case": "issue_436",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3"
+      ],
+      "valid_row": 49,
+      "valid_label": 436.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_436",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "6b75ba7fa35fa549e27e61a5fe6c66d244420789564904deea98f02b6d234b87",
+        "question.txt": "b3d41065f5212c387e0da1e6e0b2ca127ae1135a638157f9a4be5e19509548c8",
+        "messages.json": "b879066a4eac884dac07dd30dcb70721f3b848d0a66082629d78429c3a0f80f6"
+      }
+    },
+    {
+      "case": "issue_443",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 50,
+      "valid_label": 443.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_443",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "7c3479e1fcebf9b7de0752c1867ee469678a45460601e783e93926a1adf32626",
+        "question.txt": "45097d337cc56504e7230bce48c22ed1c302eedae56016f0cdd771f988ebcda6",
+        "messages.json": "84e05ef9a1607835ee2dfd50a607e05fba3e090277a5e0926f0be43bb9e43534"
+      }
+    },
+    {
+      "case": "issue_453",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 51,
+      "valid_label": 453.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_453",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "df3c609ee9c21a53ef14f4ad8e1aaa8b96876ffdbaee2faf39b16d3b69c52eec",
+        "question.txt": "cf3dc30e7137f2f61f5be9b248df17a04b9f3bff69bb0662bda9f0f828c855ff",
+        "messages.json": "afb9f22529c53ac2086f3666bd4b1255eb8977945219601f449e3cc798c981ee"
+      }
+    },
+    {
+      "case": "issue_468",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3"
+      ],
+      "valid_row": 52,
+      "valid_label": 468.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_468",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "1191603a42581bc3b59d0ca052b75e7d761ec9dffae4b25d0fb519289e889c00",
+        "question.txt": "39a3c3a9bf486e43eac6e7939f5521f30557e3ba71a91571141ae792a4212363",
+        "messages.json": "9b864ee86cedad50a9e4974e6bd24e1b4c08ad5a71d16efbf07e55c84280fb9f"
+      }
+    },
+    {
+      "case": "issue_497",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3"
+      ],
+      "valid_row": 55,
+      "valid_label": 497.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_497",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "6059bea814e2d0d3d3af0c79fc11f26bfe99f09db60841a9d89e657715c0ae4d",
+        "question.txt": "82770d126f05480949845c24919c2e6b186336b30bf2ac752a443172db1a59b5",
+        "messages.json": "004b4f3f0145b87998b345ca09d79168197e2792561d02324546f5262c6cad12"
+      }
+    },
+    {
+      "case": "issue_504",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 56,
+      "valid_label": 504.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_504",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "3d3a5cd30581afffe846767abf2d13bc01f91dd94880086b5caff8a7c37931d0",
+        "question.txt": "6443920ce218921f583972ac9e8f74277a5f70dfd41b36058f831bc860d91e3a",
+        "messages.json": "86a0648e910bef0e332eefaa33926bd027aaf7a74557b5f7d1e9df64e74bc5ea"
+      }
+    },
+    {
+      "case": "issue_505",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 57,
+      "valid_label": 505.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_505",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "0a181802baf903e1fba623b1bf90114c33c3404ae9eea80cea1d1e7064bcbff9",
+        "question.txt": "f527c236aa46531ee81eec2512e90b3615bd1b7b017c0378f672c7784b8ff550",
+        "messages.json": "1fefd4f5f0dbfce0af0f97e5a82fdbe057785b3641353e8e5ba1c4331d9e0e79"
+      }
+    },
+    {
+      "case": "issue_565",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3"
+      ],
+      "valid_row": 61,
+      "valid_label": 565.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_565",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "1983f9af3fd2a6a2e93fa9a2c446d8c0f996d98edd62b079038abf27b22c8dab",
+        "question.txt": "b43349def34fd189692712183017e12b71650d46b2e70a8311b5834412132611",
+        "messages.json": "5dfb24607723a8b42eceae6a907f151944904fa01a25733ea522f14074dc8681"
+      }
+    },
+    {
+      "case": "issue_595",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 63,
+      "valid_label": 595.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_595",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "a0a641fe21e0c48d62ae09dc29b0e3f0159b2f6960e1094521d913d910ebbd73",
+        "question.txt": "8c06da1e649eeafbcd6ef8ee0cad5a6cfc6d45f4bfa4f75863976020ed59640e",
+        "messages.json": "3690f21579594d477614f30253b6b4f37ac3e921171f020fcbdb0487ad9c2d95"
+      }
+    },
+    {
+      "case": "issue_596",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 64,
+      "valid_label": 596.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_596",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "a9586d3a41910bcf265591ee5e66f1b99c6a6a92586839a4c5b4b554f3940cb4",
+        "question.txt": "67c707d05a3ea63117f575b2cde6f272b5da309cc4c87f000f47646ee843f2b9",
+        "messages.json": "58678c60903db5ef8ed85a5b32a262975275d2ef96aa90977a17e01465034f8e"
+      }
+    },
+    {
+      "case": "issue_600",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 65,
+      "valid_label": 600.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_600",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "dfeecf1a5058a550b4814b77fddaa4600503a92e2d6e7a5c38364b1ff27a11e8",
+        "question.txt": "e8d94ae5f82027959161520eb49c00996873f80d5d5ebb1fccb3aab213c4ab69",
+        "messages.json": "ba7bc96aecaee07b0eab6ebbb52724c9ca826e0b4e4385839e6871463e3ff90d"
+      }
+    },
+    {
+      "case": "issue_622",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 66,
+      "valid_label": 622.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_622",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "f9fde4c2a510608a0e8eada7cdc1d1a2958f3e81af7a342dbbbda82798e89dc5",
+        "question.txt": "7f7f92b3704330b55d32443414306d7adef118636c0183f6eee3398e7e922a47",
+        "messages.json": "01627fb226ee94353850cafc87e2d64a2fd1535291e52a6e9f557dfc1610e27e"
+      }
+    },
+    {
+      "case": "issue_624",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 67,
+      "valid_label": 624.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_624",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "13508c37e2d63863a7d53dc63c0d887e6e0783a47f5421a02d91061cf53ebe3f",
+        "question.txt": "472877be1db63520145be4a66e5a5362ce93c2d689caa54d5728598d16aaa2e0",
+        "messages.json": "576b31a6a3faa53a4ed2fd92b535f3909544ca45044cd7cc5e316a4fe878971f"
+      }
+    },
+    {
+      "case": "issue_635",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3"
+      ],
+      "valid_row": 68,
+      "valid_label": 635.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_635",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "07a89a2d70a12ea76dd8856fdb821b836b5ee158cc6f83fc0f67b5574faf14d2",
+        "question.txt": "b49176665ad778490449c391d37a10809ca8613aa0a9f81b951cd2e0c5e0e6f6",
+        "messages.json": "b089967a1f4555da230921430038c49d1a0046b4f54a7d2a108777455860b974"
+      }
+    },
+    {
+      "case": "issue_662",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 69,
+      "valid_label": 662.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_662",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "675f8526b618cdfab788c76ca291f7f3ebdd0ee27c05bba8cf75d2186b527d57",
+        "question.txt": "101b47ace1cc186fda95f7e19c54e386029e53d28731321efb23cb62a2b67db1",
+        "messages.json": "322a8e0ae7f6e605c78d0984a6706bcb72ff638eefbfe65bd0612ad278df5a61"
+      }
+    },
+    {
+      "case": "issue_663",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 70,
+      "valid_label": 663.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_663",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "9d19fe69fb21dcc35119c8ed3959da641651ab573357ed59d70ce56fff821fe7",
+        "question.txt": "97b080ebce1bba5c2a0e4896b20fc561e87588436a0f50f39833fbaeeac8bcd1",
+        "messages.json": "2366929acf6a7de915cd117843b2376597e7098a071fcc8fba8aa8d365d3ebe6"
+      }
+    },
+    {
+      "case": "issue_671",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 71,
+      "valid_label": 671.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_671",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "0c72abcafbfb276932818b0c502c16af773a95a8eff9bd12cb75df58a030cabb",
+        "question.txt": "eaae7b48ac9b5f6f8c263e0d71c0ff19c7ad85b49e825927c5a711173ee835f2",
+        "messages.json": "27e1a44350037a746221a87c4159a18afd9603790456fb9ae602eaf1e9ee3d5a"
+      }
+    },
+    {
+      "case": "issue_727",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 72,
+      "valid_label": 727.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_727",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "6d7c18603d2dcb638a4b8a39ef3772bff067f6001774fd6ce74adf389be27b6e",
+        "question.txt": "3f952ea851bd02d049958aa3c4a39a9c73a078fe645adfc429faf41a7ec66d71",
+        "messages.json": "787aa85cf26ad151e499ce7db8086992b433b9e5df9a79b2a5b714e7df3463e8"
+      }
+    },
+    {
+      "case": "issue_742",
+      "versions": [
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 73,
+      "valid_label": 742.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_742",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "43f16c1c146d5ef22829e44275da31725cb66420d571073049098aafdb32579d",
+        "question.txt": "9dde262f4b6f9e27d232ac88d6b9f28f1bbb1258175f33530bbe0767fc8ca6f3",
+        "messages.json": "64d93983bbdc0e3d8572480aa0fde180ca91d02cca92564e8fe914a4c01c6064"
+      }
+    },
+    {
+      "case": "issue_747",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 74,
+      "valid_label": 747.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_747",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "c67e86902905c2a0cc36dcdcd360d6d90bda706d4dd43ca810d63dc26a9a18f3",
+        "question.txt": "68cb52176c308590714718796565e435cefa045ec621364bb5ae0bfae55555d2",
+        "messages.json": "eb1e84c615b033e3db0c7f1748dc42c20122207bfdd8b7692e2a29353dfb02a2"
+      }
+    },
+    {
+      "case": "issue_750",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 75,
+      "valid_label": 750.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_750",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "6162619ba07d1001ff6c36e518c1052d5e5640e59b78437fafb6f9290f6c22d4",
+        "question.txt": "24434d8ec72bb4732272047602987c9237293f52684c915208cb77dc8ef81c6f",
+        "messages.json": "b3a9698cb2b5d1c643d4a87d5aba345c4604102195a0b3d3eb73f256adff9f4c"
+      }
+    },
+    {
+      "case": "issue_769",
+      "versions": [
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 77,
+      "valid_label": 769.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_769",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "65a91cb77daa8f4724c090469b1fd965fd9e5f12dbed4bab45d814fe46363204",
+        "question.txt": "eb2fe5eabee4e511d19b2ea35be3f170d10e74c3e5a4c2c389071c4776734c62",
+        "messages.json": "98cadd7ed423fa63634edbba34701fa36bbc0b8496c9787930670fa687edd0e4"
+      }
+    },
+    {
+      "case": "issue_772",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 78,
+      "valid_label": 772.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_772",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "78251b3c861e17f76fc899341554d9dfde3cf3490c4185f046c1798158feca04",
+        "question.txt": "5f7e5fe245c258b5a8fa94b316a4962eb4bb3d906874a356348480779ac8a84b",
+        "messages.json": "fd2a74fb3c0320ecebd9c4d13d270202226c2e6958defb1b9cbcc4adae823b5d"
+      }
+    },
+    {
+      "case": "issue_773",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 79,
+      "valid_label": 773.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_773",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "131d68343c6a618d96bb9d32323b8d945b914e5dc97992ff540552efe06bae56",
+        "question.txt": "13e1506efc46a26eda26161ca4e222c1b54a3efb1a6a6b05e8cb584786aaba42",
+        "messages.json": "ea01c0373572a7fa9754aca8fff6405cfb11a9029cddfa4a2f8f8b24f76f8786"
+      }
+    },
+    {
+      "case": "issue_775",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 80,
+      "valid_label": 775.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_775",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "326b3292f929573d138ff21cede98d0a34df500dc89d880b063d46833a6eb2c9",
+        "question.txt": "60f33ebad0b33c9a319c1be6bb187c13bd126fbbb1f6c9c134d7ad7b789aa897",
+        "messages.json": "c683638ef4e351eedaf646d402bacdf772306591ac3be3568ade9211d3dadf0e"
+      }
+    },
+    {
+      "case": "issue_790",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 81,
+      "valid_label": 790.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_790",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "6e5043d5dac460cc466e5ee868be6d5a81b4e772ee0807c55ed43246234937e4",
+        "question.txt": "a82a13aa293090e3d6d0bd1a3c4f466096b2db5c3be165bed9d4277ec2da77e7",
+        "messages.json": "363782e2d86c45ed7639dce38396df8de9a3900cb4c2dd9673203bf7f50bb6ff"
+      }
+    },
+    {
+      "case": "issue_795",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 82,
+      "valid_label": 795.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_795",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "41da56c2ac2e30f186ca42b50598e320ee5875c5fe6f06be4b3fa313cb30f9a2",
+        "question.txt": "fe93d5a4c669ba17c138b058f39f3140c39784ad9c16b4a2ffa58f37845de925",
+        "messages.json": "350c3975c8d8dd685788b4e160438147b73384ed954446c2a283ff780b856c7b"
+      }
+    },
+    {
+      "case": "issue_803",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 84,
+      "valid_label": 803.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_803",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "c3a9b0104495e2c3c1821e8afee022e2d004658935e8f9d7cd9be338038e8656",
+        "question.txt": "e07d780fe9a14a35591be822367fec2936974ff4aa10be66cdf9e17cd2f34109",
+        "messages.json": "76026f92ff417e968bad8d31a63282be9efc705a900cf4347c6d37814b4b2425"
+      }
+    },
+    {
+      "case": "issue_810",
+      "versions": [
+        "0.45.1",
+        "0.46.2"
+      ],
+      "valid_row": 85,
+      "valid_label": 810.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_810",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "22b48008674268097951dd671123cfceb0ea571a18dd8fefeb7f6acfba9c61ce",
+        "question.txt": "6db39a6082cc33e32c00ba69dcde78ecb820b18d6e9a5f9ae19de604ebd4fcde",
+        "messages.json": "eb54886c4911f8ee56a13349ccfa1c075e4b810f0b976715cec6272852eb52d9"
+      }
+    },
+    {
+      "case": "issue_816",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 86,
+      "valid_label": 816.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_816",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "3ed49aaa8afcf71bcbab523af287520a36d9681e861e59121d1ab77e535c9e54",
+        "question.txt": "64cc4a2d1971027606c29c9b63bbf0101a18b7a836e5088f9c74b41e3d673bb0",
+        "messages.json": "2bb928b39a336202da35b45c7b55fffae572486f65ec8e942867f99596572015"
+      }
+    },
+    {
+      "case": "issue_827",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 87,
+      "valid_label": 827.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_827",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "d69a3083d3cbf3031d07c13b402fe2d8bc0af12f20d1b390dde2be9c185081b8",
+        "question.txt": "575fd23a96e170c23863eddf53f49ca4050674e7e205528caa993d4f5becee42",
+        "messages.json": "330c14fdee1358fa9bd1f6125d75c2e9e310e247a0bcd54074ef7fedc8d69f59"
+      }
+    },
+    {
+      "case": "issue_858",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 89,
+      "valid_label": 858.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_858",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "c32aa00fef698c815c1efa22ebe7fa2c7c3908ad5d28dc6bf4f17795e8f20e69",
+        "question.txt": "b1ac0110286e541ce286e08658e5a200a6c0b8e89a6759e87c276e0ddbb77959",
+        "messages.json": "43bd2eee876e9ff19aeefd77684dd43b9a27dbeb178193c2b743c4100098bc4b"
+      }
+    },
+    {
+      "case": "issue_876",
+      "versions": [
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 90,
+      "valid_label": 876.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_876",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "cf3f2530761f0592c01a16745bebf61ed0c03acb2dac5e3dae79c31dba24501b",
+        "question.txt": "815d86ae8b1de56bd6c95aa315f557148646f97cc390cc1500953ad83197de79",
+        "messages.json": "ab883a11c30dd7cba8c0e9fee6cc774fe97e120e81b0ac8aee8c7ea36f9b17ae"
+      }
+    },
+    {
+      "case": "issue_877",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 91,
+      "valid_label": 877.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_877",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "21c1ed9ee31f8036620eae7d8f7034d74ff6945a256105d6025b5f322476c27d",
+        "question.txt": "0192fde797d37f83829e59de9b62fb478e56bf35c1ace3beddd29dc47897f42a",
+        "messages.json": "92db3a45669a61c770435e3120d3754abeddc72357e47c3480038d3e4dc2219e"
+      }
+    },
+    {
+      "case": "issue_886",
+      "versions": [
+        "0.45.0",
+        "0.45.1"
+      ],
+      "valid_row": 92,
+      "valid_label": 886.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_886",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "7f287c5a9571f0d9e322fde00f826a224dde717a36deac757f92ae5a17151f3e",
+        "question.txt": "3b32f1d9ef88ab9ba312838e2865bfa30d824259df927ca14d66a92ab0ac84c2",
+        "messages.json": "7c6f1dd95dbb32a48bbbd927ae0c300dc1f2bd0e7d620fb633c71ec7b61d203a"
+      }
+    },
+    {
+      "case": "issue_889",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 93,
+      "valid_label": 889.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_889",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "6e1a595fcbd6395b6c955d3432275682f3761c91696795c4391cee7106e21eff",
+        "question.txt": "1997d4f181c7c49ac6c8f428400150e8d7068274bfe25385e7a8409c77fa2a4d",
+        "messages.json": "016fec1d031241cfd9487b9f11d76034443610bcf93c3bb9b3f7218f6e31e598"
+      }
+    },
+    {
+      "case": "issue_901",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0"
+      ],
+      "valid_row": 94,
+      "valid_label": 901.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_901",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "6e8231804ae71818eb197499d0938e68e4004afcb0ae6388827bb36081821424",
+        "question.txt": "8c58604d56d011d4e7a9d0c8b53360a4f5b57422ae4fbbd33a4497da88a9e107",
+        "messages.json": "f2f680e5fbca03e6a6d8eab91035679c9237c84d27b4b122113d9ea9abc59fe0"
+      }
+    },
+    {
+      "case": "issue_911",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 95,
+      "valid_label": 911.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_911",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "bc39d62667b617d217028a1d24bb8bff5042b246b4c022acf9fe79393b89a8b2",
+        "question.txt": "c6f82f79d2927574f6e52fba99924e7d7cb9d88fc23a611b1c7b5c9a9b059bda",
+        "messages.json": "3e79805a16b90cc707227a6295d2ca45fd031607f8290a9a221c56e809684d44"
+      }
+    },
+    {
+      "case": "issue_921",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3"
+      ],
+      "valid_row": 96,
+      "valid_label": 921.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_921",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "4479f3e7355631e61e374f7d7249461d89604e6c0a9ad373ede0493f041cc09b",
+        "question.txt": "d31f694915bc0501e42156a3aa91639b28e3a4996c92a5925988b49c05e1f9a9",
+        "messages.json": "1dcef119308601f708448abf875629a4b30b33c04baf5bd2cb4dbdd174f3e1d5"
+      }
+    },
+    {
+      "case": "issue_925",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3"
+      ],
+      "valid_row": 97,
+      "valid_label": 925.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_925",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "07e7a6bfeb297662ce39cf8e306d309efc9445425893fac2e8594a50b7e2433f",
+        "question.txt": "b3cb41cfc8da83b14f6c0d9247b2008554d6ef0e2d34f30b84af3ddd56cc86a1",
+        "messages.json": "5fdad87e1454d19dedac81df5f33d115748b683a2263aeb3d2fb2919da5ab044"
+      }
+    },
+    {
+      "case": "issue_944",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 99,
+      "valid_label": 944.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_944",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "5a94333fc98353804fff21a3a38562fbcd737f4d9d3078803b2a143f95bf95b2",
+        "question.txt": "65fea38a735b2a831e8c02d27fc66d0e073b370145dee82222212c471291fe0a",
+        "messages.json": "5d0378b62545863ed2a13bb8588e6af5ebd62a9921f1d925ba0a03da7a6b1d2d"
+      }
+    },
+    {
+      "case": "issue_950",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3",
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 100,
+      "valid_label": 950.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_950",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "ef5f14c9d57f48df1aa54a80b7f59742294a7b25007de5b6b3891fc87aa4b4a2",
+        "question.txt": "b1071deb3eff43ad63bc4ee10465647175019804bad3eeb524613bef7595abb0",
+        "messages.json": "7813e4bfb90296391db2f187b0d743118580daa444a81f44850a1667a3e902e0"
+      }
+    },
+    {
+      "case": "issue_958",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 101,
+      "valid_label": 958.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_958",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "89f7609deb96beacd161f420814b46be387b73800fad0782836f94b10e89f9d6",
+        "question.txt": "bb0b2b995eaabbd51197c48afff48523d9c5e5b55d05c1e07f70b117b6e5ac73",
+        "messages.json": "3ed1dd46ec6c2449c702340d83a5895425d2b49385ef72037e615a70abe07287"
+      }
+    },
+    {
+      "case": "issue_977",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 102,
+      "valid_label": 977.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_977",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "b900d6673ac0ffdabf231a5b60f4733793cd3080bdfae8a93f3fce9018f19d75",
+        "question.txt": "12638cc11fd6a6c7a487a52a453236d84c1eacf19823ef3c16b2cd5f23a836d9",
+        "messages.json": "563d952ae468209e0807b4d7af35f8bc35f7ac098ef7c948c25ca52ef5ed9356"
+      }
+    },
+    {
+      "case": "issue_985",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3",
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 103,
+      "valid_label": 985.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_985",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "5dab831a141d82ec0f1b4ffbead6d5b1d0e8497a2daf8e65f14d469eebf645f5",
+        "question.txt": "c7105aba6e03d5a23e307ade4c1ac4882b653e4cc7874b55abcc8b504138a945",
+        "messages.json": "776dc71cf4cd37a5f8530a701361b02a5fa5563250f3734213205e04ed43bc6b"
+      }
+    },
+    {
+      "case": "issue_989",
+      "versions": [
+        "1.0.0",
+        "1.0.1",
+        "1.0.2",
+        "1.1.0",
+        "1.1.1",
+        "1.1.2",
+        "1.2.0",
+        "1.2.1",
+        "1.2.2",
+        "1.2.4",
+        "2.0.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0",
+        "2.5.0"
+      ],
+      "valid_row": 104,
+      "valid_label": 989.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_989",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "71d7af70441e5cf0382c3ef9d3225e5a18a9487d010ecd842238bd190c656928",
+        "question.txt": "cb768238d87fe3fa92e1439ed6e1d65ff001c69af11f84706f07351c9d130a22",
+        "messages.json": "d5bd8cfc0f1a3c5198b3e1aa76690ac555365613a290915e1a4365608c4f28e5"
+      }
+    },
+    {
+      "case": "issue_994",
+      "versions": [
+        "0.25.0",
+        "0.25.1",
+        "0.25.2",
+        "0.25.3"
+      ],
+      "valid_row": 105,
+      "valid_label": 994.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_994",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "9e0fc29080ddba24c2173f718aec6e50b8d4d74fd2351210a1dd7af774efa6c5",
+        "question.txt": "a2e942a851fa0a8141d91d512002c01c3e430cecf9879dc4a4d69de1f959931f",
+        "messages.json": "b0a9f12e447021b628bfaeea3154e86bf307585522caa9dc4355945d081fcd55"
+      }
+    },
+    {
+      "case": "issue_1035",
+      "versions": [
+        "0.45.0",
+        "0.45.1",
+        "0.45.2",
+        "0.45.3",
+        "0.46.0",
+        "0.46.1",
+        "0.46.2",
+        "0.46.3"
+      ],
+      "valid_row": 22,
+      "valid_label": 1035.0,
+      "source_case_dir": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_1035",
+      "tests_available_at_setup": [
+        "test.py"
+      ],
+      "input_sha256": {
+        "buggy_stripped.py": "5fdabd9c48f63d89fb11189992124ff06f7cbf1b01cf368dd1c7060b2d7a81cb",
+        "question.txt": "0568cbd155fde450eccf25ecdfb96cf3493d9c748410f1c36337ebc03f1761f6",
+        "messages.json": "1e2e1c5b768b26c2cd55e146ab81516869db99ebd1b616bed6acf1f3ee298fa2"
+      }
+    }
+  ],
+  "prompt_sha256": "a99bd1d6f73f785370ac36e94bcb25bd362d1845fe20c41fe327cf38b2f65bf6",
+  "preprocessing_sha256": "edc3d0341eb91aafe2d6271e9f94a5d1f022972daa1d91432e3d82904422547e",
+  "notes": [
+    "Versions are for step 2 only; they are not added to the prompt.",
+    "No human fixes, solutions, tests or execution feedback are sent to the API.",
+    "Historical 5.6 Luna reasoning effort was not explicitly recorded."
+  ]
+}

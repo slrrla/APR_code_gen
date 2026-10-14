@@ -1,0 +1,87 @@
+Title:
+How to get_statevector() with defined gates in Qiskit?
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why AI Wins in This Category:
+Circuit logic issues benefit most from clear, working code and backend-aware practices. The AI solution gives a reusable, version-tolerant pattern for defining and using custom gates without breaking compatibility. It balances correctness with educational value and robustness.
+
+Question:
+Title: How to get_statevector() with defined gates in Qiskit?
+
+I'm learning Qiskit for my QC lectures and I'm not able to run the following code: without getting errors. In particular: I followed this answer to define a CNOTNOT gate and append it to my circuit, but I can't get the Statevector after the simulation. If I don't use a defined gate (just use two separated CNOT), the code runs without problems. Thanks for your time!
+
+```
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, assemble, Aer def cnotnot(gate_label = 'CNOTNOT'): gate_circuit = QuantumCircuit(3, name = gate_label) gate_circuit.cnot(0, 1) gate_circuit.cnot(0, 2) gate = gate_circuit.to_gate() gate.label = gate_label return gate q = QuantumRegister(3, name = 'q') circuit = QuantumCircuit(q) # Define initial state initial_state = [1. / np.sqrt(2.), 1. / np.sqrt(2.)] circuit.initialize(initial_state, 0) circuit.append(cnotnot(), [q[0], q[1], q[2]]) circuit.draw(plot_barriers = False) # Let's simulate our circuit in order to get the final state vector! svsim = Aer.get_backend('statevector_simulator') # Create a Qobj from the circuit for the simulator to run qobj = assemble(circuit) # Do the simulation, return the result and get the state vector result = svsim.run(qobj).result().get_statevector() # Get the state vector for the first qubit final_state = [result[0], result[1]] print('a and b coefficients before simulation:', initial_state) print('a and b coefficients after simulation:', final_state)
+```
+
+```
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, assemble, Aer def cnotnot(gate_label = 'CNOTNOT'): gate_circuit = QuantumCircuit(3, name = gate_label) gate_circuit.cnot(0, 1) gate_circuit.cnot(0, 2) gate = gate_circuit.to_gate() gate.label = gate_label return gate q = QuantumRegister(3, name = 'q') circuit = QuantumCircuit(q) # Define initial state initial_state = [1. / np.sqrt(2.), 1. / np.sqrt(2.)] circuit.initialize(initial_state, 0) circuit.append(cnotnot(), [q[0], q[1], q[2]]) circuit.draw(plot_barriers = False) # Let's simulate our circuit in order to get the final state vector! svsim = Aer.get_backend('statevector_simulator') # Create a Qobj from the circuit for the simulator to run qobj = assemble(circuit) # Do the simulation, return the result and get the state vector result = svsim.run(qobj).result().get_statevector() # Get the state vector for the first qubit final_state = [result[0], result[1]] print('a and b coefficients before simulation:', initial_state) print('a and b coefficients after simulation:', final_state)
+```
+
+```
+QiskitError: 'ERROR: [Experiment 0] Circuit contains invalid instructions {"gates": {CNOTNOT}} for "statevector" method.
+```
+
+```
+QiskitError: 'ERROR: [Experiment 0] Circuit contains invalid instructions {"gates": {CNOTNOT}} for "statevector" method.
+```
+
+Original buggy code:
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, assemble, Aer def cnotnot(gate_label = 'CNOTNOT'): gate_circuit = QuantumCircuit(3, name = gate_label) gate_circuit.cnot(0, 1) gate_circuit.cnot(0, 2) gate = gate_circuit.to_gate() gate.label = gate_label return gate q = QuantumRegister(3, name = 'q') circuit = QuantumCircuit(q) # Define initial state initial_state = [1. / np.sqrt(2.), 1. / np.sqrt(2.)] circuit.initialize(initial_state, 0) circuit.append(cnotnot(), [q[0], q[1], q[2]]) circuit.draw(plot_barriers = False) # Let's simulate our circuit in order to get the final state vector! svsim = Aer.get_backend('statevector_simulator') # Create a Qobj from the circuit for the simulator to run qobj = assemble(circuit) # Do the simulation, return the result and get the state vector result = svsim.run(qobj).result().get_statevector() # Get the state vector for the first qubit final_state = [result[0], result[1]] print('a and b coefficients before simulation:', initial_state) print('a and b coefficients after simulation:', final_state)
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, assemble, Aer def cnotnot(gate_label = 'CNOTNOT'): gate_circuit = QuantumCircuit(3, name = gate_label) gate_circuit.cnot(0, 1) gate_circuit.cnot(0, 2) gate = gate_circuit.to_gate() gate.label = gate_label return gate q = QuantumRegister(3, name = 'q') circuit = QuantumCircuit(q) # Define initial state initial_state = [1. / np.sqrt(2.), 1. / np.sqrt(2.)] circuit.initialize(initial_state, 0) circuit.append(cnotnot(), [q[0], q[1], q[2]]) circuit.draw(plot_barriers = False) # Let's simulate our circuit in order to get the final state vector! svsim = Aer.get_backend('statevector_simulator') # Create a Qobj from the circuit for the simulator to run qobj = assemble(circuit) # Do the simulation, return the result and get the state vector result = svsim.run(qobj).result().get_statevector() # Get the state vector for the first qubit final_state = [result[0], result[1]] print('a and b coefficients before simulation:', initial_state) print('a and b coefficients after simulation:', final_state)
+
+---CODE_BLOCK---
+
+QiskitError: 'ERROR: [Experiment 0] Circuit contains invalid instructions {"gates": {CNOTNOT}} for "statevector" method.
+
+---CODE_BLOCK---
+
+QiskitError: 'ERROR: [Experiment 0] Circuit contains invalid instructions {"gates": {CNOTNOT}} for "statevector" method.
+
+Solution explanation:
+You are missing an important part of the preparation process of the circuit for it to run on the simulator (any backend, actually) : the transpilation. In order to create the qobj, you first have to transpile your circuit into gates your backend "understands", kind of like a translator between your custom gates and the basis gates of the backend. First you do the transpile of the circuit to transform it into gates the backends knows, then you assemble it into a obj to be able to run it. So for your code to run here, you would have to do something like this: You can also use the function that does it for you: Hope this is clear enough, if you have any questions about this please let me know in the comments :)
+
+```
+# Create a Qobj from the circuit for the simulator to run test = transpile(circuit, svsim) qobj = assemble(test) # Do the simulation, return the result and get the state vector result = svsim.run(qobj).result().get_statevector()
+```
+
+```
+# Create a Qobj from the circuit for the simulator to run test = transpile(circuit, svsim) qobj = assemble(test) # Do the simulation, return the result and get the state vector result = svsim.run(qobj).result().get_statevector()
+```
+
+```
+execute
+```
+
+```
+from qiskit import execute # Do the simulation, return the result and get the state vector result = execute(circuit, svsim).result().get_statevector()
+```
+
+```
+from qiskit import execute # Do the simulation, return the result and get the state vector result = execute(circuit, svsim).result().get_statevector()
+```
+
+Original fixed code:
+# Create a Qobj from the circuit for the simulator to run test = transpile(circuit, svsim) qobj = assemble(test) # Do the simulation, return the result and get the state vector result = svsim.run(qobj).result().get_statevector()
+
+---CODE_BLOCK---
+
+# Create a Qobj from the circuit for the simulator to run test = transpile(circuit, svsim) qobj = assemble(test) # Do the simulation, return the result and get the state vector result = svsim.run(qobj).result().get_statevector()
+
+---CODE_BLOCK---
+
+execute
+
+---CODE_BLOCK---
+
+from qiskit import execute # Do the simulation, return the result and get the state vector result = execute(circuit, svsim).result().get_statevector()
+
+---CODE_BLOCK---
+
+from qiskit import execute # Do the simulation, return the result and get the state vector result = execute(circuit, svsim).result().get_statevector()

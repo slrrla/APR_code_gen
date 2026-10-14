@@ -1,0 +1,41 @@
+Title:
+What IBM_Q backend supports Qiskit Pulse?
+
+Category:
+Category: Backend Compatibility / Qiskit Pulse Support  
+Winner: Both  
+Why Both Are Good: Both solutions explain error 1108 clearly, give the same Python code to list Pulse-supported backends, and guide users toward selecting appropriate devices. AI adds helpful context about access permissions; SO points to the dashboard interface.
+Why AI Performs Well in This Category: AI is excellent at diagnosing backend compatibility errors and recommending programmatic discovery techniques. It also proactively informs users about IBM Quantum service access restrictions.
+
+
+Question:
+Title: What IBM_Q backend supports Qiskit Pulse?
+
+I was doing an experiment with open pulse on caliberation of a qubit and I stumbled upon this error: 
+ Traceback (most recent call last):
+Input In [73] in <cell line: 1>
+frequency_sweep_results = job.result(timeout=120) # timeout parameter set to 120 seconds
+File /opt/conda/lib/python3.8/site-packages/qiskit/providers/ibmq/job/ibmqjob.py:290 in result
+raise IBMQJobFailureError(
+IBMQJobFailureError: 'Unable to retrieve result for job 627bcffafd267c3dbc4f42f7. Job has failed: The Qobj pulse type is not supported by the selected backend. Error code: 1108.' 
+ Error code 1108 being :
+Run the job on a backend that supports open pulse. Whether a backend supports open pulse can be found in its configuration data. 
+ Use %tb to get the full traceback 
+ I have used ibmq_santiago,ibmq_manila and ibmq_lima so far all giving me the same error. 
+ Could someone suggest a backend that supports qiskit pulse?
+
+Original buggy code:
+frequency_sweep_results = job.result(timeout=120) # timeout parameter set to 120 seconds
+
+Solution explanation:
+You can check out the backends with pulse support in the table view of IBM service list : 
+
+ Programmatically, you can list the backends with pulse support you have access to in the following way: 
+ from qiskit import IBMQ
+provider = IBMQ.load_account()
+backends_supporting_openpulse = provider.backends(filters=lambda b: b.configuration().open_pulse)
+
+Original fixed code:
+from qiskit import IBMQ
+provider = IBMQ.load_account()
+backends_supporting_openpulse = provider.backends(filters=lambda b: b.configuration().open_pulse)

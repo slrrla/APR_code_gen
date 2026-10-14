@@ -1,0 +1,75 @@
+Title:
+How do I get the unitary matrix of a circuit?
+
+Category:
+
+
+Question:
+Title: How do I get the unitary matrix of a circuit?
+
+I'm studying on this textbook but the library has changed meanwhile and running those instructions on my IBM quantum learning notebook will result in errors. What's the current way to draw the unitary matrix resulting from a circuit using the current AerSimulator?
+
+```
+from qiskit_aer import AerSimulator
+```
+
+```
+from qiskit_aer import AerSimulator
+```
+
+Original buggy code:
+from qiskit_aer import AerSimulator
+
+---CODE_BLOCK---
+
+from qiskit_aer import AerSimulator
+
+Solution explanation:
+You can get back the matrix by using the method on the circuit after creating your circuit. Here is an example : This prints : It isn't available yet in the documentation, but an upgraded version of the tutorials will be available, you can check the tuto in GitHub if you're interested in learning more details about how to use simulators.
+
+```
+save_unitary()
+```
+
+```
+import numpy as np # Import Qiskit from qiskit import QuantumCircuit, transpile from qiskit_aer import Aer, AerSimulator # Construct quantum circuit without measure circ = QuantumCircuit(2) circ.h(0) circ.cx(0, 1) circ.save_unitary() # Transpile for simulator simulator = Aer.get_backend('aer_simulator') # Another option to create the simulator # simulator = AerSimulator(method = 'unitary') circ = transpile(circ, simulator) # Run and get unitary result = simulator.run(circ).result() unitary = result.get_unitary(circ) print("Circuit unitary:\n", np.asarray(unitary).round(5))
+```
+
+```
+import numpy as np # Import Qiskit from qiskit import QuantumCircuit, transpile from qiskit_aer import Aer, AerSimulator # Construct quantum circuit without measure circ = QuantumCircuit(2) circ.h(0) circ.cx(0, 1) circ.save_unitary() # Transpile for simulator simulator = Aer.get_backend('aer_simulator') # Another option to create the simulator # simulator = AerSimulator(method = 'unitary') circ = transpile(circ, simulator) # Run and get unitary result = simulator.run(circ).result() unitary = result.get_unitary(circ) print("Circuit unitary:\n", np.asarray(unitary).round(5))
+```
+
+```
+Circuit unitary: [[ 0.70711+0.j 0.70711-0.j 0. +0.j 0. +0.j] [ 0. +0.j 0. +0.j 0.70711+0.j -0.70711+0.j] [ 0. +0.j 0. +0.j 0.70711+0.j 0.70711-0.j] [ 0.70711+0.j -0.70711+0.j 0. +0.j 0. +0.j]]
+```
+
+```
+Circuit unitary: [[ 0.70711+0.j 0.70711-0.j 0. +0.j 0. +0.j] [ 0. +0.j 0. +0.j 0.70711+0.j -0.70711+0.j] [ 0. +0.j 0. +0.j 0.70711+0.j 0.70711-0.j] [ 0.70711+0.j -0.70711+0.j 0. +0.j 0. +0.j]]
+```
+
+```
+qiskit_aer
+```
+
+Original fixed code:
+save_unitary()
+
+---CODE_BLOCK---
+
+import numpy as np # Import Qiskit from qiskit import QuantumCircuit, transpile from qiskit_aer import Aer, AerSimulator # Construct quantum circuit without measure circ = QuantumCircuit(2) circ.h(0) circ.cx(0, 1) circ.save_unitary() # Transpile for simulator simulator = Aer.get_backend('aer_simulator') # Another option to create the simulator # simulator = AerSimulator(method = 'unitary') circ = transpile(circ, simulator) # Run and get unitary result = simulator.run(circ).result() unitary = result.get_unitary(circ) print("Circuit unitary:\n", np.asarray(unitary).round(5))
+
+---CODE_BLOCK---
+
+import numpy as np # Import Qiskit from qiskit import QuantumCircuit, transpile from qiskit_aer import Aer, AerSimulator # Construct quantum circuit without measure circ = QuantumCircuit(2) circ.h(0) circ.cx(0, 1) circ.save_unitary() # Transpile for simulator simulator = Aer.get_backend('aer_simulator') # Another option to create the simulator # simulator = AerSimulator(method = 'unitary') circ = transpile(circ, simulator) # Run and get unitary result = simulator.run(circ).result() unitary = result.get_unitary(circ) print("Circuit unitary:\n", np.asarray(unitary).round(5))
+
+---CODE_BLOCK---
+
+Circuit unitary: [[ 0.70711+0.j 0.70711-0.j 0. +0.j 0. +0.j] [ 0. +0.j 0. +0.j 0.70711+0.j -0.70711+0.j] [ 0. +0.j 0. +0.j 0.70711+0.j 0.70711-0.j] [ 0.70711+0.j -0.70711+0.j 0. +0.j 0. +0.j]]
+
+---CODE_BLOCK---
+
+Circuit unitary: [[ 0.70711+0.j 0.70711-0.j 0. +0.j 0. +0.j] [ 0. +0.j 0. +0.j 0.70711+0.j -0.70711+0.j] [ 0. +0.j 0. +0.j 0.70711+0.j 0.70711-0.j] [ 0.70711+0.j -0.70711+0.j 0. +0.j 0. +0.j]]
+
+---CODE_BLOCK---
+
+qiskit_aer

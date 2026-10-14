@@ -1,0 +1,40 @@
+﻿python.exe : C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0452_exact\lib\site-packages\qiskit\utils\algorithm_globals.py:170: DeprecationWarning: The class 
+``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This 
+algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and 
+import ``from qiskit_algorithms.utils`` instead. 
+At line:41 char:31
++                     $output = & $python $test 2>&1 | Out-String
++                               ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\Mitali...ils`` instead. :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  algorithm_globals = QiskitAlgorithmGlobals()
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0452_exact\lib\site-packages\qiskit\utils\algorithm_globals.py:49: DeprecationWarning: The property 
+``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release 
+date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  self.num_processes = settings.get("num_processes", QiskitAlgorithmGlobals.CPU_COUNT)
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0452_exact\lib\site-packages\qiskit\utils\algorithm_globals.py:120: DeprecationWarning: The property 
+``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release 
+date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  parallel.CPU_COUNT = self.num_processes
+C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\luna_generated_fixes\issue_396\luna_fix_396.py:10: 
+PendingDeprecationWarning: The method ``qiskit.circuit.quantumcircuit.QuantumCircuit.diagonal()`` is pending deprecation as of qiskit 0.45.0. It will be marked 
+deprecated in a future release, and then removed no earlier than 3 months after the release date. Instead, compose the circuit with a qiskit.circuit.library.Diagonal 
+circuit.
+  oracle.diagonal([1, 1, 1, 1, 1, -1, -1, 1], [0, 1, 2])
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0452_exact\lib\site-packages\qiskit\visualization\circuit\matplotlib.py:50: PendingDeprecationWarning: The 
+qiskit.extensions module is pending deprecation since Qiskit 0.45.0. It will be deprecated in a following release, no sooner than 3 months after the 0.45.0 release.
+  from qiskit.extensions import Initialize
+.
+----------------------------------------------------------------------
+Ran 1 test in 2.196s
+
+OK
+         ΓöîΓöÇΓöÇΓöÇΓöÇΓöÉ
+state_0: Γöñ0   Γö£
+         Γöé    Γöé
+state_1: Γöñ1 Q Γö£
+         Γöé    Γöé
+state_2: Γöñ2   Γö£
+         ΓööΓöÇΓöÇΓöÇΓöÇΓöÿ
+

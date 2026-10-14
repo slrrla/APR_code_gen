@@ -1,0 +1,135 @@
+Title:
+Set Initial Layout for State Tomography
+
+Category:
+Category:
+Installation / Env Config / Import Error
+
+Why Stack Overflow Wins in This Category:
+This issue lies in the correct configuration of experiment inputs (API usage, layout, and execution). Stack Overflow’s solution provides an officially supported and robust parameter (physical_qubits) for configuration. It eliminates the core error, aligns with Qiskit’s experiment APIs, and produces correct experimental results. In contrast, the AI solution only works at a superficial level and fails to affect the real execution flow. Hence, Stack Overflow wins due to correctness and deeper understanding of the Qiskit experiment infrastructure.
+
+Question:
+Title: Set Initial Layout for State Tomography
+
+I am trying to do some state tomography to generate GHZ states and calculate fidelity. For running the code, I want to execute my code with the qubits with the lowest readout error using initial layout in the transpilation process. However, I arrive at this error and I can not specify the qubits .
+
+```
+Traceback (most recent call last): Cell In[28], line 2 best_qc = transpile(st, backend, initial_layout=[90,94,95]) File /opt/conda/lib/python3.10/site-packages/qiskit/compiler/transpiler.py:338 in transpile output_name = _parse_output_name(output_name, circuits) File /opt/conda/lib/python3.10/site-packages/qiskit/compiler/transpiler.py:593 in _parse_output_name return [circuit.name for circuit in circuits] File /opt/conda/lib/python3.10/site-packages/qiskit/compiler/transpiler.py:593 in <listcomp> return [circuit.name for circuit in circuits] AttributeError: 'StateTomography' object has no attribute 'name' from qiskit import * from qiskit.visualization import array_to_latex from qiskit_experiments.library import StateTomography q1 = QuantumRegister(1) q2 = QuantumRegister(1) q3 = QuantumRegister(1) c = ClassicalRegister(3) qc = QuantumCircuit(q1, q2, q3, c) qc.h(q1) qc.cx(q1, q2) qc.ccx(q1, q2, q3) st = StateTomography(qc) best_qc = transpile(st, backend, initial_layout=[90,94,95]) stdata = st.run(backend).block_for_results() state_result = stdata.analysis_results("state") array_to_latex(state_result.value) fid_result = stdata.analysis_results("state_fidelity") print(f"state Fidelity = {fid_result.value}")
+```
+
+```
+Traceback (most recent call last): Cell In[28], line 2 best_qc = transpile(st, backend, initial_layout=[90,94,95]) File /opt/conda/lib/python3.10/site-packages/qiskit/compiler/transpiler.py:338 in transpile output_name = _parse_output_name(output_name, circuits) File /opt/conda/lib/python3.10/site-packages/qiskit/compiler/transpiler.py:593 in _parse_output_name return [circuit.name for circuit in circuits] File /opt/conda/lib/python3.10/site-packages/qiskit/compiler/transpiler.py:593 in <listcomp> return [circuit.name for circuit in circuits] AttributeError: 'StateTomography' object has no attribute 'name' from qiskit import * from qiskit.visualization import array_to_latex from qiskit_experiments.library import StateTomography q1 = QuantumRegister(1) q2 = QuantumRegister(1) q3 = QuantumRegister(1) c = ClassicalRegister(3) qc = QuantumCircuit(q1, q2, q3, c) qc.h(q1) qc.cx(q1, q2) qc.ccx(q1, q2, q3) st = StateTomography(qc) best_qc = transpile(st, backend, initial_layout=[90,94,95]) stdata = st.run(backend).block_for_results() state_result = stdata.analysis_results("state") array_to_latex(state_result.value) fid_result = stdata.analysis_results("state_fidelity") print(f"state Fidelity = {fid_result.value}")
+```
+
+Original buggy code:
+Traceback (most recent call last): Cell In[28], line 2 best_qc = transpile(st, backend, initial_layout=[90,94,95]) File /opt/conda/lib/python3.10/site-packages/qiskit/compiler/transpiler.py:338 in transpile output_name = _parse_output_name(output_name, circuits) File /opt/conda/lib/python3.10/site-packages/qiskit/compiler/transpiler.py:593 in _parse_output_name return [circuit.name for circuit in circuits] File /opt/conda/lib/python3.10/site-packages/qiskit/compiler/transpiler.py:593 in <listcomp> return [circuit.name for circuit in circuits] AttributeError: 'StateTomography' object has no attribute 'name' from qiskit import * from qiskit.visualization import array_to_latex from qiskit_experiments.library import StateTomography q1 = QuantumRegister(1) q2 = QuantumRegister(1) q3 = QuantumRegister(1) c = ClassicalRegister(3) qc = QuantumCircuit(q1, q2, q3, c) qc.h(q1) qc.cx(q1, q2) qc.ccx(q1, q2, q3) st = StateTomography(qc) best_qc = transpile(st, backend, initial_layout=[90,94,95]) stdata = st.run(backend).block_for_results() state_result = stdata.analysis_results("state") array_to_latex(state_result.value) fid_result = stdata.analysis_results("state_fidelity") print(f"state Fidelity = {fid_result.value}")
+
+---CODE_BLOCK---
+
+Traceback (most recent call last): Cell In[28], line 2 best_qc = transpile(st, backend, initial_layout=[90,94,95]) File /opt/conda/lib/python3.10/site-packages/qiskit/compiler/transpiler.py:338 in transpile output_name = _parse_output_name(output_name, circuits) File /opt/conda/lib/python3.10/site-packages/qiskit/compiler/transpiler.py:593 in _parse_output_name return [circuit.name for circuit in circuits] File /opt/conda/lib/python3.10/site-packages/qiskit/compiler/transpiler.py:593 in <listcomp> return [circuit.name for circuit in circuits] AttributeError: 'StateTomography' object has no attribute 'name' from qiskit import * from qiskit.visualization import array_to_latex from qiskit_experiments.library import StateTomography q1 = QuantumRegister(1) q2 = QuantumRegister(1) q3 = QuantumRegister(1) c = ClassicalRegister(3) qc = QuantumCircuit(q1, q2, q3, c) qc.h(q1) qc.cx(q1, q2) qc.ccx(q1, q2, q3) st = StateTomography(qc) best_qc = transpile(st, backend, initial_layout=[90,94,95]) stdata = st.run(backend).block_for_results() state_result = stdata.analysis_results("state") array_to_latex(state_result.value) fid_result = stdata.analysis_results("state_fidelity") print(f"state Fidelity = {fid_result.value}")
+
+Solution explanation:
+You can't use with an instance of because it is not a circuit. The proper way to achieve your goal is to use parameter . So, you should replace these two lines: with Internally, method will transpile the experiment circuits and use as . Note, you can use the following code snippet if you want to check that the specified qubits are actually used:
+
+```
+transpile
+```
+
+```
+StateTomography
+```
+
+```
+StateTomography
+```
+
+```
+physical_qubits
+```
+
+```
+st = StateTomography(qc) best_qc = transpile(st, backend, initial_layout=[90,94,95])
+```
+
+```
+st = StateTomography(qc) best_qc = transpile(st, backend, initial_layout=[90,94,95])
+```
+
+```
+st = StateTomography(qc, physical_qubits=[90,94,95])
+```
+
+```
+st = StateTomography(qc, physical_qubits=[90,94,95])
+```
+
+```
+StateTomography.run()
+```
+
+```
+physical_qubits
+```
+
+```
+initial_layout
+```
+
+```
+from qiskit.visualization import plot_circuit_layout plot_circuit_layout(st._transpiled_circuits()[0], backend=backend, view='physical')
+```
+
+```
+from qiskit.visualization import plot_circuit_layout plot_circuit_layout(st._transpiled_circuits()[0], backend=backend, view='physical')
+```
+
+Original fixed code:
+transpile
+
+---CODE_BLOCK---
+
+StateTomography
+
+---CODE_BLOCK---
+
+StateTomography
+
+---CODE_BLOCK---
+
+physical_qubits
+
+---CODE_BLOCK---
+
+st = StateTomography(qc) best_qc = transpile(st, backend, initial_layout=[90,94,95])
+
+---CODE_BLOCK---
+
+st = StateTomography(qc) best_qc = transpile(st, backend, initial_layout=[90,94,95])
+
+---CODE_BLOCK---
+
+st = StateTomography(qc, physical_qubits=[90,94,95])
+
+---CODE_BLOCK---
+
+st = StateTomography(qc, physical_qubits=[90,94,95])
+
+---CODE_BLOCK---
+
+StateTomography.run()
+
+---CODE_BLOCK---
+
+physical_qubits
+
+---CODE_BLOCK---
+
+initial_layout
+
+---CODE_BLOCK---
+
+from qiskit.visualization import plot_circuit_layout plot_circuit_layout(st._transpiled_circuits()[0], backend=backend, view='physical')
+
+---CODE_BLOCK---
+
+from qiskit.visualization import plot_circuit_layout plot_circuit_layout(st._transpiled_circuits()[0], backend=backend, view='physical')

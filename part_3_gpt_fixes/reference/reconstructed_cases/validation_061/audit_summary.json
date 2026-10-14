@@ -1,0 +1,177 @@
+[
+  {
+    "mutation": "fixed_control",
+    "expectation": "accept",
+    "old_pass": 15,
+    "permissive_pass": 15,
+    "new_pass": 15
+  },
+  {
+    "mutation": "luna_control",
+    "expectation": "accept",
+    "old_pass": 0,
+    "permissive_pass": 15,
+    "new_pass": 15
+  },
+  {
+    "mutation": "original_buggy",
+    "expectation": "reject",
+    "old_pass": 0,
+    "permissive_pass": 0,
+    "new_pass": 0
+  },
+  {
+    "mutation": "grouped_public_control",
+    "expectation": "accept",
+    "old_pass": 0,
+    "permissive_pass": 15,
+    "new_pass": 15
+  },
+  {
+    "mutation": "formatted_string_control",
+    "expectation": "accept",
+    "old_pass": 0,
+    "permissive_pass": 15,
+    "new_pass": 15
+  },
+  {
+    "mutation": "register_local_only_control",
+    "expectation": "accept",
+    "old_pass": 0,
+    "permissive_pass": 15,
+    "new_pass": 15
+  },
+  {
+    "mutation": "reversed_print_order_control",
+    "expectation": "accept",
+    "old_pass": 0,
+    "permissive_pass": 15,
+    "new_pass": 15
+  },
+  {
+    "mutation": "reversed_instruction_reporting_control",
+    "expectation": "accept",
+    "old_pass": 15,
+    "permissive_pass": 15,
+    "new_pass": 15
+  },
+  {
+    "mutation": "alternative_public_lookup_control",
+    "expectation": "accept",
+    "old_pass": 0,
+    "permissive_pass": 15,
+    "new_pass": 15
+  },
+  {
+    "mutation": "custom_separator_control",
+    "expectation": "accept",
+    "old_pass": 0,
+    "permissive_pass": 15,
+    "new_pass": 15
+  },
+  {
+    "mutation": "equal_value_register_control",
+    "expectation": "accept",
+    "old_pass": 0,
+    "permissive_pass": 15,
+    "new_pass": 15
+  },
+  {
+    "mutation": "wrong_index",
+    "expectation": "reject",
+    "old_pass": 0,
+    "permissive_pass": 0,
+    "new_pass": 0
+  },
+  {
+    "mutation": "hardcoded_zero",
+    "expectation": "reject",
+    "old_pass": 0,
+    "permissive_pass": 15,
+    "new_pass": 0
+  },
+  {
+    "mutation": "lookup_but_hardcoded_zero",
+    "expectation": "reject",
+    "old_pass": 15,
+    "permissive_pass": 15,
+    "new_pass": 0
+  },
+  {
+    "mutation": "equal_value_register_with_hardcoded_zero",
+    "expectation": "reject",
+    "old_pass": 15,
+    "permissive_pass": 15,
+    "new_pass": 0
+  },
+  {
+    "mutation": "wrong_register",
+    "expectation": "reject",
+    "old_pass": 0,
+    "permissive_pass": 0,
+    "new_pass": 0
+  },
+  {
+    "mutation": "wrong_instruction_bit",
+    "expectation": "reject",
+    "old_pass": 0,
+    "permissive_pass": 0,
+    "new_pass": 0
+  },
+  {
+    "mutation": "same_first_bit_for_both_instructions",
+    "expectation": "reject",
+    "old_pass": 15,
+    "permissive_pass": 15,
+    "new_pass": 0
+  },
+  {
+    "mutation": "private_backreferences",
+    "expectation": "reject",
+    "old_pass": 0,
+    "permissive_pass": 15,
+    "new_pass": 0
+  },
+  {
+    "mutation": "private_backreferences_via_getattr",
+    "expectation": "reject",
+    "old_pass": 0,
+    "permissive_pass": 15,
+    "new_pass": 0
+  },
+  {
+    "mutation": "missing_cx",
+    "expectation": "reject",
+    "old_pass": 0,
+    "permissive_pass": 0,
+    "new_pass": 0
+  },
+  {
+    "mutation": "changed_cx_wiring",
+    "expectation": "reject",
+    "old_pass": 0,
+    "permissive_pass": 0,
+    "new_pass": 0
+  },
+  {
+    "mutation": "changed_operation_order",
+    "expectation": "reject",
+    "old_pass": 15,
+    "permissive_pass": 15,
+    "new_pass": 0
+  },
+  {
+    "mutation": "circuit_index_reported_as_register_local",
+    "expectation": "reject",
+    "old_pass": 0,
+    "permissive_pass": 15,
+    "new_pass": 0
+  },
+  {
+    "mutation": "only_one_instruction_reported",
+    "expectation": "reject",
+    "old_pass": 0,
+    "permissive_pass": 0,
+    "new_pass": 0
+  }
+]

@@ -1,0 +1,47 @@
+Title:
+Can a Qubit belong to 2 different registers?
+
+Category:
+Category:
+Other (General Questions)
+
+Why AI Wins in This Category:
+For general usability questions, actionable examples and clear logic grouping are more valuable than strictly theoretical answers. The AI addresses the user's confusion, provides a workaround, and offers clean, reproducible code that aligns with Qiskit's architecture.
+
+Question:
+Title: Can a Qubit belong to 2 different registers?
+
+I'm starting with Qiskit in Python. My question is regarding to have registers and sub-register. Something like this The constructor of QuantumRegister has only the number of qubits to create, and I find no way to add previously existing qubit to other register
+
+```
+axreg=QuantumRegister(4,name='ax') ahreg=QuantumRegister(axreg[:2],name='ah') alreg=QuantumRegister(axreg[2:],name='al')
+```
+
+```
+axreg=QuantumRegister(4,name='ax') ahreg=QuantumRegister(axreg[:2],name='ah') alreg=QuantumRegister(axreg[2:],name='al')
+```
+
+Original buggy code:
+axreg=QuantumRegister(4,name='ax') ahreg=QuantumRegister(axreg[:2],name='ah') alreg=QuantumRegister(axreg[2:],name='al')
+
+---CODE_BLOCK---
+
+axreg=QuantumRegister(4,name='ax') ahreg=QuantumRegister(axreg[:2],name='ah') alreg=QuantumRegister(axreg[2:],name='al')
+
+Solution explanation:
+If you want to add previously existing qubits to other register you can obviously compose or append to add previously existing qubits to other register, let's say we have have two qubits who are in state |++> and we want to add them to our register which has for example 4 qubits, we can do You'll get something like this
+
+```
+sub_circuit = QuantumCircuit(2) circuit = QuantumCircuit(4) qr = circuit.qregs[0] circuit.x(range(4)) sub_circuit.h(range(2)) circuit = circuit.append(sub_circ.to_instruction(), [qr[0], qr[1]])
+```
+
+```
+sub_circuit = QuantumCircuit(2) circuit = QuantumCircuit(4) qr = circuit.qregs[0] circuit.x(range(4)) sub_circuit.h(range(2)) circuit = circuit.append(sub_circ.to_instruction(), [qr[0], qr[1]])
+```
+
+Original fixed code:
+sub_circuit = QuantumCircuit(2) circuit = QuantumCircuit(4) qr = circuit.qregs[0] circuit.x(range(4)) sub_circuit.h(range(2)) circuit = circuit.append(sub_circ.to_instruction(), [qr[0], qr[1]])
+
+---CODE_BLOCK---
+
+sub_circuit = QuantumCircuit(2) circuit = QuantumCircuit(4) qr = circuit.qregs[0] circuit.x(range(4)) sub_circuit.h(range(2)) circuit = circuit.append(sub_circ.to_instruction(), [qr[0], qr[1]])

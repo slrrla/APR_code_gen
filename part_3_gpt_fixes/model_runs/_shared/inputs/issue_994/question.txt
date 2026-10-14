@@ -1,0 +1,27 @@
+Title: How to get state vector from QasmSimulator in Qiskit
+
+I'm currently able to get state vector in Qiskit using state_vector backend using something like : But now I would like to get state vector using qasm_backend, I have seen in the Qiskit doc this sample code : So I tried this backend implementation then trying to get state vector with : But it still gives me an error saying that get_statevector is not available, what is the right way to do that ? Thank you.
+
+```
+backend = Aer.get_backend('statevector_simulator') job = execute(qc, backend=backend, shots=1, memory=True) job_result = job.result() print(job_result.get_statevector(qc))
+```
+
+```
+backend = Aer.get_backend('statevector_simulator') job = execute(qc, backend=backend, shots=1, memory=True) job_result = job.result() print(job_result.get_statevector(qc))
+```
+
+```
+backend = QasmSimulator() backend_options = {"method": "statevector"} # Circuit execution job = execute(qc, backend, backend_options=backend_options)
+```
+
+```
+backend = QasmSimulator() backend_options = {"method": "statevector"} # Circuit execution job = execute(qc, backend, backend_options=backend_options)
+```
+
+```
+job_result = job.result() print(job_result.get_statevector(qc))
+```
+
+```
+job_result = job.result() print(job_result.get_statevector(qc))
+```

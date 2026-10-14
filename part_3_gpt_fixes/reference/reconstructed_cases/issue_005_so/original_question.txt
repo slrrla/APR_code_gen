@@ -1,0 +1,31 @@
+Title:
+How to print out whole matrix from unitary simulator
+
+Category:
+Category: Backend Usage & Output Visualization
+Why AI Is Better: AI provides a robust, production-friendly answer. It considers edge cases (matrix size), enhances readability with LaTeX options, and is more educational than the Stack Overflow snippet.
+
+
+
+Question:
+Title: How to print out whole matrix from unitary simulator
+
+On Jupyter Notebook, I had simulated eight qubits quantum's circuit with Unitary_simulator. And then, I would like to print out the whole matrix, but what I get is matrix from unitary simulator . 
+The code that I used is: 
+
+ unitary = job.result().get_unitary(cir)
+print("Circuit unitary:\n", unitary)
+
+Original buggy code:
+unitary = job.result().get_unitary(cir)
+print("Circuit unitary:\n", unitary)
+
+Solution explanation:
+The output is a 2D array, so you could print it as 
+
+ for row in unitary:
+ print(row)
+
+Original fixed code:
+for row in unitary:
+ print(row)

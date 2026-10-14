@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWVvn5qvUm7C0x20YjU1tSeCoqEeX",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\n# FIX: The simulator cannot execute the opaque U_s gate -> import transpile, because it lowers custom gates to supported instructions\nfrom qiskit import QuantumCircuit, QuantumRegister, Aer, transpile\n\ndef diffuser(nqubits):\n    qc = QuantumCircuit(nqubits)\n    for qubit in range(nqubits):\n        qc.h(qubit)\n    for qubit in range(nqubits):\n        qc.x(qubit)\n    qc.h(nqubits-1)\n    qc.mct(list(range(nqubits-1)), nqubits-1)\n    qc.h(nqubits-1)\n    for qubit in range(nqubits):\n        qc.x(qubit)\n    for qubit in range(nqubits):\n        qc.h(qubit)\n    U_s = qc.to_gate()\n    U_s.name = \"U$_s$\"\n    return U_s\n\npsi = QuantumRegister(3, 'psi')\n\nbackend = Aer.get_backend(\"statevector_simulator\")\ncircuit = QuantumCircuit(psi)\ncircuit.append(diffuser(3), psi)\n\n# FIX: Running the circuit directly leaves U_s unsupported -> transpile it for the backend, because Aer requires supported instructions\njob = backend.run(transpile(circuit, backend))\n\nv = job.result().get_statevector(circuit)\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791417947,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 579,
+    "prompt_tokens": 1478,
+    "total_tokens": 2057,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 299,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1475,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

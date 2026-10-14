@@ -1,0 +1,91 @@
+Title:
+Can any Qiskit circuit be converted to a gate?
+
+Category:
+
+
+Question:
+Title: Can any Qiskit circuit be converted to a gate?
+
+I am trying to convert the following qiskit QuantumCircuit to a gate using to_gate() method. But I end up getting the following error. Are there limitations to the use of to_gate()? Bing AI tells me All instructions in the circuit must be gates. But I cannot find a reference to this, and if that indeed must be true, I do not know how to enforce this condition.
+
+```
+from qiskit import QuantumCircuit from qiskit.opflow import I, X, Y, Z # construct one qubit circuit circuit = QuantumCircuit(1, name='R') # append gates as Pauli strings circuit.append(0.5*I - 1j*np.sqrt(1-0.5**2)*Y, [0]) circuit.to_gate()
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.opflow import I, X, Y, Z # construct one qubit circuit circuit = QuantumCircuit(1, name='R') # append gates as Pauli strings circuit.append(0.5*I - 1j*np.sqrt(1-0.5**2)*Y, [0]) circuit.to_gate()
+```
+
+```
+QiskitError: 'One or more instructions cannot be converted to a gate. "circuit-304" is not a gate instruction'
+```
+
+```
+QiskitError: 'One or more instructions cannot be converted to a gate. "circuit-304" is not a gate instruction'
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit from qiskit.opflow import I, X, Y, Z # construct one qubit circuit circuit = QuantumCircuit(1, name='R') # append gates as Pauli strings circuit.append(0.5*I - 1j*np.sqrt(1-0.5**2)*Y, [0]) circuit.to_gate()
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.opflow import I, X, Y, Z # construct one qubit circuit circuit = QuantumCircuit(1, name='R') # append gates as Pauli strings circuit.append(0.5*I - 1j*np.sqrt(1-0.5**2)*Y, [0]) circuit.to_gate()
+
+---CODE_BLOCK---
+
+QiskitError: 'One or more instructions cannot be converted to a gate. "circuit-304" is not a gate instruction'
+
+---CODE_BLOCK---
+
+QiskitError: 'One or more instructions cannot be converted to a gate. "circuit-304" is not a gate instruction'
+
+Solution explanation:
+Qiskit distinguishes operations into unitary operations ("gates") and operations that are not necessarily unitary ("instructions"). In your workflow you end up with an object on the circuit, therefore it cannot be converted to a . Since you're trying to construct a gate essentially from a matrix, you could instead use Alternatively, you could construct the unitary directly
+
+```
+qiskit.circuit.Instruction
+```
+
+```
+qiskit.circuit.Gate
+```
+
+```
+U = (0.5*I - 1j*np.sqrt(1-0.5**2)*Y).to_matrix() circuit.unitary(U, [0]) gate = circuit.to_gate()
+```
+
+```
+U = (0.5*I - 1j*np.sqrt(1-0.5**2)*Y).to_matrix() circuit.unitary(U, [0]) gate = circuit.to_gate()
+```
+
+```
+from qiskit.extensions import UnitaryGate gate = UnitaryGate(U) # U from above
+```
+
+```
+from qiskit.extensions import UnitaryGate gate = UnitaryGate(U) # U from above
+```
+
+Original fixed code:
+qiskit.circuit.Instruction
+
+---CODE_BLOCK---
+
+qiskit.circuit.Gate
+
+---CODE_BLOCK---
+
+U = (0.5*I - 1j*np.sqrt(1-0.5**2)*Y).to_matrix() circuit.unitary(U, [0]) gate = circuit.to_gate()
+
+---CODE_BLOCK---
+
+U = (0.5*I - 1j*np.sqrt(1-0.5**2)*Y).to_matrix() circuit.unitary(U, [0]) gate = circuit.to_gate()
+
+---CODE_BLOCK---
+
+from qiskit.extensions import UnitaryGate gate = UnitaryGate(U) # U from above
+
+---CODE_BLOCK---
+
+from qiskit.extensions import UnitaryGate gate = UnitaryGate(U) # U from above

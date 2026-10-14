@@ -1,0 +1,94 @@
+Title:
+Qiskit: total number of parameters after composing parametrized circuits
+
+Category:
+Category: Installation / Env Config / Import Error
+
+Why AI Solution Wins in This Category:
+In this parameter handling and environment config issue, clarity around library behavior and naming conventions is crucial. The AI provides a direct, version-aware, and verifiable fix with complete code, making it far superior for practical debugging. Stack Overflow gives a technically correct insight but lacks clarity and completeness.
+
+Question:
+Title: Qiskit: total number of parameters after composing parametrized circuits
+
+I'm trying to use the method to join two parametrized circuits, specifically instances from the . While I would expect that would be the sum of the parameters in each circuit, the final circuit will have only as many settable parameters as only one of them. Version: qiskit-0.26.2 Thank you very much for your help! My code is:
+
+```
+.compose()
+```
+
+```
+TwoLocal
+```
+
+```
+qiskit.circuit.library
+```
+
+```
+.num_parameters_settable()
+```
+
+```
+from qiskit.circuit.library import TwoLocal import numpy as np rot = TwoLocal( int(np.sum(num_qubits)), "ry", [], reps=1, skip_final_rotation_layer=True, parameter_prefix="p", ) var = TwoLocal( int(np.sum(num_qubits)), "ry", "cx", entanglement="linear", reps=1, skip_final_rotation_layer=True, ) rot.num_parameters_settable() >> 2 rot.compose(var, inplace=True) rot.num_parameters_settable() >> 2
+```
+
+```
+from qiskit.circuit.library import TwoLocal import numpy as np rot = TwoLocal( int(np.sum(num_qubits)), "ry", [], reps=1, skip_final_rotation_layer=True, parameter_prefix="p", ) var = TwoLocal( int(np.sum(num_qubits)), "ry", "cx", entanglement="linear", reps=1, skip_final_rotation_layer=True, ) rot.num_parameters_settable() >> 2 rot.compose(var, inplace=True) rot.num_parameters_settable() >> 2
+```
+
+Original buggy code:
+.compose()
+
+---CODE_BLOCK---
+
+TwoLocal
+
+---CODE_BLOCK---
+
+qiskit.circuit.library
+
+---CODE_BLOCK---
+
+.num_parameters_settable()
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import TwoLocal import numpy as np rot = TwoLocal( int(np.sum(num_qubits)), "ry", [], reps=1, skip_final_rotation_layer=True, parameter_prefix="p", ) var = TwoLocal( int(np.sum(num_qubits)), "ry", "cx", entanglement="linear", reps=1, skip_final_rotation_layer=True, ) rot.num_parameters_settable() >> 2 rot.compose(var, inplace=True) rot.num_parameters_settable() >> 2
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import TwoLocal import numpy as np rot = TwoLocal( int(np.sum(num_qubits)), "ry", [], reps=1, skip_final_rotation_layer=True, parameter_prefix="p", ) var = TwoLocal( int(np.sum(num_qubits)), "ry", "cx", entanglement="linear", reps=1, skip_final_rotation_layer=True, ) rot.num_parameters_settable() >> 2 rot.compose(var, inplace=True) rot.num_parameters_settable() >> 2
+
+Solution explanation:
+Looking at the documentation for TwoLocal, you can see that refers to the number of parameters originally available in the circuit. However, will give you what you are looking for. I tried it with your code setting and it indeed works as you want. This property is defined as: Meaning that it actually updates when an action like is made on the circuit.
+
+```
+.num_parameters_settable
+```
+
+```
+.num_parameters
+```
+
+```
+num_qubits=2
+```
+
+```
+.compose()
+```
+
+Original fixed code:
+.num_parameters_settable
+
+---CODE_BLOCK---
+
+.num_parameters
+
+---CODE_BLOCK---
+
+num_qubits=2
+
+---CODE_BLOCK---
+
+.compose()

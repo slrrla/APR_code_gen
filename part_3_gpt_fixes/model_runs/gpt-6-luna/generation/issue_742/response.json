@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWW03Lt22J7hlgdfCMR4Kq7NrkVvQ",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom math import pi\nfrom qiskit import QuantumCircuit, transpile\n# FIX: SparsePauliOp was not imported -> import it, because EstimatorV2 accepts Pauli-based observables.\nfrom qiskit.quantum_info import Operator, SparsePauliOp\nfrom qiskit_aer import AerSimulator\nfrom qiskit_ibm_runtime import EstimatorV2\n\nbackend = AerSimulator()\nestimator = EstimatorV2(mode=backend)\n\nO = Operator([[1,0,0,-2j],\n              [0,0,0,0],\n              [0,0,0,0],\n              [2j,0,0,1]])\n\n# FIX: Operator is not a supported EstimatorV2 observable -> convert it to a SparsePauliOp, because EstimatorV2 evaluates Pauli-based observables.\nobs = SparsePauliOp.from_operator(O)\n\nqc = QuantumCircuit(2)\nqc.rx(pi/3,1)\nqc.cx(1,0)\n\nqc_t = transpile(qc,backend)\n\njob = estimator.run([(qc_t,[obs])])\nexp_vals = job.result()[0].data.evs\nprint(exp_vals)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418211,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 613,
+    "prompt_tokens": 836,
+    "total_tokens": 1449,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 356,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

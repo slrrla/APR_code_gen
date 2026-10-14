@@ -1,0 +1,47 @@
+Title:
+Is there a way to entangle to a dirty qubit?
+
+Category:
+
+
+Question:
+Title: Is there a way to entangle to a dirty qubit?
+
+Let's say I do something to a qubit, and I want to entangle it to a 2nd one, like this: If I measure the 2nd I know the 1st one would have the same result. Now I mess with the first one. In Qiskit, I'll have to reset the 2nd qubit and for the CNOT to maintain the entanglement: My question is how do I make sure the 2nd qubit reflect the measurement of the first one, without the reset (which is not unitary); basically, how do I CNOT to a dirty ancilla? Obviously I can CNOT to a blank ancilla, or swap a blank one up, but say I want an universal gate that do this a million time, and I just don't have enough blank qubits; is there a way that use a finite number of qubits, no matter how many time you repeat the gate, that can achieve the task of making sure some ancilla(s) reflect the measurement of the first qubit? Or is it impossible (and why)? Thank you!
+
+```
+┌───┐ q_0: ┤ ? ├──■── └───┘┌─┴─┐ q_1: ─────┤ X ├ └───┘
+```
+
+```
+┌───┐ q_0: ┤ ? ├──■── └───┘┌─┴─┐ q_1: ─────┤ X ├ └───┘
+```
+
+```
+┌───┐ ░ ┌───┐ ░ q_0: ┤ ? ├──■───░─┤???├─░───■── └───┘┌─┴─┐ ░ └───┘ ░ ┌─┴─┐ q_1: ─────┤ X ├─░──|0>──░─┤ X ├ └───┘ ░ ░ └───┘
+```
+
+```
+┌───┐ ░ ┌───┐ ░ q_0: ┤ ? ├──■───░─┤???├─░───■── └───┘┌─┴─┐ ░ └───┘ ░ ┌─┴─┐ q_1: ─────┤ X ├─░──|0>──░─┤ X ├ └───┘ ░ ░ └───┘
+```
+
+Original buggy code:
+┌───┐ q_0: ┤ ? ├──■── └───┘┌─┴─┐ q_1: ─────┤ X ├ └───┘
+
+---CODE_BLOCK---
+
+┌───┐ q_0: ┤ ? ├──■── └───┘┌─┴─┐ q_1: ─────┤ X ├ └───┘
+
+---CODE_BLOCK---
+
+┌───┐ ░ ┌───┐ ░ q_0: ┤ ? ├──■───░─┤???├─░───■── └───┘┌─┴─┐ ░ └───┘ ░ ┌─┴─┐ q_1: ─────┤ X ├─░──|0>──░─┤ X ├ └───┘ ░ ░ └───┘
+
+---CODE_BLOCK---
+
+┌───┐ ░ ┌───┐ ░ q_0: ┤ ? ├──■───░─┤???├─░───■── └───┘┌─┴─┐ ░ └───┘ ░ ┌─┴─┐ q_1: ─────┤ X ├─░──|0>──░─┤ X ├ └───┘ ░ ░ └───┘
+
+Solution explanation:
+Short Answer: There is no universal gate that can entangle the output state for any given ? and ??? operators in the circuit given in the question. Long Answer: Say you have the entangle state $|\psi\rangle = \alpha |00\rangle + \beta |11\rangle$ before applying the ??? operator. Let the ??? operator correspond to the matrix $M = \begin{bmatrix}m_1 & m_2 \\ m_3 & m_4\end{bmatrix}$. So once you apply $M$ on the first qubit of $|\psi\rangle$, you get the state $$\hat{|\psi\rangle} = (M\otimes I)|\psi\rangle = \alpha(m_1|0\rangle + m_3|1\rangle)|0\rangle + \beta(m_2|0\rangle + m_4|1\rangle)|1\rangle.$$ Now, we need an operator $U$ that acts on the second qubit of $\hat{|\psi\rangle}$ to give us a state of the form $|\psi'\rangle = \alpha' |00\rangle + \beta' |11\rangle$. Let $U = \begin{bmatrix}u_1 & u_2 \\ u_3 & u_4\end{bmatrix}$. The operation of $U$ on the second qubit of $\hat{|\psi\rangle}$ can be given as $$\begin{align}(I \times U)\hat{|\psi\rangle} &= \big[\alpha(m_1|0\rangle + m_3|1\rangle)(u_1|0\rangle + u_3|1\rangle)\big] + \big[\beta(m_2|0\rangle + m_4|1\rangle)(u_2|0\rangle + u_4|1\rangle)\big] \\ &= (\alpha~m_1 u_1 + \beta~m_2u_2)|00\rangle + (\alpha~m_1 u_3 + \beta~m_2u_4)|01\rangle\\ & ~~~~+ (\alpha~m_3 u_1 + \beta~m_4u_2)|10\rangle + (\alpha~m_3 u_3 + \beta~m_4u_4)|11\rangle \end{align}$$ Now, notice that if the operator $U$ is such that the amplitudes of $|01\rangle$ and $|10\rangle$ are zero then we achieve an entangled state. Mathematically, we need $$\alpha~m_1 u_3 + \beta~m_2u_4 = 0 ~~\text{ and }~~ \alpha~m_3 u_1 + \beta~m_4u_2 = 0\tag{1}\label{eqn:1}.$$ It is a well known fact that any single qubit operator $A$ can be represented as $A = \begin{bmatrix}\cos{(\theta/2)} & -e^{i\lambda}\sin{(\theta/2)}\\ e^{i\phi}\sin{(\theta/2)} & e^{i(\lambda+\phi)}\cos{(\theta/2)}\end{bmatrix}$ (For more information on this check $U_3$ gates.) Using this notation we can write the operators $M$ and $U$ as $$M = \begin{bmatrix}\cos{(\theta_m/2)} & -e^{i\lambda_m}\sin{(\theta_m/2)}\\ e^{i\phi_m}\sin{(\theta_m/2)} & e^{i(\lambda_m+\phi_m)}\cos{(\theta_m/2)}\end{bmatrix} \text{ ; } U = \begin{bmatrix}\cos{(\theta_u/2)} & -e^{i\lambda_u}\sin{(\theta_u/2)}\\ e^{i\phi_u}\sin{(\theta_u/2)} & e^{i(\lambda_u+\phi_u)}\cos{(\theta_u/2)}\end{bmatrix}$$ Using this notation and solving for the first equation of ($\ref{eqn:1}$), we get $$\alpha~m_1u_3 + \beta~m_2u_4 = 0 \iff \alpha\cos{(\theta_m/2)}\sin{(\theta_u/2)} = e^{i(\lambda_m+\lambda_u)}\beta\sin{(\theta_m/2)}\cos{(\theta_u/2)} \tag{2}\label{eqn:2}$$ Similarly for the second equation of ($\ref{eqn:1}$), we get $$\alpha~m_3u_1 + \beta~m_4u_2 = 0 \iff \alpha\sin{(\theta_m/2)}\cos{(\theta_u/2)} = e^{i(\lambda_m+\lambda_u)}\beta\cos{(\theta_m/2)}\sin{(\theta_u/2)}\tag{3}\label{eqn:3}$$ So if you apply an operator $U$ that satisfies the conditions ($\ref{eqn:2}$) and ($\ref{eqn:3}$), then the final state will still be an entangled state of the form $\alpha'|00\rangle + \beta' |11\rangle$. If any gate that violates ($\ref{eqn:2}$) and ($\ref{eqn:3}$) is applied to the circuit, then you will not get an entangled state of the form $\alpha'|00\rangle + \beta' |11\rangle$. Hence you will need to know the ? and the ??? gates to get the output in the form $\alpha'|00\rangle + \beta' |11\rangle$ with certainty.
+
+Original fixed code:
+Short Answer: There is no universal gate that can entangle the output state for any given ? and ??? operators in the circuit given in the question. Long Answer: Say you have the entangle state $|\psi\rangle = \alpha |00\rangle + \beta |11\rangle$ before applying the ??? operator. Let the ??? operator correspond to the matrix $M = \begin{bmatrix}m_1 & m_2 \\ m_3 & m_4\end{bmatrix}$. So once you apply $M$ on the first qubit of $|\psi\rangle$, you get the state $$\hat{|\psi\rangle} = (M\otimes I)|\psi\rangle = \alpha(m_1|0\rangle + m_3|1\rangle)|0\rangle + \beta(m_2|0\rangle + m_4|1\rangle)|1\rangle.$$ Now, we need an operator $U$ that acts on the second qubit of $\hat{|\psi\rangle}$ to give us a state of the form $|\psi'\rangle = \alpha' |00\rangle + \beta' |11\rangle$. Let $U = \begin{bmatrix}u_1 & u_2 \\ u_3 & u_4\end{bmatrix}$. The operation of $U$ on the second qubit of $\hat{|\psi\rangle}$ can be given as $$\begin{align}(I \times U)\hat{|\psi\rangle} &= \big[\alpha(m_1|0\rangle + m_3|1\rangle)(u_1|0\rangle + u_3|1\rangle)\big] + \big[\beta(m_2|0\rangle + m_4|1\rangle)(u_2|0\rangle + u_4|1\rangle)\big] \\ &= (\alpha~m_1 u_1 + \beta~m_2u_2)|00\rangle + (\alpha~m_1 u_3 + \beta~m_2u_4)|01\rangle\\ & ~~~~+ (\alpha~m_3 u_1 + \beta~m_4u_2)|10\rangle + (\alpha~m_3 u_3 + \beta~m_4u_4)|11\rangle \end{align}$$ Now, notice that if the operator $U$ is such that the amplitudes of $|01\rangle$ and $|10\rangle$ are zero then we achieve an entangled state. Mathematically, we need $$\alpha~m_1 u_3 + \beta~m_2u_4 = 0 ~~\text{ and }~~ \alpha~m_3 u_1 + \beta~m_4u_2 = 0\tag{1}\label{eqn:1}.$$ It is a well known fact that any single qubit operator $A$ can be represented as $A = \begin{bmatrix}\cos{(\theta/2)} & -e^{i\lambda}\sin{(\theta/2)}\\ e^{i\phi}\sin{(\theta/2)} & e^{i(\lambda+\phi)}\cos{(\theta/2)}\end{bmatrix}$ (For more information on this check $U_3$ gates.) Using this notation we can write the operators $M$ and $U$ as $$M = \begin{bmatrix}\cos{(\theta_m/2)} & -e^{i\lambda_m}\sin{(\theta_m/2)}\\ e^{i\phi_m}\sin{(\theta_m/2)} & e^{i(\lambda_m+\phi_m)}\cos{(\theta_m/2)}\end{bmatrix} \text{ ; } U = \begin{bmatrix}\cos{(\theta_u/2)} & -e^{i\lambda_u}\sin{(\theta_u/2)}\\ e^{i\phi_u}\sin{(\theta_u/2)} & e^{i(\lambda_u+\phi_u)}\cos{(\theta_u/2)}\end{bmatrix}$$ Using this notation and solving for the first equation of ($\ref{eqn:1}$), we get $$\alpha~m_1u_3 + \beta~m_2u_4 = 0 \iff \alpha\cos{(\theta_m/2)}\sin{(\theta_u/2)} = e^{i(\lambda_m+\lambda_u)}\beta\sin{(\theta_m/2)}\cos{(\theta_u/2)} \tag{2}\label{eqn:2}$$ Similarly for the second equation of ($\ref{eqn:1}$), we get $$\alpha~m_3u_1 + \beta~m_4u_2 = 0 \iff \alpha\sin{(\theta_m/2)}\cos{(\theta_u/2)} = e^{i(\lambda_m+\lambda_u)}\beta\cos{(\theta_m/2)}\sin{(\theta_u/2)}\tag{3}\label{eqn:3}$$ So if you apply an operator $U$ that satisfies the conditions ($\ref{eqn:2}$) and ($\ref{eqn:3}$), then the final state will still be an entangled state of the form $\alpha'|00\rangle + \beta' |11\rangle$. If any gate that violates ($\ref{eqn:2}$) and ($\ref{eqn:3}$) is applied to the circuit, then you will not get an entangled state of the form $\alpha'|00\rangle + \beta' |11\rangle$. Hence you will need to know the ? and the ??? gates to get the output in the form $\alpha'|00\rangle + \beta' |11\rangle$ with certainty.

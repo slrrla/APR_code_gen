@@ -1,0 +1,175 @@
+Title:
+How to use qiskit transpile with Clifford + T basis? [duplicate]
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+Clifford + T decomposition requires explicit synthesis (Solovay-Kitaev or similar). Stack Overflow highlights this subtlety and provides the working pipeline. The AI solution misses this, so Stack Overflow provides the correct and practically useful answer.
+
+Question:
+Title: How to use qiskit transpile with Clifford + T basis? [duplicate]
+
+This question already has answers here: How can I find a Clifford+T approximation of an arbitrary one qubit gate in Qiskit? (2 answers) Closed 4 years ago. How can I transpile using universal $Clifford + T$ gates set? I have only seen examples using rotations + $CNOT$. This is what I have tried And this example works fine. But when I was trying to set: It doesn't work. Could you help me, please?) UPDATE: After comments I've tried this: and then: But it outputs only this: Where is a problem?
+
+```
+from qiskit import * from qiskit.quantum_info import Operator from qiskit.compiler import transpile %matplotlib inline u = Operator([[0, 0, 1, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 1, 0, 0, 0]]) qc = QuantumCircuit(3) qc.unitary(u, [0,1,2], label='u') result = transpile(qc, basis_gates=['u1', 'u2', 'u3', 'cx'], optimization_level=3) result.draw(output='mpl')
+```
+
+```
+from qiskit import * from qiskit.quantum_info import Operator from qiskit.compiler import transpile %matplotlib inline u = Operator([[0, 0, 1, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 1, 0, 0, 0]]) qc = QuantumCircuit(3) qc.unitary(u, [0,1,2], label='u') result = transpile(qc, basis_gates=['u1', 'u2', 'u3', 'cx'], optimization_level=3) result.draw(output='mpl')
+```
+
+```
+basis_gates=['h', 's', 't', 'cx']
+```
+
+```
+basis_gates=['h', 's', 't', 'cx']
+```
+
+```
+pip install git+https://github.com/LNoorl/qiskit-terra.git@feature/sk-pass
+```
+
+```
+pip install git+https://github.com/LNoorl/qiskit-terra.git@feature/sk-pass
+```
+
+```
+from qiskit.circuit import QuantumCircuit from qiskit.circuit.library import TGate, HGate, TdgGate, SGate from qiskit.transpiler.passes import SolovayKitaevDecomposition from qiskit import * from qiskit.quantum_info import Operator from qiskit.compiler import transpile %matplotlib inline u = Operator([[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, -1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 1]]) qc = QuantumCircuit(3) qc.unitary(u, [0,1,2], label='u') print('Orginal circuit:') print(qc) basis_gates = [TGate(), SGate(), HGate()] skd = SolovayKitaevDecomposition(recursion_degree=2, basis_gates=basis_gates, depth=5) discretized = skd(qc) print('Discretized circuit:') print(discretized)
+```
+
+```
+from qiskit.circuit import QuantumCircuit from qiskit.circuit.library import TGate, HGate, TdgGate, SGate from qiskit.transpiler.passes import SolovayKitaevDecomposition from qiskit import * from qiskit.quantum_info import Operator from qiskit.compiler import transpile %matplotlib inline u = Operator([[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, -1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 1]]) qc = QuantumCircuit(3) qc.unitary(u, [0,1,2], label='u') print('Orginal circuit:') print(qc) basis_gates = [TGate(), SGate(), HGate()] skd = SolovayKitaevDecomposition(recursion_degree=2, basis_gates=basis_gates, depth=5) discretized = skd(qc) print('Discretized circuit:') print(discretized)
+```
+
+```
+Orginal circuit: ┌────┐ q_0: ┤0 ├ │ │ q_1: ┤1 u ├ │ │ q_2: ┤2 ├ └────┘ Discretized circuit: ┌────┐ q_0: ┤0 ├ │ │ q_1: ┤1 u ├ │ │ q_2: ┤2 ├ └────┘
+```
+
+```
+Orginal circuit: ┌────┐ q_0: ┤0 ├ │ │ q_1: ┤1 u ├ │ │ q_2: ┤2 ├ └────┘ Discretized circuit: ┌────┐ q_0: ┤0 ├ │ │ q_1: ┤1 u ├ │ │ q_2: ┤2 ├ └────┘
+```
+
+Original buggy code:
+from qiskit import * from qiskit.quantum_info import Operator from qiskit.compiler import transpile %matplotlib inline u = Operator([[0, 0, 1, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 1, 0, 0, 0]]) qc = QuantumCircuit(3) qc.unitary(u, [0,1,2], label='u') result = transpile(qc, basis_gates=['u1', 'u2', 'u3', 'cx'], optimization_level=3) result.draw(output='mpl')
+
+---CODE_BLOCK---
+
+from qiskit import * from qiskit.quantum_info import Operator from qiskit.compiler import transpile %matplotlib inline u = Operator([[0, 0, 1, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 1, 0, 0, 0]]) qc = QuantumCircuit(3) qc.unitary(u, [0,1,2], label='u') result = transpile(qc, basis_gates=['u1', 'u2', 'u3', 'cx'], optimization_level=3) result.draw(output='mpl')
+
+---CODE_BLOCK---
+
+basis_gates=['h', 's', 't', 'cx']
+
+---CODE_BLOCK---
+
+basis_gates=['h', 's', 't', 'cx']
+
+---CODE_BLOCK---
+
+pip install git+https://github.com/LNoorl/qiskit-terra.git@feature/sk-pass
+
+---CODE_BLOCK---
+
+pip install git+https://github.com/LNoorl/qiskit-terra.git@feature/sk-pass
+
+---CODE_BLOCK---
+
+from qiskit.circuit import QuantumCircuit from qiskit.circuit.library import TGate, HGate, TdgGate, SGate from qiskit.transpiler.passes import SolovayKitaevDecomposition from qiskit import * from qiskit.quantum_info import Operator from qiskit.compiler import transpile %matplotlib inline u = Operator([[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, -1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 1]]) qc = QuantumCircuit(3) qc.unitary(u, [0,1,2], label='u') print('Orginal circuit:') print(qc) basis_gates = [TGate(), SGate(), HGate()] skd = SolovayKitaevDecomposition(recursion_degree=2, basis_gates=basis_gates, depth=5) discretized = skd(qc) print('Discretized circuit:') print(discretized)
+
+---CODE_BLOCK---
+
+from qiskit.circuit import QuantumCircuit from qiskit.circuit.library import TGate, HGate, TdgGate, SGate from qiskit.transpiler.passes import SolovayKitaevDecomposition from qiskit import * from qiskit.quantum_info import Operator from qiskit.compiler import transpile %matplotlib inline u = Operator([[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, -1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 1]]) qc = QuantumCircuit(3) qc.unitary(u, [0,1,2], label='u') print('Orginal circuit:') print(qc) basis_gates = [TGate(), SGate(), HGate()] skd = SolovayKitaevDecomposition(recursion_degree=2, basis_gates=basis_gates, depth=5) discretized = skd(qc) print('Discretized circuit:') print(discretized)
+
+---CODE_BLOCK---
+
+Orginal circuit: ┌────┐ q_0: ┤0 ├ │ │ q_1: ┤1 u ├ │ │ q_2: ┤2 ├ └────┘ Discretized circuit: ┌────┐ q_0: ┤0 ├ │ │ q_1: ┤1 u ├ │ │ q_2: ┤2 ├ └────┘
+
+---CODE_BLOCK---
+
+Orginal circuit: ┌────┐ q_0: ┤0 ├ │ │ q_1: ┤1 u ├ │ │ q_2: ┤2 ├ └────┘ Discretized circuit: ┌────┐ q_0: ┤0 ├ │ │ q_1: ┤1 u ├ │ │ q_2: ┤2 ├ └────┘
+
+Solution explanation:
+The reason for your second result is because unitary synthesis is not part of the pass. Actually, you can combine your attempts to get the desired result. This is the first stage (you first snippet), it will synthesise your circuit in terms of and : Then you can transform it to Cliffort+T using :
+
+```
+SolovayKitaevDecomposition
+```
+
+```
+u*
+```
+
+```
+cx
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Operator from qiskit.compiler import transpile u = Operator([[0, 0, 1, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 1, 0, 0, 0]]) qc = QuantumCircuit(3) qc.unitary(u, [0,1,2], label='u') transpiled = transpile(qc, basis_gates=['u1', 'u2', 'u3', 'cx'], optimization_level=3)
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import Operator from qiskit.compiler import transpile u = Operator([[0, 0, 1, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 1, 0, 0, 0]]) qc = QuantumCircuit(3) qc.unitary(u, [0,1,2], label='u') transpiled = transpile(qc, basis_gates=['u1', 'u2', 'u3', 'cx'], optimization_level=3)
+```
+
+```
+SolovayKitaevDecomposition
+```
+
+```
+from qiskit.circuit.library import TGate, HGate, SGate from qiskit.transpiler.passes import SolovayKitaevDecomposition basis_gates = [TGate(), SGate(), HGate()] skd = SolovayKitaevDecomposition(recursion_degree=3, basis_gates=basis_gates, depth=5) discretized = skd(transpiled) print(discretized)
+```
+
+```
+from qiskit.circuit.library import TGate, HGate, SGate from qiskit.transpiler.passes import SolovayKitaevDecomposition basis_gates = [TGate(), SGate(), HGate()] skd = SolovayKitaevDecomposition(recursion_degree=3, basis_gates=basis_gates, depth=5) discretized = skd(transpiled) print(discretized)
+```
+
+```
+global phase: -0.063526 ┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐ » q_0: ┤ X ├┤ T ├┤ X ├┤ S ├┤ X ├┤ X ├┤ S ├┤ S ├┤ H ├───────────────────────────» └─┬─┘└───┘└─┬─┘└───┘└─┬─┘└─┬─┘├───┤├───┤├───┤┌───┐┌───┐┌───┐┌───┐┌─────┐» q_1: ──■─────────┼─────────■────┼──┤ X ├┤ S ├┤ S ├┤ S ├┤ X ├┤ S ├┤ H ├┤ TDG ├» │ │ └─┬─┘└───┘└───┘└───┘└─┬─┘├───┤├───┤└┬───┬┘» q_2: ────────────■──────────────■────■───────────────────■──┤ T ├┤ S ├─┤ S ├─» └───┘└───┘ └───┘ »
+```
+
+```
+global phase: -0.063526 ┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐ » q_0: ┤ X ├┤ T ├┤ X ├┤ S ├┤ X ├┤ X ├┤ S ├┤ S ├┤ H ├───────────────────────────» └─┬─┘└───┘└─┬─┘└───┘└─┬─┘└─┬─┘├───┤├───┤├───┤┌───┐┌───┐┌───┐┌───┐┌─────┐» q_1: ──■─────────┼─────────■────┼──┤ X ├┤ S ├┤ S ├┤ S ├┤ X ├┤ S ├┤ H ├┤ TDG ├» │ │ └─┬─┘└───┘└───┘└───┘└─┬─┘├───┤├───┤└┬───┬┘» q_2: ────────────■──────────────■────■───────────────────■──┤ T ├┤ S ├─┤ S ├─» └───┘└───┘ └───┘ »
+```
+
+Original fixed code:
+SolovayKitaevDecomposition
+
+---CODE_BLOCK---
+
+u*
+
+---CODE_BLOCK---
+
+cx
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import Operator from qiskit.compiler import transpile u = Operator([[0, 0, 1, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 1, 0, 0, 0]]) qc = QuantumCircuit(3) qc.unitary(u, [0,1,2], label='u') transpiled = transpile(qc, basis_gates=['u1', 'u2', 'u3', 'cx'], optimization_level=3)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import Operator from qiskit.compiler import transpile u = Operator([[0, 0, 1, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 1, 0, 0, 0]]) qc = QuantumCircuit(3) qc.unitary(u, [0,1,2], label='u') transpiled = transpile(qc, basis_gates=['u1', 'u2', 'u3', 'cx'], optimization_level=3)
+
+---CODE_BLOCK---
+
+SolovayKitaevDecomposition
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import TGate, HGate, SGate from qiskit.transpiler.passes import SolovayKitaevDecomposition basis_gates = [TGate(), SGate(), HGate()] skd = SolovayKitaevDecomposition(recursion_degree=3, basis_gates=basis_gates, depth=5) discretized = skd(transpiled) print(discretized)
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import TGate, HGate, SGate from qiskit.transpiler.passes import SolovayKitaevDecomposition basis_gates = [TGate(), SGate(), HGate()] skd = SolovayKitaevDecomposition(recursion_degree=3, basis_gates=basis_gates, depth=5) discretized = skd(transpiled) print(discretized)
+
+---CODE_BLOCK---
+
+global phase: -0.063526 ┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐ » q_0: ┤ X ├┤ T ├┤ X ├┤ S ├┤ X ├┤ X ├┤ S ├┤ S ├┤ H ├───────────────────────────» └─┬─┘└───┘└─┬─┘└───┘└─┬─┘└─┬─┘├───┤├───┤├───┤┌───┐┌───┐┌───┐┌───┐┌─────┐» q_1: ──■─────────┼─────────■────┼──┤ X ├┤ S ├┤ S ├┤ S ├┤ X ├┤ S ├┤ H ├┤ TDG ├» │ │ └─┬─┘└───┘└───┘└───┘└─┬─┘├───┤├───┤└┬───┬┘» q_2: ────────────■──────────────■────■───────────────────■──┤ T ├┤ S ├─┤ S ├─» └───┘└───┘ └───┘ »
+
+---CODE_BLOCK---
+
+global phase: -0.063526 ┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐ » q_0: ┤ X ├┤ T ├┤ X ├┤ S ├┤ X ├┤ X ├┤ S ├┤ S ├┤ H ├───────────────────────────» └─┬─┘└───┘└─┬─┘└───┘└─┬─┘└─┬─┘├───┤├───┤├───┤┌───┐┌───┐┌───┐┌───┐┌─────┐» q_1: ──■─────────┼─────────■────┼──┤ X ├┤ S ├┤ S ├┤ S ├┤ X ├┤ S ├┤ H ├┤ TDG ├» │ │ └─┬─┘└───┘└───┘└───┘└─┬─┘├───┤├───┤└┬───┬┘» q_2: ────────────■──────────────■────■───────────────────■──┤ T ├┤ S ├─┤ S ├─» └───┘└───┘ └───┘ »

@@ -1,0 +1,135 @@
+Title:
+ValueError: numpy.ndarray size changed on importing qiskit
+
+Category:
+Category: Import Error / Binary Incompatibility  
+Winner: Both  
+Why Both Are Good: Stack Overflow provides a quick fix using `--ignore-installed` to bypass the binary mismatch. The AI solution is more comprehensive—it explains the root cause and offers a clean environment setup using pip or virtual environments for future compatibility.  
+Why AI Performs Well in This Category: AI explains dependency conflicts in a clear way and guides users to isolate environments, which is especially helpful when using Jupyter, Anaconda, or compiled packages. This makes it ideal for long-term reproducibility and fewer runtime surprises.
+
+
+Question:
+Title: ValueError: numpy.ndarray size changed on importing qiskit
+
+While trying to run the following commands on Jupyter 
+ from qiskit import QuantumCircuit, Aer, BasicAer, execute
+from qiskit.visualization import plot_histogram
+
+ I am encountering the following error.I am using python 3.8.
+Does anyone have any idea how can this be resolved? I have tried upgrading numpy and reinstalling Qiskit but the problem prevails 
+ ---------------------------------------------------------------------------
+ValueError Traceback (most recent call last)
+<ipython-input-3-a0c116756cb0> in <module>
+----> 1 from qiskit import QuantumCircuit, Aer, BasicAer, execute
+ 2 from qiskit.visualization import plot_histogram
+
+C:\ProgramData\Anaconda3\lib\site-packages\qiskit\__init__.py in <module>
+ 55 # Try to import the Aer provider if installed.
+ 56 try:
+---> 57 from qiskit.providers.aer import Aer
+ 58 except ImportError:
+ 59 suppress_warnings = os.environ.get('QISKIT_SUPPRESS_PACKAGING_WARNINGS', '')
+
+C:\ProgramData\Anaconda3\lib\site-packages\qiskit\providers\aer\__init__.py in <module>
+ 62 
+ 63 # pylint: disable=wrong-import-position
+---> 64 from .aerprovider import AerProvider
+ 65 from .aerjob import AerJob
+ 66 from .aererror import AerError
+
+...
+
+C:\ProgramData\Anaconda3\lib\site-packages\qiskit\providers\aer\pulse\qutip_extra_lite\fastsparse.py in <module>
+ 438 # -------------------------------------
+ 439 # pylint: disable=no-name-in-module, wrong-import-position, import-error
+--> 440 from .cy.spmath import (zcsr_transpose, zcsr_adjoint, zcsr_mult)
+
+spmath.pyx in init qiskit.providers.aer.pulse.qutip_extra_lite.cy.spmath()
+
+ValueError: numpy.ndarray size changed, may indicate binary incompatibility. Expected 88 from C header, got 80 from PyObject
+
+```
+from qiskit import QuantumCircuit, Aer, BasicAer, execute
+from qiskit.visualization import plot_histogram
+```
+
+```
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+<ipython-input-3-a0c116756cb0> in <module>
+----> 1 from qiskit import QuantumCircuit, Aer, BasicAer, execute
+      2 from qiskit.visualization import plot_histogram
+
+C:\ProgramData\Anaconda3\lib\site-packages\qiskit\__init__.py in <module>
+     55 # Try to import the Aer provider if installed.
+     56 try:
+---> 57     from qiskit.providers.aer import Aer
+     58 except ImportError:
+     59     suppress_warnings = os.environ.get('QISKIT_SUPPRESS_PACKAGING_WARNINGS', '')
+
+C:\ProgramData\Anaconda3\lib\site-packages\qiskit\providers\aer\__init__.py in <module>
+     62 
+     63 # pylint: disable=wrong-import-position
+---> 64 from .aerprovider import AerProvider
+     65 from .aerjob import AerJob
+     66 from .aererror import AerError
+
+...
+
+C:\ProgramData\Anaconda3\lib\site-packages\qiskit\providers\aer\pulse\qutip_extra_lite\fastsparse.py in <module>
+    438 # -------------------------------------
+    439 # pylint: disable=no-name-in-module, wrong-import-position, import-error
+--> 440 from .cy.spmath import (zcsr_transpose, zcsr_adjoint, zcsr_mult)
+
+spmath.pyx in init qiskit.providers.aer.pulse.qutip_extra_lite.cy.spmath()
+
+ValueError: numpy.ndarray size changed, may indicate binary incompatibility. Expected 88 from C header, got 80 from PyObject
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit, Aer, BasicAer, execute
+from qiskit.visualization import plot_histogram
+
+---CODE_BLOCK---
+
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+<ipython-input-3-a0c116756cb0> in <module>
+----> 1 from qiskit import QuantumCircuit, Aer, BasicAer, execute
+      2 from qiskit.visualization import plot_histogram
+
+C:\ProgramData\Anaconda3\lib\site-packages\qiskit\__init__.py in <module>
+     55 # Try to import the Aer provider if installed.
+     56 try:
+---> 57     from qiskit.providers.aer import Aer
+     58 except ImportError:
+     59     suppress_warnings = os.environ.get('QISKIT_SUPPRESS_PACKAGING_WARNINGS', '')
+
+C:\ProgramData\Anaconda3\lib\site-packages\qiskit\providers\aer\__init__.py in <module>
+     62 
+     63 # pylint: disable=wrong-import-position
+---> 64 from .aerprovider import AerProvider
+     65 from .aerjob import AerJob
+     66 from .aererror import AerError
+
+...
+
+C:\ProgramData\Anaconda3\lib\site-packages\qiskit\providers\aer\pulse\qutip_extra_lite\fastsparse.py in <module>
+    438 # -------------------------------------
+    439 # pylint: disable=no-name-in-module, wrong-import-position, import-error
+--> 440 from .cy.spmath import (zcsr_transpose, zcsr_adjoint, zcsr_mult)
+
+spmath.pyx in init qiskit.providers.aer.pulse.qutip_extra_lite.cy.spmath()
+
+ValueError: numpy.ndarray size changed, may indicate binary incompatibility. Expected 88 from C header, got 80 from PyObject
+
+Solution explanation:
+worked after I used the following command 
+ pip install --ignore-installed qiskit-terra qiskit-aer
+
+```
+pip install --ignore-installed qiskit-terra qiskit-aer
+```
+
+Original fixed code:
+pip install --ignore-installed qiskit-terra qiskit-aer

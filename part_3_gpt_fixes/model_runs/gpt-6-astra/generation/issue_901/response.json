@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWO3yRcptGYrjA5Oh33BIBL8oqfM",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit.circuit import QuantumCircuit\nfrom qiskit import transpile\n# FIX: The translator lacks an S-to-T equivalence -> import the gate and session library, because exact basis translation needs a registered rule.\nfrom qiskit.circuit.library import SGate\nfrom qiskit.circuit.equivalence_library import SessionEquivalenceLibrary\n\nqc = QuantumCircuit(2)\nqc.h(0)\nqc.s(0)\nqc.cx(0, 1)\n\nbasis_gates = [\"h\", \"t\", \"cx\", \"id\"]\n# FIX: S cannot be translated using the available rules -> register S = T T, because two T gates exactly implement S in the requested basis.\ns_decomposition = QuantumCircuit(1)\ns_decomposition.t(0)\ns_decomposition.t(0)\nSessionEquivalenceLibrary.add_equivalence(SGate(), s_decomposition)\nqc_transpiled = transpile(qc, basis_gates=basis_gates)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419699,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 367,
+    "prompt_tokens": 1139,
+    "total_tokens": 1506,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 154,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1136,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

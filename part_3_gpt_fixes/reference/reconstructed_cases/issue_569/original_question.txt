@@ -1,0 +1,75 @@
+Title:
+Limited qubit number available in Aer Statevector simulator
+
+Category:
+
+
+Question:
+Title: Limited qubit number available in Aer Statevector simulator
+
+I tried to run a calculation of 37 qubits with a Statevector simulator on Qiskit. The following is a demo code. This program took infinite time in my laptop... Later on, I ran the following code to find that my laptop can only deal with 30 qubits. Does anyone know if there is any way to get the 37-qubit state vector? Could you show some demo code for demonstration? Thank you!
+
+```
+from qiskit import QuantumRegister from qiskit import QuantumCircuit from qiskit import QuantumCircuit, Aer, execute from qiskit_aer import AerSimulator, StatevectorSimulator from qiskit.providers.aer.library import save_statevector from qiskit import execute, transpile from qiskit.providers.aer import QasmSimulator import math import numpy as np
+```
+
+```
+from qiskit import QuantumRegister from qiskit import QuantumCircuit from qiskit import QuantumCircuit, Aer, execute from qiskit_aer import AerSimulator, StatevectorSimulator from qiskit.providers.aer.library import save_statevector from qiskit import execute, transpile from qiskit.providers.aer import QasmSimulator import math import numpy as np
+```
+
+```
+simulator = Aer.get_backend('aer_simulator') stateCirc = QuantumCircuit(37) stateCirc.x(0) stateCirc.x(11) stateCirc.x(21) stateCirc.x(25) stateCirc.save_statevector(label='v0') job = execute(stateCirc, simulator) result =job.result() data = result.data() psi0 = data['v0'] np.vdot(psi0, psi0)
+```
+
+```
+simulator = Aer.get_backend('aer_simulator') stateCirc = QuantumCircuit(37) stateCirc.x(0) stateCirc.x(11) stateCirc.x(21) stateCirc.x(25) stateCirc.save_statevector(label='v0') job = execute(stateCirc, simulator) result =job.result() data = result.data() psi0 = data['v0'] np.vdot(psi0, psi0)
+```
+
+```
+simulator = Aer.get_backend('aer_simulator') simulator.configuration().n_qubits
+```
+
+```
+simulator = Aer.get_backend('aer_simulator') simulator.configuration().n_qubits
+```
+
+Original buggy code:
+from qiskit import QuantumRegister from qiskit import QuantumCircuit from qiskit import QuantumCircuit, Aer, execute from qiskit_aer import AerSimulator, StatevectorSimulator from qiskit.providers.aer.library import save_statevector from qiskit import execute, transpile from qiskit.providers.aer import QasmSimulator import math import numpy as np
+
+---CODE_BLOCK---
+
+from qiskit import QuantumRegister from qiskit import QuantumCircuit from qiskit import QuantumCircuit, Aer, execute from qiskit_aer import AerSimulator, StatevectorSimulator from qiskit.providers.aer.library import save_statevector from qiskit import execute, transpile from qiskit.providers.aer import QasmSimulator import math import numpy as np
+
+---CODE_BLOCK---
+
+simulator = Aer.get_backend('aer_simulator') stateCirc = QuantumCircuit(37) stateCirc.x(0) stateCirc.x(11) stateCirc.x(21) stateCirc.x(25) stateCirc.save_statevector(label='v0') job = execute(stateCirc, simulator) result =job.result() data = result.data() psi0 = data['v0'] np.vdot(psi0, psi0)
+
+---CODE_BLOCK---
+
+simulator = Aer.get_backend('aer_simulator') stateCirc = QuantumCircuit(37) stateCirc.x(0) stateCirc.x(11) stateCirc.x(21) stateCirc.x(25) stateCirc.save_statevector(label='v0') job = execute(stateCirc, simulator) result =job.result() data = result.data() psi0 = data['v0'] np.vdot(psi0, psi0)
+
+---CODE_BLOCK---
+
+simulator = Aer.get_backend('aer_simulator') simulator.configuration().n_qubits
+
+---CODE_BLOCK---
+
+simulator = Aer.get_backend('aer_simulator') simulator.configuration().n_qubits
+
+Solution explanation:
+Your machine does not have the memory needed to generate a 37 qubit statevector. for is set to MAX_QUBITS_STATEVECTOR which is set by the amount of memory your station has. To get a 37 qubit statevector you'll need to run this program on more powerful system. There are services on the cloud like GCP, AWS or Azure that you can leverage.
+
+```
+n_qubits
+```
+
+```
+aer_simulator
+```
+
+Original fixed code:
+n_qubits
+
+---CODE_BLOCK---
+
+aer_simulator

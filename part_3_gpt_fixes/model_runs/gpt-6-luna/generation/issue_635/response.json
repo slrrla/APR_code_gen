@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWVzamaaduOzLqVIEwj550IQFPkRY",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, execute, Aer\n\nq = QuantumRegister(3)\n# FIX: one multi-bit register cannot condition independently on its bits -> use one-bit registers, because c_if compares the entire classical register value\nc = ClassicalRegister(1)\nc1 = ClassicalRegister(1)\nc2 = ClassicalRegister(1)\n# FIX: include each one-bit register in the circuit -> pass all registers, because each measurement needs its own c_if condition\nqc = QuantumCircuit(q, c, c1, c2)\n\n# FIX: measuring into one register does not populate the separate condition registers -> measure each qubit into its own register, because c_if compares a whole register\nqc.measure(q[0], c[0])\nqc.measure(q[1], c1[0])\nqc.measure(q[2], c2[0])\n\n# FIX: c_if requires a classical register, not an individual classical bit -> condition on each one-bit register, because its value then represents that measurement bit\nqc.x(q[0]).c_if(c, 1)\nqc.x(q[1]).c_if(c1, 1)\n\nbackend = Aer.get_backend('qasm_simulator')\njob = execute(qc, backend, shots=1024)\nresult = job.result()\nprint(result.get_counts(qc))\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418182,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 1702,
+    "prompt_tokens": 821,
+    "total_tokens": 2523,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 1401,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

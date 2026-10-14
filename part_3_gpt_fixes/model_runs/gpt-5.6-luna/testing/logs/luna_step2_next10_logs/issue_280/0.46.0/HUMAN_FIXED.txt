@@ -1,0 +1,18 @@
+﻿python.exe : C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_280\test.py:20: DeprecationWarning: 
+Importing from 'qiskit.providers.aer' is deprecated. Import from 'qiskit_aer' instead, which should work identically.
+At line:63 char:36
++                     $outputLines = & $python $testPath 2>&1
++                                    ~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\Mitali...rk identically.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  from qiskit.providers.aer import AerSimulator
+C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_280\fixed.py:1: DeprecationWarning: Importing from 
+'qiskit.providers.aer' is deprecated. Import from 'qiskit_aer' instead, which should work identically.
+  from qiskit.providers.aer.noise import NoiseModel, depolarizing_error
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.082s
+
+OK
+

@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWL5gyPd7ScZa2rgtMRxKljRSBGu",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport numpy as np\n# FIX: qiskit.extensions was removed and UnitaryGate does not identify standard gates -> import the supported wrapper and gate-comparison APIs, because identification requires comparing standard-gate operators.\nfrom qiskit.circuit.library import UnitaryGate\nfrom qiskit.circuit import Gate\nfrom qiskit.circuit.library.standard_gates import get_standard_gate_name_mapping\nfrom qiskit.quantum_info import Operator\n\nunitary = np.array([[0, 1], [1, 0]])\ngate = UnitaryGate(unitary)\n# FIX: UnitaryGate always has the generic name \"unitary\" -> select a matching standard gate, because operator equivalence identifies its action up to global phase.\nfor candidate in get_standard_gate_name_mapping().values():\n    if (isinstance(candidate, Gate)\n            and not candidate.is_parameterized()\n            and candidate.num_qubits == gate.num_qubits\n            and Operator(candidate).equiv(unitary)):\n        gate = candidate\n        break\nprint(gate.name)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419515,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 738,
+    "prompt_tokens": 562,
+    "total_tokens": 1300,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 512,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

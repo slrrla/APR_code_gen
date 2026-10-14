@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWBkPVzBc8qDJpoaLTYr44j2eQsc",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import transpile\nfrom qiskit.quantum_info import Statevector, state_fidelity\nfrom qiskit.circuit.library import QFT\nfrom qiskit_aer import AerSimulator\nfrom qiskit_ibm_runtime.fake_provider import FakeBrisbane\n\nbackend_brisbane = FakeBrisbane()\n\nqc = QFT(6)\n\nqc.remove_final_measurements()\n\n# FIX: The simulator had no hardware noise -> use the backend's noise model and density-matrix simulation, because noisy outputs are generally mixed states.\nideal_sim = AerSimulator.from_backend(backend_brisbane, method=\"density_matrix\")\n\nstatevector_ideal = Statevector(qc)\n\nqc_transpiled = transpile(qc, backend_brisbane, optimization_level=1)\n\n# FIX: No output state was saved and transpilation added physical qubits -> save only the logical qubits in their final layout order, because fidelity requires matching subsystem dimensions and qubit order.\nqc_transpiled.save_density_matrix(qubits=qc_transpiled.layout.final_index_layout())\njob_real = ideal_sim.run(qc_transpiled)\n# FIX: get_statevector() requested an unsaved pure state -> retrieve the saved density matrix, because it represents the noisy logical output.\nstatevector_real = job_real.result().data(0)[\"density_matrix\"]\n\nfidelity = state_fidelity(statevector_ideal, statevector_real)\nprint(f\"Fidelity tra stato ideale e rumoroso: {fidelity:.4f}\")\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418936,
+  "model": "gpt-6.1-sol",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 587,
+    "prompt_tokens": 1415,
+    "total_tokens": 2002,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 269,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1412,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

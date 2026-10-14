@@ -1,0 +1,31 @@
+Title:
+Creating a Qiskit Circuit sending $|00\rangle$ to $|1,-\rangle$ and $|11\rangle$ to $|0,-\rangle$
+
+Category:
+
+
+Question:
+Title: Creating a Qiskit Circuit sending $|00\rangle$ to $|1,-\rangle$ and $|11\rangle$ to $|0,-\rangle$
+
+I am trying to create a circuit in Qiskit that performs the following transformations: starting in state |00⟩ generates a √(2)/2 * (-|10⟩+|11⟩) state starting in state |11⟩ generates a √(2)/2 * (|00⟩-|01⟩) state I created a basic circuit for creating entangled states but I do not know how to infer relevant gates for such transformations.
+
+```
+def create_circuit(): qr3 = qiskit.QuantumRegister(2) cr3 = qiskit.ClassicalRegister(2) qc3 = qiskit.QuantumCircuit(qr3 ,cr3) qc3.h(qr3[0]) # H qc3.cx(qr3[0], qr3[1]) # CNOT return qc3
+```
+
+```
+def create_circuit(): qr3 = qiskit.QuantumRegister(2) cr3 = qiskit.ClassicalRegister(2) qc3 = qiskit.QuantumCircuit(qr3 ,cr3) qc3.h(qr3[0]) # H qc3.cx(qr3[0], qr3[1]) # CNOT return qc3
+```
+
+Original buggy code:
+def create_circuit(): qr3 = qiskit.QuantumRegister(2) cr3 = qiskit.ClassicalRegister(2) qc3 = qiskit.QuantumCircuit(qr3 ,cr3) qc3.h(qr3[0]) # H qc3.cx(qr3[0], qr3[1]) # CNOT return qc3
+
+---CODE_BLOCK---
+
+def create_circuit(): qr3 = qiskit.QuantumRegister(2) cr3 = qiskit.ClassicalRegister(2) qc3 = qiskit.QuantumCircuit(qr3 ,cr3) qc3.h(qr3[0]) # H qc3.cx(qr3[0], qr3[1]) # CNOT return qc3
+
+Solution explanation:
+Note that for the first state you have $$ \dfrac{|11 \rangle - |10\rangle}{\sqrt{2}} = -|1\rangle \otimes \dfrac{|0 \rangle - |1\rangle}{\sqrt{2}} $$ This is a product or separable state. Hence no entanglement and therefore you don't need a two qubit gate. Recall the mapping $X|0\rangle =|1\rangle$ and and $Z|1\rangle = -|1\rangle$ and $H|1\rangle = \dfrac{|0 \rangle - |1\rangle}{\sqrt{2}} $ So you are looking for something like ** Note the circuit is in little endian convention (read from bottom to top). You should be able to get the second one now.
+
+Original fixed code:
+Note that for the first state you have $$ \dfrac{|11 \rangle - |10\rangle}{\sqrt{2}} = -|1\rangle \otimes \dfrac{|0 \rangle - |1\rangle}{\sqrt{2}} $$ This is a product or separable state. Hence no entanglement and therefore you don't need a two qubit gate. Recall the mapping $X|0\rangle =|1\rangle$ and and $Z|1\rangle = -|1\rangle$ and $H|1\rangle = \dfrac{|0 \rangle - |1\rangle}{\sqrt{2}} $ So you are looking for something like ** Note the circuit is in little endian convention (read from bottom to top). You should be able to get the second one now.

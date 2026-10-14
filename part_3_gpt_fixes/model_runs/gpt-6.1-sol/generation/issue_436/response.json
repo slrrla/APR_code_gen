@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWW75no3s4SfMcLLsHBMIndRO5ZgQ",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import pulse, assemble\nfrom qiskit.pulse import Play, Schedule, DriveChannel, Gaussian, AcquireChannel, Waveform\nfrom qiskit.providers.aer import PulseSimulator\nfrom qiskit.test.mock import FakeArmonk\nimport numpy as np\n\njob_params = {\n    'meas_level': 1,\n    'meas_return': 'avg',\n    'shots': 512\n}\nspec_range = 0.300\nnum_spec01_freqs = 71\nGHz = 1.0e9\n\ndef get_exc_chans(gv):\n    return [AcquireChannel(i) for i in range(gv['backend_config'].n_qubits)]\n\ndef get_spec01_freqs(center_freqs, qubit):\n    center_freq = round(center_freqs[qubit], -8)\n    return np.linspace(center_freq/GHz - spec_range/2,\n                        center_freq/GHz + spec_range/2,\n                        num_spec01_freqs)\n\nbackend_real = FakeArmonk()\nbackend = PulseSimulator.from_backend(backend_real)\nqubit = 0\nbackend_config = backend.configuration()\nexc_chans = get_exc_chans(globals())\ndt = backend_config.dt\nbackend_defaults = backend.defaults()\ncenter_frequency = backend_defaults.qubit_freq_est\ninst_sched_map = backend_defaults.instruction_schedule_map\n\nmeas = inst_sched_map.get('measure', qubits=[qubit])\n\ndrive_amp = 0.25\ndrive_duration = inst_sched_map.get('x', qubits=[qubit]).duration\ndrive_sigma = drive_duration // 4\nspec_pulse = Gaussian(duration=drive_duration, amp=drive_amp, sigma=drive_sigma,\n                       name=f\"Spec drive amplitude = {drive_amp}\")\n\nspec_freqs_GHz = get_spec01_freqs(center_frequency, qubit)\n\nspec01_scheds = []\nfor freq in spec_freqs_GHz:\n    with pulse.build(name=\"Spec Pulse at %.3f GHz\" % freq) as spec01_sched:\n        with pulse.align_sequential():\n            # FIX: PulseSimulator does not support set_frequency -> modulate waveform samples at the offset from the default LO, because exp(2j*pi*offset*t) implements the frequency change without an unsupported instruction.\n            pulse.play(Waveform(spec_pulse.get_waveform().samples * np.exp(\n                2j * np.pi * (freq*GHz - center_frequency[qubit]) * np.arange(drive_duration) * dt)),\n                DriveChannel(qubit))\n            pulse.call(meas)\n    spec01_scheds.append(spec01_sched)\n\nqobj = assemble(spec01_scheds, backend=backend, **job_params)\nspec01_job = backend.run(qobj)\nprint(spec01_job.result())\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418647,
+  "model": "gpt-6.1-sol",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 674,
+    "prompt_tokens": 2451,
+    "total_tokens": 3125,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 95,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 2448,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

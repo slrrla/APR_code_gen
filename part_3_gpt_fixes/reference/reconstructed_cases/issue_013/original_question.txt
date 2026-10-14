@@ -1,0 +1,51 @@
+Title:
+No module named 'qiskit'
+
+Category:
+Category: Basic Setup & Environment Configuration  
+Winner: AI  
+Why AI is Better: AI clearly explains the import error, provides both terminal and notebook install commands, and gives tips on virtual environments and version compatibility. Stack Overflow’s response is correct but lacks context and guidance.  
+Why AI Performs Better in This Category: AI’s strength is in onboarding and setup issues where users benefit from detailed steps and warnings. It excels in beginner education and environment setup validation.
+
+
+Question:
+Title: No module named 'qiskit'
+
+import numpy as np
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
+from qiskit import execute
+
+ When trying the above code, I am receiving the following error: 
+
+ ModuleNotFoundError Traceback (most recent call last)
+ in ()
+ 1 import numpy as np
+ ----> 2 from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
+ 3 from qiskit import execute 
+
+ ModuleNotFoundError: No module named 'qiskit'
+
+```
+import numpy as np
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
+from qiskit import execute
+```
+
+Original buggy code:
+import numpy as np
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
+from qiskit import execute
+
+Solution explanation:
+You need to install it via 
+
+ pip install qiskit
+
+ Refer to this for more information https://github.com/Qiskit/qiskit/blob/master/docs/install.rst
+
+```
+pip install qiskit
+```
+
+Original fixed code:
+pip install qiskit

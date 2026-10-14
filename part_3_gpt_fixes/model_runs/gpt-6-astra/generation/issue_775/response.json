@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWLi18qY35pc6EhM6nRgyCsuMlVc",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\n# FIX: OpenQASM text needs parsing -> import QuantumCircuit, because execute expects a circuit rather than source text\nfrom qiskit import execute, Aer, QuantumCircuit\n\nqasm_str = '''\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[2];\ncreg c[2];\nh q[0];\ncx q[0],q[1];\n'''\n\nbackend = Aer.get_backend('qasm_simulator')\n# FIX: execute received raw OpenQASM text -> parse it into a QuantumCircuit, because execute cannot run a source string directly\njob = execute(QuantumCircuit.from_qasm_str(qasm_str), backend)\nresult = job.result()\nprint(result)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419554,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 238,
+    "prompt_tokens": 579,
+    "total_tokens": 817,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 80,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

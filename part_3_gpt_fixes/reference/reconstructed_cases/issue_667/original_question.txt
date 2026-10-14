@@ -1,0 +1,195 @@
+Title:
+Qubit entanglement in linear combination of unitaries Qiskit calculation
+
+Category:
+
+
+Question:
+Title: Qubit entanglement in linear combination of unitaries Qiskit calculation
+
+This is a follow-up to my previous question (Linear combination of unitaries with Qiskit circuit) where I ask how to construct a linear combination of unitaries (LCU) circuit in Qiskit. For that two-qubit example, it requires adding a control qubit to do LCU. Assuming I don't need the control qubit for any future calculations, I want to figure out the most efficient way to find the statevector: If the qubits are entangled with qubits, is not a pure state and statevector simulation is not possible. Instead one must find the density matrix of the whole system, take the trace over the register, then recover the statevector. If and qubits are not entangled, we can recover the statevector using statevector simulation. My question is, does LCU always produce an entangled (or unentangled) state? If not, how can I tell whether LCU for some arbitrary matrix will entangle the and registers?
+
+```
+psi
+```
+
+```
+psi
+```
+
+```
+ctrl
+```
+
+```
+psi
+```
+
+```
+ctrl
+```
+
+```
+psi
+```
+
+```
+psi
+```
+
+```
+ctrl
+```
+
+```
+psi
+```
+
+```
+ctrl
+```
+
+Original buggy code:
+psi
+
+---CODE_BLOCK---
+
+psi
+
+---CODE_BLOCK---
+
+ctrl
+
+---CODE_BLOCK---
+
+psi
+
+---CODE_BLOCK---
+
+ctrl
+
+---CODE_BLOCK---
+
+psi
+
+---CODE_BLOCK---
+
+psi
+
+---CODE_BLOCK---
+
+ctrl
+
+---CODE_BLOCK---
+
+psi
+
+---CODE_BLOCK---
+
+ctrl
+
+Solution explanation:
+In the LCU algorithm, you don't just discard the ancillary qubit. For the algorithm to work correctly, you actually measure the ancillary qubit and recover $A|\psi\rangle$ (up to a normalization factor) only if the measurement outcome of the ancillary qubit is $0$. And once you perform this measurement, the state will be separable. So, the code to implement the circuit will also need a measurement step: And then, a simulation that gets executed until you measure a : This should print the Statevector after applying the non-unitary matrix $A$ (up to a normalization factor). Just one note, I added a "time out" variable to the while loop because, in the LCU, the probability of measuring a in the ancillary qubits can be very small depending on the way you setup the problem (or even if you don't set it up correctly). Alternative to Qiskit Aer: If you're having issues with Aer's Statevector simulator, you can: Remove/comment these two lines of code in the circuit definition: Run the following code which uses the class from the module:
+
+```
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit.quantum_info import SparsePauliOp, Operator # Create non-unitary matrix a = 0.25 b = 0.75 A = np.array([[a, 0, 0, b], [0, -a, b, 0], [0, b, a, 0], [b, 0, 0, -a]]) # Pauli Decomposition of A LCU = SparsePauliOp.from_operator(A) LCU_coeffs = LCU.coeffs LCU_ops = LCU.paulis L = len(LCU_coeffs) # Total number of Paulis M = int(2**np.ceil(np.log2(L))) # Closest power of 2 to encode coefficients in statevector pad = M - L # Value by which statevector needs to be padded # lists of α coeffs and U unitaries for LCU α_lst = np.pad(np.sqrt(LCU_coeffs)/np.linalg.norm(np.sqrt(LCU_coeffs)), pad_width=(0,pad)) U_lst = [op.to_instruction() for op in LCU_ops] # Define ψ ψ = np.array([1,0,0,0]) # Specify number of qubits N = A.shape[0] # Size of square-matrix A n = int(np.log2(N)) # Number of qubits needed to encode A m = int(np.log2(M)) # Number of qubits to control unitaries # Create LCU registers qr_ψ = QuantumRegister(n, name='ψ') qr_c = QuantumRegister(m, name= 'ctrl') cr_c = ClassicalRegister(m) # Create LCU circuit qc = QuantumCircuit(qr_ψ, qr_c, cr_c) qc.prepare_state(ψ, qr_ψ) qc.prepare_state(α_lst,qr_c) for i in range(L): ctrl = np.binary_repr(i,m) U_ctrl = U_lst[i].control(m,ctrl_state=ctrl) qc.append(U_ctrl,qr_c[:]+qr_ψ[:]) qc.prepare_state(α_lst,qr_c).inverse() qc.measure(qr_c,cr_c) qc.save_statevector()
+```
+
+```
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit.quantum_info import SparsePauliOp, Operator # Create non-unitary matrix a = 0.25 b = 0.75 A = np.array([[a, 0, 0, b], [0, -a, b, 0], [0, b, a, 0], [b, 0, 0, -a]]) # Pauli Decomposition of A LCU = SparsePauliOp.from_operator(A) LCU_coeffs = LCU.coeffs LCU_ops = LCU.paulis L = len(LCU_coeffs) # Total number of Paulis M = int(2**np.ceil(np.log2(L))) # Closest power of 2 to encode coefficients in statevector pad = M - L # Value by which statevector needs to be padded # lists of α coeffs and U unitaries for LCU α_lst = np.pad(np.sqrt(LCU_coeffs)/np.linalg.norm(np.sqrt(LCU_coeffs)), pad_width=(0,pad)) U_lst = [op.to_instruction() for op in LCU_ops] # Define ψ ψ = np.array([1,0,0,0]) # Specify number of qubits N = A.shape[0] # Size of square-matrix A n = int(np.log2(N)) # Number of qubits needed to encode A m = int(np.log2(M)) # Number of qubits to control unitaries # Create LCU registers qr_ψ = QuantumRegister(n, name='ψ') qr_c = QuantumRegister(m, name= 'ctrl') cr_c = ClassicalRegister(m) # Create LCU circuit qc = QuantumCircuit(qr_ψ, qr_c, cr_c) qc.prepare_state(ψ, qr_ψ) qc.prepare_state(α_lst,qr_c) for i in range(L): ctrl = np.binary_repr(i,m) U_ctrl = U_lst[i].control(m,ctrl_state=ctrl) qc.append(U_ctrl,qr_c[:]+qr_ψ[:]) qc.prepare_state(α_lst,qr_c).inverse() qc.measure(qr_c,cr_c) qc.save_statevector()
+```
+
+```
+0
+```
+
+```
+from qiskit import transpile from qiskit_aer import AerSimulator from qiskit.quantum_info import partial_trace simulator = AerSimulator() qc_t = transpile(qc, simulator) n_out = 1000 # Number of iterations before timing out done = False while not done: result = simulator.run(qc_t,shots=1).result() meas_result = list(result.get_counts().keys())[0] meas_sv = result.get_statevector() n_out -= 1 if int(meas_result) == 0 or n_out == 0: meas_sv = partial_trace(meas_sv,range(n,n+m)).to_statevector() done = True print(meas_sv)
+```
+
+```
+from qiskit import transpile from qiskit_aer import AerSimulator from qiskit.quantum_info import partial_trace simulator = AerSimulator() qc_t = transpile(qc, simulator) n_out = 1000 # Number of iterations before timing out done = False while not done: result = simulator.run(qc_t,shots=1).result() meas_result = list(result.get_counts().keys())[0] meas_sv = result.get_statevector() n_out -= 1 if int(meas_result) == 0 or n_out == 0: meas_sv = partial_trace(meas_sv,range(n,n+m)).to_statevector() done = True print(meas_sv)
+```
+
+```
+0
+```
+
+```
+0
+```
+
+```
+qc.measure(qr_c,cr_c) qc.save_statevector()
+```
+
+```
+qc.measure(qr_c,cr_c) qc.save_statevector()
+```
+
+```
+Statevector
+```
+
+```
+quantum_info
+```
+
+```
+from qiskit.quantum_info import Statevector, partial_trace sv = Statevector(qc) n_out = 1000 # Number of iterations before timing out done = False while not done: meas_result, meas_sv = sv.measure(range(n,n+m)) n_out -= 1 print(meas_result == '0') if meas_result == '0' or n_out == 0: meas_sv = partial_trace(meas_sv,range(n,n+m)).to_statevector() display(meas_sv) done = True
+```
+
+```
+from qiskit.quantum_info import Statevector, partial_trace sv = Statevector(qc) n_out = 1000 # Number of iterations before timing out done = False while not done: meas_result, meas_sv = sv.measure(range(n,n+m)) n_out -= 1 print(meas_result == '0') if meas_result == '0' or n_out == 0: meas_sv = partial_trace(meas_sv,range(n,n+m)).to_statevector() display(meas_sv) done = True
+```
+
+Original fixed code:
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit.quantum_info import SparsePauliOp, Operator # Create non-unitary matrix a = 0.25 b = 0.75 A = np.array([[a, 0, 0, b], [0, -a, b, 0], [0, b, a, 0], [b, 0, 0, -a]]) # Pauli Decomposition of A LCU = SparsePauliOp.from_operator(A) LCU_coeffs = LCU.coeffs LCU_ops = LCU.paulis L = len(LCU_coeffs) # Total number of Paulis M = int(2**np.ceil(np.log2(L))) # Closest power of 2 to encode coefficients in statevector pad = M - L # Value by which statevector needs to be padded # lists of α coeffs and U unitaries for LCU α_lst = np.pad(np.sqrt(LCU_coeffs)/np.linalg.norm(np.sqrt(LCU_coeffs)), pad_width=(0,pad)) U_lst = [op.to_instruction() for op in LCU_ops] # Define ψ ψ = np.array([1,0,0,0]) # Specify number of qubits N = A.shape[0] # Size of square-matrix A n = int(np.log2(N)) # Number of qubits needed to encode A m = int(np.log2(M)) # Number of qubits to control unitaries # Create LCU registers qr_ψ = QuantumRegister(n, name='ψ') qr_c = QuantumRegister(m, name= 'ctrl') cr_c = ClassicalRegister(m) # Create LCU circuit qc = QuantumCircuit(qr_ψ, qr_c, cr_c) qc.prepare_state(ψ, qr_ψ) qc.prepare_state(α_lst,qr_c) for i in range(L): ctrl = np.binary_repr(i,m) U_ctrl = U_lst[i].control(m,ctrl_state=ctrl) qc.append(U_ctrl,qr_c[:]+qr_ψ[:]) qc.prepare_state(α_lst,qr_c).inverse() qc.measure(qr_c,cr_c) qc.save_statevector()
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister from qiskit.quantum_info import SparsePauliOp, Operator # Create non-unitary matrix a = 0.25 b = 0.75 A = np.array([[a, 0, 0, b], [0, -a, b, 0], [0, b, a, 0], [b, 0, 0, -a]]) # Pauli Decomposition of A LCU = SparsePauliOp.from_operator(A) LCU_coeffs = LCU.coeffs LCU_ops = LCU.paulis L = len(LCU_coeffs) # Total number of Paulis M = int(2**np.ceil(np.log2(L))) # Closest power of 2 to encode coefficients in statevector pad = M - L # Value by which statevector needs to be padded # lists of α coeffs and U unitaries for LCU α_lst = np.pad(np.sqrt(LCU_coeffs)/np.linalg.norm(np.sqrt(LCU_coeffs)), pad_width=(0,pad)) U_lst = [op.to_instruction() for op in LCU_ops] # Define ψ ψ = np.array([1,0,0,0]) # Specify number of qubits N = A.shape[0] # Size of square-matrix A n = int(np.log2(N)) # Number of qubits needed to encode A m = int(np.log2(M)) # Number of qubits to control unitaries # Create LCU registers qr_ψ = QuantumRegister(n, name='ψ') qr_c = QuantumRegister(m, name= 'ctrl') cr_c = ClassicalRegister(m) # Create LCU circuit qc = QuantumCircuit(qr_ψ, qr_c, cr_c) qc.prepare_state(ψ, qr_ψ) qc.prepare_state(α_lst,qr_c) for i in range(L): ctrl = np.binary_repr(i,m) U_ctrl = U_lst[i].control(m,ctrl_state=ctrl) qc.append(U_ctrl,qr_c[:]+qr_ψ[:]) qc.prepare_state(α_lst,qr_c).inverse() qc.measure(qr_c,cr_c) qc.save_statevector()
+
+---CODE_BLOCK---
+
+0
+
+---CODE_BLOCK---
+
+from qiskit import transpile from qiskit_aer import AerSimulator from qiskit.quantum_info import partial_trace simulator = AerSimulator() qc_t = transpile(qc, simulator) n_out = 1000 # Number of iterations before timing out done = False while not done: result = simulator.run(qc_t,shots=1).result() meas_result = list(result.get_counts().keys())[0] meas_sv = result.get_statevector() n_out -= 1 if int(meas_result) == 0 or n_out == 0: meas_sv = partial_trace(meas_sv,range(n,n+m)).to_statevector() done = True print(meas_sv)
+
+---CODE_BLOCK---
+
+from qiskit import transpile from qiskit_aer import AerSimulator from qiskit.quantum_info import partial_trace simulator = AerSimulator() qc_t = transpile(qc, simulator) n_out = 1000 # Number of iterations before timing out done = False while not done: result = simulator.run(qc_t,shots=1).result() meas_result = list(result.get_counts().keys())[0] meas_sv = result.get_statevector() n_out -= 1 if int(meas_result) == 0 or n_out == 0: meas_sv = partial_trace(meas_sv,range(n,n+m)).to_statevector() done = True print(meas_sv)
+
+---CODE_BLOCK---
+
+0
+
+---CODE_BLOCK---
+
+0
+
+---CODE_BLOCK---
+
+qc.measure(qr_c,cr_c) qc.save_statevector()
+
+---CODE_BLOCK---
+
+qc.measure(qr_c,cr_c) qc.save_statevector()
+
+---CODE_BLOCK---
+
+Statevector
+
+---CODE_BLOCK---
+
+quantum_info
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Statevector, partial_trace sv = Statevector(qc) n_out = 1000 # Number of iterations before timing out done = False while not done: meas_result, meas_sv = sv.measure(range(n,n+m)) n_out -= 1 print(meas_result == '0') if meas_result == '0' or n_out == 0: meas_sv = partial_trace(meas_sv,range(n,n+m)).to_statevector() display(meas_sv) done = True
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Statevector, partial_trace sv = Statevector(qc) n_out = 1000 # Number of iterations before timing out done = False while not done: meas_result, meas_sv = sv.measure(range(n,n+m)) n_out -= 1 print(meas_result == '0') if meas_result == '0' or n_out == 0: meas_sv = partial_trace(meas_sv,range(n,n+m)).to_statevector() display(meas_sv) done = True

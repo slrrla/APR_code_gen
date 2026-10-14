@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWW3iWeWrSjZoLcWLx4TyrUYAq5jf",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import QuantumCircuit, transpile\n\nlam = 0.5\n\nqc = QuantumCircuit(1)\n# FIX: u1 is not in the requested basis -> use rz and its compensating global phase, because u1(lam) = exp(i*lam/2) * rz(lam)\nqc.rz(lam, 0)\nqc.global_phase = lam / 2\n\ntranspiled = transpile(qc, basis_gates=['rx', 'ry', 'rz'])\nprint(transpiled)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418438,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 585,
+    "prompt_tokens": 625,
+    "total_tokens": 1210,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 462,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

@@ -1,0 +1,75 @@
+Title:
+qiskit - measure only 1 of the register out of n registers
+
+Category:
+Category: Circuit Construction / Partial Measurement Handling
+
+Question:
+Title: qiskit - measure only 1 of the register out of n registers
+
+I have created a 9 qubit register: I want to measure only 1 of the register(let's suppose i want to measure the 5th register.) How do I implement the code? My code seems to measure all 9 registers.
+
+```
+q = QuantumRegister(9) c = ClassicalRegister(9) qc = QuantumCircuit(q, c)
+```
+
+```
+q = QuantumRegister(9) c = ClassicalRegister(9) qc = QuantumCircuit(q, c)
+```
+
+```
+qc.measure(q[register],c[register]) job = execute(qc,simulator,shots = 1000) result = job.result() counts = result.get_counts(qc) print("\nTotal count for 0 and 1 are:",counts)
+```
+
+```
+qc.measure(q[register],c[register]) job = execute(qc,simulator,shots = 1000) result = job.result() counts = result.get_counts(qc) print("\nTotal count for 0 and 1 are:",counts)
+```
+
+Original buggy code:
+q = QuantumRegister(9) c = ClassicalRegister(9) qc = QuantumCircuit(q, c)
+
+---CODE_BLOCK---
+
+q = QuantumRegister(9) c = ClassicalRegister(9) qc = QuantumCircuit(q, c)
+
+---CODE_BLOCK---
+
+qc.measure(q[register],c[register]) job = execute(qc,simulator,shots = 1000) result = job.result() counts = result.get_counts(qc) print("\nTotal count for 0 and 1 are:",counts)
+
+---CODE_BLOCK---
+
+qc.measure(q[register],c[register]) job = execute(qc,simulator,shots = 1000) result = job.result() counts = result.get_counts(qc) print("\nTotal count for 0 and 1 are:",counts)
+
+Solution explanation:
+In qiskit, if there are classical bits that are not getting a value through a measurement gate, they will default to . Since you set your circuit up to have 9 classical bits, the will always be bit strings of length 9, even though you are only measuring 1 qubit. To only measure one qubit, and have that be the only value in the resulting bit string, you need to only have one classical bit in your circuit.
+
+```
+'0'
+```
+
+```
+counts
+```
+
+```
+q = QuantumRegister(9) c = ClassicalRegister(1) # Changed from 9 to 1 qc = QuantumCircuit(q, c) qc.measure(q[register],c) job = execute(qc,simulator,shots = 1000) result = job.result() counts = result.get_counts(qc) print("\nTotal count for 0 and 1 are:",counts)
+```
+
+```
+q = QuantumRegister(9) c = ClassicalRegister(1) # Changed from 9 to 1 qc = QuantumCircuit(q, c) qc.measure(q[register],c) job = execute(qc,simulator,shots = 1000) result = job.result() counts = result.get_counts(qc) print("\nTotal count for 0 and 1 are:",counts)
+```
+
+Original fixed code:
+'0'
+
+---CODE_BLOCK---
+
+counts
+
+---CODE_BLOCK---
+
+q = QuantumRegister(9) c = ClassicalRegister(1) # Changed from 9 to 1 qc = QuantumCircuit(q, c) qc.measure(q[register],c) job = execute(qc,simulator,shots = 1000) result = job.result() counts = result.get_counts(qc) print("\nTotal count for 0 and 1 are:",counts)
+
+---CODE_BLOCK---
+
+q = QuantumRegister(9) c = ClassicalRegister(1) # Changed from 9 to 1 qc = QuantumCircuit(q, c) qc.measure(q[register],c) job = execute(qc,simulator,shots = 1000) result = job.result() counts = result.get_counts(qc) print("\nTotal count for 0 and 1 are:",counts)

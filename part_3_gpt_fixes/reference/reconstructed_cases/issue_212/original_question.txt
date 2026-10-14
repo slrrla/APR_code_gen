@@ -1,0 +1,118 @@
+Title:
+AttributeError: 'QuantumCircuit' object has no attribute 'save_statevector'
+
+Category:
+Category: Version Compatibility / Deprecated API
+Why AI Wins in This Category:
+
+For version compatibility issues, actionable solutions that match the user's installed version are critical. The AI solution not only identifies the problem but also:
+
+Provides a compatible fix (save_state()).
+
+Rewrites and verifies working code.
+
+Suggests future-proofing by upgrading Qiskit if possible.
+
+This depth of support is what makes it superior for resolving backward compatibility issues in Qiskit environments.
+
+Question:
+Title: AttributeError: 'QuantumCircuit' object has no attribute 'save_statevector'
+
+Hi i know the question was already asked but my case is slightly different. I am trying to do the qiskit tutorial: but i get this error: I know that this is verion dependen but pip show qiskit proofs that i use version 0.36 can somebody pls tell me what else i could try? thanks
+
+```
+from qiskit import QuantumCircuit, assemble, Aer from qiskit.visualization import plot_histogram, plot_bloch_vector from math import sqrt, pi qc = QuantumCircuit(1) # We are redefining qc initial_state = [0.+1.j/sqrt(2),1/sqrt(2)+0.j] qc.initialize(initial_state, 0) qc.draw() qc.save_statevector() result = sim.run(assemble(qc)).result() state = result.get_statevector() print("Qubit State = " + str(state))
+```
+
+```
+from qiskit import QuantumCircuit, assemble, Aer from qiskit.visualization import plot_histogram, plot_bloch_vector from math import sqrt, pi qc = QuantumCircuit(1) # We are redefining qc initial_state = [0.+1.j/sqrt(2),1/sqrt(2)+0.j] qc.initialize(initial_state, 0) qc.draw() qc.save_statevector() result = sim.run(assemble(qc)).result() state = result.get_statevector() print("Qubit State = " + str(state))
+```
+
+```
+--------------------------------------------------------------------------- AttributeError Traceback (most recent call last) Input In [29], in <cell line: 10>() 7 qc.initialize(initial_state, 0) 8 qc.draw() ---> 10 qc.save_statevector() 11 result = sim.run(assemble(qc)).result() 12 state = result.get_statevector() AttributeError: 'QuantumCircuit' object has no attribute 'save_statevector'
+```
+
+```
+--------------------------------------------------------------------------- AttributeError Traceback (most recent call last) Input In [29], in <cell line: 10>() 7 qc.initialize(initial_state, 0) 8 qc.draw() ---> 10 qc.save_statevector() 11 result = sim.run(assemble(qc)).result() 12 state = result.get_statevector() AttributeError: 'QuantumCircuit' object has no attribute 'save_statevector'
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit, assemble, Aer from qiskit.visualization import plot_histogram, plot_bloch_vector from math import sqrt, pi qc = QuantumCircuit(1) # We are redefining qc initial_state = [0.+1.j/sqrt(2),1/sqrt(2)+0.j] qc.initialize(initial_state, 0) qc.draw() qc.save_statevector() result = sim.run(assemble(qc)).result() state = result.get_statevector() print("Qubit State = " + str(state))
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, assemble, Aer from qiskit.visualization import plot_histogram, plot_bloch_vector from math import sqrt, pi qc = QuantumCircuit(1) # We are redefining qc initial_state = [0.+1.j/sqrt(2),1/sqrt(2)+0.j] qc.initialize(initial_state, 0) qc.draw() qc.save_statevector() result = sim.run(assemble(qc)).result() state = result.get_statevector() print("Qubit State = " + str(state))
+
+---CODE_BLOCK---
+
+--------------------------------------------------------------------------- AttributeError Traceback (most recent call last) Input In [29], in <cell line: 10>() 7 qc.initialize(initial_state, 0) 8 qc.draw() ---> 10 qc.save_statevector() 11 result = sim.run(assemble(qc)).result() 12 state = result.get_statevector() AttributeError: 'QuantumCircuit' object has no attribute 'save_statevector'
+
+---CODE_BLOCK---
+
+--------------------------------------------------------------------------- AttributeError Traceback (most recent call last) Input In [29], in <cell line: 10>() 7 qc.initialize(initial_state, 0) 8 qc.draw() ---> 10 qc.save_statevector() 11 result = sim.run(assemble(qc)).result() 12 state = result.get_statevector() AttributeError: 'QuantumCircuit' object has no attribute 'save_statevector'
+
+Solution explanation:
+This issue happens because is a Qiskit Aer instruction that is added to class when Aer is imported properly (see the details here) Just import as follows: Another solution is to import itself:
+
+```
+save_statevector
+```
+
+```
+QuantumCircuit
+```
+
+```
+Aer
+```
+
+```
+from qiskit.providers.aer import Aer
+```
+
+```
+from qiskit.providers.aer import Aer
+```
+
+```
+save_statevector
+```
+
+```
+from qiskit.providers.aer.library import save_statevector
+```
+
+```
+from qiskit.providers.aer.library import save_statevector
+```
+
+Original fixed code:
+save_statevector
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+Aer
+
+---CODE_BLOCK---
+
+from qiskit.providers.aer import Aer
+
+---CODE_BLOCK---
+
+from qiskit.providers.aer import Aer
+
+---CODE_BLOCK---
+
+save_statevector
+
+---CODE_BLOCK---
+
+from qiskit.providers.aer.library import save_statevector
+
+---CODE_BLOCK---
+
+from qiskit.providers.aer.library import save_statevector

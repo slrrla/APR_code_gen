@@ -1,0 +1,148 @@
+Title:
+Number of qubits in quantum circuits in ibm qiskit
+
+Category:
+Category:
+import Error
+
+Question:
+Title: Number of qubits in quantum circuits in ibm qiskit
+
+How to find number of Qubits ? I know of syntax ie. 2 parameter but not sure about 3 parameter.
+
+```
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister bob = QuantumRegister(8,'b') alice = ClassicalRegister(2,'a') eve = QuantumRegister(4,'e') qc = QuantumCircuit(bob, alice, eve)
+```
+
+```
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister bob = QuantumRegister(8,'b') alice = ClassicalRegister(2,'a') eve = QuantumRegister(4,'e') qc = QuantumCircuit(bob, alice, eve)
+```
+
+```
+QuantumCircuit(2, 2)
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister bob = QuantumRegister(8,'b') alice = ClassicalRegister(2,'a') eve = QuantumRegister(4,'e') qc = QuantumCircuit(bob, alice, eve)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister bob = QuantumRegister(8,'b') alice = ClassicalRegister(2,'a') eve = QuantumRegister(4,'e') qc = QuantumCircuit(bob, alice, eve)
+
+---CODE_BLOCK---
+
+QuantumCircuit(2, 2)
+
+Solution explanation:
+TL;DR: With : A list of them, via : The QuantumCircuit constructor documentation can be found here: (list() or list() or list(list())) – The registers to be included in the circuit. This means, that the registers , , and are included. Their length is 8, 2, and 4 respectably. However, is a classical register, which does not extend the amount of qubit. So, $8+4=12$.
+
+```
+QuantumCircuit.num_qubits
+```
+
+```
+>>> print(qc.num_qubits) 12
+```
+
+```
+>>> print(qc.num_qubits) 12
+```
+
+```
+QuantumCircuit.qubits
+```
+
+```
+>>> print(qc.qubits) [Qubit(QuantumRegister(8, 'b'), 0), Qubit(QuantumRegister(8, 'b'), 1), Qubit(QuantumRegister(8, 'b'), 2), Qubit(QuantumRegister(8, 'b'), 3), Qubit(QuantumRegister(8, 'b'), 4), Qubit(QuantumRegister(8, 'b'), 5), Qubit(QuantumRegister(8, 'b'), 6), Qubit(QuantumRegister(8, 'b'), 7), Qubit(QuantumRegister(4, 'e'), 0), Qubit(QuantumRegister(4, 'e'), 1), Qubit(QuantumRegister(4, 'e'), 2), Qubit(QuantumRegister(4, 'e'), 3)]
+```
+
+```
+>>> print(qc.qubits) [Qubit(QuantumRegister(8, 'b'), 0), Qubit(QuantumRegister(8, 'b'), 1), Qubit(QuantumRegister(8, 'b'), 2), Qubit(QuantumRegister(8, 'b'), 3), Qubit(QuantumRegister(8, 'b'), 4), Qubit(QuantumRegister(8, 'b'), 5), Qubit(QuantumRegister(8, 'b'), 6), Qubit(QuantumRegister(8, 'b'), 7), Qubit(QuantumRegister(4, 'e'), 0), Qubit(QuantumRegister(4, 'e'), 1), Qubit(QuantumRegister(4, 'e'), 2), Qubit(QuantumRegister(4, 'e'), 3)]
+```
+
+```
+regs
+```
+
+```
+Register
+```
+
+```
+int
+```
+
+```
+Bit
+```
+
+```
+bob
+```
+
+```
+alice
+```
+
+```
+eve
+```
+
+```
+alice
+```
+
+Original fixed code:
+QuantumCircuit.num_qubits
+
+---CODE_BLOCK---
+
+>>> print(qc.num_qubits) 12
+
+---CODE_BLOCK---
+
+>>> print(qc.num_qubits) 12
+
+---CODE_BLOCK---
+
+QuantumCircuit.qubits
+
+---CODE_BLOCK---
+
+>>> print(qc.qubits) [Qubit(QuantumRegister(8, 'b'), 0), Qubit(QuantumRegister(8, 'b'), 1), Qubit(QuantumRegister(8, 'b'), 2), Qubit(QuantumRegister(8, 'b'), 3), Qubit(QuantumRegister(8, 'b'), 4), Qubit(QuantumRegister(8, 'b'), 5), Qubit(QuantumRegister(8, 'b'), 6), Qubit(QuantumRegister(8, 'b'), 7), Qubit(QuantumRegister(4, 'e'), 0), Qubit(QuantumRegister(4, 'e'), 1), Qubit(QuantumRegister(4, 'e'), 2), Qubit(QuantumRegister(4, 'e'), 3)]
+
+---CODE_BLOCK---
+
+>>> print(qc.qubits) [Qubit(QuantumRegister(8, 'b'), 0), Qubit(QuantumRegister(8, 'b'), 1), Qubit(QuantumRegister(8, 'b'), 2), Qubit(QuantumRegister(8, 'b'), 3), Qubit(QuantumRegister(8, 'b'), 4), Qubit(QuantumRegister(8, 'b'), 5), Qubit(QuantumRegister(8, 'b'), 6), Qubit(QuantumRegister(8, 'b'), 7), Qubit(QuantumRegister(4, 'e'), 0), Qubit(QuantumRegister(4, 'e'), 1), Qubit(QuantumRegister(4, 'e'), 2), Qubit(QuantumRegister(4, 'e'), 3)]
+
+---CODE_BLOCK---
+
+regs
+
+---CODE_BLOCK---
+
+Register
+
+---CODE_BLOCK---
+
+int
+
+---CODE_BLOCK---
+
+Bit
+
+---CODE_BLOCK---
+
+bob
+
+---CODE_BLOCK---
+
+alice
+
+---CODE_BLOCK---
+
+eve
+
+---CODE_BLOCK---
+
+alice

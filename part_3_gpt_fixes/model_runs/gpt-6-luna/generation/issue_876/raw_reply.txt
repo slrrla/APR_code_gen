@@ -1,0 +1,29 @@
+```python
+from qiskit import transpile
+from qiskit.quantum_info import Statevector, state_fidelity
+from qiskit.circuit.library import QFT
+from qiskit_aer import AerSimulator
+from qiskit_ibm_runtime.fake_provider import FakeBrisbane
+
+backend_brisbane = FakeBrisbane()
+
+qc = QFT(6)
+
+qc.remove_final_measurements()
+
+# FIX: simulator omitted the backend's noise model -> create it from the backend, because that models its hardware noise
+ideal_sim = AerSimulator.from_backend(backend_brisbane)
+
+statevector_ideal = Statevector(qc)
+
+qc_transpiled = transpile(qc, backend_brisbane, optimization_level=1)
+
+# FIX: circuit had no statevector save instruction -> add one, because Aer requires it to return a statevector
+qc_transpiled.save_statevector()
+job_real = ideal_sim.run(qc_transpiled)
+statevector_real = job_real.result().get_statevector()
+
+fidelity = state_fidelity(statevector_ideal, statevector_real)
+print(f"Fidelity tra stato ideale e rumoroso: {fidelity:.4f}")
+
+```

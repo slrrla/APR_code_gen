@@ -1,0 +1,107 @@
+Title:
+Qiskit: density matrix after measurement
+
+Category:
+
+
+Question:
+Title: Qiskit: density matrix after measurement
+
+I would like to find density matrix after the measurement. The toy code: results in the following error on the second : QiskitError: 'Cannot apply instruction with classical bits: measure' How can I make it work? As I understand, being well-defined (and taking classical probabilities into account) after the measurement is exactly the advantage of the density matrix over the state vector. I do know how to use , and it indeed works. However, it only produces empirical results. E.g. when the true entry is 1/2, it might instead print 0.496. It's more or less my first day working with qiskit and hearing about density matrix, so sorry if the question doesn't make sense. Ideally, I want to have the following information: a list of possible state vectors in the current state, with corresponding probabilities. As I understand, the density matrix is the closest alternative.
+
+```
+import qiskit from qiskit.quantum_info import DensityMatrix circuit = qiskit.QuantumCircuit(1, 1) print(DensityMatrix.from_instruction(circuit)) circuit.measure(0, 0) print(DensityMatrix.from_instruction(circuit))
+```
+
+```
+import qiskit from qiskit.quantum_info import DensityMatrix circuit = qiskit.QuantumCircuit(1, 1) print(DensityMatrix.from_instruction(circuit)) circuit.measure(0, 0) print(DensityMatrix.from_instruction(circuit))
+```
+
+```
+print
+```
+
+```
+save_density_matrix
+```
+
+Original buggy code:
+import qiskit from qiskit.quantum_info import DensityMatrix circuit = qiskit.QuantumCircuit(1, 1) print(DensityMatrix.from_instruction(circuit)) circuit.measure(0, 0) print(DensityMatrix.from_instruction(circuit))
+
+---CODE_BLOCK---
+
+import qiskit from qiskit.quantum_info import DensityMatrix circuit = qiskit.QuantumCircuit(1, 1) print(DensityMatrix.from_instruction(circuit)) circuit.measure(0, 0) print(DensityMatrix.from_instruction(circuit))
+
+---CODE_BLOCK---
+
+print
+
+---CODE_BLOCK---
+
+save_density_matrix
+
+Solution explanation:
+Accessing the $| \psi \rangle$ or the $\rho = | \psi \rangle \langle \psi |$ of the quantum state prepared by a given circuit actually makes sense only before measurement, since measuring a qubit (in the usual computational basis) will make its state collapse into either $| 0 \rangle$ or $| 1 \rangle$. More in general, if you apply a measurement operation on each qubit of an $n$-qubits system you make its state collapse into $| \psi \rangle = | bs \rangle$, where $bs$ is a bit string in $\left \{0, 1\right \}^n$. This is why, in Qiskit, trying to access the state of the system after a call to is not even possible and you got that error. However, what you might want to do is to access the density matrix of a subsystem of your circuit by using the so-called partial trace operation. Given the state $\rho$ in the Hilbert space $H_A \otimes H_B$, its partial trace with respect to the system $B$, denoted by $\rho^A$, is called the reduced state of $\rho$ on system $A$ and defined by $\rho^A = \mathrm{Tr}_B \rho$. In general, this density matrix represents a mixed state (can't be written as a statevector) and it corresponds to the state of subsystem $B$ you would get after a measure on subsystem $A$ (consistent with outcomes statistics). In Qiskit, to compute the density matrix $\rho_A$, you can use the function, where is your original $\rho$ and is a list of qubits indices in the subsytem $B$ to trace out. Here is a simple example:
+
+```
+Statevector
+```
+
+```
+DensityMatrix
+```
+
+```
+circuit.measure
+```
+
+```
+partial_trace(state, qargs)
+```
+
+```
+state
+```
+
+```
+qargs
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import DensityMatrix, partial_trace qc = QuantumCircuit(3) qc.h(0) qc.cx(0, 1) qc.cx(0, 2) rho = DensityMatrix(qc) rho_a = partial_trace(state=rho, qargs=[1, 2]) print(rho_a)
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import DensityMatrix, partial_trace qc = QuantumCircuit(3) qc.h(0) qc.cx(0, 1) qc.cx(0, 2) rho = DensityMatrix(qc) rho_a = partial_trace(state=rho, qargs=[1, 2]) print(rho_a)
+```
+
+Original fixed code:
+Statevector
+
+---CODE_BLOCK---
+
+DensityMatrix
+
+---CODE_BLOCK---
+
+circuit.measure
+
+---CODE_BLOCK---
+
+partial_trace(state, qargs)
+
+---CODE_BLOCK---
+
+state
+
+---CODE_BLOCK---
+
+qargs
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import DensityMatrix, partial_trace qc = QuantumCircuit(3) qc.h(0) qc.cx(0, 1) qc.cx(0, 2) rho = DensityMatrix(qc) rho_a = partial_trace(state=rho, qargs=[1, 2]) print(rho_a)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import DensityMatrix, partial_trace qc = QuantumCircuit(3) qc.h(0) qc.cx(0, 1) qc.cx(0, 2) rho = DensityMatrix(qc) rho_a = partial_trace(state=rho, qargs=[1, 2]) print(rho_a)

@@ -1,0 +1,59 @@
+Title:
+How to create the equivalent of the Qiskit rxx gate in Pennylane?
+
+Category:
+
+
+Question:
+Title: How to create the equivalent of the Qiskit rxx gate in Pennylane?
+
+How can I create the Pennylane equivalent of:
+
+```
+from qiskit import QuantumCircuit circ = QuantumCircuit(2, 2) circ.rxx(theta=0.3, qubit1=0, qubit2=1)
+```
+
+```
+from qiskit import QuantumCircuit circ = QuantumCircuit(2, 2) circ.rxx(theta=0.3, qubit1=0, qubit2=1)
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit circ = QuantumCircuit(2, 2) circ.rxx(theta=0.3, qubit1=0, qubit2=1)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit circ = QuantumCircuit(2, 2) circ.rxx(theta=0.3, qubit1=0, qubit2=1)
+
+Solution explanation:
+Here's a simple example if you're looking for a quick hack: Alternatively, you can create a new RXX class as they do in this custom gate tutorial:
+
+```
+import pennylane as qml import numpy as np def RXX(theta): rxx = np.array([ [np.cos(theta/2), 0, 0, -1j*np.sin(theta/2)], [0, np.cos(theta/2), -1j*np.sin(theta/2), 0], [0, -1j*np.sin(theta/2), np.cos(theta/2), 0], [-1j*np.sin(theta/2), 0, 0, np.cos(theta/2)] ]) return rxx dev = qml.device('default.qubit', wires=2) @qml.qnode(dev) def circuit(theta): qml.QubitUnitary(RXX(theta), wires=[0, 1]) return qml.expval(qml.PauliZ(0))
+```
+
+```
+import pennylane as qml import numpy as np def RXX(theta): rxx = np.array([ [np.cos(theta/2), 0, 0, -1j*np.sin(theta/2)], [0, np.cos(theta/2), -1j*np.sin(theta/2), 0], [0, -1j*np.sin(theta/2), np.cos(theta/2), 0], [-1j*np.sin(theta/2), 0, 0, np.cos(theta/2)] ]) return rxx dev = qml.device('default.qubit', wires=2) @qml.qnode(dev) def circuit(theta): qml.QubitUnitary(RXX(theta), wires=[0, 1]) return qml.expval(qml.PauliZ(0))
+```
+
+```
+import pennylane as qml from pennylane.operation import Operation from pennylane import numpy as np class RXX(Operation): num_params = 1 num_wires = 2 par_domain = "R" grad_method = "A" grad_recipe = None # This is the default but we write it down explicitly here. generator = [(qml.PauliX(0) @ qml.PauliX(1)).matrix, -0.5] @staticmethod def decomposition(theta, wires): return [qml.PauliRot(theta, 'XX', wires=wires)] @staticmethod def _matrix(*params): theta = params[0] c = np.cos(0.5 * theta) s = np.sin(0.5 * theta) return np.array( [ [c, 0, 0, -s], [0, c, -s, 0], [0, -s, c, 0], [-s, 0, 0, c] ] ) def adjoint(self): return RXX(-self.data[0], wires=self.wires)
+```
+
+```
+import pennylane as qml from pennylane.operation import Operation from pennylane import numpy as np class RXX(Operation): num_params = 1 num_wires = 2 par_domain = "R" grad_method = "A" grad_recipe = None # This is the default but we write it down explicitly here. generator = [(qml.PauliX(0) @ qml.PauliX(1)).matrix, -0.5] @staticmethod def decomposition(theta, wires): return [qml.PauliRot(theta, 'XX', wires=wires)] @staticmethod def _matrix(*params): theta = params[0] c = np.cos(0.5 * theta) s = np.sin(0.5 * theta) return np.array( [ [c, 0, 0, -s], [0, c, -s, 0], [0, -s, c, 0], [-s, 0, 0, c] ] ) def adjoint(self): return RXX(-self.data[0], wires=self.wires)
+```
+
+Original fixed code:
+import pennylane as qml import numpy as np def RXX(theta): rxx = np.array([ [np.cos(theta/2), 0, 0, -1j*np.sin(theta/2)], [0, np.cos(theta/2), -1j*np.sin(theta/2), 0], [0, -1j*np.sin(theta/2), np.cos(theta/2), 0], [-1j*np.sin(theta/2), 0, 0, np.cos(theta/2)] ]) return rxx dev = qml.device('default.qubit', wires=2) @qml.qnode(dev) def circuit(theta): qml.QubitUnitary(RXX(theta), wires=[0, 1]) return qml.expval(qml.PauliZ(0))
+
+---CODE_BLOCK---
+
+import pennylane as qml import numpy as np def RXX(theta): rxx = np.array([ [np.cos(theta/2), 0, 0, -1j*np.sin(theta/2)], [0, np.cos(theta/2), -1j*np.sin(theta/2), 0], [0, -1j*np.sin(theta/2), np.cos(theta/2), 0], [-1j*np.sin(theta/2), 0, 0, np.cos(theta/2)] ]) return rxx dev = qml.device('default.qubit', wires=2) @qml.qnode(dev) def circuit(theta): qml.QubitUnitary(RXX(theta), wires=[0, 1]) return qml.expval(qml.PauliZ(0))
+
+---CODE_BLOCK---
+
+import pennylane as qml from pennylane.operation import Operation from pennylane import numpy as np class RXX(Operation): num_params = 1 num_wires = 2 par_domain = "R" grad_method = "A" grad_recipe = None # This is the default but we write it down explicitly here. generator = [(qml.PauliX(0) @ qml.PauliX(1)).matrix, -0.5] @staticmethod def decomposition(theta, wires): return [qml.PauliRot(theta, 'XX', wires=wires)] @staticmethod def _matrix(*params): theta = params[0] c = np.cos(0.5 * theta) s = np.sin(0.5 * theta) return np.array( [ [c, 0, 0, -s], [0, c, -s, 0], [0, -s, c, 0], [-s, 0, 0, c] ] ) def adjoint(self): return RXX(-self.data[0], wires=self.wires)
+
+---CODE_BLOCK---
+
+import pennylane as qml from pennylane.operation import Operation from pennylane import numpy as np class RXX(Operation): num_params = 1 num_wires = 2 par_domain = "R" grad_method = "A" grad_recipe = None # This is the default but we write it down explicitly here. generator = [(qml.PauliX(0) @ qml.PauliX(1)).matrix, -0.5] @staticmethod def decomposition(theta, wires): return [qml.PauliRot(theta, 'XX', wires=wires)] @staticmethod def _matrix(*params): theta = params[0] c = np.cos(0.5 * theta) s = np.sin(0.5 * theta) return np.array( [ [c, 0, 0, -s], [0, c, -s, 0], [0, -s, c, 0], [-s, 0, 0, c] ] ) def adjoint(self): return RXX(-self.data[0], wires=self.wires)

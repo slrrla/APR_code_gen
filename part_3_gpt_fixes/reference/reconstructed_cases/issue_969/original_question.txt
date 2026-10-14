@@ -1,0 +1,59 @@
+Title:
+why does this get DAGCircuitError?
+
+Category:
+
+
+Question:
+Title: why does this get DAGCircuitError?
+
+When I run the simple circuit that just does multi-controlled rotation I had the error: "DAGCircuitError: 'bit mapping invalid: expected 4, got 1'". It seems the error occurs when a pass_manager.run is executed. Does anyone know how to solve the error? thanks for your help in advance! reproducer code : Informations: qiskit 1.2.4, qiskit-ibm-runtime 0.33.2, python 3.11
+
+```
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit_aer import AerSimulator from qiskit.circuit.library import ZGate, XGate, RZGate, RYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime import Session, SamplerV2 as Sampler import numpy as np from qiskit.circuit import ControlledGate ry = RYGate(np.pi/2) cry = ControlledGate(name="cry", num_qubits=4, params=ry.params, num_ctrl_qubits=3, definition=ry.definition, ctrl_state='000', base_gate=ry) qc = QuantumCircuit(4) qc.append(cry,[0,1,2,3]) qc.measure_all() backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) shots = 1024 qc.draw() isa_qc = pm.run(qc) # <-- error occurs here sampler = Sampler(mode=backend) result = sampler.run([isa_qc], shots=shots).result() pub_result = result[0] counts = pub_result.data.meas.get_counts() print(counts)
+```
+
+```
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit_aer import AerSimulator from qiskit.circuit.library import ZGate, XGate, RZGate, RYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime import Session, SamplerV2 as Sampler import numpy as np from qiskit.circuit import ControlledGate ry = RYGate(np.pi/2) cry = ControlledGate(name="cry", num_qubits=4, params=ry.params, num_ctrl_qubits=3, definition=ry.definition, ctrl_state='000', base_gate=ry) qc = QuantumCircuit(4) qc.append(cry,[0,1,2,3]) qc.measure_all() backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) shots = 1024 qc.draw() isa_qc = pm.run(qc) # <-- error occurs here sampler = Sampler(mode=backend) result = sampler.run([isa_qc], shots=shots).result() pub_result = result[0] counts = pub_result.data.meas.get_counts() print(counts)
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit_aer import AerSimulator from qiskit.circuit.library import ZGate, XGate, RZGate, RYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime import Session, SamplerV2 as Sampler import numpy as np from qiskit.circuit import ControlledGate ry = RYGate(np.pi/2) cry = ControlledGate(name="cry", num_qubits=4, params=ry.params, num_ctrl_qubits=3, definition=ry.definition, ctrl_state='000', base_gate=ry) qc = QuantumCircuit(4) qc.append(cry,[0,1,2,3]) qc.measure_all() backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) shots = 1024 qc.draw() isa_qc = pm.run(qc) # <-- error occurs here sampler = Sampler(mode=backend) result = sampler.run([isa_qc], shots=shots).result() pub_result = result[0] counts = pub_result.data.meas.get_counts() print(counts)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit_aer import AerSimulator from qiskit.circuit.library import ZGate, XGate, RZGate, RYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime import Session, SamplerV2 as Sampler import numpy as np from qiskit.circuit import ControlledGate ry = RYGate(np.pi/2) cry = ControlledGate(name="cry", num_qubits=4, params=ry.params, num_ctrl_qubits=3, definition=ry.definition, ctrl_state='000', base_gate=ry) qc = QuantumCircuit(4) qc.append(cry,[0,1,2,3]) qc.measure_all() backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) shots = 1024 qc.draw() isa_qc = pm.run(qc) # <-- error occurs here sampler = Sampler(mode=backend) result = sampler.run([isa_qc], shots=shots).result() pub_result = result[0] counts = pub_result.data.meas.get_counts() print(counts)
+
+Solution explanation:
+I'm using this workaround which uses RYGate(theta).control() instead of ControlledGate for now. result : {'0000': 530, '1000': 494} EDIT In this entry, t-imamichi helped solve the error, "definition needs the same number of qubits as qubits argument". I had the stated error due to my misuse of ControlledGate. Here's the corrected code : Result : {'0000': 505, '1000': 519}
+
+```
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit_aer import AerSimulator from qiskit.circuit.library import ZGate, XGate, RZGate, RYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime import Session, SamplerV2 as Sampler import numpy as np from qiskit.circuit import ControlledGate cry = RYGate(np.pi/2).control(3, ctrl_state='000') qc = QuantumCircuit(4) qc.append(cry,[0,1,2,3]) qc.measure_all() backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) shots = 1024 qc.draw() isa_qc = pm.run(qc) sampler = Sampler(mode=backend) result = sampler.run([isa_qc], shots=shots).result() pub_result = result[0] counts = pub_result.data.meas.get_counts() print(counts)
+```
+
+```
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit_aer import AerSimulator from qiskit.circuit.library import ZGate, XGate, RZGate, RYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime import Session, SamplerV2 as Sampler import numpy as np from qiskit.circuit import ControlledGate cry = RYGate(np.pi/2).control(3, ctrl_state='000') qc = QuantumCircuit(4) qc.append(cry,[0,1,2,3]) qc.measure_all() backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) shots = 1024 qc.draw() isa_qc = pm.run(qc) sampler = Sampler(mode=backend) result = sampler.run([isa_qc], shots=shots).result() pub_result = result[0] counts = pub_result.data.meas.get_counts() print(counts)
+```
+
+```
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit_aer import AerSimulator from qiskit.circuit.library import ZGate, XGate, RZGate, RYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime import Session, SamplerV2 as Sampler import numpy as np from qiskit.circuit import ControlledGate ry = RYGate(np.pi/2) circ = QuantumCircuit(4) circ.append(ry, [3]) cry = ControlledGate(name="cry", num_qubits=4, params=ry.params, num_ctrl_qubits=3, definition=circ, ctrl_state='000', base_gate=ry) qc = QuantumCircuit(4) qc.append(cry,[0,1,2,3]) qc.measure_all() backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) shots = 1024 qc.draw() isa_qc = pm.run(qc) sampler = Sampler(mode=backend) result = sampler.run([isa_qc], shots=shots).result() pub_result = result[0] counts = pub_result.data.meas.get_counts() print(counts)
+```
+
+```
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit_aer import AerSimulator from qiskit.circuit.library import ZGate, XGate, RZGate, RYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime import Session, SamplerV2 as Sampler import numpy as np from qiskit.circuit import ControlledGate ry = RYGate(np.pi/2) circ = QuantumCircuit(4) circ.append(ry, [3]) cry = ControlledGate(name="cry", num_qubits=4, params=ry.params, num_ctrl_qubits=3, definition=circ, ctrl_state='000', base_gate=ry) qc = QuantumCircuit(4) qc.append(cry,[0,1,2,3]) qc.measure_all() backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) shots = 1024 qc.draw() isa_qc = pm.run(qc) sampler = Sampler(mode=backend) result = sampler.run([isa_qc], shots=shots).result() pub_result = result[0] counts = pub_result.data.meas.get_counts() print(counts)
+```
+
+Original fixed code:
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit_aer import AerSimulator from qiskit.circuit.library import ZGate, XGate, RZGate, RYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime import Session, SamplerV2 as Sampler import numpy as np from qiskit.circuit import ControlledGate cry = RYGate(np.pi/2).control(3, ctrl_state='000') qc = QuantumCircuit(4) qc.append(cry,[0,1,2,3]) qc.measure_all() backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) shots = 1024 qc.draw() isa_qc = pm.run(qc) sampler = Sampler(mode=backend) result = sampler.run([isa_qc], shots=shots).result() pub_result = result[0] counts = pub_result.data.meas.get_counts() print(counts)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit_aer import AerSimulator from qiskit.circuit.library import ZGate, XGate, RZGate, RYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime import Session, SamplerV2 as Sampler import numpy as np from qiskit.circuit import ControlledGate cry = RYGate(np.pi/2).control(3, ctrl_state='000') qc = QuantumCircuit(4) qc.append(cry,[0,1,2,3]) qc.measure_all() backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) shots = 1024 qc.draw() isa_qc = pm.run(qc) sampler = Sampler(mode=backend) result = sampler.run([isa_qc], shots=shots).result() pub_result = result[0] counts = pub_result.data.meas.get_counts() print(counts)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit_aer import AerSimulator from qiskit.circuit.library import ZGate, XGate, RZGate, RYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime import Session, SamplerV2 as Sampler import numpy as np from qiskit.circuit import ControlledGate ry = RYGate(np.pi/2) circ = QuantumCircuit(4) circ.append(ry, [3]) cry = ControlledGate(name="cry", num_qubits=4, params=ry.params, num_ctrl_qubits=3, definition=circ, ctrl_state='000', base_gate=ry) qc = QuantumCircuit(4) qc.append(cry,[0,1,2,3]) qc.measure_all() backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) shots = 1024 qc.draw() isa_qc = pm.run(qc) sampler = Sampler(mode=backend) result = sampler.run([isa_qc], shots=shots).result() pub_result = result[0] counts = pub_result.data.meas.get_counts() print(counts)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister from qiskit_aer import AerSimulator from qiskit.circuit.library import ZGate, XGate, RZGate, RYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime import Session, SamplerV2 as Sampler import numpy as np from qiskit.circuit import ControlledGate ry = RYGate(np.pi/2) circ = QuantumCircuit(4) circ.append(ry, [3]) cry = ControlledGate(name="cry", num_qubits=4, params=ry.params, num_ctrl_qubits=3, definition=circ, ctrl_state='000', base_gate=ry) qc = QuantumCircuit(4) qc.append(cry,[0,1,2,3]) qc.measure_all() backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) shots = 1024 qc.draw() isa_qc = pm.run(qc) sampler = Sampler(mode=backend) result = sampler.run([isa_qc], shots=shots).result() pub_result = result[0] counts = pub_result.data.meas.get_counts() print(counts)

@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWVwxD0qX24PHgmEf5op6bZcc9EsS",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import QuantumCircuit, Aer, execute\n\ndef deutsch_circuit(oracle):\n    circuit = QuantumCircuit(2, 1)\n    circuit.x(1)\n    circuit.h(0)\n    circuit.h(1)\n    # FIX: += does not append an oracle circuit -> compose it in place, because compose is Qiskit's circuit-combination API\n    circuit.compose(oracle, inplace=True)\n    circuit.h(0)\n    circuit.measure(0, 0)\n    return circuit\n\ndef constant_oracle():\n    circuit = QuantumCircuit(2)\n    return circuit\n\ndef balanced_oracle():\n    circuit = QuantumCircuit(2)\n    circuit.cx(0, 1)\n    return circuit\n\ncircuit = deutsch_circuit(constant_oracle())\nbackend = Aer.get_backend('qasm_simulator')\nresult = execute(circuit, backend).result()\nprint(result.get_counts())\n\ncircuit = deutsch_circuit(balanced_oracle())\nbackend = Aer.get_backend('qasm_simulator')\nresult = execute(circuit, backend).result()\nprint(result.get_counts())\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418019,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 389,
+    "prompt_tokens": 1342,
+    "total_tokens": 1731,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 154,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1339,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

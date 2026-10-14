@@ -1,0 +1,26 @@
+CASE=issue_662
+QISKIT=1.2.1
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\gpt-6-luna\generation\issue_662\fix_662.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_662\test.py
+
+E
+======================================================================
+ERROR: test_printed_total_operation_counts (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_662\test.py", line 24, in test_printed_total_operation_counts
+    ns = runpy.run_path(MUT)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_121_exact\lib\runpy.py", line 289, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_121_exact\lib\runpy.py", line 96, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_121_exact\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\gpt-6-luna\generation\issue_662\fix_662.py", line 23, in <module>
+    if node.type == "op":
+AttributeError: 'qiskit._accelerate.circuit.DAGOpNode' object has no attribute 'type'
+
+----------------------------------------------------------------------
+Ran 1 test in 1.093s
+
+FAILED (errors=1)

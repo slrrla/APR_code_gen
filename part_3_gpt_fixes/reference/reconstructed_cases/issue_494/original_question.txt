@@ -1,0 +1,55 @@
+Title:
+From mathematical notation to quantum circuit, in general
+
+Category:
+Category:
+Other (General Questions)
+
+Why Stack Overflow Wins in This Category:
+In the category of general conceptual guidance, the better solution must both instruct the learner and set realistic expectations. Stack Overflow does this by highlighting the research frontier and pointing to existing Qiskit functionality (classicalfunction), while the AI answer risks oversimplification.
+
+Question:
+Title: From mathematical notation to quantum circuit, in general
+
+I am learning the basics of quantum computing using Qiskit and I encountered a problem when I tried to solve some of our course exercises. I feel like I am missing an invisible step, the step from mathematical notation to the quantum circuit. I am familiar with the Dirac notation and the matrices of the quantum gates, and how they transform the inputs. I can understand for instance how to achieve the effect of a Toffoli gate while only using two-qubit gates. However the problem arises when I try to encode a mathematical transformation into quantum gates. Let's start simple: When I first learned about a CNOT gate I understood the effect, and therefore the conclusion that it was the quantum version of XOR did not surprise me that much. It just seemed a handy side-effect. Hence I can encode $$|y⟩_1|x⟩_0→|x⊕y⟩_1|x⟩_0$$ by a CNOT gate. Then I got an exercise to build a half adder: $$|z⟩_2|y⟩_1|x⟩_0→|z⊕xy⟩_2|x⊕y⟩_1|x⟩_0$$ This confused me a lot because I do not now how to encode the AND part. Hence even this $$|z⟩_2|y⟩_1|x⟩_0→|xy⟩_2|y⟩_1|x⟩_0$$ I would not know. Luckily the book walks over the 'adding' part of the half-adder, which is when I learned that a Toffoli gate would do the job. I hope you can see the step I am missing: I know 'tricks' for some solutions, but I don't know how to encode a general mathematical transformation. Hence I was baffled when I was asked about unitary function encoding, and to encode the following, $$U:|y⟩|x⟩↦|f(x)+y \mod 2^m⟩|x⟩$$ where $f$ is an arbitrary boolean function $f:\{0,1\}^n↦\{0,1\}^m$. I had NO clue how to approach this. Therefore my question is the following. How do I encode an arbitrary mathematical expression like I have given above to a quantum circuit? Most importantly: What are the general steps you take when you approach a problem like this? Right now this might seem like simple questions, but I need to understand this to be able to solve the (to me) much harder questions later in the book. If anything is unclear I am happy to clarify.
+
+```
+qc = QuantumCircuit(q) qc.cx(0,1)
+```
+
+```
+qc = QuantumCircuit(q) qc.cx(0,1)
+```
+
+```
+qc = QuantumCircuit(3) qc.ccx(0, 1, 2) qc.cx(0, 1)
+```
+
+```
+qc = QuantumCircuit(3) qc.ccx(0, 1, 2) qc.cx(0, 1)
+```
+
+Original buggy code:
+qc = QuantumCircuit(q) qc.cx(0,1)
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(q) qc.cx(0,1)
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(3) qc.ccx(0, 1, 2) qc.cx(0, 1)
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(3) qc.ccx(0, 1, 2) qc.cx(0, 1)
+
+Solution explanation:
+Encoding arbitrary mathematical expressions on a quantum computer is a difficult question! There's still ongoing research in this area, such as https://export.arxiv.org/pdf/1805.12445. Classical computing is years ahead of quantum computing here; on a classical machine you can just open up your programming language of choice and you have access to all mathematical expressions you'd like to use. But keep in mind, that also in "classical programming languages" there are libraries to implement operations like sine and cosine. E.g. if you use Python, you most likely use . For many quantum programming languages (like Qiskit) these general libraries simply don't yet exist. (I think Q# has a library, but I never worked with it: https://docs.microsoft.com/en-us/azure/quantum/user-guide/libraries/numerics/numerics) So currently, we mostly rely on "tricks" as you called them and exploit things like that the Toffoli acts like a AND gate and CNOT like an XOR. Here's a reference that might be useful that talks about elementary arithmetic operations and how to implement them using circuits: https://arxiv.org/pdf/quant-ph/9511018.pdf That being said: If you care about boolean logical expressions, then Qiskit can build the circuits for these, see https://qiskit.org/documentation/apidoc/classicalfunction.html. I hope this answers your question, though I don't think there's a general solution (yet).
+
+```
+numpy.sin
+```
+
+Original fixed code:
+numpy.sin

@@ -1,0 +1,79 @@
+Title:
+Parallel calculation of expectation values of operator for different quantum states qiskit on a QPU
+
+Category:
+Category:
+Backend Usage / Simulation / Output
+
+Why Stack Overflow Wins in This Category:
+In the context of backend usage and efficient quantum job execution, batching via ListOp is the optimal solution supported by Qiskit for submitting many circuits in one job. The Stack Overflow response aligns directly with the user’s goal—reducing queue overhead on QPUs—while the AI response misunderstands the backend limitations and incorrectly structures the code for expectation evaluation.
+
+Question:
+Title: Parallel calculation of expectation values of operator for different quantum states qiskit on a QPU
+
+I need to calculate the expectation values of an operator for various quantum states on an IBMQ quantum machine. This can be done using the method described in this answer like the following, Now, I've noticed that these jobs sits idle in the queue for a long time before being executed which itself doesn't take too long. So I am thinking of submitting multiple jobs in parallel. I thought of providing a to the backend but it seems that it only works with not real quantum hardware. Is there a way to do this? Thanks.
+
+```
+h
+```
+
+```
+ψ
+```
+
+```
+for i, inp in enumerate(x): parameters = {list(a.parameters)[0]: inp} ψ = CircuitStateFn(a.assign_parameters(parameters)) measurable_expression = StateFn(h, is_measurement=True).compose(ψ) expectation = PauliExpectation().convert(measurable_expression) sampler = CircuitSampler(qi).convert(expectation) y[i] = sampler.eval().real z[i] = sampler.eval().imag
+```
+
+```
+for i, inp in enumerate(x): parameters = {list(a.parameters)[0]: inp} ψ = CircuitStateFn(a.assign_parameters(parameters)) measurable_expression = StateFn(h, is_measurement=True).compose(ψ) expectation = PauliExpectation().convert(measurable_expression) sampler = CircuitSampler(qi).convert(expectation) y[i] = sampler.eval().real z[i] = sampler.eval().imag
+```
+
+```
+ThreadPoolExecutor
+```
+
+```
+AerSimulator
+```
+
+Original buggy code:
+h
+
+---CODE_BLOCK---
+
+ψ
+
+---CODE_BLOCK---
+
+for i, inp in enumerate(x): parameters = {list(a.parameters)[0]: inp} ψ = CircuitStateFn(a.assign_parameters(parameters)) measurable_expression = StateFn(h, is_measurement=True).compose(ψ) expectation = PauliExpectation().convert(measurable_expression) sampler = CircuitSampler(qi).convert(expectation) y[i] = sampler.eval().real z[i] = sampler.eval().imag
+
+---CODE_BLOCK---
+
+for i, inp in enumerate(x): parameters = {list(a.parameters)[0]: inp} ψ = CircuitStateFn(a.assign_parameters(parameters)) measurable_expression = StateFn(h, is_measurement=True).compose(ψ) expectation = PauliExpectation().convert(measurable_expression) sampler = CircuitSampler(qi).convert(expectation) y[i] = sampler.eval().real z[i] = sampler.eval().imag
+
+---CODE_BLOCK---
+
+ThreadPoolExecutor
+
+---CODE_BLOCK---
+
+AerSimulator
+
+Solution explanation:
+You can add all the measurement expressions in one list operator. This way, all the circuits needed to be executed will be sent to the backend at once as a single job:
+
+```
+from qiskit.opflow.list_ops import ListOp measurable_expressions_list = [] for i, inp in enumerate(x): parameters = {list(a.parameters)[0]: inp} ψ = CircuitStateFn(a.assign_parameters(parameters)) measurable_expression = StateFn(h, is_measurement=True).compose(ψ) measurable_expressions_list.append(measurable_expression) expect_ops = PauliExpectation().convert(ListOp(measurable_expressions_list)) sampler = CircuitSampler(quantum_instance) sampled_ops = sampler.convert(expect_ops) expectation_values = sampled_ops.eval() for i, exp_val in enumerate(expectation_values): y[i] = exp_val.real z[i] = exp_val.imag print(y, z)
+```
+
+```
+from qiskit.opflow.list_ops import ListOp measurable_expressions_list = [] for i, inp in enumerate(x): parameters = {list(a.parameters)[0]: inp} ψ = CircuitStateFn(a.assign_parameters(parameters)) measurable_expression = StateFn(h, is_measurement=True).compose(ψ) measurable_expressions_list.append(measurable_expression) expect_ops = PauliExpectation().convert(ListOp(measurable_expressions_list)) sampler = CircuitSampler(quantum_instance) sampled_ops = sampler.convert(expect_ops) expectation_values = sampled_ops.eval() for i, exp_val in enumerate(expectation_values): y[i] = exp_val.real z[i] = exp_val.imag print(y, z)
+```
+
+Original fixed code:
+from qiskit.opflow.list_ops import ListOp measurable_expressions_list = [] for i, inp in enumerate(x): parameters = {list(a.parameters)[0]: inp} ψ = CircuitStateFn(a.assign_parameters(parameters)) measurable_expression = StateFn(h, is_measurement=True).compose(ψ) measurable_expressions_list.append(measurable_expression) expect_ops = PauliExpectation().convert(ListOp(measurable_expressions_list)) sampler = CircuitSampler(quantum_instance) sampled_ops = sampler.convert(expect_ops) expectation_values = sampled_ops.eval() for i, exp_val in enumerate(expectation_values): y[i] = exp_val.real z[i] = exp_val.imag print(y, z)
+
+---CODE_BLOCK---
+
+from qiskit.opflow.list_ops import ListOp measurable_expressions_list = [] for i, inp in enumerate(x): parameters = {list(a.parameters)[0]: inp} ψ = CircuitStateFn(a.assign_parameters(parameters)) measurable_expression = StateFn(h, is_measurement=True).compose(ψ) measurable_expressions_list.append(measurable_expression) expect_ops = PauliExpectation().convert(ListOp(measurable_expressions_list)) sampler = CircuitSampler(quantum_instance) sampled_ops = sampler.convert(expect_ops) expectation_values = sampled_ops.eval() for i, exp_val in enumerate(expectation_values): y[i] = exp_val.real z[i] = exp_val.imag print(y, z)

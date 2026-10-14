@@ -1,0 +1,26 @@
+CASE=issue_876
+QISKIT=1.0.2
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\gpt-6-astra\generation\issue_876\fix_876.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_876\test.py
+
+EE
+======================================================================
+ERROR: test_fidelity_matches_independent_uniform_state (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 33, in test_fidelity_matches_independent_uniform_state
+    rho = np.asarray(m["rho_real"])
+KeyError: 'rho_real'
+
+======================================================================
+ERROR: test_real_noisy_density_matrix_is_physical (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 22, in test_real_noisy_density_matrix_is_physical
+    rho = np.asarray(m["rho_real"])
+KeyError: 'rho_real'
+
+----------------------------------------------------------------------
+Ran 2 tests in 7.762s
+
+FAILED (errors=2)

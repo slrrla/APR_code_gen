@@ -1,0 +1,59 @@
+Title:
+Qubit ordering in qiskit
+
+Category:
+
+
+Question:
+Title: Qubit ordering in qiskit
+
+I am confused about the qubit ordering in circuit diagrams and endianness used in qiskit. As far as I understand, qiskit uses little endian (least significant qubit is rightmost) and while drawing circuits, qiskit plots least siginificant qubit at the top. So, we have the following table: qubits decimal representaion ckt statevector $|00\rangle$ $|0\rangle$ [1 0 0 0] $|01\rangle$ $|1\rangle$ [0 1 0 0] $|10\rangle$ $|2\rangle$ [0 0 1 0] $|11\rangle$ $|3\rangle$ [0 0 0 1] But, when I use QFT on the 2 qubit state $|10\rangle(i.e.|2\rangle)$, the result I expect is $\frac{1}{2}\Sigma_{y=0}^{3}exp(\frac{2\pi j*2y}{4})|y\rangle = \frac{1}{2}(|0\rangle - |1\rangle + |2\rangle - |3\rangle)$ i.e. statevector [0.5,-0.5,0.5,-0.5], however the following code: outputs [0.5,-0.5,0.5j,-0.5j]. I believe there is some qubit ordering problem that I am not getting right, but I can't figure out what it is. I have also seen the following two questions, but they didn't help much. Q1: Big Endian vs. Little Endian in Qiskit Q2: qiskit: IQFT acting on subsystem of reversed-ordered qubits state Can you please help me find the problem?
+
+```
+from qiskit import QuantumCircuit from qiskit.circuit.library import QFT from qiskit import Aer,execute qc2 = QuantumCircuit(2) qc2.x(1) # prepare the state |10> two_qbit_QFT_ckt = QFT(2) qft_ckt_2 = qc2+two_qbit_QFT_ckt # apply QFT on the state |10> state_backend = Aer.get_backend('statevector_simulator') qft_res_2 = execute(qft_ckt_2,state_backend).result().get_statevector() print(qft_res_2)
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.circuit.library import QFT from qiskit import Aer,execute qc2 = QuantumCircuit(2) qc2.x(1) # prepare the state |10> two_qbit_QFT_ckt = QFT(2) qft_ckt_2 = qc2+two_qbit_QFT_ckt # apply QFT on the state |10> state_backend = Aer.get_backend('statevector_simulator') qft_res_2 = execute(qft_ckt_2,state_backend).result().get_statevector() print(qft_res_2)
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit from qiskit.circuit.library import QFT from qiskit import Aer,execute qc2 = QuantumCircuit(2) qc2.x(1) # prepare the state |10> two_qbit_QFT_ckt = QFT(2) qft_ckt_2 = qc2+two_qbit_QFT_ckt # apply QFT on the state |10> state_backend = Aer.get_backend('statevector_simulator') qft_res_2 = execute(qft_ckt_2,state_backend).result().get_statevector() print(qft_res_2)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.circuit.library import QFT from qiskit import Aer,execute qc2 = QuantumCircuit(2) qc2.x(1) # prepare the state |10> two_qbit_QFT_ckt = QFT(2) qft_ckt_2 = qc2+two_qbit_QFT_ckt # apply QFT on the state |10> state_backend = Aer.get_backend('statevector_simulator') qft_res_2 = execute(qft_ckt_2,state_backend).result().get_statevector() print(qft_res_2)
+
+Solution explanation:
+I looked at what you pointed out and I think I figured it out. So if you look at the general form of the circuit for the QFT you have this (from this book ) and if you compare with the circuit from the QFT class in Qiskit, you notice they are the same. However, if you look at the implementation they do here, notice they say « Note: Remember that Qiskit's least significant bit has the lowest index (0), thus the circuit will be mirrored through the horizontal in relation to the image in section 5. » and then they build the mirror of what we have in the first picture. This seems to be a known issue since it has been pointed out here, but in the meantime I found two workarounds. The first one is to use the implementation they create in the Qiskit textbook, just take their functions and you have the QFT working with the little endian. The second one is to still use the QFT class but with some tricks. For example with the code you put: You take the inverse QFT without the swaps, giving actually the right QFT with the Qiskit notations, then add yourself the swaps in the end by reversing the qubits, and it gives you the result you want : I hope this will help you, if you need anything else feel free to ask! :)
+
+```
+from qiskit import QuantumCircuit from qiskit.circuit.library import QFT from qiskit import Aer,execute qc2 = QuantumCircuit(2) qc2.x(1) # prepare the state |10> two_qbit_QFT_ckt = QFT(2,do_swaps=False,inverse=True) #here are the changes qft_ckt_2 = qc2+two_qbit_QFT_ckt rev_qft_ckt_2 = qft_ckt_2.reverse_bits() #same as putting swaps in the end of the circuit # apply QFT on the state |10> state_backend = Aer.get_backend('statevector_simulator') qft_res_2 = execute(rev_qft_ckt_2,state_backend).result().get_statevector() print(qft_res_2)
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.circuit.library import QFT from qiskit import Aer,execute qc2 = QuantumCircuit(2) qc2.x(1) # prepare the state |10> two_qbit_QFT_ckt = QFT(2,do_swaps=False,inverse=True) #here are the changes qft_ckt_2 = qc2+two_qbit_QFT_ckt rev_qft_ckt_2 = qft_ckt_2.reverse_bits() #same as putting swaps in the end of the circuit # apply QFT on the state |10> state_backend = Aer.get_backend('statevector_simulator') qft_res_2 = execute(rev_qft_ckt_2,state_backend).result().get_statevector() print(qft_res_2)
+```
+
+```
+[ 0.5-6.123234e-17j -0.5+6.123234e-17j 0.5-6.123234e-17j -0.5+6.123234e-17j]
+```
+
+```
+[ 0.5-6.123234e-17j -0.5+6.123234e-17j 0.5-6.123234e-17j -0.5+6.123234e-17j]
+```
+
+Original fixed code:
+from qiskit import QuantumCircuit from qiskit.circuit.library import QFT from qiskit import Aer,execute qc2 = QuantumCircuit(2) qc2.x(1) # prepare the state |10> two_qbit_QFT_ckt = QFT(2,do_swaps=False,inverse=True) #here are the changes qft_ckt_2 = qc2+two_qbit_QFT_ckt rev_qft_ckt_2 = qft_ckt_2.reverse_bits() #same as putting swaps in the end of the circuit # apply QFT on the state |10> state_backend = Aer.get_backend('statevector_simulator') qft_res_2 = execute(rev_qft_ckt_2,state_backend).result().get_statevector() print(qft_res_2)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.circuit.library import QFT from qiskit import Aer,execute qc2 = QuantumCircuit(2) qc2.x(1) # prepare the state |10> two_qbit_QFT_ckt = QFT(2,do_swaps=False,inverse=True) #here are the changes qft_ckt_2 = qc2+two_qbit_QFT_ckt rev_qft_ckt_2 = qft_ckt_2.reverse_bits() #same as putting swaps in the end of the circuit # apply QFT on the state |10> state_backend = Aer.get_backend('statevector_simulator') qft_res_2 = execute(rev_qft_ckt_2,state_backend).result().get_statevector() print(qft_res_2)
+
+---CODE_BLOCK---
+
+[ 0.5-6.123234e-17j -0.5+6.123234e-17j 0.5-6.123234e-17j -0.5+6.123234e-17j]
+
+---CODE_BLOCK---
+
+[ 0.5-6.123234e-17j -0.5+6.123234e-17j 0.5-6.123234e-17j -0.5+6.123234e-17j]

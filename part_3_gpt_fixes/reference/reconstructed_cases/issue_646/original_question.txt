@@ -1,0 +1,35 @@
+Title:
+How to perform multi-class classification with qiskit's VQC?
+
+Category:
+
+
+Question:
+Title: How to perform multi-class classification with qiskit's VQC?
+
+I am following the tutorial given in qiskit's website Neural Network Classifier and Regressor. In the first part, classification, the third section refers to qiskit's VQC library. Everything works fine with the given X and y where there are only two classes. I modified the X and y slightly to include four classes instead of two using the following lines: The rest of the code is untouched. VQC with ZZFeatureMap, RealAmplitudes ansatz, cross_entropy loss function and COBYLA() optimizer. However, when I try to fit with this new data, the classifier is only running for 5 iterations and the weights are not being changed at all. The loss or objection function's value is always calculated as "nan". There is a similar question I had posted about weights not being optimized with VQC, but then I thought it was because of my data or VQC's configuration. After trying this example, I realised it is clearly to do something with multiple classes and not just the classifier's configuration. Please shine light on how to do multi-class classification using the qiskit's VQC library.
+
+```
+num_inputs = 2 num_samples = 100 X = 2*np.random.rand(num_samples, num_inputs) - 1 y = np.random.choice([0,1,2,3], 100) y_one_hot = np.zeros(( num_samples, 4 )) for i in range(len(y)): y_one_hot[i, y[i]]=1
+```
+
+```
+num_inputs = 2 num_samples = 100 X = 2*np.random.rand(num_samples, num_inputs) - 1 y = np.random.choice([0,1,2,3], 100) y_one_hot = np.zeros(( num_samples, 4 )) for i in range(len(y)): y_one_hot[i, y[i]]=1
+```
+
+Original buggy code:
+num_inputs = 2 num_samples = 100 X = 2*np.random.rand(num_samples, num_inputs) - 1 y = np.random.choice([0,1,2,3], 100) y_one_hot = np.zeros(( num_samples, 4 )) for i in range(len(y)): y_one_hot[i, y[i]]=1
+
+---CODE_BLOCK---
+
+num_inputs = 2 num_samples = 100 X = 2*np.random.rand(num_samples, num_inputs) - 1 y = np.random.choice([0,1,2,3], 100) y_one_hot = np.zeros(( num_samples, 4 )) for i in range(len(y)): y_one_hot[i, y[i]]=1
+
+Solution explanation:
+This has been resolved now. The above mentioned problem was an issue with 0.3.0 version qiskit_machine_learning library. You can get more details about the issue and how it has been resolved here. TLDR: Install the 0.4.0 developer's version of qiskit_machine_learning library. Clone this repository and from with the folder, run
+
+```
+pip install .
+```
+
+Original fixed code:
+pip install .

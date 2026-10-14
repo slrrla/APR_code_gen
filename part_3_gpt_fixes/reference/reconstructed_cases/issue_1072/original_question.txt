@@ -1,0 +1,203 @@
+Title:
+A fundamental question on multiple rotation of a qubit using $SU(2)$
+
+Category:
+Circuit / Math & representation
+
+Question:
+Title: A fundamental question on multiple rotation of a qubit using $SU(2)$
+
+I am trying to implement qubit rotations using $SU(2)$ from scratch in order to understand and debug what happens under the (physical) hood. The reason why gates and high-level APIs are omitted here is the desired learning effect and the physical understanding of what actually happens beneath the cap. Implementing the rotation matrix as describes in this lecture notes (equation 25) works fine if I perform one rotation as follows: After having implemented the fundamental functions, the most interesting part is to perform the rotations of a Qubit. In the following I am trying to take a vector, rotate it by $\frac{\pi}{8}$ around the $z$-axis, then in the next step I take the resulting rotated vector and rotate it again by $\frac{\pi}{8}$ around the $z$-axis and so forth: I am using qiskit for visualizing the vectors on a blochsphere. The first rotation works really well, but the subsequent ones not: I would really appreciate any help to get the subsequent rotations working. The complete notebook is publicly available here on GitHub. Update (2022-06-13): After fixing the issues enlisted in the great answer of Egretta.Thula, the plot looks as follows (see updated code here on GitHub):
+
+```
+from qiskit.visualization.bloch import Bloch from sympy.physics.matrices import msigma from sympy import Matrix from sympy import N, re import numpy as np def to_spherical(vec): x = np.real(vec[0]) y = np.real(vec[1]) z = np.real(vec[2]) hxy = np.hypot(x, y) r = np.hypot(hxy, z) ϕ = np.arctan2(y, x) #az θ = np.arctan2(z, hxy) #el return [r, ϕ, θ] def to_cartesian(polar): r = polar[0] ϕ = polar[1] θ = polar[2] x = r * np.sin(ϕ) * np.cos(θ) y = r * np.sin(ϕ) * np.sin(θ) z = r * np.cos(ϕ) return [np.real(x), np.real(y), np.real(z)] def rn_su2(vec, rot_angle, n): spherical_vec = to_spherical(vec) ϕ = spherical_vec[1] θ = spherical_vec[2] sx = msigma(1) sy = msigma(2) sz = msigma(3) M_q = (np.sin(θ)*np.cos(ϕ)*sx + np.sin(θ)*np.sin(ϕ)*sy + np.cos(θ)*sz) U_n = np.eye(2)*np.cos(rot_angle/2) -1j*(n[0]*sx+n[1]*sy+n[2]*sz)*np.sin(rot_angle/2) M_q_rotated = U_n*M_q*np.matrix(U_n).H return M_q_rotated def extract_angles(M_q_rotated): cos_θ_rotated = float(N(re(M_q_rotated[0,0]))) θ_rotated = np.arccos(cos_θ_rotated) # e^(ix) = cos(x) + i*sin(x) # see https://en.wikipedia.org/wiki/Euler%27s_identity temp = float(N(re(M_q_rotated[1,0]))) temp = temp/np.sin(θ_rotated) ϕ_rotated = np.arccos(temp) return (ϕ_rotated, θ_rotated)
+```
+
+```
+from qiskit.visualization.bloch import Bloch from sympy.physics.matrices import msigma from sympy import Matrix from sympy import N, re import numpy as np def to_spherical(vec): x = np.real(vec[0]) y = np.real(vec[1]) z = np.real(vec[2]) hxy = np.hypot(x, y) r = np.hypot(hxy, z) ϕ = np.arctan2(y, x) #az θ = np.arctan2(z, hxy) #el return [r, ϕ, θ] def to_cartesian(polar): r = polar[0] ϕ = polar[1] θ = polar[2] x = r * np.sin(ϕ) * np.cos(θ) y = r * np.sin(ϕ) * np.sin(θ) z = r * np.cos(ϕ) return [np.real(x), np.real(y), np.real(z)] def rn_su2(vec, rot_angle, n): spherical_vec = to_spherical(vec) ϕ = spherical_vec[1] θ = spherical_vec[2] sx = msigma(1) sy = msigma(2) sz = msigma(3) M_q = (np.sin(θ)*np.cos(ϕ)*sx + np.sin(θ)*np.sin(ϕ)*sy + np.cos(θ)*sz) U_n = np.eye(2)*np.cos(rot_angle/2) -1j*(n[0]*sx+n[1]*sy+n[2]*sz)*np.sin(rot_angle/2) M_q_rotated = U_n*M_q*np.matrix(U_n).H return M_q_rotated def extract_angles(M_q_rotated): cos_θ_rotated = float(N(re(M_q_rotated[0,0]))) θ_rotated = np.arccos(cos_θ_rotated) # e^(ix) = cos(x) + i*sin(x) # see https://en.wikipedia.org/wiki/Euler%27s_identity temp = float(N(re(M_q_rotated[1,0]))) temp = temp/np.sin(θ_rotated) ϕ_rotated = np.arccos(temp) return (ϕ_rotated, θ_rotated)
+```
+
+```
+rot_angle = np.pi/8 n = [0, 0, 1] start_vec = [1, 0, 0] num_iterations = 5 _bloch = Bloch() _bloch.vector_color = ['blue'] * num_iterations sv = [] vec = start_vec sv.append(vec) for i in range(num_iterations): M_q_rotated = rn_su2(vec, rot_angle, n) (ϕ_rotated, θ_rotated) = extract_angles(M_q_rotated) vec = np.array(to_cartesian([1, ϕ_rotated, θ_rotated])) sv.append(vec) _bloch.add_vectors(sv) _bloch.render()
+```
+
+```
+rot_angle = np.pi/8 n = [0, 0, 1] start_vec = [1, 0, 0] num_iterations = 5 _bloch = Bloch() _bloch.vector_color = ['blue'] * num_iterations sv = [] vec = start_vec sv.append(vec) for i in range(num_iterations): M_q_rotated = rn_su2(vec, rot_angle, n) (ϕ_rotated, θ_rotated) = extract_angles(M_q_rotated) vec = np.array(to_cartesian([1, ϕ_rotated, θ_rotated])) sv.append(vec) _bloch.add_vectors(sv) _bloch.render()
+```
+
+Original buggy code:
+from qiskit.visualization.bloch import Bloch from sympy.physics.matrices import msigma from sympy import Matrix from sympy import N, re import numpy as np def to_spherical(vec): x = np.real(vec[0]) y = np.real(vec[1]) z = np.real(vec[2]) hxy = np.hypot(x, y) r = np.hypot(hxy, z) ϕ = np.arctan2(y, x) #az θ = np.arctan2(z, hxy) #el return [r, ϕ, θ] def to_cartesian(polar): r = polar[0] ϕ = polar[1] θ = polar[2] x = r * np.sin(ϕ) * np.cos(θ) y = r * np.sin(ϕ) * np.sin(θ) z = r * np.cos(ϕ) return [np.real(x), np.real(y), np.real(z)] def rn_su2(vec, rot_angle, n): spherical_vec = to_spherical(vec) ϕ = spherical_vec[1] θ = spherical_vec[2] sx = msigma(1) sy = msigma(2) sz = msigma(3) M_q = (np.sin(θ)*np.cos(ϕ)*sx + np.sin(θ)*np.sin(ϕ)*sy + np.cos(θ)*sz) U_n = np.eye(2)*np.cos(rot_angle/2) -1j*(n[0]*sx+n[1]*sy+n[2]*sz)*np.sin(rot_angle/2) M_q_rotated = U_n*M_q*np.matrix(U_n).H return M_q_rotated def extract_angles(M_q_rotated): cos_θ_rotated = float(N(re(M_q_rotated[0,0]))) θ_rotated = np.arccos(cos_θ_rotated) # e^(ix) = cos(x) + i*sin(x) # see https://en.wikipedia.org/wiki/Euler%27s_identity temp = float(N(re(M_q_rotated[1,0]))) temp = temp/np.sin(θ_rotated) ϕ_rotated = np.arccos(temp) return (ϕ_rotated, θ_rotated)
+
+---CODE_BLOCK---
+
+from qiskit.visualization.bloch import Bloch from sympy.physics.matrices import msigma from sympy import Matrix from sympy import N, re import numpy as np def to_spherical(vec): x = np.real(vec[0]) y = np.real(vec[1]) z = np.real(vec[2]) hxy = np.hypot(x, y) r = np.hypot(hxy, z) ϕ = np.arctan2(y, x) #az θ = np.arctan2(z, hxy) #el return [r, ϕ, θ] def to_cartesian(polar): r = polar[0] ϕ = polar[1] θ = polar[2] x = r * np.sin(ϕ) * np.cos(θ) y = r * np.sin(ϕ) * np.sin(θ) z = r * np.cos(ϕ) return [np.real(x), np.real(y), np.real(z)] def rn_su2(vec, rot_angle, n): spherical_vec = to_spherical(vec) ϕ = spherical_vec[1] θ = spherical_vec[2] sx = msigma(1) sy = msigma(2) sz = msigma(3) M_q = (np.sin(θ)*np.cos(ϕ)*sx + np.sin(θ)*np.sin(ϕ)*sy + np.cos(θ)*sz) U_n = np.eye(2)*np.cos(rot_angle/2) -1j*(n[0]*sx+n[1]*sy+n[2]*sz)*np.sin(rot_angle/2) M_q_rotated = U_n*M_q*np.matrix(U_n).H return M_q_rotated def extract_angles(M_q_rotated): cos_θ_rotated = float(N(re(M_q_rotated[0,0]))) θ_rotated = np.arccos(cos_θ_rotated) # e^(ix) = cos(x) + i*sin(x) # see https://en.wikipedia.org/wiki/Euler%27s_identity temp = float(N(re(M_q_rotated[1,0]))) temp = temp/np.sin(θ_rotated) ϕ_rotated = np.arccos(temp) return (ϕ_rotated, θ_rotated)
+
+---CODE_BLOCK---
+
+rot_angle = np.pi/8 n = [0, 0, 1] start_vec = [1, 0, 0] num_iterations = 5 _bloch = Bloch() _bloch.vector_color = ['blue'] * num_iterations sv = [] vec = start_vec sv.append(vec) for i in range(num_iterations): M_q_rotated = rn_su2(vec, rot_angle, n) (ϕ_rotated, θ_rotated) = extract_angles(M_q_rotated) vec = np.array(to_cartesian([1, ϕ_rotated, θ_rotated])) sv.append(vec) _bloch.add_vectors(sv) _bloch.render()
+
+---CODE_BLOCK---
+
+rot_angle = np.pi/8 n = [0, 0, 1] start_vec = [1, 0, 0] num_iterations = 5 _bloch = Bloch() _bloch.vector_color = ['blue'] * num_iterations sv = [] vec = start_vec sv.append(vec) for i in range(num_iterations): M_q_rotated = rn_su2(vec, rot_angle, n) (ϕ_rotated, θ_rotated) = extract_angles(M_q_rotated) vec = np.array(to_cartesian([1, ϕ_rotated, θ_rotated])) sv.append(vec) _bloch.add_vectors(sv) _bloch.render()
+
+Solution explanation:
+There is more than one issue in your code. You switched and in the function that convert polar coordinates to cartesian coordinates: and are passed in a wrong order while calculating in function: SymPy uses instead of for imaginary numbers. That makes not working properly. You should use instead. Update: There is another issue in the code which takes place when $\geq 8$, uses real part of $e^{i\phi}$ to calculate the value of $\phi$. You should take both real and imaginary parts. Otherwise you will always get a value between $0$ and $\pi$. So you will need to change these lines of code: to become: I think this is the root cause of the issue described here.
+
+```
+ϕ
+```
+
+```
+θ
+```
+
+```
+x = r * np.sin(ϕ) * np.cos(θ) y = r * np.sin(ϕ) * np.sin(θ) z = r * np.cos(ϕ)
+```
+
+```
+x = r * np.sin(ϕ) * np.cos(θ) y = r * np.sin(ϕ) * np.sin(θ) z = r * np.cos(ϕ)
+```
+
+```
+hxy
+```
+
+```
+z
+```
+
+```
+θ
+```
+
+```
+to_spherical
+```
+
+```
+θ = np.arctan2(z, hxy)
+```
+
+```
+θ = np.arctan2(z, hxy)
+```
+
+```
+I
+```
+
+```
+j
+```
+
+```
+numpy.matrix.H
+```
+
+```
+Dagger
+```
+
+```
+num_iterations
+```
+
+```
+extract_angles
+```
+
+```
+temp = float(N(re(M_q_rotated[1,0]))) temp = temp/np.sin(θ_rotated) ϕ_rotated = np.arccos(temp)
+```
+
+```
+temp = float(N(re(M_q_rotated[1,0]))) temp = temp/np.sin(θ_rotated) ϕ_rotated = np.arccos(temp)
+```
+
+```
+temp = M_q_rotated[1,0]/np.sin(θ_rotated) temp_r = float(N(re(temp))) temp_i = float(N(im(temp))) ϕ_rotated = np.arctan2(temp_i, temp_r)
+```
+
+```
+temp = M_q_rotated[1,0]/np.sin(θ_rotated) temp_r = float(N(re(temp))) temp_i = float(N(im(temp))) ϕ_rotated = np.arctan2(temp_i, temp_r)
+```
+
+Original fixed code:
+ϕ
+
+---CODE_BLOCK---
+
+θ
+
+---CODE_BLOCK---
+
+x = r * np.sin(ϕ) * np.cos(θ) y = r * np.sin(ϕ) * np.sin(θ) z = r * np.cos(ϕ)
+
+---CODE_BLOCK---
+
+x = r * np.sin(ϕ) * np.cos(θ) y = r * np.sin(ϕ) * np.sin(θ) z = r * np.cos(ϕ)
+
+---CODE_BLOCK---
+
+hxy
+
+---CODE_BLOCK---
+
+z
+
+---CODE_BLOCK---
+
+θ
+
+---CODE_BLOCK---
+
+to_spherical
+
+---CODE_BLOCK---
+
+θ = np.arctan2(z, hxy)
+
+---CODE_BLOCK---
+
+θ = np.arctan2(z, hxy)
+
+---CODE_BLOCK---
+
+I
+
+---CODE_BLOCK---
+
+j
+
+---CODE_BLOCK---
+
+numpy.matrix.H
+
+---CODE_BLOCK---
+
+Dagger
+
+---CODE_BLOCK---
+
+num_iterations
+
+---CODE_BLOCK---
+
+extract_angles
+
+---CODE_BLOCK---
+
+temp = float(N(re(M_q_rotated[1,0]))) temp = temp/np.sin(θ_rotated) ϕ_rotated = np.arccos(temp)
+
+---CODE_BLOCK---
+
+temp = float(N(re(M_q_rotated[1,0]))) temp = temp/np.sin(θ_rotated) ϕ_rotated = np.arccos(temp)
+
+---CODE_BLOCK---
+
+temp = M_q_rotated[1,0]/np.sin(θ_rotated) temp_r = float(N(re(temp))) temp_i = float(N(im(temp))) ϕ_rotated = np.arctan2(temp_i, temp_r)
+
+---CODE_BLOCK---
+
+temp = M_q_rotated[1,0]/np.sin(θ_rotated) temp_r = float(N(re(temp))) temp_i = float(N(im(temp))) ϕ_rotated = np.arctan2(temp_i, temp_r)

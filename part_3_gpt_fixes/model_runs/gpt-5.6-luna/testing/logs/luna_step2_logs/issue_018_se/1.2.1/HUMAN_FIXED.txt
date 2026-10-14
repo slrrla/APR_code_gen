@@ -1,0 +1,23 @@
+﻿EXACT_LOSS_PROBABILITIES (x,y lexicographic): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+ 
+python.exe : ..E
+At line:54 char:32
++                 $outputLines = & $python $test 2>&1
++                                ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (..E:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+======================================================================
+ERROR: test_real_simulator_shots_for_all_nine_inputs (__main__.TestMagicSquare)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_018_se\test.py", line 60, in 
+test_real_simulator_shots_for_all_nine_inputs
+    raise RuntimeError('SIMULATOR_PROCESS_ERROR: exit='+str(p.returncode)+' (0x'+format(p.returncode & 0xffffffff,'08X')+')')
+RuntimeError: SIMULATOR_PROCESS_ERROR: exit=3221226356 (0xC0000374)
+
+----------------------------------------------------------------------
+Ran 3 tests in 22.341s
+
+FAILED (errors=1)
+

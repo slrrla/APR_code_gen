@@ -1,0 +1,86 @@
+Title:
+Conjugate transpose of a U-gate
+
+Category:
+Category: Circuit Construction / Logic / Gates
+Why Stack Overflow Wins in This Category:
+
+The Stack Overflow solution directly identifies the optimization behavior of Qiskit's transpiler and provides the precise flag to disable it, solving the user’s main concern (empty or optimized-away circuit). In this circuit-level context, practical debugging tips (like transpiler settings) outweigh broader conceptual explanations.
+
+Question:
+Title: Conjugate transpose of a U-gate
+
+I want to be able to create the circuit depicted below, but running the code below results in an empty circuit when viewing the job afterwards.
+
+```
+backend = provider.backends.ibmq_armonk qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]).inverse() circuit.measure(qreg_q[0], creg_c[0]) qobj = assemble(transpile(circuit, backend=backend), backend=backend) job = backend.run(qobj) retrieved_job = backend.retrieve_job(job.job_id())
+```
+
+```
+backend = provider.backends.ibmq_armonk qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]).inverse() circuit.measure(qreg_q[0], creg_c[0]) qobj = assemble(transpile(circuit, backend=backend), backend=backend) job = backend.run(qobj) retrieved_job = backend.retrieve_job(job.job_id())
+```
+
+Original buggy code:
+backend = provider.backends.ibmq_armonk qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]).inverse() circuit.measure(qreg_q[0], creg_c[0]) qobj = assemble(transpile(circuit, backend=backend), backend=backend) job = backend.run(qobj) retrieved_job = backend.retrieve_job(job.job_id())
+
+---CODE_BLOCK---
+
+backend = provider.backends.ibmq_armonk qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]).inverse() circuit.measure(qreg_q[0], creg_c[0]) qobj = assemble(transpile(circuit, backend=backend), backend=backend) job = backend.run(qobj) retrieved_job = backend.retrieve_job(job.job_id())
+
+Solution explanation:
+Indeed, your circuit can be reduced to an identity circuit as @KAJ226 nicely explains here. The transpilation process notices that and reduces your gates to idle during circuit depth optimization: You can avoid the optimization by reducing the optimization level to $0$: In your example, you need to modify the call like this:
+
+```
+qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]).inverse() circuit.measure(qreg_q[0], creg_c[0]) transpile(circuit, backend=backend).draw('mpl')
+```
+
+```
+qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]).inverse() circuit.measure(qreg_q[0], creg_c[0]) transpile(circuit, backend=backend).draw('mpl')
+```
+
+```
+transpile(circuit, backend=backend, optimization_level=0).draw('mpl')
+```
+
+```
+transpile(circuit, backend=backend, optimization_level=0).draw('mpl')
+```
+
+```
+transpile
+```
+
+```
+qobj = assemble(transpile(circuit, backend=backend, optimization_level=0), backend=backend)
+```
+
+```
+qobj = assemble(transpile(circuit, backend=backend, optimization_level=0), backend=backend)
+```
+
+Original fixed code:
+qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]).inverse() circuit.measure(qreg_q[0], creg_c[0]) transpile(circuit, backend=backend).draw('mpl')
+
+---CODE_BLOCK---
+
+qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.x(qreg_q[0]) circuit.y(qreg_q[0]) circuit.u(pi/2, pi/2, pi/2, qreg_q[0]).inverse() circuit.measure(qreg_q[0], creg_c[0]) transpile(circuit, backend=backend).draw('mpl')
+
+---CODE_BLOCK---
+
+transpile(circuit, backend=backend, optimization_level=0).draw('mpl')
+
+---CODE_BLOCK---
+
+transpile(circuit, backend=backend, optimization_level=0).draw('mpl')
+
+---CODE_BLOCK---
+
+transpile
+
+---CODE_BLOCK---
+
+qobj = assemble(transpile(circuit, backend=backend, optimization_level=0), backend=backend)
+
+---CODE_BLOCK---
+
+qobj = assemble(transpile(circuit, backend=backend, optimization_level=0), backend=backend)

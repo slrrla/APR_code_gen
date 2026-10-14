@@ -1,0 +1,36 @@
+﻿python.exe : E
+At line:63 char:36
++                     $outputLines = & $python $testPath 2>&1
++                                    ~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (E:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+======================================================================
+ERROR: test_qpe_mapping_and_controlled_powers (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_189\test.py", line 22, in 
+test_qpe_mapping_and_controlled_powers
+    ns = load_target()
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_189\test.py", line 14, in load_target
+    return runpy.run_path(MUT)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\runpy.py", line 289, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\runpy.py", line 96, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\luna_generated_fixes\issue_189\luna_fix_189.py", 
+line 24, in <module>
+    qpe.append(Q, qp)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1276, in append
+    operation.broadcast_arguments(expanded_qargs, expanded_cargs)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\site-packages\qiskit\circuit\gate.py", line 207, in broadcast_arguments
+    raise CircuitError(
+qiskit.circuit.exceptions.CircuitError: 'The amount of qubit(6)/clbit(0) arguments does not match the gate expectation (7).'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.382s
+
+FAILED (errors=1)
+

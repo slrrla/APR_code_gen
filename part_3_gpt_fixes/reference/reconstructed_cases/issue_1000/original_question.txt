@@ -1,0 +1,23 @@
+Title:
+Calculating the probability of a result after measurement using Ry, Rz, and Rx matrices
+
+Category:
+
+
+Question:
+Title: Calculating the probability of a result after measurement using Ry, Rz, and Rx matrices
+
+Broadly: I have noticed on the qiskit developer (assessment) exam there are many questions asking to calculate the probability after measurement however I generally have no idea how to do this without using code (for any gate). Specifically: Given this code fragment, what is the probability that a measurement would result in $|1\rangle$ if the state is prepared with the following code: I.e.: how do we answer questions like these in an exam setting using our knowledge of cosine and sine? Note that I am referring to and broadening Sample Question 2 - IBM Quantum Developer Certification which can be seen here: https://www.youtube.com/watch?v=LBaVOE5pcaI
+
+```
+qc = QuantumCircuit(1) qc.ry(2 * math.pi/4, 0)
+```
+
+Original buggy code:
+qc = QuantumCircuit(1) qc.ry(2 * math.pi/4, 0)
+
+Solution explanation:
+$Ry$ gate is described by following matrix $$ Ry(\theta) = \begin{pmatrix} \cos(\theta/2) & -\sin(\theta/2) \\ \sin(\theta/2) & \cos(\theta/2) \end{pmatrix}. $$ If your qubit was in state $|0\rangle$ before application of the gate, operation $Ry(\theta)|0\rangle$ leads to state $$ Ry(\theta)|0\rangle = \begin{pmatrix} \cos(\theta/2) & -\sin(\theta/2) \\ \sin(\theta/2) & \cos(\theta/2) \end{pmatrix} \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} \cos(\theta/2) \\ \sin(\theta/2) \end{pmatrix}= \cos(\theta/2)|0\rangle + \sin(\theta/2)|1\rangle. $$ Since probability of measuring a particular state is square of absolute value of the probability amplitude, we have $$ P(0) = |\cos(\theta/2)|^2 \\ P(1) = |\sin(\theta/2)|^2. $$ In your case $\theta = 2\pi/4 = \pi/2$. So, $P(0) = \cos^2(\pi/4) = 1/2$ and $P(1) = 1/2$. Try yourself to calculate probabilities $P(0)$ and $P(1)$ for state $Ry(\theta)|1\rangle$. Simiarly you can do the calculation for application of $Rx$ and $Rz$ gate. See matrices defining the gates here for $Rx$ and here for $Rz$.
+
+Original fixed code:
+$Ry$ gate is described by following matrix $$ Ry(\theta) = \begin{pmatrix} \cos(\theta/2) & -\sin(\theta/2) \\ \sin(\theta/2) & \cos(\theta/2) \end{pmatrix}. $$ If your qubit was in state $|0\rangle$ before application of the gate, operation $Ry(\theta)|0\rangle$ leads to state $$ Ry(\theta)|0\rangle = \begin{pmatrix} \cos(\theta/2) & -\sin(\theta/2) \\ \sin(\theta/2) & \cos(\theta/2) \end{pmatrix} \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} \cos(\theta/2) \\ \sin(\theta/2) \end{pmatrix}= \cos(\theta/2)|0\rangle + \sin(\theta/2)|1\rangle. $$ Since probability of measuring a particular state is square of absolute value of the probability amplitude, we have $$ P(0) = |\cos(\theta/2)|^2 \\ P(1) = |\sin(\theta/2)|^2. $$ In your case $\theta = 2\pi/4 = \pi/2$. So, $P(0) = \cos^2(\pi/4) = 1/2$ and $P(1) = 1/2$. Try yourself to calculate probabilities $P(0)$ and $P(1)$ for state $Ry(\theta)|1\rangle$. Simiarly you can do the calculation for application of $Rx$ and $Rz$ gate. See matrices defining the gates here for $Rx$ and here for $Rz$.

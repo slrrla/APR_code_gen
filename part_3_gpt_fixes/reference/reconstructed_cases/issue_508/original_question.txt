@@ -1,0 +1,111 @@
+Title:
+Error parameters from Qiskit backends
+
+Category:
+Category: Circuit Construction / Logic / Gates
+Why AI Wins in This Category:
+Explains what each probability represents
+Adds specific insight into gate-level error modeling
+Better educational value for anyone building a custom noise model
+
+Question:
+Title: Error parameters from Qiskit backends
+
+In order to build a custom noise model in Qiskit Aer, I requested the error parameters from different backends and got 3 (9) parameters for each single-qubit (two-qubit) gate as output. However, I could not find any documentation of what these numbers are actually specifying. Based on a previous stack-exchange question about Qiskit's , I would guess that the first parameter is giving the gate fidelity. Is this true? What are the other 2 (8) numbers specifying? Here is an example for a single-qubit () and a two-qubit () gate from the backend :
+
+```
+basic_device_noise_model()
+```
+
+```
+id
+```
+
+```
+cx
+```
+
+```
+orense
+```
+
+```
+{'type': 'qerror', 'operations': ['id'], 'instructions': [[{'name': 'id', 'qubits': [0]}], [{'name': 'z', 'qubits': [0]}], [{'name': 'reset', 'qubits': [0]}]], 'probabilities': [0.9996936442814689, 5.460519336879117e-05, 0.0002517505251623531], 'gate_qubits': [[0]]}, {'type': 'qerror', 'operations': ['cx'], 'instructions': [[{'name': 'id', 'qubits': [1]}], [{'name': 'z', 'qubits': [0]}], [{'name': 'reset', 'qubits': [0]}], [{'name': 'z', 'qubits': [1]}], [{'name': 'z', 'qubits': [0]}, {'name': 'z', 'qubits': [1]}], [{'name': 'reset', 'qubits': [0]}, {'name': 'z', 'qubits': [1]}], [{'name': 'reset', 'qubits': [1]}], [{'name': 'z', 'qubits': [0]}, {'name': 'reset', 'qubits': [1]}], [{'name': 'reset', 'qubits': [0]}, {'name': 'reset', 'qubits': [1]}]], 'probabilities': [0.9893181752693058, 0.0004106923127677822, 0.001895703775229592, 0.002657456705309657, 1.1031810267579292e-06, 5.092144099539429e-06, 0.005698491726413379, 2.365595624250726e-06, 1.0919290223224507e-05], 'gate_qubits': [[0, 1]]},
+```
+
+```
+{'type': 'qerror', 'operations': ['id'], 'instructions': [[{'name': 'id', 'qubits': [0]}], [{'name': 'z', 'qubits': [0]}], [{'name': 'reset', 'qubits': [0]}]], 'probabilities': [0.9996936442814689, 5.460519336879117e-05, 0.0002517505251623531], 'gate_qubits': [[0]]}, {'type': 'qerror', 'operations': ['cx'], 'instructions': [[{'name': 'id', 'qubits': [1]}], [{'name': 'z', 'qubits': [0]}], [{'name': 'reset', 'qubits': [0]}], [{'name': 'z', 'qubits': [1]}], [{'name': 'z', 'qubits': [0]}, {'name': 'z', 'qubits': [1]}], [{'name': 'reset', 'qubits': [0]}, {'name': 'z', 'qubits': [1]}], [{'name': 'reset', 'qubits': [1]}], [{'name': 'z', 'qubits': [0]}, {'name': 'reset', 'qubits': [1]}], [{'name': 'reset', 'qubits': [0]}, {'name': 'reset', 'qubits': [1]}]], 'probabilities': [0.9893181752693058, 0.0004106923127677822, 0.001895703775229592, 0.002657456705309657, 1.1031810267579292e-06, 5.092144099539429e-06, 0.005698491726413379, 2.365595624250726e-06, 1.0919290223224507e-05], 'gate_qubits': [[0, 1]]},
+```
+
+Original buggy code:
+basic_device_noise_model()
+
+---CODE_BLOCK---
+
+id
+
+---CODE_BLOCK---
+
+cx
+
+---CODE_BLOCK---
+
+orense
+
+---CODE_BLOCK---
+
+{'type': 'qerror', 'operations': ['id'], 'instructions': [[{'name': 'id', 'qubits': [0]}], [{'name': 'z', 'qubits': [0]}], [{'name': 'reset', 'qubits': [0]}]], 'probabilities': [0.9996936442814689, 5.460519336879117e-05, 0.0002517505251623531], 'gate_qubits': [[0]]}, {'type': 'qerror', 'operations': ['cx'], 'instructions': [[{'name': 'id', 'qubits': [1]}], [{'name': 'z', 'qubits': [0]}], [{'name': 'reset', 'qubits': [0]}], [{'name': 'z', 'qubits': [1]}], [{'name': 'z', 'qubits': [0]}, {'name': 'z', 'qubits': [1]}], [{'name': 'reset', 'qubits': [0]}, {'name': 'z', 'qubits': [1]}], [{'name': 'reset', 'qubits': [1]}], [{'name': 'z', 'qubits': [0]}, {'name': 'reset', 'qubits': [1]}], [{'name': 'reset', 'qubits': [0]}, {'name': 'reset', 'qubits': [1]}]], 'probabilities': [0.9893181752693058, 0.0004106923127677822, 0.001895703775229592, 0.002657456705309657, 1.1031810267579292e-06, 5.092144099539429e-06, 0.005698491726413379, 2.365595624250726e-06, 1.0919290223224507e-05], 'gate_qubits': [[0, 1]]},
+
+---CODE_BLOCK---
+
+{'type': 'qerror', 'operations': ['id'], 'instructions': [[{'name': 'id', 'qubits': [0]}], [{'name': 'z', 'qubits': [0]}], [{'name': 'reset', 'qubits': [0]}]], 'probabilities': [0.9996936442814689, 5.460519336879117e-05, 0.0002517505251623531], 'gate_qubits': [[0]]}, {'type': 'qerror', 'operations': ['cx'], 'instructions': [[{'name': 'id', 'qubits': [1]}], [{'name': 'z', 'qubits': [0]}], [{'name': 'reset', 'qubits': [0]}], [{'name': 'z', 'qubits': [1]}], [{'name': 'z', 'qubits': [0]}, {'name': 'z', 'qubits': [1]}], [{'name': 'reset', 'qubits': [0]}, {'name': 'z', 'qubits': [1]}], [{'name': 'reset', 'qubits': [1]}], [{'name': 'z', 'qubits': [0]}, {'name': 'reset', 'qubits': [1]}], [{'name': 'reset', 'qubits': [0]}, {'name': 'reset', 'qubits': [1]}]], 'probabilities': [0.9893181752693058, 0.0004106923127677822, 0.001895703775229592, 0.002657456705309657, 1.1031810267579292e-06, 5.092144099539429e-06, 0.005698491726413379, 2.365595624250726e-06, 1.0919290223224507e-05], 'gate_qubits': [[0, 1]]},
+
+Solution explanation:
+Each of those dicts are a . You can learn more about the structure of a here. That documentation is most likely what you were looking for. Each is an operation being applied on the qubit(s) in . Each value in corresponds to the respective operation in .
+
+```
+QuantumError
+```
+
+```
+QuantumError
+```
+
+```
+instruction
+```
+
+```
+qubits
+```
+
+```
+probabilities
+```
+
+```
+instructions
+```
+
+Original fixed code:
+QuantumError
+
+---CODE_BLOCK---
+
+QuantumError
+
+---CODE_BLOCK---
+
+instruction
+
+---CODE_BLOCK---
+
+qubits
+
+---CODE_BLOCK---
+
+probabilities
+
+---CODE_BLOCK---
+
+instructions

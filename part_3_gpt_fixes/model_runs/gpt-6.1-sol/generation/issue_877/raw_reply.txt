@@ -1,0 +1,10 @@
+```python
+from qiskit_aer.noise import NoiseModel
+
+# FIX: backend was undefined -> use a public 127-qubit device snapshot, because it requires no access to the real device.
+from qiskit.providers.fake_provider import FakeWashington
+backend = FakeWashington()
+
+noise_model = NoiseModel.from_backend(backend)
+
+```

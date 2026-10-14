@@ -1,0 +1,17 @@
+test_custom_gate_execution_and_amplitudes (oracle_issue_021_se_old.TestIntent.test_custom_gate_execution_and_amplitudes) ... ERROR
+
+======================================================================
+ERROR: test_custom_gate_execution_and_amplitudes (oracle_issue_021_se_old.TestIntent.test_custom_gate_execution_and_amplitudes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\test.py", line 28, in test_custom_gate_execution_and_amplitudes
+    self.assertTrue(Statevector(ns["result"]).equiv(Statevector(expected)))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_3\Lib\site-packages\qiskit\quantum_info\states\statevector.py", line 93, in __init__
+    raise QiskitError("Invalid input data format for Statevector")
+qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.014s
+
+FAILED (errors=1)

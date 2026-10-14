@@ -1,0 +1,239 @@
+Title:
+(solved(?)) Quantum circuit in a loop increasing qubit ids throughout despite attempts to reset
+
+Category:
+Category:
+Error / Debugging
+
+Why Both Are Same in This Category:
+This issue is about debugging a performance/memory leak. Both solutions converge on the identical core fix—create fresh circuits instead of reusing ones. They present slightly different coding styles, but the effective resolution is identical, making them equivalent in this category.
+
+Question:
+Title: (solved(?)) Quantum circuit in a loop increasing qubit ids throughout despite attempts to reset
+
+I have a parameterized circuit attempting to classify a set of features for various samples. I need to reencode the features per sample, but through the epochs, the computations slow down considerably and after some time, the code throws a mostly nonsensical error regarding the existance of a '1' state on the measured bit. I think the circuit is maintained between runs and that the qubits somehow keep getting added to the circuit. I'd like a clean circuit for each sample, but despite adding an explicit statement to the circuit, the issue remains. The code for creating the circle: where the is among a set of implemented models. the current one is: The output of the printed circuits are as follows. Note the increasing id's on the qubits. If anyone knows how I can just reset the circuit and keep the qubits to 4 through the simulations, I'd appreciate it. Edit: attempt at clarifying slow down. Some efforts to try and solve the issue as well as the error taking ~10 hrs to manifest makes finding the error difficult, but the rate of iterations starts at at the first epoch, with abt. 100 iterations per epoch to at the 20th. -> roughly 20s on the 1st epoch to ~300 seconds at the 20th, with more slowdown the further you go the error persists between instantiation of the class as well, something noticed when reducing the number of epochs to run from 100 to 20 in order to try to get some data to work on. Edit2: We were in talks with TA's regarding the issue, and they suggested naming the registers when initializing them. This sped up the process somewhat. The error thrown was likely a result of the job section, where the output relied on the ratio of '1' outcomes. adding an if test for this solved the error, though not the increase in computation time. About an hour or so after the conversation, a partner found the code working fine on their windows laptop. mine is still slow on linux. I'll probably try to work out the issue through the week. Edit3: I've revised the code on my end with removing the registers when creating the circuit. The code starts out quite a bit faster, but the performance deteriorates still. the new functions: for creating the model. the function is set as during the initialization. Next comes the is called int the function printouts for the base model to terminal: over a few epochs. more directly, the iterations per second are Edit 4: I tested yesterday with the results as above. Today I wanted to check for memory leaks with the suggested . The program runs fine now. I don't know what happened, but I did do a system update and follow the recomendation bellow in regards to removing the registers. I made no further changes than those in the example above. The issue seems fixed, but I don't know why.
+
+```
+del
+```
+
+```
+def modelCircuit(self, printC=False):#, backend='qasm_simulator', shots=1000): """ Set up and run the model with the predefined encoders and ansatzes for the circuit. """ self.quantum_register = qk.QuantumRegister(self.n_quantum) self.classical_register = qk.ClassicalRegister(self.n_classic) self.circuit = qk.QuantumCircuit(self.quantum_register, self.classical_register) self.model() job = qk.execute(self.circuit, backend=qk.Aer.get_backend(self.backend), shots=self.shots, seed_simulator=self.seed ) results = job.result().get_counts(self.circuit) self.model_prediction = results['1'] / float(self.shots) if printC: print(self.circuit) del(self.circuit) return self.model_prediction
+```
+
+```
+def modelCircuit(self, printC=False):#, backend='qasm_simulator', shots=1000): """ Set up and run the model with the predefined encoders and ansatzes for the circuit. """ self.quantum_register = qk.QuantumRegister(self.n_quantum) self.classical_register = qk.ClassicalRegister(self.n_classic) self.circuit = qk.QuantumCircuit(self.quantum_register, self.classical_register) self.model() job = qk.execute(self.circuit, backend=qk.Aer.get_backend(self.backend), shots=self.shots, seed_simulator=self.seed ) results = job.result().get_counts(self.circuit) self.model_prediction = results['1'] / float(self.shots) if printC: print(self.circuit) del(self.circuit) return self.model_prediction
+```
+
+```
+self.model()
+```
+
+```
+def basicModel(self): """ scaling with pi to avoid mapping 0 and 1 to the same rotation. """ for i, feature in enumerate(self.feature_vector): #self.circuit.ry(np.pi*feature, self.quantum_register[i]) self.circuit.rx(np.pi*feature, self.quantum_register[i]) self.circuit.ry(self.theta[i], self.quantum_register[i]) for qubit in range(self.n_quantum - 1): self.circuit.cx(self.quantum_register[qubit], self.quantum_register[qubit + 1]) self.circuit.ry(self.theta[-1], self.quantum_register[-1]) self.circuit.measure(self.quantum_register[-1], self.classical_register)
+```
+
+```
+def basicModel(self): """ scaling with pi to avoid mapping 0 and 1 to the same rotation. """ for i, feature in enumerate(self.feature_vector): #self.circuit.ry(np.pi*feature, self.quantum_register[i]) self.circuit.rx(np.pi*feature, self.quantum_register[i]) self.circuit.ry(self.theta[i], self.quantum_register[i]) for qubit in range(self.n_quantum - 1): self.circuit.cx(self.quantum_register[qubit], self.quantum_register[qubit + 1]) self.circuit.ry(self.theta[-1], self.quantum_register[-1]) self.circuit.measure(self.quantum_register[-1], self.classical_register)
+```
+
+```
+┌─────────────┐ ┌────────────┐ q0_0: ┤ RX(0.93084) ├─┤ RY(3.8075) ├──■───────────────────────────── └─┬──────────┬┘ ├────────────┤┌─┴─┐ q0_1: ──┤ RX(5π/8) ├──┤ RY(4.6079) ├┤ X ├──■──────────────────────── ┌┴──────────┴┐┌┴────────────┤└───┘┌─┴─┐ q0_2: ─┤ RX(0.3065) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q0_3: ──┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c0: 1/════════════════════════════════════════════════════════════╩═ 0 0%| | 0/100 [00:00<?, ?it/s] ┌─────────────┐ ┌────────────┐ q7_0: ┤ RX(0.93084) ├─┤ RY(3.8075) ├──■───────────────────────────── └─┬──────────┬┘ ├────────────┤┌─┴─┐ q7_1: ──┤ RX(5π/8) ├──┤ RY(4.6079) ├┤ X ├──■──────────────────────── ┌┴──────────┴┐┌┴────────────┤└───┘┌─┴─┐ q7_2: ─┤ RX(0.3065) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q7_3: ──┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c1: 1/════════════════════════════════════════════════════════════╩═ 0 1%|█▎ | 1/100 [00:00<00:27, 3.58it/s] ┌──────────┐ ┌────────────┐ q140_0: ─┤ RX(2π/9) ├──┤ RY(3.8075) ├──■───────────────────────────── ┌┴──────────┤ ├────────────┤┌─┴─┐ q140_1: ┤ RX(5π/12) ├──┤ RY(4.6079) ├┤ X ├──■──────────────────────── ├───────────┴┐┌┴────────────┤└───┘┌─┴─┐ q140_2: ┤ RX(0.3065) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q140_3: ─┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c20: 1/═══════════════════════════════════════════════════════════╩═ 0 2%|██▋ | 2/100 [00:00<00:27, 3.61it/s] ┌─────────────┐ ┌────────────┐ q273_0: ┤ RX(0.46542) ├─┤ RY(3.8075) ├──■───────────────────────────── └─┬─────────┬─┘ ├────────────┤┌─┴─┐ q273_1: ──┤ RX(π/2) ├───┤ RY(4.6079) ├┤ X ├──■──────────────────────── ┌─┴─────────┴─┐┌┴────────────┤└───┘┌─┴─┐ q273_2: ┤ RX(0.22987) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └─┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q273_3: ──┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c39: 1/════════════════════════════════════════════════════════════╩═ 0
+```
+
+```
+┌─────────────┐ ┌────────────┐ q0_0: ┤ RX(0.93084) ├─┤ RY(3.8075) ├──■───────────────────────────── └─┬──────────┬┘ ├────────────┤┌─┴─┐ q0_1: ──┤ RX(5π/8) ├──┤ RY(4.6079) ├┤ X ├──■──────────────────────── ┌┴──────────┴┐┌┴────────────┤└───┘┌─┴─┐ q0_2: ─┤ RX(0.3065) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q0_3: ──┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c0: 1/════════════════════════════════════════════════════════════╩═ 0 0%| | 0/100 [00:00<?, ?it/s] ┌─────────────┐ ┌────────────┐ q7_0: ┤ RX(0.93084) ├─┤ RY(3.8075) ├──■───────────────────────────── └─┬──────────┬┘ ├────────────┤┌─┴─┐ q7_1: ──┤ RX(5π/8) ├──┤ RY(4.6079) ├┤ X ├──■──────────────────────── ┌┴──────────┴┐┌┴────────────┤└───┘┌─┴─┐ q7_2: ─┤ RX(0.3065) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q7_3: ──┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c1: 1/════════════════════════════════════════════════════════════╩═ 0 1%|█▎ | 1/100 [00:00<00:27, 3.58it/s] ┌──────────┐ ┌────────────┐ q140_0: ─┤ RX(2π/9) ├──┤ RY(3.8075) ├──■───────────────────────────── ┌┴──────────┤ ├────────────┤┌─┴─┐ q140_1: ┤ RX(5π/12) ├──┤ RY(4.6079) ├┤ X ├──■──────────────────────── ├───────────┴┐┌┴────────────┤└───┘┌─┴─┐ q140_2: ┤ RX(0.3065) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q140_3: ─┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c20: 1/═══════════════════════════════════════════════════════════╩═ 0 2%|██▋ | 2/100 [00:00<00:27, 3.61it/s] ┌─────────────┐ ┌────────────┐ q273_0: ┤ RX(0.46542) ├─┤ RY(3.8075) ├──■───────────────────────────── └─┬─────────┬─┘ ├────────────┤┌─┴─┐ q273_1: ──┤ RX(π/2) ├───┤ RY(4.6079) ├┤ X ├──■──────────────────────── ┌─┴─────────┴─┐┌┴────────────┤└───┘┌─┴─┐ q273_2: ┤ RX(0.22987) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └─┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q273_3: ──┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c39: 1/════════════════════════════════════════════════════════════╩═ 0
+```
+
+```
+4.84it/s
+```
+
+```
+2.89s/it
+```
+
+```
+def encoder(self): """ mapping features scaled to 1 onto bloch sphere. scaling with pi to avoid mapping 0 and 1 to the same rotation. """ for i, feature in enumerate(self.feature_vector): self.circuit.rx(np.pi*feature, i) for qubit in range(self.n_quantum - 1): self.circuit.cx(qubit, qubit + 1) def ansatz(self, iteration=0): """ Rotating qubit states by parameters theta around bloch sphere to adjust model for prediction of encoded features """ for i in range(self.n_quantum): self.circuit.ry(self.theta[iteration*self.n_quantum +i], i) for qubit in range(self.n_quantum - 1): self.circuit.cx(qubit, qubit + 1) def measure(self): """ measuring the final qubit after applying the final model parameter as a bias """ self.circuit.ry(self.theta[-1], -1) self.circuit.measure(-1, 0) def basicModel(self): self.encoder() self.ansatz() self.measure()
+```
+
+```
+def encoder(self): """ mapping features scaled to 1 onto bloch sphere. scaling with pi to avoid mapping 0 and 1 to the same rotation. """ for i, feature in enumerate(self.feature_vector): self.circuit.rx(np.pi*feature, i) for qubit in range(self.n_quantum - 1): self.circuit.cx(qubit, qubit + 1) def ansatz(self, iteration=0): """ Rotating qubit states by parameters theta around bloch sphere to adjust model for prediction of encoded features """ for i in range(self.n_quantum): self.circuit.ry(self.theta[iteration*self.n_quantum +i], i) for qubit in range(self.n_quantum - 1): self.circuit.cx(qubit, qubit + 1) def measure(self): """ measuring the final qubit after applying the final model parameter as a bias """ self.circuit.ry(self.theta[-1], -1) self.circuit.measure(-1, 0) def basicModel(self): self.encoder() self.ansatz() self.measure()
+```
+
+```
+basicModel
+```
+
+```
+self.model
+```
+
+```
+def modelCircuit(self, printC=False):#, backend='qasm_simulator', shots=1000): """ Set up and run the model with the predefined encoders and ansatzes for the circuit. """ self.circuit = qk.QuantumCircuit(self.n_quantum, self.n_classic) self.model() job = qk.execute(self.circuit, backend=qk.Aer.get_backend(self.backend), shots=self.shots, seed_simulator=self.seed ) results = job.result().get_counts(self.circuit) counts = 0 for key, value in results.items(): if key=='1': counts += value self.model_prediction = counts / float(self.shots) return self.model_prediction
+```
+
+```
+def modelCircuit(self, printC=False):#, backend='qasm_simulator', shots=1000): """ Set up and run the model with the predefined encoders and ansatzes for the circuit. """ self.circuit = qk.QuantumCircuit(self.n_quantum, self.n_classic) self.model() job = qk.execute(self.circuit, backend=qk.Aer.get_backend(self.backend), shots=self.shots, seed_simulator=self.seed ) results = job.result().get_counts(self.circuit) counts = 0 for key, value in results.items(): if key=='1': counts += value self.model_prediction = counts / float(self.shots) return self.model_prediction
+```
+
+```
+modelCircuit
+```
+
+```
+train
+```
+
+```
+def train(self, target, epochs=100, learning_rate=.1, debug=False): """ Uses the initial quess for an ansatz for the model to train and optimise the model ansatz for the given cost/loss function. """ from tqdm import tqdm mean_loss = np.zeros(epochs) accuracy = np.zeros_like(mean_loss) for epoch in range(epochs): # setup of storage arrays thetaShift = np.zeros([self.n_samples,len(self.theta)]) loss = np.ones(self.n_samples) lossDerivative = np.zeros_like(loss) acc = 0 for sample in tqdm(range(self.n_samples)): #self.feature_vector = self.featureMatrix.iloc[sample] self.feature_vector = self.featureMatrix[sample, :] out = self.modelCircuit() acc += np.round(out)==target[sample] loss[sample] = self.lossFunction(out, target[sample]) lossDerivative[sample] = self.lossDerivative(out, target[sample]) theta_gradient = np.zeros_like(self.theta) for i in range(self.n_model_parameters): self.theta[i] += np.pi / 2 out_1 = self.modelCircuit() self.theta[i] -= np.pi out_2 = self.modelCircuit() self.theta[i] += np.pi / 2 theta_gradient[i] = (out_1 - out_2) / 2 if debug: print(f'output 1: {out_1}') print(f'output 2: {out_2}') #thetaShift[sample, i] = - learning_rate * theta_gradient * np.mean(lossDerivative) # theta gradient for vairable shift. thetaShift[sample, i] = theta_gradient[i] accuracy[epoch] = float(acc)/self.n_samples mean_loss[epoch] = np.mean(loss) self.theta -= learning_rate * np.mean((thetaShift * lossDerivative.reshape(-1,1)), axis=0) print("mean loss per epoch: ", mean_loss[epoch]) print("accuracy per epoch: ", accuracy[epoch]) return self.theta, mean_loss, accuracy
+```
+
+```
+def train(self, target, epochs=100, learning_rate=.1, debug=False): """ Uses the initial quess for an ansatz for the model to train and optimise the model ansatz for the given cost/loss function. """ from tqdm import tqdm mean_loss = np.zeros(epochs) accuracy = np.zeros_like(mean_loss) for epoch in range(epochs): # setup of storage arrays thetaShift = np.zeros([self.n_samples,len(self.theta)]) loss = np.ones(self.n_samples) lossDerivative = np.zeros_like(loss) acc = 0 for sample in tqdm(range(self.n_samples)): #self.feature_vector = self.featureMatrix.iloc[sample] self.feature_vector = self.featureMatrix[sample, :] out = self.modelCircuit() acc += np.round(out)==target[sample] loss[sample] = self.lossFunction(out, target[sample]) lossDerivative[sample] = self.lossDerivative(out, target[sample]) theta_gradient = np.zeros_like(self.theta) for i in range(self.n_model_parameters): self.theta[i] += np.pi / 2 out_1 = self.modelCircuit() self.theta[i] -= np.pi out_2 = self.modelCircuit() self.theta[i] += np.pi / 2 theta_gradient[i] = (out_1 - out_2) / 2 if debug: print(f'output 1: {out_1}') print(f'output 2: {out_2}') #thetaShift[sample, i] = - learning_rate * theta_gradient * np.mean(lossDerivative) # theta gradient for vairable shift. thetaShift[sample, i] = theta_gradient[i] accuracy[epoch] = float(acc)/self.n_samples mean_loss[epoch] = np.mean(loss) self.theta -= learning_rate * np.mean((thetaShift * lossDerivative.reshape(-1,1)), axis=0) print("mean loss per epoch: ", mean_loss[epoch]) print("accuracy per epoch: ", accuracy[epoch]) return self.theta, mean_loss, accuracy
+```
+
+```
+┌─────────────┐ ┌────────────┐ q_0: ┤ RX(0.93084) ├──■──┤ RY(2.3533) ├────────────────────■────────────────────────────────── └─┬──────────┬┘┌─┴─┐└────────────┘┌────────────┐ ┌─┴─┐ q_1: ──┤ RX(5π/8) ├─┤ X ├──────■───────┤ RY(5.9735) ├────┤ X ├───────■──────────────────────── ┌┴──────────┴┐└───┘ ┌─┴─┐ └────────────┘┌───┴───┴────┐┌─┴─┐ q_2: ─┤ RX(0.3065) ├─────────┤ X ├───────────■───────┤ RY(4.5993) ├┤ X ├──■─────────────────── └┬──────────┬┘ └───┘ ┌─┴─┐ ├────────────┤└───┘┌─┴─┐┌────────────┐┌─┐ q_3: ──┤ RX(π/17) ├────────────────────────┤ X ├─────┤ RY(3.7615) ├─────┤ X ├┤ RY(3.7769) ├┤M├ └──────────┘ └───┘ └────────────┘ └───┘└────────────┘└╥┘ c: 1/═══════════════════════════════════════════════════════════════════════════════════════╩═ 0 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:13<00:00, 7.28it/s] mean loss per epoch: 0.6493203309690068 accuracy per epoch: 0.78 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:27<00:00, 3.59it/s] mean loss per epoch: 0.6415613508592234 accuracy per epoch: 0.8 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:42<00:00, 2.38it/s] mean loss per epoch: 0.6337758611894215 accuracy per epoch: 0.8
+```
+
+```
+┌─────────────┐ ┌────────────┐ q_0: ┤ RX(0.93084) ├──■──┤ RY(2.3533) ├────────────────────■────────────────────────────────── └─┬──────────┬┘┌─┴─┐└────────────┘┌────────────┐ ┌─┴─┐ q_1: ──┤ RX(5π/8) ├─┤ X ├──────■───────┤ RY(5.9735) ├────┤ X ├───────■──────────────────────── ┌┴──────────┴┐└───┘ ┌─┴─┐ └────────────┘┌───┴───┴────┐┌─┴─┐ q_2: ─┤ RX(0.3065) ├─────────┤ X ├───────────■───────┤ RY(4.5993) ├┤ X ├──■─────────────────── └┬──────────┬┘ └───┘ ┌─┴─┐ ├────────────┤└───┘┌─┴─┐┌────────────┐┌─┐ q_3: ──┤ RX(π/17) ├────────────────────────┤ X ├─────┤ RY(3.7615) ├─────┤ X ├┤ RY(3.7769) ├┤M├ └──────────┘ └───┘ └────────────┘ └───┘└────────────┘└╥┘ c: 1/═══════════════════════════════════════════════════════════════════════════════════════╩═ 0 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:13<00:00, 7.28it/s] mean loss per epoch: 0.6493203309690068 accuracy per epoch: 0.78 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:27<00:00, 3.59it/s] mean loss per epoch: 0.6415613508592234 accuracy per epoch: 0.8 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:42<00:00, 2.38it/s] mean loss per epoch: 0.6337758611894215 accuracy per epoch: 0.8
+```
+
+```
+7.28it/s 3.59it/s 2.38it/s
+```
+
+```
+tracemalloc
+```
+
+Original buggy code:
+del
+
+---CODE_BLOCK---
+
+def modelCircuit(self, printC=False):#, backend='qasm_simulator', shots=1000): """ Set up and run the model with the predefined encoders and ansatzes for the circuit. """ self.quantum_register = qk.QuantumRegister(self.n_quantum) self.classical_register = qk.ClassicalRegister(self.n_classic) self.circuit = qk.QuantumCircuit(self.quantum_register, self.classical_register) self.model() job = qk.execute(self.circuit, backend=qk.Aer.get_backend(self.backend), shots=self.shots, seed_simulator=self.seed ) results = job.result().get_counts(self.circuit) self.model_prediction = results['1'] / float(self.shots) if printC: print(self.circuit) del(self.circuit) return self.model_prediction
+
+---CODE_BLOCK---
+
+def modelCircuit(self, printC=False):#, backend='qasm_simulator', shots=1000): """ Set up and run the model with the predefined encoders and ansatzes for the circuit. """ self.quantum_register = qk.QuantumRegister(self.n_quantum) self.classical_register = qk.ClassicalRegister(self.n_classic) self.circuit = qk.QuantumCircuit(self.quantum_register, self.classical_register) self.model() job = qk.execute(self.circuit, backend=qk.Aer.get_backend(self.backend), shots=self.shots, seed_simulator=self.seed ) results = job.result().get_counts(self.circuit) self.model_prediction = results['1'] / float(self.shots) if printC: print(self.circuit) del(self.circuit) return self.model_prediction
+
+---CODE_BLOCK---
+
+self.model()
+
+---CODE_BLOCK---
+
+def basicModel(self): """ scaling with pi to avoid mapping 0 and 1 to the same rotation. """ for i, feature in enumerate(self.feature_vector): #self.circuit.ry(np.pi*feature, self.quantum_register[i]) self.circuit.rx(np.pi*feature, self.quantum_register[i]) self.circuit.ry(self.theta[i], self.quantum_register[i]) for qubit in range(self.n_quantum - 1): self.circuit.cx(self.quantum_register[qubit], self.quantum_register[qubit + 1]) self.circuit.ry(self.theta[-1], self.quantum_register[-1]) self.circuit.measure(self.quantum_register[-1], self.classical_register)
+
+---CODE_BLOCK---
+
+def basicModel(self): """ scaling with pi to avoid mapping 0 and 1 to the same rotation. """ for i, feature in enumerate(self.feature_vector): #self.circuit.ry(np.pi*feature, self.quantum_register[i]) self.circuit.rx(np.pi*feature, self.quantum_register[i]) self.circuit.ry(self.theta[i], self.quantum_register[i]) for qubit in range(self.n_quantum - 1): self.circuit.cx(self.quantum_register[qubit], self.quantum_register[qubit + 1]) self.circuit.ry(self.theta[-1], self.quantum_register[-1]) self.circuit.measure(self.quantum_register[-1], self.classical_register)
+
+---CODE_BLOCK---
+
+┌─────────────┐ ┌────────────┐ q0_0: ┤ RX(0.93084) ├─┤ RY(3.8075) ├──■───────────────────────────── └─┬──────────┬┘ ├────────────┤┌─┴─┐ q0_1: ──┤ RX(5π/8) ├──┤ RY(4.6079) ├┤ X ├──■──────────────────────── ┌┴──────────┴┐┌┴────────────┤└───┘┌─┴─┐ q0_2: ─┤ RX(0.3065) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q0_3: ──┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c0: 1/════════════════════════════════════════════════════════════╩═ 0 0%| | 0/100 [00:00<?, ?it/s] ┌─────────────┐ ┌────────────┐ q7_0: ┤ RX(0.93084) ├─┤ RY(3.8075) ├──■───────────────────────────── └─┬──────────┬┘ ├────────────┤┌─┴─┐ q7_1: ──┤ RX(5π/8) ├──┤ RY(4.6079) ├┤ X ├──■──────────────────────── ┌┴──────────┴┐┌┴────────────┤└───┘┌─┴─┐ q7_2: ─┤ RX(0.3065) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q7_3: ──┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c1: 1/════════════════════════════════════════════════════════════╩═ 0 1%|█▎ | 1/100 [00:00<00:27, 3.58it/s] ┌──────────┐ ┌────────────┐ q140_0: ─┤ RX(2π/9) ├──┤ RY(3.8075) ├──■───────────────────────────── ┌┴──────────┤ ├────────────┤┌─┴─┐ q140_1: ┤ RX(5π/12) ├──┤ RY(4.6079) ├┤ X ├──■──────────────────────── ├───────────┴┐┌┴────────────┤└───┘┌─┴─┐ q140_2: ┤ RX(0.3065) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q140_3: ─┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c20: 1/═══════════════════════════════════════════════════════════╩═ 0 2%|██▋ | 2/100 [00:00<00:27, 3.61it/s] ┌─────────────┐ ┌────────────┐ q273_0: ┤ RX(0.46542) ├─┤ RY(3.8075) ├──■───────────────────────────── └─┬─────────┬─┘ ├────────────┤┌─┴─┐ q273_1: ──┤ RX(π/2) ├───┤ RY(4.6079) ├┤ X ├──■──────────────────────── ┌─┴─────────┴─┐┌┴────────────┤└───┘┌─┴─┐ q273_2: ┤ RX(0.22987) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └─┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q273_3: ──┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c39: 1/════════════════════════════════════════════════════════════╩═ 0
+
+---CODE_BLOCK---
+
+┌─────────────┐ ┌────────────┐ q0_0: ┤ RX(0.93084) ├─┤ RY(3.8075) ├──■───────────────────────────── └─┬──────────┬┘ ├────────────┤┌─┴─┐ q0_1: ──┤ RX(5π/8) ├──┤ RY(4.6079) ├┤ X ├──■──────────────────────── ┌┴──────────┴┐┌┴────────────┤└───┘┌─┴─┐ q0_2: ─┤ RX(0.3065) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q0_3: ──┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c0: 1/════════════════════════════════════════════════════════════╩═ 0 0%| | 0/100 [00:00<?, ?it/s] ┌─────────────┐ ┌────────────┐ q7_0: ┤ RX(0.93084) ├─┤ RY(3.8075) ├──■───────────────────────────── └─┬──────────┬┘ ├────────────┤┌─┴─┐ q7_1: ──┤ RX(5π/8) ├──┤ RY(4.6079) ├┤ X ├──■──────────────────────── ┌┴──────────┴┐┌┴────────────┤└───┘┌─┴─┐ q7_2: ─┤ RX(0.3065) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q7_3: ──┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c1: 1/════════════════════════════════════════════════════════════╩═ 0 1%|█▎ | 1/100 [00:00<00:27, 3.58it/s] ┌──────────┐ ┌────────────┐ q140_0: ─┤ RX(2π/9) ├──┤ RY(3.8075) ├──■───────────────────────────── ┌┴──────────┤ ├────────────┤┌─┴─┐ q140_1: ┤ RX(5π/12) ├──┤ RY(4.6079) ├┤ X ├──■──────────────────────── ├───────────┴┐┌┴────────────┤└───┘┌─┴─┐ q140_2: ┤ RX(0.3065) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q140_3: ─┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c20: 1/═══════════════════════════════════════════════════════════╩═ 0 2%|██▋ | 2/100 [00:00<00:27, 3.61it/s] ┌─────────────┐ ┌────────────┐ q273_0: ┤ RX(0.46542) ├─┤ RY(3.8075) ├──■───────────────────────────── └─┬─────────┬─┘ ├────────────┤┌─┴─┐ q273_1: ──┤ RX(π/2) ├───┤ RY(4.6079) ├┤ X ├──■──────────────────────── ┌─┴─────────┴─┐┌┴────────────┤└───┘┌─┴─┐ q273_2: ┤ RX(0.22987) ├┤ RY(0.87303) ├─────┤ X ├──■─────────────────── └─┬──────────┬┘└┬────────────┤ └───┘┌─┴─┐┌────────────┐┌─┐ q273_3: ──┤ RX(π/17) ├──┤ RY(1.9646) ├──────────┤ X ├┤ RY(4.1605) ├┤M├ └──────────┘ └────────────┘ └───┘└────────────┘└╥┘ c39: 1/════════════════════════════════════════════════════════════╩═ 0
+
+---CODE_BLOCK---
+
+4.84it/s
+
+---CODE_BLOCK---
+
+2.89s/it
+
+---CODE_BLOCK---
+
+def encoder(self): """ mapping features scaled to 1 onto bloch sphere. scaling with pi to avoid mapping 0 and 1 to the same rotation. """ for i, feature in enumerate(self.feature_vector): self.circuit.rx(np.pi*feature, i) for qubit in range(self.n_quantum - 1): self.circuit.cx(qubit, qubit + 1) def ansatz(self, iteration=0): """ Rotating qubit states by parameters theta around bloch sphere to adjust model for prediction of encoded features """ for i in range(self.n_quantum): self.circuit.ry(self.theta[iteration*self.n_quantum +i], i) for qubit in range(self.n_quantum - 1): self.circuit.cx(qubit, qubit + 1) def measure(self): """ measuring the final qubit after applying the final model parameter as a bias """ self.circuit.ry(self.theta[-1], -1) self.circuit.measure(-1, 0) def basicModel(self): self.encoder() self.ansatz() self.measure()
+
+---CODE_BLOCK---
+
+def encoder(self): """ mapping features scaled to 1 onto bloch sphere. scaling with pi to avoid mapping 0 and 1 to the same rotation. """ for i, feature in enumerate(self.feature_vector): self.circuit.rx(np.pi*feature, i) for qubit in range(self.n_quantum - 1): self.circuit.cx(qubit, qubit + 1) def ansatz(self, iteration=0): """ Rotating qubit states by parameters theta around bloch sphere to adjust model for prediction of encoded features """ for i in range(self.n_quantum): self.circuit.ry(self.theta[iteration*self.n_quantum +i], i) for qubit in range(self.n_quantum - 1): self.circuit.cx(qubit, qubit + 1) def measure(self): """ measuring the final qubit after applying the final model parameter as a bias """ self.circuit.ry(self.theta[-1], -1) self.circuit.measure(-1, 0) def basicModel(self): self.encoder() self.ansatz() self.measure()
+
+---CODE_BLOCK---
+
+basicModel
+
+---CODE_BLOCK---
+
+self.model
+
+---CODE_BLOCK---
+
+def modelCircuit(self, printC=False):#, backend='qasm_simulator', shots=1000): """ Set up and run the model with the predefined encoders and ansatzes for the circuit. """ self.circuit = qk.QuantumCircuit(self.n_quantum, self.n_classic) self.model() job = qk.execute(self.circuit, backend=qk.Aer.get_backend(self.backend), shots=self.shots, seed_simulator=self.seed ) results = job.result().get_counts(self.circuit) counts = 0 for key, value in results.items(): if key=='1': counts += value self.model_prediction = counts / float(self.shots) return self.model_prediction
+
+---CODE_BLOCK---
+
+def modelCircuit(self, printC=False):#, backend='qasm_simulator', shots=1000): """ Set up and run the model with the predefined encoders and ansatzes for the circuit. """ self.circuit = qk.QuantumCircuit(self.n_quantum, self.n_classic) self.model() job = qk.execute(self.circuit, backend=qk.Aer.get_backend(self.backend), shots=self.shots, seed_simulator=self.seed ) results = job.result().get_counts(self.circuit) counts = 0 for key, value in results.items(): if key=='1': counts += value self.model_prediction = counts / float(self.shots) return self.model_prediction
+
+---CODE_BLOCK---
+
+modelCircuit
+
+---CODE_BLOCK---
+
+train
+
+---CODE_BLOCK---
+
+def train(self, target, epochs=100, learning_rate=.1, debug=False): """ Uses the initial quess for an ansatz for the model to train and optimise the model ansatz for the given cost/loss function. """ from tqdm import tqdm mean_loss = np.zeros(epochs) accuracy = np.zeros_like(mean_loss) for epoch in range(epochs): # setup of storage arrays thetaShift = np.zeros([self.n_samples,len(self.theta)]) loss = np.ones(self.n_samples) lossDerivative = np.zeros_like(loss) acc = 0 for sample in tqdm(range(self.n_samples)): #self.feature_vector = self.featureMatrix.iloc[sample] self.feature_vector = self.featureMatrix[sample, :] out = self.modelCircuit() acc += np.round(out)==target[sample] loss[sample] = self.lossFunction(out, target[sample]) lossDerivative[sample] = self.lossDerivative(out, target[sample]) theta_gradient = np.zeros_like(self.theta) for i in range(self.n_model_parameters): self.theta[i] += np.pi / 2 out_1 = self.modelCircuit() self.theta[i] -= np.pi out_2 = self.modelCircuit() self.theta[i] += np.pi / 2 theta_gradient[i] = (out_1 - out_2) / 2 if debug: print(f'output 1: {out_1}') print(f'output 2: {out_2}') #thetaShift[sample, i] = - learning_rate * theta_gradient * np.mean(lossDerivative) # theta gradient for vairable shift. thetaShift[sample, i] = theta_gradient[i] accuracy[epoch] = float(acc)/self.n_samples mean_loss[epoch] = np.mean(loss) self.theta -= learning_rate * np.mean((thetaShift * lossDerivative.reshape(-1,1)), axis=0) print("mean loss per epoch: ", mean_loss[epoch]) print("accuracy per epoch: ", accuracy[epoch]) return self.theta, mean_loss, accuracy
+
+---CODE_BLOCK---
+
+def train(self, target, epochs=100, learning_rate=.1, debug=False): """ Uses the initial quess for an ansatz for the model to train and optimise the model ansatz for the given cost/loss function. """ from tqdm import tqdm mean_loss = np.zeros(epochs) accuracy = np.zeros_like(mean_loss) for epoch in range(epochs): # setup of storage arrays thetaShift = np.zeros([self.n_samples,len(self.theta)]) loss = np.ones(self.n_samples) lossDerivative = np.zeros_like(loss) acc = 0 for sample in tqdm(range(self.n_samples)): #self.feature_vector = self.featureMatrix.iloc[sample] self.feature_vector = self.featureMatrix[sample, :] out = self.modelCircuit() acc += np.round(out)==target[sample] loss[sample] = self.lossFunction(out, target[sample]) lossDerivative[sample] = self.lossDerivative(out, target[sample]) theta_gradient = np.zeros_like(self.theta) for i in range(self.n_model_parameters): self.theta[i] += np.pi / 2 out_1 = self.modelCircuit() self.theta[i] -= np.pi out_2 = self.modelCircuit() self.theta[i] += np.pi / 2 theta_gradient[i] = (out_1 - out_2) / 2 if debug: print(f'output 1: {out_1}') print(f'output 2: {out_2}') #thetaShift[sample, i] = - learning_rate * theta_gradient * np.mean(lossDerivative) # theta gradient for vairable shift. thetaShift[sample, i] = theta_gradient[i] accuracy[epoch] = float(acc)/self.n_samples mean_loss[epoch] = np.mean(loss) self.theta -= learning_rate * np.mean((thetaShift * lossDerivative.reshape(-1,1)), axis=0) print("mean loss per epoch: ", mean_loss[epoch]) print("accuracy per epoch: ", accuracy[epoch]) return self.theta, mean_loss, accuracy
+
+---CODE_BLOCK---
+
+┌─────────────┐ ┌────────────┐ q_0: ┤ RX(0.93084) ├──■──┤ RY(2.3533) ├────────────────────■────────────────────────────────── └─┬──────────┬┘┌─┴─┐└────────────┘┌────────────┐ ┌─┴─┐ q_1: ──┤ RX(5π/8) ├─┤ X ├──────■───────┤ RY(5.9735) ├────┤ X ├───────■──────────────────────── ┌┴──────────┴┐└───┘ ┌─┴─┐ └────────────┘┌───┴───┴────┐┌─┴─┐ q_2: ─┤ RX(0.3065) ├─────────┤ X ├───────────■───────┤ RY(4.5993) ├┤ X ├──■─────────────────── └┬──────────┬┘ └───┘ ┌─┴─┐ ├────────────┤└───┘┌─┴─┐┌────────────┐┌─┐ q_3: ──┤ RX(π/17) ├────────────────────────┤ X ├─────┤ RY(3.7615) ├─────┤ X ├┤ RY(3.7769) ├┤M├ └──────────┘ └───┘ └────────────┘ └───┘└────────────┘└╥┘ c: 1/═══════════════════════════════════════════════════════════════════════════════════════╩═ 0 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:13<00:00, 7.28it/s] mean loss per epoch: 0.6493203309690068 accuracy per epoch: 0.78 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:27<00:00, 3.59it/s] mean loss per epoch: 0.6415613508592234 accuracy per epoch: 0.8 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:42<00:00, 2.38it/s] mean loss per epoch: 0.6337758611894215 accuracy per epoch: 0.8
+
+---CODE_BLOCK---
+
+┌─────────────┐ ┌────────────┐ q_0: ┤ RX(0.93084) ├──■──┤ RY(2.3533) ├────────────────────■────────────────────────────────── └─┬──────────┬┘┌─┴─┐└────────────┘┌────────────┐ ┌─┴─┐ q_1: ──┤ RX(5π/8) ├─┤ X ├──────■───────┤ RY(5.9735) ├────┤ X ├───────■──────────────────────── ┌┴──────────┴┐└───┘ ┌─┴─┐ └────────────┘┌───┴───┴────┐┌─┴─┐ q_2: ─┤ RX(0.3065) ├─────────┤ X ├───────────■───────┤ RY(4.5993) ├┤ X ├──■─────────────────── └┬──────────┬┘ └───┘ ┌─┴─┐ ├────────────┤└───┘┌─┴─┐┌────────────┐┌─┐ q_3: ──┤ RX(π/17) ├────────────────────────┤ X ├─────┤ RY(3.7615) ├─────┤ X ├┤ RY(3.7769) ├┤M├ └──────────┘ └───┘ └────────────┘ └───┘└────────────┘└╥┘ c: 1/═══════════════════════════════════════════════════════════════════════════════════════╩═ 0 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:13<00:00, 7.28it/s] mean loss per epoch: 0.6493203309690068 accuracy per epoch: 0.78 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:27<00:00, 3.59it/s] mean loss per epoch: 0.6415613508592234 accuracy per epoch: 0.8 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:42<00:00, 2.38it/s] mean loss per epoch: 0.6337758611894215 accuracy per epoch: 0.8
+
+---CODE_BLOCK---
+
+7.28it/s 3.59it/s 2.38it/s
+
+---CODE_BLOCK---
+
+tracemalloc
+
+Solution explanation:
+I would have written the thing differently. Something like this: In this way, the garbage collector will get rid of when closing scope. It could be some memory leak. If the problem persist, I would try to find the dangling pointer with tracemalloc or guppy3. Additionally, you seem like having a lot of code for dealing with registers that you don't need. Qiskit can handle registerless circuits.
+
+```
+def modelCircuit(self, printC=False):#, backend='qasm_simulator', shots=1000): circuit = self.model() .... def basicModel(self): circuit = qk.QuantumCircuit(self.n_quantum, self.n_classic) for i, feature in enumerate(self.feature_vector): circuit.rx(np.pi*feature, i) circuit.ry(self.theta[i], i) ...
+```
+
+```
+def modelCircuit(self, printC=False):#, backend='qasm_simulator', shots=1000): circuit = self.model() .... def basicModel(self): circuit = qk.QuantumCircuit(self.n_quantum, self.n_classic) for i, feature in enumerate(self.feature_vector): circuit.rx(np.pi*feature, i) circuit.ry(self.theta[i], i) ...
+```
+
+```
+circuit
+```
+
+```
+modelCircuit
+```
+
+Original fixed code:
+def modelCircuit(self, printC=False):#, backend='qasm_simulator', shots=1000): circuit = self.model() .... def basicModel(self): circuit = qk.QuantumCircuit(self.n_quantum, self.n_classic) for i, feature in enumerate(self.feature_vector): circuit.rx(np.pi*feature, i) circuit.ry(self.theta[i], i) ...
+
+---CODE_BLOCK---
+
+def modelCircuit(self, printC=False):#, backend='qasm_simulator', shots=1000): circuit = self.model() .... def basicModel(self): circuit = qk.QuantumCircuit(self.n_quantum, self.n_classic) for i, feature in enumerate(self.feature_vector): circuit.rx(np.pi*feature, i) circuit.ry(self.theta[i], i) ...
+
+---CODE_BLOCK---
+
+circuit
+
+---CODE_BLOCK---
+
+modelCircuit

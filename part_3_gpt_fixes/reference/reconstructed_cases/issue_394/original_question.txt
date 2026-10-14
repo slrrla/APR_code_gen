@@ -1,0 +1,23 @@
+Title:
+Qiskit: RGQFTMultiplier is giving wrong answers for 28 bits number multiplication with MPS simulator
+
+Category:
+Category:
+Error / Debugging
+
+Why Stack Overflow Wins in This Category:
+In the “Error / Debugging” category, clarity and relevance to the root cause are essential. Stack Overflow clearly identifies the entanglement-limited precision of the MPS simulator as the problem and suggests the correct fix (switching to statevector_simulator). It avoids unnecessary advice, making it better suited for users encountering numerical inaccuracies in quantum arithmetic
+
+Question:
+Title: Qiskit: RGQFTMultiplier is giving wrong answers for 28 bits number multiplication with MPS simulator
+
+I am using RGQFTMultiplier for multiplying two unsigned integers. Starting from simpler example of 2 qbits input, I reached 24 and all worked fine. I am using MPS as backend and my RAM is 32. However from 28 bit numbers and onwards, it started generating error in LSBs of the result. For example: input1 = 0xc452632 input2 = 0x8fac911 The result of multiplication should be 31013219982691154 but my result is 31013219982691153 (893 count). And the error increases with the number of bits. As another example for 32 bits numbers input1 = 0xc4526324 input2 = 0x8fac9115 Answer should be 7939384341679408628 but function is returning 7939384341679408319 (432 counts) I need to multiply large numbers and 28 bits is a very small number. Is there any threshold level of this function or I need to use a different simulator/way?
+
+Original buggy code:
+I am using RGQFTMultiplier for multiplying two unsigned integers. Starting from simpler example of 2 qbits input, I reached 24 and all worked fine. I am using MPS as backend and my RAM is 32. However from 28 bit numbers and onwards, it started generating error in LSBs of the result. For example: input1 = 0xc452632 input2 = 0x8fac911 The result of multiplication should be 31013219982691154 but my result is 31013219982691153 (893 count). And the error increases with the number of bits. As another example for 32 bits numbers input1 = 0xc4526324 input2 = 0x8fac9115 Answer should be 7939384341679408628 but function is returning 7939384341679408319 (432 counts) I need to multiply large numbers and 28 bits is a very small number. Is there any threshold level of this function or I need to use a different simulator/way?
+
+Solution explanation:
+If the circuit depth grows, the MPS simulator is not exact anymore, as it can only represent a limited amount of entanglement, and the outputs will have some error. If you want to have exact results you will have to either use an exact simulator (based on statevector simulations, but this is exponentially expensive in the number of qubits) or to increase the bond-dimension in the MPS simulator (but this is exponentially expensive in the entanglement you want to represent exactly). If you need exact results, I don't think you can go far beyond 30 or 40 bits as that'll require too much RAM -- state of the art computers, built for exact quantum circuit simulations can do around 40. For larger numbers we'll probably need to wait for fault-tolerant quantum computers :)
+
+Original fixed code:
+If the circuit depth grows, the MPS simulator is not exact anymore, as it can only represent a limited amount of entanglement, and the outputs will have some error. If you want to have exact results you will have to either use an exact simulator (based on statevector simulations, but this is exponentially expensive in the number of qubits) or to increase the bond-dimension in the MPS simulator (but this is exponentially expensive in the entanglement you want to represent exactly). If you need exact results, I don't think you can go far beyond 30 or 40 bits as that'll require too much RAM -- state of the art computers, built for exact quantum circuit simulations can do around 40. For larger numbers we'll probably need to wait for fault-tolerant quantum computers :)

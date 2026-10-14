@@ -1,0 +1,110 @@
+Title:
+Calculating the ground states of an Ising Hamiltonian on a real quantum computer
+
+Category:
+Category: Backend Usage / Simulation / Output
+
+Why AI Solution Wins in This Category:
+The AI solution clearly shows how to adapt a simulator-only Hamiltonian diagonalization into a hardware-compatible VQE workflow, which is the most suitable path for backend execution. It uses updated Qiskit modules and demonstrates exactly how to represent the Hamiltonian in a way that can be executed on real quantum hardware, which is the user's core concern.
+
+Question:
+Title: Calculating the ground states of an Ising Hamiltonian on a real quantum computer
+
+I have followed this tutorial and based on it, I've written the following function in qiskit, which can explicitly calculate the ground states of a transverse-field Ising Hamiltonian. My problem with this piece of code I've written is that it can only run on a unitary simulator. To my understanding (which may lack some of the underlying physics), the Hamiltonian itself is not a "purely" quantum calculation, since there are additions to be made which cannot be expressed with a quantum (unitary) gate, and this is why the resulting Hamiltonian matrix is also not unitary. For example, if you run Hamiltonian(3, 1), the Hamiltonian matrix is: Does this mean that there is no way for this approach to run on a real quantum computer where all you can do is measurements on the qubits? I've seen different approaches online such as QAOA or the use of transformations, but I thought if it's so easy to do it with unitaries and some additions, there should be a way to do it with measurements as well.
+
+```
+from qiskit import * import numpy as np def Hamiltonian(n,h): pow_n=2**n qc = np.empty(2*n-1, dtype=object) #Creating the quantum circuits that are used in the calculation of the Hamiltonian based on the number of qubits for i in range(0, 2*n-1): #2n-1 is the number of factors on the n-site Hamiltonian qr = QuantumRegister(n) qc[i] = QuantumCircuit(qr) #create quantum circuits for each factor of the Hamiltonian #print(i) if (i<=n-2): #for the first sum of the Hamiltonian qc[i].z(i) #value of current spin qc[i].z(i+1) #and value of its neighboring spin else: #for the second sum of the Hamiltonian qc[i].x(2*n-2-i) #2*n-2 gives the proper index since counting starts at 0 #Run each circuit in the simulator simulator = Aer.get_backend('unitary_simulator') result = np.empty(2*n-1, dtype=object) unitary = np.empty(2*n-1, dtype=object) Hamiltonian_Matrix=0 #Get the results for each circuit in unitary form for i in range(0, 2*n-1): result[i] = execute(qc[i], backend=simulator).result() unitary[i] = result[i].get_unitary() #print(unitary[i]) #And calculate the Hamiltonian matrix according to the formula if (i<=n-2): Hamiltonian_Matrix=np.add(Hamiltonian_Matrix,-unitary[i]) else: Hamiltonian_Matrix=np.add(Hamiltonian_Matrix,-h*unitary[i]) print("The",pow_n,"x",pow_n, "Hamiltonian Matrix is:") print(Hamiltonian_Matrix) #Now that we have the Hamiltonian #find the eigenvalues and eigenvectors w, v = np.linalg.eig(Hamiltonian_Matrix) print("Eigenvectors") print(v) print("Eigenvalues") print(w) minimum=w[0] min_spot=0 for i in range(1, pow_n): if w[i]<minimum: min_spot=i minimum=w[i] print(min_spot) groundstate = v[:,min_spot] #the probability to measure each basic state of n qubits probability = np.square(groundstate).real print("The probability for each of the",pow_n,"base states is:") print(probability) print("The probabilities for each of the",pow_n,"base states add up to:") print ("%.2f" % np.sum(probability))
+```
+
+```
+from qiskit import * import numpy as np def Hamiltonian(n,h): pow_n=2**n qc = np.empty(2*n-1, dtype=object) #Creating the quantum circuits that are used in the calculation of the Hamiltonian based on the number of qubits for i in range(0, 2*n-1): #2n-1 is the number of factors on the n-site Hamiltonian qr = QuantumRegister(n) qc[i] = QuantumCircuit(qr) #create quantum circuits for each factor of the Hamiltonian #print(i) if (i<=n-2): #for the first sum of the Hamiltonian qc[i].z(i) #value of current spin qc[i].z(i+1) #and value of its neighboring spin else: #for the second sum of the Hamiltonian qc[i].x(2*n-2-i) #2*n-2 gives the proper index since counting starts at 0 #Run each circuit in the simulator simulator = Aer.get_backend('unitary_simulator') result = np.empty(2*n-1, dtype=object) unitary = np.empty(2*n-1, dtype=object) Hamiltonian_Matrix=0 #Get the results for each circuit in unitary form for i in range(0, 2*n-1): result[i] = execute(qc[i], backend=simulator).result() unitary[i] = result[i].get_unitary() #print(unitary[i]) #And calculate the Hamiltonian matrix according to the formula if (i<=n-2): Hamiltonian_Matrix=np.add(Hamiltonian_Matrix,-unitary[i]) else: Hamiltonian_Matrix=np.add(Hamiltonian_Matrix,-h*unitary[i]) print("The",pow_n,"x",pow_n, "Hamiltonian Matrix is:") print(Hamiltonian_Matrix) #Now that we have the Hamiltonian #find the eigenvalues and eigenvectors w, v = np.linalg.eig(Hamiltonian_Matrix) print("Eigenvectors") print(v) print("Eigenvalues") print(w) minimum=w[0] min_spot=0 for i in range(1, pow_n): if w[i]<minimum: min_spot=i minimum=w[i] print(min_spot) groundstate = v[:,min_spot] #the probability to measure each basic state of n qubits probability = np.square(groundstate).real print("The probability for each of the",pow_n,"base states is:") print(probability) print("The probabilities for each of the",pow_n,"base states add up to:") print ("%.2f" % np.sum(probability))
+```
+
+```
+[[-2.+0.j -1.+0.j -1.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j 0.+0.j] [-1.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j] [-1.+0.j 0.+0.j 2.+0.j -1.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j] [ 0.+0.j -1.+0.j -1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j] [-1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j -1.+0.j 0.+0.j] [ 0.+0.j -1.+0.j 0.+0.j 0.+0.j -1.+0.j 2.+0.j 0.+0.j -1.+0.j] [ 0.+0.j 0.+0.j -1.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j -1.+0.j] [ 0.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j -1.+0.j -1.+0.j -2.+0.j]]
+```
+
+```
+[[-2.+0.j -1.+0.j -1.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j 0.+0.j] [-1.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j] [-1.+0.j 0.+0.j 2.+0.j -1.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j] [ 0.+0.j -1.+0.j -1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j] [-1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j -1.+0.j 0.+0.j] [ 0.+0.j -1.+0.j 0.+0.j 0.+0.j -1.+0.j 2.+0.j 0.+0.j -1.+0.j] [ 0.+0.j 0.+0.j -1.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j -1.+0.j] [ 0.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j -1.+0.j -1.+0.j -2.+0.j]]
+```
+
+Original buggy code:
+from qiskit import * import numpy as np def Hamiltonian(n,h): pow_n=2**n qc = np.empty(2*n-1, dtype=object) #Creating the quantum circuits that are used in the calculation of the Hamiltonian based on the number of qubits for i in range(0, 2*n-1): #2n-1 is the number of factors on the n-site Hamiltonian qr = QuantumRegister(n) qc[i] = QuantumCircuit(qr) #create quantum circuits for each factor of the Hamiltonian #print(i) if (i<=n-2): #for the first sum of the Hamiltonian qc[i].z(i) #value of current spin qc[i].z(i+1) #and value of its neighboring spin else: #for the second sum of the Hamiltonian qc[i].x(2*n-2-i) #2*n-2 gives the proper index since counting starts at 0 #Run each circuit in the simulator simulator = Aer.get_backend('unitary_simulator') result = np.empty(2*n-1, dtype=object) unitary = np.empty(2*n-1, dtype=object) Hamiltonian_Matrix=0 #Get the results for each circuit in unitary form for i in range(0, 2*n-1): result[i] = execute(qc[i], backend=simulator).result() unitary[i] = result[i].get_unitary() #print(unitary[i]) #And calculate the Hamiltonian matrix according to the formula if (i<=n-2): Hamiltonian_Matrix=np.add(Hamiltonian_Matrix,-unitary[i]) else: Hamiltonian_Matrix=np.add(Hamiltonian_Matrix,-h*unitary[i]) print("The",pow_n,"x",pow_n, "Hamiltonian Matrix is:") print(Hamiltonian_Matrix) #Now that we have the Hamiltonian #find the eigenvalues and eigenvectors w, v = np.linalg.eig(Hamiltonian_Matrix) print("Eigenvectors") print(v) print("Eigenvalues") print(w) minimum=w[0] min_spot=0 for i in range(1, pow_n): if w[i]<minimum: min_spot=i minimum=w[i] print(min_spot) groundstate = v[:,min_spot] #the probability to measure each basic state of n qubits probability = np.square(groundstate).real print("The probability for each of the",pow_n,"base states is:") print(probability) print("The probabilities for each of the",pow_n,"base states add up to:") print ("%.2f" % np.sum(probability))
+
+---CODE_BLOCK---
+
+from qiskit import * import numpy as np def Hamiltonian(n,h): pow_n=2**n qc = np.empty(2*n-1, dtype=object) #Creating the quantum circuits that are used in the calculation of the Hamiltonian based on the number of qubits for i in range(0, 2*n-1): #2n-1 is the number of factors on the n-site Hamiltonian qr = QuantumRegister(n) qc[i] = QuantumCircuit(qr) #create quantum circuits for each factor of the Hamiltonian #print(i) if (i<=n-2): #for the first sum of the Hamiltonian qc[i].z(i) #value of current spin qc[i].z(i+1) #and value of its neighboring spin else: #for the second sum of the Hamiltonian qc[i].x(2*n-2-i) #2*n-2 gives the proper index since counting starts at 0 #Run each circuit in the simulator simulator = Aer.get_backend('unitary_simulator') result = np.empty(2*n-1, dtype=object) unitary = np.empty(2*n-1, dtype=object) Hamiltonian_Matrix=0 #Get the results for each circuit in unitary form for i in range(0, 2*n-1): result[i] = execute(qc[i], backend=simulator).result() unitary[i] = result[i].get_unitary() #print(unitary[i]) #And calculate the Hamiltonian matrix according to the formula if (i<=n-2): Hamiltonian_Matrix=np.add(Hamiltonian_Matrix,-unitary[i]) else: Hamiltonian_Matrix=np.add(Hamiltonian_Matrix,-h*unitary[i]) print("The",pow_n,"x",pow_n, "Hamiltonian Matrix is:") print(Hamiltonian_Matrix) #Now that we have the Hamiltonian #find the eigenvalues and eigenvectors w, v = np.linalg.eig(Hamiltonian_Matrix) print("Eigenvectors") print(v) print("Eigenvalues") print(w) minimum=w[0] min_spot=0 for i in range(1, pow_n): if w[i]<minimum: min_spot=i minimum=w[i] print(min_spot) groundstate = v[:,min_spot] #the probability to measure each basic state of n qubits probability = np.square(groundstate).real print("The probability for each of the",pow_n,"base states is:") print(probability) print("The probabilities for each of the",pow_n,"base states add up to:") print ("%.2f" % np.sum(probability))
+
+---CODE_BLOCK---
+
+[[-2.+0.j -1.+0.j -1.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j 0.+0.j] [-1.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j] [-1.+0.j 0.+0.j 2.+0.j -1.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j] [ 0.+0.j -1.+0.j -1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j] [-1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j -1.+0.j 0.+0.j] [ 0.+0.j -1.+0.j 0.+0.j 0.+0.j -1.+0.j 2.+0.j 0.+0.j -1.+0.j] [ 0.+0.j 0.+0.j -1.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j -1.+0.j] [ 0.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j -1.+0.j -1.+0.j -2.+0.j]]
+
+---CODE_BLOCK---
+
+[[-2.+0.j -1.+0.j -1.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j 0.+0.j] [-1.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j] [-1.+0.j 0.+0.j 2.+0.j -1.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j] [ 0.+0.j -1.+0.j -1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j] [-1.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j -1.+0.j -1.+0.j 0.+0.j] [ 0.+0.j -1.+0.j 0.+0.j 0.+0.j -1.+0.j 2.+0.j 0.+0.j -1.+0.j] [ 0.+0.j 0.+0.j -1.+0.j 0.+0.j -1.+0.j 0.+0.j 0.+0.j -1.+0.j] [ 0.+0.j 0.+0.j 0.+0.j -1.+0.j 0.+0.j -1.+0.j -1.+0.j -2.+0.j]]
+
+Solution explanation:
+You can definitely run this on a real quantum computer! In your snippet above you mixed circuits and operators. A circuit is only used for the ansatz of your ground state, not for representing the operators. The website you provided talks about the Hamiltonian in terms of the Pauli X and Z matrices; $\hat\sigma^x$ and $\hat\sigma^z$. If you want to compute the ground state of your Hamiltonian you need to use this Pauli representation and not convert them into a matrix. Here's a short example you can generalize to your above case. Say we the transverse field Ising chain, but to simplify things, we assume only two sites. Then we can write the Hamiltonian as $$ \hat H = -\hat\sigma^z_0 \otimes \hat\sigma^z_1 - h(\hat\sigma^x_0 + \hat\sigma^x_1). $$ Now we associate each site with a qubit and then we can write the above matrix in a one-to-one correspondence in Qiskit (I'm using Qiskit 0.25.0): The in Qiskit means we're using a tensor product. Also note that I've expanded the notation $\hat\sigma^x_0$ to since we act on two qubits and by $\hat\sigma^x_0$ implicitly mean that nothing happens to the second qubit. Now you can go ahead and use this representation of the Hamiltonian to run on a real quantum computer. If you want to compute the ground state using Qiskit, you can use the class. To run that you also need to select an ansatz and an optimizer, but that's very easy in Qiskit. For instance This will simulate the quantum computer but you can run exactly the same piece of code on real hardware by changing the . On a real device, each of the Hamiltonian summands, $\sigma^z_0 \otimes \hat\sigma^z_1$, $\hat\sigma^x_0$ and $\hat\sigma^x_1$, will in general be measured individually. That is because we can only measure the expectation value of an operator, that is diagonal in the computational basis (in the Z-basis). Thus, we need to apply basis transformations to the terms that are not already diagonal (in this case the Pauli-X terms). If you want to know more about this I would suggest you to have a look at the Qiskit textbook or this stackoverflow question.
+
+```
+# opflow is Qiskit's module for creating operators like yours from qiskit.opflow import Z, X, I # Pauli Z, X matrices and identity h = 0.25 # or whatever value you have for h H = -(Z ^ Z) - h * ((X ^ I) + (I ^ X))
+```
+
+```
+# opflow is Qiskit's module for creating operators like yours from qiskit.opflow import Z, X, I # Pauli Z, X matrices and identity h = 0.25 # or whatever value you have for h H = -(Z ^ Z) - h * ((X ^ I) + (I ^ X))
+```
+
+```
+^
+```
+
+```
+X ^ I
+```
+
+```
+VQE
+```
+
+```
+from qiskit.providers.aer import QasmSimulator from qiskit.algorithms import VQE from qiskit.algorithms.optimizers import COBYLA from qiskit.circuit.library import EfficientSU2 # you can swap this for a real quantum device and keep the rest of the code the same! backend = QasmSimulator() # COBYLA usually works well for small problems like this one optimizer = COBYLA(maxiter=200) # EfficientSU2 is a standard heuristic chemistry ansatz from Qiskit's circuit library ansatz = EfficientSU2(2, reps=3) # set the algorithm vqe = VQE(ansatz, optimizer, quantum_instance=backend) # run it with the Hamiltonian we defined above result = vqe.compute_minimum_eigenvalue(H) # print the result (it contains lot's of information) print(result)
+```
+
+```
+from qiskit.providers.aer import QasmSimulator from qiskit.algorithms import VQE from qiskit.algorithms.optimizers import COBYLA from qiskit.circuit.library import EfficientSU2 # you can swap this for a real quantum device and keep the rest of the code the same! backend = QasmSimulator() # COBYLA usually works well for small problems like this one optimizer = COBYLA(maxiter=200) # EfficientSU2 is a standard heuristic chemistry ansatz from Qiskit's circuit library ansatz = EfficientSU2(2, reps=3) # set the algorithm vqe = VQE(ansatz, optimizer, quantum_instance=backend) # run it with the Hamiltonian we defined above result = vqe.compute_minimum_eigenvalue(H) # print the result (it contains lot's of information) print(result)
+```
+
+```
+backend
+```
+
+Original fixed code:
+# opflow is Qiskit's module for creating operators like yours from qiskit.opflow import Z, X, I # Pauli Z, X matrices and identity h = 0.25 # or whatever value you have for h H = -(Z ^ Z) - h * ((X ^ I) + (I ^ X))
+
+---CODE_BLOCK---
+
+# opflow is Qiskit's module for creating operators like yours from qiskit.opflow import Z, X, I # Pauli Z, X matrices and identity h = 0.25 # or whatever value you have for h H = -(Z ^ Z) - h * ((X ^ I) + (I ^ X))
+
+---CODE_BLOCK---
+
+^
+
+---CODE_BLOCK---
+
+X ^ I
+
+---CODE_BLOCK---
+
+VQE
+
+---CODE_BLOCK---
+
+from qiskit.providers.aer import QasmSimulator from qiskit.algorithms import VQE from qiskit.algorithms.optimizers import COBYLA from qiskit.circuit.library import EfficientSU2 # you can swap this for a real quantum device and keep the rest of the code the same! backend = QasmSimulator() # COBYLA usually works well for small problems like this one optimizer = COBYLA(maxiter=200) # EfficientSU2 is a standard heuristic chemistry ansatz from Qiskit's circuit library ansatz = EfficientSU2(2, reps=3) # set the algorithm vqe = VQE(ansatz, optimizer, quantum_instance=backend) # run it with the Hamiltonian we defined above result = vqe.compute_minimum_eigenvalue(H) # print the result (it contains lot's of information) print(result)
+
+---CODE_BLOCK---
+
+from qiskit.providers.aer import QasmSimulator from qiskit.algorithms import VQE from qiskit.algorithms.optimizers import COBYLA from qiskit.circuit.library import EfficientSU2 # you can swap this for a real quantum device and keep the rest of the code the same! backend = QasmSimulator() # COBYLA usually works well for small problems like this one optimizer = COBYLA(maxiter=200) # EfficientSU2 is a standard heuristic chemistry ansatz from Qiskit's circuit library ansatz = EfficientSU2(2, reps=3) # set the algorithm vqe = VQE(ansatz, optimizer, quantum_instance=backend) # run it with the Hamiltonian we defined above result = vqe.compute_minimum_eigenvalue(H) # print the result (it contains lot's of information) print(result)
+
+---CODE_BLOCK---
+
+backend

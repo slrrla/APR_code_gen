@@ -1,0 +1,119 @@
+Title:
+Mapping a QUBO onto an observable for use with Qiskit QAOA
+
+Category:
+Category:
+Import
+
+Why Stack Overflow Wins in This Category:
+For problems about mapping QUBOs, the goal is to align with Qiskit’s supported libraries. Stack Overflow shows the idiomatic modern solution with qiskit_optimization. This is far more useful for practitioners since it integrates seamlessly with QAOA workflows. The AI solution, while illustrative, uses outdated constructs and thus is less practical
+
+Question:
+Title: Mapping a QUBO onto an observable for use with Qiskit QAOA
+
+Background I am attempting to understand the post-aqua way that external qiskit libraries are supposed to be used for solving QUBOs. To do so I am trying to work with the toy problem of minimizing $f(x_1, x_2, x_3) = 2x_1x_2 + 3x_2x_3 - 4x_1x_3$, where $x_1,x_2,x_3 ∈\{0,1\}$. Looking at the migration guide I found code very much like the following: I imagine that, to an expert's eyes, it is trivial to replace the line with code that corresponds to $2x_1x_2 + 3x_2x_3 - 4x_1x_3$. The Question I get a wide range of errors as I try different ways of doing this and a lot of tutorials online use deprecated code. A template solution would be greatly appreciated. Can someone show me how to solve this toy problem?
+
+```
+from qiskit.algorithms import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.opflow import Z, I from qiskit import Aer, transpile from qiskit.utils import QuantumInstance # Define the problem Hamiltonian observable = Z ^ I # Example Hamiltonian (modify as per your problem) # Define the QAOA instance with an optimizer and quantum instance optimizer = COBYLA() # You can choose a different optimizer quantum_instance = QuantumInstance(Aer.get_backend('statevector_simulator')) qaoa = QAOA(optimizer=optimizer, quantum_instance=quantum_instance) # Compute the minimum eigenvalue using QAOA result = qaoa.compute_minimum_eigenvalue(observable) print(result.eigenvalue)
+```
+
+```
+from qiskit.algorithms import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.opflow import Z, I from qiskit import Aer, transpile from qiskit.utils import QuantumInstance # Define the problem Hamiltonian observable = Z ^ I # Example Hamiltonian (modify as per your problem) # Define the QAOA instance with an optimizer and quantum instance optimizer = COBYLA() # You can choose a different optimizer quantum_instance = QuantumInstance(Aer.get_backend('statevector_simulator')) qaoa = QAOA(optimizer=optimizer, quantum_instance=quantum_instance) # Compute the minimum eigenvalue using QAOA result = qaoa.compute_minimum_eigenvalue(observable) print(result.eigenvalue)
+```
+
+```
+observable = Z ^ I
+```
+
+Original buggy code:
+from qiskit.algorithms import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.opflow import Z, I from qiskit import Aer, transpile from qiskit.utils import QuantumInstance # Define the problem Hamiltonian observable = Z ^ I # Example Hamiltonian (modify as per your problem) # Define the QAOA instance with an optimizer and quantum instance optimizer = COBYLA() # You can choose a different optimizer quantum_instance = QuantumInstance(Aer.get_backend('statevector_simulator')) qaoa = QAOA(optimizer=optimizer, quantum_instance=quantum_instance) # Compute the minimum eigenvalue using QAOA result = qaoa.compute_minimum_eigenvalue(observable) print(result.eigenvalue)
+
+---CODE_BLOCK---
+
+from qiskit.algorithms import QAOA from qiskit.algorithms.optimizers import COBYLA from qiskit.opflow import Z, I from qiskit import Aer, transpile from qiskit.utils import QuantumInstance # Define the problem Hamiltonian observable = Z ^ I # Example Hamiltonian (modify as per your problem) # Define the QAOA instance with an optimizer and quantum instance optimizer = COBYLA() # You can choose a different optimizer quantum_instance = QuantumInstance(Aer.get_backend('statevector_simulator')) qaoa = QAOA(optimizer=optimizer, quantum_instance=quantum_instance) # Compute the minimum eigenvalue using QAOA result = qaoa.compute_minimum_eigenvalue(observable) print(result.eigenvalue)
+
+---CODE_BLOCK---
+
+observable = Z ^ I
+
+Solution explanation:
+First of all, you will need to convert your problem into a Then you can use QAOA or any other to solve it Note that, Qiskit optimization provides automatic conversion from a to an Ising Hamiltonian. So, you don't need to do this conversion by yourself. If, however, you want to get the corresponding Hamiltonian for a quadratic program, you can use method: For an up-to-date tutorial see here
+
+```
+QuadraticProgram
+```
+
+```
+from qiskit_optimization import QuadraticProgram problem = QuadraticProgram() problem.binary_var(name="x1") problem.binary_var(name="x2") problem.binary_var(name="x3") # 2x_1x_2 + 3x_2x_3 − 4x_1x_3 problem.minimize(quadratic={("x1", "x2"): 2, ("x2", "x3"): 3, ("x1", "x3"): -4}) print(problem.prettyprint())
+```
+
+```
+from qiskit_optimization import QuadraticProgram problem = QuadraticProgram() problem.binary_var(name="x1") problem.binary_var(name="x2") problem.binary_var(name="x3") # 2x_1x_2 + 3x_2x_3 − 4x_1x_3 problem.minimize(quadratic={("x1", "x2"): 2, ("x2", "x3"): 3, ("x1", "x3"): -4}) print(problem.prettyprint())
+```
+
+```
+SamplingMinimumEigensolver
+```
+
+```
+from qiskit_algorithms import QAOA from qiskit_algorithms.optimizers import COBYLA from qiskit_optimization.algorithms import MinimumEigenOptimizer from qiskit.primitives import Sampler qaoa = QAOA(sampler=Sampler(), optimizer=COBYLA()) min_eigen_optimizer = MinimumEigenOptimizer(qaoa) result = min_eigen_optimizer.solve(problem) print(result)
+```
+
+```
+from qiskit_algorithms import QAOA from qiskit_algorithms.optimizers import COBYLA from qiskit_optimization.algorithms import MinimumEigenOptimizer from qiskit.primitives import Sampler qaoa = QAOA(sampler=Sampler(), optimizer=COBYLA()) min_eigen_optimizer = MinimumEigenOptimizer(qaoa) result = min_eigen_optimizer.solve(problem) print(result)
+```
+
+```
+QuadraticProgram
+```
+
+```
+QuadraticProgram.to_ising()
+```
+
+```
+hamiltonian, offset = problem.to_ising() print(hamiltonian)
+```
+
+```
+hamiltonian, offset = problem.to_ising() print(hamiltonian)
+```
+
+Original fixed code:
+QuadraticProgram
+
+---CODE_BLOCK---
+
+from qiskit_optimization import QuadraticProgram problem = QuadraticProgram() problem.binary_var(name="x1") problem.binary_var(name="x2") problem.binary_var(name="x3") # 2x_1x_2 + 3x_2x_3 − 4x_1x_3 problem.minimize(quadratic={("x1", "x2"): 2, ("x2", "x3"): 3, ("x1", "x3"): -4}) print(problem.prettyprint())
+
+---CODE_BLOCK---
+
+from qiskit_optimization import QuadraticProgram problem = QuadraticProgram() problem.binary_var(name="x1") problem.binary_var(name="x2") problem.binary_var(name="x3") # 2x_1x_2 + 3x_2x_3 − 4x_1x_3 problem.minimize(quadratic={("x1", "x2"): 2, ("x2", "x3"): 3, ("x1", "x3"): -4}) print(problem.prettyprint())
+
+---CODE_BLOCK---
+
+SamplingMinimumEigensolver
+
+---CODE_BLOCK---
+
+from qiskit_algorithms import QAOA from qiskit_algorithms.optimizers import COBYLA from qiskit_optimization.algorithms import MinimumEigenOptimizer from qiskit.primitives import Sampler qaoa = QAOA(sampler=Sampler(), optimizer=COBYLA()) min_eigen_optimizer = MinimumEigenOptimizer(qaoa) result = min_eigen_optimizer.solve(problem) print(result)
+
+---CODE_BLOCK---
+
+from qiskit_algorithms import QAOA from qiskit_algorithms.optimizers import COBYLA from qiskit_optimization.algorithms import MinimumEigenOptimizer from qiskit.primitives import Sampler qaoa = QAOA(sampler=Sampler(), optimizer=COBYLA()) min_eigen_optimizer = MinimumEigenOptimizer(qaoa) result = min_eigen_optimizer.solve(problem) print(result)
+
+---CODE_BLOCK---
+
+QuadraticProgram
+
+---CODE_BLOCK---
+
+QuadraticProgram.to_ising()
+
+---CODE_BLOCK---
+
+hamiltonian, offset = problem.to_ising() print(hamiltonian)
+
+---CODE_BLOCK---
+
+hamiltonian, offset = problem.to_ising() print(hamiltonian)

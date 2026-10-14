@@ -1,0 +1,91 @@
+Title:
+If_test() - Dynamic Circuits in qiskit
+
+Category:
+
+
+Question:
+Title: If_test() - Dynamic Circuits in qiskit
+
+I am trying to run a dynamic circuit by having mid-measurement in my code as follows: As it is obvious we must have a result like [0, 1, 0]. However, the list that I receive always is [0, 1, 0, 1]. Does anyone know how to solve this matter?
+
+```
+from qiskit import * from math import * from qiskit.providers.fake_provider import FakeJakarta backend = FakeJakarta() q0 = QuantumRegister(1) q1 = QuantumRegister(1) c = ClassicalRegister(2) qc = QuantumCircuit(q0, q1, c) result_ = [] for i in range(2): qc.ry(2*pi/3, q0) qc.cx(q0, q1) qc.h(q1) qc.measure(q1, c[i]) with qc.if_test((c[i], 0)) as _else: result_.append(0) with _else: result_.append(1) job = backend.run(qc) print(result_)
+```
+
+```
+from qiskit import * from math import * from qiskit.providers.fake_provider import FakeJakarta backend = FakeJakarta() q0 = QuantumRegister(1) q1 = QuantumRegister(1) c = ClassicalRegister(2) qc = QuantumCircuit(q0, q1, c) result_ = [] for i in range(2): qc.ry(2*pi/3, q0) qc.cx(q0, q1) qc.h(q1) qc.measure(q1, c[i]) with qc.if_test((c[i], 0)) as _else: result_.append(0) with _else: result_.append(1) job = backend.run(qc) print(result_)
+```
+
+Original buggy code:
+from qiskit import * from math import * from qiskit.providers.fake_provider import FakeJakarta backend = FakeJakarta() q0 = QuantumRegister(1) q1 = QuantumRegister(1) c = ClassicalRegister(2) qc = QuantumCircuit(q0, q1, c) result_ = [] for i in range(2): qc.ry(2*pi/3, q0) qc.cx(q0, q1) qc.h(q1) qc.measure(q1, c[i]) with qc.if_test((c[i], 0)) as _else: result_.append(0) with _else: result_.append(1) job = backend.run(qc) print(result_)
+
+---CODE_BLOCK---
+
+from qiskit import * from math import * from qiskit.providers.fake_provider import FakeJakarta backend = FakeJakarta() q0 = QuantumRegister(1) q1 = QuantumRegister(1) c = ClassicalRegister(2) qc = QuantumCircuit(q0, q1, c) result_ = [] for i in range(2): qc.ry(2*pi/3, q0) qc.cx(q0, q1) qc.h(q1) qc.measure(q1, c[i]) with qc.if_test((c[i], 0)) as _else: result_.append(0) with _else: result_.append(1) job = backend.run(qc) print(result_)
+
+Solution explanation:
+It appears there's a misunderstanding regarding the use of and constructs in your code. In Qiskit, these constructs are for adding conditional quantum operations to the circuit based on classical register states, not for controlling the flow of Python code execution. Consequently, in your loop, both and are executed in each iteration, leading to a list that's twice as long as expected. Also, you should only expect a list of length two as your result (not three), as you are measuring with classical bit in the first iteration, and in the second iteration. Here's a (potential) version of your code that gathers measurement data from each iteration (if I am correct in interpreting this you want to do):
+
+```
+if_test
+```
+
+```
+_else
+```
+
+```
+result_.append(0)
+```
+
+```
+result_.append(1)
+```
+
+```
+c[0]
+```
+
+```
+c[1]
+```
+
+```
+from qiskit import * from math import * from qiskit.providers.fake_provider import FakeJakarta backend = FakeJakarta() q0 = QuantumRegister(1) q1 = QuantumRegister(1) c = ClassicalRegister(2) qc = QuantumCircuit(q0, q1, c) results = [] for i in range(2): qc.ry(2*pi/3, q0) qc.cx(q0, q1) qc.h(q1) qc.measure(q1, c[i]) job = backend.run(qc, shots=1) result = job.result().get_counts(qc) results.append(result) print(results)
+```
+
+```
+from qiskit import * from math import * from qiskit.providers.fake_provider import FakeJakarta backend = FakeJakarta() q0 = QuantumRegister(1) q1 = QuantumRegister(1) c = ClassicalRegister(2) qc = QuantumCircuit(q0, q1, c) results = [] for i in range(2): qc.ry(2*pi/3, q0) qc.cx(q0, q1) qc.h(q1) qc.measure(q1, c[i]) job = backend.run(qc, shots=1) result = job.result().get_counts(qc) results.append(result) print(results)
+```
+
+Original fixed code:
+if_test
+
+---CODE_BLOCK---
+
+_else
+
+---CODE_BLOCK---
+
+result_.append(0)
+
+---CODE_BLOCK---
+
+result_.append(1)
+
+---CODE_BLOCK---
+
+c[0]
+
+---CODE_BLOCK---
+
+c[1]
+
+---CODE_BLOCK---
+
+from qiskit import * from math import * from qiskit.providers.fake_provider import FakeJakarta backend = FakeJakarta() q0 = QuantumRegister(1) q1 = QuantumRegister(1) c = ClassicalRegister(2) qc = QuantumCircuit(q0, q1, c) results = [] for i in range(2): qc.ry(2*pi/3, q0) qc.cx(q0, q1) qc.h(q1) qc.measure(q1, c[i]) job = backend.run(qc, shots=1) result = job.result().get_counts(qc) results.append(result) print(results)
+
+---CODE_BLOCK---
+
+from qiskit import * from math import * from qiskit.providers.fake_provider import FakeJakarta backend = FakeJakarta() q0 = QuantumRegister(1) q1 = QuantumRegister(1) c = ClassicalRegister(2) qc = QuantumCircuit(q0, q1, c) results = [] for i in range(2): qc.ry(2*pi/3, q0) qc.cx(q0, q1) qc.h(q1) qc.measure(q1, c[i]) job = backend.run(qc, shots=1) result = job.result().get_counts(qc) results.append(result) print(results)

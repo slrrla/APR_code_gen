@@ -1,0 +1,26 @@
+{
+  "status": "HARDENED_ORACLE_CHECKS_PASSED",
+  "oracle_executions": 888,
+  "qiskit_versions": [
+    "0.25.3",
+    "0.25.1",
+    "0.25.2",
+    "0.25.0",
+    "0.45.0",
+    "0.45.1",
+    "0.45.3",
+    "0.45.2",
+    "0.46.0",
+    "0.46.1",
+    "0.46.2",
+    "0.46.3"
+  ],
+  "closed_gaps": [
+    "wrong circuit hidden by a preferred exported statevector",
+    "hardcoded output without backend execution",
+    "simulator failure masked by a replacement output"
+  ],
+  "normal_output_formats_and_global_phase_preserved": true,
+  "observer_sha256": "6f6e4e6bfe9d92e0981b8fffb1820d792202d0adf5157f250459ee5dda87bbba",
+  "scope": "Real local Aer backend execution is required for these single-purpose examples. Every observed experiment and exported simulation output must match. This is not a security sandbox against a program that deliberately modifies the test process."
+}

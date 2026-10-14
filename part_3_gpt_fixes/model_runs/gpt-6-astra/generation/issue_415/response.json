@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWHs8ld2NLoAKvYB1xytE2hKm2QP",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport math\nimport cmath\nimport numpy as np\nfrom qiskit import QuantumCircuit, execute, Aer\n\nket_0 = np.array([1, 0])\nket_1 = np.array([0, 1])\n\narb_quantum_state = ((1+1.j)/math.sqrt(3))*ket_0 - (1.j/math.sqrt(3))*ket_1\nprint(arb_quantum_state)\n\n# FIX: Complex amplitude produced a complex rotation -> use its magnitude, because theta must be a real Bloch-sphere angle.\ntheta = 2*math.acos(abs(arb_quantum_state[0]))\nprint('theta : ', theta)\n\nsinValue = cmath.sin(theta/2)\nprint(sinValue)\n\nphase = -1*(1.j/cmath.sqrt(3))/sinValue\n# FIX: Complex logarithm omitted the first amplitude's phase -> compute the real relative phase, because U3 requires a real azimuthal angle.\nphi = cmath.phase(phase) - cmath.phase(arb_quantum_state[0])\nprint('phi : ', phi)\n\ncirc = QuantumCircuit(1, 1)\n# FIX: U3 alone makes the first amplitude real -> restore its global phase, because the requested statevector includes that phase.\ncirc.global_phase = cmath.phase(arb_quantum_state[0])\ncirc.u3(theta, phi, 0, 0)\n\nresults = execute(circ, backend=Aer.get_backend('statevector_simulator')).result()\nquantum_state = results.get_statevector(circ, decimals=3)\nprint(quantum_state)\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419316,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 600,
+    "prompt_tokens": 1461,
+    "total_tokens": 2061,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 258,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1458,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

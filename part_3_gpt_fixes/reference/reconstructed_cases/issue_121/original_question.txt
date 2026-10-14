@@ -1,0 +1,73 @@
+Title:
+Clarification about QTF proof regarding equality of QFT application and circuit application
+
+Category:
+Category:
+Backend (Math/Circuit Equivalence)
+
+Why Stack Overflow Wins in This Category:
+In backend-related conceptual issues, mathematical clarity and precision are paramount. Stack Overflow’s answer excels here by:
+
+Decomposing the exponent using bit-level binary math.
+
+Matching phase behavior with how QFT actually computes.
+
+Validating equivalence between abstract QFT and circuit-level output rigorously.
+
+Question:
+Title: Clarification about QTF proof regarding equality of QFT application and circuit application
+
+I'm self learning quantum computing through IBM's Qiskit's learning section (which I really like), and I've stumbled across an inequality that I don't quite understand fully. This must be really easy, I just don't get this next inequality. In their of the QFT circuit implementation, they write: What interests me is the last equation, and specifically in the last equation the circled in blue. This interest me because of their next proof of the QFT's circuit implementation: Again, the last equation is what interests me. Disregarding the order of qubits (Which I know is reversed in the equations), I do not understand how the first picture 's are equal to the second picture 's. For example, in their example for a 3-qubit QFT, their output of the circuit is as follows: Which is to my understanding not equal to their equation in the first picture (Focusing on the 's - in the first picture the 's are complete in each tensor product of the equation while in the last its only 's partial components in each tensor product).
+
+```
+x
+```
+
+```
+x
+```
+
+```
+x
+```
+
+```
+x
+```
+
+```
+x
+```
+
+```
+x
+```
+
+Original buggy code:
+x
+
+---CODE_BLOCK---
+
+x
+
+---CODE_BLOCK---
+
+x
+
+---CODE_BLOCK---
+
+x
+
+---CODE_BLOCK---
+
+x
+
+---CODE_BLOCK---
+
+x
+
+Solution explanation:
+I suppose there are two sources of confusion here -- one is the reversed order of the qubits between the circuit and the unitary, and the other is the use of $x$. In terms of qubit ordering, I think your $|\psi_6\rangle$ is the output of the $\text{QFT}$ unitary rather than the output of the circuit, i.e. the first and last qubits are swapped. In terms of the notation, let's consider the three-qubit example. Write $$x = (x_1 x_2 x_3) = x_1 2^{2} + x_{2} 2^1 + x_3 $$ in binary, where $|x_1 x_2 x_3\rangle$ is the input to the circuit. Then we have for example that $$\frac{x}{2^2} = x_1 + x_2 2^{-1} + x_3 2^{-2} $$ and so the middle term of $|\psi_6\rangle$ should be $\frac{1}{\sqrt{2}} \left[ |0\rangle + \exp\left( 2\pi i \frac{x}{2^2} \right) |1\rangle \right]$, where $$\exp\left( 2\pi i \frac{x}{2^2} \right) = \exp\left( 2\pi i (x_1 + x_2 2^{-1} + x_3 2^{-2}) \right)$$ $$= \underbrace{\exp\left( 2\pi i x_1 \right)}_{=1} \cdot \exp\left( 2\pi i ( x_2 2^{-1} + x_3 2^{-2}) \right) $$ $$ = \exp\left( \frac{2\pi i}{2^2} x_3 + \frac{2\pi i}{2} x_2 \right),$$ which is what we see in the expression. In other words, we only see the partial components $x_i$ of $x$ in the last expression because the integer part of $x / 2^i$ gets cancelled out in the exponent. Hopefully you can convince yourself that the first and last terms follow similarly?
+
+Original fixed code:
+I suppose there are two sources of confusion here -- one is the reversed order of the qubits between the circuit and the unitary, and the other is the use of $x$. In terms of qubit ordering, I think your $|\psi_6\rangle$ is the output of the $\text{QFT}$ unitary rather than the output of the circuit, i.e. the first and last qubits are swapped. In terms of the notation, let's consider the three-qubit example. Write $$x = (x_1 x_2 x_3) = x_1 2^{2} + x_{2} 2^1 + x_3 $$ in binary, where $|x_1 x_2 x_3\rangle$ is the input to the circuit. Then we have for example that $$\frac{x}{2^2} = x_1 + x_2 2^{-1} + x_3 2^{-2} $$ and so the middle term of $|\psi_6\rangle$ should be $\frac{1}{\sqrt{2}} \left[ |0\rangle + \exp\left( 2\pi i \frac{x}{2^2} \right) |1\rangle \right]$, where $$\exp\left( 2\pi i \frac{x}{2^2} \right) = \exp\left( 2\pi i (x_1 + x_2 2^{-1} + x_3 2^{-2}) \right)$$ $$= \underbrace{\exp\left( 2\pi i x_1 \right)}_{=1} \cdot \exp\left( 2\pi i ( x_2 2^{-1} + x_3 2^{-2}) \right) $$ $$ = \exp\left( \frac{2\pi i}{2^2} x_3 + \frac{2\pi i}{2} x_2 \right),$$ which is what we see in the expression. In other words, we only see the partial components $x_i$ of $x$ in the last expression because the integer part of $x / 2^i$ gets cancelled out in the exponent. Hopefully you can convince yourself that the first and last terms follow similarly?

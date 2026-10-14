@@ -1,0 +1,16 @@
+COMMAND: ["C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_45_3\\python.exe", "-X", "utf8", "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_058_se\\test_new.py", "-v"]
+MUT: C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_058_se\fixed_luna.py
+
+STDOUT:
+
+STDERR:
+test_diffuser_simulated_state_and_operator (__main__.TestIntent.test_diffuser_simulated_state_and_operator) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_3\Lib\site-packages\qiskit_aer\backends\statevector_simulator.py:246: PendingDeprecationWarning: The `StatevectorSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend. To obtain legacy functionality initialize with `AerSimulator(method="statevector")` and append run circuits with the `save_state` instruction.
+  warn(
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_45_3\Lib\site-packages\qiskit\utils\deprecation.py:183: PendingDeprecationWarning: Building a flow controller with keyword arguments is going to be deprecated. Custom controllers must be explicitly instantiated and appended to the task list.
+  return func(*args, **kwargs)
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.131s
+
+OK

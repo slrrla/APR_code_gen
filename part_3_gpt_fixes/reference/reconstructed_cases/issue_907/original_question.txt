@@ -1,0 +1,67 @@
+Title:
+Ansatz printing in Qiskit draws a single block
+
+Category:
+
+
+Question:
+Title: Ansatz printing in Qiskit draws a single block
+
+When I try to draw the quantum circuit it is shown in only one block and not the whole circuit. For example using the code: This code only shows the circuit as one block as follows: Do you know how to show the whole circuit with the details of the gates instead?
+
+```
+from qiskit.circuit.library import RealAmplitudes ansatz = RealAmplitudes(3, reps=2) print(ansatz)
+```
+
+```
+from qiskit.circuit.library import RealAmplitudes ansatz = RealAmplitudes(3, reps=2) print(ansatz)
+```
+
+```
+┌───────────────────────────────────────────────────────────────┐ q_0: ┤0 ├ │ │ q_1: ┤1 RealAmplitudes(θ[0],θ[1],θ[2],θ[3],θ[4],θ[5],θ[6],θ[7],θ[8]) ├ │ │ q_2: ┤2 ├ └───────────────────────────────────────────────────────────────┘
+```
+
+```
+┌───────────────────────────────────────────────────────────────┐ q_0: ┤0 ├ │ │ q_1: ┤1 RealAmplitudes(θ[0],θ[1],θ[2],θ[3],θ[4],θ[5],θ[6],θ[7],θ[8]) ├ │ │ q_2: ┤2 ├ └───────────────────────────────────────────────────────────────┘
+```
+
+Original buggy code:
+from qiskit.circuit.library import RealAmplitudes ansatz = RealAmplitudes(3, reps=2) print(ansatz)
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import RealAmplitudes ansatz = RealAmplitudes(3, reps=2) print(ansatz)
+
+---CODE_BLOCK---
+
+┌───────────────────────────────────────────────────────────────┐ q_0: ┤0 ├ │ │ q_1: ┤1 RealAmplitudes(θ[0],θ[1],θ[2],θ[3],θ[4],θ[5],θ[6],θ[7],θ[8]) ├ │ │ q_2: ┤2 ├ └───────────────────────────────────────────────────────────────┘
+
+---CODE_BLOCK---
+
+┌───────────────────────────────────────────────────────────────┐ q_0: ┤0 ├ │ │ q_1: ┤1 RealAmplitudes(θ[0],θ[1],θ[2],θ[3],θ[4],θ[5],θ[6],θ[7],θ[8]) ├ │ │ q_2: ┤2 ├ └───────────────────────────────────────────────────────────────┘
+
+Solution explanation:
+You can break all the blocks in a circuit in smaller blocks by using the method.
+
+```
+decompose
+```
+
+```
+from qiskit.circuit.library import RealAmplitudes ansatz = RealAmplitudes(3, reps=2) ansatz.decompose().draw('mpl')
+```
+
+```
+from qiskit.circuit.library import RealAmplitudes ansatz = RealAmplitudes(3, reps=2) ansatz.decompose().draw('mpl')
+```
+
+Original fixed code:
+decompose
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import RealAmplitudes ansatz = RealAmplitudes(3, reps=2) ansatz.decompose().draw('mpl')
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import RealAmplitudes ansatz = RealAmplitudes(3, reps=2) ansatz.decompose().draw('mpl')

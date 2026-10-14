@@ -1,0 +1,47 @@
+Title:
+weird negative sign in a state vector in qiskit
+
+Category:
+
+
+Question:
+Title: weird negative sign in a state vector in qiskit
+
+I run the following simple code in qiskit, which get statevector of a quantum circuit. The output is the following: I expected that the sign of |011> = |6> is plus, however it seems minus.... Am I wrong? or What is the problem here? Thank you in advance!
+
+```
+qc = QuantumCircuit(3) qc.initialize( [ 0.0 + 0.0j, sqrt(1 / 3) + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, sqrt(2 / 3) + 0.0j, ] ) qc.cry(pi / 2, 1, 0) # (theta, controlled bit, target bit) print(Statevector(qc))
+```
+
+```
+qc = QuantumCircuit(3) qc.initialize( [ 0.0 + 0.0j, sqrt(1 / 3) + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, sqrt(2 / 3) + 0.0j, ] ) qc.cry(pi / 2, 1, 0) # (theta, controlled bit, target bit) print(Statevector(qc))
+```
+
+```
+Statevector([ 0. +0.j, 0.57735027+0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, -0.57735027+0.j, 0.57735027+0.j], dims=(2, 2, 2))
+```
+
+```
+Statevector([ 0. +0.j, 0.57735027+0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, -0.57735027+0.j, 0.57735027+0.j], dims=(2, 2, 2))
+```
+
+Original buggy code:
+qc = QuantumCircuit(3) qc.initialize( [ 0.0 + 0.0j, sqrt(1 / 3) + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, sqrt(2 / 3) + 0.0j, ] ) qc.cry(pi / 2, 1, 0) # (theta, controlled bit, target bit) print(Statevector(qc))
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(3) qc.initialize( [ 0.0 + 0.0j, sqrt(1 / 3) + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, 0.0 + 0.0j, sqrt(2 / 3) + 0.0j, ] ) qc.cry(pi / 2, 1, 0) # (theta, controlled bit, target bit) print(Statevector(qc))
+
+---CODE_BLOCK---
+
+Statevector([ 0. +0.j, 0.57735027+0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, -0.57735027+0.j, 0.57735027+0.j], dims=(2, 2, 2))
+
+---CODE_BLOCK---
+
+Statevector([ 0. +0.j, 0.57735027+0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, -0.57735027+0.j, 0.57735027+0.j], dims=(2, 2, 2))
+
+Solution explanation:
+We start with the state, $$\sqrt{1/3}|001\rangle + \sqrt{2/3}|111\rangle$$ Then apply $R_y(\pi/2)$ to the first qubit controlled by the second qubit. By linearity, we can calculate the impact of applying this gate to each basis state individually. The basis state $|001\rangle$ will not impacted since the second qubit in state $|0\rangle$. On the other hand, the basis state $|111\rangle$ will be impacted. We have, $$ R_y(\theta) = \left( {\begin{array}{*{20}{c}} \cos(\theta/2)&-\sin(\theta/2) \\ \sin(\theta/2)&\cos(\theta/2) \end{array}} \right) $$ Multiply the state of the first qubit by this matrix when $\theta = \frac{\pi}{2}$, $$\left( {\begin{array}{*{20}{c}} \frac{1}{\sqrt{2}}&\frac{-1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}&\frac{1}{\sqrt{2}} \end{array}} \right) \left( {\begin{array}{*{20}{c}} 0 \\ 1 \end{array}} \right) = \left( {\begin{array}{*{20}{c}} \frac{-1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} \end{array}} \right)$$ So, the final state will be, $$\frac{\sqrt{3}}{3} |001\rangle- \frac{\sqrt{3}}{3} |110\rangle+\frac{\sqrt{3}}{3} |111\rangle$$
+
+Original fixed code:
+We start with the state, $$\sqrt{1/3}|001\rangle + \sqrt{2/3}|111\rangle$$ Then apply $R_y(\pi/2)$ to the first qubit controlled by the second qubit. By linearity, we can calculate the impact of applying this gate to each basis state individually. The basis state $|001\rangle$ will not impacted since the second qubit in state $|0\rangle$. On the other hand, the basis state $|111\rangle$ will be impacted. We have, $$ R_y(\theta) = \left( {\begin{array}{*{20}{c}} \cos(\theta/2)&-\sin(\theta/2) \\ \sin(\theta/2)&\cos(\theta/2) \end{array}} \right) $$ Multiply the state of the first qubit by this matrix when $\theta = \frac{\pi}{2}$, $$\left( {\begin{array}{*{20}{c}} \frac{1}{\sqrt{2}}&\frac{-1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}&\frac{1}{\sqrt{2}} \end{array}} \right) \left( {\begin{array}{*{20}{c}} 0 \\ 1 \end{array}} \right) = \left( {\begin{array}{*{20}{c}} \frac{-1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} \end{array}} \right)$$ So, the final state will be, $$\frac{\sqrt{3}}{3} |001\rangle- \frac{\sqrt{3}}{3} |110\rangle+\frac{\sqrt{3}}{3} |111\rangle$$

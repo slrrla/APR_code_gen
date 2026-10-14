@@ -1,0 +1,55 @@
+Title:
+How to use qiskit fake hardware
+
+Category:
+Category:
+Backend Usage / Simulation / Output
+
+Why Stack Overflow Wins in This Category:
+In backend-related questions, the best solution must accurately reflect current Qiskit architecture and provide concrete code for selecting or using hardware. The Stack Overflow solution aligns with modern Qiskit (1.0.0+) using qiskit_ibm_runtime.fake_provider, offers metrics-based backend selection, and directly helps the user make an informed choice. It’s both technically precise and practically useful—key traits for backend simulation tasks.
+
+Question:
+Title: How to use qiskit fake hardware
+
+I need help with how to use qiskit Fake Hardware and which Fake Hardware can give results close to the actual solution of simulator. I am assuming, getting solution as close as possible to simulator means that its qubits are less noisy. The qiskit version I am using is ?
+
+```
+qiskit==1.0.0
+```
+
+Original buggy code:
+qiskit==1.0.0
+
+Solution explanation:
+This code loops through those fake backends and finds the one that has the least average readout error. The result looks like this with min 14 qubits:
+
+```
+import inspect from qiskit_ibm_runtime import fake_provider MIN_QUBITS = 14 #MIN_QUBITS = 100 MAX_ERROR = float('inf') MIN_DEC_PlACE = 3 least_noisy_fakebackend = None least_noisy_fakebackend_name = None lowest_readout_error = MAX_ERROR fb_list = [name for name, obj in inspect.getmembers(fake_provider) if inspect.isclass(obj) and name.startswith('Fake')] def get_avg_readout_error(backend): try: nqubit = backend.configuration().n_qubits properties = backend.properties() tre = 0 for qubit in range(nqubit): re = properties.qubit_property(qubit, 'readout_error')[0] tre += re return tre / nqubit except AttributeError: return MAX_ERROR for backend_name in fb_list: try: backend_class = getattr(fake_provider, backend_name) backend = backend_class() # fake backend should have at least MIN_QUBITS qubits if backend.configuration().n_qubits < MIN_QUBITS: continue tmp = get_avg_readout_error(backend) #print(tmp) readout_error_str = f"{tmp:.10f}" # ignore backend that doesn't have enough precision if len(readout_error_str.split('.')[1].rstrip('0')) < MIN_DEC_PlACE: continue avg_readout_error = tmp #if avg_readout_error != MAX_ERROR: # Ignore backends without properties #print(f"{backend_name} average readout error: {avg_readout_error}") if avg_readout_error < lowest_readout_error: lowest_readout_error = avg_readout_error least_noisy_fakebackend_name = backend_name least_noisy_fakebackend = backend except: continue if least_noisy_fakebackend_name: print(f"Least noisy backend: {least_noisy_fakebackend_name}, avg readout error: {lowest_readout_error}, n_qubits: {least_noisy_fakebackend.configuration().n_qubits}") else: print("No FakeBackend matched")
+```
+
+```
+import inspect from qiskit_ibm_runtime import fake_provider MIN_QUBITS = 14 #MIN_QUBITS = 100 MAX_ERROR = float('inf') MIN_DEC_PlACE = 3 least_noisy_fakebackend = None least_noisy_fakebackend_name = None lowest_readout_error = MAX_ERROR fb_list = [name for name, obj in inspect.getmembers(fake_provider) if inspect.isclass(obj) and name.startswith('Fake')] def get_avg_readout_error(backend): try: nqubit = backend.configuration().n_qubits properties = backend.properties() tre = 0 for qubit in range(nqubit): re = properties.qubit_property(qubit, 'readout_error')[0] tre += re return tre / nqubit except AttributeError: return MAX_ERROR for backend_name in fb_list: try: backend_class = getattr(fake_provider, backend_name) backend = backend_class() # fake backend should have at least MIN_QUBITS qubits if backend.configuration().n_qubits < MIN_QUBITS: continue tmp = get_avg_readout_error(backend) #print(tmp) readout_error_str = f"{tmp:.10f}" # ignore backend that doesn't have enough precision if len(readout_error_str.split('.')[1].rstrip('0')) < MIN_DEC_PlACE: continue avg_readout_error = tmp #if avg_readout_error != MAX_ERROR: # Ignore backends without properties #print(f"{backend_name} average readout error: {avg_readout_error}") if avg_readout_error < lowest_readout_error: lowest_readout_error = avg_readout_error least_noisy_fakebackend_name = backend_name least_noisy_fakebackend = backend except: continue if least_noisy_fakebackend_name: print(f"Least noisy backend: {least_noisy_fakebackend_name}, avg readout error: {lowest_readout_error}, n_qubits: {least_noisy_fakebackend.configuration().n_qubits}") else: print("No FakeBackend matched")
+```
+
+```
+Least noisy backend: FakeAuckland, avg readout error: 0.009055555555555553, n_qubits: 27
+```
+
+```
+Least noisy backend: FakeAuckland, avg readout error: 0.009055555555555553, n_qubits: 27
+```
+
+Original fixed code:
+import inspect from qiskit_ibm_runtime import fake_provider MIN_QUBITS = 14 #MIN_QUBITS = 100 MAX_ERROR = float('inf') MIN_DEC_PlACE = 3 least_noisy_fakebackend = None least_noisy_fakebackend_name = None lowest_readout_error = MAX_ERROR fb_list = [name for name, obj in inspect.getmembers(fake_provider) if inspect.isclass(obj) and name.startswith('Fake')] def get_avg_readout_error(backend): try: nqubit = backend.configuration().n_qubits properties = backend.properties() tre = 0 for qubit in range(nqubit): re = properties.qubit_property(qubit, 'readout_error')[0] tre += re return tre / nqubit except AttributeError: return MAX_ERROR for backend_name in fb_list: try: backend_class = getattr(fake_provider, backend_name) backend = backend_class() # fake backend should have at least MIN_QUBITS qubits if backend.configuration().n_qubits < MIN_QUBITS: continue tmp = get_avg_readout_error(backend) #print(tmp) readout_error_str = f"{tmp:.10f}" # ignore backend that doesn't have enough precision if len(readout_error_str.split('.')[1].rstrip('0')) < MIN_DEC_PlACE: continue avg_readout_error = tmp #if avg_readout_error != MAX_ERROR: # Ignore backends without properties #print(f"{backend_name} average readout error: {avg_readout_error}") if avg_readout_error < lowest_readout_error: lowest_readout_error = avg_readout_error least_noisy_fakebackend_name = backend_name least_noisy_fakebackend = backend except: continue if least_noisy_fakebackend_name: print(f"Least noisy backend: {least_noisy_fakebackend_name}, avg readout error: {lowest_readout_error}, n_qubits: {least_noisy_fakebackend.configuration().n_qubits}") else: print("No FakeBackend matched")
+
+---CODE_BLOCK---
+
+import inspect from qiskit_ibm_runtime import fake_provider MIN_QUBITS = 14 #MIN_QUBITS = 100 MAX_ERROR = float('inf') MIN_DEC_PlACE = 3 least_noisy_fakebackend = None least_noisy_fakebackend_name = None lowest_readout_error = MAX_ERROR fb_list = [name for name, obj in inspect.getmembers(fake_provider) if inspect.isclass(obj) and name.startswith('Fake')] def get_avg_readout_error(backend): try: nqubit = backend.configuration().n_qubits properties = backend.properties() tre = 0 for qubit in range(nqubit): re = properties.qubit_property(qubit, 'readout_error')[0] tre += re return tre / nqubit except AttributeError: return MAX_ERROR for backend_name in fb_list: try: backend_class = getattr(fake_provider, backend_name) backend = backend_class() # fake backend should have at least MIN_QUBITS qubits if backend.configuration().n_qubits < MIN_QUBITS: continue tmp = get_avg_readout_error(backend) #print(tmp) readout_error_str = f"{tmp:.10f}" # ignore backend that doesn't have enough precision if len(readout_error_str.split('.')[1].rstrip('0')) < MIN_DEC_PlACE: continue avg_readout_error = tmp #if avg_readout_error != MAX_ERROR: # Ignore backends without properties #print(f"{backend_name} average readout error: {avg_readout_error}") if avg_readout_error < lowest_readout_error: lowest_readout_error = avg_readout_error least_noisy_fakebackend_name = backend_name least_noisy_fakebackend = backend except: continue if least_noisy_fakebackend_name: print(f"Least noisy backend: {least_noisy_fakebackend_name}, avg readout error: {lowest_readout_error}, n_qubits: {least_noisy_fakebackend.configuration().n_qubits}") else: print("No FakeBackend matched")
+
+---CODE_BLOCK---
+
+Least noisy backend: FakeAuckland, avg readout error: 0.009055555555555553, n_qubits: 27
+
+---CODE_BLOCK---
+
+Least noisy backend: FakeAuckland, avg readout error: 0.009055555555555553, n_qubits: 27

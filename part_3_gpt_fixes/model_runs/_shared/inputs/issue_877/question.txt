@@ -1,0 +1,7 @@
+Title: How to import noise model from IBM qiskit real device?
+
+I am trying to import the noise model of an IBM 'large' device. I don't have access to the devices with more than 7 qubits so it doesn't allow me to import the backend and then do Is there another way I can import the noise model from those devices?
+
+```
+noise_model = NoiseModel.from_backend(backend)
+```

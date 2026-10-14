@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWVyhavEAQgI7gHq17F3jDiHKNEZH",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport numpy as np\nfrom qiskit import Aer\nfrom qiskit.aqua import QuantumInstance, aqua_globals\n# FIX: the quantum_info Operator lacks Aqua's primitive_strings interface -> import PauliOp, because QAOA expects opflow operators\nfrom qiskit.quantum_info.operators import Pauli\nfrom qiskit.aqua.operators import PauliOp\nfrom qiskit.aqua.operators.list_ops import SummedOp\nfrom qiskit.aqua.algorithms import QAOA\nfrom qiskit.aqua.components.optimizers import SPSA\nfrom qiskit.optimization.applications.ising import tsp\n\n\ndef pauli(pos, num_qubits, label):\n    label = 'I' * (pos) + label + 'I' * (num_qubits - pos - 1)\n    assert (len(label) == num_qubits)\n    # FIX: this returned a dense quantum_info Operator -> wrap the Pauli as a PauliOp, because mixer terms need the Aqua operator interface\n    return PauliOp(Pauli(label=label))\n\n\ndef s_plus(number_of_nodes, city, time):\n    num_qubits = number_of_nodes ** 2\n    qubit = time * number_of_nodes + city\n    return pauli(qubit, num_qubits, \"X\") + pauli(qubit, num_qubits, \"Y\")\n\n\ndef s_minus(number_of_nodes, city, time):\n    num_qubits = number_of_nodes ** 2\n    qubit = time * number_of_nodes + city\n    return pauli(qubit, num_qubits, \"X\") - pauli(qubit, num_qubits, \"Y\")\n\n\ndef create_mixer_operators(n):\n    \"\"\"\n    Creates mixer operators for the QAOA.\n    It's based on equations 54 - 58 from https://arxiv.org/pdf/1709.03489.pdf\n    Indexing here comes directly from section 4.1.2 from paper 1709.03489,\n    equations 54 - 58.\n    \"\"\"\n    mixer_operators = []\n    for t in range(n - 1):\n        for city_1 in range(n):\n            for city_2 in range(n):\n                i = t\n                u = city_1\n                v = city_2\n                first_part = 1\n                first_part *= s_plus(n, u, i)\n                first_part *= s_plus(n, v, i + 1)\n                first_part *= s_minus(n, u, i + 1)\n                first_part *= s_minus(n, v, i)\n                second_part = 1\n                second_part *= s_minus(n, u, i)\n                second_part *= s_minus(n, v, i + 1)\n                second_part *= s_plus(n, u, i + 1)\n                second_part *= s_plus(n, v, i)\n                mixer_operators.append(first_part + second_part)\n    return mixer_operators\n\n\nseed = 10598\nn = 3\np = 2\nnum_qubits = n ** 2\n\nins = tsp.random_tsp(n, seed=seed)\nqubitOp, offset = tsp.get_operator(ins)\n\naqua_globals.random_seed = np.random.default_rng(seed)\nbackend = Aer.get_backend('qasm_simulator')\nquantum_instance = QuantumInstance(backend, seed_simulator=seed, seed_transpiler=seed)\n\nmixer = create_mixer_operators(n)\nmixer_op = SummedOp(mixer)\n\nspsa = SPSA(maxiter=300)\nqaoa = QAOA(operator=qubitOp, mixer=mixer_op, p=p, optimizer=spsa, quantum_instance=quantum_instance)\ncircuits = qaoa.construct_circuit([0] * (2 * p))\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418127,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 1598,
+    "prompt_tokens": 4850,
+    "total_tokens": 6448,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 785,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 4847,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

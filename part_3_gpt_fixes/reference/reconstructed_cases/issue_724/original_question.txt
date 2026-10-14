@@ -1,0 +1,67 @@
+Title:
+"Mismatch between run_config.parameter_binds and all circuit parameters" when executing qiskit circuit
+
+Category:
+
+
+Question:
+Title: "Mismatch between run_config.parameter_binds and all circuit parameters" when executing qiskit circuit
+
+So I could check there has correct parameter binding and there has correct circuit drawing. However, if I tried to execute on basicAer, as I wrote my code, then it makes some error 'Mismatch between run_config.parameter_binds and all circuit parameters. Parameter binds: [] Circuit parameters: [ParameterView([ParameterVectorElement(x[0]), ParameterVec Please save me from this one ...
+
+```
+from qiskit.circuit import QuantumCircuit, ParameterVector p = ParameterVector('p', 58) sum = [0 for _ in range(58)] # my code is in here such like # for i in range(n): # ATCQNN_CIRCUIT.rx(p[i], i) ATCQNN_CIRCUIT.bind_parameters({p: sum}) # instead of the above line, I tried also this below one... # ATCQNN_CIRCUIT.bind_parameters({p[i]: sum[i] for i in range(58)}) ATCQNN_CIRCUIT.barrier() ATCQNN_CIRCUIT.measure(range(4), range(4)) print(ATCQNN_CIRCUIT.num_parameters) ATCQNN_CIRCUIT.decompose().draw('mpl', fold=40) from qiskit import BasicAer, execute backend = BasicAer.get_backend('qasm_simulator') results = execute(ATCQNN_CIRCUIT, backend).result() a = results.get_counts(ATCQNN_CIRCUIT) print(a)
+```
+
+```
+from qiskit.circuit import QuantumCircuit, ParameterVector p = ParameterVector('p', 58) sum = [0 for _ in range(58)] # my code is in here such like # for i in range(n): # ATCQNN_CIRCUIT.rx(p[i], i) ATCQNN_CIRCUIT.bind_parameters({p: sum}) # instead of the above line, I tried also this below one... # ATCQNN_CIRCUIT.bind_parameters({p[i]: sum[i] for i in range(58)}) ATCQNN_CIRCUIT.barrier() ATCQNN_CIRCUIT.measure(range(4), range(4)) print(ATCQNN_CIRCUIT.num_parameters) ATCQNN_CIRCUIT.decompose().draw('mpl', fold=40) from qiskit import BasicAer, execute backend = BasicAer.get_backend('qasm_simulator') results = execute(ATCQNN_CIRCUIT, backend).result() a = results.get_counts(ATCQNN_CIRCUIT) print(a)
+```
+
+Original buggy code:
+from qiskit.circuit import QuantumCircuit, ParameterVector p = ParameterVector('p', 58) sum = [0 for _ in range(58)] # my code is in here such like # for i in range(n): # ATCQNN_CIRCUIT.rx(p[i], i) ATCQNN_CIRCUIT.bind_parameters({p: sum}) # instead of the above line, I tried also this below one... # ATCQNN_CIRCUIT.bind_parameters({p[i]: sum[i] for i in range(58)}) ATCQNN_CIRCUIT.barrier() ATCQNN_CIRCUIT.measure(range(4), range(4)) print(ATCQNN_CIRCUIT.num_parameters) ATCQNN_CIRCUIT.decompose().draw('mpl', fold=40) from qiskit import BasicAer, execute backend = BasicAer.get_backend('qasm_simulator') results = execute(ATCQNN_CIRCUIT, backend).result() a = results.get_counts(ATCQNN_CIRCUIT) print(a)
+
+---CODE_BLOCK---
+
+from qiskit.circuit import QuantumCircuit, ParameterVector p = ParameterVector('p', 58) sum = [0 for _ in range(58)] # my code is in here such like # for i in range(n): # ATCQNN_CIRCUIT.rx(p[i], i) ATCQNN_CIRCUIT.bind_parameters({p: sum}) # instead of the above line, I tried also this below one... # ATCQNN_CIRCUIT.bind_parameters({p[i]: sum[i] for i in range(58)}) ATCQNN_CIRCUIT.barrier() ATCQNN_CIRCUIT.measure(range(4), range(4)) print(ATCQNN_CIRCUIT.num_parameters) ATCQNN_CIRCUIT.decompose().draw('mpl', fold=40) from qiskit import BasicAer, execute backend = BasicAer.get_backend('qasm_simulator') results = execute(ATCQNN_CIRCUIT, backend).result() a = results.get_counts(ATCQNN_CIRCUIT) print(a)
+
+Solution explanation:
+The method per default returns a copy. You should try modifying your code to either or Note that it is not necessary to pass a dictionary with the parameter vector, but you can just pass the parameter values as list. They will be bound to the vector sorted by index.
+
+```
+QuantumCircuit.bind_parameters
+```
+
+```
+ATCQNN_CIRCUIT.bind_parameters(sum, inplace=True)
+```
+
+```
+ATCQNN_CIRCUIT.bind_parameters(sum, inplace=True)
+```
+
+```
+bound_circuit = ATCQNN_CIRCUIT.bind_parameters(sum)
+```
+
+```
+bound_circuit = ATCQNN_CIRCUIT.bind_parameters(sum)
+```
+
+Original fixed code:
+QuantumCircuit.bind_parameters
+
+---CODE_BLOCK---
+
+ATCQNN_CIRCUIT.bind_parameters(sum, inplace=True)
+
+---CODE_BLOCK---
+
+ATCQNN_CIRCUIT.bind_parameters(sum, inplace=True)
+
+---CODE_BLOCK---
+
+bound_circuit = ATCQNN_CIRCUIT.bind_parameters(sum)
+
+---CODE_BLOCK---
+
+bound_circuit = ATCQNN_CIRCUIT.bind_parameters(sum)

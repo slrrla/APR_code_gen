@@ -1,0 +1,86 @@
+Title:
+How to install and import Qiskit_aqua?
+
+Category:
+Category: Deprecated Features & Modern Replacement Guidance
+Winner: AI
+Why AI Is Better: Accurately detects that Aqua is deprecated, and guides the user toward the supported Qiskit Machine Learning alternatives (QSVM, ad_hoc_data). Also helps with version compatibility and long-term usability.
+Why AI Performs Well in This Category: Deprecated Features & Modern Replacement Guidance, Guidance Beyond Syntax
+
+
+Question:
+Title: How to install and import Qiskit_aqua?
+
+I want to run SVM algorithm using Qiskit. For this purpose I need to import some packages from qiskit_aqua.utils . I am writing my code on Google Colaboratory. But while trying to import this package it shows me the following error. 
+
+ ModuleNotFoundError: No module named 'qiskit_aqua' 
+
+ I have tried to import every thing from Qiskit. But no changes have come. Here is my code. 
+
+ !pip install qiskit
+from qiskit import * 
+from qiskit_aqua.utils import split_dataset_to_data_and_labels
+from qiskit_aqua.input import get_input_instance
+from qiskit_aqua import run_algorithm
+
+ I even tried to import Aer using this command. But still it is of no use. 
+
+ Help me finding the solution. 
+
+ !pip install qiskit
+from qiskit import Aer
+from qiskit_aqua.utils import split_dataset_to_data_and_labels
+from qiskit_aqua.input import get_input_instance
+from qiskit_aqua import run_algorithm
+
+```
+!pip install qiskit
+from qiskit import * 
+from qiskit_aqua.utils import split_dataset_to_data_and_labels
+from qiskit_aqua.input import get_input_instance
+from qiskit_aqua import run_algorithm
+```
+
+```
+!pip install qiskit
+from qiskit import Aer
+from qiskit_aqua.utils import split_dataset_to_data_and_labels
+from qiskit_aqua.input import get_input_instance
+from qiskit_aqua import run_algorithm
+```
+
+Original buggy code:
+!pip install qiskit
+from qiskit import * 
+from qiskit_aqua.utils import split_dataset_to_data_and_labels
+from qiskit_aqua.input import get_input_instance
+from qiskit_aqua import run_algorithm
+
+---CODE_BLOCK---
+
+!pip install qiskit
+from qiskit import Aer
+from qiskit_aqua.utils import split_dataset_to_data_and_labels
+from qiskit_aqua.input import get_input_instance
+from qiskit_aqua import run_algorithm
+
+Solution explanation:
+Aqua is a subpackage of Qiskit, so you need to use . instead of _ . Your imports therefore should be 
+
+ from qiskit import Aer
+from qiskit.aqua.utils import split_dataset_to_data_and_labels
+from qiskit.aqua.input import get_input_instance
+from qiskit.aqua import run_algorithm
+
+```
+from qiskit import Aer
+from qiskit.aqua.utils import split_dataset_to_data_and_labels
+from qiskit.aqua.input import get_input_instance
+from qiskit.aqua import run_algorithm
+```
+
+Original fixed code:
+from qiskit import Aer
+from qiskit.aqua.utils import split_dataset_to_data_and_labels
+from qiskit.aqua.input import get_input_instance
+from qiskit.aqua import run_algorithm

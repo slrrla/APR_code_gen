@@ -1,0 +1,139 @@
+Title:
+Using Noise Model of a real hardware on qiskit simulators
+
+Category:
+
+
+Question:
+Title: Using Noise Model of a real hardware on qiskit simulators
+
+I am trying to understand how to use the noise model of real hardware. Below is the part of the code I have written with the help of sample codes from these links: qiskit.github.io/qiskit-aer/apidocs/aer_noise.html qiskit-community.github.io/qiskit-algorithms/tutorials/… qiskit.github.io/qiskit-aer/tutorials/index.html I have a lot of questions which I still not able to understand. What is ? Are we adding somekind of error to the existing errors of ? I have added some gates to the API ?How can I know what all gates I have in my quantum circuit? Can I use instead of . If possible then how? Edit If the modify the code as below, then how backend getting the NoiseModel. Please review.
+
+```
+depolarizing_error
+```
+
+```
+ibm_cairo
+```
+
+```
+add_all_qubit_quantum_error
+```
+
+```
+qasm_simulator
+```
+
+```
+AerSimulator
+```
+
+```
+prob_1 = 0.001 # 1-qubit gate prob_2 = 0.01 # 2-qubit gate # Depolarizing quantum errors error_1 = noise.depolarizing_error(prob_1, 1) # I think, one means here 1 qubit error_2 = noise.depolarizing_error(prob_2, 2) # I think, two means here 2 qubit # Add errors to noise model noise_model = noise.NoiseModel() noise_model.add_all_qubit_quantum_error(error_1, ['u1', 'u2', 'u3','x','y','z','h','s','t']) noise_model.add_all_qubit_quantum_error(error_2, ['cx','cy','cz', 'swap']) # Get basis gates from noise model basis_gates = noise_model.basis_gates # provider = IBMQ.load_account() provider = IBMQ.get_provider(hub=' ', group=' ', project=' ') backend_cairo = provider.get_backend('ibm_cairo') noise_model = NoiseModel.from_backend(backend_cairo) # Get coupling map from backend coupling_map = backend_cairo.configuration().coupling_map # Perform a noise simulation backend = AerSimulator(noise_model=noise_model, coupling_map=coupling_map, basis_gates=basis_gates) transpiled_circuit = transpile(qc_combine, backend) result = backend.run(transpiled_circuit, shots= self.shots_done).result()
+```
+
+```
+prob_1 = 0.001 # 1-qubit gate prob_2 = 0.01 # 2-qubit gate # Depolarizing quantum errors error_1 = noise.depolarizing_error(prob_1, 1) # I think, one means here 1 qubit error_2 = noise.depolarizing_error(prob_2, 2) # I think, two means here 2 qubit # Add errors to noise model noise_model = noise.NoiseModel() noise_model.add_all_qubit_quantum_error(error_1, ['u1', 'u2', 'u3','x','y','z','h','s','t']) noise_model.add_all_qubit_quantum_error(error_2, ['cx','cy','cz', 'swap']) # Get basis gates from noise model basis_gates = noise_model.basis_gates # provider = IBMQ.load_account() provider = IBMQ.get_provider(hub=' ', group=' ', project=' ') backend_cairo = provider.get_backend('ibm_cairo') noise_model = NoiseModel.from_backend(backend_cairo) # Get coupling map from backend coupling_map = backend_cairo.configuration().coupling_map # Perform a noise simulation backend = AerSimulator(noise_model=noise_model, coupling_map=coupling_map, basis_gates=basis_gates) transpiled_circuit = transpile(qc_combine, backend) result = backend.run(transpiled_circuit, shots= self.shots_done).result()
+```
+
+```
+provider = IBMQ.get_provider(hub=' ', group=' ', project=' ') backend_cairo = provider.get_backend('ibm_cairo') noise_model = NoiseModel.from_backend(backend_cairo) backend = AerSimulator.from_backend(backend_cairo)
+```
+
+```
+provider = IBMQ.get_provider(hub=' ', group=' ', project=' ') backend_cairo = provider.get_backend('ibm_cairo') noise_model = NoiseModel.from_backend(backend_cairo) backend = AerSimulator.from_backend(backend_cairo)
+```
+
+Original buggy code:
+depolarizing_error
+
+---CODE_BLOCK---
+
+ibm_cairo
+
+---CODE_BLOCK---
+
+add_all_qubit_quantum_error
+
+---CODE_BLOCK---
+
+qasm_simulator
+
+---CODE_BLOCK---
+
+AerSimulator
+
+---CODE_BLOCK---
+
+prob_1 = 0.001 # 1-qubit gate prob_2 = 0.01 # 2-qubit gate # Depolarizing quantum errors error_1 = noise.depolarizing_error(prob_1, 1) # I think, one means here 1 qubit error_2 = noise.depolarizing_error(prob_2, 2) # I think, two means here 2 qubit # Add errors to noise model noise_model = noise.NoiseModel() noise_model.add_all_qubit_quantum_error(error_1, ['u1', 'u2', 'u3','x','y','z','h','s','t']) noise_model.add_all_qubit_quantum_error(error_2, ['cx','cy','cz', 'swap']) # Get basis gates from noise model basis_gates = noise_model.basis_gates # provider = IBMQ.load_account() provider = IBMQ.get_provider(hub=' ', group=' ', project=' ') backend_cairo = provider.get_backend('ibm_cairo') noise_model = NoiseModel.from_backend(backend_cairo) # Get coupling map from backend coupling_map = backend_cairo.configuration().coupling_map # Perform a noise simulation backend = AerSimulator(noise_model=noise_model, coupling_map=coupling_map, basis_gates=basis_gates) transpiled_circuit = transpile(qc_combine, backend) result = backend.run(transpiled_circuit, shots= self.shots_done).result()
+
+---CODE_BLOCK---
+
+prob_1 = 0.001 # 1-qubit gate prob_2 = 0.01 # 2-qubit gate # Depolarizing quantum errors error_1 = noise.depolarizing_error(prob_1, 1) # I think, one means here 1 qubit error_2 = noise.depolarizing_error(prob_2, 2) # I think, two means here 2 qubit # Add errors to noise model noise_model = noise.NoiseModel() noise_model.add_all_qubit_quantum_error(error_1, ['u1', 'u2', 'u3','x','y','z','h','s','t']) noise_model.add_all_qubit_quantum_error(error_2, ['cx','cy','cz', 'swap']) # Get basis gates from noise model basis_gates = noise_model.basis_gates # provider = IBMQ.load_account() provider = IBMQ.get_provider(hub=' ', group=' ', project=' ') backend_cairo = provider.get_backend('ibm_cairo') noise_model = NoiseModel.from_backend(backend_cairo) # Get coupling map from backend coupling_map = backend_cairo.configuration().coupling_map # Perform a noise simulation backend = AerSimulator(noise_model=noise_model, coupling_map=coupling_map, basis_gates=basis_gates) transpiled_circuit = transpile(qc_combine, backend) result = backend.run(transpiled_circuit, shots= self.shots_done).result()
+
+---CODE_BLOCK---
+
+provider = IBMQ.get_provider(hub=' ', group=' ', project=' ') backend_cairo = provider.get_backend('ibm_cairo') noise_model = NoiseModel.from_backend(backend_cairo) backend = AerSimulator.from_backend(backend_cairo)
+
+---CODE_BLOCK---
+
+provider = IBMQ.get_provider(hub=' ', group=' ', project=' ') backend_cairo = provider.get_backend('ibm_cairo') noise_model = NoiseModel.from_backend(backend_cairo) backend = AerSimulator.from_backend(backend_cairo)
+
+Solution explanation:
+If all what you want is to derive a noise model from the properties of a real quantum device, then you just need to use method: Methods like are needed if you want to build your own custom noise model. If, however, you want your simulator to mimic the other real device properties like coupling map and basis gateset in addition to the noise model, then you can call
+
+```
+NoiseModel.from_backend()
+```
+
+```
+noise_model = NoiseModel.from_backend(backend_cairo)
+```
+
+```
+noise_model = NoiseModel.from_backend(backend_cairo)
+```
+
+```
+add_all_qubit_quantum_error()
+```
+
+```
+AerSimulator.from_backend()
+```
+
+```
+simulator = AerSimulator.from_backend(backend)
+```
+
+```
+simulator = AerSimulator.from_backend(backend)
+```
+
+Original fixed code:
+NoiseModel.from_backend()
+
+---CODE_BLOCK---
+
+noise_model = NoiseModel.from_backend(backend_cairo)
+
+---CODE_BLOCK---
+
+noise_model = NoiseModel.from_backend(backend_cairo)
+
+---CODE_BLOCK---
+
+add_all_qubit_quantum_error()
+
+---CODE_BLOCK---
+
+AerSimulator.from_backend()
+
+---CODE_BLOCK---
+
+simulator = AerSimulator.from_backend(backend)
+
+---CODE_BLOCK---
+
+simulator = AerSimulator.from_backend(backend)

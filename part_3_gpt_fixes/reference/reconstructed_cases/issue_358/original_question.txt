@@ -1,0 +1,113 @@
+Title:
+ModuleNotFoundError: No module named 'qiskit.circuit.library'
+
+Category:
+Category:
+Installation / Env Config / Import Error
+
+Why AI Wins in This Category:
+Installation and import issues require not just syntax-level fixes, but version-awareness and environment insights. The AI solution not only provides the command to fix the issue, but also contextualizes:
+
+What caused the error (older Qiskit version),
+
+How to check and verify the fix,
+
+Why the issue might not occur in Google Colab (which uses newer pre-installed packages),
+
+And why IDLE is suboptimal for Qiskit work.
+
+This makes the AI-generated solution significantly more helpful and future-proof in this category.
+
+Question:
+Title: ModuleNotFoundError: No module named 'qiskit.circuit.library'
+
+I am importing on python IDLE editor but it showing error although it's working fine on . Also why Qiskit does not work properly on python IDLE it's show lots of other error not just this one?
+
+```
+from qiskit.circuit.library import MCMTVChain
+```
+
+```
+ModuleNotFoundError: No module named 'qiskit.circuit.library'
+```
+
+```
+google colab
+```
+
+Original buggy code:
+from qiskit.circuit.library import MCMTVChain
+
+---CODE_BLOCK---
+
+ModuleNotFoundError: No module named 'qiskit.circuit.library'
+
+---CODE_BLOCK---
+
+google colab
+
+Solution explanation:
+You most probably haven't installed the qiskit module. Qiskit can be installed via : Try the following commands in command prompt, one of them should work (if your PATH variables are appropriately set): Or Or if you have more than one python versions, you can try: without the quotes. This should install the qiskit module and then you can import it.
+
+```
+pip install qiskit
+```
+
+```
+pip install qiskit
+```
+
+```
+py -m pip install qiskit
+```
+
+```
+py -m pip install qiskit
+```
+
+```
+python -m pip install qiskit
+```
+
+```
+python -m pip install qiskit
+```
+
+```
+py -'version number like 3.7' pip install qiskit
+```
+
+```
+py -'version number like 3.7' pip install qiskit
+```
+
+Original fixed code:
+pip install qiskit
+
+---CODE_BLOCK---
+
+pip install qiskit
+
+---CODE_BLOCK---
+
+py -m pip install qiskit
+
+---CODE_BLOCK---
+
+py -m pip install qiskit
+
+---CODE_BLOCK---
+
+python -m pip install qiskit
+
+---CODE_BLOCK---
+
+python -m pip install qiskit
+
+---CODE_BLOCK---
+
+py -'version number like 3.7' pip install qiskit
+
+---CODE_BLOCK---
+
+py -'version number like 3.7' pip install qiskit

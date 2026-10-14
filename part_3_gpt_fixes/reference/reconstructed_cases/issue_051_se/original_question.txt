@@ -1,0 +1,31 @@
+Title:
+Applying cz gate in oracle for Grovers Algorithm
+
+Category:
+Category:
+Circuit
+
+Why Stack Overflow Wins in This Category:
+In the Circuit category, understanding gate-level mechanics is essential. Stack Overflow:
+
+Debunks a common beginner misconception about CZ.
+
+Uses linear algebra-based logic, improving confidence in the gate’s behavior.
+
+Provides conceptual grounding, which is key in circuit design problems.
+
+The AI solution is valuable for practical verification but secondary to the conceptual correction delivered by the Stack Overflow response.
+
+Question:
+Title: Applying cz gate in oracle for Grovers Algorithm
+
+Theoretically say I have a 2 qubit circuit where the solution state is |11>. I was watching a video from qiskit (https://www.youtube.com/watch?v=0RPFWZj7Jm0) on this and in the oracle they only apply a cz gate: oracle.cz(0,1) to mark the solution state. However wouldn't this mark |11> and also mark |10> and make it not work? However, the professor ran the algorithm and it worked - why?
+
+Original buggy code:
+Theoretically say I have a 2 qubit circuit where the solution state is |11>. I was watching a video from qiskit (https://www.youtube.com/watch?v=0RPFWZj7Jm0) on this and in the oracle they only apply a cz gate: oracle.cz(0,1) to mark the solution state. However wouldn't this mark |11> and also mark |10> and make it not work? However, the professor ran the algorithm and it worked - why?
+
+Solution explanation:
+The CZ-gate, as a marking oracle, only marks the $|11\rangle$ state, and not the $|10\rangle$ state. You can see this by by its matrix representation or by thinking about what $CZ$ means for computational basis states: It only does something when the control qubit is $|1\rangle$. In that case it applies the $Z$ gate to the controlled qubit - which in turn only has an effect if the controlled qubit is in $|1\rangle$ (remember that $Z|0\rangle = |0\rangle$). So, both qubits must be in $|1\rangle$ in order for the phase flip to happen.
+
+Original fixed code:
+The CZ-gate, as a marking oracle, only marks the $|11\rangle$ state, and not the $|10\rangle$ state. You can see this by by its matrix representation or by thinking about what $CZ$ means for computational basis states: It only does something when the control qubit is $|1\rangle$. In that case it applies the $Z$ gate to the controlled qubit - which in turn only has an effect if the controlled qubit is in $|1\rangle$ (remember that $Z|0\rangle = |0\rangle$). So, both qubits must be in $|1\rangle$ in order for the phase flip to happen.

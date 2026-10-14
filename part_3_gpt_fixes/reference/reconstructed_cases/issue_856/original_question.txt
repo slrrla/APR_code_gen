@@ -1,0 +1,147 @@
+Title:
+Using QDRIFT on qiskit
+
+Category:
+
+
+Question:
+Title: Using QDRIFT on qiskit
+
+I was recently trying to use Qiskit's inbuilt QDRIFT to construct a circuit for a simple Hamiltonian $H = XX + YY$. but I'm having an issue converting the result of into a circuit. I get the constructor first by doing: Then I construct my Hamiltonian by doing: I checked the type of , it is which should not be an issue for my qdrift. I then get my new op by doing: The type of is . This class's documentation exists here and it has a method defined for it. But when I run it I get error: Any way I can get my circuit? I do not see why it can't construct a circuit for this.
+
+```
+QDrift.convert
+```
+
+```
+>>> from qiskit.opflow.evolutions.trotterizations.qdrift import QDrift >>> sim = QDrift(1)
+```
+
+```
+>>> from qiskit.opflow.evolutions.trotterizations.qdrift import QDrift >>> sim = QDrift(1)
+```
+
+```
+>>> from qiskit.opflow import X, Y >>> pauli = (X ^ X) + (Y ^ Y)
+```
+
+```
+>>> from qiskit.opflow import X, Y >>> pauli = (X ^ X) + (Y ^ Y)
+```
+
+```
+pauli
+```
+
+```
+<class 'qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp'>
+```
+
+```
+>>> com_op = sim.convert(pauli)
+```
+
+```
+>>> com_op = sim.convert(pauli)
+```
+
+```
+com_op
+```
+
+```
+<class 'qiskit.opflow.list_ops.composed_op.ComposedOp'>
+```
+
+```
+to_circuit
+```
+
+```
+qiskit.extensions.exceptions.ExtensionError: 'Input matrix is not unitary.'
+```
+
+```
+qiskit.extensions.exceptions.ExtensionError: 'Input matrix is not unitary.'
+```
+
+Original buggy code:
+QDrift.convert
+
+---CODE_BLOCK---
+
+>>> from qiskit.opflow.evolutions.trotterizations.qdrift import QDrift >>> sim = QDrift(1)
+
+---CODE_BLOCK---
+
+>>> from qiskit.opflow.evolutions.trotterizations.qdrift import QDrift >>> sim = QDrift(1)
+
+---CODE_BLOCK---
+
+>>> from qiskit.opflow import X, Y >>> pauli = (X ^ X) + (Y ^ Y)
+
+---CODE_BLOCK---
+
+>>> from qiskit.opflow import X, Y >>> pauli = (X ^ X) + (Y ^ Y)
+
+---CODE_BLOCK---
+
+pauli
+
+---CODE_BLOCK---
+
+<class 'qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp'>
+
+---CODE_BLOCK---
+
+>>> com_op = sim.convert(pauli)
+
+---CODE_BLOCK---
+
+>>> com_op = sim.convert(pauli)
+
+---CODE_BLOCK---
+
+com_op
+
+---CODE_BLOCK---
+
+<class 'qiskit.opflow.list_ops.composed_op.ComposedOp'>
+
+---CODE_BLOCK---
+
+to_circuit
+
+---CODE_BLOCK---
+
+qiskit.extensions.exceptions.ExtensionError: 'Input matrix is not unitary.'
+
+---CODE_BLOCK---
+
+qiskit.extensions.exceptions.ExtensionError: 'Input matrix is not unitary.'
+
+Solution explanation:
+An easy way to use QDrift in Qiskit is to pass it as a synthesis method to
+
+```
+PauliEvolutionGate
+```
+
+```
+from qiskit.circuit.library import PauliEvolutionGate from qiskit.opflow import X, Y from qiskit.synthesis import QDrift op = (X^X) + (Y^Y) time = 1 reps = 1 evo_gate = PauliEvolutionGate(op, time, synthesis=QDrift(reps = reps)) circ = QuantumCircuit(2) circ.append(evo_gate, [0, 1])
+```
+
+```
+from qiskit.circuit.library import PauliEvolutionGate from qiskit.opflow import X, Y from qiskit.synthesis import QDrift op = (X^X) + (Y^Y) time = 1 reps = 1 evo_gate = PauliEvolutionGate(op, time, synthesis=QDrift(reps = reps)) circ = QuantumCircuit(2) circ.append(evo_gate, [0, 1])
+```
+
+Original fixed code:
+PauliEvolutionGate
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import PauliEvolutionGate from qiskit.opflow import X, Y from qiskit.synthesis import QDrift op = (X^X) + (Y^Y) time = 1 reps = 1 evo_gate = PauliEvolutionGate(op, time, synthesis=QDrift(reps = reps)) circ = QuantumCircuit(2) circ.append(evo_gate, [0, 1])
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import PauliEvolutionGate from qiskit.opflow import X, Y from qiskit.synthesis import QDrift op = (X^X) + (Y^Y) time = 1 reps = 1 evo_gate = PauliEvolutionGate(op, time, synthesis=QDrift(reps = reps)) circ = QuantumCircuit(2) circ.append(evo_gate, [0, 1])

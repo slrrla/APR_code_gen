@@ -1,0 +1,55 @@
+Title:
+I am getting an error like this 'Invalid input data format for Statevector'
+
+Category:
+Category:
+Installation / Env Config / Import Error
+
+Why AI Wins in This Category:
+In import/initialization issues, the best solution must not only identify the problem but also demonstrate the proper workflow. The AI’s example code resolves the error and shows how to correctly use Qiskit’s simulators, whereas the Stack Overflow answer stops at general guidance.
+
+Question:
+Title: I am getting an error like this 'Invalid input data format for Statevector'
+
+I am new at QC. I learn from a course. When I write to this code: I am gettin an error : Can you help me? thanks your time.
+
+```
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit q = QuantumRegister (1) c = ClassicalRegister(1) qc = QuantumCircuit(q,c) qc.draw('mpl') from qiskit.quantum_info import Statevector psi1 = Statevector(qc) psi1.draw('latex')
+```
+
+```
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit q = QuantumRegister (1) c = ClassicalRegister(1) qc = QuantumCircuit(q,c) qc.draw('mpl') from qiskit.quantum_info import Statevector psi1 = Statevector(qc) psi1.draw('latex')
+```
+
+```
+> QiskitError Traceback (most recent call > last) <ipython-input-28-eccf64e782f7> in <module> > ----> 1 psi1 = Statevector(qc) > 2 psi1.draw('latex') > > C:\ProgramData\Anaconda3\lib\site-packages\qiskit\quantum_info\states\statevector.py > in __init__(self, data, dims) > 72 self._data = np.ravel(data.data) > 73 else: > ---> 74 raise QiskitError("Invalid input data format for Statevector") > 75 # Check that the input is a numpy vector or column-vector numpy > 76 # matrix. If it is a column-vector matrix reshape to a vector. > > QiskitError: 'Invalid input data format for Statevector'
+```
+
+```
+> QiskitError Traceback (most recent call > last) <ipython-input-28-eccf64e782f7> in <module> > ----> 1 psi1 = Statevector(qc) > 2 psi1.draw('latex') > > C:\ProgramData\Anaconda3\lib\site-packages\qiskit\quantum_info\states\statevector.py > in __init__(self, data, dims) > 72 self._data = np.ravel(data.data) > 73 else: > ---> 74 raise QiskitError("Invalid input data format for Statevector") > 75 # Check that the input is a numpy vector or column-vector numpy > 76 # matrix. If it is a column-vector matrix reshape to a vector. > > QiskitError: 'Invalid input data format for Statevector'
+```
+
+Original buggy code:
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit q = QuantumRegister (1) c = ClassicalRegister(1) qc = QuantumCircuit(q,c) qc.draw('mpl') from qiskit.quantum_info import Statevector psi1 = Statevector(qc) psi1.draw('latex')
+
+---CODE_BLOCK---
+
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit q = QuantumRegister (1) c = ClassicalRegister(1) qc = QuantumCircuit(q,c) qc.draw('mpl') from qiskit.quantum_info import Statevector psi1 = Statevector(qc) psi1.draw('latex')
+
+---CODE_BLOCK---
+
+> QiskitError Traceback (most recent call > last) <ipython-input-28-eccf64e782f7> in <module> > ----> 1 psi1 = Statevector(qc) > 2 psi1.draw('latex') > > C:\ProgramData\Anaconda3\lib\site-packages\qiskit\quantum_info\states\statevector.py > in __init__(self, data, dims) > 72 self._data = np.ravel(data.data) > 73 else: > ---> 74 raise QiskitError("Invalid input data format for Statevector") > 75 # Check that the input is a numpy vector or column-vector numpy > 76 # matrix. If it is a column-vector matrix reshape to a vector. > > QiskitError: 'Invalid input data format for Statevector'
+
+---CODE_BLOCK---
+
+> QiskitError Traceback (most recent call > last) <ipython-input-28-eccf64e782f7> in <module> > ----> 1 psi1 = Statevector(qc) > 2 psi1.draw('latex') > > C:\ProgramData\Anaconda3\lib\site-packages\qiskit\quantum_info\states\statevector.py > in __init__(self, data, dims) > 72 self._data = np.ravel(data.data) > 73 else: > ---> 74 raise QiskitError("Invalid input data format for Statevector") > 75 # Check that the input is a numpy vector or column-vector numpy > 76 # matrix. If it is a column-vector matrix reshape to a vector. > > QiskitError: 'Invalid input data format for Statevector'
+
+Solution explanation:
+Tips for you to understand error: take a look at qiskit docs, what is the valid data input, learn more about Statevector class https://qiskit.org/documentation/stubs/qiskit.quantum_info.Statevector.html and from output error which mean you didn't input the expected data(np.array or list or Statevector or Operator or QuantumCircuit) check sources code if it make sense, and discuss in StackExchange or slack then report bug to github sources code, if there is any bug. I hope these tips help you though study QC. also please provide more info about your input for Statevector, if you need any help.
+
+```
+QiskitError: 'Invalid input data format for Statevector'
+```
+
+Original fixed code:
+QiskitError: 'Invalid input data format for Statevector'

@@ -1,0 +1,55 @@
+Title:
+Ungroup a custom quantum gate in QASM 2.0
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why AI Wins in This Category:
+When dealing with circuit logic and structure, actionable code with minimal ambiguity is critical. The AI’s response directly solves the problem using the correct Qiskit API (decompose()), offers context, and avoids unnecessary alternatives — making it ideal for circuit manipulation tasks.
+
+Question:
+Title: Ungroup a custom quantum gate in QASM 2.0
+
+Is there any API provided by Qiskit to ungroup a custom quantum gate into its component quantum gate. If there is no API, please let me know how to ungroup the custom gate after I made own quantum_circuit by using the
+
+```
+QuantumCircuit.from_qasm_file()
+```
+
+Original buggy code:
+QuantumCircuit.from_qasm_file()
+
+Solution explanation:
+I am not sure what is your intention exactly, so here are several options: IBM Quantum Composer is a sort of API for composing quantum circuits - You can easily enter QASM code there and the corresponding circuit will be loaded. Then you can modify the circuit freely. If you wish to decompose a generalized unitary operation to some set of qunatum gates - Then there are some different ways to do that. The most common methods are and . The method allows many degrees of freedom - one can choose a set of target basis gates for the circuit to be transpiled to, or alternatively it is possible to set a transpile operation compatible with a specific hardware ("backend"), and lots of other options are available - Take a look at the documentation. If you are looking for a method to convert a gate/circuit to QASM code - Then the method does this job.
+
+```
+decompose()
+```
+
+```
+transpile()
+```
+
+```
+transpile
+```
+
+```
+QuantumCircuit.qasm()
+```
+
+Original fixed code:
+decompose()
+
+---CODE_BLOCK---
+
+transpile()
+
+---CODE_BLOCK---
+
+transpile
+
+---CODE_BLOCK---
+
+QuantumCircuit.qasm()

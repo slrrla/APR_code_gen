@@ -1,0 +1,35 @@
+Title:
+Hamiltonian of Qiskit QFT is not hermitian
+
+Category:
+Category:
+Error / Debugging
+
+Why Stack Overflow Wins in This Category:
+In the Error/Debugging category, correctness and precise reasoning are key. Stack Overflow explained the root mathematical cause and provided a rigorous eigenvalue-based fix. The AI gave a workaround that may hide the problem but doesn’t address the real source of error, making the SO solution more robust and educational.
+
+Question:
+Title: Hamiltonian of Qiskit QFT is not hermitian
+
+I am trying to generate the Hamiltonian of a quantum Fourier transform by taking the log of the corresponding unitary using qiskit and scipy. I don't find a hermitian matrix. Why? Note that I find U to be unitary and that there is no issue when do_swaps=False.
+
+```
+import numpy as np from qiskit.circuit.library import QFT from scipy.linalg import logm, norm from qiskit.quantum_info import Operator circuit = QFT(num_qubits=4, do_swaps=True) op = Operator(circuit) U = op.data H = 1j*logm(U) print(norm([email protected]()-np.identity(2**4))) #check if U is unitary print(norm(H-H.T.conj())) #check if H is hermitian
+```
+
+```
+import numpy as np from qiskit.circuit.library import QFT from scipy.linalg import logm, norm from qiskit.quantum_info import Operator circuit = QFT(num_qubits=4, do_swaps=True) op = Operator(circuit) U = op.data H = 1j*logm(U) print(norm([email protected]()-np.identity(2**4))) #check if U is unitary print(norm(H-H.T.conj())) #check if H is hermitian
+```
+
+Original buggy code:
+import numpy as np from qiskit.circuit.library import QFT from scipy.linalg import logm, norm from qiskit.quantum_info import Operator circuit = QFT(num_qubits=4, do_swaps=True) op = Operator(circuit) U = op.data H = 1j*logm(U) print(norm([email protected]()-np.identity(2**4))) #check if U is unitary print(norm(H-H.T.conj())) #check if H is hermitian
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit.circuit.library import QFT from scipy.linalg import logm, norm from qiskit.quantum_info import Operator circuit = QFT(num_qubits=4, do_swaps=True) op = Operator(circuit) U = op.data H = 1j*logm(U) print(norm([email protected]()-np.identity(2**4))) #check if U is unitary print(norm(H-H.T.conj())) #check if H is hermitian
+
+Solution explanation:
+This is due to the fact that if $U$ is unitary with negative eigenvalues (which is the case here), its logarithm is not uniquely defined. Note that the fact that $U$ is unitary only ensures that there is some hermitian matrix $H$ such that: $$U=\exp(\mathrm{i}H).$$ It does not, however, ensure that every matrix $H$ verifying the previous equation is Hermitian. There is, however, in this case, a method to obtain such an $H$. According to this answer, the eigenvalues of a $QFT$ matrix are $\pm1$ and $\pm\mathrm{i}$. Let $Q_n$ be the $QFT$ matrix on $n$ qubits. We know that $Q_n$ can be written as: $$Q_n = VDV^\dagger$$ with $D$ being a diagonal matrix whose entries belong to the set $\{1;-1;\mathrm{i},-\mathrm{i}\}$. We know that the matrix: $$L=V\log(D)V^\dagger$$ is a logarithm of $Q_n$. Computing the logarithm of a diagonal matrix is easily done by taking the $\log$ of its entries. As such, we will map $1$ to $0$, $-1$ to $\mathrm{i}\pi$ (or $-\mathrm{i}\pi$, it does not matter), $\mathrm{i}$ to $\mathrm{i}\frac\pi2$ and $-\mathrm{i}$ to $-\mathrm{i}\frac\pi2$. Finally, we compute $H$ with: $$H=-\mathrm{i}L.$$ Since we know that $L$ is a logarithm of $Q_n$, it is easy to see that $H$ satisfies the desired equation $Q_n=\exp(\mathrm{i}H)$. We thus simply have to prove that it is Hermitian. We have: $$H^\dagger=\mathrm{i}L^\dagger=\mathrm{i}P\log(D)^\dagger P^\dagger=\mathrm{i}P\overline{\log(D)}P^\dagger.$$ Thus, $H=H^\dagger$ holds if and only if $\mathrm{i}\overline{\log(D)}=-\mathrm{i}\log(D)$, which is true if and only if every element of $\log(D)$, which is a diagonal matrix, can be written as $\alpha\mathrm{i},\alpha\in\mathbb{R}$. Since this is the case, we have found one matrix $H$ which is Hermitian and which statisfies $Q_n=\exp(\mathrm{i}H)$.
+
+Original fixed code:
+This is due to the fact that if $U$ is unitary with negative eigenvalues (which is the case here), its logarithm is not uniquely defined. Note that the fact that $U$ is unitary only ensures that there is some hermitian matrix $H$ such that: $$U=\exp(\mathrm{i}H).$$ It does not, however, ensure that every matrix $H$ verifying the previous equation is Hermitian. There is, however, in this case, a method to obtain such an $H$. According to this answer, the eigenvalues of a $QFT$ matrix are $\pm1$ and $\pm\mathrm{i}$. Let $Q_n$ be the $QFT$ matrix on $n$ qubits. We know that $Q_n$ can be written as: $$Q_n = VDV^\dagger$$ with $D$ being a diagonal matrix whose entries belong to the set $\{1;-1;\mathrm{i},-\mathrm{i}\}$. We know that the matrix: $$L=V\log(D)V^\dagger$$ is a logarithm of $Q_n$. Computing the logarithm of a diagonal matrix is easily done by taking the $\log$ of its entries. As such, we will map $1$ to $0$, $-1$ to $\mathrm{i}\pi$ (or $-\mathrm{i}\pi$, it does not matter), $\mathrm{i}$ to $\mathrm{i}\frac\pi2$ and $-\mathrm{i}$ to $-\mathrm{i}\frac\pi2$. Finally, we compute $H$ with: $$H=-\mathrm{i}L.$$ Since we know that $L$ is a logarithm of $Q_n$, it is easy to see that $H$ satisfies the desired equation $Q_n=\exp(\mathrm{i}H)$. We thus simply have to prove that it is Hermitian. We have: $$H^\dagger=\mathrm{i}L^\dagger=\mathrm{i}P\log(D)^\dagger P^\dagger=\mathrm{i}P\overline{\log(D)}P^\dagger.$$ Thus, $H=H^\dagger$ holds if and only if $\mathrm{i}\overline{\log(D)}=-\mathrm{i}\log(D)$, which is true if and only if every element of $\log(D)$, which is a diagonal matrix, can be written as $\alpha\mathrm{i},\alpha\in\mathbb{R}$. Since this is the case, we have found one matrix $H$ which is Hermitian and which statisfies $Q_n=\exp(\mathrm{i}H)$.

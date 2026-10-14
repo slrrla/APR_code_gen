@@ -1,0 +1,23 @@
+Title: Apply a custom gate to qubits in separate quantum registers
+
+Let there be a custom gate (simply called that takes $N$ qubits as input. Also, let $A$ of those qubits be in and $B$ of those qubits be in ($B = N-A$, obviously). Both registers are . How to append this custom gate to circuit, like what to write in .
+
+```
+gate
+```
+
+```
+first_register
+```
+
+```
+second_register
+```
+
+```
+QuantumRegisters
+```
+
+```
+circuit.append(gate, HERE)
+```

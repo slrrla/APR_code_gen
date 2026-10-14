@@ -1,0 +1,27 @@
+Title:
+Is there a tutorial for error mitigation in qiskit that does not use the deprecated ignis?
+
+Category:
+
+
+Question:
+Title: Is there a tutorial for error mitigation in qiskit that does not use the deprecated ignis?
+
+Working through the qiskit text I have come accross measurement error mitigation a few times (Measurement Error Mitigation, Lab 3: Quantum Measurment,...]. In the online textbook the coding indicates the use of , but I understand it has been deprecated and replaced with new modules as described here, but the use of those modules has not yet been adapted within the textbook. I'm interested in learning how to use this error mitigation, but am not yet knowledgeable enough to figure this out without a tutorial/lesson/introduction of some sort. Is anyone aware of a document, video, website, ... that could help me learn this content using non-deprecated coding? Or has anyone completed these modules and is willing to share how it was done in order for me to learn from their example? Any help or guidance would be appreciated.
+
+```
+.ignis
+```
+
+Original buggy code:
+.ignis
+
+Solution explanation:
+Here is an up-to-date tutorial on measurement error mitigation using Qiskit experiments module which (partly) replaces Qiskit Ignis. Furthermore, if you are using Qiskit Runtime primitives, you have now the option of enabling error mitigation very easily using . Here is the documentation.
+
+```
+resilience_level
+```
+
+Original fixed code:
+resilience_level

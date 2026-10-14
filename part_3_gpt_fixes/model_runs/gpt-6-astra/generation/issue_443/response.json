@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWIIIgCgR0soAbeuNevBMh9s3qJS",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import QuantumCircuit, QuantumRegister\nfrom qiskit.circuit import Gate\n\ndef create_oracle(train_register, control):\n    n = len(train_register) + len(control)\n    qc = QuantumCircuit(n, name=\"oracle\")\n    qc.x(n - 1)\n    return qc.to_instruction()\n\ntrain_register = QuantumRegister(3, name=\"train_register\")\ncontrol = QuantumRegister(1, name=\"control\")\n\ncirc = QuantumCircuit(train_register, control)\n\n# FIX: Register unpacking reversed their roles -> match the circuit's register order, because control must refer to the control register.\n[train_register, control] = circ.qregs\ncirc.h(control)\n\noracle = create_oracle(train_register, control)\n# FIX: Nested registers did not supply individual qubit arguments -> flatten them in oracle order, because append requires one argument per instruction qubit.\ncirc.append(oracle, list(train_register) + list(control))\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419342,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 249,
+    "prompt_tokens": 1086,
+    "total_tokens": 1335,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 45,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1083,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

@@ -1,0 +1,76 @@
+Title:
+Given a state $|\phi\rangle=\frac{1}{\sqrt{2}}(|0\rangle+e^{i\theta}|1\rangle)$, how do I know the angle $\theta$?
+
+Category:
+Category:
+Circuit Construction / Measurement
+
+Why Stack Overflow Wins in This Category:
+Stack Overflow explains the physics: how to determine 
+𝜃
+θ experimentally through expectation values of 
+𝑋
+X and 
+𝑌
+Y, combining results to recover the full angle. The AI answer is more of a code snippet for rotated-basis measurement, but it assumes prior knowledge of 
+𝜃
+θ, missing the essence of the question. Therefore, SO is more correct, complete, and educational.
+
+Question:
+Title: Given a state $|\phi\rangle=\frac{1}{\sqrt{2}}(|0\rangle+e^{i\theta}|1\rangle)$, how do I know the angle $\theta$?
+
+Question1. If there is a state $|\phi\rangle=\frac{1}{\sqrt{2}}(|0\rangle+e^{i\theta}|1\rangle)$, and I want to know the angle $\theta$. What kind of measurement should I do? Could somebody give me the quantum circuit? Question2. How to perform a measurement with base $M{{({{\theta }_{k}})}_{\pm }}=\left\{ 1/\sqrt{2}\left( |0\rangle \pm {{e}^{-i{{\theta }_{k}}}}|1\rangle \right) \right\}$ on IBMQ?
+
+Original buggy code:
+Title: Given a state $|\phi\rangle=\frac{1}{\sqrt{2}}(|0\rangle+e^{i\theta}|1\rangle)$, how do I know the angle $\theta$?
+Question1. If there is a state $|\phi\rangle=\frac{1}{\sqrt{2}}(|0\rangle+e^{i\theta}|1\rangle)$, and I want to know the angle $\theta$. What kind of measurement should I do? Could somebody give me the quantum circuit? Question2. How to perform a measurement with base $M{{({{\theta }_{k}})}_{\pm }}=\left\{ 1/\sqrt{2}\left( |0\rangle \pm {{e}^{-i{{\theta }_{k}}}}|1\rangle \right) \right\}$ on IBMQ?
+
+Solution explanation:
+Answer to the first question: As mentioned in the comments of the question I assume that we can prepare $|\phi \rangle$ as many as we want. Let's calculate the relative phase for this one qubit pure state: $$|\psi \rangle = \frac{1}{\sqrt{2}} \left( |0\rangle + e^{i\theta}|1\rangle\right)$$ We are going to execute $2$ different experiments in order to estimate $\theta$. In the first experiment we apply this circuit: The state after Hadamard gate: $$H \frac{1}{\sqrt{2}} \left( |0\rangle + e^{i\theta}|1\rangle\right) = \frac{1}{2}\left[(1 + e^{i\theta})| 0 \rangle + (1 - e^{i\theta})| 1 \rangle \right]$$ The probabilities of $|0\rangle$ and $|1\rangle$ states: \begin{align*} P(0) = \frac{1}{4}\left| 1 + e^{i\theta} \right|^2 = \frac{1}{2}(1 + \cos(\theta)) \\ P(1) = \frac{1}{4}\left| 1 - e^{i\theta} \right|^2 = \frac{1}{2}(1 - \cos(\theta)) \end{align*} From here we can see that: $$\theta = \pm \arccos\big(P(0) - P(1)\big)$$ because the range of usual principal value arccosine function is equal to $[0, \pi]$. So we will need the second experiment in order to estimate the $sign(\theta)$. But, before that, how to find $P(0)$ and $P(1)$ with the described experiment? We will need to execute the circuit $N$ times (bigger $N$ gives better precision) and take into accout these relations between measurement outcomes and probabilities: \begin{align*} P(0) = \lim_{N \rightarrow \infty} \frac{N_{0}}{N} \qquad P(1) = \lim_{N \rightarrow \infty} \frac{N_{1}}{N} \end{align*} where $N_{0}$ is the number of $|0\rangle$ measurement outcomes and $N_{1}$ is the number of $|1\rangle$ measurement outcomes. Also, note that: $$\langle X \rangle = \langle \psi | X | \psi \rangle = \langle \psi |H Z H| \psi \rangle = P(0) - P(1)$$ So, the formula can be written in this way: $$\theta = \pm \arccos \big( \langle X \rangle \big)$$ The sign of the $\theta$ Now we should determine the $sign(\theta)$ with this circuit: The state after applying $S^{\dagger}$ and $H$ gates: $$H S^{\dagger} \frac{1}{\sqrt{2}} \left( |0\rangle + e^{i\theta}|1\rangle\right) = \frac{1}{2}\left[(1 - i e^{i\theta})| 0 \rangle + (1 + i e^{i\theta})| 1 \rangle \right]$$ with the same logic: \begin{align*} P'(0) = \frac{1}{4}\left| 1 - ie^{i\theta} \right|^2 = \frac{1}{2}(1 + \sin(\theta)) \\ P'(1) = \frac{1}{4}\left| 1 + ie^{i\theta} \right|^2 = \frac{1}{2}(1 - \sin(\theta)) \end{align*} So after determining the $P'(0)$ and $P'(1)$ from the second experiment we will find the sign of the $\theta$: $$sign(\theta) = sign(\arcsin\left(P'(0) - P'(1)\right)) = sign(P'(0) - P'(1))$$ because the range of usual principal value of arcsine function is $[-\frac{\pi}{2}, \frac{\pi}{2}]$. Also, note that for the expectation value of the $Y$ operator (as can be seen from this answer) we have this relation: $$\langle Y \rangle = \langle \psi| Y | \psi\rangle = \langle \psi| S H Z H S^{\dagger} | \psi\rangle = P'(0) - P'(1)$$ By taking this into account and combining two results: \begin{align*} \theta = sign \big(\langle Y \rangle \big) \arccos \big(\langle X \rangle \big) \end{align*} An approach for finding the relative phase of an arbitrary pure state is described in this answer. Answer to the second question: Here is the circuit for measuring in $M{{({{\theta }_{k}})}_{\pm }}=\left\{ 1/\sqrt{2}\left( |0\rangle \pm {{e}^{-i{{\theta }_{k}}}}|1\rangle \right) \right\}$ basis. I assume here that $\theta_k$ is given: If the state was $M(\theta _k)_+= 1/\sqrt{2}\left( |0\rangle + e^{-i\theta _k}|1\rangle \right)$, then the outcome of the circuit will be $|0\rangle$, and if it was $M(\theta _k)_-= 1/\sqrt{2}\left( |0\rangle - e^{-i\theta _k}|1\rangle \right)$, then the outcome of the circuit will be $|1\rangle$. So this way we will be able to measure in $M{{({{\theta }_{k}})}_{\pm }}$ basis.
+
+```
+circuit_experiment_1.h(q[0]) circuit_experiment_1.measure(q[0], c[0])
+```
+
+```
+circuit_experiment_1.h(q[0]) circuit_experiment_1.measure(q[0], c[0])
+```
+
+```
+circuit_experiment_2.sdg(q[0]) circuit_experiment_2.h(q[0]) circuit_experiment_2.measure(q[0], c[0])
+```
+
+```
+circuit_experiment_2.sdg(q[0]) circuit_experiment_2.h(q[0]) circuit_experiment_2.measure(q[0], c[0])
+```
+
+```
+circuit.u1(theta_k, q[0]) # q[0] is one of the qubits circuit.h(q[0]) circuit.measure(q[0], c[0]) #c[0] is a classical bit
+```
+
+```
+circuit.u1(theta_k, q[0]) # q[0] is one of the qubits circuit.h(q[0]) circuit.measure(q[0], c[0]) #c[0] is a classical bit
+```
+
+Original fixed code:
+circuit_experiment_1.h(q[0]) circuit_experiment_1.measure(q[0], c[0])
+
+---CODE_BLOCK---
+
+circuit_experiment_1.h(q[0]) circuit_experiment_1.measure(q[0], c[0])
+
+---CODE_BLOCK---
+
+circuit_experiment_2.sdg(q[0]) circuit_experiment_2.h(q[0]) circuit_experiment_2.measure(q[0], c[0])
+
+---CODE_BLOCK---
+
+circuit_experiment_2.sdg(q[0]) circuit_experiment_2.h(q[0]) circuit_experiment_2.measure(q[0], c[0])
+
+---CODE_BLOCK---
+
+circuit.u1(theta_k, q[0]) # q[0] is one of the qubits circuit.h(q[0]) circuit.measure(q[0], c[0]) #c[0] is a classical bit
+
+---CODE_BLOCK---
+
+circuit.u1(theta_k, q[0]) # q[0] is one of the qubits circuit.h(q[0]) circuit.measure(q[0], c[0]) #c[0] is a classical bit

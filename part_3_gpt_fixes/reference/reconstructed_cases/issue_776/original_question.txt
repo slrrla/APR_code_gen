@@ -1,0 +1,43 @@
+Title:
+Is there a way I can reduce the code for generating simple circuits with the same structure?
+
+Category:
+
+
+Question:
+Title: Is there a way I can reduce the code for generating simple circuits with the same structure?
+
+here's the code I'm using to generate 3 quantum circuits with the same structure (They're only differed by the first U3 gate on the qubit): I treated the circuits separately to obtain the results. I'm wondering is there a way I can simplify/shorten this code? Thanks for the help!
+
+```
+quancs = QuantumCircuit(1) # Circ 1 quancs.u3(gamma,beta,delta,0) quancs1 = QuantumCircuit(1) # Circ 2 quancs1.u3(2,3,2,0) quancs1.u3(gamma,beta,delta,0) quancs2 = QuantumCircuit(1) # Circuit 3. quancs2.u3(-2.5,2,-2,0) quancs2.u3(gamma,beta,delta,0) results = execute(quancs, simulator).result() results1 = execute(quancs1, simulator).result() results2 = execute(quancs2, simulator).result()
+```
+
+```
+quancs = QuantumCircuit(1) # Circ 1 quancs.u3(gamma,beta,delta,0) quancs1 = QuantumCircuit(1) # Circ 2 quancs1.u3(2,3,2,0) quancs1.u3(gamma,beta,delta,0) quancs2 = QuantumCircuit(1) # Circuit 3. quancs2.u3(-2.5,2,-2,0) quancs2.u3(gamma,beta,delta,0) results = execute(quancs, simulator).result() results1 = execute(quancs1, simulator).result() results2 = execute(quancs2, simulator).result()
+```
+
+Original buggy code:
+quancs = QuantumCircuit(1) # Circ 1 quancs.u3(gamma,beta,delta,0) quancs1 = QuantumCircuit(1) # Circ 2 quancs1.u3(2,3,2,0) quancs1.u3(gamma,beta,delta,0) quancs2 = QuantumCircuit(1) # Circuit 3. quancs2.u3(-2.5,2,-2,0) quancs2.u3(gamma,beta,delta,0) results = execute(quancs, simulator).result() results1 = execute(quancs1, simulator).result() results2 = execute(quancs2, simulator).result()
+
+---CODE_BLOCK---
+
+quancs = QuantumCircuit(1) # Circ 1 quancs.u3(gamma,beta,delta,0) quancs1 = QuantumCircuit(1) # Circ 2 quancs1.u3(2,3,2,0) quancs1.u3(gamma,beta,delta,0) quancs2 = QuantumCircuit(1) # Circuit 3. quancs2.u3(-2.5,2,-2,0) quancs2.u3(gamma,beta,delta,0) results = execute(quancs, simulator).result() results1 = execute(quancs1, simulator).result() results2 = execute(quancs2, simulator).result()
+
+Solution explanation:
+How about something like this:
+
+```
+from qiskit.circuit import QuantumCircuit def my_circuit(initial_gate_params, params): circuit = QuantumCircuit(1) circuit.u3(initial_gate_params[0],initial_gate_params[1],initial_gate_params[2],0) circuit.u3(params[0], params[1], params[2], 0) return circuit initial_gate_params = [ [0,0,0], [2,3,2], [-2.5,2,-2] ] #the params for your initial u3 gate params = [gamma, beta, zeta] #your defined gamma, beta, zeta circuits = [my_circuit(i, params) for i in initial_gate_params ] from qiskit import Aer, execute backend = Aer.get_backend('qasm_simulator') results = execute(circuits, backend)
+```
+
+```
+from qiskit.circuit import QuantumCircuit def my_circuit(initial_gate_params, params): circuit = QuantumCircuit(1) circuit.u3(initial_gate_params[0],initial_gate_params[1],initial_gate_params[2],0) circuit.u3(params[0], params[1], params[2], 0) return circuit initial_gate_params = [ [0,0,0], [2,3,2], [-2.5,2,-2] ] #the params for your initial u3 gate params = [gamma, beta, zeta] #your defined gamma, beta, zeta circuits = [my_circuit(i, params) for i in initial_gate_params ] from qiskit import Aer, execute backend = Aer.get_backend('qasm_simulator') results = execute(circuits, backend)
+```
+
+Original fixed code:
+from qiskit.circuit import QuantumCircuit def my_circuit(initial_gate_params, params): circuit = QuantumCircuit(1) circuit.u3(initial_gate_params[0],initial_gate_params[1],initial_gate_params[2],0) circuit.u3(params[0], params[1], params[2], 0) return circuit initial_gate_params = [ [0,0,0], [2,3,2], [-2.5,2,-2] ] #the params for your initial u3 gate params = [gamma, beta, zeta] #your defined gamma, beta, zeta circuits = [my_circuit(i, params) for i in initial_gate_params ] from qiskit import Aer, execute backend = Aer.get_backend('qasm_simulator') results = execute(circuits, backend)
+
+---CODE_BLOCK---
+
+from qiskit.circuit import QuantumCircuit def my_circuit(initial_gate_params, params): circuit = QuantumCircuit(1) circuit.u3(initial_gate_params[0],initial_gate_params[1],initial_gate_params[2],0) circuit.u3(params[0], params[1], params[2], 0) return circuit initial_gate_params = [ [0,0,0], [2,3,2], [-2.5,2,-2] ] #the params for your initial u3 gate params = [gamma, beta, zeta] #your defined gamma, beta, zeta circuits = [my_circuit(i, params) for i in initial_gate_params ] from qiskit import Aer, execute backend = Aer.get_backend('qasm_simulator') results = execute(circuits, backend)

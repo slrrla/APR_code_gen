@@ -1,0 +1,73 @@
+Title:
+Qiskit: 'no counts for experiment'
+
+Category:
+Category: Missing Measurement in Circuit / Simulator Output  
+Winner: Both  
+Why Both Are Good: Both answers clearly identify that the absence of measurement caused the issue. The AI walks through the full fix step-by-step, while Stack Overflow suggests a compact solution with `measure_all()`. Both approaches are correct and functional.
+Why AI Performs Well in This Category: AI solutions offer more context and guidance for beginners, making it easier to learn the principles behind the fix (like why measurement is needed with simulators).
+
+
+Question:
+Title: Qiskit: 'no counts for experiment'
+
+Although I imported plot_histogram , I am not getting the output as expected. Here is my code: 
+ a = QuantumCircuit(1)
+a.z(0)
+a.x(0)
+a.h(0)
+a.sdg(0)
+a.t(0)
+backend = Aer.get_backend('qasm_simulator')
+result = execute(a, backend).result()
+counts = result.get_counts()
+plot_histogram(counts)
+print(c)```
+
+```
+a = QuantumCircuit(1)
+a.z(0)
+a.x(0)
+a.h(0)
+a.sdg(0)
+a.t(0)
+backend = Aer.get_backend('qasm_simulator')
+result = execute(a, backend).result()
+counts = result.get_counts()
+plot_histogram(counts)
+print(c)```
+```
+
+Original buggy code:
+
+
+Solution explanation:
+You are missing measurements. 
+ a.z(0)
+a.x(0)
+a.h(0)
+a.sdg(0)
+a.t(0)
+a.measure_all(). #<--
+... 
+
+ This will measure the qubits and set a classical register with the result.
+
+```
+a.z(0)
+a.x(0)
+a.h(0)
+a.sdg(0)
+a.t(0)
+a.measure_all(). #<--
+...
+```
+
+Original fixed code:
+a.z(0)
+a.x(0)
+a.h(0)
+a.sdg(0)
+a.t(0)
+a.measure_all(). #<--
+...

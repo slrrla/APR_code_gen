@@ -1,0 +1,251 @@
+Title:
+Qiskit code works even without measure_all() with qasm_simulator
+
+Category:
+
+
+Question:
+Title: Qiskit code works even without measure_all() with qasm_simulator
+
+I am need help in understanding about the of the qiskit. The below code is correct even though is not being used. It would be great if someone can explain about the concept, where to use it and where not to use it?
+
+```
+measure_all()
+```
+
+```
+measure_all()
+```
+
+```
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+```
+
+```
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+```
+
+```
+measure_all()
+```
+
+Original buggy code:
+measure_all()
+
+---CODE_BLOCK---
+
+measure_all()
+
+---CODE_BLOCK---
+
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+
+---CODE_BLOCK---
+
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+
+---CODE_BLOCK---
+
+measure_all()
+
+Solution explanation:
+You are noticing that measurement behavior is different in different versions of Qiskit. In , we have the following behavior: But in the next update there is an error: So your issue is not with the concept per say, but rather you just need to keep notes of the versions in which these changes take place. Clarification: It should also be noted that in the case, the output is reflecting the fact that no measurements have been loaded in to the classical bits (so the values all remain zero). If a measurement statement is included, then this circuit will have GHZ state measurement statistics:
+
+```
+qiskit==0.33.1
+```
+
+```
+import qiskit print(qiskit.__qiskit_version__)
+```
+
+```
+import qiskit print(qiskit.__qiskit_version__)
+```
+
+```
+{'qiskit-terra': '0.19.1', 'qiskit-aer': '0.9.1', 'qiskit-ignis': '0.7.0', 'qiskit-ibmq-provider': '0.18.2', 'qiskit-aqua': '0.9.5', 'qiskit': '0.33.1', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+```
+
+```
+{'qiskit-terra': '0.19.1', 'qiskit-aer': '0.9.1', 'qiskit-ignis': '0.7.0', 'qiskit-ibmq-provider': '0.18.2', 'qiskit-aqua': '0.9.5', 'qiskit': '0.33.1', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+```
+
+```
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+```
+
+```
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+```
+
+```
+{'000': 100000}
+```
+
+```
+{'000': 100000}
+```
+
+```
+qiskit==0.34.0
+```
+
+```
+import qiskit print(qiskit.__qiskit_version__)
+```
+
+```
+import qiskit print(qiskit.__qiskit_version__)
+```
+
+```
+{'qiskit-terra': '0.19.1', 'qiskit-aer': '0.10.1', 'qiskit-ignis': '0.7.0', 'qiskit-ibmq-provider': '0.18.3', 'qiskit-aqua': '0.9.5', 'qiskit': '0.34.0', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+```
+
+```
+{'qiskit-terra': '0.19.1', 'qiskit-aer': '0.10.1', 'qiskit-ignis': '0.7.0', 'qiskit-ibmq-provider': '0.18.3', 'qiskit-aqua': '0.9.5', 'qiskit': '0.34.0', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+```
+
+```
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+```
+
+```
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+```
+
+```
+QiskitError: 'No counts for experiment "<qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x1550e7790>"'
+```
+
+```
+QiskitError: 'No counts for experiment "<qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x1550e7790>"'
+```
+
+```
+measure_all()
+```
+
+```
+qiskit==0.33.1
+```
+
+```
+{'000': 100000}
+```
+
+```
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) circ.measure(range(3), range(3)) # actually measure the circuit backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+```
+
+```
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) circ.measure(range(3), range(3)) # actually measure the circuit backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+```
+
+```
+{'000': 50094, '111': 49906}
+```
+
+```
+{'000': 50094, '111': 49906}
+```
+
+Original fixed code:
+qiskit==0.33.1
+
+---CODE_BLOCK---
+
+import qiskit print(qiskit.__qiskit_version__)
+
+---CODE_BLOCK---
+
+import qiskit print(qiskit.__qiskit_version__)
+
+---CODE_BLOCK---
+
+{'qiskit-terra': '0.19.1', 'qiskit-aer': '0.9.1', 'qiskit-ignis': '0.7.0', 'qiskit-ibmq-provider': '0.18.2', 'qiskit-aqua': '0.9.5', 'qiskit': '0.33.1', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+
+---CODE_BLOCK---
+
+{'qiskit-terra': '0.19.1', 'qiskit-aer': '0.9.1', 'qiskit-ignis': '0.7.0', 'qiskit-ibmq-provider': '0.18.2', 'qiskit-aqua': '0.9.5', 'qiskit': '0.33.1', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+
+---CODE_BLOCK---
+
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+
+---CODE_BLOCK---
+
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+
+---CODE_BLOCK---
+
+{'000': 100000}
+
+---CODE_BLOCK---
+
+{'000': 100000}
+
+---CODE_BLOCK---
+
+qiskit==0.34.0
+
+---CODE_BLOCK---
+
+import qiskit print(qiskit.__qiskit_version__)
+
+---CODE_BLOCK---
+
+import qiskit print(qiskit.__qiskit_version__)
+
+---CODE_BLOCK---
+
+{'qiskit-terra': '0.19.1', 'qiskit-aer': '0.10.1', 'qiskit-ignis': '0.7.0', 'qiskit-ibmq-provider': '0.18.3', 'qiskit-aqua': '0.9.5', 'qiskit': '0.34.0', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+
+---CODE_BLOCK---
+
+{'qiskit-terra': '0.19.1', 'qiskit-aer': '0.10.1', 'qiskit-ignis': '0.7.0', 'qiskit-ibmq-provider': '0.18.3', 'qiskit-aqua': '0.9.5', 'qiskit': '0.34.0', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+
+---CODE_BLOCK---
+
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+
+---CODE_BLOCK---
+
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+
+---CODE_BLOCK---
+
+QiskitError: 'No counts for experiment "<qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x1550e7790>"'
+
+---CODE_BLOCK---
+
+QiskitError: 'No counts for experiment "<qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x1550e7790>"'
+
+---CODE_BLOCK---
+
+measure_all()
+
+---CODE_BLOCK---
+
+qiskit==0.33.1
+
+---CODE_BLOCK---
+
+{'000': 100000}
+
+---CODE_BLOCK---
+
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) circ.measure(range(3), range(3)) # actually measure the circuit backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+
+---CODE_BLOCK---
+
+from qiskit import Aer from qiskit import execute from qiskit import QuantumCircuit circ = QuantumCircuit(3,3) circ.h(0) circ.cx(0,1) circ.cx(0,2) circ.measure(range(3), range(3)) # actually measure the circuit backend = Aer.get_backend("qasm_simulator") job = execute(circ, backend, shots = 100000) result = job.result() counts = result.get_counts(circ) print(counts)
+
+---CODE_BLOCK---
+
+{'000': 50094, '111': 49906}
+
+---CODE_BLOCK---
+
+{'000': 50094, '111': 49906}

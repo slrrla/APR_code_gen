@@ -1,0 +1,27 @@
+Title: How can I control multiple gate at once (qiskit)
+
+I have the following circuit in qiskit: I want to use it as a controlled subcircuit in my main quantum circuit like this: Is there any way to control all the gate in the subcircuit at once? I tried to use the method as follow: but I get the following error:
+
+```
+sub = QuantumCircuit(16) sub.cx(12, 4) sub.ccx(12, 4, 5) sub.append(C3XGate(), [4, 12, 5, 6]) sub.append(C4XGate(), [4, 12, 5, 6, 7]) sub.cx(13, 5) sub.ccx(13, 5, 6) sub.append(C3XGate(), [13, 5, 6, 7]) sub.cx(14, 6) sub.ccx(14, 6, 7) sub.cx(15, 7)
+```
+
+```
+sub = QuantumCircuit(16) sub.cx(12, 4) sub.ccx(12, 4, 5) sub.append(C3XGate(), [4, 12, 5, 6]) sub.append(C4XGate(), [4, 12, 5, 6, 7]) sub.cx(13, 5) sub.ccx(13, 5, 6) sub.append(C3XGate(), [13, 5, 6, 7]) sub.cx(14, 6) sub.ccx(14, 6, 7) sub.cx(15, 7)
+```
+
+```
+control()
+```
+
+```
+csub = sub.control(1) circ.compose(csub,[i] ,inplace = True)
+```
+
+```
+csub = sub.control(1) circ.compose(csub,[i] ,inplace = True)
+```
+
+```
+CircuitError: "Trying to compose with another QuantumCircuit which has more 'in' edges."
+```

@@ -1,0 +1,634 @@
+Title:
+Kernel crashing on IterativeAmplitudeEstimation in qiskit
+
+Category:
+Category: Qiskit Algorithms – IterativeAmplitudeEstimation Crashing  
+Winner: Stack Overflow  
+Why Stack Overflow Is Better: It correctly identifies the crash was due to a missing `grover_operator` in the `EstimationProblem`, which is essential for the `IterativeAmplitudeEstimation` to function. The AI answer gave general troubleshooting but missed the root cause and fix.  
+Why Stack Overflow Performs Well in This Category: Experienced Qiskit contributors on Stack Overflow often test and run the tutorial code before answering, helping them catch implementation-specific bugs that AI might overlook.
+
+
+Question:
+Title: Kernel crashing on IterativeAmplitudeEstimation in qiskit
+
+I have run this code on local computer, collab, and Kaggle and everywhere the kernel does on running below line sof code. Could anyone help where and how can I run this code: 
+ epsilon = 0.01
+alpha = 0.05
+
+problem = EstimationProblem(
+ state_preparation=state_preparation,
+ objective_qubits=[len(qr_state)],
+ post_processing=objective.post_processing,
+)
+# construct amplitude estimation
+ae = IterativeAmplitudeEstimation(
+ epsilon_target=epsilon, alpha=alpha, sampler=Sampler(run_options={"shots": 10})
+)
+result = ae.estimate(problem)
+
+ link: https://github.com/qiskit-community/qiskit-finance/blob/main/docs/tutorials/09_credit_risk_analysis.ipynb
+
+```
+epsilon = 0.01
+alpha = 0.05
+
+problem = EstimationProblem(
+    state_preparation=state_preparation,
+    objective_qubits=[len(qr_state)],
+    post_processing=objective.post_processing,
+)
+# construct amplitude estimation
+ae = IterativeAmplitudeEstimation(
+    epsilon_target=epsilon, alpha=alpha, sampler=Sampler(run_options={"shots": 10})
+)
+result = ae.estimate(problem)
+```
+
+Original buggy code:
+epsilon = 0.01
+alpha = 0.05
+
+problem = EstimationProblem(
+    state_preparation=state_preparation,
+    objective_qubits=[len(qr_state)],
+    post_processing=objective.post_processing,
+)
+# construct amplitude estimation
+ae = IterativeAmplitudeEstimation(
+    epsilon_target=epsilon, alpha=alpha, sampler=Sampler(run_options={"shots": 10})
+)
+result = ae.estimate(problem)
+
+Solution explanation:
+We need to define a GroverOperator : 
+ from qiskit.circuit.library import GroverOperator
+grover_op = GroverOperator(state_preparation, insert_barriers=True)
+
+ and input the grover_operator into EstimationProblem : 
+ problem = EstimationProblem(
+ state_preparation=state_preparation,
+ objective_qubits=[len(qr_state)],
+ grover_operator=grover_op,
+ post_processing=objective.post_processing,
+)
+
+ Outputs (I'm running the entire GitHub linked code up to your issue): 
+ Expected Loss E[L]: 0.6289
+Value at Risk VaR[L]: 2.0000
+P[L <= VaR[L]]: 0.9590
+Conditional Value at Risk CVaR[L]: 3.0000
+
+ Exact Expected Loss: 0.6289
+Exact Operator Value: 0.3711
+Mapped Operator value: 0.5152
+Exact value: 0.6289
+Estimated value: 0.0619
+Confidence interval: [0.0410, 0.0829]
+
+ Full Code To Replicate: 
+ import numpy as np
+from qiskit import QuantumRegister, QuantumCircuit
+from qiskit.circuit.library import IntegerComparator
+from qiskit_algorithms import IterativeAmplitudeEstimation, EstimationProblem, IterativeAmplitudeEstimationResult
+from qiskit_aer.primitives import Sampler
+
+n_z = 2
+z_max = 2
+z_values = np.linspace(-z_max, z_max, 2**n_z)
+p_zeros = [0.15, 0.25]
+rhos = [0.1, 0.05]
+lgd = [1, 2]
+K = len(p_zeros)
+alpha = 0.05
+
+from qiskit_finance.circuit.library import GaussianConditionalIndependenceModel as GCI
+u = GCI(n_z, z_max, p_zeros, rhos)
+u.draw()
+
+u_measure = u.measure_all(inplace=False)
+sampler = Sampler()
+job = sampler.run(u_measure)
+binary_probabilities = job.result().quasi_dists[0].binary_probabilities()
+
+p_z = np.zeros(2**n_z)
+p_default = np.zeros(K)
+values = []
+probabilities = []
+num_qubits = u.num_qubits
+
+for i, prob in binary_probabilities.items():
+ # extract value of Z and corresponding probability
+ i_normal = int(i[-n_z:], 2)
+ p_z[i_normal] += prob
+
+ # determine overall default probability for k
+ loss = 0
+ for k in range(K):
+ if i[K - k - 1] == "1":
+ p_default[k] += prob
+ loss += lgd[k]
+
+ values += [loss]
+ probabilities += [prob]
+
+values = np.array(values)
+probabilities = np.array(probabilities)
+
+expected_loss = np.dot(values, probabilities)
+losses = np.sort(np.unique(values))
+pdf = np.zeros(len(losses))
+for i, v in enumerate(losses):
+ pdf[i] += sum(probabilities[values == v])
+cdf = np.cumsum(pdf)
+
+i_var = np.argmax(cdf >= 1 - alpha)
+exact_var = losses[i_var]
+exact_cvar = np.dot(pdf[(i_var + 1) :], losses[(i_var + 1) :]) / sum(pdf[(i_var + 1) :])
+
+print("Expected Loss E[L]: %.4f" % expected_loss)
+print("Value at Risk VaR[L]: %.4f" % exact_var)
+print("P[L <= VaR[L]]: %.4f" % cdf[exact_var])
+print("Conditional Value at Risk CVaR[L]: %.4f" % exact_cvar)
+
+from matplotlib import pyplot as plt
+plt.bar(losses, pdf)
+plt.axvline(expected_loss, color="green", linestyle="--", label="E[L]")
+plt.axvline(exact_var, color="orange", linestyle="--", label="VaR(L)")
+plt.axvline(exact_cvar, color="red", linestyle="--", label="CVaR(L)")
+plt.legend(fontsize=15)
+plt.xlabel("Loss L ($)", size=15)
+plt.ylabel("probability (%)", size=15)
+plt.title("Loss Distribution", size=20)
+plt.xticks(size=15)
+plt.yticks(size=15)
+plt.show()
+
+from qiskit.circuit.library import WeightedAdder
+agg = WeightedAdder(n_z + K, [0] * n_z + lgd)
+
+from qiskit.circuit.library import LinearAmplitudeFunction
+# define linear objective function
+breakpoints = [0]
+slopes = [1]
+offsets = [0]
+f_min = 0
+f_max = sum(lgd)
+c_approx = 0.25
+
+objective = LinearAmplitudeFunction(
+ agg.num_sum_qubits,
+ slope=slopes,
+ offset=offsets,
+ # max value that can be reached by the qubit register (will not always be reached)
+ domain=(0, 2**agg.num_sum_qubits - 1),
+ image=(f_min, f_max),
+ rescaling_factor=c_approx,
+ breakpoints=breakpoints,
+)
+
+qr_state = QuantumRegister(u.num_qubits, "state")
+qr_sum = QuantumRegister(agg.num_sum_qubits, "sum")
+qr_carry = QuantumRegister(agg.num_carry_qubits, "carry")
+qr_obj = QuantumRegister(1, "objective")
+
+# define the circuit
+state_preparation = QuantumCircuit(qr_state, qr_obj, qr_sum, qr_carry, name="A")
+
+# load the random variable
+state_preparation.append(u.to_gate(), qr_state)
+
+# aggregate
+state_preparation.append(agg.to_gate(), qr_state[:] + qr_sum[:] + qr_carry[:])
+
+# linear objective function
+state_preparation.append(objective.to_gate(), qr_sum[:] + qr_obj[:])
+
+# uncompute aggregation
+state_preparation.append(agg.to_gate().inverse(), qr_state[:] + qr_sum[:] + qr_carry[:])
+
+# draw the circuit
+state_preparation.draw()
+
+state_preparation_measure = state_preparation.measure_all(inplace=False)
+sampler = Sampler()
+job = sampler.run(state_preparation_measure)
+binary_probabilities = job.result().quasi_dists[0].binary_probabilities()
+
+value = 0
+for i, prob in binary_probabilities.items():
+ if prob > 1e-6 and i[-(len(qr_state) + 1) :][0] == "1":
+ value += prob
+
+print("Exact Expected Loss: %.4f" % expected_loss)
+print("Exact Operator Value: %.4f" % value)
+print("Mapped Operator value: %.4f" % objective.post_processing(value))
+
+epsilon = 0.01
+alpha = 0.05
+
+from qiskit.circuit.library import GroverOperator
+grover_op = GroverOperator(state_preparation, insert_barriers=True)
+problem = EstimationProblem(
+ state_preparation=state_preparation,
+ objective_qubits=[len(qr_state)],
+ grover_operator=grover_op,
+ post_processing=objective.post_processing,
+)
+# construct amplitude estimation
+ae = IterativeAmplitudeEstimation(
+ epsilon_target=epsilon, alpha=alpha, sampler=Sampler(run_options={"shots": 100, "seed": 75})
+)
+
+result = ae.estimate(problem)
+
+conf_int = np.array(result.confidence_interval_processed)
+print("Exact value: \t%.4f" % expected_loss)
+print("Estimated value:\t%.4f" % result.estimation_processed)
+print("Confidence interval: \t[%.4f, %.4f]" % tuple(conf_int))
+
+```
+from qiskit.circuit.library import GroverOperator
+grover_op = GroverOperator(state_preparation, insert_barriers=True)
+```
+
+```
+problem = EstimationProblem(
+    state_preparation=state_preparation,
+    objective_qubits=[len(qr_state)],
+    grover_operator=grover_op,
+    post_processing=objective.post_processing,
+)
+```
+
+```
+Expected Loss E[L]:                0.6289
+Value at Risk VaR[L]:              2.0000
+P[L <= VaR[L]]:                    0.9590
+Conditional Value at Risk CVaR[L]: 3.0000
+```
+
+```
+Exact Expected Loss:   0.6289
+Exact Operator Value:  0.3711
+Mapped Operator value: 0.5152
+Exact value:        0.6289
+Estimated value:    0.0619
+Confidence interval:    [0.0410, 0.0829]
+```
+
+```
+import numpy as np
+from qiskit import QuantumRegister, QuantumCircuit
+from qiskit.circuit.library import IntegerComparator
+from qiskit_algorithms import IterativeAmplitudeEstimation, EstimationProblem, IterativeAmplitudeEstimationResult
+from qiskit_aer.primitives import Sampler
+
+n_z = 2
+z_max = 2
+z_values = np.linspace(-z_max, z_max, 2**n_z)
+p_zeros = [0.15, 0.25]
+rhos = [0.1, 0.05]
+lgd = [1, 2]
+K = len(p_zeros)
+alpha = 0.05
+
+from qiskit_finance.circuit.library import GaussianConditionalIndependenceModel as GCI
+u = GCI(n_z, z_max, p_zeros, rhos)
+u.draw()
+
+u_measure = u.measure_all(inplace=False)
+sampler = Sampler()
+job = sampler.run(u_measure)
+binary_probabilities = job.result().quasi_dists[0].binary_probabilities()
+
+p_z = np.zeros(2**n_z)
+p_default = np.zeros(K)
+values = []
+probabilities = []
+num_qubits = u.num_qubits
+
+for i, prob in binary_probabilities.items():
+    # extract value of Z and corresponding probability
+    i_normal = int(i[-n_z:], 2)
+    p_z[i_normal] += prob
+
+    # determine overall default probability for k
+    loss = 0
+    for k in range(K):
+        if i[K - k - 1] == "1":
+            p_default[k] += prob
+            loss += lgd[k]
+
+    values += [loss]
+    probabilities += [prob]
+
+
+values = np.array(values)
+probabilities = np.array(probabilities)
+
+expected_loss = np.dot(values, probabilities)
+losses = np.sort(np.unique(values))
+pdf = np.zeros(len(losses))
+for i, v in enumerate(losses):
+    pdf[i] += sum(probabilities[values == v])
+cdf = np.cumsum(pdf)
+
+i_var = np.argmax(cdf >= 1 - alpha)
+exact_var = losses[i_var]
+exact_cvar = np.dot(pdf[(i_var + 1) :], losses[(i_var + 1) :]) / sum(pdf[(i_var + 1) :])
+
+print("Expected Loss E[L]:                %.4f" % expected_loss)
+print("Value at Risk VaR[L]:              %.4f" % exact_var)
+print("P[L <= VaR[L]]:                    %.4f" % cdf[exact_var])
+print("Conditional Value at Risk CVaR[L]: %.4f" % exact_cvar)
+
+from matplotlib import pyplot as plt
+plt.bar(losses, pdf)
+plt.axvline(expected_loss, color="green", linestyle="--", label="E[L]")
+plt.axvline(exact_var, color="orange", linestyle="--", label="VaR(L)")
+plt.axvline(exact_cvar, color="red", linestyle="--", label="CVaR(L)")
+plt.legend(fontsize=15)
+plt.xlabel("Loss L ($)", size=15)
+plt.ylabel("probability (%)", size=15)
+plt.title("Loss Distribution", size=20)
+plt.xticks(size=15)
+plt.yticks(size=15)
+plt.show()
+
+from qiskit.circuit.library import WeightedAdder
+agg = WeightedAdder(n_z + K, [0] * n_z + lgd)
+
+from qiskit.circuit.library import LinearAmplitudeFunction
+# define linear objective function
+breakpoints = [0]
+slopes = [1]
+offsets = [0]
+f_min = 0
+f_max = sum(lgd)
+c_approx = 0.25
+
+objective = LinearAmplitudeFunction(
+    agg.num_sum_qubits,
+    slope=slopes,
+    offset=offsets,
+    # max value that can be reached by the qubit register (will not always be reached)
+    domain=(0, 2**agg.num_sum_qubits - 1),
+    image=(f_min, f_max),
+    rescaling_factor=c_approx,
+    breakpoints=breakpoints,
+)
+
+qr_state = QuantumRegister(u.num_qubits, "state")
+qr_sum = QuantumRegister(agg.num_sum_qubits, "sum")
+qr_carry = QuantumRegister(agg.num_carry_qubits, "carry")
+qr_obj = QuantumRegister(1, "objective")
+
+# define the circuit
+state_preparation = QuantumCircuit(qr_state, qr_obj, qr_sum, qr_carry, name="A")
+
+# load the random variable
+state_preparation.append(u.to_gate(), qr_state)
+
+# aggregate
+state_preparation.append(agg.to_gate(), qr_state[:] + qr_sum[:] + qr_carry[:])
+
+# linear objective function
+state_preparation.append(objective.to_gate(), qr_sum[:] + qr_obj[:])
+
+# uncompute aggregation
+state_preparation.append(agg.to_gate().inverse(), qr_state[:] + qr_sum[:] + qr_carry[:])
+
+# draw the circuit
+state_preparation.draw()
+
+state_preparation_measure = state_preparation.measure_all(inplace=False)
+sampler = Sampler()
+job = sampler.run(state_preparation_measure)
+binary_probabilities = job.result().quasi_dists[0].binary_probabilities()
+
+value = 0
+for i, prob in binary_probabilities.items():
+    if prob > 1e-6 and i[-(len(qr_state) + 1) :][0] == "1":
+        value += prob
+
+print("Exact Expected Loss:   %.4f" % expected_loss)
+print("Exact Operator Value:  %.4f" % value)
+print("Mapped Operator value: %.4f" % objective.post_processing(value))
+
+epsilon = 0.01
+alpha = 0.05
+
+
+from qiskit.circuit.library import GroverOperator
+grover_op = GroverOperator(state_preparation, insert_barriers=True)
+problem = EstimationProblem(
+    state_preparation=state_preparation,
+    objective_qubits=[len(qr_state)],
+    grover_operator=grover_op,
+    post_processing=objective.post_processing,
+)
+# construct amplitude estimation
+ae = IterativeAmplitudeEstimation(
+    epsilon_target=epsilon, alpha=alpha, sampler=Sampler(run_options={"shots": 100, "seed": 75})
+)
+
+result = ae.estimate(problem)
+
+conf_int = np.array(result.confidence_interval_processed)
+print("Exact value:    \t%.4f" % expected_loss)
+print("Estimated value:\t%.4f" % result.estimation_processed)
+print("Confidence interval: \t[%.4f, %.4f]" % tuple(conf_int))
+```
+
+Original fixed code:
+from qiskit.circuit.library import GroverOperator
+grover_op = GroverOperator(state_preparation, insert_barriers=True)
+
+---CODE_BLOCK---
+
+problem = EstimationProblem(
+    state_preparation=state_preparation,
+    objective_qubits=[len(qr_state)],
+    grover_operator=grover_op,
+    post_processing=objective.post_processing,
+)
+
+---CODE_BLOCK---
+
+Expected Loss E[L]:                0.6289
+Value at Risk VaR[L]:              2.0000
+P[L <= VaR[L]]:                    0.9590
+Conditional Value at Risk CVaR[L]: 3.0000
+
+---CODE_BLOCK---
+
+Exact Expected Loss:   0.6289
+Exact Operator Value:  0.3711
+Mapped Operator value: 0.5152
+Exact value:        0.6289
+Estimated value:    0.0619
+Confidence interval:    [0.0410, 0.0829]
+
+---CODE_BLOCK---
+
+import numpy as np
+from qiskit import QuantumRegister, QuantumCircuit
+from qiskit.circuit.library import IntegerComparator
+from qiskit_algorithms import IterativeAmplitudeEstimation, EstimationProblem, IterativeAmplitudeEstimationResult
+from qiskit_aer.primitives import Sampler
+
+n_z = 2
+z_max = 2
+z_values = np.linspace(-z_max, z_max, 2**n_z)
+p_zeros = [0.15, 0.25]
+rhos = [0.1, 0.05]
+lgd = [1, 2]
+K = len(p_zeros)
+alpha = 0.05
+
+from qiskit_finance.circuit.library import GaussianConditionalIndependenceModel as GCI
+u = GCI(n_z, z_max, p_zeros, rhos)
+u.draw()
+
+u_measure = u.measure_all(inplace=False)
+sampler = Sampler()
+job = sampler.run(u_measure)
+binary_probabilities = job.result().quasi_dists[0].binary_probabilities()
+
+p_z = np.zeros(2**n_z)
+p_default = np.zeros(K)
+values = []
+probabilities = []
+num_qubits = u.num_qubits
+
+for i, prob in binary_probabilities.items():
+    # extract value of Z and corresponding probability
+    i_normal = int(i[-n_z:], 2)
+    p_z[i_normal] += prob
+
+    # determine overall default probability for k
+    loss = 0
+    for k in range(K):
+        if i[K - k - 1] == "1":
+            p_default[k] += prob
+            loss += lgd[k]
+
+    values += [loss]
+    probabilities += [prob]
+
+
+values = np.array(values)
+probabilities = np.array(probabilities)
+
+expected_loss = np.dot(values, probabilities)
+losses = np.sort(np.unique(values))
+pdf = np.zeros(len(losses))
+for i, v in enumerate(losses):
+    pdf[i] += sum(probabilities[values == v])
+cdf = np.cumsum(pdf)
+
+i_var = np.argmax(cdf >= 1 - alpha)
+exact_var = losses[i_var]
+exact_cvar = np.dot(pdf[(i_var + 1) :], losses[(i_var + 1) :]) / sum(pdf[(i_var + 1) :])
+
+print("Expected Loss E[L]:                %.4f" % expected_loss)
+print("Value at Risk VaR[L]:              %.4f" % exact_var)
+print("P[L <= VaR[L]]:                    %.4f" % cdf[exact_var])
+print("Conditional Value at Risk CVaR[L]: %.4f" % exact_cvar)
+
+from matplotlib import pyplot as plt
+plt.bar(losses, pdf)
+plt.axvline(expected_loss, color="green", linestyle="--", label="E[L]")
+plt.axvline(exact_var, color="orange", linestyle="--", label="VaR(L)")
+plt.axvline(exact_cvar, color="red", linestyle="--", label="CVaR(L)")
+plt.legend(fontsize=15)
+plt.xlabel("Loss L ($)", size=15)
+plt.ylabel("probability (%)", size=15)
+plt.title("Loss Distribution", size=20)
+plt.xticks(size=15)
+plt.yticks(size=15)
+plt.show()
+
+from qiskit.circuit.library import WeightedAdder
+agg = WeightedAdder(n_z + K, [0] * n_z + lgd)
+
+from qiskit.circuit.library import LinearAmplitudeFunction
+# define linear objective function
+breakpoints = [0]
+slopes = [1]
+offsets = [0]
+f_min = 0
+f_max = sum(lgd)
+c_approx = 0.25
+
+objective = LinearAmplitudeFunction(
+    agg.num_sum_qubits,
+    slope=slopes,
+    offset=offsets,
+    # max value that can be reached by the qubit register (will not always be reached)
+    domain=(0, 2**agg.num_sum_qubits - 1),
+    image=(f_min, f_max),
+    rescaling_factor=c_approx,
+    breakpoints=breakpoints,
+)
+
+qr_state = QuantumRegister(u.num_qubits, "state")
+qr_sum = QuantumRegister(agg.num_sum_qubits, "sum")
+qr_carry = QuantumRegister(agg.num_carry_qubits, "carry")
+qr_obj = QuantumRegister(1, "objective")
+
+# define the circuit
+state_preparation = QuantumCircuit(qr_state, qr_obj, qr_sum, qr_carry, name="A")
+
+# load the random variable
+state_preparation.append(u.to_gate(), qr_state)
+
+# aggregate
+state_preparation.append(agg.to_gate(), qr_state[:] + qr_sum[:] + qr_carry[:])
+
+# linear objective function
+state_preparation.append(objective.to_gate(), qr_sum[:] + qr_obj[:])
+
+# uncompute aggregation
+state_preparation.append(agg.to_gate().inverse(), qr_state[:] + qr_sum[:] + qr_carry[:])
+
+# draw the circuit
+state_preparation.draw()
+
+state_preparation_measure = state_preparation.measure_all(inplace=False)
+sampler = Sampler()
+job = sampler.run(state_preparation_measure)
+binary_probabilities = job.result().quasi_dists[0].binary_probabilities()
+
+value = 0
+for i, prob in binary_probabilities.items():
+    if prob > 1e-6 and i[-(len(qr_state) + 1) :][0] == "1":
+        value += prob
+
+print("Exact Expected Loss:   %.4f" % expected_loss)
+print("Exact Operator Value:  %.4f" % value)
+print("Mapped Operator value: %.4f" % objective.post_processing(value))
+
+epsilon = 0.01
+alpha = 0.05
+
+
+from qiskit.circuit.library import GroverOperator
+grover_op = GroverOperator(state_preparation, insert_barriers=True)
+problem = EstimationProblem(
+    state_preparation=state_preparation,
+    objective_qubits=[len(qr_state)],
+    grover_operator=grover_op,
+    post_processing=objective.post_processing,
+)
+# construct amplitude estimation
+ae = IterativeAmplitudeEstimation(
+    epsilon_target=epsilon, alpha=alpha, sampler=Sampler(run_options={"shots": 100, "seed": 75})
+)
+
+result = ae.estimate(problem)
+
+conf_int = np.array(result.confidence_interval_processed)
+print("Exact value:    \t%.4f" % expected_loss)
+print("Estimated value:\t%.4f" % result.estimation_processed)
+print("Confidence interval: \t[%.4f, %.4f]" % tuple(conf_int))

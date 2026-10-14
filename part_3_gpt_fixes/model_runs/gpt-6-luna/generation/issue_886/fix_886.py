@@ -1,0 +1,12 @@
+# FIX: Aer does not accept the circuit's `crx` instruction directly -> import `transpile`, because transpilation converts it to instructions the backend supports
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import Aer
+import numpy as np
+
+circ = QuantumCircuit(2, 2)
+circ.crx(np.pi/2, 0, 1)
+circ.measure_all()
+
+# FIX: the untranspiled circuit contains an unsupported `crx` instruction -> transpile it for the backend before running, because Aer then receives supported instructions
+job = Aer.get_backend('qasm_simulator').run(transpile(circ, Aer.get_backend('qasm_simulator')))
+job.result().get_counts()

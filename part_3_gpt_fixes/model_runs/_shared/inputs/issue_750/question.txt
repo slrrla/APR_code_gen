@@ -1,0 +1,19 @@
+Title: Subsystem Composition in Qiskit
+
+I am reading Subsystem Composition in Qiskit Tutorial "Operators" https://qiskit.org/documentation/tutorials/circuits_advanced/02_operators_overview.html#Subsystem-Composition Why the above code will have the following output? Could anyone explain and provide math derivation? Thank you very much!
+
+```
+# Compose XZ with an 3-qubit identity operator op = Operator(np.eye(2 ** 3)) XZ = Operator(Pauli(label='XZ')) op.compose(XZ, qargs=[0, 2])
+```
+
+```
+# Compose XZ with an 3-qubit identity operator op = Operator(np.eye(2 ** 3)) XZ = Operator(Pauli(label='XZ')) op.compose(XZ, qargs=[0, 2])
+```
+
+```
+Operator([[ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j], [ 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j]], input_dims=(2, 2, 2), output_dims=(2, 2, 2))
+```
+
+```
+Operator([[ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j], [ 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j]], input_dims=(2, 2, 2), output_dims=(2, 2, 2))
+```

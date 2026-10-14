@@ -1,0 +1,30 @@
+# FIX: The simulator cannot execute the opaque U_s gate -> import transpile, because it lowers custom gates to supported instructions
+from qiskit import QuantumCircuit, QuantumRegister, Aer, transpile
+
+def diffuser(nqubits):
+    qc = QuantumCircuit(nqubits)
+    for qubit in range(nqubits):
+        qc.h(qubit)
+    for qubit in range(nqubits):
+        qc.x(qubit)
+    qc.h(nqubits-1)
+    qc.mct(list(range(nqubits-1)), nqubits-1)
+    qc.h(nqubits-1)
+    for qubit in range(nqubits):
+        qc.x(qubit)
+    for qubit in range(nqubits):
+        qc.h(qubit)
+    U_s = qc.to_gate()
+    U_s.name = "U$_s$"
+    return U_s
+
+psi = QuantumRegister(3, 'psi')
+
+backend = Aer.get_backend("statevector_simulator")
+circuit = QuantumCircuit(psi)
+circuit.append(diffuser(3), psi)
+
+# FIX: Running the circuit directly leaves U_s unsupported -> transpile it for the backend, because Aer requires supported instructions
+job = backend.run(transpile(circuit, backend))
+
+v = job.result().get_statevector(circuit)

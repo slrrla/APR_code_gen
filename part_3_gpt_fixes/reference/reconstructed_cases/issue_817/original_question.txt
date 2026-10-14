@@ -1,0 +1,91 @@
+Title:
+How to solve "Maximum allowed dimension exceeded" while trying to run Grover's algorithm in IBM backend?
+
+Category:
+
+
+Question:
+Title: How to solve "Maximum allowed dimension exceeded" while trying to run Grover's algorithm in IBM backend?
+
+I am trying to run Grover's algorithm on IBM backend. The previous code was running fine but due to some recent changes in qiskit, I had to modify it. But I can't seem to fix this "Maximum allowed dimension exceeded" error. Here's the code I have installed all the necessary modules and saved the account. But I am getting the following error. The three IBM backends I have access to all have 127 no.of qubits. And The transpiled circuit depth is 10. How do I go about fixing this?
+
+```
+from qiskit_ibm_provider import IBMProvider from qiskit.primitives import Sampler # Define the oracle def oracle(circuit, register, marked_state): for i in range(len(marked_state)): if marked_state[i] == '1': circuit.x(register[i]) # Flip the qubit if the marked state bit is 1 circuit.cz(register[0], register[1]) # Flip amplitude of the marked state for i in range(len(marked_state)): if marked_state[i] == '1': circuit.x(register[i]) # Undo the flip # Define the Grover diffusion operator def grover_diffusion(circuit, register): circuit.h(register) circuit.x(register) circuit.h(register[1]) circuit.cx(register[0], register[1]) circuit.h(register[1]) circuit.x(register) circuit.h(register) # Define the Grover algorithm def grover(marked_state): n = len(marked_state) qr = QuantumRegister(n, "q") cr = ClassicalRegister(n, "c") circuit = QuantumCircuit(qr, cr) # Apply Hadamard gates circuit.h(qr) # Grover iterations num_iterations = int(round((2 ** n) ** 0.5)) for _ in range(num_iterations): oracle(circuit, qr, marked_state) grover_diffusion(circuit, qr) # Measure the qubits circuit.measure(qr, cr) # Initialize IBM provider and authenticate provider = IBMProvider() # Get available backends backends = provider.backends() # Choose the first backend from the list backend = backends[0] # Use the first backend directly print(f"Running on backend: {backend}") # Transpile the circuit for the chosen backend transpiled_circuit = transpile(circuit, backend, optimization_level=3) # Execute the circuit using the Sampler primitive sampler = Sampler() job = sampler.run(circuits=[transpiled_circuit], shots=1024) result = job.result() # Extract and display results counts = result.quasi_dists[0].binary_probabilities() print(f"Counts: {counts}") # Return the most probable result return max(counts, key=counts.get) # Test the Grover algorithm marked_state = "01" result = grover(marked_state) print(f"The marked state is {result}")
+```
+
+```
+from qiskit_ibm_provider import IBMProvider from qiskit.primitives import Sampler # Define the oracle def oracle(circuit, register, marked_state): for i in range(len(marked_state)): if marked_state[i] == '1': circuit.x(register[i]) # Flip the qubit if the marked state bit is 1 circuit.cz(register[0], register[1]) # Flip amplitude of the marked state for i in range(len(marked_state)): if marked_state[i] == '1': circuit.x(register[i]) # Undo the flip # Define the Grover diffusion operator def grover_diffusion(circuit, register): circuit.h(register) circuit.x(register) circuit.h(register[1]) circuit.cx(register[0], register[1]) circuit.h(register[1]) circuit.x(register) circuit.h(register) # Define the Grover algorithm def grover(marked_state): n = len(marked_state) qr = QuantumRegister(n, "q") cr = ClassicalRegister(n, "c") circuit = QuantumCircuit(qr, cr) # Apply Hadamard gates circuit.h(qr) # Grover iterations num_iterations = int(round((2 ** n) ** 0.5)) for _ in range(num_iterations): oracle(circuit, qr, marked_state) grover_diffusion(circuit, qr) # Measure the qubits circuit.measure(qr, cr) # Initialize IBM provider and authenticate provider = IBMProvider() # Get available backends backends = provider.backends() # Choose the first backend from the list backend = backends[0] # Use the first backend directly print(f"Running on backend: {backend}") # Transpile the circuit for the chosen backend transpiled_circuit = transpile(circuit, backend, optimization_level=3) # Execute the circuit using the Sampler primitive sampler = Sampler() job = sampler.run(circuits=[transpiled_circuit], shots=1024) result = job.result() # Extract and display results counts = result.quasi_dists[0].binary_probabilities() print(f"Counts: {counts}") # Return the most probable result return max(counts, key=counts.get) # Test the Grover algorithm marked_state = "01" result = grover(marked_state) print(f"The marked state is {result}")
+```
+
+```
+<ipython-input-29-3f21d98de38a> in <cell line: 71>() 69 # Test the Grover algorithm 70 marked_state = "01" ---> 71 result = grover(marked_state) 72 print(f"The marked state is {result}") 8 frames /usr/local/lib/python3.10/dist-packages/qiskit/quantum_info/states/statevector.py in from_instruction(cls, instruction) 770 instruction = instruction.to_instruction() 771 # Initialize an the statevector in the all |0> state --> 772 init = np.zeros(2**instruction.num_qubits, dtype=complex) 773 init[0] = 1.0 774 vec = Statevector(init, dims=instruction.num_qubits * (2,)) ValueError: Maximum allowed dimension exceeded
+```
+
+```
+<ipython-input-29-3f21d98de38a> in <cell line: 71>() 69 # Test the Grover algorithm 70 marked_state = "01" ---> 71 result = grover(marked_state) 72 print(f"The marked state is {result}") 8 frames /usr/local/lib/python3.10/dist-packages/qiskit/quantum_info/states/statevector.py in from_instruction(cls, instruction) 770 instruction = instruction.to_instruction() 771 # Initialize an the statevector in the all |0> state --> 772 init = np.zeros(2**instruction.num_qubits, dtype=complex) 773 init[0] = 1.0 774 vec = Statevector(init, dims=instruction.num_qubits * (2,)) ValueError: Maximum allowed dimension exceeded
+```
+
+Original buggy code:
+from qiskit_ibm_provider import IBMProvider from qiskit.primitives import Sampler # Define the oracle def oracle(circuit, register, marked_state): for i in range(len(marked_state)): if marked_state[i] == '1': circuit.x(register[i]) # Flip the qubit if the marked state bit is 1 circuit.cz(register[0], register[1]) # Flip amplitude of the marked state for i in range(len(marked_state)): if marked_state[i] == '1': circuit.x(register[i]) # Undo the flip # Define the Grover diffusion operator def grover_diffusion(circuit, register): circuit.h(register) circuit.x(register) circuit.h(register[1]) circuit.cx(register[0], register[1]) circuit.h(register[1]) circuit.x(register) circuit.h(register) # Define the Grover algorithm def grover(marked_state): n = len(marked_state) qr = QuantumRegister(n, "q") cr = ClassicalRegister(n, "c") circuit = QuantumCircuit(qr, cr) # Apply Hadamard gates circuit.h(qr) # Grover iterations num_iterations = int(round((2 ** n) ** 0.5)) for _ in range(num_iterations): oracle(circuit, qr, marked_state) grover_diffusion(circuit, qr) # Measure the qubits circuit.measure(qr, cr) # Initialize IBM provider and authenticate provider = IBMProvider() # Get available backends backends = provider.backends() # Choose the first backend from the list backend = backends[0] # Use the first backend directly print(f"Running on backend: {backend}") # Transpile the circuit for the chosen backend transpiled_circuit = transpile(circuit, backend, optimization_level=3) # Execute the circuit using the Sampler primitive sampler = Sampler() job = sampler.run(circuits=[transpiled_circuit], shots=1024) result = job.result() # Extract and display results counts = result.quasi_dists[0].binary_probabilities() print(f"Counts: {counts}") # Return the most probable result return max(counts, key=counts.get) # Test the Grover algorithm marked_state = "01" result = grover(marked_state) print(f"The marked state is {result}")
+
+---CODE_BLOCK---
+
+from qiskit_ibm_provider import IBMProvider from qiskit.primitives import Sampler # Define the oracle def oracle(circuit, register, marked_state): for i in range(len(marked_state)): if marked_state[i] == '1': circuit.x(register[i]) # Flip the qubit if the marked state bit is 1 circuit.cz(register[0], register[1]) # Flip amplitude of the marked state for i in range(len(marked_state)): if marked_state[i] == '1': circuit.x(register[i]) # Undo the flip # Define the Grover diffusion operator def grover_diffusion(circuit, register): circuit.h(register) circuit.x(register) circuit.h(register[1]) circuit.cx(register[0], register[1]) circuit.h(register[1]) circuit.x(register) circuit.h(register) # Define the Grover algorithm def grover(marked_state): n = len(marked_state) qr = QuantumRegister(n, "q") cr = ClassicalRegister(n, "c") circuit = QuantumCircuit(qr, cr) # Apply Hadamard gates circuit.h(qr) # Grover iterations num_iterations = int(round((2 ** n) ** 0.5)) for _ in range(num_iterations): oracle(circuit, qr, marked_state) grover_diffusion(circuit, qr) # Measure the qubits circuit.measure(qr, cr) # Initialize IBM provider and authenticate provider = IBMProvider() # Get available backends backends = provider.backends() # Choose the first backend from the list backend = backends[0] # Use the first backend directly print(f"Running on backend: {backend}") # Transpile the circuit for the chosen backend transpiled_circuit = transpile(circuit, backend, optimization_level=3) # Execute the circuit using the Sampler primitive sampler = Sampler() job = sampler.run(circuits=[transpiled_circuit], shots=1024) result = job.result() # Extract and display results counts = result.quasi_dists[0].binary_probabilities() print(f"Counts: {counts}") # Return the most probable result return max(counts, key=counts.get) # Test the Grover algorithm marked_state = "01" result = grover(marked_state) print(f"The marked state is {result}")
+
+---CODE_BLOCK---
+
+<ipython-input-29-3f21d98de38a> in <cell line: 71>() 69 # Test the Grover algorithm 70 marked_state = "01" ---> 71 result = grover(marked_state) 72 print(f"The marked state is {result}") 8 frames /usr/local/lib/python3.10/dist-packages/qiskit/quantum_info/states/statevector.py in from_instruction(cls, instruction) 770 instruction = instruction.to_instruction() 771 # Initialize an the statevector in the all |0> state --> 772 init = np.zeros(2**instruction.num_qubits, dtype=complex) 773 init[0] = 1.0 774 vec = Statevector(init, dims=instruction.num_qubits * (2,)) ValueError: Maximum allowed dimension exceeded
+
+---CODE_BLOCK---
+
+<ipython-input-29-3f21d98de38a> in <cell line: 71>() 69 # Test the Grover algorithm 70 marked_state = "01" ---> 71 result = grover(marked_state) 72 print(f"The marked state is {result}") 8 frames /usr/local/lib/python3.10/dist-packages/qiskit/quantum_info/states/statevector.py in from_instruction(cls, instruction) 770 instruction = instruction.to_instruction() 771 # Initialize an the statevector in the all |0> state --> 772 init = np.zeros(2**instruction.num_qubits, dtype=complex) 773 init[0] = 1.0 774 vec = Statevector(init, dims=instruction.num_qubits * (2,)) ValueError: Maximum allowed dimension exceeded
+
+Solution explanation:
+The issue is that you are transpiling your circuit to have a total of 127 qubits but you are not really executing your circuit in IBM's hardware; rather you are trying to run it on a local simulator. This is because, by using the following line of code: you are importing Qiskit's , which uses a simulator under the hood. Trying to use a simulator to run a 127-qubit circuit will then throw an error due to lack of memory in your local system. To fix this issue, you need to instead import the from the Qiskit IBM Runtime package, and then specify the backend you want to run the circuit on within the Sampler itself using the argument. Here's a small example of how to do this in the latest version of Qiskit:
+
+```
+from qiskit.primitives import Sampler
+```
+
+```
+Sampler
+```
+
+```
+SamplerV2
+```
+
+```
+mode
+```
+
+```
+# imports from qiskit import QuantumCircuit, transpile from qiskit_ibm_runtime import SamplerV2, QiskitRuntimeService backend_qpu = QiskitRuntimeService().backend(name='ibm_brisbane') # Create circuit qc = QuantumCircuit(2) qc.h(1) qc.cx(1,0) qc.measure_all() # transpile to backend qc_t = transpile(qc,backend=backend_qpu) # Execute simulation sampler_qpu = SamplerV2(mode=backend_qpu) job = sampler_qpu.run([qc_t],shots=1000) # Extract results counts = job.result()[0].data.meas.get_counts() print(counts)
+```
+
+```
+# imports from qiskit import QuantumCircuit, transpile from qiskit_ibm_runtime import SamplerV2, QiskitRuntimeService backend_qpu = QiskitRuntimeService().backend(name='ibm_brisbane') # Create circuit qc = QuantumCircuit(2) qc.h(1) qc.cx(1,0) qc.measure_all() # transpile to backend qc_t = transpile(qc,backend=backend_qpu) # Execute simulation sampler_qpu = SamplerV2(mode=backend_qpu) job = sampler_qpu.run([qc_t],shots=1000) # Extract results counts = job.result()[0].data.meas.get_counts() print(counts)
+```
+
+Original fixed code:
+from qiskit.primitives import Sampler
+
+---CODE_BLOCK---
+
+Sampler
+
+---CODE_BLOCK---
+
+SamplerV2
+
+---CODE_BLOCK---
+
+mode
+
+---CODE_BLOCK---
+
+# imports from qiskit import QuantumCircuit, transpile from qiskit_ibm_runtime import SamplerV2, QiskitRuntimeService backend_qpu = QiskitRuntimeService().backend(name='ibm_brisbane') # Create circuit qc = QuantumCircuit(2) qc.h(1) qc.cx(1,0) qc.measure_all() # transpile to backend qc_t = transpile(qc,backend=backend_qpu) # Execute simulation sampler_qpu = SamplerV2(mode=backend_qpu) job = sampler_qpu.run([qc_t],shots=1000) # Extract results counts = job.result()[0].data.meas.get_counts() print(counts)
+
+---CODE_BLOCK---
+
+# imports from qiskit import QuantumCircuit, transpile from qiskit_ibm_runtime import SamplerV2, QiskitRuntimeService backend_qpu = QiskitRuntimeService().backend(name='ibm_brisbane') # Create circuit qc = QuantumCircuit(2) qc.h(1) qc.cx(1,0) qc.measure_all() # transpile to backend qc_t = transpile(qc,backend=backend_qpu) # Execute simulation sampler_qpu = SamplerV2(mode=backend_qpu) job = sampler_qpu.run([qc_t],shots=1000) # Extract results counts = job.result()[0].data.meas.get_counts() print(counts)

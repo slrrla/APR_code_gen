@@ -1,0 +1,92 @@
+Title:
+How to calculate an Expected Value of some operator acting on qubits?
+
+Category:
+Category: Other (General Questions)
+
+Why AI Solution Wins in This Category:
+In the "Other (General Questions)" category, clarity, usability, and matching the user's exact need matter most. The AI's answer is:
+
+Focused on the specific operator mentioned,
+
+More beginner-friendly and executable,
+
+Avoids unnecessary generalizations like basis rotations or external libraries (e.g., PennyLane),
+
+Provides a complete Qiskit example.
+
+This makes it more practical and directly applicable for someone trying to implement VQE with Pauli operators.
+
+Question:
+Title: How to calculate an Expected Value of some operator acting on qubits?
+
+I'm trying to implement the Variational Quantum Eigensolver in Qiskit. Suppose, I have an operator $A = \sigma_1^z\sigma_2^z$ acting on some two-qubit state $|\psi\rangle$. After a measurement I get a set of probabilities corresponding to states $|00\rangle$, $|01\rangle$, $|10\rangle$, $|11\rangle$. My question is: How to calculate $\langle\psi|A|\psi\rangle$ using known set of probabilities?
+
+Original buggy code:
+I'm trying to implement the Variational Quantum Eigensolver in Qiskit. Suppose, I have an operator $A = \sigma_1^z\sigma_2^z$ acting on some two-qubit state $|\psi\rangle$. After a measurement I get a set of probabilities corresponding to states $|00\rangle$, $|01\rangle$, $|10\rangle$, $|11\rangle$. My question is: How to calculate $\langle\psi|A|\psi\rangle$ using known set of probabilities?
+
+Solution explanation:
+Qiskit currently supports measurements in the computational basis from Qiskit Terra and Aer, that is, returning if the qubit is in state $|1\rangle$, and if the qubit is measured to be in state $|0\rangle$. However, it is relatively easy to perform a change of basis unitary to our quantum circuit just prior to measurement, in order to instead measure in the eigenbasis of an arbitrary operator $A$: First, we need to compute the eigendecomposition of our Hermitian observable $A|v_i\rangle=\lambda_i|v_i\rangle$. Since $A$ is Hermitian, we are always able to diagonalize $A$ in this eigenbasis: $$A = \sum_{i}\lambda_i |v_i\rangle \langle v_i|= U^\dagger \Lambda U$$ where $\Lambda = \text{diag}(\lambda_1,\dots,\lambda_n)$ and $U$ is a unitary matrix composed of the eigenvectors down the columns. Next, we apply the unitary operation $U$ to the end of our quantum circuit, using . To see why, note that $$\langle\psi|A|\psi\rangle = \langle\psi|U^\dagger \Lambda U|\psi\rangle = \langle\psi'|\Lambda|\psi'\rangle $$ where $|\psi'\rangle = U|\psi\rangle.$ Since $\Lambda$ is diagonal, we have transformed the problem from one where we must perform a measurement in an arbitrary basis, to one where we simply measure in the computational basis. Finally, we measure the state $|\psi'\rangle$ in the computational basis $|i \rangle$ using , and execute the jobs to get the counts and probabilities $\mathbb{P}_i = |\langle i|\psi'\rangle|^2$. Using the previously computed eigenvalues of $A$, we can now reconstruct the expectation value: $$\langle \psi | A | \psi\rangle = \langle\psi'|\Lambda|\psi'\rangle = \sum_i \langle\psi'|i\rangle \langle i | \Lambda | i\rangle \langle i|\psi'\rangle = \sum_i \lambda_i \mathbb{P}_i$$ For example, For a more high-level interface to coding and running variational quantum algorithms, you can also check out the PennyLane Python library, which has a Qiskit plugin available for using Qiskit simulators and IBM hardware as a backend. For example, a expectation values of arbitrary operators in PennyLane using qiskit looks like this: You can use NumPy, TensorFlow, or PyTorch to do the optimization - check out some of the tutorials. Disclaimer: I am one of the developers on PennyLane.
+
+```
+1
+```
+
+```
+0
+```
+
+```
+qc.unitary
+```
+
+```
+qc.measure(q, c)
+```
+
+```
+shots = result.results[0].shots counts = result.get_counts() probs = sorted([(i, c/shots) for i, c in counts.items()]) P = np.float64(np.array(probs)[:, 1]) A_expectation = lambda @ p
+```
+
+```
+shots = result.results[0].shots counts = result.get_counts() probs = sorted([(i, c/shots) for i, c in counts.items()]) P = np.float64(np.array(probs)[:, 1]) A_expectation = lambda @ p
+```
+
+```
+import pennylane as qml dev = qml.device('qiskit.basicaer', wires=2) # use 'qiskit.ibm' instead to run on hardware @qml.qnode(dev) def circuit(x, y, z): qml.RX(x, wires=0) qml.RY(y, wires=1) qml.RZ(z, wires=0) qml.CNOT(wires=[0, 1]) return qml.expval(qml.Hermitian(A, wires=[0, 1])) def cost(x, y, z): return (1-circuit(x, y, z))**2 # optimization follows
+```
+
+```
+import pennylane as qml dev = qml.device('qiskit.basicaer', wires=2) # use 'qiskit.ibm' instead to run on hardware @qml.qnode(dev) def circuit(x, y, z): qml.RX(x, wires=0) qml.RY(y, wires=1) qml.RZ(z, wires=0) qml.CNOT(wires=[0, 1]) return qml.expval(qml.Hermitian(A, wires=[0, 1])) def cost(x, y, z): return (1-circuit(x, y, z))**2 # optimization follows
+```
+
+Original fixed code:
+1
+
+---CODE_BLOCK---
+
+0
+
+---CODE_BLOCK---
+
+qc.unitary
+
+---CODE_BLOCK---
+
+qc.measure(q, c)
+
+---CODE_BLOCK---
+
+shots = result.results[0].shots counts = result.get_counts() probs = sorted([(i, c/shots) for i, c in counts.items()]) P = np.float64(np.array(probs)[:, 1]) A_expectation = lambda @ p
+
+---CODE_BLOCK---
+
+shots = result.results[0].shots counts = result.get_counts() probs = sorted([(i, c/shots) for i, c in counts.items()]) P = np.float64(np.array(probs)[:, 1]) A_expectation = lambda @ p
+
+---CODE_BLOCK---
+
+import pennylane as qml dev = qml.device('qiskit.basicaer', wires=2) # use 'qiskit.ibm' instead to run on hardware @qml.qnode(dev) def circuit(x, y, z): qml.RX(x, wires=0) qml.RY(y, wires=1) qml.RZ(z, wires=0) qml.CNOT(wires=[0, 1]) return qml.expval(qml.Hermitian(A, wires=[0, 1])) def cost(x, y, z): return (1-circuit(x, y, z))**2 # optimization follows
+
+---CODE_BLOCK---
+
+import pennylane as qml dev = qml.device('qiskit.basicaer', wires=2) # use 'qiskit.ibm' instead to run on hardware @qml.qnode(dev) def circuit(x, y, z): qml.RX(x, wires=0) qml.RY(y, wires=1) qml.RZ(z, wires=0) qml.CNOT(wires=[0, 1]) return qml.expval(qml.Hermitian(A, wires=[0, 1])) def cost(x, y, z): return (1-circuit(x, y, z))**2 # optimization follows

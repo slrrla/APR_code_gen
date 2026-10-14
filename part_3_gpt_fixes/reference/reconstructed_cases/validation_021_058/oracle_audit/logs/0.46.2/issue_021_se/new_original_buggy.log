@@ -1,0 +1,35 @@
+test_custom_gate_execution_and_amplitudes (oracle_issue_021_se_new.TestIntent.test_custom_gate_execution_and_amplitudes) ... Simulation failed and returned the following error message:
+ERROR: Failed to load qobj: Invalid gate name :"CNOTNOT".
+
+ERROR
+
+======================================================================
+ERROR: test_custom_gate_execution_and_amplitudes (oracle_issue_021_se_new.TestIntent.test_custom_gate_execution_and_amplitudes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\test-new.py", line 25, in test_custom_gate_execution_and_amplitudes
+    ns = load_simulated_target(MUT, expected)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\simulation_oracle.py", line 65, in load_simulated_target
+    namespace = runpy.run_path(path)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\validation_021_058\oracle_audit\mutants\issue_021_se\original_buggy.py", line 28, in <module>
+    result = svsim.run(qobj).result().get_statevector()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_2\Lib\site-packages\qiskit\result\result.py", line 314, in get_statevector
+    self.data(experiment)["statevector"], decimals=decimals
+    ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_2\Lib\site-packages\qiskit\result\result.py", line 187, in data
+    return self._get_experiment(experiment).data.to_dict()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_2\Lib\site-packages\qiskit\result\result.py", line 357, in _get_experiment
+    raise QiskitError(
+qiskit.exceptions.QiskitError: 'You have to select a circuit or schedule when there is more than one available'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+FAILED (errors=1)

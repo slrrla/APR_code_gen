@@ -1,0 +1,111 @@
+Title:
+How to add two Bits using single Qubit on Quantum Computer
+
+Category:
+Category: Quantum Logic / Arithmetic  
+Winner: AI  
+Why AI is Better: It corrects the user’s misconception that a single qubit can add two bits, explains why that’s impossible, and then provides a complete full adder circuit as a proper solution. The Stack Overflow answer offers working code but does not clarify the fundamental concept.  
+Why This Matters: Teaching correct quantum fundamentals is crucial—misconceptions like "a qubit stores 2 bits" are common and must be addressed directly to build deeper understanding.
+
+
+Question:
+Title: How to add two Bits using single Qubit on Quantum Computer
+
+As we knew that a qubit have the capacity to store two bit at a time. I am curious to add two bits using single qubit.
+I try a lot but failed, please give some hints if someone know. 
+ Code: 
+ from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
+from numpy import pi
+
+qreg_q = QuantumRegister(2, 'q')
+creg_c = ClassicalRegister(2, 'c')
+circuit = QuantumCircuit(qreg_q, creg_c)
+
+circuit.x(qreg_q[0])
+circuit.measure(qreg_q[0], creg_c[0])
+circuit.measure(qreg_q[1], creg_c[0])
+circuit.x(qreg_q[1])
+
+ Circuit Diagram:
+
+```
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
+from numpy import pi
+
+qreg_q = QuantumRegister(2, 'q')
+creg_c = ClassicalRegister(2, 'c')
+circuit = QuantumCircuit(qreg_q, creg_c)
+
+circuit.x(qreg_q[0])
+circuit.measure(qreg_q[0], creg_c[0])
+circuit.measure(qreg_q[1], creg_c[0])
+circuit.x(qreg_q[1])
+```
+
+Original buggy code:
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
+from numpy import pi
+
+qreg_q = QuantumRegister(2, 'q')
+creg_c = ClassicalRegister(2, 'c')
+circuit = QuantumCircuit(qreg_q, creg_c)
+
+circuit.x(qreg_q[0])
+circuit.measure(qreg_q[0], creg_c[0])
+circuit.measure(qreg_q[1], creg_c[0])
+circuit.x(qreg_q[1])
+
+Solution explanation:
+To conduct conventional addition (adding two bits) using quantum bits (qubits), at least two qubits are required to represent the two input bits, perform quantum operations on them, and then measure the output. 
+ qreg_q = QuantumRegister(3, 'q')
+creg_c = ClassicalRegister(2, 'c')
+circuit = QuantumCircuit(qreg_q, creg_c)
+
+# Set the input bits A and B (00 + 01 = 01)
+circuit.x(qreg_q[0]) # Set A to 1
+circuit.x(qreg_q[1]) # Set B to 1
+
+# Perform addition
+circuit.ccx(qreg_q[0], qreg_q[1], qreg_q[2]) # Controlled-X gate for the sum
+circuit.cx(qreg_q[0], qreg_q[1]) # Carry
+
+# Measure the result
+circuit.measure(qreg_q[1], creg_c[0]) # Result bit
+circuit.measure(qreg_q[2], creg_c[1]) # Carry bit
+
+ The code in this example conducts quantum addition, measures the result and the carry, and sets A and B to 1 (01 in binary). In this instance, the outcome will be 01 (binary).
+
+```
+qreg_q = QuantumRegister(3, 'q')
+creg_c = ClassicalRegister(2, 'c')
+circuit = QuantumCircuit(qreg_q, creg_c)
+
+# Set the input bits A and B (00 + 01 = 01)
+circuit.x(qreg_q[0])  # Set A to 1
+circuit.x(qreg_q[1])  # Set B to 1
+
+# Perform addition
+circuit.ccx(qreg_q[0], qreg_q[1], qreg_q[2])  # Controlled-X gate for the sum
+circuit.cx(qreg_q[0], qreg_q[1])  # Carry
+
+# Measure the result
+circuit.measure(qreg_q[1], creg_c[0])  # Result bit
+circuit.measure(qreg_q[2], creg_c[1])  # Carry bit
+```
+
+Original fixed code:
+qreg_q = QuantumRegister(3, 'q')
+creg_c = ClassicalRegister(2, 'c')
+circuit = QuantumCircuit(qreg_q, creg_c)
+
+# Set the input bits A and B (00 + 01 = 01)
+circuit.x(qreg_q[0])  # Set A to 1
+circuit.x(qreg_q[1])  # Set B to 1
+
+# Perform addition
+circuit.ccx(qreg_q[0], qreg_q[1], qreg_q[2])  # Controlled-X gate for the sum
+circuit.cx(qreg_q[0], qreg_q[1])  # Carry
+
+# Measure the result
+circuit.measure(qreg_q[1], creg_c[0])  # Result bit
+circuit.measure(qreg_q[2], creg_c[1])  # Carry bit

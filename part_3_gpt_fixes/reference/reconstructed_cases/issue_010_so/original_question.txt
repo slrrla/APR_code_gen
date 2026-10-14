@@ -1,0 +1,57 @@
+Title:
+How to build a complex controlled gate in the Qiskit?
+
+Category:
+
+Category: Circuit Construction (Complex Gate Logic)
+Winner: AI
+Why AI is Better: AI demonstrated how to construct a complex multi-controlled SWAP operation using MCXGate and CSwapGate, and explained how to build logic equivalent to chained .c_if() conditions using quantum control. It also added version-specific guidance.
+Why AI Wins in This Category: In circuit logic construction, AI stands out by combining multiple Qiskit features like MCX, custom gate composition, and conditional logic simulation. This depth is typically missing from Stack Overflow answers.
+
+
+
+Question:
+Title: How to build a complex controlled gate in the Qiskit?
+
+I work on theory tasks in quantum computing, and make simple experiments with Qiskit. Unfortunately, I can't find a way how to make a complex control gates there, where control is in the quantum register. 
+
+ I would like to have a "c_if" analogue, which can be chained and use quantum bits as a control.
+Smth like 
+
+ swap(q1, q2).c_if(q0,Zero).c_if(q3,One)
+
+ Is there such an operation in the qiskit? How could I emulate such an operation if it doesn't exist?
+
+```
+swap(q1, q2).c_if(q0,Zero).c_if(q3,One)
+```
+
+Original buggy code:
+swap(q1, q2).c_if(q0,Zero).c_if(q3,One)
+
+Solution explanation:
+Check out Qiskit documentation for the MCXGate, know as the Multi-controlled-X Gate. This gate lets you define how many control qubits you would like to include (perhaps the majority of your quantum register) and define a control state. 
+
+from qiskit import * 
+
+my_circuit = QuantumRegister(3,3)
+
+my_circuit.append(circuit.library.MCXGate(2, ctrl_state='10'), [0,1,2]) 
+
+ Check out the documentation here . 
+ There are also variations that will do Y gate Z gate or whatever you like depending if the circuit sees the correct control gate.
+
+```
+from qiskit import * 
+
+my_circuit = QuantumRegister(3,3)
+
+my_circuit.append(circuit.library.MCXGate(2, ctrl_state='10'), [0,1,2])
+```
+
+Original fixed code:
+from qiskit import * 
+
+my_circuit = QuantumRegister(3,3)
+
+my_circuit.append(circuit.library.MCXGate(2, ctrl_state='10'), [0,1,2])

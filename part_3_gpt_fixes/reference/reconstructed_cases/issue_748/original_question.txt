@@ -1,0 +1,35 @@
+Title:
+How to parallelly run a quantum circuit on IBMQ?
+
+Category:
+
+
+Question:
+Title: How to parallelly run a quantum circuit on IBMQ?
+
+I am trying to implement the following circuit and my code is The above circuit has size 5 and depth 3. My question is, how can I run the circuit parallelly. I mean, the gate and gate will be run at the same time and the total running time is dominated by the depth. I found a related question in Creating and running parallel circuits in Qiskit. However, in that question, the author tries to run several independent experiments rather than run the gates in a circuit parallelly.
+
+```
+circuit.cx(qr[0], qr[1])
+```
+
+```
+circuit.cx(qr[2], qr[3])
+```
+
+Original buggy code:
+circuit.cx(qr[0], qr[1])
+
+---CODE_BLOCK---
+
+circuit.cx(qr[2], qr[3])
+
+Solution explanation:
+Qiskit implements a transpiler which optimizes the circuits that you provide. This means it modifies the circuit so that it can be run on the backend and also optimizes it so that anything that can possibly be run in parallel is done so. To run with the maximum level of optimization you can run . There is more information about the transpiler here. If you would like even finer control of when things are executed you can create a Pulse Schedule. There is more information about this here.
+
+```
+execute(circuit, optimization_level=3)
+```
+
+Original fixed code:
+execute(circuit, optimization_level=3)

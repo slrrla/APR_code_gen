@@ -1,0 +1,7 @@
+from qiskit.quantum_info import Operator
+
+i, j, N = 2, 8, 10
+# FIX: The base operator had only five qubits, so qargs exceeded its range -> size it to N qubits, because the embedded operator acts on those subsystem indices.
+op = Operator.from_label('I' * N)
+opZ = Operator.from_label('Z' * (j - i - 1))
+op = op._add(opZ, qargs=list(range(i + 1, j)))

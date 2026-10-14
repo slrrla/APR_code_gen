@@ -1,0 +1,155 @@
+Title:
+Qiskit: Extract individual Pauli strings from a PauliSumOp
+
+Category:
+
+
+Question:
+Title: Qiskit: Extract individual Pauli strings from a PauliSumOp
+
+Suppose I have a as follows: I would like to go over the Pauli strings and do something with each string (for example, I need to know the positions of nontrivial Pauli matrices, but that's beside the point). I can iterate over : In this case, will be a with one Pauli string and one weight. The trouble is, I can't understand how to get the string itself (for example as a , but a will also do). Is there a recommended way to extract individual Pauli strings from a ?
+
+```
+PauliSumOp
+```
+
+```
+from qiskit.opflow import X, Z, I, Y h = (X ^ X ^ I) + (I ^ Y ^ Y) + (Z ^ Z ^ X)
+```
+
+```
+from qiskit.opflow import X, Z, I, Y h = (X ^ X ^ I) + (I ^ Y ^ Y) + (Z ^ Z ^ X)
+```
+
+```
+h
+```
+
+```
+for k in h: ...
+```
+
+```
+for k in h: ...
+```
+
+```
+k
+```
+
+```
+PauliSumOp
+```
+
+```
+str
+```
+
+```
+PauliOp
+```
+
+```
+PauliSumOp
+```
+
+Original buggy code:
+PauliSumOp
+
+---CODE_BLOCK---
+
+from qiskit.opflow import X, Z, I, Y h = (X ^ X ^ I) + (I ^ Y ^ Y) + (Z ^ Z ^ X)
+
+---CODE_BLOCK---
+
+from qiskit.opflow import X, Z, I, Y h = (X ^ X ^ I) + (I ^ Y ^ Y) + (Z ^ Z ^ X)
+
+---CODE_BLOCK---
+
+h
+
+---CODE_BLOCK---
+
+for k in h: ...
+
+---CODE_BLOCK---
+
+for k in h: ...
+
+---CODE_BLOCK---
+
+k
+
+---CODE_BLOCK---
+
+PauliSumOp
+
+---CODE_BLOCK---
+
+str
+
+---CODE_BLOCK---
+
+PauliOp
+
+---CODE_BLOCK---
+
+PauliSumOp
+
+Solution explanation:
+You can convert into with .
+
+```
+PauliSumOp
+```
+
+```
+PauliOp
+```
+
+```
+to_pauli_op
+```
+
+```
+from qiskit.opflow import X, Z, I, Y h = (X ^ X ^ I) + (I ^ Y ^ Y) + (Z ^ Z ^ X) for k in h.to_pauli_op(): print(k)
+```
+
+```
+from qiskit.opflow import X, Z, I, Y h = (X ^ X ^ I) + (I ^ Y ^ Y) + (Z ^ Z ^ X) for k in h.to_pauli_op(): print(k)
+```
+
+```
+XXI IYY ZZX
+```
+
+```
+XXI IYY ZZX
+```
+
+Original fixed code:
+PauliSumOp
+
+---CODE_BLOCK---
+
+PauliOp
+
+---CODE_BLOCK---
+
+to_pauli_op
+
+---CODE_BLOCK---
+
+from qiskit.opflow import X, Z, I, Y h = (X ^ X ^ I) + (I ^ Y ^ Y) + (Z ^ Z ^ X) for k in h.to_pauli_op(): print(k)
+
+---CODE_BLOCK---
+
+from qiskit.opflow import X, Z, I, Y h = (X ^ X ^ I) + (I ^ Y ^ Y) + (Z ^ Z ^ X) for k in h.to_pauli_op(): print(k)
+
+---CODE_BLOCK---
+
+XXI IYY ZZX
+
+---CODE_BLOCK---
+
+XXI IYY ZZX

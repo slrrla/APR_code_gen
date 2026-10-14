@@ -1,0 +1,163 @@
+Title:
+Applying Suzuki-Trotter approximation to a Quantum Circuit in Qiskit
+
+Category:
+
+
+Question:
+Title: Applying Suzuki-Trotter approximation to a Quantum Circuit in Qiskit
+
+I am trying to apply the Suzuki-Trotter approximation to a quantum circuit in Qiskit. However, when I attempt to use the st.synthesize() method on my quantum circuit, I encounter the following error: Here is the relevant code part: I want to apply the Suzuki-Trotter approximation to my quantum circuit after adding the gates. How can I resolve the AttributeError and successfully apply the Suzuki-Trotter transformation to my circuit? Also if someone can explain does it matter to apply SuzukiTrotter transformation on each gate individually or on the whole circuit, it'd be quite helpful. Any insights or suggestions would be greatly appreciated! Thank you.
+
+```
+AttributeError: 'QuantumCircuit' object has no attribute 'operator'
+```
+
+```
+AttributeError: 'QuantumCircuit' object has no attribute 'operator'
+```
+
+```
+for j in range(0, N_qubit, 2): H = (U * Z^Z) - (J * X^X) - (J * Y^Y) pauli_ev_gate = PauliEvolutionGate(H, time=t) if j != N_qubit - 1: qc.append(pauli_ev_gate, [j, j+1]) for j in range(1, N_qubit, 2): H = (U * Z^Z) - (J * X^X) - (J * Y^Y) pauli_ev_gate = PauliEvolutionGate(H, time=t) if j != N_qubit - 1: qc.append(pauli_ev_gate, [j, j+1]) for j in range(N_qubit): pauli_ev_gate = PauliEvolutionGate(h[j]*Z, time=t) qc.append(pauli_ev_gate, [j]) st = SuzukiTrotter(order=2, reps=6) qc = st.synthesize(qc)
+```
+
+```
+for j in range(0, N_qubit, 2): H = (U * Z^Z) - (J * X^X) - (J * Y^Y) pauli_ev_gate = PauliEvolutionGate(H, time=t) if j != N_qubit - 1: qc.append(pauli_ev_gate, [j, j+1]) for j in range(1, N_qubit, 2): H = (U * Z^Z) - (J * X^X) - (J * Y^Y) pauli_ev_gate = PauliEvolutionGate(H, time=t) if j != N_qubit - 1: qc.append(pauli_ev_gate, [j, j+1]) for j in range(N_qubit): pauli_ev_gate = PauliEvolutionGate(h[j]*Z, time=t) qc.append(pauli_ev_gate, [j]) st = SuzukiTrotter(order=2, reps=6) qc = st.synthesize(qc)
+```
+
+Original buggy code:
+AttributeError: 'QuantumCircuit' object has no attribute 'operator'
+
+---CODE_BLOCK---
+
+AttributeError: 'QuantumCircuit' object has no attribute 'operator'
+
+---CODE_BLOCK---
+
+for j in range(0, N_qubit, 2): H = (U * Z^Z) - (J * X^X) - (J * Y^Y) pauli_ev_gate = PauliEvolutionGate(H, time=t) if j != N_qubit - 1: qc.append(pauli_ev_gate, [j, j+1]) for j in range(1, N_qubit, 2): H = (U * Z^Z) - (J * X^X) - (J * Y^Y) pauli_ev_gate = PauliEvolutionGate(H, time=t) if j != N_qubit - 1: qc.append(pauli_ev_gate, [j, j+1]) for j in range(N_qubit): pauli_ev_gate = PauliEvolutionGate(h[j]*Z, time=t) qc.append(pauli_ev_gate, [j]) st = SuzukiTrotter(order=2, reps=6) qc = st.synthesize(qc)
+
+---CODE_BLOCK---
+
+for j in range(0, N_qubit, 2): H = (U * Z^Z) - (J * X^X) - (J * Y^Y) pauli_ev_gate = PauliEvolutionGate(H, time=t) if j != N_qubit - 1: qc.append(pauli_ev_gate, [j, j+1]) for j in range(1, N_qubit, 2): H = (U * Z^Z) - (J * X^X) - (J * Y^Y) pauli_ev_gate = PauliEvolutionGate(H, time=t) if j != N_qubit - 1: qc.append(pauli_ev_gate, [j, j+1]) for j in range(N_qubit): pauli_ev_gate = PauliEvolutionGate(h[j]*Z, time=t) qc.append(pauli_ev_gate, [j]) st = SuzukiTrotter(order=2, reps=6) qc = st.synthesize(qc)
+
+Solution explanation:
+The method takes an instance of as a parameter. The issue in your code is that you are passing a . The right way to use : Define your Hamiltonian as one of the operator classes supported by . e.g., Create a . Set its parameter to be that Hamiltonian. Pass the gate to As an example, assume that we have the Hamiltonian: $$H = -J \sum_{i=1}^{N-1} Z_i Z_{i+1} + h\sum_{i=1}^{N} X_i$$ We can define it using the following code snippet: Now we create the evolution gate: Finally, we synthesize it:
+
+```
+SuzukiTrotter.synthesize()
+```
+
+```
+PauliEvolutionGate
+```
+
+```
+QuantumCircuit
+```
+
+```
+SuzukiTrotter.synthesize()
+```
+
+```
+PauliEvolutionGate
+```
+
+```
+SparsePauliOp
+```
+
+```
+PauliEvolutionGate
+```
+
+```
+operator
+```
+
+```
+SuzukiTrotter.synthesize()
+```
+
+```
+from qiskit.circuit import Parameter from qiskit.quantum_info import Pauli, SparsePauliOp import numpy as np J = Parameter("J") h = Parameter("h") N = 4 pauli_list = [] coeffs = [] for i in range(N - 1): x_p = np.zeros(N, dtype=bool) z_p = np.zeros(N, dtype=bool) z_p[i] = True z_p[i + 1] = True pauli_list.append(Pauli((z_p, x_p))) coeffs.append(-J) for i in range(N): x_p = np.zeros(N, dtype=bool) z_p = np.zeros(N, dtype=bool) x_p[i] = True pauli_list.append(Pauli((z_p, x_p))) coeffs.append(h) H = SparsePauliOp(pauli_list, coeffs=coeffs) # assign J & h values: H = H.assign_parameters({ J: 1, h: 1 })
+```
+
+```
+from qiskit.circuit import Parameter from qiskit.quantum_info import Pauli, SparsePauliOp import numpy as np J = Parameter("J") h = Parameter("h") N = 4 pauli_list = [] coeffs = [] for i in range(N - 1): x_p = np.zeros(N, dtype=bool) z_p = np.zeros(N, dtype=bool) z_p[i] = True z_p[i + 1] = True pauli_list.append(Pauli((z_p, x_p))) coeffs.append(-J) for i in range(N): x_p = np.zeros(N, dtype=bool) z_p = np.zeros(N, dtype=bool) x_p[i] = True pauli_list.append(Pauli((z_p, x_p))) coeffs.append(h) H = SparsePauliOp(pauli_list, coeffs=coeffs) # assign J & h values: H = H.assign_parameters({ J: 1, h: 1 })
+```
+
+```
+from qiskit.circuit.library import PauliEvolutionGate gate = PauliEvolutionGate(H)
+```
+
+```
+from qiskit.circuit.library import PauliEvolutionGate gate = PauliEvolutionGate(H)
+```
+
+```
+from qiskit.synthesis import SuzukiTrotter st = SuzukiTrotter(order=2, reps=6) circ = st.synthesize(gate)
+```
+
+```
+from qiskit.synthesis import SuzukiTrotter st = SuzukiTrotter(order=2, reps=6) circ = st.synthesize(gate)
+```
+
+Original fixed code:
+SuzukiTrotter.synthesize()
+
+---CODE_BLOCK---
+
+PauliEvolutionGate
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+SuzukiTrotter.synthesize()
+
+---CODE_BLOCK---
+
+PauliEvolutionGate
+
+---CODE_BLOCK---
+
+SparsePauliOp
+
+---CODE_BLOCK---
+
+PauliEvolutionGate
+
+---CODE_BLOCK---
+
+operator
+
+---CODE_BLOCK---
+
+SuzukiTrotter.synthesize()
+
+---CODE_BLOCK---
+
+from qiskit.circuit import Parameter from qiskit.quantum_info import Pauli, SparsePauliOp import numpy as np J = Parameter("J") h = Parameter("h") N = 4 pauli_list = [] coeffs = [] for i in range(N - 1): x_p = np.zeros(N, dtype=bool) z_p = np.zeros(N, dtype=bool) z_p[i] = True z_p[i + 1] = True pauli_list.append(Pauli((z_p, x_p))) coeffs.append(-J) for i in range(N): x_p = np.zeros(N, dtype=bool) z_p = np.zeros(N, dtype=bool) x_p[i] = True pauli_list.append(Pauli((z_p, x_p))) coeffs.append(h) H = SparsePauliOp(pauli_list, coeffs=coeffs) # assign J & h values: H = H.assign_parameters({ J: 1, h: 1 })
+
+---CODE_BLOCK---
+
+from qiskit.circuit import Parameter from qiskit.quantum_info import Pauli, SparsePauliOp import numpy as np J = Parameter("J") h = Parameter("h") N = 4 pauli_list = [] coeffs = [] for i in range(N - 1): x_p = np.zeros(N, dtype=bool) z_p = np.zeros(N, dtype=bool) z_p[i] = True z_p[i + 1] = True pauli_list.append(Pauli((z_p, x_p))) coeffs.append(-J) for i in range(N): x_p = np.zeros(N, dtype=bool) z_p = np.zeros(N, dtype=bool) x_p[i] = True pauli_list.append(Pauli((z_p, x_p))) coeffs.append(h) H = SparsePauliOp(pauli_list, coeffs=coeffs) # assign J & h values: H = H.assign_parameters({ J: 1, h: 1 })
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import PauliEvolutionGate gate = PauliEvolutionGate(H)
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import PauliEvolutionGate gate = PauliEvolutionGate(H)
+
+---CODE_BLOCK---
+
+from qiskit.synthesis import SuzukiTrotter st = SuzukiTrotter(order=2, reps=6) circ = st.synthesize(gate)
+
+---CODE_BLOCK---
+
+from qiskit.synthesis import SuzukiTrotter st = SuzukiTrotter(order=2, reps=6) circ = st.synthesize(gate)

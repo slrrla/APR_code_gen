@@ -1,0 +1,51 @@
+Title:
+Qiskit optimization_level values
+
+Category:
+Category:
+Import
+
+Why AI Wins in This Category:
+This issue is fundamentally about Qiskit interface understanding—a software usage/import issue rather than algorithmic theory. The AI response gives a practical and visually intuitive way to see differences in optimization levels using real circuits, which is what users in this category care most about.
+
+Question:
+Title: Qiskit optimization_level values
+
+Is there a clear explaination of how exactly optimization_level choice in qiskit's transpile() method affects on circuit? I expected to see some mathematical operations with the gates that similifies the circuit. However, in the source codes (https://qiskit.org/documentation/stubs/qiskit.transpiler.preset_passmanagers.level_1_pass_manager.html#qiskit.transpiler.preset_passmanagers.level_1_pass_manager, https://qiskit.org/documentation/_modules/qiskit/transpiler/preset_passmanagers/level2.html#level_2_pass_manager, https://qiskit.org/documentation/_modules/qiskit/transpiler/preset_passmanagers/level3.html#level_3_pass_manager) there is nothing connected to that.
+
+Original buggy code:
+Is there a clear explaination of how exactly optimization_level choice in qiskit's transpile() method affects on circuit? I expected to see some mathematical operations with the gates that similifies the circuit. However, in the source codes (https://qiskit.org/documentation/stubs/qiskit.transpiler.preset_passmanagers.level_1_pass_manager.html#qiskit.transpiler.preset_passmanagers.level_1_pass_manager, https://qiskit.org/documentation/_modules/qiskit/transpiler/preset_passmanagers/level2.html#level_2_pass_manager, https://qiskit.org/documentation/_modules/qiskit/transpiler/preset_passmanagers/level3.html#level_3_pass_manager) there is nothing connected to that.
+
+Solution explanation:
+watch Circuit Sessions with Kevin Krsulich: https://youtu.be/2T3163VjvWQ?t=1623 and 1MinuteQiskit for easy explanation: https://www.youtube.com/watch?v=xWJbfyE9Vi4 and look at docs explanation: https://qiskit.org/documentation/tutorials/circuits_advanced/04_transpiler_passes_and_passmanager.html#Preset-Pass-Managers From Circuit Sessions with Kevin Krsulich: From source code: in level_1 it will run _opt = [Optimize1qGatesDecomposition(basis_gates), CXCancellation()] in level_2 it run level_3 For the math part, i would recommend watch Synthesis and Optimization of Quantum Circuits - Circuit Sessions with Dmitri Maslov for how much math is applied in it.
+
+```
+_opt = [ Optimize1qGatesDecomposition(basis_gates), CommutativeCancellation(basis_gates=basis_gates), ]
+```
+
+```
+_opt = [ Optimize1qGatesDecomposition(basis_gates), CommutativeCancellation(basis_gates=basis_gates), ]
+```
+
+```
+_opt = [ Collect2qBlocks(), ConsolidateBlocks(basis_gates=basis_gates, target=target), UnitarySynthesis( basis_gates, approximation_degree=approximation_degree, coupling_map=coupling_map, backend_props=backend_properties, method=unitary_synthesis_method, plugin_config=unitary_synthesis_plugin_config, target=target, ), Optimize1qGatesDecomposition(basis_gates), CommutativeCancellation(), ]
+```
+
+```
+_opt = [ Collect2qBlocks(), ConsolidateBlocks(basis_gates=basis_gates, target=target), UnitarySynthesis( basis_gates, approximation_degree=approximation_degree, coupling_map=coupling_map, backend_props=backend_properties, method=unitary_synthesis_method, plugin_config=unitary_synthesis_plugin_config, target=target, ), Optimize1qGatesDecomposition(basis_gates), CommutativeCancellation(), ]
+```
+
+Original fixed code:
+_opt = [ Optimize1qGatesDecomposition(basis_gates), CommutativeCancellation(basis_gates=basis_gates), ]
+
+---CODE_BLOCK---
+
+_opt = [ Optimize1qGatesDecomposition(basis_gates), CommutativeCancellation(basis_gates=basis_gates), ]
+
+---CODE_BLOCK---
+
+_opt = [ Collect2qBlocks(), ConsolidateBlocks(basis_gates=basis_gates, target=target), UnitarySynthesis( basis_gates, approximation_degree=approximation_degree, coupling_map=coupling_map, backend_props=backend_properties, method=unitary_synthesis_method, plugin_config=unitary_synthesis_plugin_config, target=target, ), Optimize1qGatesDecomposition(basis_gates), CommutativeCancellation(), ]
+
+---CODE_BLOCK---
+
+_opt = [ Collect2qBlocks(), ConsolidateBlocks(basis_gates=basis_gates, target=target), UnitarySynthesis( basis_gates, approximation_degree=approximation_degree, coupling_map=coupling_map, backend_props=backend_properties, method=unitary_synthesis_method, plugin_config=unitary_synthesis_plugin_config, target=target, ), Optimize1qGatesDecomposition(basis_gates), CommutativeCancellation(), ]

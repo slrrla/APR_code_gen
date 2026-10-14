@@ -1,0 +1,13 @@
+import numpy as np
+from qiskit.quantum_info import Statevector
+# FIX: imported only Plus, which cannot directly form a projection -> also import MatrixOp, because NumPyEigensolver requires an opflow operator
+from qiskit.opflow import Plus, MatrixOp
+from qiskit.algorithms import NumPyEigensolver
+
+# FIX: Plus @ ~Plus is not defined for Statefunctions -> construct |+><+| as an opflow matrix operator, because the ket-bra projector is a matrix
+proj = MatrixOp(np.array([[0.5, 0.5], [0.5, 0.5]]))
+
+plus = Statevector([1/np.sqrt(2), 1/np.sqrt(2)]).to_operator()
+solver = NumPyEigensolver()
+# FIX: quantum_info.Operator lacks the opflow conversion expected by NumPyEigensolver -> pass the opflow projection operator, because it provides to_spmatrix
+spectrum = solver.compute_eigenvalues(proj)

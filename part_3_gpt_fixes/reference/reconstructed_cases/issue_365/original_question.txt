@@ -1,0 +1,86 @@
+Title:
+AttributeError: 'QuantumCircuit' object has no attribute 'uc'
+
+Category:
+Category: Circuit Construction / Logic / Gates
+
+Why Stack Overflow Solution Wins in This Category:
+In circuit construction tasks, fidelity to gate semantics is critical. The Stack Overflow answer not only explains why the error occurs but also directly substitutes the removed functionality with the correct modern API component (UCGate). The AI response misclassifies the intent behind uc and suggests incorrect alternatives.
+
+Question:
+Title: AttributeError: 'QuantumCircuit' object has no attribute 'uc'
+
+I am getting the below error: while executing the below line. My qiskit version is . My this particular code was running perfectly a month back. Any new update in qiskit? Please help me resolve this error.
+
+```
+AttributeError: 'QuantumCircuit' object has no attribute 'uc'. Did you mean: 'u'?
+```
+
+```
+AttributeError: 'QuantumCircuit' object has no attribute 'uc'. Did you mean: 'u'?
+```
+
+```
+qc.uc(U_0, qc.qubits[j+1:], qc.qubits[j], up_to_diagonal=True)
+```
+
+```
+qc.uc(U_0, qc.qubits[j+1:], qc.qubits[j], up_to_diagonal=True)
+```
+
+```
+qiskit== 1.1
+```
+
+Original buggy code:
+AttributeError: 'QuantumCircuit' object has no attribute 'uc'. Did you mean: 'u'?
+
+---CODE_BLOCK---
+
+AttributeError: 'QuantumCircuit' object has no attribute 'uc'. Did you mean: 'u'?
+
+---CODE_BLOCK---
+
+qc.uc(U_0, qc.qubits[j+1:], qc.qubits[j], up_to_diagonal=True)
+
+---CODE_BLOCK---
+
+qc.uc(U_0, qc.qubits[j+1:], qc.qubits[j], up_to_diagonal=True)
+
+---CODE_BLOCK---
+
+qiskit== 1.1
+
+Solution explanation:
+The method of the class was remove in Qiskit 1.0 (see here). Now you need to import the gate and append it to your circuit. For the code you have above, you would have to instead use:
+
+```
+uc
+```
+
+```
+QuantumCircuit
+```
+
+```
+from qiskit.circuit.library import UCGate uc_gate = UCGate(U_0, up_to_diagonal=True) # define your quantum circuit here... # then append the uc_gate using: qc.append(uc_gate, qc.qubits[j:])
+```
+
+```
+from qiskit.circuit.library import UCGate uc_gate = UCGate(U_0, up_to_diagonal=True) # define your quantum circuit here... # then append the uc_gate using: qc.append(uc_gate, qc.qubits[j:])
+```
+
+Original fixed code:
+uc
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import UCGate uc_gate = UCGate(U_0, up_to_diagonal=True) # define your quantum circuit here... # then append the uc_gate using: qc.append(uc_gate, qc.qubits[j:])
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import UCGate uc_gate = UCGate(U_0, up_to_diagonal=True) # define your quantum circuit here... # then append the uc_gate using: qc.append(uc_gate, qc.qubits[j:])

@@ -1,0 +1,135 @@
+Title:
+What is the purpose of the various qiskit libraries? [duplicate]
+
+Category:
+Category:
+Other (General Questions)
+
+Why Stack Overflow Wins in This Category:
+For general library usage and organization questions, accuracy and currency of information are more important than extended examples. Stack Overflow provides the correct and updated state of the ecosystem (Aqua deprecated, Ignis replaced), which makes it superior in this category.
+
+Question:
+Title: What is the purpose of the various qiskit libraries? [duplicate]
+
+This question already has an answer here: What is the difference between Qiskit Terra, Aer, Ignis and Aqua? (1 answer) Closed 2 years ago. I can't find much resources about how API libraries are organised. We could see versions by using: What is the purpose of these libraries?
+
+```
+Qiskit
+```
+
+```
+import qiskit print(qiskit.__qiskit_version__) >> {'qiskit-terra': '0.21.2', 'qiskit-aer': '0.10.4', 'qiskit-ignis': None, 'qiskit-ibmq-provider': '0.19.2', 'qiskit': '0.37.2', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+```
+
+```
+import qiskit print(qiskit.__qiskit_version__) >> {'qiskit-terra': '0.21.2', 'qiskit-aer': '0.10.4', 'qiskit-ignis': None, 'qiskit-ibmq-provider': '0.19.2', 'qiskit': '0.37.2', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+```
+
+Original buggy code:
+Qiskit
+
+---CODE_BLOCK---
+
+import qiskit print(qiskit.__qiskit_version__) >> {'qiskit-terra': '0.21.2', 'qiskit-aer': '0.10.4', 'qiskit-ignis': None, 'qiskit-ibmq-provider': '0.19.2', 'qiskit': '0.37.2', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+
+---CODE_BLOCK---
+
+import qiskit print(qiskit.__qiskit_version__) >> {'qiskit-terra': '0.21.2', 'qiskit-aer': '0.10.4', 'qiskit-ignis': None, 'qiskit-ibmq-provider': '0.19.2', 'qiskit': '0.37.2', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+
+Solution explanation:
+is the "core" of , containing things like the circuit class, gates, etc. contains circuit simulators to test out your circuit. is for noise modeling, containing various error channels and quantum information and error correction utilities. is for running on the IBM cloud, be it QPUs or hosted simulators. Note: has been superseded by , as in @Egretta.Thula'a comment. itself just packages everything together. , , , and are pretty self explanatory, containing tools to express problems in their respective domains as quantum programs.
+
+```
+-terra
+```
+
+```
+qiskit
+```
+
+```
+-aer
+```
+
+```
+-ignis
+```
+
+```
+-ibmq-provider
+```
+
+```
+-ignis
+```
+
+```
+qiskit-experiments
+```
+
+```
+qiskit
+```
+
+```
+-nature
+```
+
+```
+-finance
+```
+
+```
+-optimization
+```
+
+```
+-machine-learning
+```
+
+Original fixed code:
+-terra
+
+---CODE_BLOCK---
+
+qiskit
+
+---CODE_BLOCK---
+
+-aer
+
+---CODE_BLOCK---
+
+-ignis
+
+---CODE_BLOCK---
+
+-ibmq-provider
+
+---CODE_BLOCK---
+
+-ignis
+
+---CODE_BLOCK---
+
+qiskit-experiments
+
+---CODE_BLOCK---
+
+qiskit
+
+---CODE_BLOCK---
+
+-nature
+
+---CODE_BLOCK---
+
+-finance
+
+---CODE_BLOCK---
+
+-optimization
+
+---CODE_BLOCK---
+
+-machine-learning
