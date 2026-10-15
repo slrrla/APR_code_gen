@@ -1,0 +1,21 @@
+from qiskit import QuantumCircuit, QuantumRegister
+from qiskit.circuit import Gate
+
+def create_oracle(train_register, control):
+    n = len(train_register) + len(control)
+    qc = QuantumCircuit(n, name="oracle")
+    qc.x(n - 1)
+    return qc.to_instruction()
+
+train_register = QuantumRegister(3, name="train_register")
+control = QuantumRegister(1, name="control")
+
+circ = QuantumCircuit(train_register, control)
+
+# FIX: unpacked circ.qregs in the wrong order, so the names were swapped -> unpack as [train_register, control], because the circuit was built with train_register first, so H now acts on the 1-qubit control register
+[train_register, control] = circ.qregs
+circ.h(control)
+
+oracle = create_oracle(train_register, control)
+# FIX: passed a list of two registers, which counts as 2 qargs instead of 4 qubits -> pass a flat list of qubits, because append needs one qubit per instruction wire, and this works for any register length
+circ.append(oracle, list(train_register) + list(control))

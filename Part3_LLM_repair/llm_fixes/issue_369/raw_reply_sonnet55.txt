@@ -1,0 +1,29 @@
+The root cause is that `sub.control(1)` returns a gate acting on 17 qubits (1 control plus 16 target qubits). `compose` was given only `[i]`, a single qubit, so it raised the "more 'in' edges" error. `circ` has 17 qubits, so the controlled gate must be mapped onto all 17 of them. The control must be qubit `i`, and the 16 target qubits must be the remaining ones.
+
+`control()` on a circuit returns a `Gate`, not a `QuantumCircuit`. In current Qiskit, `compose` accepts only circuits, so the gate should be added with `append`. Appending also avoids the `compose` qubit-count check.
+
+The control qubit comes first in the qubit list, followed by the 16 target qubits. With `i = 0`, the targets are qubits 1 to 16, but the intended mapping may differ. The smallest fix that keeps `compose` is to pass all 17 qubits explicitly. I'll use `circ.append`, which accepts a gate, with `[i] + targets`, where targets are the qubits of `circ` other than `i`.
+
+```python
+from qiskit import QuantumCircuit
+from qiskit.circuit.library import C3XGate, C4XGate
+
+sub = QuantumCircuit(16)
+sub.cx(12, 4)
+sub.ccx(12, 4, 5)
+sub.append(C3XGate(), [4, 12, 5, 6])
+sub.append(C4XGate(), [4, 12, 5, 6, 7])
+sub.cx(13, 5)
+sub.ccx(13, 5, 6)
+sub.append(C3XGate(), [13, 5, 6, 7])
+sub.cx(14, 6)
+sub.ccx(14, 6, 7)
+sub.cx(15, 7)
+
+csub = sub.control(1)
+
+i = 0
+circ = QuantumCircuit(17)
+# FIX: composed a 17-qubit controlled gate onto only one qubit -> append it on the control qubit plus all other qubits, because the controlled subcircuit acts on 1 control + 16 target qubits and every one must be mapped
+circ.append(csub, [i] + [q for q in range(17) if q != i])
+```

@@ -1,0 +1,21 @@
+Root cause: `circ.append(gate, qr1[1:2], qr2[0:3])` passes the qubits as two separate arguments, but `append` expects a single list of qubits as its second argument. The third argument is read as `cargs` (classical bits), so this is wrong. The slices also select too few qubits: `qr1[1:2]` is 1 qubit and `qr2[0:3]` is 3, giving 4 in total. A 16x16 unitary acts on 4 qubits, so the count is actually correct. The slice `qr1[1:2]` is a valid way to take qubit 1 of `qr1`, so the only real bug is the call signature.
+
+The fix is to combine the two slices into one list: `qr1[1:2] + qr2[0:3]`. Both slices are lists, so `+` concatenates them.
+
+The `qiskit.extensions` import is deprecated, but the question is about the append call, so I leave the imports alone.
+
+```python
+from qiskit import QuantumRegister, QuantumCircuit
+from qiskit.extensions import UnitaryGate
+from qiskit.quantum_info import random_unitary
+
+gate = UnitaryGate(random_unitary(2 ** 4).data, 'RND-U16')
+
+qr1 = QuantumRegister(2, 'q')
+qr2 = QuantumRegister(3, 'a')
+
+circ = QuantumCircuit(qr1, qr2)
+
+# FIX: qubits passed as two separate arguments (second was treated as cargs) -> pass one concatenated list of qubits, because append takes a single qargs list
+circ.append(gate, qr1[1:2] + qr2[0:3])
+```

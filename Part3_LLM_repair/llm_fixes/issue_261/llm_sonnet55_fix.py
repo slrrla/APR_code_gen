@@ -1,0 +1,10 @@
+from qiskit.opflow import I, X, Y, Z, PauliOp
+
+def read_hamiltonian_from_file():
+    return "1*(X^X^X) - 2*(X^Z^X) + 3*(X^I^X)"
+
+hamiltonian_string = read_hamiltonian_from_file()
+
+# FIX: PauliOp was given a string, which it cannot accept -> evaluate the string as an opflow expression with eval, because the string is an expression of I/X/Y/Z operators that builds a PauliSumOp
+hamiltonian = eval(hamiltonian_string, {"I": I, "X": X, "Y": Y, "Z": Z})
+print(type(hamiltonian))

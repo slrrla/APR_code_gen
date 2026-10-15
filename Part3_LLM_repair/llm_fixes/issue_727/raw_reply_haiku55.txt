@@ -1,0 +1,16 @@
+# NO BUG: Current Qiskit `ParameterExpression` supports `2 ** k` through `__rpow__`, and the rest of the circuit (a 2-qubit `cp` gate with angle `2*pi/2**k`) is correct, so the code is unchanged.
+
+```python
+import numpy
+from math import pi
+from qiskit import QuantumCircuit, QuantumRegister
+from qiskit.circuit import Parameter
+
+k = Parameter('k')
+
+q = QuantumRegister(2)
+CROT_circ = QuantumCircuit(q, name='CROT')
+
+theta = 2 * pi / (2 ** k)
+CROT_circ.cp(theta, 0, 1)
+```

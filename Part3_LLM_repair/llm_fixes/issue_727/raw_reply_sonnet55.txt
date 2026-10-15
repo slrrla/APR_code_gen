@@ -1,0 +1,23 @@
+The crash comes from `2 ** k`. Python evaluates it as `int.__pow__(2, Parameter)`, which fails, and `Parameter` does not implement `__rpow__`. A `ParameterExpression` does have `.exp()` and `.log()`, so the power can be rewritten as `exp(k * ln 2)`.
+
+The smallest change is to compute `2**k` as `(k * numpy.log(2)).exp()`. `numpy` is already imported, so no new dependency is needed. The angle becomes `2*pi / exp(k*ln2)`.
+
+Dividing by an expression is supported through `__rtruediv__`, so `2 * pi / expr` works.
+
+An even simpler form is `2 * pi * (-k * numpy.log(2)).exp()`, but the first form keeps the original structure closest.
+
+```python
+import numpy
+from math import pi
+from qiskit import QuantumCircuit, QuantumRegister
+from qiskit.circuit import Parameter
+
+k = Parameter('k')
+
+q = QuantumRegister(2)
+CROT_circ = QuantumCircuit(q, name='CROT')
+
+# FIX: `2 ** k` raises TypeError because Parameter has no __rpow__ -> rewrote 2**k as (k * ln 2).exp(), because 2**k == exp(k*ln2) and ParameterExpression supports exp()
+theta = 2 * pi / ((k * numpy.log(2)).exp())
+CROT_circ.cp(theta, 0, 1)
+```

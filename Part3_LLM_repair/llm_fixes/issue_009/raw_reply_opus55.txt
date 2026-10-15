@@ -1,0 +1,27 @@
+`'csp_layout'` is not a valid value for `layout_method`, so `transpile` raises the `TranspilerError` before it does anything else. The accepted values are `'trivial'`, `'dense'`, `'noise_adaptive'` and `'sabre'`.
+
+To your first question: with `optimization_level=2` or `3`, the preset pass manager tries a perfect-layout search first. Depending on your Qiskit version, that search is CSPLayout or its successor VF2Layout. It only falls back to the heuristic layout method if no perfect mapping is found.
+
+The smallest fix is to drop the invalid argument. Level 3 then attempts the perfect-layout search automatically.
+
+```python
+from qiskit import QuantumCircuit, transpile
+from qiskit.providers.fake_provider import FakeVigo
+
+qc = QuantumCircuit(3)
+qc.h(0)
+qc.cx(0, 1)
+qc.cx(1, 2)
+qc.measure_all()
+
+backend = FakeVigo()
+
+transpiled = transpile(
+    qc,
+    backend=backend,
+    optimization_level=3,
+    # FIX: invalid layout_method='csp_layout' -> removed the argument, because CSP is not a valid layout_method and optimization_level=3 already tries the perfect-layout search (CSPLayout/VF2Layout) first
+)
+
+print(transpiled)
+```

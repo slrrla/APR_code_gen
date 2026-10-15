@@ -1,0 +1,20 @@
+The code has two problems:
+
+- **`IBMQ` no longer exists.** The `qiskit.IBMQ` provider was removed from current Qiskit, so the import fails.
+- **`ibm_oslo` is retired.** Even with a working provider, the cloud service cannot reach a retired device, so `get_backend('ibm_oslo')` fails with the "backend cannot be reached" error.
+
+The fix is to use the `FakeOslo` backend from `qiskit_ibm_runtime.fake_provider`. It ships with a saved snapshot of the real `ibm_oslo` calibration data, including T1 per qubit. Its `properties()` call returns the same kind of properties object, so the rest of the script works unchanged. Note this is a single saved calibration, not necessarily the one from the day of your experiment.
+
+```python
+# FIX: legacy IBMQ provider (removed) and retired 'ibm_oslo' cannot be reached -> import the FakeOslo snapshot backend, because it ships the recorded ibm_oslo calibration properties offline
+from qiskit_ibm_runtime.fake_provider import FakeOslo
+
+# FIX: provider.get_backend('ibm_oslo') on a retired device fails -> instantiate FakeOslo(), because its properties() returns the stored ibm_oslo data
+backend = FakeOslo()
+
+system = backend
+print(system.properties().backend_version)
+print(system.properties().last_update_date)
+print(system.properties().qubits)
+
+```

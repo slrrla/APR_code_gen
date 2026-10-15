@@ -1,0 +1,19 @@
+The bug is that `initialize` is not a unitary gate. It includes a reset, so `to_gate()` fails on it, and `.control()` cannot be applied to it.
+
+A state-preparation circuit can be controlled instead. `QuantumCircuit.prepare_state` has the same problem, since it also resets. The unitary alternative is `qiskit.circuit.library.StatePreparation`, which is a gate without the reset. It can be used with `qc_gate.append(StatePreparation(state), [0, 1])`, and `to_gate().control(2)` then works.
+
+The smallest change is to replace the `initialize` line with an append of `StatePreparation`. That needs one import, which is part of the fix.
+
+```python
+from qiskit import QuantumCircuit
+# FIX: import StatePreparation, a unitary state-prep gate, because initialize contains a reset and cannot be made a controlled gate
+from qiskit.circuit.library import StatePreparation
+
+state = [0.5, 0.5, 0.5, 0.5]
+
+qc_gate = QuantumCircuit(2)
+# FIX: initialize (non-unitary, includes reset) -> append StatePreparation(state), because it is a unitary gate that to_gate() and control() can handle
+qc_gate.append(StatePreparation(state), [0, 1])
+
+gate = qc_gate.to_gate().control(2)
+```

@@ -1,0 +1,24 @@
+
+test_aer_backend_and_hadamard (__main__.TestIntent.test_aer_backend_and_hadamard) ... ERROR
+
+======================================================================
+ERROR: test_aer_backend_and_hadamard (__main__.TestIntent.test_aer_backend_and_hadamard)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_034\test.py", line 22, in test_aer_backend_and_hadamard
+    ns = load_target()
+         ^^^^^^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_034\test.py", line 14, in load_target
+    return runpy.run_path(MUT)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_034\buggy.py", line 1, in <module>
+    from qiskit import Aer, ClassicalRegister, QuantumCircuit, QuantumRegister
+ImportError: cannot import name 'Aer' from 'qiskit' (C:\qiskit_envs\q102\Lib\site-packages\qiskit\__init__.py)
+
+----------------------------------------------------------------------
+Ran 1 test in 0.004s
+
+FAILED (errors=1)

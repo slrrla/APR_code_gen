@@ -1,0 +1,16 @@
+`QuantumCircuit.u1()` was removed in Qiskit 1.0, so the line `qc.u1(lam, 0)` fails on current versions. The replacement is `qc.p(lam, 0)`. The phase gate `P(λ)` is the same matrix as `U1(λ)`, `diag(1, e^{iλ})`.
+
+On your phase question: transpiling to `['rx', 'ry', 'rz']` gives `Rz(λ)`, and the circuit's `global_phase` is set to `λ/2`. Together they reproduce `U1(λ)` exactly, so no phase is lost.
+
+```python
+from qiskit import QuantumCircuit, transpile
+
+lam = 0.5
+
+qc = QuantumCircuit(1)
+# FIX: QuantumCircuit.u1 was removed in Qiskit 1.0 -> use qc.p, because PhaseGate is the identical replacement for U1 and has a decomposition rule into rx/ry/rz
+qc.p(lam, 0)
+
+transpiled = transpile(qc, basis_gates=['rx', 'ry', 'rz'])
+print(transpiled)
+```

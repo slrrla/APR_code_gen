@@ -1,0 +1,21 @@
+The unitary simulator only records a unitary if the circuit saves it. The circuit has no `save_unitary()` instruction, so `get_unitary()` finds no data. The fix is to add `circuit.save_unitary()` after the Hadamard gate. Since `save_unitary` is a method added to `QuantumCircuit` when `qiskit_aer` is imported, no new import is needed.
+
+The circuit also has a classical register, but no measurement, so that is not a problem. `backend.run(circuit)` on the `AerSimulator` with `method='unitary'` does not need transpiling for `h`, which is a basic gate.
+
+```python
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
+from qiskit_aer import AerSimulator
+
+qreg_q = QuantumRegister(1, 'q')
+creg_c = ClassicalRegister(1, 'c')
+circuit = QuantumCircuit(qreg_q, creg_c)
+circuit.h(0)
+# FIX: the unitary was never saved in the circuit -> added circuit.save_unitary(), because Aer only stores the unitary in the result when a save instruction is present, which lets get_unitary() work
+circuit.save_unitary()
+
+backend = AerSimulator(method='unitary')
+job = backend.run(circuit).result()
+
+unitary = job.get_unitary()
+print(unitary)
+```

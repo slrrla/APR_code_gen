@@ -1,0 +1,12 @@
+```python
+from qiskit import QuantumCircuit
+from numpy import pi
+
+qc = QuantumCircuit(2)
+qc.h([0, 1])
+
+# FIX: `gate1 = qc.h` was a bound method and `-1 * gate1` multiplied a number by a method (TypeError, no gate applied) -> build a real gate with a global phase of pi and append it to the qubit, because -1 is the phase e^{i*pi} and this applies -H to that qubit
+gate1 = QuantumCircuit(1, global_phase=pi)
+gate1.h(0)
+qc.append(gate1.to_gate(), [1])
+```

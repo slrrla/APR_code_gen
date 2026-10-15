@@ -12,12 +12,17 @@ MODEL_FILES = {
     "gpt-6-luna": ("llm_luna6_fix.py", "raw_reply_luna6.txt"),
     "gpt-6-astra": ("llm_astra6_fix.py", "raw_reply_astra6.txt"),
     "gpt-6.1-sol": ("llm_sol61_fix.py", "raw_reply_sol61.txt"),
+    "claude-opus-5-5": ("llm_opus55_fix.py", "raw_reply_opus55.txt"),
+    "claude-sonnet-5-5": ("llm_sonnet55_fix.py", "raw_reply_sonnet55.txt"),
+    "claude-haiku-5-5": ("llm_haiku55_fix.py", "raw_reply_haiku55.txt"),
 }
+CLAUDE_MAX_TOKENS = 16000
 args = sys.argv[1:]
 MODEL = "gpt-5.6-luna"
 if args[:1] == ["--model"]:
     MODEL, args = args[1], args[2:]
 FIX_FILE, REPLY_FILE = MODEL_FILES[MODEL]
+CLAUDE = MODEL.startswith("claude-")
 
 SYSTEM = """You are an expert Qiskit developer repairing a buggy program with the smallest possible change.
 
@@ -61,9 +66,9 @@ Buggy code:
 
 Fix the bug with the smallest possible change."""
 
-def load_key(env_path=REPO / ".env"):
+def load_key(name, env_path=REPO / ".env"):
     for line in open(env_path, encoding="utf-8"):
-        if line.strip().startswith("OPEN_AI_KEY"):
+        if line.strip().startswith(name):
             return line.split("=", 1)[1].strip().strip('"').strip("'")
 
 def clean_question(text):
@@ -79,10 +84,35 @@ def strip_comments(code):
                      if line.strip() or not line) + "\n"
 
 def extract_code(reply):
-    m = re.search(r"```python\s*\n(.*?)```", reply, re.S)
-    return m.group(1) if m else reply
+    blocks = re.findall(r"```python\s*\n(.*?)```", reply, re.S)
+    return blocks[-1] if blocks else reply
 
-client = OpenAI(api_key=load_key())
+def ask(question, code):
+    user = USER.format(question=question, code=code)
+    if CLAUDE:
+        resp = client.messages.create(
+            model=MODEL,
+            max_tokens=CLAUDE_MAX_TOKENS,
+            system=SYSTEM,
+            messages=[{"role": "user", "content": user}],
+        )
+        if resp.stop_reason == "max_tokens":
+            raise SystemExit(f"{MODEL}: reply cut off at {CLAUDE_MAX_TOKENS} tokens")
+        return "".join(b.text for b in resp.content if b.type == "text")
+    resp = client.chat.completions.create(
+        model=MODEL,
+        messages=[
+            {"role": "system", "content": SYSTEM},
+            {"role": "user", "content": user}
+        ],
+    )
+    return resp.choices[0].message.content
+
+if CLAUDE:
+    import anthropic
+    client = anthropic.Anthropic(api_key=load_key("ANTHROPIC_API_KEY"))
+else:
+    client = OpenAI(api_key=load_key("OPEN_AI_KEY"))
 
 for case in args or CASES:
     if (OUT_DIR / case / FIX_FILE).exists():
@@ -94,14 +124,7 @@ for case in args or CASES:
     if stripped.exists() and stripped.read_text(encoding="utf-8") != code:
         raise SystemExit(f"{case}: buggy.py changed since {stripped} was written")
     question = clean_question((CASES_DIR / case / "original_question.txt").read_text(encoding="utf-8"))
-    resp = client.chat.completions.create(
-        model=MODEL,
-        messages=[
-            {"role": "system", "content": SYSTEM},
-            {"role": "user", "content": USER.format(question=question, code=code)}
-        ],
-    )
-    raw_reply = resp.choices[0].message.content
+    raw_reply = ask(question, code)
     fixed_code = extract_code(raw_reply)
 
     out = OUT_DIR / case

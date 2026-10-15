@@ -1,0 +1,39 @@
+The error comes from running `qc_transpiled` on `AerSimulator` without any save instruction. The `QFT` circuit has no `save_statevector`, so Aer returns no statevector data and `get_statevector()` raises `No statevector for experiment "None"`.
+
+Adding a plain `save_statevector()` would not be enough, for two reasons:
+
+- **Size:** after transpiling for Brisbane, the circuit is 127 qubits wide. A full statevector of that size cannot be simulated.
+- **Mismatch with the ideal state:** the 6 logical qubits sit on arbitrary physical qubits, possibly permuted by routing. They would not line up with the 6-qubit `statevector_ideal`.
+
+The fix saves only the 6 logical qubits, in logical order. `final_index_layout()` gives their physical positions after routing, and `save_density_matrix(qubits=...)` saves just those. Aer's qubit truncation then simulates only the qubits the circuit actually uses, and the result can be compared directly with `state_fidelity`.
+
+This simulator has no noise model, so the expected fidelity is about 1.0. To include hardware noise, run the same circuit on a noisy simulator such as `AerSimulator.from_backend(backend_brisbane)`. I did not run this code.
+
+```python
+from qiskit import transpile
+from qiskit.quantum_info import Statevector, state_fidelity
+from qiskit.circuit.library import QFT
+from qiskit_aer import AerSimulator
+from qiskit_ibm_runtime.fake_provider import FakeBrisbane
+
+backend_brisbane = FakeBrisbane()
+
+qc = QFT(6)
+
+qc.remove_final_measurements()
+
+ideal_sim = AerSimulator(method="statevector")
+
+statevector_ideal = Statevector(qc)
+
+qc_transpiled = transpile(qc, backend_brisbane, optimization_level=1)
+# FIX: no save instruction in circuit (and full 127-qubit state is infeasible/mismatched) -> save the state of only the 6 logical qubits via final layout, because Aer only returns explicitly saved data and this matches the ideal 6-qubit state ordering
+qc_transpiled.save_density_matrix(qubits=qc_transpiled.layout.final_index_layout())
+
+job_real = ideal_sim.run(qc_transpiled)
+# FIX: get_statevector() had nothing saved -> read the saved density matrix, because that is the data stored by the save instruction
+statevector_real = job_real.result().data()["density_matrix"]
+
+fidelity = state_fidelity(statevector_ideal, statevector_real)
+print(f"Fidelity tra stato ideale e rumoroso: {fidelity:.4f}")
+```

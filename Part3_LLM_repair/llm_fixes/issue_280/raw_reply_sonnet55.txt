@@ -1,0 +1,18 @@
+The bug is that a 1-qubit depolarizing error is registered on `cx`, a 2-qubit gate. Aer rejects this because the error's qubit count (1) does not match the gate's (2). The fix is to build a 2-qubit depolarizing error and use that for `cx`.
+
+The deprecated import path `qiskit.providers.aer` is not part of the bug, so I left it as is.
+
+```python
+from qiskit.providers.aer.noise import NoiseModel, depolarizing_error
+
+noise_model = NoiseModel()
+
+error = depolarizing_error(0.05, 1)
+noise_model.add_all_qubit_quantum_error(error, ['u1', 'u2', 'u3'])
+
+# FIX: 1-qubit depolarizing error was applied to the 2-qubit 'cx' gate -> use a 2-qubit depolarizing_error for 'cx', because the error's qubit count must match the gate's qubit count
+error_2q = depolarizing_error(0.05, 2)
+noise_model.add_all_qubit_quantum_error(error_2q, ['cx'])
+
+print(noise_model)
+```

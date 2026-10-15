@@ -1,0 +1,23 @@
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import SparsePauliOp
+# FIX: removed QiskitRuntimeService/Options and V1 Estimator imports -> import Session, EstimatorV2 and FakeManilaV2, because Options/V1 primitives were removed and fake backends run in local testing mode
+from qiskit_ibm_runtime import Session, EstimatorV2 as Estimator
+from qiskit_ibm_runtime.fake_provider import FakeManilaV2
+
+qc = QuantumCircuit(1)
+
+O = SparsePauliOp(['Z'])
+
+# FIX: QiskitRuntimeService with retired 'ibmq_qasm_simulator' string -> FakeManilaV2 backend instance, because local testing mode accepts fake backends directly without a service
+backend = FakeManilaV2()
+# FIX: removed Options class -> plain options dict, because Options no longer exists in qiskit_ibm_runtime
+options = {"resilience_level": 0}
+
+# FIX: Session(service=..., backend=...) -> Session(backend=backend), because no service is needed for a fake backend
+with Session(backend=backend) as session:
+    # FIX: Estimator(session=...) -> Estimator(mode=session), because the session keyword was replaced by mode
+    estimator = Estimator(mode=session, options=options)
+    # FIX: run(circuits=..., observables=...) -> run([(qc, O)]), because EstimatorV2 takes a list of PUBs
+    job = estimator.run([(qc, O)])
+    # FIX: result().values -> result()[0].data.evs, because V2 results expose expectation values per PUB
+    print(job.result()[0].data.evs)

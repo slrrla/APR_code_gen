@@ -1,0 +1,15 @@
+The error comes from a size mismatch. `op` is built from `'I' * (j - i - 1)`, so it covers only 5 qubits (indices 0–4). The `qargs` are `[3, 4, 5, 6, 7]`, which point to qubits that don't exist in `op`. That out-of-range index is what surfaces deep inside `np.einsum` as "subscript is not within the valid range".
+
+The base operator needs to span all `N` qubits. Once it does, a second issue shows up. `_add` would give `I^N + Z...Z`, which is a sum of operators. You want the `Z...Z` string on qubits `i+1` to `j-1` with identity elsewhere. Composing the `Z` string onto the `N`-qubit identity at those `qargs` produces exactly that.
+
+```python
+from qiskit.quantum_info import Operator
+
+i, j, N = 2, 8, 10
+# FIX: identity built on j-i-1 qubits -> built on N qubits, because qargs up to j-1 must exist in the base operator
+op = Operator.from_label('I' * N)
+opZ = Operator.from_label('Z' * (j - i - 1))
+# FIX: _add -> compose, because composing Z...Z onto the N-qubit identity at qargs yields Z on qubits i+1..j-1 and I elsewhere (adding would give I + Z...Z)
+op = op.compose(opZ, qargs=list(range(i + 1, j)))
+
+```

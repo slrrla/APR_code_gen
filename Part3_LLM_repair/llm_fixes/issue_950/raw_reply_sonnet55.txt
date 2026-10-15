@@ -1,0 +1,15 @@
+The operator `op` is built on only `j-i-1` = 5 qubits, so `qargs=range(3, 8)` points at qubits that don't exist, which causes the einsum error. The goal is an operator on all `N` qubits, with `ZZ...Z` acting on qubits `i+1` through `j-1`.
+
+The smallest fix is to build the identity on `N` qubits, so the qargs are valid and `opZ` is padded onto them.
+
+`_add` computes self + padded(other), so the result would be I + Z...Z on the chosen qubits. The question only describes constructing the operator, and the code uses `_add`. The reported error comes from the qubit count, so I'm keeping `_add` and changing only the size of `op`.
+
+```python
+from qiskit.quantum_info import Operator
+
+i, j, N = 2, 8, 10
+# FIX: identity operator was built on only j-i-1 qubits, so qargs were out of range -> build it on N qubits, because the qargs index qubits of the full N-qubit system
+op = Operator.from_label('I' * N)
+opZ = Operator.from_label('Z' * (j - i - 1))
+op = op._add(opZ, qargs=list(range(i + 1, j)))
+```

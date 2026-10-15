@@ -1,0 +1,19 @@
+The bug is that `Statevector.from_label` only accepts a single label string, such as `'101'`. Passing the list `['101', '110']` raises an error.
+
+**Fix:** build each marked state with `from_label` and add them. The resulting statevector has amplitude 1 at both `|101⟩` and `|110⟩` and 0 everywhere else.
+
+**Why this works as an oracle (based on recalled Qiskit internals, not verified here):** `GroverOperator` turns a `Statevector` oracle into the diagonal operator `Diagonal((-1) ** oracle.data)`. With that summed vector, this flips the phase of exactly those two states, which gives the requested |Ψ₂⟩. The sum is not normalized, but that is intended: the diagonal needs entries of exactly 0 or 1 to produce ±1 phases.
+
+```python
+from qiskit.quantum_info import Statevector
+from qiskit.circuit.library import GroverOperator
+
+targets = ['101', '110']
+
+# FIX: from_label was given a list, but it accepts only one label string -> sum the statevectors of each target label, because GroverOperator builds Diagonal((-1)**data), so entries of 1 at each target give a phase flip on all marked states
+oracle = sum(Statevector.from_label(t) for t in targets[1:]) + Statevector.from_label(targets[0])
+
+grover_op = GroverOperator(oracle)
+print(grover_op)
+
+```

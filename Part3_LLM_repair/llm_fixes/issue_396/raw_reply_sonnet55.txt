@@ -1,0 +1,12 @@
+```python
+from qiskit.quantum_info import Statevector
+from qiskit.circuit.library import GroverOperator
+
+targets = ['101', '110']
+
+# FIX: Statevector.from_label accepts one label, not a list -> add the Statevectors for each target label, because the Statevector then has amplitude 1 on every marked state and GroverOperator flips the phase of all of them
+oracle = Statevector.from_label(targets[0]) + Statevector.from_label(targets[1])
+
+grover_op = GroverOperator(oracle)
+print(grover_op)
+```

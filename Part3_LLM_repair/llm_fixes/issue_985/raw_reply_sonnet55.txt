@@ -1,0 +1,14 @@
+The bug is that `QuantumCircuit.u1` no longer exists in current Qiskit, so the script fails at `qc.u1`. The equivalent gate is `p`, which applies the same phase gate. When `transpile` rewrites `p(lam)` into `rz(lam)`, it records the leftover `lam/2` in the circuit's global phase, so the phase is preserved.
+
+```python
+from qiskit import QuantumCircuit, transpile
+
+lam = 0.5
+
+qc = QuantumCircuit(1)
+# FIX: removed gate qc.u1 -> use qc.p, because u1 no longer exists and p is its equivalent, which transpiles to rz with the global phase tracked
+qc.p(lam, 0)
+
+transpiled = transpile(qc, basis_gates=['rx', 'ry', 'rz'])
+print(transpiled)
+```

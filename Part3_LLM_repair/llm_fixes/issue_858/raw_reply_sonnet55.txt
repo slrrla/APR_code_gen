@@ -1,0 +1,12 @@
+```python
+# FIX: IBMQ provider cannot reach the retired 'ibm_oslo' (and IBMQ is removed) -> use the offline FakeOslo snapshot, because it ships the stored calibration properties (including T1) without needing the live backend.
+from qiskit_ibm_runtime.fake_provider import FakeOslo
+
+# FIX: no account or provider is needed for the fake backend -> instantiate FakeOslo directly, because it replaces the unreachable provider.get_backend('ibm_oslo') call.
+backend = FakeOslo()
+
+system = backend
+print(system.properties().backend_version)
+print(system.properties().last_update_date)
+print(system.properties().qubits)
+```

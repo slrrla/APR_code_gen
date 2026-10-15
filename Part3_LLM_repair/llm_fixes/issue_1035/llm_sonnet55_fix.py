@@ -1,0 +1,16 @@
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import SparsePauliOp
+from qiskit_ibm_runtime import QiskitRuntimeService, Options, Session, Estimator
+from qiskit_ibm_runtime.fake_provider import FakeManila
+
+qc = QuantumCircuit(1)
+
+O = SparsePauliOp(['Z'])
+
+# FIX: backend was the cloud simulator name routed through a service Session -> use a FakeManila instance and pass it directly to Estimator (local testing mode), because fake backends cannot be used through a cloud Session and this runs the primitive locally with the fake device's noise
+backend = FakeManila()
+options = Options(resilience_level=0)
+
+estimator = Estimator(backend=backend, options=options)
+job = estimator.run(circuits=[qc], observables=[O])
+print(job.result().values)

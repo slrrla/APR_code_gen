@@ -1,0 +1,50 @@
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, transpile
+from qiskit_aer import Aer
+
+def oracle(circuit, register, marked_state):
+    for i in range(len(marked_state)):
+        if marked_state[i] == '1':
+            circuit.x(register[i])
+    circuit.cz(register[0], register[1])
+    for i in range(len(marked_state)):
+        if marked_state[i] == '1':
+            circuit.x(register[i])
+
+def grover_diffusion(circuit, register):
+    circuit.h(register)
+    circuit.x(register)
+    circuit.h(register[1])
+    circuit.cx(register[0], register[1])
+    circuit.h(register[1])
+    circuit.x(register)
+    circuit.h(register)
+
+def grover(marked_state):
+    n = len(marked_state)
+    # FIX: QuantumRegister(n) was created anew at every use, so the gates referenced qubits not in the circuit -> create one register qr and reuse it, because the circuit must act on the same register object
+    qr = QuantumRegister(n)
+    cr = ClassicalRegister(n)
+    # FIX: circuit was built from a new QuantumRegister(n) -> build it from the shared qr, because all gates and measurements must refer to the circuit's own qubits
+    circuit = QuantumCircuit(qr, cr)
+    print(QuantumRegister(n))
+    # FIX: h was applied to a fresh QuantumRegister(n) -> apply it to qr, because the qubits must belong to the circuit
+    circuit.h(qr)
+    num_iterations = int(round((2 ** n) ** 0.5))
+    for i in range(num_iterations):
+        # FIX: oracle was passed a fresh QuantumRegister(n) -> pass qr, because the oracle must act on the circuit's qubits
+        oracle(circuit, qr, marked_state)
+        # FIX: diffusion was passed a fresh QuantumRegister(n) -> pass qr, because the diffusion must act on the circuit's qubits
+        grover_diffusion(circuit, qr)
+    # FIX: measure used a fresh QuantumRegister(n) -> measure qr, because measurements must reference the circuit's qubits
+    circuit.measure(qr, cr)
+    backend = Aer.get_backend('qasm_simulator')
+    # FIX: transpile returns a circuit, which has no .result(), so job.result() fails -> run the transpiled circuit on the backend and take the result from that job, because results come from executing the circuit
+    job = backend.run(transpile(circuit, backend))
+    result = job.result()
+    counts = result.get_counts()
+    x = list(counts.keys())[0]
+    return x
+
+marked_state = '101'
+result = grover(marked_state)
+print(f"The marked state is {result}")

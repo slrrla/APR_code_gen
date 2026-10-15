@@ -1,0 +1,8 @@
+# NO BUG: The code matches the tutorial and the output is correct, because Pauli('XZ') puts Z on qubit 0 and X on qubit 1, and qargs=[0, 2] maps these to qubits 0 and 2, giving X⊗I⊗Z.
+import numpy as np
+from qiskit.quantum_info import Operator, Pauli
+
+op = Operator(np.eye(2 ** 3))
+XZ = Operator(Pauli(label='XZ'))
+result = op.compose(XZ, qargs=[0, 2])
+print(result)

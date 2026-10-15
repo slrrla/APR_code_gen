@@ -1,0 +1,20 @@
+The error comes from `2 ** k`. Older Qiskit versions don't define `__rpow__` on `Parameter`/`ParameterExpression`, so Python can't raise an int to the power of a parameter. That raises `TypeError: unsupported operand type(s) for ** or pow(): 'int' and 'Parameter'`. Newer Qiskit releases may accept `2 ** k` directly; this rewrite works either way.
+
+The fix uses the identity `2**k == exp(k * ln 2)`. Multiplying a parameter by a float is supported, and `numpy.exp` on a `ParameterExpression` calls its own `.exp()` method. The result is still a symbolic expression in `k`. This also puts the file's otherwise unused `numpy` import to work.
+
+```python
+import numpy
+from math import pi
+from qiskit import QuantumCircuit, QuantumRegister
+from qiskit.circuit import Parameter
+
+k = Parameter('k')
+
+q = QuantumRegister(2)
+CROT_circ = QuantumCircuit(q, name='CROT')
+
+# FIX: 2 ** k (int raised to a Parameter) is unsupported -> rewrite as numpy.exp(k * numpy.log(2)), because ParameterExpression supports multiplication and exp(), giving the same value 2**k symbolically
+theta = 2 * pi / numpy.exp(k * numpy.log(2))
+CROT_circ.cp(theta, 0, 1)
+
+```

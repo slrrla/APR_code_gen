@@ -1,0 +1,38 @@
+The fix is to use `num_parameters` instead of `num_parameters_settable` in both prints.
+
+- **Crash:** `num_parameters_settable` is a property on `TwoLocal`/`NLocal`, not a method. Calling it with `()` raises `TypeError: 'int' object is not callable`.
+- **Wrong count after `compose()`:** even used as a property, it only counts the rotation and entanglement parameters that `rot` itself defines. It ignores the gates added by `compose()`, so it stays at 2.
+- **Correct value:** `num_parameters` counts every free parameter in the circuit. After composing, it should give the expected total of 2 + 2 = 4.
+
+```python
+from qiskit.circuit.library import TwoLocal
+import numpy as np
+
+num_qubits = 2
+
+rot = TwoLocal(
+    int(np.sum(num_qubits)),
+    "ry",
+    [],
+    reps=1,
+    skip_final_rotation_layer=True,
+    parameter_prefix="p",
+)
+var = TwoLocal(
+    int(np.sum(num_qubits)),
+    "ry",
+    "cx",
+    entanglement="linear",
+    reps=1,
+    skip_final_rotation_layer=True,
+)
+
+# FIX: called num_parameters_settable() as a method -> use num_parameters property, because num_parameters_settable is a property (not callable) and only counts the NLocal's own blueprint parameters
+print(rot.num_parameters)
+
+rot.compose(var, inplace=True)
+
+# FIX: called num_parameters_settable() as a method -> use num_parameters property, because num_parameters counts all free parameters of the composed circuit (sum of both)
+print(rot.num_parameters)
+
+```

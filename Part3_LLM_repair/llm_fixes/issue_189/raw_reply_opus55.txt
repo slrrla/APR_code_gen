@@ -1,0 +1,33 @@
+The controlled Grover gate `Q` acts on 7 qubits: 6 for the Grover operator plus 1 control. The argument list `qp = list(np.arange(n - j, n + lg + 2))` changes length on each iteration:
+
+- **i=0:** it is `[2..8]`, which is 7 qubits, so the append works. That is the "first iteration" that seemed to work, and its printed `2 3 4 5 6 7 8` appears before the error.
+- **i=1:** it becomes `[1..8]`, which is 8 qubits, so the append fails with the mismatch.
+
+So the first iteration does run. The real problem is that the range keeps growing. Each step should use one counting qubit (`n - j`) as the control, followed by the fixed 6 target qubits `n .. n+lg+1`.
+
+```python
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.circuit.library import GroverOperator
+from qiskit.transpiler.passes import RemoveBarriers
+from qiskit.converters import circuit_to_gate
+
+oracle = QuantumCircuit(6)
+oracle.z(5)
+grover_operator = GroverOperator(oracle)
+grover_operator = RemoveBarriers()(grover_operator)
+
+n = 3
+lg = 4
+qpe = QuantumCircuit(n + lg + 2)
+
+for i in range(n):
+    Q = circuit_to_gate(grover_operator).control().power(2 ** ((n - 1) - i))
+    j = i + 1
+    # FIX: range grew with i (n-j..end) giving too many qubits -> single control qubit n-j plus fixed targets n..n+lg+1, because the controlled gate always needs exactly 1 control + 6 targets
+    qp = [n - j] + list(np.arange(n, n + lg + 2))
+    for l in range(len(qp)):
+        print(qp[l])
+    print(" ")
+    qpe.append(Q, qp)
+```

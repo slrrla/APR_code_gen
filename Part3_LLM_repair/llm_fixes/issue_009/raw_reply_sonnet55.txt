@@ -1,0 +1,25 @@
+The `layout_method` value `'csp_layout'` is not a valid option, so the transpiler raises `TranspilerError`. The accepted values are `trivial`, `dense`, `noise_adaptive`, `sabre`, and `default`. CSP layout is not selectable as a layout method. It runs automatically as a preset-pass-manager stage at optimization levels 2 and 3, and only when it finds a perfect layout.
+
+The smallest fix is to remove the invalid argument. With `optimization_level=3` the transpiler then tries CSP layout first on its own, which is what the user wanted to force.
+
+```python
+from qiskit import QuantumCircuit, transpile
+from qiskit.providers.fake_provider import FakeVigo
+
+qc = QuantumCircuit(3)
+qc.h(0)
+qc.cx(0, 1)
+qc.cx(1, 2)
+qc.measure_all()
+
+backend = FakeVigo()
+
+# FIX: invalid layout_method='csp_layout' -> removed the argument, because CSP layout is not a selectable layout method and is already tried automatically first at optimization_level=3
+transpiled = transpile(
+    qc,
+    backend=backend,
+    optimization_level=3
+)
+
+print(transpiled)
+```

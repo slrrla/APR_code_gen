@@ -1,0 +1,12 @@
+The bug is the first operator's size. `op` is built on `j-i-1` qubits, but `_add` with `qargs=range(i+1, j)` expects `op` to span all `N` qubits, so the qubit indices fall outside its dimension and the einsum fails. Changing `op` to `'I' * N` fixes the size mismatch. `N` was already defined but unused, which supports this reading.
+
+```python
+from qiskit.quantum_info import Operator
+
+i, j, N = 2, 8, 10
+# FIX: op was built on j-i-1 qubits but is added with qargs range(i+1, j) on the full register -> built it on N qubits, because _add requires the base operator to span all qubits that qargs index into
+op = Operator.from_label('I' * N)
+opZ = Operator.from_label('Z' * (j - i - 1))
+op = op._add(opZ, qargs=list(range(i + 1, j)))
+
+```

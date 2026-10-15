@@ -1,0 +1,24 @@
+The error comes from `backend.set_options(...)`. In Qiskit 1.0, `BasicProvider().get_backend("basic_simulator")` returns `BasicSimulator`. That is a simple, single-threaded Python simulator. It has no `max_parallel_threads`, `max_parallel_experiments`, `max_parallel_shots` or `statevector_parallel_threshold` options. Setting any of them raises the `AttributeError`.
+
+Those options come from Qiskit Aer's simulator. The smallest fix that keeps the same backend and adds no dependency is to remove the unsupported `set_options` call. Note that this means the simulator will not run in parallel. If you need parallel threads, switch to `qiskit_aer.AerSimulator`, which accepts these options.
+
+```python
+from qiskit import QuantumCircuit
+from qiskit.providers.basic_provider import BasicProvider
+
+qc_combine = QuantumCircuit(2)
+qc_combine.h(0)
+qc_combine.cx(0, 1)
+qc_combine.measure_all()
+
+shots_used = 1024
+
+backend = BasicProvider().get_backend("basic_simulator")
+
+# FIX: set_options with Aer-only parallelization fields (max_parallel_threads etc.) -> removed the call, because BasicSimulator has no such options and raises AttributeError for them
+job = backend.run(qc_combine, shots=shots_used)
+result = job.result()
+counts = result.get_counts(qc_combine)
+print(counts)
+
+```

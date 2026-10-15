@@ -1,0 +1,29 @@
+The error comes from accessing qubit data the old way. `Qubit` objects no longer store their register and index, and they cannot be indexed. So `qargs[1][1]`, `qargs[1].register` and `qargs[1].index` all fail.
+
+1. **Main fix:** look up a qubit's position through the circuit with `qc.find_bit(qubit)`. It returns `.index` (the qubit's position in the circuit) and `.registers` (a list of `(register, index_in_register)` pairs).
+2. **Single-qubit gates:** the first gate (`u`) acts on only one qubit, so `qargs[1]` would raise an `IndexError`. Those prints now run only for gates with at least two qubits.
+3. **Loop header:** `qc.data` is read through the `CircuitInstruction` attributes instead of tuple-unpacking. I changed this as a precaution, because I'm not sure tuple unpacking still works in newer Qiskit versions.
+
+```python
+import qiskit
+from qiskit.circuit.random import random_circuit
+
+num_qubits = 3
+depth = 1
+max_operands = 2
+qc = random_circuit(num_qubits, depth, max_operands=max_operands, seed=1)
+qc = qc.decompose(reps=3)
+
+# FIX: tuple-unpacking CircuitInstruction may not be supported in newer Qiskit -> read operation/qubits/clbits attributes, because they are the stable API
+for instruction in qc.data:
+    name_of_gate, qargs, cargs = instruction.operation, instruction.qubits, instruction.clbits
+    print("name of gate : ", name_of_gate)
+    print("qargs : ", qargs, "\n")
+
+    # FIX: Qubit has no index/register attributes, is not subscriptable, and single-qubit gates have no qargs[1] -> guard length and use qc.find_bit, because find_bit returns the circuit index and (register, index) pairs
+    if len(qargs) > 1:
+        print("qargs[1] : ", qargs[1])
+        print("qargs[1][1] : ", qc.find_bit(qargs[1]).registers[0][1])
+        print("qargs[1].register : ", qc.find_bit(qargs[1]).registers[0][0])
+        print("qargs[1].index : ", qc.find_bit(qargs[1]).index)
+```

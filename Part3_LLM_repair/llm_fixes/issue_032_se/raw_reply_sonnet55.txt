@@ -1,0 +1,20 @@
+The root cause is that `TwoLocal` cannot resolve the string `'iswap'`. It looks the name up as a method on `QuantumCircuit`, which is named `iswap` in newer versions but was not recognized in the version in the traceback. The string form also depends on how a given Qiskit version resolves names, so it is fragile.
+
+The most robust fix is to pass the gate object, `iSwapGate()`, as the entanglement block. `TwoLocal` accepts gate instances as blocks. `iSwapGate` can be imported from `qiskit.circuit.library`.
+
+```python
+from qiskit.circuit.library import TwoLocal
+from qiskit.circuit.library import iSwapGate
+
+num_spin_orbitals = 4
+
+ansatz = TwoLocal(
+    num_spin_orbitals,
+    ['ry', 'rz'],
+    # FIX: entanglement block given as the unsupported string 'iswap' -> pass an iSwapGate() instance, because TwoLocal cannot resolve that name but accepts gate objects directly
+    entanglement_blocks=iSwapGate(),
+    entanglement='linear'
+)
+
+print(ansatz.decompose())
+```

@@ -1,0 +1,23 @@
+The root cause is that `Bit.register` and `Bit.index` are deprecated back-references from a bit to its register. In Qiskit 1.0 and later they were removed, so this code now fails instead of just warning. The supported way is to ask the circuit where the bit lives with `QuantumCircuit.find_bit()`. It returns a `BitLocations` with:
+- `.index`: the bit's position in the circuit.
+- `.registers`: a list of `(register, index_in_register)` pairs.
+
+I also changed the loop. Unpacking a `CircuitInstruction` as a tuple is deprecated in newer Qiskit and gives its own deprecation warning. Reading `.qubits` directly avoids that.
+
+```python
+import qiskit
+from qiskit import QuantumCircuit, QuantumRegister
+
+qr = QuantumRegister(2, 'q')
+qc = QuantumCircuit(qr)
+qc.h(0)
+qc.cx(0, 1)
+
+# FIX: tuple-unpacking CircuitInstruction is deprecated legacy behavior -> iterate instructions and use .qubits, because this is the supported attribute access
+for circuit_instruction in qc.data:
+    qbit: qiskit.circuit.Qubit = circuit_instruction.qubits[0]
+    # FIX: deprecated/removed qbit.register and qbit.index -> qc.find_bit(qbit), because the circuit (not the Bit) now holds register/index information
+    print(qc.find_bit(qbit).registers[0][0])
+    print(qc.find_bit(qbit).index)
+
+```

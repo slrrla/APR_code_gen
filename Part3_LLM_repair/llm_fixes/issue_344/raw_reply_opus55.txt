@@ -1,0 +1,26 @@
+The error comes from rounding the statevector. `get_statevector(..., decimals=3)` rounds every amplitude to 3 decimals, so the vector is no longer normalized. In the output shown, 0.447² + 0.632² + 0.632² ≈ 0.9987, not 1. `quantum_info.entropy` checks that its input is a valid state, with a tolerance of about 1e-8, and rejects it with `'Input quantum state is not a valid'`.
+
+The fix is to drop the `decimals=3` argument so the exact, normalized statevector is passed in. For a pure state like this one, the von Neumann entropy should print as 0.
+
+```python
+import numpy as np
+from qiskit import QuantumCircuit, BasicAer, execute
+from qiskit import quantum_info
+
+circuit6 = QuantumCircuit(2)
+circuit6.h(0)
+circuit6.cx(0, 1)
+circuit6.ry(1.0, 1)
+
+simulator = BasicAer.get_backend('statevector_simulator')
+result6 = execute(circuit6, simulator).result()
+# FIX: rounding to decimals=3 -> removed the decimals argument, because rounded amplitudes are no longer normalized and entropy's validity check rejects the state
+outputstate6 = result6.get_statevector(circuit6)
+probability = np.abs(np.array(outputstate6))**2
+outstatevector = quantum_info.states.Statevector(outputstate6)
+print(type(outstatevector))
+print(type(outputstate6))
+print(outputstate6)
+print(quantum_info.entropy(outputstate6))
+
+```

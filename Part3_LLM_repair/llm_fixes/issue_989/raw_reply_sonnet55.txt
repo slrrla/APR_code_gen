@@ -1,0 +1,11 @@
+The root cause is that `from qiskit import Aer` no longer works in current Qiskit. Aer was moved into the separate `qiskit_aer` package, and `AerSimulator` (the replacement for `aer_simulator`) lives there. The smallest fix is to change the import and list the backends from the new package.
+
+`qiskit_aer.Aer` still exists as a provider-like object, so `from qiskit_aer import Aer` keeps `Aer.backends()` working. It is deprecated in newer versions, but it still runs. This keeps the rest of the code unchanged.
+
+```python
+from qiskit import QuantumCircuit
+# FIX: imported Aer from the removed qiskit.Aer location -> import it from qiskit_aer, because Aer was moved into the separate qiskit_aer package (use AerSimulator / Aer.get_backend('aer_simulator') for the ideal simulator)
+from qiskit_aer import Aer
+
+print(Aer.backends())
+```

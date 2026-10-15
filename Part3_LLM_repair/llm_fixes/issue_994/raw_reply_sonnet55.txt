@@ -1,0 +1,23 @@
+The root cause is that QasmSimulator only returns counts by default, so the result has no statevector to read. The circuit must call `save_statevector()` before execution, and the statevector is then read from `result.data()`. `get_statevector` fails here because no statevector was saved.
+
+The smallest change keeps the imports and `execute`, and adds `qc.save_statevector()` after building the circuit. The final line becomes `job_result.get_statevector(qc)`, which does work in Aer when a statevector was saved, because it reads `data['statevector']`. That means the final print can stay as it is.
+
+Aer's `save_statevector` is a method added to `QuantumCircuit` when `qiskit.providers.aer` is imported, so the existing import already provides it. I keep the existing `backend_options`, since the user's `execute` call already passes them.
+
+```python
+from qiskit import QuantumCircuit, execute
+from qiskit.providers.aer import QasmSimulator
+
+qc = QuantumCircuit(2)
+qc.h(0)
+qc.cx(0, 1)
+# FIX: no statevector was saved in the circuit -> added qc.save_statevector(), because QasmSimulator only stores a statevector in the result when this instruction is present
+qc.save_statevector()
+
+backend = QasmSimulator()
+backend_options = {"method": "statevector"}
+
+job = execute(qc, backend, backend_options=backend_options)
+job_result = job.result()
+print(job_result.get_statevector(qc))
+```

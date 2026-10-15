@@ -1,0 +1,16 @@
+
+test_output_preserves_full_two_qubit_unitary (__main__.Regression.test_output_preserves_full_two_qubit_unitary) ... ok
+test_output_uses_requested_discrete_basis (__main__.Regression.test_output_uses_requested_discrete_basis) ... FAIL
+
+======================================================================
+FAIL: test_output_uses_requested_discrete_basis (__main__.Regression.test_output_uses_requested_discrete_basis)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_901\test.py", line 39, in test_output_uses_requested_discrete_basis
+    self.assertFalse(
+AssertionError: {'s'} is not false : Output still contains gates outside {H, T, CNOT, I}: s
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.031s
+
+FAILED (failures=1)

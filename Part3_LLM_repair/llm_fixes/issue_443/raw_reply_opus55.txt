@@ -1,0 +1,32 @@
+```python
+from qiskit import QuantumCircuit, QuantumRegister
+from qiskit.circuit import Gate
+
+def create_oracle(train_register, control):
+    n = len(train_register) + len(control)
+    qc = QuantumCircuit(n, name="oracle")
+    qc.x(n - 1)
+    return qc.to_instruction()
+
+train_register = QuantumRegister(3, name="train_register")
+control = QuantumRegister(1, name="control")
+
+circ = QuantumCircuit(train_register, control)
+
+# FIX: unpacking order [control, train_register] swapped the registers -> unpack as [train_register, control], because circ.qregs follows the constructor order (train_register first)
+[train_register, control] = circ.qregs
+circ.h(control)
+
+oracle = create_oracle(train_register, control)
+# FIX: passing a list of two registers gave 2 qargs instead of 4 qubits -> flatten registers into one qubit list, because append expects one qarg per instruction qubit
+circ.append(oracle, [*train_register, *control])
+```
+
+The question has two bugs. Both lines are fixed above.
+
+1. **The append call is the reported error.** `circ.append(oracle, [train_register, control])` passes two arguments, one per register. The oracle expects one argument per qubit, which is 4 here. That mismatch raises the "amount of qubit arguments" error.
+   - Flattening the registers into one list of qubits fixes this: `[*train_register, *control]`.
+   - This keeps the idea of passing the registers by name.
+   - It works for any register lengths.
+
+2. **The unpacking swapped the registers.** The circuit is built as `QuantumCircuit(train_register, control)`, so `circ.qregs` is `[train_register, control]`. Unpacking into `[control, train_register]` gave each name the other register. As a result, `circ.h(control)` would have put H on the 3 training qubits instead of the single control qubit. Matching the unpacking order to the constructor order fixes this.

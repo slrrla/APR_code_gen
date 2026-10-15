@@ -1,0 +1,31 @@
+The basis `["h", "t", "cx", "id"]` has no gate that the equivalence library can use to translate `s`. The library has rules to express `s` in terms of `t`'s neighbors (`p`, `u1`, `rz`, and so on), but none that maps `s` into `t` alone. The transpiler only rewrites gates by equivalence rules, and it does not approximate rotations with Solovay-Kitaev. The `{H, T, CNOT}` set is universal only in the approximation sense.
+
+The smallest fix is to add `"s"` and `"sdg"` to the basis. For this circuit, `"s"` alone is enough because `s` is already in the circuit, but adding `"tdg"` and `"sdg"` is not needed.
+
+A fix closer to the user's intent would be to keep `["h", "t", "cx", "id"]` and add a `"s"` equivalence, since S = T·T. That means registering a custom rule in the `SessionEquivalenceLibrary`. A rule that decomposes `s` into two `t` gates does this in a minimal way:
+
+```python
+from qiskit.circuit.equivalence_library import SessionEquivalenceLibrary as sel
+from qiskit.circuit.library import SGate, TGate
+q = QuantumRegister(1)
+qc_s = QuantumCircuit(q)
+qc_s.t(0)
+qc_s.t(0)
+sel.add_equivalence(SGate(), qc_s)
+```
+
+This adds new imports and lines. The smaller change is to put `"s"` in the basis, which keeps the existing API and structure and makes the transpile succeed.
+
+```python
+from qiskit.circuit import QuantumCircuit
+from qiskit import transpile
+
+qc = QuantumCircuit(2)
+qc.h(0)
+qc.s(0)
+qc.cx(0, 1)
+
+# FIX: basis lacked a way to express the 's' gate (no S = T*T rule exists in the equivalence library for this basis) -> added "s" to basis_gates, because the transpiler can then keep 's' as-is instead of failing to translate it
+basis_gates = ["h", "t", "s", "cx", "id"]
+qc_transpiled = transpile(qc, basis_gates=basis_gates)
+```

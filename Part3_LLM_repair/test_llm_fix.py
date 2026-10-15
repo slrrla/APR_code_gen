@@ -17,7 +17,8 @@ ENV_ROOT = Path(r"C:\qiskit_envs")
 SUPPORT_ROOT = ENV_ROOT / "_support"
 RUNTIME_SUPPORT_ROOT = ENV_ROOT / "_support_runtime"
 RUNTIME_CASES = {"issue_742", "issue_876"}
-MODEL_TAGS = {"gpt-5.6-luna": "luna56", "gpt-6-luna": "luna6", "gpt-6-astra": "astra6", "gpt-6.1-sol": "sol61"}
+MODEL_TAGS = {"gpt-5.6-luna": "luna56", "gpt-6-luna": "luna6", "gpt-6-astra": "astra6", "gpt-6.1-sol": "sol61",
+              "claude-opus-5-5": "opus55", "claude-sonnet-5-5": "sonnet55", "claude-haiku-5-5": "haiku55"}
 LLM_VARIANT = "llm_luna56_fix"
 VARIANTS = ["buggy", "fixed", LLM_VARIANT]
 TIMEOUT = 120

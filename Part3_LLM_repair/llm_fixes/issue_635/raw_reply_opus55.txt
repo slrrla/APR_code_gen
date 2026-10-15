@@ -1,0 +1,26 @@
+The bug is in the logic. The user wants both X gates to fire only when `c[0]==1 and c[1]==1`. The code instead puts two independent `c_if` conditions on the gates. That way `x(q[0])` fires whenever `c[0]==1`, and `x(q[1])` fires whenever `c[1]==1`, even if the other bit is 0.
+
+A single `c_if` on one bit can't express "both bits are 1", so I replaced the two conditions with nested `if_test` blocks. Both X gates sit inside the inner block, so they run only when both bits are 1.
+
+I left `execute` and `Aer` unchanged. Note that `execute` was removed in Qiskit 1.0, so this file needs a pre-1.0 Qiskit to run.
+
+```python
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, execute, Aer
+
+q = QuantumRegister(3)
+c = ClassicalRegister(3)
+qc = QuantumCircuit(q, c)
+
+qc.measure(q, c)
+
+# FIX: each X was conditioned independently on its own bit -> nested if_test on c[0]==1 and c[1]==1 wrapping both X gates, because the recovery must apply both gates only when both bits are 1
+with qc.if_test((c[0], 1)):
+    with qc.if_test((c[1], 1)):
+        qc.x(q[0])
+        qc.x(q[1])
+
+backend = Aer.get_backend('qasm_simulator')
+job = execute(qc, backend, shots=1024)
+result = job.result()
+print(result.get_counts(qc))
+```

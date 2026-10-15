@@ -1,0 +1,11 @@
+# NO BUG: The code correctly composes the Pauli "XZ" (Z on qubit 0, X on qubit 1) onto qubits 0 and 2 of the 3-qubit identity, and the printed matrix matches that result under Qiskit's little-endian ordering.
+
+```python
+import numpy as np
+from qiskit.quantum_info import Operator, Pauli
+
+op = Operator(np.eye(2 ** 3))
+XZ = Operator(Pauli(label='XZ'))
+result = op.compose(XZ, qargs=[0, 2])
+print(result)
+```

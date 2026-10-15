@@ -1,0 +1,20 @@
+The error comes from `SparsePauliOp(Hamiltonian)`. That constructor expects Pauli data, such as Pauli strings like `"XZ"` plus coefficients. It cannot take a dense 4×4 matrix, so it raises `'Invalid input data for Pauli.'`.
+
+The trailing `.to_operator()` would also go the wrong way. It converts a Pauli sum *back* into a dense matrix. The old `MatrixOp(...).to_pauli_op()` did the opposite: it decomposed a matrix into Pauli terms.
+
+The correct replacement is `SparsePauliOp.from_operator(...)`, which takes a matrix and decomposes it into a sum of Pauli terms.
+
+```python
+from qiskit.quantum_info import SparsePauliOp
+
+Hamiltonian = [
+    [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319],
+    [-3.6713615 , 5.88262911, -4.14084507, 1.37558685],
+    [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577],
+    [-1.05164319, 1.37558685, -3.54929577, 3.79812207]
+]
+
+# FIX: SparsePauliOp(Hamiltonian).to_operator() -> SparsePauliOp.from_operator(Hamiltonian), because the constructor expects Pauli data (not a matrix) and from_operator decomposes a matrix into Pauli terms like the old to_pauli_op()
+H_op = SparsePauliOp.from_operator(Hamiltonian)
+print(H_op)
+```

@@ -1,0 +1,36 @@
+The bug is that `EstimatorV2` does not accept a general `Operator` as an observable. It needs a `SparsePauliOp`, which can be built from the operator with `SparsePauliOp.from_operator`. The qiskit-aer `EstimatorV2` is the one meant for local noisy simulation, but the code's import style should stay as is, so I only change the observable.
+
+The observable must also be laid out against the transpiled circuit. Since `qc_t` is transpiled for `AerSimulator`, which has no coupling constraints, the layout is unchanged and the observable needs no remapping.
+
+The observables are passed as `[obs]`, a list holding a single observable. With a single `SparsePauliOp` this works as a shape-(1,) array of observables.
+
+Converting `O` gives `SparsePauliOp.from_operator(O)`, which needs `SparsePauliOp` imported from `qiskit.quantum_info`.
+
+```python
+from math import pi
+from qiskit import QuantumCircuit, transpile
+from qiskit.quantum_info import Operator, SparsePauliOp
+from qiskit_aer import AerSimulator
+from qiskit_ibm_runtime import EstimatorV2
+
+backend = AerSimulator()
+estimator = EstimatorV2(mode=backend)
+
+O = Operator([[1,0,0,-2j],
+              [0,0,0,0],
+              [0,0,0,0],
+              [2j,0,0,1]])
+
+# FIX: observable passed as a raw Operator -> convert it to a SparsePauliOp, because EstimatorV2 only accepts Pauli-based observables
+obs = SparsePauliOp.from_operator(O)
+
+qc = QuantumCircuit(2)
+qc.rx(pi/3,1)
+qc.cx(1,0)
+
+qc_t = transpile(qc,backend)
+
+job = estimator.run([(qc_t,[obs])])
+exp_vals = job.result()[0].data.evs
+print(exp_vals)
+```

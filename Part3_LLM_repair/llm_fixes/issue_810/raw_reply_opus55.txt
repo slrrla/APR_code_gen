@@ -1,0 +1,24 @@
+The root cause is `job.result(job)`. `Result.result()` takes no job argument; its first parameter is a timeout, so passing `job` there is wrong. Even when called correctly, it returns a `Result` summary object, not the raw 0/1 outcomes.
+
+To get the per-shot raw bits, the job must be run with `memory=True`. You then read them with `get_memory()`, which returns a list like `['0', '1', '1', ...]` that you can map to "Head"/"Tail".
+
+I also replaced `Aer` and `execute`. In current Qiskit, `from qiskit import *` no longer provides them, so they now come from `qiskit_aer` and `backend.run`.
+
+```python
+from qiskit import *
+# FIX: Aer is no longer exported by qiskit -> import it from qiskit_aer, because Aer moved to the qiskit_aer package
+from qiskit_aer import Aer
+
+simulator = Aer.get_backend('qasm_simulator')
+qr = QuantumRegister(1)
+cr = ClassicalRegister(1)
+circuit = QuantumCircuit(qr, cr)
+circuit.h(qr[0])
+circuit.measure(qr, cr)
+
+# FIX: removed execute() and no per-shot memory -> use simulator.run(transpile(...), memory=True), because execute was removed and memory=True stores each shot's raw outcome
+job = simulator.run(transpile(circuit, simulator), shots=1024, memory=True)
+# FIX: job.result(job) passed the job as a timeout and returned a Result summary -> job.result().get_memory(), because get_memory() returns the raw per-shot bits ('0'/'1')
+a = job.result().get_memory()
+print(a)
+```

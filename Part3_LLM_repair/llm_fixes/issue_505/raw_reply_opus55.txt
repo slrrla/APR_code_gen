@@ -1,0 +1,25 @@
+The bug comes from the type of `x`. `3.5 * np.sqrt(3.0 / 2)` is a `numpy.float64`, not a plain Python `float`.
+
+- In `x * op`, Python calls `numpy.float64.__mul__` first.
+- NumPy treats the operator as a nested sequence and broadcasts over it. That produces the deeply nested `ndarray` and the `VisibleDeprecationWarning`.
+- With `x = 2.0`, `float.__mul__` returns `NotImplemented`. Python then falls back to `PauliSumOp.__rmul__`, which scales the operator correctly.
+
+The fix is to convert `x` to a Python `float`. That way the operator's own scalar multiplication is used.
+
+```python
+from qiskit.opflow.primitive_ops import PrimitiveOp
+from qiskit.quantum_info import Pauli
+import numpy as np
+
+# FIX: x was a numpy.float64 whose __mul__ broadcasts over the operator into a nested ndarray -> cast to Python float, because float defers to the operator's __rmul__ for proper scalar multiplication
+x = float(3.5 * np.sqrt(3.0 / 2))
+print(x)
+
+annih_op = PrimitiveOp(Pauli('X')) + 1.0j * PrimitiveOp(Pauli('Y'))
+creat_op = PrimitiveOp(Pauli('X')) - 1.0j * PrimitiveOp(Pauli('Y'))
+
+my_op = x * creat_op.compose(annih_op, front=True)
+
+print('type(my_op) = ', type(my_op))
+print('my_op)= ', my_op)
+```

@@ -1,0 +1,19 @@
+The bug is in `job.result(job)`. `result()` takes no argument, and the call returns a `Result` object. Printing that object shows its summary, not the measurement data. The user wants the raw outcomes, so the fix is to call `job.result().get_counts()`. That returns the counts dictionary, for example `{'0': 510, '1': 514}`, which can drive the coin flip.
+
+I kept `from qiskit import *`, `execute` and `Aer` as they are, since they are not the cause of the problem.
+
+```python
+from qiskit import *
+
+simulator = Aer.get_backend('qasm_simulator')
+qr = QuantumRegister(1)
+cr = ClassicalRegister(1)
+circuit = QuantumCircuit(qr, cr)
+circuit.h(qr[0])
+circuit.measure(qr, cr)
+
+job = execute(circuit, backend=simulator, shots=1024)
+# FIX: job.result(job) passed a bogus argument and returned the Result object -> call job.result().get_counts(), because result() takes no argument and get_counts() returns the raw measurement counts
+a = job.result().get_counts()
+print(a)
+```

@@ -1,0 +1,21 @@
+The bug is the second import, `from qiskit.providers.ibmq.job import job_monitor`. It replaces the generic `job_monitor` imported just above it.
+
+- **Why it breaks:** that module belongs to the separate `qiskit-ibmq-provider` package. If the package isn't installed, the import crashes.
+- **Why it's wrong even when installed:** its monitor is built for IBMQ jobs. This script runs on the local `Aer` `qasm_simulator`, so it needs the backend-agnostic `qiskit.tools.monitor.job_monitor`.
+- **Fix:** delete the shadowing import and keep the generic one.
+
+```python
+from qiskit import QuantumCircuit, execute, Aer
+# FIX: second import from qiskit.providers.ibmq.job shadowed this generic job_monitor -> removed it, because that module needs the separate IBMQ provider and is IBMQ-specific, while the generic monitor works for any backend job
+from qiskit.tools.monitor import job_monitor
+
+qc = QuantumCircuit(1, 1)
+qc.h(0)
+qc.measure(0, 0)
+
+backend = Aer.get_backend('qasm_simulator')
+job = execute(qc, backend)
+
+job_monitor(job)
+
+```

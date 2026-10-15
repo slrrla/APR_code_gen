@@ -1,0 +1,21 @@
+The code had two problems:
+
+1. **Wrong error size on `cx` (the main bug).** `cx` is a 2-qubit gate, but the code attached the 1-qubit `depolarizing_error(0.05, 1)` to it. Aer refuses this and raises a `NoiseError`, because the error acts on a different number of qubits than the gate. A 2-qubit gate needs a 2-qubit depolarizing error, `depolarizing_error(0.05, 2)`. That error picks uniformly from the 15 non-identity two-qubit Paulis (IX … ZZ), which is the behaviour the question asks about.
+2. **Removed import path.** `qiskit.providers.aer` no longer exists in current Qiskit, so the import fails before anything runs. Aer now lives in the separate `qiskit_aer` package.
+
+On the question itself: an error added with `['u1', 'u2', 'u3']` affects only those single-qubit gates. It is applied separately on whichever qubit the gate acts on, and does not touch CNOTs. To add noise to `cx`, you have to add a separate 2-qubit error for it.
+
+```python
+# FIX: removed module qiskit.providers.aer -> import from qiskit_aer.noise, because Aer now lives in the separate qiskit_aer package
+from qiskit_aer.noise import NoiseModel, depolarizing_error
+
+noise_model = NoiseModel()
+
+error = depolarizing_error(0.05, 1)
+noise_model.add_all_qubit_quantum_error(error, ['u1', 'u2', 'u3'])
+
+# FIX: 1-qubit error applied to 2-qubit 'cx' gate -> use depolarizing_error(0.05, 2), because a cx error must act on 2 qubits (uniform over the 15 two-qubit Paulis)
+noise_model.add_all_qubit_quantum_error(depolarizing_error(0.05, 2), ['cx'])
+
+print(noise_model)
+```

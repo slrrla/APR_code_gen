@@ -1,0 +1,20 @@
+The circuit has 3 classical bits but never measures, so no measurement results are recorded. The fix is to add measurements. Since the circuit already has classical bits, `circ.measure_all()` would add a second, separate classical register, so `circ.measure([0, 1, 2], [0, 1, 2])` is the better choice. The old `Aer` and `execute` imports are left alone, because they are not the bug the question is about.
+
+```python
+from qiskit import Aer
+from qiskit import execute
+from qiskit import QuantumCircuit
+
+circ = QuantumCircuit(3, 3)
+circ.h(0)
+circ.cx(0, 1)
+circ.cx(0, 2)
+# FIX: no measurement was added, so no outcomes are recorded -> added circ.measure into the existing classical bits, because the simulator only returns counts for measured classical bits (measure_all() would add an extra register)
+circ.measure([0, 1, 2], [0, 1, 2])
+
+backend = Aer.get_backend("qasm_simulator")
+job = execute(circ, backend, shots=100000)
+result = job.result()
+counts = result.get_counts(circ)
+print(counts)
+```
