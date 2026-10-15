@@ -737,7 +737,7 @@ For twelve cases the team's original `test.py` asked for a detail only the refer
 | `run_output_sol61_batch<N>_generate.txt` | Console output of generating the fixes for batches 1–8 |
 | `run_output_sol61_batch<N>.txt` | Console output of the batch 1–8 test runs (for batches 4–8, the second pass) |
 | `run_output_sol61_rerun_565.txt`, `run_output_sol61_rerun_504_663.txt` | Console output of the single-worker reruns after the timeouts |
-| `logs_sol61/<case>/<version>/` | Full test output: `buggy.log`, `fixed.log`, `llm_sol61_fix.log` |
+| `Part3_LLM_repair/logs/sol61/<case>/<version>/` | Full test output: `buggy.log`, `fixed.log`, `llm_sol61_fix.log` |
 | `../../llm_fixes/<case>/` | `llm_sol61_fix.py`, `raw_reply_sol61.txt`, and the shared `buggy_stripped.py` |
 
 The other models' results are in `../astra6/` (`SUMMARY_astra6.md`), `../luna6/` (`SUMMARY_luna6.md`) and `../luna56/` (`SUMMARY_luna56.md`).

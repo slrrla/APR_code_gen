@@ -11,7 +11,7 @@ CASES_DIR = REPO / "Part2_Create_test" / "reconstructed_cases"
 FIXES_DIR = HERE / "llm_fixes"
 MODEL_TAG = "luna56"
 RESULTS_DIR = HERE / "results" / MODEL_TAG
-LOG_DIR = RESULTS_DIR / f"logs_{MODEL_TAG}"
+LOG_DIR = HERE / "logs" / MODEL_TAG
 XLSX = HERE / "Valid_Cases_104.xlsx"
 ENV_ROOT = Path(r"C:\qiskit_envs")
 SUPPORT_ROOT = ENV_ROOT / "_support"
@@ -171,7 +171,7 @@ def main():
     LLM_VARIANT = f"llm_{MODEL_TAG}_fix"
     VARIANTS = ["buggy", "fixed", LLM_VARIANT]
     RESULTS_DIR = HERE / "results" / MODEL_TAG
-    LOG_DIR = RESULTS_DIR / f"logs_{MODEL_TAG}"
+    LOG_DIR = HERE / "logs" / MODEL_TAG
 
     sheet = load_sheet_info()
     cases = args.cases or [c for c in CASES if (FIXES_DIR / c / f"{LLM_VARIANT}.py").exists()]

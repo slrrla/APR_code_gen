@@ -737,7 +737,7 @@ For twelve cases the team's original `test.py` asked for a detail only the refer
 | `run_output_sonnet55_generate.txt` | Console output of generating the 73 fixes |
 | `run_output_sonnet55_batch<N>.txt` | Console output of the batch 1–8 test runs |
 | `run_output_sonnet55_rerun_565.txt` | Console output of the single-worker rerun after the timeouts |
-| `logs_sonnet55/<case>/<version>/` | Full test output: `buggy.log`, `fixed.log`, `llm_sonnet55_fix.log` |
+| `Part3_LLM_repair/logs/sonnet55/<case>/<version>/` | Full test output: `buggy.log`, `fixed.log`, `llm_sonnet55_fix.log` |
 | `../../llm_fixes/<case>/` | `llm_sonnet55_fix.py`, `raw_reply_sonnet55.txt`, and the shared `buggy_stripped.py` |
 
 The other models' results are in `../opus55/` (`SUMMARY_opus55.md`), `../sol61/` (`SUMMARY_sol61.md`), `../astra6/` (`SUMMARY_astra6.md`), `../luna6/` (`SUMMARY_luna6.md`), `../luna56/` (`SUMMARY_luna56.md`).

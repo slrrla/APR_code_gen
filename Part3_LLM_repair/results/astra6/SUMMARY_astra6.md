@@ -738,7 +738,7 @@ The twelve tests that asked for a detail only the reference has were replaced on
 | `run_output_astra6_batch<N>.txt` | Console output of the batch 1–8 test runs |
 | `run_output_astra6_rerun_901.txt`, `run_output_astra6_rerun_565.txt` | Console output of the single-worker reruns after the timeouts |
 | `run_output_astra6_updated_tests.txt` | Console output of the 9 Oct 2026 run of the 12 cases with their updated tests |
-| `logs_astra6/<case>/<version>/` | Full test output: `buggy.log`, `fixed.log`, `llm_astra6_fix.log` |
+| `Part3_LLM_repair/logs/astra6/<case>/<version>/` | Full test output: `buggy.log`, `fixed.log`, `llm_astra6_fix.log` |
 | `../../llm_fixes/<case>/` | `llm_astra6_fix.py`, `raw_reply_astra6.txt`, and the shared `buggy_stripped.py` |
 
 The luna results are in `../luna6/` (`SUMMARY_luna6.md`) and `../luna56/` (`SUMMARY_luna56.md`).

@@ -736,7 +736,7 @@ For twelve cases the team's original `test.py` asked for a detail only the refer
 | `run_output_haiku55_generate.txt` | Console output of generating the 73 fixes |
 | `run_output_haiku55_batch<N>.txt` | Console output of the batch 1–8 test runs |
 | `run_output_haiku55_rerun_504_565_925.txt` | Console output of the single-worker rerun after the timeouts |
-| `logs_haiku55/<case>/<version>/` | Full test output: `buggy.log`, `fixed.log`, `llm_haiku55_fix.log` |
+| `Part3_LLM_repair/logs/haiku55/<case>/<version>/` | Full test output: `buggy.log`, `fixed.log`, `llm_haiku55_fix.log` |
 | `../../llm_fixes/<case>/` | `llm_haiku55_fix.py`, `raw_reply_haiku55.txt`, and the shared `buggy_stripped.py` |
 
 The other models' results are in `../sonnet55/` (`SUMMARY_sonnet55.md`), `../opus55/` (`SUMMARY_opus55.md`), `../sol61/` (`SUMMARY_sol61.md`), `../astra6/` (`SUMMARY_astra6.md`), `../luna6/` (`SUMMARY_luna6.md`), `../luna56/` (`SUMMARY_luna56.md`).

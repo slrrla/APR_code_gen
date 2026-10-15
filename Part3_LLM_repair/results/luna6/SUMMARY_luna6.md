@@ -686,7 +686,7 @@ The twelve tests that asked for a detail only the reference has were replaced on
 | `run_output_luna6_batch2.txt` … `run_output_luna6_batch8.txt` | Console output of the batch 2–8 test runs |
 | `run_output_luna6_rerun_858_925_985.txt`, `run_output_luna6_rerun_925.txt` | Console output of the reruns after the timeouts |
 | `run_output_luna6_updated_tests.txt` | Console output of the 9 Oct 2026 run of those 12 cases with their updated tests |
-| `logs_luna6/<case>/<version>/` | Full test output: `buggy.log`, `fixed.log`, `llm_luna6_fix.log` |
+| `Part3_LLM_repair/logs/luna6/<case>/<version>/` | Full test output: `buggy.log`, `fixed.log`, `llm_luna6_fix.log` |
 | `../../llm_fixes/<case>/` | `llm_luna6_fix.py`, `raw_reply_luna6.txt`, and the shared `buggy_stripped.py` |
 
 The gpt-5.6-luna results for all 73 cases are in `../luna56/` (`SUMMARY_luna56.md`).
