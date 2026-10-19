@@ -1,0 +1,46 @@
+Title:
+Implementing block of gates at different times in a same qiskit program
+
+Category:
+Circuit
+
+Why AI Wins in This Category:
+In circuit-design issues, clarity, completeness, and explanation are essential. The AI-generated solution:
+
+Educates the user on why and how the barrier() works.
+
+Provides a fully functional and visually verifiable example.
+
+Explains transpilation logic, which is crucial for time-step design in Qiskit.
+
+This level of guidance ensures that even non-expert users can adapt the concept to more complex circuits confidently.
+
+Question:
+Title: Implementing block of gates at different times in a same qiskit program
+
+I am implementing an Ising chain over 8 qubits. It involves pair-wise CNOT between all the qubits. In the first time step, I am doing CNOTs between qubits 0 and 1, 2 and 3, 4 and 5, and 6 and 7. In the second time step, I would do CNOTs between qubits 1 and 2, 3 and 4, and 5 and 6. I have written the code as follows: I would like the gates in Block A to be applied simultaneously. Then, in the next step, gates in Block B should be applied simultaneously. How to convey to the compiler that I do not want the above written code to be compiled sequentially, rather I want it to be applied block-wise.
+
+```
+# Block A for the first time step qp.cx(q0,q1) qp.cx(q2,q3) qp.cx(q4,q5) qp.cx(q6,q7) # Block B for the second time step qp.cx(q1,q2) qp.cx(q3,q4) qp.cx(q5,q6)
+```
+
+```
+# Block A for the first time step qp.cx(q0,q1) qp.cx(q2,q3) qp.cx(q4,q5) qp.cx(q6,q7) # Block B for the second time step qp.cx(q1,q2) qp.cx(q3,q4) qp.cx(q5,q6)
+```
+
+Original buggy code:
+# Block A for the first time step qp.cx(q0,q1) qp.cx(q2,q3) qp.cx(q4,q5) qp.cx(q6,q7) # Block B for the second time step qp.cx(q1,q2) qp.cx(q3,q4) qp.cx(q5,q6)
+
+---CODE_BLOCK---
+
+# Block A for the first time step qp.cx(q0,q1) qp.cx(q2,q3) qp.cx(q4,q5) qp.cx(q6,q7) # Block B for the second time step qp.cx(q1,q2) qp.cx(q3,q4) qp.cx(q5,q6)
+
+Solution explanation:
+Did you try to put a barrier between your two blocks? You can do this by writing this right after your first block, then Qiskit will transpile separately the two blocks. Is this what you were searching for?
+
+```
+qp.barrier()
+```
+
+Original fixed code:
+qp.barrier()

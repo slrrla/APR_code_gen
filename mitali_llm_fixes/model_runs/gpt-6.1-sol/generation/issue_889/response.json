@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWCErDUcrtS1tS3W3lvcovJSoPeW",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport numpy as np\nfrom qiskit import QuantumCircuit\nfrom qiskit.opflow import PauliSumOp\n\nN = 3\neps = 1.0\nt = 0.5\ntime_ = 1.0\n\ndef onsite_term(k, N):\n    label = ['I'] * N\n    label[k] = 'Z'\n    # FIX: occupation was represented by Z -> use (I - Z)/2, because this equals sigma_minus times sigma_plus.\n    return PauliSumOp.from_list([('I' * N, eps / 2), (''.join(label), -eps / 2)])\n\ndef hopping_term(k, N):\n    label = ['I'] * N\n    label[k] = 'X'\n    label[(k + 1) % N] = 'X'\n    # FIX: hopping contained only XX -> include XX and YY with intervening Z operators, because Jordan-Wigner hopping requires both components and a parity string across the closing bond.\n    for j in range(min(k, (k + 1) % N) + 1, max(k, (k + 1) % N)):\n        label[j] = 'Z'\n    return PauliSumOp.from_list([(''.join(label), t / 2), (''.join(label).replace('X', 'Y'), t / 2)])\n\nH = None\nfor k in range(N):\n    term1 = onsite_term(k, N)\n    term2 = hopping_term(k, N)\n    H = term1 if H is None else H + term1\n    H = H + term2\n\ncirc = QuantumCircuit(N)\n# FIX: a Hamiltonian is not a circuit instruction -> append its time-evolution instruction, because the gate implements exp(-i * time_ * H).\ncirc.append((time_ * H).exp_i().to_instruction(), list(range(N)))\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418966,
+  "model": "gpt-6.1-sol",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 1086,
+    "prompt_tokens": 1099,
+    "total_tokens": 2185,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 672,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1096,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

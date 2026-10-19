@@ -22,7 +22,7 @@ Traceback (most recent call last):
           ^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\passes\basis\basis_translator.py", line 217, in run
     raise TranspilerError(
-qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['t', 'cx', 'barrier', 'h', 'delay', 'id', 'snapshot', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 'cx', 's'] to the backend's (or manually specified) target basis: ['barrier', 'id', 'cx', 'delay', 'reset', 'snapshot', 'measure', 'h', 't']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
 
 The above exception was the direct cause of the following exception:
 
@@ -41,7 +41,7 @@ Traceback (most recent call last):
                         ^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\runningpassmanager.py", line 163, in wrapper
     raise TranspilerError(ex.message) from ex
-qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['t', 'cx', 'barrier', 'h', 'delay', 'id', 'snapshot', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 'cx', 's'] to the backend's (or manually specified) target basis: ['barrier', 'id', 'cx', 'delay', 'reset', 'snapshot', 'measure', 'h', 't']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
 
 The above exception was the direct cause of the following exception:
 
@@ -66,7 +66,7 @@ Traceback (most recent call last):
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\passmanager.py", line 555, in wrapper
     raise TranspilerError(ex.message) from ex
-qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['t', 'cx', 'barrier', 'h', 'delay', 'id', 'snapshot', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 'cx', 's'] to the backend's (or manually specified) target basis: ['barrier', 'id', 'cx', 'delay', 'reset', 'snapshot', 'measure', 'h', 't']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
 
 ======================================================================
 ERROR: test_output_uses_requested_discrete_basis (__main__.Regression.test_output_uses_requested_discrete_basis)
@@ -86,7 +86,7 @@ Traceback (most recent call last):
           ^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\passes\basis\basis_translator.py", line 217, in run
     raise TranspilerError(
-qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['t', 'cx', 'barrier', 'h', 'delay', 'id', 'snapshot', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 'cx', 's'] to the backend's (or manually specified) target basis: ['barrier', 'id', 'cx', 'delay', 'reset', 'snapshot', 'measure', 'h', 't']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
 
 The above exception was the direct cause of the following exception:
 
@@ -105,7 +105,7 @@ Traceback (most recent call last):
                         ^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\runningpassmanager.py", line 163, in wrapper
     raise TranspilerError(ex.message) from ex
-qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['t', 'cx', 'barrier', 'h', 'delay', 'id', 'snapshot', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 'cx', 's'] to the backend's (or manually specified) target basis: ['barrier', 'id', 'cx', 'delay', 'reset', 'snapshot', 'measure', 'h', 't']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
 
 The above exception was the direct cause of the following exception:
 
@@ -130,9 +130,9 @@ Traceback (most recent call last):
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\qiskit_envs\q0452\Lib\site-packages\qiskit\transpiler\passmanager.py", line 555, in wrapper
     raise TranspilerError(ex.message) from ex
-qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['t', 'cx', 'barrier', 'h', 'delay', 'id', 'snapshot', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 'cx', 's'] to the backend's (or manually specified) target basis: ['barrier', 'id', 'cx', 'delay', 'reset', 'snapshot', 'measure', 'h', 't']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum-computing.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
 
 ----------------------------------------------------------------------
-Ran 2 tests in 0.100s
+Ran 2 tests in 0.131s
 
 FAILED (errors=2)

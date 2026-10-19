@@ -1,0 +1,102 @@
+Title:
+How can I control multiple gate at once (qiskit)
+
+Category:
+Category: Circuit Construction / Logic / Gates
+
+Why Stack Overflow Solution is Better in This Category:
+Stack Overflow delivers a precise, syntactically valid answer that highlights Qiskit's compose() behavior and control qubit expansion. The AI's example is conceptually aligned but technically incorrect due to improper use of append() with a QuantumCircuit, making the SO answer more reliable for this circuit-building task.
+
+Question:
+Title: How can I control multiple gate at once (qiskit)
+
+I have the following circuit in qiskit: I want to use it as a controlled subcircuit in my main quantum circuit like this: Is there any way to control all the gate in the subcircuit at once? I tried to use the method as follow: but I get the following error:
+
+```
+sub = QuantumCircuit(16) sub.cx(12, 4) sub.ccx(12, 4, 5) sub.append(C3XGate(), [4, 12, 5, 6]) sub.append(C4XGate(), [4, 12, 5, 6, 7]) sub.cx(13, 5) sub.ccx(13, 5, 6) sub.append(C3XGate(), [13, 5, 6, 7]) sub.cx(14, 6) sub.ccx(14, 6, 7) sub.cx(15, 7)
+```
+
+```
+sub = QuantumCircuit(16) sub.cx(12, 4) sub.ccx(12, 4, 5) sub.append(C3XGate(), [4, 12, 5, 6]) sub.append(C4XGate(), [4, 12, 5, 6, 7]) sub.cx(13, 5) sub.ccx(13, 5, 6) sub.append(C3XGate(), [13, 5, 6, 7]) sub.cx(14, 6) sub.ccx(14, 6, 7) sub.cx(15, 7)
+```
+
+```
+control()
+```
+
+```
+csub = sub.control(1) circ.compose(csub,[i] ,inplace = True)
+```
+
+```
+csub = sub.control(1) circ.compose(csub,[i] ,inplace = True)
+```
+
+```
+CircuitError: "Trying to compose with another QuantumCircuit which has more 'in' edges."
+```
+
+Original buggy code:
+sub = QuantumCircuit(16) sub.cx(12, 4) sub.ccx(12, 4, 5) sub.append(C3XGate(), [4, 12, 5, 6]) sub.append(C4XGate(), [4, 12, 5, 6, 7]) sub.cx(13, 5) sub.ccx(13, 5, 6) sub.append(C3XGate(), [13, 5, 6, 7]) sub.cx(14, 6) sub.ccx(14, 6, 7) sub.cx(15, 7)
+
+---CODE_BLOCK---
+
+sub = QuantumCircuit(16) sub.cx(12, 4) sub.ccx(12, 4, 5) sub.append(C3XGate(), [4, 12, 5, 6]) sub.append(C4XGate(), [4, 12, 5, 6, 7]) sub.cx(13, 5) sub.ccx(13, 5, 6) sub.append(C3XGate(), [13, 5, 6, 7]) sub.cx(14, 6) sub.ccx(14, 6, 7) sub.cx(15, 7)
+
+---CODE_BLOCK---
+
+control()
+
+---CODE_BLOCK---
+
+csub = sub.control(1) circ.compose(csub,[i] ,inplace = True)
+
+---CODE_BLOCK---
+
+csub = sub.control(1) circ.compose(csub,[i] ,inplace = True)
+
+---CODE_BLOCK---
+
+CircuitError: "Trying to compose with another QuantumCircuit which has more 'in' edges."
+
+Solution explanation:
+When you compose a subcircuit you have to specify the qubits of the main circuit to compose onto. In your case, the subcircuit has 16 qubits. Which means its controlled version has 17 qubits. So, you have to specify 17 qubits in the main circuit as the second parameter to method. For example, if you want to compose your subcircuit into the first 17 qubits, your code should be: Another example: if the control qubit is the qubit with index $i$, and the 16 input qubits are $j, j+1, ..., j+15$, then your code should be:
+
+```
+compose()
+```
+
+```
+circ.compose(csub, range(17), inplace=True)
+```
+
+```
+circ.compose(csub, range(17), inplace=True)
+```
+
+```
+circ.compose(csub, [i] + list(range(j, j + 16)), inplace=True)
+```
+
+```
+circ.compose(csub, [i] + list(range(j, j + 16)), inplace=True)
+```
+
+Original fixed code:
+compose()
+
+---CODE_BLOCK---
+
+circ.compose(csub, range(17), inplace=True)
+
+---CODE_BLOCK---
+
+circ.compose(csub, range(17), inplace=True)
+
+---CODE_BLOCK---
+
+circ.compose(csub, [i] + list(range(j, j + 16)), inplace=True)
+
+---CODE_BLOCK---
+
+circ.compose(csub, [i] + list(range(j, j + 16)), inplace=True)

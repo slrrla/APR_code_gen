@@ -1,0 +1,91 @@
+Title:
+Parallelizing Qiskit not working
+
+Category:
+
+
+Question:
+Title: Parallelizing Qiskit not working
+
+I hope this is the right place to ask this kind of question. I'm using the Aer simulator in Qiskit to analyze the state vector of some circuits. My program is very parallelizable, but when I try to run these qiskit calculations in parallel (using the multiprocessing library in python), in certain situations the call to Qiskit to simulate the circuit hangs indefinitely. For instance, I may have something like this: The above code does not work. The parallelized call to run the circuit (within the function) hangs indefinitely. However, if I remove the first run of the simulator (that produces result1), then everything is fine and works as expected. Does anyone know how I can fix this? I've read that the problem might have something to do with qiskit Aer utilizing multiprocessing for its own purposes, so using running Aer with multiprocessing can cause a conflict. However, my attempts to turn off qiskit's internal multiprocessing have not worked, or have not fixed my problem.
+
+```
+from multiprocessing import Pool def parallel(circ2): simulator2 = Aer.get_backend('aer_simulator') result2 = simulator.run(circ2).result() print(result2) circ1 = ... #some kind of circuit simulator1 = Aer.get_backend('aer_simulator') result1 = simulator1.run(circ1).result() print(result1) circs_arr = [...] #some list of different circuits with Pool(5) as p: p.map(parallel,circs_arr)
+```
+
+```
+from multiprocessing import Pool def parallel(circ2): simulator2 = Aer.get_backend('aer_simulator') result2 = simulator.run(circ2).result() print(result2) circ1 = ... #some kind of circuit simulator1 = Aer.get_backend('aer_simulator') result1 = simulator1.run(circ1).result() print(result1) circs_arr = [...] #some list of different circuits with Pool(5) as p: p.map(parallel,circs_arr)
+```
+
+Original buggy code:
+from multiprocessing import Pool def parallel(circ2): simulator2 = Aer.get_backend('aer_simulator') result2 = simulator.run(circ2).result() print(result2) circ1 = ... #some kind of circuit simulator1 = Aer.get_backend('aer_simulator') result1 = simulator1.run(circ1).result() print(result1) circs_arr = [...] #some list of different circuits with Pool(5) as p: p.map(parallel,circs_arr)
+
+---CODE_BLOCK---
+
+from multiprocessing import Pool def parallel(circ2): simulator2 = Aer.get_backend('aer_simulator') result2 = simulator.run(circ2).result() print(result2) circ1 = ... #some kind of circuit simulator1 = Aer.get_backend('aer_simulator') result1 = simulator1.run(circ1).result() print(result1) circs_arr = [...] #some list of different circuits with Pool(5) as p: p.map(parallel,circs_arr)
+
+Solution explanation:
+I took a closer look under the hood of qiskit, and I think I've discovered the issue. It looks like Qiskit uses the library to do their concurrency/parallelization. There seems to be some kind of a conflict with uses the library together with the library. I was able to get my code to work by switching from to futures to handle my parallelization. The only changes that need to be made for the above code to work are to add and replace with .
+
+```
+concurrent.futures
+```
+
+```
+concurrent
+```
+
+```
+multiprocessing
+```
+
+```
+multiprocessing
+```
+
+```
+concurrent.
+```
+
+```
+import concurrent.futures
+```
+
+```
+pool(5)
+```
+
+```
+futures.ThreadPoolExecutor(max_workers=5)
+```
+
+Original fixed code:
+concurrent.futures
+
+---CODE_BLOCK---
+
+concurrent
+
+---CODE_BLOCK---
+
+multiprocessing
+
+---CODE_BLOCK---
+
+multiprocessing
+
+---CODE_BLOCK---
+
+concurrent.
+
+---CODE_BLOCK---
+
+import concurrent.futures
+
+---CODE_BLOCK---
+
+pool(5)
+
+---CODE_BLOCK---
+
+futures.ThreadPoolExecutor(max_workers=5)

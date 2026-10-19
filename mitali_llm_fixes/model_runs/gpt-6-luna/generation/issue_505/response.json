@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWVyebEaCYRVUsNCj9NvWWo5M2xD7",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit.opflow.primitive_ops import PrimitiveOp\nfrom qiskit.quantum_info import Pauli\nimport numpy as np\n\n# FIX: x was a NumPy scalar whose multiplication produced an ndarray -> convert it to a Python float, because Qiskit's operator overload handles Python scalar multiplication correctly\nx = float(3.5 * np.sqrt(3.0 / 2))\nprint(x)\n\nannih_op = PrimitiveOp(Pauli('X')) + 1.0j * PrimitiveOp(Pauli('Y'))\ncreat_op = PrimitiveOp(Pauli('X')) - 1.0j * PrimitiveOp(Pauli('Y'))\n\nmy_op = x * creat_op.compose(annih_op, front=True)\n\nprint('type(my_op) = ', type(my_op))\nprint('my_op)= ', my_op)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418124,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 442,
+    "prompt_tokens": 2120,
+    "total_tokens": 2562,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 254,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 2117,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

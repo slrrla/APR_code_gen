@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWVyxnpcBt1VaKuooeakDsdcDrNpp",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport qiskit\nfrom qiskit import transpile, assemble\nfrom qiskit.circuit import ParameterVector, QuantumCircuit\nfrom qiskit.providers.aer import AerSimulator\n\nbackend = AerSimulator()\n\np = ParameterVector('p', 2)\nth = ParameterVector('th', 2)\ncircuit = QuantumCircuit(2)\ncircuit.rx(p[0], 0)\ncircuit.ry(p[1], 1)\ncircuit.ry(th[1], 1)\ncircuit.ry(th[0], 1)\n\nqc = transpile(circuit, backend)\n\ninp = [[0.1, 0.2]]\ntheta = [0.3, 0.4]\n\n# FIX: parameters were repeatedly overwritten and the returned bound circuit was discarded -> bind each parameter to its value and retain the result, because assign_parameters returns a new circuit by default\nbind_dict = {\n    p[0]: inp[0][0],\n    p[1]: inp[0][1],\n    th[0]: theta[0],\n    th[1]: theta[1],\n}\nqc = qc.assign_parameters(bind_dict)\n\nqobj = assemble(qc, shots=10)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418143,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 823,
+    "prompt_tokens": 1441,
+    "total_tokens": 2264,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 556,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1438,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

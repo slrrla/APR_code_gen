@@ -1,0 +1,32 @@
+test_diffuser_simulated_state_and_operator (oracle_issue_058_se_old.TestIntent) ... Simulation failed and returned the following error message:
+ERROR:  [Experiment 0] Circuit contains invalid instructions {"gates": {circuit-1134}} for "statevector" method
+ERROR
+
+======================================================================
+ERROR: test_diffuser_simulated_state_and_operator (oracle_issue_058_se_old.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_058_se\test.py", line 24, in test_diffuser_simulated_state_and_operator
+    ns = load_target()
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_058_se\test.py", line 16, in load_target
+    return runpy.run_path(MUT)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 288, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\validation_021_058\oracle_audit\mutants\issue_058_se\untranspiled_luna.py", line 46, in <module>
+    statevector = job.result().get_statevector(compiled_circuit)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\result\result.py", line 305, in get_statevector
+    return postprocess.format_statevector(self.data(experiment)['statevector'],
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\result\result.py", line 181, in data
+    return self._get_experiment(experiment).data.to_dict()
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\result\result.py", line 370, in _get_experiment
+    raise QiskitError('Data for experiment "%s" could not be found.' %
+qiskit.exceptions.QiskitError: 'Data for experiment "circuit-1133" could not be found.'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+FAILED (errors=1)

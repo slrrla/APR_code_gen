@@ -1,0 +1,143 @@
+Title:
+My IBMQ job hangs forever?
+
+Category:
+Category:
+Backend Usage / Simulation / Output
+
+Why Stack Overflow Wins in This Category:
+In backend usage, clarity and precision are critical. The Stack Overflow solution identifies the exact issue (non-blocking execution) and provides the most straightforward remedy (check job.status() and wait for DONE). While the AI advice improves reliability, it introduces extra complexity beyond what was needed to resolve the user’s immediate concern.
+
+Question:
+Title: My IBMQ job hangs forever?
+
+I am running a very simple script just to learn how to use IBMQ, but my job will hang indefinitely and I am forced to terminate it. In an attempt to debug, I am using "logging.basicConfig" which stops at: When I go to my IBMQ home page it says that the job has run successfully. It is only at the line that it fails. So it seems that the websocket is hanging forever. I'd appreciate any help I can get to fix this issue.
+
+```
+from qiskit import * from qiskit.compiler import transpile, assemble from qiskit import IBMQ from qiskit import QuantumCircuit, execute, BasicAer import logging logging.basicConfig(filename='log',level=logging.DEBUG) IBMQ.load_account() provider = IBMQ.get_provider(hub='ibm-q', group='open', project='main') #SELECT A BACKEND backend = provider.get_backend('ibmq_qasm_simulator') #ALGO qr = QuantumRegister(3) cr = ClassicalRegister(3) circuit = QuantumCircuit(qr, cr) circuit.x(qr[0]) circuit.x(qr[1]) circuit.ccx(qr[0], qr[1], qr[2]) circuit.cx(qr[0], qr[1]) circuit.measure(qr, cr) print('About to run job') job = execute(circuit, backend) print('Job Finished') result = job.result() counts = result.get_counts(circuit) print(counts)
+```
+
+```
+from qiskit import * from qiskit.compiler import transpile, assemble from qiskit import IBMQ from qiskit import QuantumCircuit, execute, BasicAer import logging logging.basicConfig(filename='log',level=logging.DEBUG) IBMQ.load_account() provider = IBMQ.get_provider(hub='ibm-q', group='open', project='main') #SELECT A BACKEND backend = provider.get_backend('ibmq_qasm_simulator') #ALGO qr = QuantumRegister(3) cr = ClassicalRegister(3) circuit = QuantumCircuit(qr, cr) circuit.x(qr[0]) circuit.x(qr[1]) circuit.ccx(qr[0], qr[1], qr[2]) circuit.cx(qr[0], qr[1]) circuit.measure(qr, cr) print('About to run job') job = execute(circuit, backend) print('Job Finished') result = job.result() counts = result.get_counts(circuit) print(counts)
+```
+
+```
+"websocket._connect:DEBUG:2020-09-16 11:26:57,813: Starting new websocket connection: wss://wss.quantum-computing.ibm.com/jobs/5f6258f09234fe0012dbd748/status/v/1"
+```
+
+```
+"websocket._connect:DEBUG:2020-09-16 11:26:57,813: Starting new websocket connection: wss://wss.quantum-computing.ibm.com/jobs/5f6258f09234fe0012dbd748/status/v/1"
+```
+
+```
+result = job.result()
+```
+
+Original buggy code:
+from qiskit import * from qiskit.compiler import transpile, assemble from qiskit import IBMQ from qiskit import QuantumCircuit, execute, BasicAer import logging logging.basicConfig(filename='log',level=logging.DEBUG) IBMQ.load_account() provider = IBMQ.get_provider(hub='ibm-q', group='open', project='main') #SELECT A BACKEND backend = provider.get_backend('ibmq_qasm_simulator') #ALGO qr = QuantumRegister(3) cr = ClassicalRegister(3) circuit = QuantumCircuit(qr, cr) circuit.x(qr[0]) circuit.x(qr[1]) circuit.ccx(qr[0], qr[1], qr[2]) circuit.cx(qr[0], qr[1]) circuit.measure(qr, cr) print('About to run job') job = execute(circuit, backend) print('Job Finished') result = job.result() counts = result.get_counts(circuit) print(counts)
+
+---CODE_BLOCK---
+
+from qiskit import * from qiskit.compiler import transpile, assemble from qiskit import IBMQ from qiskit import QuantumCircuit, execute, BasicAer import logging logging.basicConfig(filename='log',level=logging.DEBUG) IBMQ.load_account() provider = IBMQ.get_provider(hub='ibm-q', group='open', project='main') #SELECT A BACKEND backend = provider.get_backend('ibmq_qasm_simulator') #ALGO qr = QuantumRegister(3) cr = ClassicalRegister(3) circuit = QuantumCircuit(qr, cr) circuit.x(qr[0]) circuit.x(qr[1]) circuit.ccx(qr[0], qr[1], qr[2]) circuit.cx(qr[0], qr[1]) circuit.measure(qr, cr) print('About to run job') job = execute(circuit, backend) print('Job Finished') result = job.result() counts = result.get_counts(circuit) print(counts)
+
+---CODE_BLOCK---
+
+"websocket._connect:DEBUG:2020-09-16 11:26:57,813: Starting new websocket connection: wss://wss.quantum-computing.ibm.com/jobs/5f6258f09234fe0012dbd748/status/v/1"
+
+---CODE_BLOCK---
+
+"websocket._connect:DEBUG:2020-09-16 11:26:57,813: Starting new websocket connection: wss://wss.quantum-computing.ibm.com/jobs/5f6258f09234fe0012dbd748/status/v/1"
+
+---CODE_BLOCK---
+
+result = job.result()
+
+Solution explanation:
+The function is non-blocking. That means that it will return after sending the job, but not necessarily with the result. In your code, you should wait for the status of the job to be : After waiting some time: Then, will work.
+
+```
+execute
+```
+
+```
+DONE
+```
+
+```
+print('About to run job') job = execute(circuit, backend) job.status()
+```
+
+```
+print('About to run job') job = execute(circuit, backend) job.status()
+```
+
+```
+JobStatus.QUEUED
+```
+
+```
+JobStatus.QUEUED
+```
+
+```
+job.status()
+```
+
+```
+job.status()
+```
+
+```
+JobStatus.DONE
+```
+
+```
+JobStatus.DONE
+```
+
+```
+job.result()
+```
+
+Original fixed code:
+execute
+
+---CODE_BLOCK---
+
+DONE
+
+---CODE_BLOCK---
+
+print('About to run job') job = execute(circuit, backend) job.status()
+
+---CODE_BLOCK---
+
+print('About to run job') job = execute(circuit, backend) job.status()
+
+---CODE_BLOCK---
+
+JobStatus.QUEUED
+
+---CODE_BLOCK---
+
+JobStatus.QUEUED
+
+---CODE_BLOCK---
+
+job.status()
+
+---CODE_BLOCK---
+
+job.status()
+
+---CODE_BLOCK---
+
+JobStatus.DONE
+
+---CODE_BLOCK---
+
+JobStatus.DONE
+
+---CODE_BLOCK---
+
+job.result()

@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWPTC8rE3grxBUUqoe0UarXoIW8P",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import QuantumCircuit\nfrom qiskit.quantum_info import SparsePauliOp\n# FIX: No fake-device noise model was available -> import FakeManila and NoiseModel, because the Runtime simulator accepts a noise model derived from a fake backend.\nfrom qiskit.providers.fake_provider import FakeManila\nfrom qiskit.providers.aer.noise import NoiseModel\nfrom qiskit_ibm_runtime import QiskitRuntimeService, Options, Session, Estimator\n\nqc = QuantumCircuit(1)\n\nO = SparsePauliOp(['Z'])\n\nservice = QiskitRuntimeService()\nbackend = 'ibmq_qasm_simulator'\n# FIX: The simulator had no custom noise configured -> supply FakeManila's noise model, because a fake backend is not itself a remote Runtime backend.\noptions = Options(resilience_level=0, simulator={\"noise_model\": NoiseModel.from_backend(FakeManila())})\n\nwith Session(service=service, backend=backend) as session:\n    estimator = Estimator(session=session, options=options)\n    job = estimator.run(circuits=[qc], observables=[O])\n    print(job.result().values)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419787,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 680,
+    "prompt_tokens": 1016,
+    "total_tokens": 1696,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 430,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

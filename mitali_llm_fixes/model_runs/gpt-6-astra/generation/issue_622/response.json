@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWKAJgPp70dqUxAmhgSEjjFI4SaD",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport qiskit\n# FIX: FakeArmonk has only one qubit -> import FakeVigo, because the circuit requires two connected qubits.\nfrom qiskit.test.mock import FakeVigo\n\n# FIX: The one-qubit backend cannot execute this circuit -> use FakeVigo, because it supports the two-qubit circuit.\nbackend = FakeVigo()\n\nq = qiskit.QuantumRegister(2)\nc = qiskit.ClassicalRegister(2)\nqc = qiskit.QuantumCircuit(q, c)\nqc.h(q[0])\nqc.cx(q[0], q[1])\nqc.measure(q, c)\n\njob_exp = qiskit.execute(qc, backend=backend, shots=1024, max_credits=3)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419458,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 240,
+    "prompt_tokens": 1767,
+    "total_tokens": 2007,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 70,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1764,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

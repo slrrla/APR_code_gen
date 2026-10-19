@@ -1,0 +1,28 @@
+Title:
+Qiskit and IPython conf files do not exist
+
+Category:
+Category: Installation / Missing Configuration Files  
+Winner: AI  
+Why AI Is Better: The AI provides not just the fix but also the full set of commands and context needed to manually create and configure missing setup files for Qiskit and IPython. This prevents guesswork and supports reproducibility.
+Why AI Performs Well in This Category: AI excels here because it offers **hands-on shell guidance**, something critical when resolving install/config issues across environments. Its ability to clarify default behaviors (like auto-generation) is also key for troubleshooting.
+
+
+Question:
+Title: Qiskit and IPython conf files do not exist
+
+I had installed the qiskit-textbook distribution of Qiskit using this command : pip install git+https://github.com/qiskit-community/qiskit-textbook.git#subdirectory=qiskit-textbook-src 
+ The tutorial then said to change the contents of the configuration file located at ~/.qiskit/settings.conf but I can't find the folder at ~/ . I can't find the iPython configuration file either at ~/.ipython/profile_default/ipython_kernel_config.py for some reason. 
+ How do I fix this?
+
+Original buggy code:
+I had installed the qiskit-textbook distribution of Qiskit using this command : pip install git+https://github.com/qiskit-community/qiskit-textbook.git#subdirectory=qiskit-textbook-src
+
+Solution explanation:
+If you don't have the ~/.qiskit/settings.conf you can create that yourself at that location (see this answer here and the docs here ). 
+
+ If you don't have ~/.ipython/profile_default/ipython_kernel_config.py , try running ipython profile create and see if it then appears.
+
+Original fixed code:
+If you don't have the ~/.qiskit/settings.conf you can create that yourself at that location (see this answer here and the docs here ).
+ If you don't have ~/.ipython/profile_default/ipython_kernel_config.py , try running ipython profile create and see if it then appears.

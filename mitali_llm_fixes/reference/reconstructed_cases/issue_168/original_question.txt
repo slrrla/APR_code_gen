@@ -1,0 +1,159 @@
+Title:
+How to access a qiskit runtime job and query time_taken?
+
+Category:
+Category:
+Backend Usage / Simulation / Output
+
+Why AI Wins in This Category:
+Backend usage questions require not just identifying mistakes but also providing a robust, modern workflow. The AI solution leverages QiskitRuntimeService, gives runnable code, and explains the meaning of time_taken. This is more practical and future-proof than the minimal SO response tied to older provider syntax.
+
+Question:
+Title: How to access a qiskit runtime job and query time_taken?
+
+I am trying to execute qiskit runtime jobs on simulators and real machines and I would like to extract information about the time taken to execute each runtime job. Since using python method will include also queueing time, which I would like to exclude, I thought about checking on attribute of the . To this end, I found this code: And my plan was to use the attribute, as I have seen in many other threads. However, I get the following error: I checked the id in the IBM quantum service web interface, and the is the same. I do not understand what I am doing wrong. Is there something I am missing? Until now, that's the best I could do, but I am sure there is a better way: Thanks a lot for your attention and Best Regards!
+
+```
+time.time()
+```
+
+```
+time_taken
+```
+
+```
+RuntimeJob
+```
+
+```
+job = provider.runtime.run(program_id='...', inputs=inputs, options=options) job_id = job.job_id() job_info = backend.retrieve_job(job_id)
+```
+
+```
+job = provider.runtime.run(program_id='...', inputs=inputs, options=options) job_id = job.job_id() job_info = backend.retrieve_job(job_id)
+```
+
+```
+time_taken
+```
+
+```
+File "/usr/local/lib/python3.9/dist-packages/qiskit/providers/ibmq/ibmqbackendservice.py", line 484, in retrieve_job raise IBMQBackendApiError('Failed to get job {}: {}' qiskit.providers.ibmq.exceptions.IBMQBackendApiError: "Failed to get job c8s4h14o112vg1vn8ed0: '404 Client Error: Not Found for url: https://api-qcon.quantum-computing.ibm.com/api/Network/.../main/Jobs/c8s4h14o112vg1vn8ed0/v/1. Job not found., Error code: 3250.'
+```
+
+```
+File "/usr/local/lib/python3.9/dist-packages/qiskit/providers/ibmq/ibmqbackendservice.py", line 484, in retrieve_job raise IBMQBackendApiError('Failed to get job {}: {}' qiskit.providers.ibmq.exceptions.IBMQBackendApiError: "Failed to get job c8s4h14o112vg1vn8ed0: '404 Client Error: Not Found for url: https://api-qcon.quantum-computing.ibm.com/api/Network/.../main/Jobs/c8s4h14o112vg1vn8ed0/v/1. Job not found., Error code: 3250.'
+```
+
+```
+job_id
+```
+
+```
+job = provider.runtime.run(program_id='x', inputs=inputs, options=options) while job.status() != JobStatus.RUNNING: pass start = time.time() res = job.result() end = time.time()
+```
+
+```
+job = provider.runtime.run(program_id='x', inputs=inputs, options=options) while job.status() != JobStatus.RUNNING: pass start = time.time() res = job.result() end = time.time()
+```
+
+Original buggy code:
+time.time()
+
+---CODE_BLOCK---
+
+time_taken
+
+---CODE_BLOCK---
+
+RuntimeJob
+
+---CODE_BLOCK---
+
+job = provider.runtime.run(program_id='...', inputs=inputs, options=options) job_id = job.job_id() job_info = backend.retrieve_job(job_id)
+
+---CODE_BLOCK---
+
+job = provider.runtime.run(program_id='...', inputs=inputs, options=options) job_id = job.job_id() job_info = backend.retrieve_job(job_id)
+
+---CODE_BLOCK---
+
+time_taken
+
+---CODE_BLOCK---
+
+File "/usr/local/lib/python3.9/dist-packages/qiskit/providers/ibmq/ibmqbackendservice.py", line 484, in retrieve_job raise IBMQBackendApiError('Failed to get job {}: {}' qiskit.providers.ibmq.exceptions.IBMQBackendApiError: "Failed to get job c8s4h14o112vg1vn8ed0: '404 Client Error: Not Found for url: https://api-qcon.quantum-computing.ibm.com/api/Network/.../main/Jobs/c8s4h14o112vg1vn8ed0/v/1. Job not found., Error code: 3250.'
+
+---CODE_BLOCK---
+
+File "/usr/local/lib/python3.9/dist-packages/qiskit/providers/ibmq/ibmqbackendservice.py", line 484, in retrieve_job raise IBMQBackendApiError('Failed to get job {}: {}' qiskit.providers.ibmq.exceptions.IBMQBackendApiError: "Failed to get job c8s4h14o112vg1vn8ed0: '404 Client Error: Not Found for url: https://api-qcon.quantum-computing.ibm.com/api/Network/.../main/Jobs/c8s4h14o112vg1vn8ed0/v/1. Job not found., Error code: 3250.'
+
+---CODE_BLOCK---
+
+job_id
+
+---CODE_BLOCK---
+
+job = provider.runtime.run(program_id='x', inputs=inputs, options=options) while job.status() != JobStatus.RUNNING: pass start = time.time() res = job.result() end = time.time()
+
+---CODE_BLOCK---
+
+job = provider.runtime.run(program_id='x', inputs=inputs, options=options) while job.status() != JobStatus.RUNNING: pass start = time.time() res = job.result() end = time.time()
+
+Solution explanation:
+First of all, I just have a question : since your job is already stocked in the variable when you call , then why try to retrieve it right after? It is not necessary here since you run it right before. Now, to retrieve a runtime job, you have to do this : Btw, the time taken by the job might have another name based on the program you run. For example it will still be for , but for QAOA or VQE it will be called .
+
+```
+job
+```
+
+```
+job = provider.runtime.run(program_id='...', inputs=inputs, options=options)
+```
+
+```
+job_id='your_jobid' job = provider.runtime.job(job_id)
+```
+
+```
+job_id='your_jobid' job = provider.runtime.job(job_id)
+```
+
+```
+time_taken
+```
+
+```
+circuit_runner
+```
+
+```
+optimizer_time
+```
+
+Original fixed code:
+job
+
+---CODE_BLOCK---
+
+job = provider.runtime.run(program_id='...', inputs=inputs, options=options)
+
+---CODE_BLOCK---
+
+job_id='your_jobid' job = provider.runtime.job(job_id)
+
+---CODE_BLOCK---
+
+job_id='your_jobid' job = provider.runtime.job(job_id)
+
+---CODE_BLOCK---
+
+time_taken
+
+---CODE_BLOCK---
+
+circuit_runner
+
+---CODE_BLOCK---
+
+optimizer_time

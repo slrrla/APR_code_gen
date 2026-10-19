@@ -1,0 +1,14 @@
+test_custom_gate_execution_and_amplitudes (oracle_issue_021_se_old.TestIntent.test_custom_gate_execution_and_amplitudes) ... FAIL
+
+======================================================================
+FAIL: test_custom_gate_execution_and_amplitudes (oracle_issue_021_se_old.TestIntent.test_custom_gate_execution_and_amplitudes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\test.py", line 28, in test_custom_gate_execution_and_amplitudes
+    self.assertTrue(Statevector(ns["result"]).equiv(Statevector(expected)))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 0.011s
+
+FAILED (failures=1)

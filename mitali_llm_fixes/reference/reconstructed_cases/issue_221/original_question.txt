@@ -1,0 +1,70 @@
+Title:
+How to read the elements of a circuit in qiskit?
+
+Category:
+Category: Circuit Construction / Logic / Gates
+Why AI Wins in This Category:
+
+The AI solution clearly demonstrates how to inspect and alter gate-level structure using .data. It encapsulates the logic into a reusable function and exemplifies real-world circuit manipulation. It wins in clarity, depth, and practical implementation — all essential for gate-level circuit design.
+
+Question:
+Title: How to read the elements of a circuit in qiskit?
+
+I would like to know if there is a way to read the elements of a circuit. What I mean is if I have a object, can I obtain the gates that are applied to each qubit in order? I would like to implement certain noise gate after each Hadamard and I would have therefore to identify each Hadamard in the object. So I need a function that gives me all the gates in a circuit and that allows me to modificate what it returns so I can construct a modified quantum circuit.
+
+```
+QuantumCircuit
+```
+
+```
+QuantumCircuit
+```
+
+Original buggy code:
+QuantumCircuit
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+Solution explanation:
+You can play with the circuit's . First write: or Then you'll understand the structure and how to modify it.
+
+```
+data
+```
+
+```
+print(circ.data)
+```
+
+```
+print(circ.data)
+```
+
+```
+from pprint import pprint pprint(vars(circ.data))
+```
+
+```
+from pprint import pprint pprint(vars(circ.data))
+```
+
+Original fixed code:
+data
+
+---CODE_BLOCK---
+
+print(circ.data)
+
+---CODE_BLOCK---
+
+print(circ.data)
+
+---CODE_BLOCK---
+
+from pprint import pprint pprint(vars(circ.data))
+
+---CODE_BLOCK---
+
+from pprint import pprint pprint(vars(circ.data))

@@ -1,0 +1,131 @@
+Title:
+From Qiskit QuadraticProgram to problem model accepted by d'wave ocean
+
+Category:
+
+
+Question:
+Title: From Qiskit QuadraticProgram to problem model accepted by d'wave ocean
+
+Is there a way to convert () to BQM used in D'wave ocean (e.g. )? I'd like to use Qiskit to model my programming problem and use converters to deal with integer variables, inequations, etc., then sample this problem on d'wave QPU with annealing schedules. I've noticed d'wave has implemented a plugin that allows Qiskit to access QPU by the . It seems hardly deal with parameters as a native d'wave sampler.
+
+```
+QuadraticProgram
+```
+
+```
+qiskit.optimization.problems.QuadraticProgram
+```
+
+```
+dimod.AdjVectorBQM
+```
+
+```
+DWaveMinimumEigensolver
+```
+
+Original buggy code:
+QuadraticProgram
+
+---CODE_BLOCK---
+
+qiskit.optimization.problems.QuadraticProgram
+
+---CODE_BLOCK---
+
+dimod.AdjVectorBQM
+
+---CODE_BLOCK---
+
+DWaveMinimumEigensolver
+
+Solution explanation:
+Direct conversion There is a way to convert a QuadraticProgram(QP) from Qiskit into a BinaryQuadraticModel(BQM). First the QP has to be created with Qiskit. It can have linear constraints, integer variables and binary variables. The objective can have linear and quadratic terms. Quadratic constraints and float variables are not supported in the following workflow. The qiskit-optimization package has a special converter named QuadraticProgramToQubo. This convenience converter wraps several conversions. By using the convert method one gets a QP back in QuadraticUnconstrainedBinaryOptimization (QUBO) problem form. That is, constraints were transformed to be part of the objective function now. Integer variables are mapped to several binary variables. Now, to transform this into Ocean framework, create a BQM instance with the objective function parts of the QUBO: This BQM can be submitted to a D-Wave QPU sampler, e.g. D-Wave Qiskit Plugin By using the Plugin one can avoid the transformation and especially interpreting of results part. The use is pretty straightforward. One should be aware, that the plugin was not updated to the new package structure in Qiskit (Aqua to optimization). Imports: Model the QP in Qiskit. Add variables, constraints and set objective function with linear and quadratic terms. Use D-Wave QPU as a minimum eigen solver The result is in agreement with the original QP problem. To view the native QPU results use For the parameter setting I have opened an issue on the plugins GitHub site, which has been solved: https://github.com/dwavesystems/dwave-qiskit-plugin/issues/1
+
+```
+bqm_binary = dimod.as_bqm(qubo.objective.linear.to_array(), qubo.objective.quadratic.to_array(), dimod.BINARY)
+```
+
+```
+bqm_binary = dimod.as_bqm(qubo.objective.linear.to_array(), qubo.objective.quadratic.to_array(), dimod.BINARY)
+```
+
+```
+result = sampler.sample(bqm_binary, label="example_qp", num_reads=1024)
+```
+
+```
+from qiskit.optimization import QuadraticProgram from qiskit.optimization.algorithms import MinimumEigenOptimizer from dwave.plugins.qiskit import DWaveMinimumEigensolver
+```
+
+```
+from qiskit.optimization import QuadraticProgram from qiskit.optimization.algorithms import MinimumEigenOptimizer from dwave.plugins.qiskit import DWaveMinimumEigensolver
+```
+
+```
+model = QuadraticProgram("Binary Test")
+```
+
+```
+model = QuadraticProgram("Binary Test")
+```
+
+```
+dwave_solver = DWaveMinimumEigensolver() optimizer = MinimumEigenOptimizer(dwave_solver) result = optimizer.solve(model)
+```
+
+```
+dwave_solver = DWaveMinimumEigensolver() optimizer = MinimumEigenOptimizer(dwave_solver) result = optimizer.solve(model)
+```
+
+```
+result.min_eigen_solver_result.sampleset.to_pandas_dataframe()
+```
+
+```
+result.min_eigen_solver_result.sampleset.to_pandas_dataframe()
+```
+
+Original fixed code:
+bqm_binary = dimod.as_bqm(qubo.objective.linear.to_array(), qubo.objective.quadratic.to_array(), dimod.BINARY)
+
+---CODE_BLOCK---
+
+bqm_binary = dimod.as_bqm(qubo.objective.linear.to_array(), qubo.objective.quadratic.to_array(), dimod.BINARY)
+
+---CODE_BLOCK---
+
+result = sampler.sample(bqm_binary, label="example_qp", num_reads=1024)
+
+---CODE_BLOCK---
+
+from qiskit.optimization import QuadraticProgram from qiskit.optimization.algorithms import MinimumEigenOptimizer from dwave.plugins.qiskit import DWaveMinimumEigensolver
+
+---CODE_BLOCK---
+
+from qiskit.optimization import QuadraticProgram from qiskit.optimization.algorithms import MinimumEigenOptimizer from dwave.plugins.qiskit import DWaveMinimumEigensolver
+
+---CODE_BLOCK---
+
+model = QuadraticProgram("Binary Test")
+
+---CODE_BLOCK---
+
+model = QuadraticProgram("Binary Test")
+
+---CODE_BLOCK---
+
+dwave_solver = DWaveMinimumEigensolver() optimizer = MinimumEigenOptimizer(dwave_solver) result = optimizer.solve(model)
+
+---CODE_BLOCK---
+
+dwave_solver = DWaveMinimumEigensolver() optimizer = MinimumEigenOptimizer(dwave_solver) result = optimizer.solve(model)
+
+---CODE_BLOCK---
+
+result.min_eigen_solver_result.sampleset.to_pandas_dataframe()
+
+---CODE_BLOCK---
+
+result.min_eigen_solver_result.sampleset.to_pandas_dataframe()

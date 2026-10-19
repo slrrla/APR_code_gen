@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWDKKlqlzYkwmlFL9McxskNKWLfu",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport numpy as np\nfrom qiskit.quantum_info import Statevector\n# FIX: StateFn composition cannot form this projector -> import MatrixOp, because it represents matrix operators in opflow.\nfrom qiskit.opflow import Plus, MatrixOp\nfrom qiskit.algorithms import NumPyEigensolver\n\n# FIX: Plus @ ~Plus is unsupported StateFn composition -> construct the outer product, because it yields the projector |+><+|.\nproj = MatrixOp(np.outer(Plus.to_matrix(), Plus.to_matrix().conj()))\n\nplus = Statevector([1/np.sqrt(2), 1/np.sqrt(2)]).to_operator()\nsolver = NumPyEigensolver()\n# FIX: quantum_info.Operator lacks to_spmatrix -> wrap it in MatrixOp, because NumPyEigensolver requires an opflow operator.\nspectrum = solver.compute_eigenvalues(MatrixOp(plus))\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419034,
+  "model": "gpt-6.1-sol",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 390,
+    "prompt_tokens": 1022,
+    "total_tokens": 1412,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 191,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

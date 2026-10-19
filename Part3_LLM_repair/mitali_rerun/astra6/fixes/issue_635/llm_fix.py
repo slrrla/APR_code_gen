@@ -1,0 +1,17 @@
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, execute, Aer
+
+q = QuantumRegister(3)
+c = ClassicalRegister(3)
+qc = QuantumCircuit(q, c)
+
+qc.measure(q, c)
+
+# FIX: Each X depended on only one bit -> condition both on register values 3 or 7, because these require c[0] and c[1] to be 1 regardless of c[2].
+for value in (3, 7):
+    qc.x(q[0]).c_if(c, value)
+    qc.x(q[1]).c_if(c, value)
+
+backend = Aer.get_backend('qasm_simulator')
+job = execute(qc, backend, shots=1024)
+result = job.result()
+print(result.get_counts(qc))

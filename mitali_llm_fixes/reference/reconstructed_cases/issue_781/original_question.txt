@@ -1,0 +1,59 @@
+Title:
+qiskit save circuit with free parameters
+
+Category:
+
+
+Question:
+Title: qiskit save circuit with free parameters
+
+Is there a way to save an instance of qiskit's in some format when the circuit has still some free parameters to be evaluated? I have tried using the qasm format but it seems it does not tolerate non-evaluated parameters.
+
+```
+QuantumCircuit
+```
+
+Original buggy code:
+QuantumCircuit
+
+Solution explanation:
+Yes, there is - QPY serialization. It is useful for the case you have depicted but also for many other cases where the QASM format imposes restrictions. An example: Creating the circuit and dumping it to a file: Loading the circuit and assigning a value to $\theta$: Displays:
+
+```
+qpy
+```
+
+```
+from qiskit import QuantumCircuit, qpy from qiskit.circuit import Parameter theta = Parameter("$\Theta$") qc = QuantumCircuit(1) qc.ry(theta, 0) with open("qc.qpy", "wb") as qpy_file_write: qpy.dump(qc, qpy_file_write)
+```
+
+```
+from qiskit import QuantumCircuit, qpy from qiskit.circuit import Parameter theta = Parameter("$\Theta$") qc = QuantumCircuit(1) qc.ry(theta, 0) with open("qc.qpy", "wb") as qpy_file_write: qpy.dump(qc, qpy_file_write)
+```
+
+```
+import numpy as np from qiskit import qpy with open("qc.qpy", "rb") as qpy_file_read: qc_loaded = qpy.load(qpy_file_read)[0] qc_loaded = qc_loaded.bind_parameters([np.pi/2]) qc_loaded.draw("mpl")
+```
+
+```
+import numpy as np from qiskit import qpy with open("qc.qpy", "rb") as qpy_file_read: qc_loaded = qpy.load(qpy_file_read)[0] qc_loaded = qc_loaded.bind_parameters([np.pi/2]) qc_loaded.draw("mpl")
+```
+
+Original fixed code:
+qpy
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, qpy from qiskit.circuit import Parameter theta = Parameter("$\Theta$") qc = QuantumCircuit(1) qc.ry(theta, 0) with open("qc.qpy", "wb") as qpy_file_write: qpy.dump(qc, qpy_file_write)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, qpy from qiskit.circuit import Parameter theta = Parameter("$\Theta$") qc = QuantumCircuit(1) qc.ry(theta, 0) with open("qc.qpy", "wb") as qpy_file_write: qpy.dump(qc, qpy_file_write)
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import qpy with open("qc.qpy", "rb") as qpy_file_read: qc_loaded = qpy.load(qpy_file_read)[0] qc_loaded = qc_loaded.bind_parameters([np.pi/2]) qc_loaded.draw("mpl")
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import qpy with open("qc.qpy", "rb") as qpy_file_read: qc_loaded = qpy.load(qpy_file_read)[0] qc_loaded = qc_loaded.bind_parameters([np.pi/2]) qc_loaded.draw("mpl")

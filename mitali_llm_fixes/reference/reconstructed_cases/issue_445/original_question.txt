@@ -1,0 +1,215 @@
+Title:
+How to compare the output of statevector_simulator and qasm_simulator in Qiskit
+
+Category:
+Category:
+Backend Usage / Simulation / Output
+
+Why Both Win in This Category:
+In simulation/output problems, what matters is clarity in linking simulator outputs. Both the Stack Overflow and AI solutions deliver the same core insight—that amplitudes (statevector) and probabilities (qasm) are connected through squared magnitudes. While AI adds runnable code, Stack Overflow captures the principle concisely. They complement each other but ultimately provide the same resolution.
+
+Question:
+Title: How to compare the output of statevector_simulator and qasm_simulator in Qiskit
+
+I am stuck with a very difficult problem. Suppose, I execute a circuit on , and I get all the values negative. Suppose, now i execute the same circuit on . I will surely get positive coefficients, because here I will do the square root of the probabilities and probabilities are always positive. Now how should I check the equivalence or correctness? Edit To make my question more clear, am running a small two qubit circuit using qasm simulator and statevector simulator. You will see that results are different and I am not sure how to compare their results. Qasm_Simulator The result is: Statevector_Simulator The result is: It would be great if someone can help me in resolving my problem.
+
+```
+statevector_simulator
+```
+
+```
+qasm_simulator
+```
+
+```
+from qiskit import QuantumCircuit, execute from qiskit import IBMQ from qiskit import Aer import numpy as np import matplotlib.pyplot as plt IBMQ.load_account() simulator_used = 'qasm_simulator' circuit = QuantumCircuit(2,2) data = np.array([-0.5, -0.2, -0.2, -0.6]) norm_data = np.linalg.norm(data) normalized_data = data/ norm_data circuit.initialize(normalized_data, [0,1]) circuit.h(0) circuit.cx(0,1) circuit.x(0) circuit.rx(-np.pi/10, 0) circuit.ry(-np.pi/20, 1) circuit.measure([0,1],[0,1]) print(circuit) simulator = Aer.get_backend(simulator_used) job = execute(circuit, simulator, shots=10000) result = job.result() counts = result.get_counts(circuit) final_result = [] for key in counts: final_result.append(np.sqrt(counts[key]/10000)) print(final_result)
+```
+
+```
+from qiskit import QuantumCircuit, execute from qiskit import IBMQ from qiskit import Aer import numpy as np import matplotlib.pyplot as plt IBMQ.load_account() simulator_used = 'qasm_simulator' circuit = QuantumCircuit(2,2) data = np.array([-0.5, -0.2, -0.2, -0.6]) norm_data = np.linalg.norm(data) normalized_data = data/ norm_data circuit.initialize(normalized_data, [0,1]) circuit.h(0) circuit.cx(0,1) circuit.x(0) circuit.rx(-np.pi/10, 0) circuit.ry(-np.pi/20, 1) circuit.measure([0,1],[0,1]) print(circuit) simulator = Aer.get_backend(simulator_used) job = execute(circuit, simulator, shots=10000) result = job.result() counts = result.get_counts(circuit) final_result = [] for key in counts: final_result.append(np.sqrt(counts[key]/10000)) print(final_result)
+```
+
+```
+IBMQ.load_account() ┌──────────────────────────────────────────────────┐┌───┐ ┌───┐ ┌───────────┐┌─┐ q_0: ┤0 ├┤ H ├──■──────┤ X ├────┤ Rx(-π/10) ├┤M├ │ Initialize(-0.60193,-0.24077,-0.24077,-0.72232) │└───┘┌─┴─┐┌───┴───┴───┐└────┬─┬────┘└╥┘ q_1: ┤1 ├─────┤ X ├┤ Ry(-π/20) ├─────┤M├──────╫─ └──────────────────────────────────────────────────┘ └───┘└───────────┘ └╥┘ ║ c: 2/═════════════════════════════════════════════════════════════════════════════════╩═══════╩═ 1 0 [0.6433506042586733, 0.6260990336999411, 0.30016662039607267, 0.322490309931942]
+```
+
+```
+IBMQ.load_account() ┌──────────────────────────────────────────────────┐┌───┐ ┌───┐ ┌───────────┐┌─┐ q_0: ┤0 ├┤ H ├──■──────┤ X ├────┤ Rx(-π/10) ├┤M├ │ Initialize(-0.60193,-0.24077,-0.24077,-0.72232) │└───┘┌─┴─┐┌───┴───┴───┐└────┬─┬────┘└╥┘ q_1: ┤1 ├─────┤ X ├┤ Ry(-π/20) ├─────┤M├──────╫─ └──────────────────────────────────────────────────┘ └───┘└───────────┘ └╥┘ ║ c: 2/═════════════════════════════════════════════════════════════════════════════════╩═══════╩═ 1 0 [0.6433506042586733, 0.6260990336999411, 0.30016662039607267, 0.322490309931942]
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.compiler import transpile from qiskit import IBMQ from qiskit import Aer import numpy as np import matplotlib.pyplot as plt IBMQ.load_account() simulator_used = "statevector_simulator" circuit = QuantumCircuit(2,2) data = np.array([-0.5, -0.2, -0.2, -0.6]) norm_data = np.linalg.norm(data) normalized_data = data/ norm_data circuit.initialize(normalized_data, [0,1]) circuit.h(0) circuit.cx(0,1) circuit.x(0) circuit.rx(-np.pi/10, 0) circuit.ry(-np.pi/20, 1) print(circuit) simulator = Aer.get_backend(simulator_used) result = simulator.run(transpile(circuit, simulator)).result() output_complex = result.get_statevector(circuit) output_real = np.array(np.real(output_complex)) print("The output real =", output_real)
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.compiler import transpile from qiskit import IBMQ from qiskit import Aer import numpy as np import matplotlib.pyplot as plt IBMQ.load_account() simulator_used = "statevector_simulator" circuit = QuantumCircuit(2,2) data = np.array([-0.5, -0.2, -0.2, -0.6]) norm_data = np.linalg.norm(data) normalized_data = data/ norm_data circuit.initialize(normalized_data, [0,1]) circuit.h(0) circuit.cx(0,1) circuit.x(0) circuit.rx(-np.pi/10, 0) circuit.ry(-np.pi/20, 1) print(circuit) simulator = Aer.get_backend(simulator_used) result = simulator.run(transpile(circuit, simulator)).result() output_complex = result.get_statevector(circuit) output_real = np.array(np.real(output_complex)) print("The output real =", output_real)
+```
+
+```
+IBMQ.load_account() ┌──────────────────────────────────────────────────┐┌───┐ ┌───┐ ┌───────────┐ q_0: ┤0 ├┤ H ├──■──────┤ X ├────┤ Rx(-π/10) ├ │ Initialize(-0.60193,-0.24077,-0.24077,-0.72232) │└───┘┌─┴─┐┌───┴───┴───┐└───────────┘ q_1: ┤1 ├─────┤ X ├┤ Ry(-π/20) ├───────────── └──────────────────────────────────────────────────┘ └───┘└───────────┘ c: 2/════════════════════════════════════════════════════════════════════════════════════════ The output real = [ 0.31548377 -0.63950225 -0.27784191 -0.62437088]
+```
+
+```
+IBMQ.load_account() ┌──────────────────────────────────────────────────┐┌───┐ ┌───┐ ┌───────────┐ q_0: ┤0 ├┤ H ├──■──────┤ X ├────┤ Rx(-π/10) ├ │ Initialize(-0.60193,-0.24077,-0.24077,-0.72232) │└───┘┌─┴─┐┌───┴───┴───┐└───────────┘ q_1: ┤1 ├─────┤ X ├┤ Ry(-π/20) ├───────────── └──────────────────────────────────────────────────┘ └───┘└───────────┘ c: 2/════════════════════════════════════════════════════════════════════════════════════════ The output real = [ 0.31548377 -0.63950225 -0.27784191 -0.62437088]
+```
+
+Original buggy code:
+statevector_simulator
+
+---CODE_BLOCK---
+
+qasm_simulator
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, execute from qiskit import IBMQ from qiskit import Aer import numpy as np import matplotlib.pyplot as plt IBMQ.load_account() simulator_used = 'qasm_simulator' circuit = QuantumCircuit(2,2) data = np.array([-0.5, -0.2, -0.2, -0.6]) norm_data = np.linalg.norm(data) normalized_data = data/ norm_data circuit.initialize(normalized_data, [0,1]) circuit.h(0) circuit.cx(0,1) circuit.x(0) circuit.rx(-np.pi/10, 0) circuit.ry(-np.pi/20, 1) circuit.measure([0,1],[0,1]) print(circuit) simulator = Aer.get_backend(simulator_used) job = execute(circuit, simulator, shots=10000) result = job.result() counts = result.get_counts(circuit) final_result = [] for key in counts: final_result.append(np.sqrt(counts[key]/10000)) print(final_result)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, execute from qiskit import IBMQ from qiskit import Aer import numpy as np import matplotlib.pyplot as plt IBMQ.load_account() simulator_used = 'qasm_simulator' circuit = QuantumCircuit(2,2) data = np.array([-0.5, -0.2, -0.2, -0.6]) norm_data = np.linalg.norm(data) normalized_data = data/ norm_data circuit.initialize(normalized_data, [0,1]) circuit.h(0) circuit.cx(0,1) circuit.x(0) circuit.rx(-np.pi/10, 0) circuit.ry(-np.pi/20, 1) circuit.measure([0,1],[0,1]) print(circuit) simulator = Aer.get_backend(simulator_used) job = execute(circuit, simulator, shots=10000) result = job.result() counts = result.get_counts(circuit) final_result = [] for key in counts: final_result.append(np.sqrt(counts[key]/10000)) print(final_result)
+
+---CODE_BLOCK---
+
+IBMQ.load_account() ┌──────────────────────────────────────────────────┐┌───┐ ┌───┐ ┌───────────┐┌─┐ q_0: ┤0 ├┤ H ├──■──────┤ X ├────┤ Rx(-π/10) ├┤M├ │ Initialize(-0.60193,-0.24077,-0.24077,-0.72232) │└───┘┌─┴─┐┌───┴───┴───┐└────┬─┬────┘└╥┘ q_1: ┤1 ├─────┤ X ├┤ Ry(-π/20) ├─────┤M├──────╫─ └──────────────────────────────────────────────────┘ └───┘└───────────┘ └╥┘ ║ c: 2/═════════════════════════════════════════════════════════════════════════════════╩═══════╩═ 1 0 [0.6433506042586733, 0.6260990336999411, 0.30016662039607267, 0.322490309931942]
+
+---CODE_BLOCK---
+
+IBMQ.load_account() ┌──────────────────────────────────────────────────┐┌───┐ ┌───┐ ┌───────────┐┌─┐ q_0: ┤0 ├┤ H ├──■──────┤ X ├────┤ Rx(-π/10) ├┤M├ │ Initialize(-0.60193,-0.24077,-0.24077,-0.72232) │└───┘┌─┴─┐┌───┴───┴───┐└────┬─┬────┘└╥┘ q_1: ┤1 ├─────┤ X ├┤ Ry(-π/20) ├─────┤M├──────╫─ └──────────────────────────────────────────────────┘ └───┘└───────────┘ └╥┘ ║ c: 2/═════════════════════════════════════════════════════════════════════════════════╩═══════╩═ 1 0 [0.6433506042586733, 0.6260990336999411, 0.30016662039607267, 0.322490309931942]
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.compiler import transpile from qiskit import IBMQ from qiskit import Aer import numpy as np import matplotlib.pyplot as plt IBMQ.load_account() simulator_used = "statevector_simulator" circuit = QuantumCircuit(2,2) data = np.array([-0.5, -0.2, -0.2, -0.6]) norm_data = np.linalg.norm(data) normalized_data = data/ norm_data circuit.initialize(normalized_data, [0,1]) circuit.h(0) circuit.cx(0,1) circuit.x(0) circuit.rx(-np.pi/10, 0) circuit.ry(-np.pi/20, 1) print(circuit) simulator = Aer.get_backend(simulator_used) result = simulator.run(transpile(circuit, simulator)).result() output_complex = result.get_statevector(circuit) output_real = np.array(np.real(output_complex)) print("The output real =", output_real)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.compiler import transpile from qiskit import IBMQ from qiskit import Aer import numpy as np import matplotlib.pyplot as plt IBMQ.load_account() simulator_used = "statevector_simulator" circuit = QuantumCircuit(2,2) data = np.array([-0.5, -0.2, -0.2, -0.6]) norm_data = np.linalg.norm(data) normalized_data = data/ norm_data circuit.initialize(normalized_data, [0,1]) circuit.h(0) circuit.cx(0,1) circuit.x(0) circuit.rx(-np.pi/10, 0) circuit.ry(-np.pi/20, 1) print(circuit) simulator = Aer.get_backend(simulator_used) result = simulator.run(transpile(circuit, simulator)).result() output_complex = result.get_statevector(circuit) output_real = np.array(np.real(output_complex)) print("The output real =", output_real)
+
+---CODE_BLOCK---
+
+IBMQ.load_account() ┌──────────────────────────────────────────────────┐┌───┐ ┌───┐ ┌───────────┐ q_0: ┤0 ├┤ H ├──■──────┤ X ├────┤ Rx(-π/10) ├ │ Initialize(-0.60193,-0.24077,-0.24077,-0.72232) │└───┘┌─┴─┐┌───┴───┴───┐└───────────┘ q_1: ┤1 ├─────┤ X ├┤ Ry(-π/20) ├───────────── └──────────────────────────────────────────────────┘ └───┘└───────────┘ c: 2/════════════════════════════════════════════════════════════════════════════════════════ The output real = [ 0.31548377 -0.63950225 -0.27784191 -0.62437088]
+
+---CODE_BLOCK---
+
+IBMQ.load_account() ┌──────────────────────────────────────────────────┐┌───┐ ┌───┐ ┌───────────┐ q_0: ┤0 ├┤ H ├──■──────┤ X ├────┤ Rx(-π/10) ├ │ Initialize(-0.60193,-0.24077,-0.24077,-0.72232) │└───┘┌─┴─┐┌───┴───┴───┐└───────────┘ q_1: ┤1 ├─────┤ X ├┤ Ry(-π/20) ├───────────── └──────────────────────────────────────────────────┘ └───┘└───────────┘ c: 2/════════════════════════════════════════════════════════════════════════════════════════ The output real = [ 0.31548377 -0.63950225 -0.27784191 -0.62437088]
+
+Solution explanation:
+Your problem is the line You should not be looking at . In order to compare the results of these two simulations, you should instead be looking at the norm of the complex entries of . You will see that these norms are very close to the values in (the values won't be exactly equal because of randomness in the simulation). Also be careful about the order of the entries in . They should be ordered according to , , , , but is not always returned in that order. Here is a slim version of your code which gives the expected result A sample output is
+
+```
+output_real = np.array(np.real(output_complex))
+```
+
+```
+output_real = np.array(np.real(output_complex))
+```
+
+```
+output_real
+```
+
+```
+output_complex
+```
+
+```
+final_result
+```
+
+```
+final_result
+```
+
+```
+'00'
+```
+
+```
+'01'
+```
+
+```
+'10'
+```
+
+```
+'11'
+```
+
+```
+counts
+```
+
+```
+from qiskit import QuantumCircuit, execute from qiskit import Aer from numpy import pi, array, sqrt from numpy.linalg import norm data = array([-0.5, -0.2, -0.2, -0.6]) norm_data = norm(data) normalized_data = data / norm_data qasm_sim = Aer.get_backend('qasm_simulator') statevector_sim = Aer.get_backend('statevector_simulator') def create_qc(): qc = QuantumCircuit(2) qc.initialize(normalized_data, [0,1]) qc.h(0) qc.cx(0,1) qc.x(0) qc.rx(-pi/10, 0) qc.ry(-pi/20, 1) return qc # qasm simulator qc = create_qc() qc.measure_all() result = execute(qc, qasm_sim, shots=10000).result() counts = result.get_counts() print('qasm simulator:', [ sqrt(counts['00'] / 10000), sqrt(counts['01'] / 10000), sqrt(counts['10'] / 10000), sqrt(counts['11'] / 10000) ] ) # statevector simulator qc = create_qc() result = execute(qc, statevector_sim).result() v = result.get_statevector() print('statevector simulator', [ norm(v[0]), norm(v[1]), norm(v[2]), norm(v[3]) ] )
+```
+
+```
+from qiskit import QuantumCircuit, execute from qiskit import Aer from numpy import pi, array, sqrt from numpy.linalg import norm data = array([-0.5, -0.2, -0.2, -0.6]) norm_data = norm(data) normalized_data = data / norm_data qasm_sim = Aer.get_backend('qasm_simulator') statevector_sim = Aer.get_backend('statevector_simulator') def create_qc(): qc = QuantumCircuit(2) qc.initialize(normalized_data, [0,1]) qc.h(0) qc.cx(0,1) qc.x(0) qc.rx(-pi/10, 0) qc.ry(-pi/20, 1) return qc # qasm simulator qc = create_qc() qc.measure_all() result = execute(qc, qasm_sim, shots=10000).result() counts = result.get_counts() print('qasm simulator:', [ sqrt(counts['00'] / 10000), sqrt(counts['01'] / 10000), sqrt(counts['10'] / 10000), sqrt(counts['11'] / 10000) ] ) # statevector simulator qc = create_qc() result = execute(qc, statevector_sim).result() v = result.get_statevector() print('statevector simulator', [ norm(v[0]), norm(v[1]), norm(v[2]), norm(v[3]) ] )
+```
+
+```
+qasm simulator: [0.3377869150810907, 0.6431174076325411, 0.29274562336608895, 0.6217716622683925] statevector simulator [0.33134439021006384, 0.6414514034928228, 0.29491606277662025, 0.6259197296377109]
+```
+
+```
+qasm simulator: [0.3377869150810907, 0.6431174076325411, 0.29274562336608895, 0.6217716622683925] statevector simulator [0.33134439021006384, 0.6414514034928228, 0.29491606277662025, 0.6259197296377109]
+```
+
+Original fixed code:
+output_real = np.array(np.real(output_complex))
+
+---CODE_BLOCK---
+
+output_real = np.array(np.real(output_complex))
+
+---CODE_BLOCK---
+
+output_real
+
+---CODE_BLOCK---
+
+output_complex
+
+---CODE_BLOCK---
+
+final_result
+
+---CODE_BLOCK---
+
+final_result
+
+---CODE_BLOCK---
+
+'00'
+
+---CODE_BLOCK---
+
+'01'
+
+---CODE_BLOCK---
+
+'10'
+
+---CODE_BLOCK---
+
+'11'
+
+---CODE_BLOCK---
+
+counts
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, execute from qiskit import Aer from numpy import pi, array, sqrt from numpy.linalg import norm data = array([-0.5, -0.2, -0.2, -0.6]) norm_data = norm(data) normalized_data = data / norm_data qasm_sim = Aer.get_backend('qasm_simulator') statevector_sim = Aer.get_backend('statevector_simulator') def create_qc(): qc = QuantumCircuit(2) qc.initialize(normalized_data, [0,1]) qc.h(0) qc.cx(0,1) qc.x(0) qc.rx(-pi/10, 0) qc.ry(-pi/20, 1) return qc # qasm simulator qc = create_qc() qc.measure_all() result = execute(qc, qasm_sim, shots=10000).result() counts = result.get_counts() print('qasm simulator:', [ sqrt(counts['00'] / 10000), sqrt(counts['01'] / 10000), sqrt(counts['10'] / 10000), sqrt(counts['11'] / 10000) ] ) # statevector simulator qc = create_qc() result = execute(qc, statevector_sim).result() v = result.get_statevector() print('statevector simulator', [ norm(v[0]), norm(v[1]), norm(v[2]), norm(v[3]) ] )
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, execute from qiskit import Aer from numpy import pi, array, sqrt from numpy.linalg import norm data = array([-0.5, -0.2, -0.2, -0.6]) norm_data = norm(data) normalized_data = data / norm_data qasm_sim = Aer.get_backend('qasm_simulator') statevector_sim = Aer.get_backend('statevector_simulator') def create_qc(): qc = QuantumCircuit(2) qc.initialize(normalized_data, [0,1]) qc.h(0) qc.cx(0,1) qc.x(0) qc.rx(-pi/10, 0) qc.ry(-pi/20, 1) return qc # qasm simulator qc = create_qc() qc.measure_all() result = execute(qc, qasm_sim, shots=10000).result() counts = result.get_counts() print('qasm simulator:', [ sqrt(counts['00'] / 10000), sqrt(counts['01'] / 10000), sqrt(counts['10'] / 10000), sqrt(counts['11'] / 10000) ] ) # statevector simulator qc = create_qc() result = execute(qc, statevector_sim).result() v = result.get_statevector() print('statevector simulator', [ norm(v[0]), norm(v[1]), norm(v[2]), norm(v[3]) ] )
+
+---CODE_BLOCK---
+
+qasm simulator: [0.3377869150810907, 0.6431174076325411, 0.29274562336608895, 0.6217716622683925] statevector simulator [0.33134439021006384, 0.6414514034928228, 0.29491606277662025, 0.6259197296377109]
+
+---CODE_BLOCK---
+
+qasm simulator: [0.3377869150810907, 0.6431174076325411, 0.29274562336608895, 0.6217716622683925] statevector simulator [0.33134439021006384, 0.6414514034928228, 0.29491606277662025, 0.6259197296377109]

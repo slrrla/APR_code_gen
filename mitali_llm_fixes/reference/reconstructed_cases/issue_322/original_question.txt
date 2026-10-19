@@ -1,0 +1,35 @@
+Title:
+CRZ and CRY Gates
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why AI Solution Wins in This Category:
+In the context of building and understanding quantum circuits, the AI solution does what Stack Overflow misses — it demystifies the logic behind a real recursive quantum circuit implementation. While Stack Overflow explains the math, the AI explains the engineering, making it more practical and educational for someone implementing or debugging multi-controlled gates in Qiskit.
+
+Question:
+Title: CRZ and CRY Gates
+
+I am trying to understand the function of the $CR_z$ and $CR_y$ gates. Why are these gates used in practice? What advantage is gained by rotating a qubit around the $y$- or $z$-axis? For example, this code from the Qiskit tutorial's Tic-Tac-Toe game (original source) which defines the cnx gate: Please explain the inline questions in the context of the initial question. Thanks!
+
+```
+def cnx(qc, *qubits): if len(qubits) >= 3: last = qubits[-1] #What is the goal of the next two lines? qc.crz(np.pi/2, qubits[-2], qubits[-1]) qc.cry(np.pi/2, 0, 0, qubits[-2],qubits[-1]) #Is this a recursive call to cnx ? cnx(qc,*qubits[:-2],qubits[-1]) #why is there another flip? qc.cry(-np.pi/2, 0, 0, qubits[-2], qubits[-1]) #what about this line ? cnx(qc,*qubits[:-2],qubits[-1]) #what about this line too? qc.crz(-np.pi/2,qubits[-2],qubits[-1])
+```
+
+```
+def cnx(qc, *qubits): if len(qubits) >= 3: last = qubits[-1] #What is the goal of the next two lines? qc.crz(np.pi/2, qubits[-2], qubits[-1]) qc.cry(np.pi/2, 0, 0, qubits[-2],qubits[-1]) #Is this a recursive call to cnx ? cnx(qc,*qubits[:-2],qubits[-1]) #why is there another flip? qc.cry(-np.pi/2, 0, 0, qubits[-2], qubits[-1]) #what about this line ? cnx(qc,*qubits[:-2],qubits[-1]) #what about this line too? qc.crz(-np.pi/2,qubits[-2],qubits[-1])
+```
+
+Original buggy code:
+def cnx(qc, *qubits): if len(qubits) >= 3: last = qubits[-1] #What is the goal of the next two lines? qc.crz(np.pi/2, qubits[-2], qubits[-1]) qc.cry(np.pi/2, 0, 0, qubits[-2],qubits[-1]) #Is this a recursive call to cnx ? cnx(qc,*qubits[:-2],qubits[-1]) #why is there another flip? qc.cry(-np.pi/2, 0, 0, qubits[-2], qubits[-1]) #what about this line ? cnx(qc,*qubits[:-2],qubits[-1]) #what about this line too? qc.crz(-np.pi/2,qubits[-2],qubits[-1])
+
+---CODE_BLOCK---
+
+def cnx(qc, *qubits): if len(qubits) >= 3: last = qubits[-1] #What is the goal of the next two lines? qc.crz(np.pi/2, qubits[-2], qubits[-1]) qc.cry(np.pi/2, 0, 0, qubits[-2],qubits[-1]) #Is this a recursive call to cnx ? cnx(qc,*qubits[:-2],qubits[-1]) #why is there another flip? qc.cry(-np.pi/2, 0, 0, qubits[-2], qubits[-1]) #what about this line ? cnx(qc,*qubits[:-2],qubits[-1]) #what about this line too? qc.crz(-np.pi/2,qubits[-2],qubits[-1])
+
+Solution explanation:
+Quantum algorithms provide a computational speedup by orchestrating constructive and destructive interference of the amplitudes. It is as if there must be a 8minus sign* somewhere in the matrices - otherwise we merely work in the classical world, and would not see a computational speedup. Let's consider the following gates as controlled Pauli matrices: \begin{align} CR_x&= \begin{pmatrix} 1&0&0&0\\ 0&1&0&0\\ 0&0&0&1\\ 0&0&1&0 \end{pmatrix} \\ \\ CR_y&= \begin{pmatrix} 1&0&0&0\\ 0&1&0&0\\ 0&0&0&-i\\ 0&0&i&0 \end{pmatrix} \\\ \\ CR_z&= \begin{pmatrix} 1&0&0&0\\ 0&1&0&0\\ 0&0&1&0\\ 0&0&0&-1 \end{pmatrix} \,. \end{align} As can be seen, $CR_x$ does not have a minus sign - nothing gets inverted. $CR_x$ corresponds to the $\mathsf{CNOT}$ gate; operating only with $\mathsf{CNOT}$ gates does not provide any quantum speedup - $\mathsf{CNOT}$ gates can be implemented classically. Not so, however, with $CR_y$ and $CR_z$. For example, $CR_z$ can be used to invert the probability amplitude of the marked states in Grover's algorithm. The marked states, being inverted, will destructively interfere with the unmarked states during the diffusion operation. As an example, consider qubits $|\psi\rangle=\frac{1}{\sqrt{2}}|(|00\rangle+|11\rangle)$. The target qubit is $1$ only when the control qubit is $1$. We have: $$CR_x|\psi\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|10\rangle)$$ $$CR_y|\psi\rangle=\frac{1}{\sqrt{2}}(|00\rangle-i|10\rangle)$$ $$CR_z|\psi\rangle=\frac{1}{\sqrt{2}}|(|00\rangle-|11\rangle)$$ When the control qubit is $1$, the target qubit may have a phase of $-1$ or $-i$.
+
+Original fixed code:
+Quantum algorithms provide a computational speedup by orchestrating constructive and destructive interference of the amplitudes. It is as if there must be a 8minus sign* somewhere in the matrices - otherwise we merely work in the classical world, and would not see a computational speedup. Let's consider the following gates as controlled Pauli matrices: \begin{align} CR_x&= \begin{pmatrix} 1&0&0&0\\ 0&1&0&0\\ 0&0&0&1\\ 0&0&1&0 \end{pmatrix} \\ \\ CR_y&= \begin{pmatrix} 1&0&0&0\\ 0&1&0&0\\ 0&0&0&-i\\ 0&0&i&0 \end{pmatrix} \\\ \\ CR_z&= \begin{pmatrix} 1&0&0&0\\ 0&1&0&0\\ 0&0&1&0\\ 0&0&0&-1 \end{pmatrix} \,. \end{align} As can be seen, $CR_x$ does not have a minus sign - nothing gets inverted. $CR_x$ corresponds to the $\mathsf{CNOT}$ gate; operating only with $\mathsf{CNOT}$ gates does not provide any quantum speedup - $\mathsf{CNOT}$ gates can be implemented classically. Not so, however, with $CR_y$ and $CR_z$. For example, $CR_z$ can be used to invert the probability amplitude of the marked states in Grover's algorithm. The marked states, being inverted, will destructively interfere with the unmarked states during the diffusion operation. As an example, consider qubits $|\psi\rangle=\frac{1}{\sqrt{2}}|(|00\rangle+|11\rangle)$. The target qubit is $1$ only when the control qubit is $1$. We have: $$CR_x|\psi\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|10\rangle)$$ $$CR_y|\psi\rangle=\frac{1}{\sqrt{2}}(|00\rangle-i|10\rangle)$$ $$CR_z|\psi\rangle=\frac{1}{\sqrt{2}}|(|00\rangle-|11\rangle)$$ When the control qubit is $1$, the target qubit may have a phase of $-1$ or $-i$.

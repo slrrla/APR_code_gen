@@ -1,0 +1,107 @@
+Title:
+qiskit transpile initial_layout determination
+
+Category:
+
+
+Question:
+Title: qiskit transpile initial_layout determination
+
+So, I am fairly new to Qiskit, and I've been following Qiskit textbook recently. In the chapter 7, where the QC lab exercises are located, in the first lab when working on the real hardware it is required to select the optimal setting during the function call based on the error map consideration. Now, I understand that the initial layout governs how computational qubits map onto the physical qubits. For instance, if we select hardware option with 5 qubits (e.g. ) and we designe a circuit with e.g. 4 qubits, with we can specify any 4-element combination out of 5 possible elements. However, what I fail to understand is what exactly is the error map specified in the lab exercise. Does it mean to sweep all possible qubit configurations (, , , ...) and pick the one with lowest noise impact, or a different approach must be taken? I would appreciate any input on this.
+
+```
+initial_layout
+```
+
+```
+transpile
+```
+
+```
+ibmq_quito
+```
+
+```
+initial_layout
+```
+
+```
+c1 = [0, 1, 2, 3]
+```
+
+```
+c2 = [0, 1, 2, 4]
+```
+
+```
+c3 = [1, 2, 3, 4]
+```
+
+Original buggy code:
+initial_layout
+
+---CODE_BLOCK---
+
+transpile
+
+---CODE_BLOCK---
+
+ibmq_quito
+
+---CODE_BLOCK---
+
+initial_layout
+
+---CODE_BLOCK---
+
+c1 = [0, 1, 2, 3]
+
+---CODE_BLOCK---
+
+c2 = [0, 1, 2, 4]
+
+---CODE_BLOCK---
+
+c3 = [1, 2, 3, 4]
+
+Solution explanation:
+One of the pre-coded cells in the lab has the command . If you execute the cell with the command after running the command , the widget will be opened for the backend. The widget shows the chosen backend information graphically and one of the tabs is called showing the qubit connectivity with all kinds of error information coded in color. You can find same information here for for example. The question is asking to find a good initial layout considering connectivity and error information that you can find from the map. Hope that it helps.
+
+```
+backend
+```
+
+```
+backend
+```
+
+```
+import qiskit.tools.jupyter
+```
+
+```
+error map
+```
+
+```
+ibmq_quito
+```
+
+Original fixed code:
+backend
+
+---CODE_BLOCK---
+
+backend
+
+---CODE_BLOCK---
+
+import qiskit.tools.jupyter
+
+---CODE_BLOCK---
+
+error map
+
+---CODE_BLOCK---
+
+ibmq_quito

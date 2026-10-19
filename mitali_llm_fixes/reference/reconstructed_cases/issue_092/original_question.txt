@@ -1,0 +1,132 @@
+Title:
+CircuitError: 'inverse() not implemented for reset.'
+
+Category:
+Category: Circuit Logic Limitation / Inversion Error  
+Winner: AI  
+Why AI Is Better: AI explains why inversion fails and provides several practical, version-aware alternatives like `prepare_state` and `StatePreparation`. It includes working code and usage tips for Qiskit 0.35+, which makes it robust and informative.  
+Why AI Performs Well in This Category: AI excels in pinpointing non-invertible gate issues (like `reset`) and recommending structured, modular alternatives — helpful for users designing reversible quantum workflows.
+
+
+Question:
+Title: CircuitError: 'inverse() not implemented for reset.'
+
+Initially, this code was functioning correctly, but I am currently encountering an error. I am attempting to create a circuit using a unitary vector and applying inversion. 
+ desire_vector = [0. 0.5 0. 0.5 0. 0.5 0. 0.5]
+qc = QuantumCircuit(qr, cr)
+qc.initialize(desired_vector,qr)
+backend = BasicAer.get_backend("qasm_simulator")
+qc = transpile(qc,backend).inverse()
+
+ The Error: 
+ Can we inverse a quantum ciruit that is initialized using a statevector?
+
+```
+desire_vector = [0.  0.5 0.  0.5 0.  0.5 0.  0.5]
+qc = QuantumCircuit(qr, cr)
+qc.initialize(desired_vector,qr)
+backend = BasicAer.get_backend("qasm_simulator")
+qc = transpile(qc,backend).inverse()
+```
+
+Original buggy code:
+desire_vector = [0.  0.5 0.  0.5 0.  0.5 0.  0.5]
+qc = QuantumCircuit(qr, cr)
+qc.initialize(desired_vector,qr)
+backend = BasicAer.get_backend("qasm_simulator")
+qc = transpile(qc,backend).inverse()
+
+Solution explanation:
+Solution -1: 
+
+ The initialize() method in Qiskit is designed to prepare a specific quantum state, and it does this by first resetting the qubits to the |0⟩ state before applying a series of gates to achieve the desired state. This reset operation is integral to the initialize() method and cannot be removed or stopped.
+The important thing is the reset operation is not reversible. 
+ There is another way to achieve this by using 'prepare_state'. The prepare_state method does not add resets before state preparation, unlike initialize which resets all qubits to the |0⟩ state before state preparation. 
+ from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+
+vector = [0, 0.5, 0, 0.5, 0, 0.5, 0, 0.5]
+np_vector = np.array(vector)
+state = Statevector(np_vector)
+qc = QuantumCircuit(3)
+qc.prepare_state(state, [0, 1, 2])
+circuit =transpile(qc, backend)
+inverse_qc = circuit.inverse()
+print(inverse_qc)
+
+ Output: 
+
+ Solution -2: 
+
+ In Qiskit, the "initialize" method automatically applies a "reset" operation to the qubits before initializing them. This is because the "initialize" method is designed to set the qubits to a specific state, and applying a "reset" operation ensures that the qubits are in a known state before initialization. 
+ However, if we want to prepare a state without the "reset" operation being automatically applied, we can use the "StatePreparation" class introduced in Qiskit 0.35. This class allows we to prepare a state in the same fashion as "initialize" without the "reset" being automatically applied. 
+ from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+from qiskit.circuit.library import StatePreparation
+
+state_vector = [1/np.sqrt(2), 0, 0, 1/np.sqrt(2)]
+
+qc = QuantumCircuit(2)
+
+state_prep = StatePreparation(Statevector(state_vector))
+qc.append(state_prep, [0, 1])
+qc= qc.inverse(); // or qc.power(-1)
+
+ In this example, the "StatePreparation" method is used to apply the transformation represented by the state vector to the quantum circuit. Please note that the "StatePreparation" method does not return a gate and therefore cannot be converted into a gate.
+
+```
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+
+vector = [0, 0.5, 0, 0.5, 0, 0.5, 0, 0.5]
+np_vector = np.array(vector)
+state = Statevector(np_vector)
+qc = QuantumCircuit(3)
+qc.prepare_state(state, [0, 1, 2])
+circuit =transpile(qc, backend)
+inverse_qc = circuit.inverse()
+print(inverse_qc)
+```
+
+```
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+from qiskit.circuit.library import StatePreparation
+
+
+state_vector = [1/np.sqrt(2), 0, 0, 1/np.sqrt(2)]
+
+qc = QuantumCircuit(2)
+
+state_prep = StatePreparation(Statevector(state_vector))
+qc.append(state_prep, [0, 1])
+qc= qc.inverse(); // or qc.power(-1)
+```
+
+Original fixed code:
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+
+vector = [0, 0.5, 0, 0.5, 0, 0.5, 0, 0.5]
+np_vector = np.array(vector)
+state = Statevector(np_vector)
+qc = QuantumCircuit(3)
+qc.prepare_state(state, [0, 1, 2])
+circuit =transpile(qc, backend)
+inverse_qc = circuit.inverse()
+print(inverse_qc)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+from qiskit.circuit.library import StatePreparation
+
+
+state_vector = [1/np.sqrt(2), 0, 0, 1/np.sqrt(2)]
+
+qc = QuantumCircuit(2)
+
+state_prep = StatePreparation(Statevector(state_vector))
+qc.append(state_prep, [0, 1])
+qc= qc.inverse(); // or qc.power(-1)

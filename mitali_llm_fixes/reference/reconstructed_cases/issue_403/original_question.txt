@@ -1,0 +1,167 @@
+Title:
+Append a controlled Initialize in Qiskit
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Both Are Same in This Category:
+In circuit construction questions, precision in syntax and wiring is crucial. Both answers succeed in this: they provide working examples using modern Qiskit (StatePreparation.control()), define registers properly, and append gates correctly. There is no functional or conceptual difference in the implementation—hence both are equally correct and useful.
+
+Question:
+Title: Append a controlled Initialize in Qiskit
+
+I would like to create a controlled initialize, I have the following code: and I would like to encode state only if qubit a and b are 1. I first tried with isometry but then I discovered there is a new simple method like this: the problem is that I can't understand how to append on the circuit and how to set the control qubits.
+
+```
+a = QuantumRegister(2,"a") b = QuantumRegister(2,"b") circuit = QuantumCircuit(a,b) circuit.initialize(state)
+```
+
+```
+a = QuantumRegister(2,"a") b = QuantumRegister(2,"b") circuit = QuantumCircuit(a,b) circuit.initialize(state)
+```
+
+```
+controlled_gate = StatePreparation(state).control()
+```
+
+```
+controlled_gate = StatePreparation(state).control()
+```
+
+Original buggy code:
+a = QuantumRegister(2,"a") b = QuantumRegister(2,"b") circuit = QuantumCircuit(a,b) circuit.initialize(state)
+
+---CODE_BLOCK---
+
+a = QuantumRegister(2,"a") b = QuantumRegister(2,"b") circuit = QuantumCircuit(a,b) circuit.initialize(state)
+
+---CODE_BLOCK---
+
+controlled_gate = StatePreparation(state).control()
+
+---CODE_BLOCK---
+
+controlled_gate = StatePreparation(state).control()
+
+Solution explanation:
+The way to append gate instances to a is with the method. Here is a full example with explanations: You mentioned: I would like to encode state only if qubit a and b are 1 As such, you can create two single-qubit registers $a$ and $b$; and a register for the state to encode: Then, in order to control on two qubits ($a$ and $b$), you need to set . Finally, the . The second parameter describe how to wire the gate, in this case $= [a, b, state_0, state_1]$:
+
+```
+QuantumCircuit
+```
+
+```
+append
+```
+
+```
+circuit.append(controlled_gate, circuit.qubits)
+```
+
+```
+circuit.append(controlled_gate, circuit.qubits)
+```
+
+```
+from qiskit import QuantumCircuit, QuantumRegister circuit = QuantumCircuit(QuantumRegister(1, "a"), QuantumRegister(1, "b"), QuantumRegister(2, "state"))
+```
+
+```
+from qiskit import QuantumCircuit, QuantumRegister circuit = QuantumCircuit(QuantumRegister(1, "a"), QuantumRegister(1, "b"), QuantumRegister(2, "state"))
+```
+
+```
+control(2)
+```
+
+```
+from qiskit.circuit.library import StatePreparation import numpy as np state = [0, 1/np.sqrt(2), -1.j/np.sqrt(2), 0] controlled_gate = StatePreparation(state).control(2)
+```
+
+```
+from qiskit.circuit.library import StatePreparation import numpy as np state = [0, 1/np.sqrt(2), -1.j/np.sqrt(2), 0] controlled_gate = StatePreparation(state).control(2)
+```
+
+```
+append
+```
+
+```
+circuit.qubits
+```
+
+```
+circuit.append(controlled_gate, circuit.qubits) circuit.draw()
+```
+
+```
+circuit.append(controlled_gate, circuit.qubits) circuit.draw()
+```
+
+```
+a: ──────────────────────■────────────────────── │ b: ──────────────────────■────────────────────── ┌─────────────────────┴─────────────────────┐ state_0: ┤0 ├ │ State Preparation(0,0.70711,-0.70711j,0) │ state_1: ┤1 ├ └───────────────────────────────────────────┘
+```
+
+```
+a: ──────────────────────■────────────────────── │ b: ──────────────────────■────────────────────── ┌─────────────────────┴─────────────────────┐ state_0: ┤0 ├ │ State Preparation(0,0.70711,-0.70711j,0) │ state_1: ┤1 ├ └───────────────────────────────────────────┘
+```
+
+Original fixed code:
+QuantumCircuit
+
+---CODE_BLOCK---
+
+append
+
+---CODE_BLOCK---
+
+circuit.append(controlled_gate, circuit.qubits)
+
+---CODE_BLOCK---
+
+circuit.append(controlled_gate, circuit.qubits)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, QuantumRegister circuit = QuantumCircuit(QuantumRegister(1, "a"), QuantumRegister(1, "b"), QuantumRegister(2, "state"))
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, QuantumRegister circuit = QuantumCircuit(QuantumRegister(1, "a"), QuantumRegister(1, "b"), QuantumRegister(2, "state"))
+
+---CODE_BLOCK---
+
+control(2)
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import StatePreparation import numpy as np state = [0, 1/np.sqrt(2), -1.j/np.sqrt(2), 0] controlled_gate = StatePreparation(state).control(2)
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import StatePreparation import numpy as np state = [0, 1/np.sqrt(2), -1.j/np.sqrt(2), 0] controlled_gate = StatePreparation(state).control(2)
+
+---CODE_BLOCK---
+
+append
+
+---CODE_BLOCK---
+
+circuit.qubits
+
+---CODE_BLOCK---
+
+circuit.append(controlled_gate, circuit.qubits) circuit.draw()
+
+---CODE_BLOCK---
+
+circuit.append(controlled_gate, circuit.qubits) circuit.draw()
+
+---CODE_BLOCK---
+
+a: ──────────────────────■────────────────────── │ b: ──────────────────────■────────────────────── ┌─────────────────────┴─────────────────────┐ state_0: ┤0 ├ │ State Preparation(0,0.70711,-0.70711j,0) │ state_1: ┤1 ├ └───────────────────────────────────────────┘
+
+---CODE_BLOCK---
+
+a: ──────────────────────■────────────────────── │ b: ──────────────────────■────────────────────── ┌─────────────────────┴─────────────────────┐ state_0: ┤0 ├ │ State Preparation(0,0.70711,-0.70711j,0) │ state_1: ┤1 ├ └───────────────────────────────────────────┘

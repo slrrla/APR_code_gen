@@ -1,0 +1,31 @@
+Title:
+Quantum circuit for the ZZ feature map
+
+Category:
+
+
+Question:
+Title: Quantum circuit for the ZZ feature map
+
+Havlicek et al. propose a feature map for embedding $n$-dimensional classical data on $n$ qubits: $U_{\phi(x)}H^{\otimes n}$, where $$ U_{\phi(x)} = \exp (i \sum_{S \subseteq [n]} \phi_S(x) \prod_{i \in S} Z_i) \\ \phi_i(x) = x_i, \; \phi_{\{i, j\}}(x) = (\pi - x_0)(\pi - x_1) $$ and $Z_i$ is a $Z$-gate on the $i$-th qubit. I'm currently considering the 2-dimensional, 2-qubit case, $$ U_{\phi(x)} = \exp(i x_0 Z_0 + i x_1 Z_1 + i (\pi - x_0) (\pi - x_1) Z_0 Z_1), $$ and trying to find out, how do I get from the above definition to the circuit, as it is implemented in Qiskit: My reasoning for the first 2 $U1$ rotations is that since $\exp(i \theta Z) = RZ(2 \theta)$ up to global phase and $RZ$ is equivalent to $U1$ up to global phase, we might as well use $U1(2 \phi_i(x))$. Is that correct? And if so, how do we then get $CX \; U1(2 \phi_{\{0, 1\}}(x)) \; CX$ from $\exp(i \phi_{\{0, 1\}}(x) Z_0 Z_1)$?
+
+```
+┌───┐┌──────────────┐ q_0: ┤ H ├┤ U1(2.0*x[0]) ├──■─────────────────────────────────────■── ├───┤├──────────────┤┌─┴─┐┌───────────────────────────────┐┌─┴─┐ q_1: ┤ H ├┤ U1(2.0*x[1]) ├┤ X ├┤ U1(2.0*(π - x[0])*(π - x[1])) ├┤ X ├ └───┘└──────────────┘└───┘└───────────────────────────────┘└───┘
+```
+
+```
+┌───┐┌──────────────┐ q_0: ┤ H ├┤ U1(2.0*x[0]) ├──■─────────────────────────────────────■── ├───┤├──────────────┤┌─┴─┐┌───────────────────────────────┐┌─┴─┐ q_1: ┤ H ├┤ U1(2.0*x[1]) ├┤ X ├┤ U1(2.0*(π - x[0])*(π - x[1])) ├┤ X ├ └───┘└──────────────┘└───┘└───────────────────────────────┘└───┘
+```
+
+Original buggy code:
+┌───┐┌──────────────┐ q_0: ┤ H ├┤ U1(2.0*x[0]) ├──■─────────────────────────────────────■── ├───┤├──────────────┤┌─┴─┐┌───────────────────────────────┐┌─┴─┐ q_1: ┤ H ├┤ U1(2.0*x[1]) ├┤ X ├┤ U1(2.0*(π - x[0])*(π - x[1])) ├┤ X ├ └───┘└──────────────┘└───┘└───────────────────────────────┘└───┘
+
+---CODE_BLOCK---
+
+┌───┐┌──────────────┐ q_0: ┤ H ├┤ U1(2.0*x[0]) ├──■─────────────────────────────────────■── ├───┤├──────────────┤┌─┴─┐┌───────────────────────────────┐┌─┴─┐ q_1: ┤ H ├┤ U1(2.0*x[1]) ├┤ X ├┤ U1(2.0*(π - x[0])*(π - x[1])) ├┤ X ├ └───┘└──────────────┘└───┘└───────────────────────────────┘└───┘
+
+Solution explanation:
+By the definition of $U1(\lambda) $ in qiskit, it is equivalent to $RZ$ up up a phase factor . Now note that: $$Z_0 Z_1 = Z \otimes Z = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} \otimes \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & -1 & 0 & 0\\ 0 & 0 & -1 & 0\\ 0 & 0 & 0 & 1\end{pmatrix} $$ since this is diagonal, we have that $$ e^{-i\lambda Z_0Z_1} = \begin{pmatrix} e^{-i\lambda} & 0 & 0 & 0 \\ 0 & e^{i\lambda} & 0 & 0\\ 0 & 0 & e^{i\lambda} & 0\\ 0 & 0 & 0 & e^{-i\lambda}\end{pmatrix} = \begin{pmatrix} R_Z(2\lambda) & \boldsymbol{0}\\ \boldsymbol{0} & X R_Z(2\lambda) X\end{pmatrix} $$ since $XR_Z(2\lambda) X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} \begin{pmatrix} e^{-i\lambda} & 0 \\ 0 & e^{i\lambda} \end{pmatrix} \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} e^{i\lambda} & 0 \\ 0 & e^{-i\lambda} \end{pmatrix} $ Thus, to implement $e^{-i \lambda Z_0Z_1}$ we would have a circuit like: Note that this circuit can be written as $CX \cdot (I \otimes R_Z ) \cdot CX$. Also by knowing this, you can check this explicitly as well, by first note that $$ I \otimes R_Z(2\lambda) = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} \otimes \begin{pmatrix} e^{-i\lambda} & 0 \\ 0 & e^{i\lambda}\end{pmatrix} = \begin{pmatrix} e^{-i\lambda} & 0 & 0 & 0 \\ 0 & e^{i\lambda} & 0 & 0\\ 0 & 0 & e^{-i\lambda} & 0\\ 0 & 0 & 0 & e^{i\lambda}\end{pmatrix} $$ then $CX \cdot \big(I \otimes RZ(2\lambda) \big) \cdot CX$ is equal to $$ \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0\\ 0 & 0 & 0 & 1\\ 0 & 0 & 1 & 0\end{pmatrix} \begin{pmatrix} e^{-i\lambda} & 0 & 0 & 0 \\ 0 & e^{i\lambda} & 0 & 0\\ 0 & 0 & e^{-i\lambda} & 0\\ 0 & 0 & 0 & e^{i\lambda}\end{pmatrix} \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0\\ 0 & 0 & 0 & 1\\ 0 & 0 & 1 & 0\end{pmatrix} = \begin{pmatrix} e^{-i\lambda} & 0 & 0 & 0 \\ 0 & e^{i\lambda} & 0 & 0\\ 0 & 0 & e^{i\lambda} & 0\\ 0 & 0 & 0 & e^{-i\lambda}\end{pmatrix} $$
+
+Original fixed code:
+By the definition of $U1(\lambda) $ in qiskit, it is equivalent to $RZ$ up up a phase factor . Now note that: $$Z_0 Z_1 = Z \otimes Z = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} \otimes \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & -1 & 0 & 0\\ 0 & 0 & -1 & 0\\ 0 & 0 & 0 & 1\end{pmatrix} $$ since this is diagonal, we have that $$ e^{-i\lambda Z_0Z_1} = \begin{pmatrix} e^{-i\lambda} & 0 & 0 & 0 \\ 0 & e^{i\lambda} & 0 & 0\\ 0 & 0 & e^{i\lambda} & 0\\ 0 & 0 & 0 & e^{-i\lambda}\end{pmatrix} = \begin{pmatrix} R_Z(2\lambda) & \boldsymbol{0}\\ \boldsymbol{0} & X R_Z(2\lambda) X\end{pmatrix} $$ since $XR_Z(2\lambda) X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} \begin{pmatrix} e^{-i\lambda} & 0 \\ 0 & e^{i\lambda} \end{pmatrix} \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} e^{i\lambda} & 0 \\ 0 & e^{-i\lambda} \end{pmatrix} $ Thus, to implement $e^{-i \lambda Z_0Z_1}$ we would have a circuit like: Note that this circuit can be written as $CX \cdot (I \otimes R_Z ) \cdot CX$. Also by knowing this, you can check this explicitly as well, by first note that $$ I \otimes R_Z(2\lambda) = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} \otimes \begin{pmatrix} e^{-i\lambda} & 0 \\ 0 & e^{i\lambda}\end{pmatrix} = \begin{pmatrix} e^{-i\lambda} & 0 & 0 & 0 \\ 0 & e^{i\lambda} & 0 & 0\\ 0 & 0 & e^{-i\lambda} & 0\\ 0 & 0 & 0 & e^{i\lambda}\end{pmatrix} $$ then $CX \cdot \big(I \otimes RZ(2\lambda) \big) \cdot CX$ is equal to $$ \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0\\ 0 & 0 & 0 & 1\\ 0 & 0 & 1 & 0\end{pmatrix} \begin{pmatrix} e^{-i\lambda} & 0 & 0 & 0 \\ 0 & e^{i\lambda} & 0 & 0\\ 0 & 0 & e^{-i\lambda} & 0\\ 0 & 0 & 0 & e^{i\lambda}\end{pmatrix} \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0\\ 0 & 0 & 0 & 1\\ 0 & 0 & 1 & 0\end{pmatrix} = \begin{pmatrix} e^{-i\lambda} & 0 & 0 & 0 \\ 0 & e^{i\lambda} & 0 & 0\\ 0 & 0 & e^{i\lambda} & 0\\ 0 & 0 & 0 & e^{-i\lambda}\end{pmatrix} $$

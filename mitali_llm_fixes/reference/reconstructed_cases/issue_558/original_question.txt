@@ -1,0 +1,19 @@
+Title:
+Applying controlled unitary operations during quantum phase estimation
+
+Category:
+
+
+Question:
+Title: Applying controlled unitary operations during quantum phase estimation
+
+I am trying to understand Shor's algorithm for a personal research project. I am currently going through quantum phase estimation, and have came accross something I'm struggling to understand in the Qiskit textbook. Specifically the following step of the application of controlled unitary operators: $$ |\psi_2⟩=\frac{1}{2^{\frac{n}{2}}}(|0⟩+e^{2i \pi\theta2^{n-1}}|1⟩)\otimes\cdots\otimes(|0⟩+e^{2i \pi\theta2^0}|1⟩)\otimes|\psi⟩=\frac{1}{2^{\frac{n}{2}}}\sum_{k=0}^{2^n-1}e^{2i\pi\theta k}|k⟩\otimes|\psi⟩ $$ where k denotes the integer representation of n-bit binary numbers. I'm generally not having too much trouble understanding things so far, however something about this is confusing me a lot. Can anyone explain how this simplification is being done? I'm sure it's something small I'm overlooking but any help is appreciated.
+
+Original buggy code:
+I am trying to understand Shor's algorithm for a personal research project. I am currently going through quantum phase estimation, and have came accross something I'm struggling to understand in the Qiskit textbook. Specifically the following step of the application of controlled unitary operators: $$ |\psi_2⟩=\frac{1}{2^{\frac{n}{2}}}(|0⟩+e^{2i \pi\theta2^{n-1}}|1⟩)\otimes\cdots\otimes(|0⟩+e^{2i \pi\theta2^0}|1⟩)\otimes|\psi⟩=\frac{1}{2^{\frac{n}{2}}}\sum_{k=0}^{2^n-1}e^{2i\pi\theta k}|k⟩\otimes|\psi⟩ $$ where k denotes the integer representation of n-bit binary numbers. I'm generally not having too much trouble understanding things so far, however something about this is confusing me a lot. Can anyone explain how this simplification is being done? I'm sure it's something small I'm overlooking but any help is appreciated.
+
+Solution explanation:
+If you look at the left hand side: you have a bunch of terms of the form $|0 \rangle+\alpha_j|1\rangle$, where $\alpha_j = e^{2\pi\textbf{i}\theta 2^{j}}$. If you tensor all these terms together (we will ignore $\alpha_j$ for now), you get a superposition of terms $|k_{n-1}...k_{0}\rangle$, where the $k_j\in\{0,1\}$. So essentially the left hand side is equal to a superposition of $|0\dots00\rangle, |0\dots01\rangle\dots|1\dots11\rangle$. Though it is easier to write this as $|0\rangle, |1\rangle,\dots,|2^{n}-1\rangle$. Now how do we get the complex phases on the right hand side? Well if you look closely, you'll notice that $|k_{n-1}\dots k_{0}\rangle$ will have a complex phase of the form $e^{2\pi\textbf{i}\theta2^{k_{n-1}+...+k_{0}}}$ which again is easier to write as $e^{2\pi\textbf{i}\theta k}$. I hope this clears things up?
+
+Original fixed code:
+If you look at the left hand side: you have a bunch of terms of the form $|0 \rangle+\alpha_j|1\rangle$, where $\alpha_j = e^{2\pi\textbf{i}\theta 2^{j}}$. If you tensor all these terms together (we will ignore $\alpha_j$ for now), you get a superposition of terms $|k_{n-1}...k_{0}\rangle$, where the $k_j\in\{0,1\}$. So essentially the left hand side is equal to a superposition of $|0\dots00\rangle, |0\dots01\rangle\dots|1\dots11\rangle$. Though it is easier to write this as $|0\rangle, |1\rangle,\dots,|2^{n}-1\rangle$. Now how do we get the complex phases on the right hand side? Well if you look closely, you'll notice that $|k_{n-1}\dots k_{0}\rangle$ will have a complex phase of the form $e^{2\pi\textbf{i}\theta2^{k_{n-1}+...+k_{0}}}$ which again is easier to write as $e^{2\pi\textbf{i}\theta k}$. I hope this clears things up?

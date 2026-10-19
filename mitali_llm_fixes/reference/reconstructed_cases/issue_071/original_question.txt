@@ -1,0 +1,59 @@
+Title:
+Are equiprobable state same as superposition state
+
+Category:
+Category:
+Circuit
+
+Why AI Wins in This Category:
+In the Circuit category, educational clarity and concept explanation are critical, especially for foundational topics like superposition. The AI-generated solution:
+
+Distinguishes subtle conceptual differences with examples.
+
+Offers both code and theoretical insights.
+
+Answers all parts of the user’s question (including what (0) and (1) mean).
+
+This level of depth makes it more valuable for both beginners and intermediate learners aiming to understand Qiskit behavior and quantum concepts more clearly.
+
+Question:
+Title: Are equiprobable state same as superposition state
+
+How helps quantum circuit to put the given qubits in a equiprobable states? Are equiprobable state and super position state same. Since hadamard gate is used to put quantum states into superposition states. Also what does (0) and (1) signifies here ? Is it circuit zero and circuit 1?
+
+```
+qc.h(0) qc.h(1)
+```
+
+```
+qc.h(0) qc.h(1)
+```
+
+```
+qc=QuantumCircuit(2)
+```
+
+```
+qc=QuantumCircuit(2)
+```
+
+Original buggy code:
+qc.h(0) qc.h(1)
+
+---CODE_BLOCK---
+
+qc.h(0) qc.h(1)
+
+---CODE_BLOCK---
+
+qc=QuantumCircuit(2)
+
+---CODE_BLOCK---
+
+qc=QuantumCircuit(2)
+
+Solution explanation:
+Superposition states of a qubit are usually of form $$| \psi \rangle = a |0\rangle + b |1\rangle $$ where probabilities of getting state $|0\rangle$ and$ |1\rangle$ after a $Z$-measurement are $$p(0) = |a|^2$$ $$p(0) = |b|^2$$ Equivprobable states imply that the chances of getting any outcome are the same. i.e., for 1-qubit $$|a|^2 = |b|^2 = 0.5$$ or $$ a = b = \frac{1}{\sqrt{2}}\,\,\, \text{(upto a global phase)}$$ For the code you have given, you are applying Hadamard on both qubits. (0) implies operation on qubit0 and (1) implies operation on qubit1. The resultant state, say $|\phi\rangle$ would be $ \begin{align} |\phi\rangle &= (H \otimes H) |00\rangle \\ &= \frac{1}{2}(|00\rangle + |01\rangle +|10\rangle+|11\rangle) \end{align} $ and thus, resulting in an equiprobable state where the probability of getting any of the four outcomes - $\{|00\rangle , |01\rangle ,|10\rangle,|11\rangle\}$ is equal, and it is $|\frac{1}{2}|^2 = 0.25$ An equviprobable state just means a superposition state with equal probabilities.
+
+Original fixed code:
+Superposition states of a qubit are usually of form $$| \psi \rangle = a |0\rangle + b |1\rangle $$ where probabilities of getting state $|0\rangle$ and$ |1\rangle$ after a $Z$-measurement are $$p(0) = |a|^2$$ $$p(0) = |b|^2$$ Equivprobable states imply that the chances of getting any outcome are the same. i.e., for 1-qubit $$|a|^2 = |b|^2 = 0.5$$ or $$ a = b = \frac{1}{\sqrt{2}}\,\,\, \text{(upto a global phase)}$$ For the code you have given, you are applying Hadamard on both qubits. (0) implies operation on qubit0 and (1) implies operation on qubit1. The resultant state, say $|\phi\rangle$ would be $ \begin{align} |\phi\rangle &= (H \otimes H) |00\rangle \\ &= \frac{1}{2}(|00\rangle + |01\rangle +|10\rangle+|11\rangle) \end{align} $ and thus, resulting in an equiprobable state where the probability of getting any of the four outcomes - $\{|00\rangle , |01\rangle ,|10\rangle,|11\rangle\}$ is equal, and it is $|\frac{1}{2}|^2 = 0.25$ An equviprobable state just means a superposition state with equal probabilities.

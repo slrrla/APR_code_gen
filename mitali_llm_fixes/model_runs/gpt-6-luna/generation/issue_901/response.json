@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWW2PfSpOmupCRtzxvp3uGjasFp4o",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit.circuit import QuantumCircuit\nfrom qiskit import transpile\n\nqc = QuantumCircuit(2)\nqc.h(0)\n# FIX: S is not translated to T gates by this transpilation path -> express S as T², because two T gates implement S exactly\nqc.t(0); qc.t(0)\nqc.cx(0, 1)\n\nbasis_gates = [\"h\", \"t\", \"cx\", \"id\"]\nqc_transpiled = transpile(qc, basis_gates=basis_gates)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418357,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 1314,
+    "prompt_tokens": 1139,
+    "total_tokens": 2453,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 1177,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1136,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

@@ -1,0 +1,10 @@
+```python
+import numpy as np
+# FIX: removed module no longer provides these gates -> import them from the current circuit library, because Qiskit moved UnitaryGate there
+from qiskit.circuit.library import UnitaryGate, XGate
+
+unitary = np.array([[0, 1], [1, 0]])
+# FIX: a UnitaryGate is always named "unitary" -> use XGate when its matrix matches, because Qiskit cannot infer a standard gate name from UnitaryGate
+gate = XGate() if np.allclose(unitary, XGate().to_matrix()) else UnitaryGate(unitary)
+print(gate.name)
+```

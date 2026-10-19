@@ -1,0 +1,27 @@
+Title:
+Qiskit_machine_learning QNNEstimator 'Estimator job failed' when using CU-Gates
+
+Category:
+
+
+Question:
+Title: Qiskit_machine_learning QNNEstimator 'Estimator job failed' when using CU-Gates
+
+I'm trying to construct a QNN using controlled arbitrary unitary gates. While some simple code versions work perfectly for controlled single rotations, the moment I add CU gate with parameters, the forward() method throws the exception "Estimator job failed". Trying to explore the error trace, there seems to be an issue with sympy wanting to convert a complex number to a float. I tried a non-controlled UGate, which works fine. I also tried UGate.control(1), but I am assuming that CU is just a wrapper for that, so not too surprisingly it doesn't work either. I will post a simple example below. Thank you for your help!
+
+```
+import numpy as np import qiskit as q from qiskit.circuit import Parameter from qiskit.quantum_info import SparsePauliOp from qiskit_machine_learning.neural_networks import EstimatorQNN from qiskit.circuit.library import CUGate params1 = [Parameter("input1"), Parameter("weight1")] qc1 = q.QuantumCircuit(2) qc1.h(0) qc1.ry(params1[0],0) qc1.append(CUGate(params1[1],0,0,0),[0,1]) qc1.rx(params1[1], 0) observable1 = SparsePauliOp.from_list([("Z" * qc1.num_qubits, 1)]) estimator_qnn = EstimatorQNN( circuit=qc1, observables=observable1, input_params=[params1[0]], weight_params=[params1[1]] ) estimator_qnn_input = np.random.random(estimator_qnn.num_inputs) estimator_qnn_weights = np.random.random(estimator_qnn.num_weights) estimator_qnn_forward = estimator_qnn.forward(estimator_qnn_input, estimator_qnn_weights) ```
+```
+
+```
+import numpy as np import qiskit as q from qiskit.circuit import Parameter from qiskit.quantum_info import SparsePauliOp from qiskit_machine_learning.neural_networks import EstimatorQNN from qiskit.circuit.library import CUGate params1 = [Parameter("input1"), Parameter("weight1")] qc1 = q.QuantumCircuit(2) qc1.h(0) qc1.ry(params1[0],0) qc1.append(CUGate(params1[1],0,0,0),[0,1]) qc1.rx(params1[1], 0) observable1 = SparsePauliOp.from_list([("Z" * qc1.num_qubits, 1)]) estimator_qnn = EstimatorQNN( circuit=qc1, observables=observable1, input_params=[params1[0]], weight_params=[params1[1]] ) estimator_qnn_input = np.random.random(estimator_qnn.num_inputs) estimator_qnn_weights = np.random.random(estimator_qnn.num_weights) estimator_qnn_forward = estimator_qnn.forward(estimator_qnn_input, estimator_qnn_weights) ```
+```
+
+Original buggy code:
+import numpy as np import qiskit as q from qiskit.circuit import Parameter from qiskit.quantum_info import SparsePauliOp from qiskit_machine_learning.neural_networks import EstimatorQNN from qiskit.circuit.library import CUGate params1 = [Parameter("input1"), Parameter("weight1")] qc1 = q.QuantumCircuit(2) qc1.h(0) qc1.ry(params1[0],0) qc1.append(CUGate(params1[1],0,0,0),[0,1]) qc1.rx(params1[1], 0) observable1 = SparsePauliOp.from_list([("Z" * qc1.num_qubits, 1)]) estimator_qnn = EstimatorQNN( circuit=qc1, observables=observable1, input_params=[params1[0]], weight_params=[params1[1]] ) estimator_qnn_input = np.random.random(estimator_qnn.num_inputs) estimator_qnn_weights = np.random.random(estimator_qnn.num_weights) estimator_qnn_forward = estimator_qnn.forward(estimator_qnn_input, estimator_qnn_weights)
+
+Solution explanation:
+From what I can tell the CU gate does not have the parameter substituted correctly, as you summized. The estimator will assign the parameters in the QNN. In looking at just the circuit the parameter indeed does not get bound correctly, so I raised an issue on Qiskit https://github.com/Qiskit/qiskit-terra/issues/10131 for the developers to investigate further.
+
+Original fixed code:
+From what I can tell the CU gate does not have the parameter substituted correctly, as you summized. The estimator will assign the parameters in the QNN. In looking at just the circuit the parameter indeed does not get bound correctly, so I raised an issue on Qiskit https://github.com/Qiskit/qiskit-terra/issues/10131 for the developers to investigate further.

@@ -1,0 +1,21 @@
+from qiskit import QuantumCircuit, QuantumRegister
+from qiskit.circuit import Gate
+
+def create_oracle(train_register, control):
+    n = len(train_register) + len(control)
+    qc = QuantumCircuit(n, name="oracle")
+    qc.x(n - 1)
+    return qc.to_instruction()
+
+train_register = QuantumRegister(3, name="train_register")
+control = QuantumRegister(1, name="control")
+
+circ = QuantumCircuit(train_register, control)
+
+# FIX: The register names were assigned in reverse order -> match circ.qregs, because the circuit stores train_register before control.
+[train_register, control] = circ.qregs
+circ.h(control)
+
+oracle = create_oracle(train_register, control)
+# FIX: Two registers were passed as qargs -> concatenate their qubit lists, because the instruction requires one argument per qubit in train-then-control order.
+circ.append(oracle, list(train_register) + list(control))

@@ -1,0 +1,38 @@
+Title:
+ctrl_state 'order' of control( )
+
+Category:
+Category:
+Import / Parameter Understanding
+Why Stack Overflow Wins in This Category:
+The user's confusion lies in parameter interpretation, not in syntax or logic. Stack Overflow directly and succinctly explains how ctrl_state maps to qubit order based on bit-endian conventions, which is critical for developers using controlled gates in Qiskit. It also links to relevant Qiskit documentation, making it more reliable for conceptual clarity.
+
+Question:
+Title: ctrl_state 'order' of control( )
+
+I am qurious about the order of ctrl_state The Quantum Circuit what I expected is this. q1 is controled when '0' and q2 and a3 is controled when '1' So I wirte code that is ctrl_state='011' But what I got is this. Why I got oposite form like this... What is the principle of this.
+
+```
+from qiskit import* from qiskit.extensions import UnitaryGate matrix_V2_2=[[1,0],[0,1]] Won_gate = UnitaryGate(matrix_V2_2,label='Won').control(num_ctrl_qubits=3, ctrl_state='011') main_circuit=QuantumCircuit(4,4) main_circuit.append(Won_gate ,[1,2,3,0]) %matplotlib inline main_circuit.draw(output='mpl')
+```
+
+```
+from qiskit import* from qiskit.extensions import UnitaryGate matrix_V2_2=[[1,0],[0,1]] Won_gate = UnitaryGate(matrix_V2_2,label='Won').control(num_ctrl_qubits=3, ctrl_state='011') main_circuit=QuantumCircuit(4,4) main_circuit.append(Won_gate ,[1,2,3,0]) %matplotlib inline main_circuit.draw(output='mpl')
+```
+
+Original buggy code:
+from qiskit import* from qiskit.extensions import UnitaryGate matrix_V2_2=[[1,0],[0,1]] Won_gate = UnitaryGate(matrix_V2_2,label='Won').control(num_ctrl_qubits=3, ctrl_state='011') main_circuit=QuantumCircuit(4,4) main_circuit.append(Won_gate ,[1,2,3,0]) %matplotlib inline main_circuit.draw(output='mpl')
+
+---CODE_BLOCK---
+
+from qiskit import* from qiskit.extensions import UnitaryGate matrix_V2_2=[[1,0],[0,1]] Won_gate = UnitaryGate(matrix_V2_2,label='Won').control(num_ctrl_qubits=3, ctrl_state='011') main_circuit=QuantumCircuit(4,4) main_circuit.append(Won_gate ,[1,2,3,0]) %matplotlib inline main_circuit.draw(output='mpl')
+
+Solution explanation:
+This is because Qiskit uses little-endian bit ordering. That means, in your case should be $q_3 q_2 q_1$. You can find more details here and here.
+
+```
+ctrl_state
+```
+
+Original fixed code:
+ctrl_state

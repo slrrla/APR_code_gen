@@ -1,0 +1,69 @@
+﻿python.exe : C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an 
+API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+At line:41 char:31
++                     $output = & $python $test 2>&1 | Out-String
++                               ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\Mitali..._resources.html:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  import pkg_resources
+EE
+======================================================================
+ERROR: test_commutator_math_for_supplied_operands (__main__.TestCommutator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 30, in 
+test_commutator_math_for_supplied_operands
+    a,b,result=captured_commutator()
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 21, in 
+captured_commutator
+    load_target()
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\luna_generated_fixes\issue_468\luna_fix_468.py", 
+line 15, in <module>
+    commutator(dm0.data, dm1.data)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 17, in observe
+    result=original(a,b,*args,**kwargs)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\aqua\operators\legacy\common.py", line 435, in commutator
+    res.simplify()
+AttributeError: 'numpy.ndarray' object has no attribute 'simplify'
+
+======================================================================
+ERROR: test_preserves_original_density_matrix_problem (__main__.TestCommutator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 35, in 
+test_preserves_original_density_matrix_problem
+    a,b,result=captured_commutator()
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 21, in 
+captured_commutator
+    load_target()
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\luna_generated_fixes\issue_468\luna_fix_468.py", 
+line 15, in <module>
+    commutator(dm0.data, dm1.data)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_468\test.py", line 17, in observe
+    result=original(a,b,*args,**kwargs)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\aqua\operators\legacy\common.py", line 435, in commutator
+    res.simplify()
+AttributeError: 'numpy.ndarray' object has no attribute 'simplify'
+
+----------------------------------------------------------------------
+Ran 2 tests in 5.222s
+
+FAILED (errors=2)
+

@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWW6URtNoxHgYnp4a79mjXIjLMtGY",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import QuantumCircuit\nfrom qiskit.providers.basic_provider import BasicProvider\n\nqc_combine = QuantumCircuit(2)\nqc_combine.h(0)\nqc_combine.cx(0, 1)\nqc_combine.measure_all()\n\nshots_used = 1024\n\nbackend = BasicProvider().get_backend(\"basic_simulator\")\n\n# FIX: BasicSimulator rejects these Aer-only options -> removed the set_options call, because this backend does not support parallelism configuration.\n\njob = backend.run(qc_combine, shots=shots_used)\nresult = job.result()\ncounts = result.get_counts(qc_combine)\nprint(counts)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418610,
+  "model": "gpt-6.1-sol",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 371,
+    "prompt_tokens": 997,
+    "total_tokens": 1368,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 228,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

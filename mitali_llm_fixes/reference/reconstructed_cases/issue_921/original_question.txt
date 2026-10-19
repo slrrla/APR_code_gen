@@ -1,0 +1,51 @@
+Title:
+How to understand run_algorithm() inputs in qiskit
+
+Category:
+
+
+Question:
+Title: How to understand run_algorithm() inputs in qiskit
+
+I'd like to better understand the Max-Cut algorithm from the qiskit tutorials. Particularly, the run_algorithm function inputs. The inputs are two dictionaries, but I can't find any documentation or explanation as to why these dictionaries are structured the way they are. Example from the tutorial: Why is the 'problem' key in the params dictionary labeled with 'Ising'? Why bother including the 'problem' entry if the algorithm is an exact eigensolver? For non-exact eigensolver algorithms, why would the algorithm need to know it's mapping to an Ising model if also_input already has the qubit operator mapping? I'm confused about these hyper parameters and can't seem to find resources/explanations for them. Please help! There are great tutorials solving interesting problems with qiskit, but all the approaches are how to solve one specific problem using one specific algorithm. For example, the max-cut tutorial doesn't use the QAOA, but it should be able to solve the problem just as well as VQE which is used. Are there no tutorials/resources on the general use of qiskit Aqua algos? (e.g. how to implement each algorithm, explanations on the required inputs, what happens to the underlying quantum computing structure, and the math behind it?)
+
+```
+algorithm_cfg = { 'name': 'ExactEigensolver', } params = { 'problem': {'name': 'ising'}, 'algorithm': algorithm_cfg } result = run_algorithm(params,algo_input)
+```
+
+```
+algorithm_cfg = { 'name': 'ExactEigensolver', } params = { 'problem': {'name': 'ising'}, 'algorithm': algorithm_cfg } result = run_algorithm(params,algo_input)
+```
+
+Original buggy code:
+algorithm_cfg = { 'name': 'ExactEigensolver', } params = { 'problem': {'name': 'ising'}, 'algorithm': algorithm_cfg } result = run_algorithm(params,algo_input)
+
+---CODE_BLOCK---
+
+algorithm_cfg = { 'name': 'ExactEigensolver', } params = { 'problem': {'name': 'ising'}, 'algorithm': algorithm_cfg } result = run_algorithm(params,algo_input)
+
+Solution explanation:
+That tutorial was recently updated. In it you'll find a more familiar way to declare and execute algorithms. The section of the older declarative form of Aqua execution (which is gradually being moved away from) is a way for the Aqua UI to display a list of algorithms applicable to a user-selected "problem." It doesn't add anything here.
+
+```
+ee = ExactEigensolver(qubitOp, k=1) result = ee.run()
+```
+
+```
+ee = ExactEigensolver(qubitOp, k=1) result = ee.run()
+```
+
+```
+problem
+```
+
+Original fixed code:
+ee = ExactEigensolver(qubitOp, k=1) result = ee.run()
+
+---CODE_BLOCK---
+
+ee = ExactEigensolver(qubitOp, k=1) result = ee.run()
+
+---CODE_BLOCK---
+
+problem

@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWVxBi3RWsOFJGcKg4ajXG94GjrnN",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit\nfrom qiskit_aer import AerSimulator\n\nqreg_q = QuantumRegister(1, 'q')\ncreg_c = ClassicalRegister(1, 'c')\ncircuit = QuantumCircuit(qreg_q, creg_c)\ncircuit.h(0)\n\nbackend = AerSimulator(method='unitary')\n# FIX: The circuit does not save its unitary -> add a save instruction, because AerSimulator only returns saved results.\ncircuit.save_unitary()\njob = backend.run(circuit).result()\n\nunitary = job.get_unitary()\nprint(unitary)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418033,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 404,
+    "prompt_tokens": 852,
+    "total_tokens": 1256,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 263,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

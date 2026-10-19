@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWW8gZm7ES2ctqve6R7X0XAKg6bDU",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit_aer import AerSimulator\nfrom qiskit import QuantumCircuit, transpile\n\ncirc = QuantumCircuit(2)\ncirc.h(0)\ncirc.cx(0, 1)\n\n# FIX: The default simulation method does not compute a unitary -> select the unitary method, because the requested result is a unitary matrix\nsimulator = AerSimulator(method=\"unitary\")\n# FIX: The circuit does not save its unitary -> add save_unitary(), because get_unitary() requires a saved unitary in the result\ncirc.save_unitary()\ncirc = transpile(circ, simulator)\n\nresult = simulator.run(circ).result()\nunitary = result.get_unitary(circ)\nprint(\"Circuit unitary:\\n\", unitary)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418746,
+  "model": "gpt-6.1-sol",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 280,
+    "prompt_tokens": 593,
+    "total_tokens": 873,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 111,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

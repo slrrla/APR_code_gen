@@ -1,0 +1,71 @@
+Title:
+Getting the current variational parameters in Qiskit
+
+Category:
+Category:
+Import
+
+Why Stack Overflow Wins in This Category:
+The issue is about importing or accessing optimized parameters post-VQE execution. Stack Overflow wins because it uses correct internal result fields that store the output of the optimization routine. The AI solution fails in this category because it misinterprets what "parameters" means in context — confusing symbolic definitions with optimized values. For parameter extraction tasks, correctness and precision in object access is crucial, which Stack Overflow handles better.
+
+Question:
+Title: Getting the current variational parameters in Qiskit
+
+I am right now using variational quantum eigensolver (VQE) to calculate the ground state of some molecules, like H2, by qiskit. The quesiton is that how to get the current parameters of the varaional ansatz, like UCCSD for the following code. Also, I need to simulate the model in the presence of noise, so I need to extract the variational parameters to calculate other properties of the system.
+
+```
+import numpy as np import pylab import copy from qiskit import BasicAer from qiskit.aqua import QuantumInstance from qiskit.aqua.algorithms import NumPyMinimumEigensolver, VQE from qiskit.aqua.components.optimizers import SLSQP from qiskit.chemistry.components.initial_states import HartreeFock from qiskit.chemistry.components.variational_forms import UCCSD from qiskit.chemistry.drivers import PySCFDriver, UnitsType, Molecule from qiskit.chemistry.algorithms.ground_state_solvers import GroundStateEigensolver from qiskit.chemistry.algorithms.ground_state_solvers.minimum_eigensolver_factories import VQEUCCSDFactory from qiskit.chemistry.transformations import (FermionicTransformation, FermionicTransformationType, FermionicQubitMappingType) from qiskit.chemistry.algorithms.ground_state_solvers.minimum_eigensolver_factories import VQEUCCSDFactory molecule = Molecule(geometry=[['H', [0., 0., 0.]], ['H', [0., 0., 0.735]]], charge=0, multiplicity=1) driver = PySCFDriver(molecule = molecule, unit=UnitsType.ANGSTROM, basis='sto3g') transformation = FermionicTransformation(qubit_mapping=FermionicQubitMappingType.JORDAN_WIGNER) vqe_solver = VQEUCCSDFactory(QuantumInstance(BasicAer.get_backend('statevector_simulator'))) calc = GroundStateEigensolver(transformation, vqe_solver) res = calc.solve(driver) print(res)
+```
+
+```
+import numpy as np import pylab import copy from qiskit import BasicAer from qiskit.aqua import QuantumInstance from qiskit.aqua.algorithms import NumPyMinimumEigensolver, VQE from qiskit.aqua.components.optimizers import SLSQP from qiskit.chemistry.components.initial_states import HartreeFock from qiskit.chemistry.components.variational_forms import UCCSD from qiskit.chemistry.drivers import PySCFDriver, UnitsType, Molecule from qiskit.chemistry.algorithms.ground_state_solvers import GroundStateEigensolver from qiskit.chemistry.algorithms.ground_state_solvers.minimum_eigensolver_factories import VQEUCCSDFactory from qiskit.chemistry.transformations import (FermionicTransformation, FermionicTransformationType, FermionicQubitMappingType) from qiskit.chemistry.algorithms.ground_state_solvers.minimum_eigensolver_factories import VQEUCCSDFactory molecule = Molecule(geometry=[['H', [0., 0., 0.]], ['H', [0., 0., 0.735]]], charge=0, multiplicity=1) driver = PySCFDriver(molecule = molecule, unit=UnitsType.ANGSTROM, basis='sto3g') transformation = FermionicTransformation(qubit_mapping=FermionicQubitMappingType.JORDAN_WIGNER) vqe_solver = VQEUCCSDFactory(QuantumInstance(BasicAer.get_backend('statevector_simulator'))) calc = GroundStateEigensolver(transformation, vqe_solver) res = calc.solve(driver) print(res)
+```
+
+Original buggy code:
+import numpy as np import pylab import copy from qiskit import BasicAer from qiskit.aqua import QuantumInstance from qiskit.aqua.algorithms import NumPyMinimumEigensolver, VQE from qiskit.aqua.components.optimizers import SLSQP from qiskit.chemistry.components.initial_states import HartreeFock from qiskit.chemistry.components.variational_forms import UCCSD from qiskit.chemistry.drivers import PySCFDriver, UnitsType, Molecule from qiskit.chemistry.algorithms.ground_state_solvers import GroundStateEigensolver from qiskit.chemistry.algorithms.ground_state_solvers.minimum_eigensolver_factories import VQEUCCSDFactory from qiskit.chemistry.transformations import (FermionicTransformation, FermionicTransformationType, FermionicQubitMappingType) from qiskit.chemistry.algorithms.ground_state_solvers.minimum_eigensolver_factories import VQEUCCSDFactory molecule = Molecule(geometry=[['H', [0., 0., 0.]], ['H', [0., 0., 0.735]]], charge=0, multiplicity=1) driver = PySCFDriver(molecule = molecule, unit=UnitsType.ANGSTROM, basis='sto3g') transformation = FermionicTransformation(qubit_mapping=FermionicQubitMappingType.JORDAN_WIGNER) vqe_solver = VQEUCCSDFactory(QuantumInstance(BasicAer.get_backend('statevector_simulator'))) calc = GroundStateEigensolver(transformation, vqe_solver) res = calc.solve(driver) print(res)
+
+---CODE_BLOCK---
+
+import numpy as np import pylab import copy from qiskit import BasicAer from qiskit.aqua import QuantumInstance from qiskit.aqua.algorithms import NumPyMinimumEigensolver, VQE from qiskit.aqua.components.optimizers import SLSQP from qiskit.chemistry.components.initial_states import HartreeFock from qiskit.chemistry.components.variational_forms import UCCSD from qiskit.chemistry.drivers import PySCFDriver, UnitsType, Molecule from qiskit.chemistry.algorithms.ground_state_solvers import GroundStateEigensolver from qiskit.chemistry.algorithms.ground_state_solvers.minimum_eigensolver_factories import VQEUCCSDFactory from qiskit.chemistry.transformations import (FermionicTransformation, FermionicTransformationType, FermionicQubitMappingType) from qiskit.chemistry.algorithms.ground_state_solvers.minimum_eigensolver_factories import VQEUCCSDFactory molecule = Molecule(geometry=[['H', [0., 0., 0.]], ['H', [0., 0., 0.735]]], charge=0, multiplicity=1) driver = PySCFDriver(molecule = molecule, unit=UnitsType.ANGSTROM, basis='sto3g') transformation = FermionicTransformation(qubit_mapping=FermionicQubitMappingType.JORDAN_WIGNER) vqe_solver = VQEUCCSDFactory(QuantumInstance(BasicAer.get_backend('statevector_simulator'))) calc = GroundStateEigensolver(transformation, vqe_solver) res = calc.solve(driver) print(res)
+
+Solution explanation:
+What I would do here is get back the raw results of your , and there are stocked the parameters of the Ansatz you are looking for : And you get this : There is also an option with VQE that is to use a callback function storing all the intermediate parameters, see the answer here that explains it very well.
+
+```
+res
+```
+
+```
+my_res = res.raw_result # The dict of each parameter and its associated value my_param_dict = res.raw_result.optimal_parameters # The array of all the values my_param_list = res.raw_result.optimal_point print(my_param_dict) print(my_param_list)
+```
+
+```
+my_res = res.raw_result # The dict of each parameter and its associated value my_param_dict = res.raw_result.optimal_parameters # The array of all the values my_param_list = res.raw_result.optimal_point print(my_param_dict) print(my_param_list)
+```
+
+```
+{ParameterVectorElement(θ[0]): 2.0215741373141244e-08, ParameterVectorElement(θ[1]): 2.0215741373141244e-08, ParameterVectorElement(θ[2]): -0.11176259664828359} [ 2.02157414e-08 2.02157414e-08 -1.11762597e-01]
+```
+
+```
+{ParameterVectorElement(θ[0]): 2.0215741373141244e-08, ParameterVectorElement(θ[1]): 2.0215741373141244e-08, ParameterVectorElement(θ[2]): -0.11176259664828359} [ 2.02157414e-08 2.02157414e-08 -1.11762597e-01]
+```
+
+Original fixed code:
+res
+
+---CODE_BLOCK---
+
+my_res = res.raw_result # The dict of each parameter and its associated value my_param_dict = res.raw_result.optimal_parameters # The array of all the values my_param_list = res.raw_result.optimal_point print(my_param_dict) print(my_param_list)
+
+---CODE_BLOCK---
+
+my_res = res.raw_result # The dict of each parameter and its associated value my_param_dict = res.raw_result.optimal_parameters # The array of all the values my_param_list = res.raw_result.optimal_point print(my_param_dict) print(my_param_list)
+
+---CODE_BLOCK---
+
+{ParameterVectorElement(θ[0]): 2.0215741373141244e-08, ParameterVectorElement(θ[1]): 2.0215741373141244e-08, ParameterVectorElement(θ[2]): -0.11176259664828359} [ 2.02157414e-08 2.02157414e-08 -1.11762597e-01]
+
+---CODE_BLOCK---
+
+{ParameterVectorElement(θ[0]): 2.0215741373141244e-08, ParameterVectorElement(θ[1]): 2.0215741373141244e-08, ParameterVectorElement(θ[2]): -0.11176259664828359} [ 2.02157414e-08 2.02157414e-08 -1.11762597e-01]

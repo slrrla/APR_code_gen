@@ -1,0 +1,87 @@
+Title:
+Create your own n-qubit quantum gate in Qiskit
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Stack Overflow Solution Wins in This Category:
+In circuit construction, simplicity, reusability, and correctness of syntax are essential. The Stack Overflow solution:
+
+Leverages standard Qiskit idioms like .to_gate() and circuit.append().
+
+Avoids errors from low-level gate class misuse.
+
+Can be used in educational settings or quick prototyping without needing to understand matrix algebra.
+
+It is better aligned with how most users extend Qiskit in practice.
+
+Question:
+Title: Create your own n-qubit quantum gate in Qiskit
+
+I need to create the 2-qubit gates that are not supported by Qiskit (Ex: Controlled - F gate). Is there any way to create a class/object and use it as other basic gates? Example: Thanks!
+
+```
+qc = qiskit.QuantumCircuit(2,2) qc.h(0) qc.cf(0, 1)
+```
+
+```
+qc = qiskit.QuantumCircuit(2,2) qc.h(0) qc.cf(0, 1)
+```
+
+Original buggy code:
+qc = qiskit.QuantumCircuit(2,2) qc.h(0) qc.cf(0, 1)
+
+---CODE_BLOCK---
+
+qc = qiskit.QuantumCircuit(2,2) qc.h(0) qc.cf(0, 1)
+
+Solution explanation:
+One way to achieve this is as follows: Now, you can use as other gates:
+
+```
+from qiskit import QuantumCircuit def cf(circuit, qubit1, qubit2): # Create a circuit that is equivalent to your gate: qc = QuantumCircuit(2) qc.cx(0, 1) qc.csx(1, 0) qc.cx(0, 1) # Convert the circuit to a gate: sr_swap = qc.to_gate(label = '√SWAP') # Add the gate to your circuit which is passed as the first argument to cf function: circuit.append(sr_swap, [qubit1, qubit2]) # We need this line to add the method to QuantumCircuit class: QuantumCircuit.cf = cf
+```
+
+```
+from qiskit import QuantumCircuit def cf(circuit, qubit1, qubit2): # Create a circuit that is equivalent to your gate: qc = QuantumCircuit(2) qc.cx(0, 1) qc.csx(1, 0) qc.cx(0, 1) # Convert the circuit to a gate: sr_swap = qc.to_gate(label = '√SWAP') # Add the gate to your circuit which is passed as the first argument to cf function: circuit.append(sr_swap, [qubit1, qubit2]) # We need this line to add the method to QuantumCircuit class: QuantumCircuit.cf = cf
+```
+
+```
+cf
+```
+
+```
+QuantumCircuit
+```
+
+```
+circ = QuantumCircuit(2) circ.cf(0, 1) circ.draw('mpl')
+```
+
+```
+circ = QuantumCircuit(2) circ.cf(0, 1) circ.draw('mpl')
+```
+
+Original fixed code:
+from qiskit import QuantumCircuit def cf(circuit, qubit1, qubit2): # Create a circuit that is equivalent to your gate: qc = QuantumCircuit(2) qc.cx(0, 1) qc.csx(1, 0) qc.cx(0, 1) # Convert the circuit to a gate: sr_swap = qc.to_gate(label = '√SWAP') # Add the gate to your circuit which is passed as the first argument to cf function: circuit.append(sr_swap, [qubit1, qubit2]) # We need this line to add the method to QuantumCircuit class: QuantumCircuit.cf = cf
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit def cf(circuit, qubit1, qubit2): # Create a circuit that is equivalent to your gate: qc = QuantumCircuit(2) qc.cx(0, 1) qc.csx(1, 0) qc.cx(0, 1) # Convert the circuit to a gate: sr_swap = qc.to_gate(label = '√SWAP') # Add the gate to your circuit which is passed as the first argument to cf function: circuit.append(sr_swap, [qubit1, qubit2]) # We need this line to add the method to QuantumCircuit class: QuantumCircuit.cf = cf
+
+---CODE_BLOCK---
+
+cf
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+circ = QuantumCircuit(2) circ.cf(0, 1) circ.draw('mpl')
+
+---CODE_BLOCK---
+
+circ = QuantumCircuit(2) circ.cf(0, 1) circ.draw('mpl')

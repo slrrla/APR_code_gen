@@ -1,0 +1,12 @@
+﻿python.exe : .
+At line:46 char:32
++                     $output = (& $python $testFile 2>&1 | Out-String)
++                                ~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+----------------------------------------------------------------------
+Ran 1 test in 1.273s
+
+OK
+

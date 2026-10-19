@@ -1,0 +1,14 @@
+test_public_bit_locations (case61_permissive.TestIntent.test_public_bit_locations) ... FAIL
+
+======================================================================
+FAIL: test_public_bit_locations (case61_permissive.TestIntent.test_public_bit_locations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\validation_061\before\test_new.py", line 49, in test_public_bit_locations
+    self.assertTrue(all(index == 0 for index in indices),
+AssertionError: False is not true : Both instructions use the first qubit, whose index is 0.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

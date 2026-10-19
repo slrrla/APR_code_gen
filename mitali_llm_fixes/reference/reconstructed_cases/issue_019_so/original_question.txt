@@ -1,0 +1,108 @@
+Title:
+Implement quantum teleportation in qiskit
+
+Category:
+Category: Circuit Construction
+Winner: AI
+Why AI is Better: The AI solution not only explains the teleportation protocol correctly but also fixes a real mistake — the missing measurement of the final qubit. It ensures the circuit logic is executed as intended, helping users verify the teleportation result clearly.
+Why AI Excels in This Category: AI consistently provides complete, step-by-step guidance, correct circuit ordering, and validation tips — especially helpful for users debugging logical quantum circuit issues.
+
+
+Question:
+Title: Implement quantum teleportation in qiskit
+
+I am trying to implement the quantum teleportation protocol from the qiskit textbook in qiskit: 
+I start with q_0 bit = 1 and I expect that q_3 = 1 at the end but it does not work. 
+
+ from qiskit import *
+
+qc = QuantumCircuit(3, 3)
+
+qc.x(0) #q -> 1
+qc.barrier()
+
+qc.h(1)
+qc.cx(1, 2)
+qc.barrier()
+# Next, apply the teleportation protocol.
+qc.cx(0, 1)
+qc.h(0)
+qc.barrier()
+# We measure these qubits and use the classical results to perform an operation
+qc.measure(0, 0)
+qc.measure(1, 1)
+qc.cx(1, 2)
+qc.cz(0, 2)
+#qc.barrier()
+backend = Aer.get_backend('qasm_simulator')
+job = execute(qc, backend, shots=1, memory=True).result()
+result = job.get_memory()[0]
+qc.measure(2, 2)
+print(job.get_memory()[0]) #q = 0
+
+```
+from qiskit import *
+
+qc = QuantumCircuit(3, 3)
+
+qc.x(0) #q -> 1
+qc.barrier()
+
+qc.h(1)
+qc.cx(1, 2)
+qc.barrier()
+# Next, apply the teleportation protocol.
+qc.cx(0, 1)
+qc.h(0)
+qc.barrier()
+# We measure these qubits and use the classical results to perform an operation
+qc.measure(0, 0)
+qc.measure(1, 1)
+qc.cx(1, 2)
+qc.cz(0, 2)
+#qc.barrier()
+backend = Aer.get_backend('qasm_simulator')
+job = execute(qc, backend, shots=1, memory=True).result()
+result = job.get_memory()[0]
+qc.measure(2, 2)
+print(job.get_memory()[0]) #q = 0
+```
+
+Original buggy code:
+from qiskit import *
+
+qc = QuantumCircuit(3, 3)
+
+qc.x(0) #q -> 1
+qc.barrier()
+
+qc.h(1)
+qc.cx(1, 2)
+qc.barrier()
+# Next, apply the teleportation protocol.
+qc.cx(0, 1)
+qc.h(0)
+qc.barrier()
+# We measure these qubits and use the classical results to perform an operation
+qc.measure(0, 0)
+qc.measure(1, 1)
+qc.cx(1, 2)
+qc.cz(0, 2)
+#qc.barrier()
+backend = Aer.get_backend('qasm_simulator')
+job = execute(qc, backend, shots=1, memory=True).result()
+result = job.get_memory()[0]
+qc.measure(2, 2)
+print(job.get_memory()[0]) #q = 0
+
+Solution explanation:
+It looks like it is working as intended. In the textbook, it says towards the end of the code cell: 
+
+ In principle, if the teleportation protocol worked, we have q[2] = secret_unitary|0>
+As a result, we should be able to recover q[2] = |0> by applying the reverse of secret_unitary
+since for a unitary u, u^dagger u = I. 
+
+ You had your secret_unitary as 'x', which does in fact change Alice's first qubit to 1. But, at the end of the circuit, the dagger of the secret_unitary is applied, cancelling the original application of the secret_unitary . You should expect to see 0 for q[2], as that means that the state from q[0] (in this case, 1) was successfully teleported to q[2], and then brought back to 0 by the dagger of the secret_unitary .
+
+Original fixed code:
+since for a unitary u, u^dagger u = I.

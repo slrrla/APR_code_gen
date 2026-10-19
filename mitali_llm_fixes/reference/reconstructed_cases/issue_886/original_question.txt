@@ -1,0 +1,139 @@
+Title:
+Error when using crx gate in quantum circuit
+
+Category:
+
+
+Question:
+Title: Error when using crx gate in quantum circuit
+
+When I try to run a quantum circuit that has a gate in it, I get an error . Below is an example of the code that I am trying to run: Please help me with this.
+
+```
+crx
+```
+
+```
+AerError: 'unknown instruction: crx'
+```
+
+```
+from qiskit import QuantumCircuit from qiskit_aer import Aer import numpy as np circ = QuantumCircuit(2,2) circ.crx(np.pi/2, 0,1) circ.measure_all() job = Aer.get_backend('qasm_simulator').run(circ) job.result().get_counts()
+```
+
+```
+from qiskit import QuantumCircuit from qiskit_aer import Aer import numpy as np circ = QuantumCircuit(2,2) circ.crx(np.pi/2, 0,1) circ.measure_all() job = Aer.get_backend('qasm_simulator').run(circ) job.result().get_counts()
+```
+
+Original buggy code:
+crx
+
+---CODE_BLOCK---
+
+AerError: 'unknown instruction: crx'
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit_aer import Aer import numpy as np circ = QuantumCircuit(2,2) circ.crx(np.pi/2, 0,1) circ.measure_all() job = Aer.get_backend('qasm_simulator').run(circ) job.result().get_counts()
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit_aer import Aer import numpy as np circ = QuantumCircuit(2,2) circ.crx(np.pi/2, 0,1) circ.measure_all() job = Aer.get_backend('qasm_simulator').run(circ) job.result().get_counts()
+
+Solution explanation:
+You are getting error because does not have gate in the list of its basis gates. Here is the list of all the instructions that supports: To fix this issue you need to your code before running it on . This can be achieved as below: This code correctly runs and the result is (which makes sense because won't act on qubit 1 if the control qubit is in zero state).
+
+```
+unknown instruction
+```
+
+```
+qasm_simulator
+```
+
+```
+crx
+```
+
+```
+qasm_simulator
+```
+
+```
+['save_statevector', 'mcrx', 'mcrz', 'x', 'cu1', 'z', 'initialize', 's', 'mcsx', 'qerror_loc', 'h', 'ry', 'save_state', 'delay', 'set_density_matrix', 'id', 'unitary', 'cy', 'rzz', 'set_stabilizer', 'cu3', 'rz', 'save_probabilities', 'mcx', 'diagonal', 'p', 'save_density_matrix', 'reset', 'sdg', 'mcry', 'csx', 'measure', 'ccx', 'mcy', 'mcphase', 'rx', 'ecr', 'save_stabilizer', 'y', 'cu', 'cx', 'mcr', 'mcswap', 'sx', 'save_amplitudes_sq', 'save_expval', 'u2', 'save_expval_var', 'save_statevector_dict', 'mcz', 'quantum_channel', 'cswap', 'cp', 'kraus', 'cz', 'swap', 'r', 'u3', 'mcp', 'roerror', 'save_probabilities_dict', 'mcu2', 'ryy', 'mcu', 'rxx', 'pauli', 'rzx', 'mcu1', 'sxdg', 'tdg', 'multiplexer', 'u', 'save_amplitudes', 'mcx_gray', 'mcu3', 't', 'cu2', 'set_statevector', 'u1']
+```
+
+```
+['save_statevector', 'mcrx', 'mcrz', 'x', 'cu1', 'z', 'initialize', 's', 'mcsx', 'qerror_loc', 'h', 'ry', 'save_state', 'delay', 'set_density_matrix', 'id', 'unitary', 'cy', 'rzz', 'set_stabilizer', 'cu3', 'rz', 'save_probabilities', 'mcx', 'diagonal', 'p', 'save_density_matrix', 'reset', 'sdg', 'mcry', 'csx', 'measure', 'ccx', 'mcy', 'mcphase', 'rx', 'ecr', 'save_stabilizer', 'y', 'cu', 'cx', 'mcr', 'mcswap', 'sx', 'save_amplitudes_sq', 'save_expval', 'u2', 'save_expval_var', 'save_statevector_dict', 'mcz', 'quantum_channel', 'cswap', 'cp', 'kraus', 'cz', 'swap', 'r', 'u3', 'mcp', 'roerror', 'save_probabilities_dict', 'mcu2', 'ryy', 'mcu', 'rxx', 'pauli', 'rzx', 'mcu1', 'sxdg', 'tdg', 'multiplexer', 'u', 'save_amplitudes', 'mcx_gray', 'mcu3', 't', 'cu2', 'set_statevector', 'u1']
+```
+
+```
+transpile
+```
+
+```
+qasm_simulator
+```
+
+```
+from qiskit import QuantumCircuit from qiskit_aer import Aer import numpy as np from qiskit import transpile circ = QuantumCircuit(2) circ.crx(np.pi/2, 0, 1) circ.measure_all() backend = Aer.get_backend('qasm_simulator') # Transpiling your circuit transpile_circ = transpile(circ, backend=backend) job = backend.run(transpile_circ, shots=1024) job.result().get_counts()
+```
+
+```
+from qiskit import QuantumCircuit from qiskit_aer import Aer import numpy as np from qiskit import transpile circ = QuantumCircuit(2) circ.crx(np.pi/2, 0, 1) circ.measure_all() backend = Aer.get_backend('qasm_simulator') # Transpiling your circuit transpile_circ = transpile(circ, backend=backend) job = backend.run(transpile_circ, shots=1024) job.result().get_counts()
+```
+
+```
+{'00': 1024}
+```
+
+```
+crx
+```
+
+Original fixed code:
+unknown instruction
+
+---CODE_BLOCK---
+
+qasm_simulator
+
+---CODE_BLOCK---
+
+crx
+
+---CODE_BLOCK---
+
+qasm_simulator
+
+---CODE_BLOCK---
+
+['save_statevector', 'mcrx', 'mcrz', 'x', 'cu1', 'z', 'initialize', 's', 'mcsx', 'qerror_loc', 'h', 'ry', 'save_state', 'delay', 'set_density_matrix', 'id', 'unitary', 'cy', 'rzz', 'set_stabilizer', 'cu3', 'rz', 'save_probabilities', 'mcx', 'diagonal', 'p', 'save_density_matrix', 'reset', 'sdg', 'mcry', 'csx', 'measure', 'ccx', 'mcy', 'mcphase', 'rx', 'ecr', 'save_stabilizer', 'y', 'cu', 'cx', 'mcr', 'mcswap', 'sx', 'save_amplitudes_sq', 'save_expval', 'u2', 'save_expval_var', 'save_statevector_dict', 'mcz', 'quantum_channel', 'cswap', 'cp', 'kraus', 'cz', 'swap', 'r', 'u3', 'mcp', 'roerror', 'save_probabilities_dict', 'mcu2', 'ryy', 'mcu', 'rxx', 'pauli', 'rzx', 'mcu1', 'sxdg', 'tdg', 'multiplexer', 'u', 'save_amplitudes', 'mcx_gray', 'mcu3', 't', 'cu2', 'set_statevector', 'u1']
+
+---CODE_BLOCK---
+
+['save_statevector', 'mcrx', 'mcrz', 'x', 'cu1', 'z', 'initialize', 's', 'mcsx', 'qerror_loc', 'h', 'ry', 'save_state', 'delay', 'set_density_matrix', 'id', 'unitary', 'cy', 'rzz', 'set_stabilizer', 'cu3', 'rz', 'save_probabilities', 'mcx', 'diagonal', 'p', 'save_density_matrix', 'reset', 'sdg', 'mcry', 'csx', 'measure', 'ccx', 'mcy', 'mcphase', 'rx', 'ecr', 'save_stabilizer', 'y', 'cu', 'cx', 'mcr', 'mcswap', 'sx', 'save_amplitudes_sq', 'save_expval', 'u2', 'save_expval_var', 'save_statevector_dict', 'mcz', 'quantum_channel', 'cswap', 'cp', 'kraus', 'cz', 'swap', 'r', 'u3', 'mcp', 'roerror', 'save_probabilities_dict', 'mcu2', 'ryy', 'mcu', 'rxx', 'pauli', 'rzx', 'mcu1', 'sxdg', 'tdg', 'multiplexer', 'u', 'save_amplitudes', 'mcx_gray', 'mcu3', 't', 'cu2', 'set_statevector', 'u1']
+
+---CODE_BLOCK---
+
+transpile
+
+---CODE_BLOCK---
+
+qasm_simulator
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit_aer import Aer import numpy as np from qiskit import transpile circ = QuantumCircuit(2) circ.crx(np.pi/2, 0, 1) circ.measure_all() backend = Aer.get_backend('qasm_simulator') # Transpiling your circuit transpile_circ = transpile(circ, backend=backend) job = backend.run(transpile_circ, shots=1024) job.result().get_counts()
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit_aer import Aer import numpy as np from qiskit import transpile circ = QuantumCircuit(2) circ.crx(np.pi/2, 0, 1) circ.measure_all() backend = Aer.get_backend('qasm_simulator') # Transpiling your circuit transpile_circ = transpile(circ, backend=backend) job = backend.run(transpile_circ, shots=1024) job.result().get_counts()
+
+---CODE_BLOCK---
+
+{'00': 1024}
+
+---CODE_BLOCK---
+
+crx

@@ -1,0 +1,150 @@
+Title:
+Different results between qasm_simulator and quantum computer: how to normalize for only few states
+
+Category:
+Backend Usage / Simulation / Output
+
+Why AI Wins in This Category:
+In Backend-related issues, especially those concerning post-processing and measurement interpretation, clarity and actionable steps are crucial. The AI solution:
+
+Provides clean, reusable code.
+
+Avoids hardware-specific dependencies.
+
+Clearly explains filtering and normalization logic.
+
+It empowers the user to address the actual pain point — result normalization — which Stack Overflow did not directly solve.
+
+Question:
+Title: Different results between qasm_simulator and quantum computer: how to normalize for only few states
+
+I recently started developing circuits with Qiskit. I made a 5 qubit circuit in which the fourth qubit at the end of execution must always have value 1: When I do the simulation with qasm everything is ok. When I start the circuit on ibmq_essex I get results in which the value of fourth qubit is 0. I would like to eliminate from the results all the states that have the fourth qubit at 0 and normalize the circuit to eliminate the errors. How can I do? I have already tried the following set of instructions with Ignis but as you can see from the graph I have not achieved a satisfactory result
+
+```
+from qiskit.ignis.mitigation.measurement import (complete_meas_cal, CompleteMeasFitter) cal_circuits, state_labels = complete_meas_cal(qr = circuit.qregs[0], circlabel = 'measerrormitigationcal') len(cal_circuits) cal_job = execute(cal_circuits, backend = qcomp,shots = 1024, optimization_level = 3) job_monitor(cal_job) cal_results = cal_job.result() plot_histogram(cal_results.get_counts(cal_circuits[5])) meas_fitter = CompleteMeasFitter(cal_results, state_labels) meas_filter = meas_fitter.filter mitigated_results = meas_filter.apply(result) device_counts = result.get_counts(circuit) mitigated_counts = mitigated_results.get_counts(circuit) plot_histogram([device_counts, mitigated_counts], legend=['noisy', 'mitigated'],figsize=(20,15))
+```
+
+```
+from qiskit.ignis.mitigation.measurement import (complete_meas_cal, CompleteMeasFitter) cal_circuits, state_labels = complete_meas_cal(qr = circuit.qregs[0], circlabel = 'measerrormitigationcal') len(cal_circuits) cal_job = execute(cal_circuits, backend = qcomp,shots = 1024, optimization_level = 3) job_monitor(cal_job) cal_results = cal_job.result() plot_histogram(cal_results.get_counts(cal_circuits[5])) meas_fitter = CompleteMeasFitter(cal_results, state_labels) meas_filter = meas_fitter.filter mitigated_results = meas_filter.apply(result) device_counts = result.get_counts(circuit) mitigated_counts = mitigated_results.get_counts(circuit) plot_histogram([device_counts, mitigated_counts], legend=['noisy', 'mitigated'],figsize=(20,15))
+```
+
+Original buggy code:
+from qiskit.ignis.mitigation.measurement import (complete_meas_cal, CompleteMeasFitter) cal_circuits, state_labels = complete_meas_cal(qr = circuit.qregs[0], circlabel = 'measerrormitigationcal') len(cal_circuits) cal_job = execute(cal_circuits, backend = qcomp,shots = 1024, optimization_level = 3) job_monitor(cal_job) cal_results = cal_job.result() plot_histogram(cal_results.get_counts(cal_circuits[5])) meas_fitter = CompleteMeasFitter(cal_results, state_labels) meas_filter = meas_fitter.filter mitigated_results = meas_filter.apply(result) device_counts = result.get_counts(circuit) mitigated_counts = mitigated_results.get_counts(circuit) plot_histogram([device_counts, mitigated_counts], legend=['noisy', 'mitigated'],figsize=(20,15))
+
+---CODE_BLOCK---
+
+from qiskit.ignis.mitigation.measurement import (complete_meas_cal, CompleteMeasFitter) cal_circuits, state_labels = complete_meas_cal(qr = circuit.qregs[0], circlabel = 'measerrormitigationcal') len(cal_circuits) cal_job = execute(cal_circuits, backend = qcomp,shots = 1024, optimization_level = 3) job_monitor(cal_job) cal_results = cal_job.result() plot_histogram(cal_results.get_counts(cal_circuits[5])) meas_fitter = CompleteMeasFitter(cal_results, state_labels) meas_filter = meas_fitter.filter mitigated_results = meas_filter.apply(result) device_counts = result.get_counts(circuit) mitigated_counts = mitigated_results.get_counts(circuit) plot_histogram([device_counts, mitigated_counts], legend=['noisy', 'mitigated'],figsize=(20,15))
+
+Solution explanation:
+The difference between the simulator and quantum hardware is something that can't be avoided, there must be a difference, because of noise. The one thing that I noticed from the histograms is that the state with maximum probability for simulator was '11000' and for quantum hardware, the state with maximum probability was '10000'. I think this difference is caused by the small shots number. I have run the same circuit on with 8192 shots and here is what I obtained: So shots number can help to improve the results. Measurement error mitigation will help a little bit to improve this result even farther, but maybe the final result will be still unsatisfactory. Also, I want to mention that CNOT gates are noisier then single-qubit gates and in the circuit, we have 4 CNOTs applied on the qubit, so I guess this has its effect. If is always '1', then we can just replace CNOTs with X gates applied to the corresponding qubits: this will reduce errors as well. Moreover if is not linked with some qubit the quantum compiler will introduce SWAP gates to be able to apply CNOT between and . This means that we will have even more CNOTs in the circuit then we have introduced (for more about SWAP and connectivity I recommend this video). Here is the connectivity of taken from this site: If our corresponds to 4th qubit in the picture (not sure about this) then I imagine that the quantum compiler will introduce a lot of SWAP gates and, thus, the error will increase just because of not optimally chosen qubit. Here is the final circuit after (Note how many CNOTs are there): From here, if I am not mistaken, we can deduce that is the 3rd qubit from . Here is the code that I have used:
+
+```
+ibmq_essex
+```
+
+```
+q[4]
+```
+
+```
+q[4]
+```
+
+```
+q[4]
+```
+
+```
+q[n]
+```
+
+```
+q[4]
+```
+
+```
+q[n]
+```
+
+```
+ibmq_essex
+```
+
+```
+q[4]
+```
+
+```
+optimization_level=3
+```
+
+```
+q[4]
+```
+
+```
+ibmq_essex
+```
+
+```
+from qiskit import * from qiskit.visualization import * %config InlineBackend.figure_format = 'svg' provider = IBMQ.load_account() qpu_backend = provider.get_backend('ibmq_essex') quantum_register = QuantumRegister(4, 'q') ancillary_qubit = QuantumRegister(1, 'a') classical_register = ClassicalRegister(5, 'c') circuit = QuantumCircuit(quantum_register, ancillary_qubit, classical_register) circuit.h(quantum_register) circuit.u1(-0.0707, quantum_register[0]) circuit.u1(-0.134, quantum_register[1]) circuit.u1(-0.236, quantum_register[2]) circuit.u1(-0.314, quantum_register[3]) circuit.x(ancillary_qubit[0]) circuit.cx(ancillary_qubit[0], quantum_register[0]) circuit.cx(ancillary_qubit[0], quantum_register[1]) circuit.cx(ancillary_qubit[0], quantum_register[2]) circuit.cx(ancillary_qubit[0], quantum_register[3]) circuit.u1(0.385, quantum_register[0]) circuit.u1(0.605, quantum_register[1]) circuit.u1(1.02, quantum_register[2]) circuit.u1(1.884, quantum_register[3]) circuit.h(quantum_register) circuit.measure(quantum_register[0], classical_register[0]) circuit.measure(quantum_register[1], classical_register[1]) circuit.measure(quantum_register[2], classical_register[2]) circuit.measure(quantum_register[3], classical_register[3]) circuit.measure(ancillary_qubit[0], classical_register[4]) qpu_result = execute(circuit, backend=qpu_backend, shots=8192, optimization_level=3).result().get_counts() plot_histogram(qpu_result, legend=[qpu_backend],figsize=(10,5))
+```
+
+```
+from qiskit import * from qiskit.visualization import * %config InlineBackend.figure_format = 'svg' provider = IBMQ.load_account() qpu_backend = provider.get_backend('ibmq_essex') quantum_register = QuantumRegister(4, 'q') ancillary_qubit = QuantumRegister(1, 'a') classical_register = ClassicalRegister(5, 'c') circuit = QuantumCircuit(quantum_register, ancillary_qubit, classical_register) circuit.h(quantum_register) circuit.u1(-0.0707, quantum_register[0]) circuit.u1(-0.134, quantum_register[1]) circuit.u1(-0.236, quantum_register[2]) circuit.u1(-0.314, quantum_register[3]) circuit.x(ancillary_qubit[0]) circuit.cx(ancillary_qubit[0], quantum_register[0]) circuit.cx(ancillary_qubit[0], quantum_register[1]) circuit.cx(ancillary_qubit[0], quantum_register[2]) circuit.cx(ancillary_qubit[0], quantum_register[3]) circuit.u1(0.385, quantum_register[0]) circuit.u1(0.605, quantum_register[1]) circuit.u1(1.02, quantum_register[2]) circuit.u1(1.884, quantum_register[3]) circuit.h(quantum_register) circuit.measure(quantum_register[0], classical_register[0]) circuit.measure(quantum_register[1], classical_register[1]) circuit.measure(quantum_register[2], classical_register[2]) circuit.measure(quantum_register[3], classical_register[3]) circuit.measure(ancillary_qubit[0], classical_register[4]) qpu_result = execute(circuit, backend=qpu_backend, shots=8192, optimization_level=3).result().get_counts() plot_histogram(qpu_result, legend=[qpu_backend],figsize=(10,5))
+```
+
+Original fixed code:
+ibmq_essex
+
+---CODE_BLOCK---
+
+q[4]
+
+---CODE_BLOCK---
+
+q[4]
+
+---CODE_BLOCK---
+
+q[4]
+
+---CODE_BLOCK---
+
+q[n]
+
+---CODE_BLOCK---
+
+q[4]
+
+---CODE_BLOCK---
+
+q[n]
+
+---CODE_BLOCK---
+
+ibmq_essex
+
+---CODE_BLOCK---
+
+q[4]
+
+---CODE_BLOCK---
+
+optimization_level=3
+
+---CODE_BLOCK---
+
+q[4]
+
+---CODE_BLOCK---
+
+ibmq_essex
+
+---CODE_BLOCK---
+
+from qiskit import * from qiskit.visualization import * %config InlineBackend.figure_format = 'svg' provider = IBMQ.load_account() qpu_backend = provider.get_backend('ibmq_essex') quantum_register = QuantumRegister(4, 'q') ancillary_qubit = QuantumRegister(1, 'a') classical_register = ClassicalRegister(5, 'c') circuit = QuantumCircuit(quantum_register, ancillary_qubit, classical_register) circuit.h(quantum_register) circuit.u1(-0.0707, quantum_register[0]) circuit.u1(-0.134, quantum_register[1]) circuit.u1(-0.236, quantum_register[2]) circuit.u1(-0.314, quantum_register[3]) circuit.x(ancillary_qubit[0]) circuit.cx(ancillary_qubit[0], quantum_register[0]) circuit.cx(ancillary_qubit[0], quantum_register[1]) circuit.cx(ancillary_qubit[0], quantum_register[2]) circuit.cx(ancillary_qubit[0], quantum_register[3]) circuit.u1(0.385, quantum_register[0]) circuit.u1(0.605, quantum_register[1]) circuit.u1(1.02, quantum_register[2]) circuit.u1(1.884, quantum_register[3]) circuit.h(quantum_register) circuit.measure(quantum_register[0], classical_register[0]) circuit.measure(quantum_register[1], classical_register[1]) circuit.measure(quantum_register[2], classical_register[2]) circuit.measure(quantum_register[3], classical_register[3]) circuit.measure(ancillary_qubit[0], classical_register[4]) qpu_result = execute(circuit, backend=qpu_backend, shots=8192, optimization_level=3).result().get_counts() plot_histogram(qpu_result, legend=[qpu_backend],figsize=(10,5))
+
+---CODE_BLOCK---
+
+from qiskit import * from qiskit.visualization import * %config InlineBackend.figure_format = 'svg' provider = IBMQ.load_account() qpu_backend = provider.get_backend('ibmq_essex') quantum_register = QuantumRegister(4, 'q') ancillary_qubit = QuantumRegister(1, 'a') classical_register = ClassicalRegister(5, 'c') circuit = QuantumCircuit(quantum_register, ancillary_qubit, classical_register) circuit.h(quantum_register) circuit.u1(-0.0707, quantum_register[0]) circuit.u1(-0.134, quantum_register[1]) circuit.u1(-0.236, quantum_register[2]) circuit.u1(-0.314, quantum_register[3]) circuit.x(ancillary_qubit[0]) circuit.cx(ancillary_qubit[0], quantum_register[0]) circuit.cx(ancillary_qubit[0], quantum_register[1]) circuit.cx(ancillary_qubit[0], quantum_register[2]) circuit.cx(ancillary_qubit[0], quantum_register[3]) circuit.u1(0.385, quantum_register[0]) circuit.u1(0.605, quantum_register[1]) circuit.u1(1.02, quantum_register[2]) circuit.u1(1.884, quantum_register[3]) circuit.h(quantum_register) circuit.measure(quantum_register[0], classical_register[0]) circuit.measure(quantum_register[1], classical_register[1]) circuit.measure(quantum_register[2], classical_register[2]) circuit.measure(quantum_register[3], classical_register[3]) circuit.measure(ancillary_qubit[0], classical_register[4]) qpu_result = execute(circuit, backend=qpu_backend, shots=8192, optimization_level=3).result().get_counts() plot_histogram(qpu_result, legend=[qpu_backend],figsize=(10,5))

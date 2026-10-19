@@ -1,0 +1,4 @@
+# NO BUG: NoiseModel.from_backend is correct, but backend must be an accessible backend object defined elsewhere
+from qiskit_aer.noise import NoiseModel
+
+noise_model = NoiseModel.from_backend(backend)

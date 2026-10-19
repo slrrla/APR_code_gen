@@ -1,0 +1,23 @@
+Title: What does Qiskit AerSimulator(memory=True) do?
+
+I followed this Qiskit course through Deutsch's algorithm and all seems clear to me except the use of the optional parameter when making the call to . The context of this call is as follows: The documentation for does not seem to cover this parameter, since there are so many backed options that most are briefly mentioned and the details are unavailable. My assumption is that this parameter enables the collection of classical bits from measurements, but I would like to know for certain what happens here.
+
+```
+memory=true
+```
+
+```
+AerSimulator().run(...)
+```
+
+```
+def deutsch_algorithm(function: QuantumCircuit): """ Determine if a Deutsch function is constant or balanced. """ qc = compile_circuit(function) result = AerSimulator().run(qc, shots=1, memory=True).result() measurements = result.get_memory() if measurements[0] == "0": return "constant" return "balanced"
+```
+
+```
+def deutsch_algorithm(function: QuantumCircuit): """ Determine if a Deutsch function is constant or balanced. """ qc = compile_circuit(function) result = AerSimulator().run(qc, shots=1, memory=True).result() measurements = result.get_memory() if measurements[0] == "0": return "constant" return "balanced"
+```
+
+```
+AerSimulator
+```

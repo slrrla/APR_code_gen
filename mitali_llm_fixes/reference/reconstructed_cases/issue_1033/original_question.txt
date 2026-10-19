@@ -1,0 +1,31 @@
+Title:
+What is the difference between the two entanglement circuits?
+
+Category:
+
+
+Question:
+Title: What is the difference between the two entanglement circuits?
+
+For a three qubits system to be in an entanglement(GHZ) state, the circuit can be built as per Qiskit, Here, the control bit of the second X gate is on q0. what if the control bit is shifted to q1. This also leads to entanglement. what is the difference between the two different ways? Further to my question, I did the same for 5 qubits, I get different results: which one is correct?
+
+Original buggy code:
+For a three qubits system to be in an entanglement(GHZ) state, the circuit can be built as per Qiskit, Here, the control bit of the second X gate is on q0. what if the control bit is shifted to q1. This also leads to entanglement. what is the difference between the two different ways? Further to my question, I did the same for 5 qubits, I get different results: which one is correct?
+
+Solution explanation:
+The two circuits are equivalent. To see this more explicitly, note the following idenity Thus you have Note that $CNOT*CNOT = I$, and when the control qubit is $|0\rangle$ nothing happened so you can remove it.
+
+```
+import qiskit.quantum_info as qi from qiskit.circuit import QuantumCircuit qc1 = QuantumCircuit(3) qc1.h(0) qc1.cx(0,1) qc1.cx(0,2) op1 = qi.Operator(qc1) print(qc1) ┌───┐ q_0: ┤ H ├──■────■── └───┘┌─┴─┐ │ q_1: ─────┤ X ├──┼── └───┘┌─┴─┐ q_2: ──────────┤ X ├ └───┘ qc2 = QuantumCircuit(3) qc2.h(0) qc2.cx(0,1) qc2.cx(1,2) op2 = qi.Operator(qc1) print(qc2) ┌───┐ q_0: ┤ H ├──■─────── └───┘┌─┴─┐ q_1: ─────┤ X ├──■── └───┘┌─┴─┐ q_2: ──────────┤ X ├ └───┘ print(op1 == op2) True
+```
+
+```
+import qiskit.quantum_info as qi from qiskit.circuit import QuantumCircuit qc1 = QuantumCircuit(3) qc1.h(0) qc1.cx(0,1) qc1.cx(0,2) op1 = qi.Operator(qc1) print(qc1) ┌───┐ q_0: ┤ H ├──■────■── └───┘┌─┴─┐ │ q_1: ─────┤ X ├──┼── └───┘┌─┴─┐ q_2: ──────────┤ X ├ └───┘ qc2 = QuantumCircuit(3) qc2.h(0) qc2.cx(0,1) qc2.cx(1,2) op2 = qi.Operator(qc1) print(qc2) ┌───┐ q_0: ┤ H ├──■─────── └───┘┌─┴─┐ q_1: ─────┤ X ├──■── └───┘┌─┴─┐ q_2: ──────────┤ X ├ └───┘ print(op1 == op2) True
+```
+
+Original fixed code:
+import qiskit.quantum_info as qi from qiskit.circuit import QuantumCircuit qc1 = QuantumCircuit(3) qc1.h(0) qc1.cx(0,1) qc1.cx(0,2) op1 = qi.Operator(qc1) print(qc1) ┌───┐ q_0: ┤ H ├──■────■── └───┘┌─┴─┐ │ q_1: ─────┤ X ├──┼── └───┘┌─┴─┐ q_2: ──────────┤ X ├ └───┘ qc2 = QuantumCircuit(3) qc2.h(0) qc2.cx(0,1) qc2.cx(1,2) op2 = qi.Operator(qc1) print(qc2) ┌───┐ q_0: ┤ H ├──■─────── └───┘┌─┴─┐ q_1: ─────┤ X ├──■── └───┘┌─┴─┐ q_2: ──────────┤ X ├ └───┘ print(op1 == op2) True
+
+---CODE_BLOCK---
+
+import qiskit.quantum_info as qi from qiskit.circuit import QuantumCircuit qc1 = QuantumCircuit(3) qc1.h(0) qc1.cx(0,1) qc1.cx(0,2) op1 = qi.Operator(qc1) print(qc1) ┌───┐ q_0: ┤ H ├──■────■── └───┘┌─┴─┐ │ q_1: ─────┤ X ├──┼── └───┘┌─┴─┐ q_2: ──────────┤ X ├ └───┘ qc2 = QuantumCircuit(3) qc2.h(0) qc2.cx(0,1) qc2.cx(1,2) op2 = qi.Operator(qc1) print(qc2) ┌───┐ q_0: ┤ H ├──■─────── └───┘┌─┴─┐ q_1: ─────┤ X ├──■── └───┘┌─┴─┐ q_2: ──────────┤ X ├ └───┘ print(op1 == op2) True

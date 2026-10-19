@@ -1,0 +1,141 @@
+Title:
+Decompose a quantum circuit into basis gates
+
+Category:
+Category: Qiskit Transpiler / Advanced APIs
+Why AI Solution Wins in This Category:
+This issue revolves around correct use of Qiskit transpiler APIs and backend compatibility. The AI-generated response directly shows how to achieve basis-gate-level decomposition via transpile() using a real backend (AerSimulator). It prioritizes runnable code, minimal complexity, and gives an accurate explanation with clean results. In contrast, the Stack Overflow answer is informative but lacks focus and executable clarity, which is critical for users dealing with transpilation.
+
+Question:
+Title: Decompose a quantum circuit into basis gates
+
+I am not able to understand how to decompose the quantum circuit into the basis gates. I tried the below code in the latest version of but I realize this approach is not correct. When I print the circuit, it looks like as below: It would be really kind help if someone can guide me on this because this circuit kind of gates are definitely not basis gates. Edit1 Decompose removed, transpile added, but it really donot break down the circuit into basis gates or native gates.
+
+```
+qiskit==1.0
+```
+
+```
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister from qiskit.circuit.library import UCRYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime.fake_provider import FakeKolkata from qiskit_aer import Aer from qiskit_aer.noise import NoiseModel import math import pdb num_qubits = 3 data = np.array([ [0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0] ]) angles = [np.pi / 4, np.pi / 2, 3 * np.pi / 4, np.pi] controls = [0, 1] target = [2] qr1 = QuantumRegister(num_qubits, name= 'q') qc1 = QuantumCircuit(qr1) qc1.append(UCRYGate(angles), controls + target) qc1.append(UCRYGate(angles), controls + target) qr2 = QuantumRegister(num_qubits, name='q') qc2= QuantumCircuit(qr2) qc2.unitary(data, qr2, label= 'u') qc1 = qc1.compose(qc2, list(range(0, num_qubits))) qc1 = qc1.decompose() # Decomposing the quantum circuit print(qc1.draw())
+```
+
+```
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister from qiskit.circuit.library import UCRYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime.fake_provider import FakeKolkata from qiskit_aer import Aer from qiskit_aer.noise import NoiseModel import math import pdb num_qubits = 3 data = np.array([ [0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0] ]) angles = [np.pi / 4, np.pi / 2, 3 * np.pi / 4, np.pi] controls = [0, 1] target = [2] qr1 = QuantumRegister(num_qubits, name= 'q') qc1 = QuantumCircuit(qr1) qc1.append(UCRYGate(angles), controls + target) qc1.append(UCRYGate(angles), controls + target) qr2 = QuantumRegister(num_qubits, name='q') qc2= QuantumCircuit(qr2) qc2.unitary(data, qr2, label= 'u') qc1 = qc1.compose(qc2, list(range(0, num_qubits))) qc1 = qc1.decompose() # Decomposing the quantum circuit print(qc1.draw())
+```
+
+```
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister from qiskit.circuit.library import UCRYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime.fake_provider import FakeKolkata from qiskit_aer import Aer from qiskit_aer.noise import NoiseModel from qiskit_aer import AerSimulator import math import pdb num_qubits = 3 data = np.array([ [0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0] ]) angles = [np.pi / 4, np.pi / 2, 3 * np.pi / 4, np.pi] controls = [0, 1] target = [2] qr1 = QuantumRegister(num_qubits, name= 'q') qc1 = QuantumCircuit(qr1) qc1.append(UCRYGate(angles), controls + target) qc1.append(UCRYGate(angles), controls + target) qr2 = QuantumRegister(num_qubits, name='q') qc2= QuantumCircuit(qr2) qc2.unitary(data, qr2, label= 'u') qc1 = qc1.compose(qc2, list(range(0, num_qubits))) qc1.measure_all() shots_used = 10000 print("Circuit depth: ", qc2.depth()) print("Circuit gate counts:", qc2.count_ops()) backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) qc_optimized = pm.run(qc1) print("Optimzied circuit depth: ", qc_optimized.depth()) print("Optimized gate counts:", qc_optimized.count_ops()) print(qc_optimized.draw()) # drawing ckt after transpile pdb.set_trace() job = backend.run(qc_optimized, shots = shots_used) result = job.result() counts = result.get_counts(qc_optimized)
+```
+
+```
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister from qiskit.circuit.library import UCRYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime.fake_provider import FakeKolkata from qiskit_aer import Aer from qiskit_aer.noise import NoiseModel from qiskit_aer import AerSimulator import math import pdb num_qubits = 3 data = np.array([ [0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0] ]) angles = [np.pi / 4, np.pi / 2, 3 * np.pi / 4, np.pi] controls = [0, 1] target = [2] qr1 = QuantumRegister(num_qubits, name= 'q') qc1 = QuantumCircuit(qr1) qc1.append(UCRYGate(angles), controls + target) qc1.append(UCRYGate(angles), controls + target) qr2 = QuantumRegister(num_qubits, name='q') qc2= QuantumCircuit(qr2) qc2.unitary(data, qr2, label= 'u') qc1 = qc1.compose(qc2, list(range(0, num_qubits))) qc1.measure_all() shots_used = 10000 print("Circuit depth: ", qc2.depth()) print("Circuit gate counts:", qc2.count_ops()) backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) qc_optimized = pm.run(qc1) print("Optimzied circuit depth: ", qc_optimized.depth()) print("Optimized gate counts:", qc_optimized.count_ops()) print(qc_optimized.draw()) # drawing ckt after transpile pdb.set_trace() job = backend.run(qc_optimized, shots = shots_used) result = job.result() counts = result.get_counts(qc_optimized)
+```
+
+Original buggy code:
+qiskit==1.0
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister from qiskit.circuit.library import UCRYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime.fake_provider import FakeKolkata from qiskit_aer import Aer from qiskit_aer.noise import NoiseModel import math import pdb num_qubits = 3 data = np.array([ [0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0] ]) angles = [np.pi / 4, np.pi / 2, 3 * np.pi / 4, np.pi] controls = [0, 1] target = [2] qr1 = QuantumRegister(num_qubits, name= 'q') qc1 = QuantumCircuit(qr1) qc1.append(UCRYGate(angles), controls + target) qc1.append(UCRYGate(angles), controls + target) qr2 = QuantumRegister(num_qubits, name='q') qc2= QuantumCircuit(qr2) qc2.unitary(data, qr2, label= 'u') qc1 = qc1.compose(qc2, list(range(0, num_qubits))) qc1 = qc1.decompose() # Decomposing the quantum circuit print(qc1.draw())
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister from qiskit.circuit.library import UCRYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime.fake_provider import FakeKolkata from qiskit_aer import Aer from qiskit_aer.noise import NoiseModel import math import pdb num_qubits = 3 data = np.array([ [0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0] ]) angles = [np.pi / 4, np.pi / 2, 3 * np.pi / 4, np.pi] controls = [0, 1] target = [2] qr1 = QuantumRegister(num_qubits, name= 'q') qc1 = QuantumCircuit(qr1) qc1.append(UCRYGate(angles), controls + target) qc1.append(UCRYGate(angles), controls + target) qr2 = QuantumRegister(num_qubits, name='q') qc2= QuantumCircuit(qr2) qc2.unitary(data, qr2, label= 'u') qc1 = qc1.compose(qc2, list(range(0, num_qubits))) qc1 = qc1.decompose() # Decomposing the quantum circuit print(qc1.draw())
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister from qiskit.circuit.library import UCRYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime.fake_provider import FakeKolkata from qiskit_aer import Aer from qiskit_aer.noise import NoiseModel from qiskit_aer import AerSimulator import math import pdb num_qubits = 3 data = np.array([ [0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0] ]) angles = [np.pi / 4, np.pi / 2, 3 * np.pi / 4, np.pi] controls = [0, 1] target = [2] qr1 = QuantumRegister(num_qubits, name= 'q') qc1 = QuantumCircuit(qr1) qc1.append(UCRYGate(angles), controls + target) qc1.append(UCRYGate(angles), controls + target) qr2 = QuantumRegister(num_qubits, name='q') qc2= QuantumCircuit(qr2) qc2.unitary(data, qr2, label= 'u') qc1 = qc1.compose(qc2, list(range(0, num_qubits))) qc1.measure_all() shots_used = 10000 print("Circuit depth: ", qc2.depth()) print("Circuit gate counts:", qc2.count_ops()) backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) qc_optimized = pm.run(qc1) print("Optimzied circuit depth: ", qc_optimized.depth()) print("Optimized gate counts:", qc_optimized.count_ops()) print(qc_optimized.draw()) # drawing ckt after transpile pdb.set_trace() job = backend.run(qc_optimized, shots = shots_used) result = job.result() counts = result.get_counts(qc_optimized)
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister from qiskit.circuit.library import UCRYGate from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_ibm_runtime.fake_provider import FakeKolkata from qiskit_aer import Aer from qiskit_aer.noise import NoiseModel from qiskit_aer import AerSimulator import math import pdb num_qubits = 3 data = np.array([ [0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0] ]) angles = [np.pi / 4, np.pi / 2, 3 * np.pi / 4, np.pi] controls = [0, 1] target = [2] qr1 = QuantumRegister(num_qubits, name= 'q') qc1 = QuantumCircuit(qr1) qc1.append(UCRYGate(angles), controls + target) qc1.append(UCRYGate(angles), controls + target) qr2 = QuantumRegister(num_qubits, name='q') qc2= QuantumCircuit(qr2) qc2.unitary(data, qr2, label= 'u') qc1 = qc1.compose(qc2, list(range(0, num_qubits))) qc1.measure_all() shots_used = 10000 print("Circuit depth: ", qc2.depth()) print("Circuit gate counts:", qc2.count_ops()) backend = AerSimulator() pm = generate_preset_pass_manager(backend=backend, optimization_level=3) qc_optimized = pm.run(qc1) print("Optimzied circuit depth: ", qc_optimized.depth()) print("Optimized gate counts:", qc_optimized.count_ops()) print(qc_optimized.draw()) # drawing ckt after transpile pdb.set_trace() job = backend.run(qc_optimized, shots = shots_used) result = job.result() counts = result.get_counts(qc_optimized)
+
+Solution explanation:
+The function only exposes the construction layer below of some given circuit or gate implementation. It has nothing to do with the basis gates of a particular backend. Although, in some given library, a lot of the gates might be constructed out of components of a popular gate-set. In any case, to transform a circuit to a basis set, you need to transpile it by giving the transpiler information about which gate set you want to use. Here’s an analogy using classical circuits. Imagine you have a library that has a circuit for a full adder. You decide to “decompose$^*$” the circuit and find out that it is made out of AND, OR and NOT gates. That’s all well and good, but it is not giving you information about the actual type transistors that will be used to implement that in a specific chip. You would then need to “transpile$^*$” your circuit to a specific technology node (let’s say TSMC CMOS 65 nm) to match the hardware where that circuit will be implemented. $^*$Decompose and transpile and not words typically used in digital circuit design. Just using them here for the purpose of this analogy. Answer to Edit1 You transpiled your circuit using as the backend. All of the gates shown in the circuit diagram you shared are part of the basis gates of the . You can find the list of supported operations by running: which will give you this as an output: If you were to do this for a different backend, you will get a different outcome. For example: results in the list of the gates are are supported by that particular fake QPU:
+
+```
+decompose
+```
+
+```
+AerSimulator
+```
+
+```
+AerSimulator
+```
+
+```
+from qiskit_aer import AerSimulator print(AerSimulator().operation_names)
+```
+
+```
+from qiskit_aer import AerSimulator print(AerSimulator().operation_names)
+```
+
+```
+['y', 'for_loop', 'cu', 'continue_loop', 'sx', 'save_matrix_product_state', 'cx', 'mcy', 'save_clifford', 'mcx_gray', 'save_statevector_dict', 'if_else', 'quantum_channel', 'initialize', 'save_expval_var', 'set_superop', 'set_stabilizer', 'reset', 'mcu1', 'crx', 'superop', 'mcsx', 'multiplexer', 'tdg', 'u2', 'mcx', 'switch_case', 'cy', 'z', 'csx', 'mcu', 'mcp', 'save_statevector', 'break_loop', 'rx', 'ccz', 'set_unitary', 'p', 'rzz', 'ry', 'swap', 'measure', 's', 'rxx', 'u', 'unitary', 'mcrz', 'mcz', 'cu3', 'rz', 'cu2', 'pauli', 'set_density_matrix', 'set_statevector', 'id', 'mcu3', 'mcswap', 'save_state', 'cry', 'cu1', 'save_density_matrix', 'save_unitary', 'cp', 'save_stabilizer', 'qerror_loc', 'sdg', 'ecr', 't', 'r', 'mcphase', 'u3', 'ryy', 'h', 'kraus', 'x', 'ccx', 'sxdg', 'u1', 'save_amplitudes', 'delay', 'mcr', 'mcry', 'crz', 'mcu2', 'roerror', 'mcrx', 'save_expval', 'save_superop', 'while_loop', 'set_matrix_product_state', 'rzx', 'cz', 'save_probabilities_dict', 'diagonal', 'save_amplitudes_sq', 'save_probabilities', 'cswap']
+```
+
+```
+['y', 'for_loop', 'cu', 'continue_loop', 'sx', 'save_matrix_product_state', 'cx', 'mcy', 'save_clifford', 'mcx_gray', 'save_statevector_dict', 'if_else', 'quantum_channel', 'initialize', 'save_expval_var', 'set_superop', 'set_stabilizer', 'reset', 'mcu1', 'crx', 'superop', 'mcsx', 'multiplexer', 'tdg', 'u2', 'mcx', 'switch_case', 'cy', 'z', 'csx', 'mcu', 'mcp', 'save_statevector', 'break_loop', 'rx', 'ccz', 'set_unitary', 'p', 'rzz', 'ry', 'swap', 'measure', 's', 'rxx', 'u', 'unitary', 'mcrz', 'mcz', 'cu3', 'rz', 'cu2', 'pauli', 'set_density_matrix', 'set_statevector', 'id', 'mcu3', 'mcswap', 'save_state', 'cry', 'cu1', 'save_density_matrix', 'save_unitary', 'cp', 'save_stabilizer', 'qerror_loc', 'sdg', 'ecr', 't', 'r', 'mcphase', 'u3', 'ryy', 'h', 'kraus', 'x', 'ccx', 'sxdg', 'u1', 'save_amplitudes', 'delay', 'mcr', 'mcry', 'crz', 'mcu2', 'roerror', 'mcrx', 'save_expval', 'save_superop', 'while_loop', 'set_matrix_product_state', 'rzx', 'cz', 'save_probabilities_dict', 'diagonal', 'save_amplitudes_sq', 'save_probabilities', 'cswap']
+```
+
+```
+from qiskit_ibm_runtime.fake_provider import FakeKolkataV2 print(FakeKolkataV2().operation_names)
+```
+
+```
+from qiskit_ibm_runtime.fake_provider import FakeKolkataV2 print(FakeKolkataV2().operation_names)
+```
+
+```
+['cx', 'x', 'reset', 'measure', 'rz', 'delay', 'sx', 'id']
+```
+
+```
+['cx', 'x', 'reset', 'measure', 'rz', 'delay', 'sx', 'id']
+```
+
+Original fixed code:
+decompose
+
+---CODE_BLOCK---
+
+AerSimulator
+
+---CODE_BLOCK---
+
+AerSimulator
+
+---CODE_BLOCK---
+
+from qiskit_aer import AerSimulator print(AerSimulator().operation_names)
+
+---CODE_BLOCK---
+
+from qiskit_aer import AerSimulator print(AerSimulator().operation_names)
+
+---CODE_BLOCK---
+
+['y', 'for_loop', 'cu', 'continue_loop', 'sx', 'save_matrix_product_state', 'cx', 'mcy', 'save_clifford', 'mcx_gray', 'save_statevector_dict', 'if_else', 'quantum_channel', 'initialize', 'save_expval_var', 'set_superop', 'set_stabilizer', 'reset', 'mcu1', 'crx', 'superop', 'mcsx', 'multiplexer', 'tdg', 'u2', 'mcx', 'switch_case', 'cy', 'z', 'csx', 'mcu', 'mcp', 'save_statevector', 'break_loop', 'rx', 'ccz', 'set_unitary', 'p', 'rzz', 'ry', 'swap', 'measure', 's', 'rxx', 'u', 'unitary', 'mcrz', 'mcz', 'cu3', 'rz', 'cu2', 'pauli', 'set_density_matrix', 'set_statevector', 'id', 'mcu3', 'mcswap', 'save_state', 'cry', 'cu1', 'save_density_matrix', 'save_unitary', 'cp', 'save_stabilizer', 'qerror_loc', 'sdg', 'ecr', 't', 'r', 'mcphase', 'u3', 'ryy', 'h', 'kraus', 'x', 'ccx', 'sxdg', 'u1', 'save_amplitudes', 'delay', 'mcr', 'mcry', 'crz', 'mcu2', 'roerror', 'mcrx', 'save_expval', 'save_superop', 'while_loop', 'set_matrix_product_state', 'rzx', 'cz', 'save_probabilities_dict', 'diagonal', 'save_amplitudes_sq', 'save_probabilities', 'cswap']
+
+---CODE_BLOCK---
+
+['y', 'for_loop', 'cu', 'continue_loop', 'sx', 'save_matrix_product_state', 'cx', 'mcy', 'save_clifford', 'mcx_gray', 'save_statevector_dict', 'if_else', 'quantum_channel', 'initialize', 'save_expval_var', 'set_superop', 'set_stabilizer', 'reset', 'mcu1', 'crx', 'superop', 'mcsx', 'multiplexer', 'tdg', 'u2', 'mcx', 'switch_case', 'cy', 'z', 'csx', 'mcu', 'mcp', 'save_statevector', 'break_loop', 'rx', 'ccz', 'set_unitary', 'p', 'rzz', 'ry', 'swap', 'measure', 's', 'rxx', 'u', 'unitary', 'mcrz', 'mcz', 'cu3', 'rz', 'cu2', 'pauli', 'set_density_matrix', 'set_statevector', 'id', 'mcu3', 'mcswap', 'save_state', 'cry', 'cu1', 'save_density_matrix', 'save_unitary', 'cp', 'save_stabilizer', 'qerror_loc', 'sdg', 'ecr', 't', 'r', 'mcphase', 'u3', 'ryy', 'h', 'kraus', 'x', 'ccx', 'sxdg', 'u1', 'save_amplitudes', 'delay', 'mcr', 'mcry', 'crz', 'mcu2', 'roerror', 'mcrx', 'save_expval', 'save_superop', 'while_loop', 'set_matrix_product_state', 'rzx', 'cz', 'save_probabilities_dict', 'diagonal', 'save_amplitudes_sq', 'save_probabilities', 'cswap']
+
+---CODE_BLOCK---
+
+from qiskit_ibm_runtime.fake_provider import FakeKolkataV2 print(FakeKolkataV2().operation_names)
+
+---CODE_BLOCK---
+
+from qiskit_ibm_runtime.fake_provider import FakeKolkataV2 print(FakeKolkataV2().operation_names)
+
+---CODE_BLOCK---
+
+['cx', 'x', 'reset', 'measure', 'rz', 'delay', 'sx', 'id']
+
+---CODE_BLOCK---
+
+['cx', 'x', 'reset', 'measure', 'rz', 'delay', 'sx', 'id']

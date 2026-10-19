@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWLVrQrhcR8DLrQKFtlFTYcC5Ybc",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import QuantumRegister, QuantumCircuit\nfrom qiskit.extensions import UnitaryGate\nfrom qiskit.quantum_info import random_unitary\n\ngate = UnitaryGate(random_unitary(2 ** 4).data, 'RND-U16')\n\nqr1 = QuantumRegister(2, 'q')\nqr2 = QuantumRegister(3, 'a')\n\ncirc = QuantumCircuit(qr1, qr2)\n\n# FIX: The second register slice was passed as classical arguments -> combine both slices into one qubit list, because append expects all four gate qubits in its second argument.\ncirc.append(gate, qr1[1:2] + qr2[0:3])\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419541,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 150,
+    "prompt_tokens": 648,
+    "total_tokens": 798,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

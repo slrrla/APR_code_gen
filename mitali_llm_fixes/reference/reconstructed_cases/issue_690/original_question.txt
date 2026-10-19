@@ -1,0 +1,43 @@
+Title:
+How does measurement change the effective transformation matrix?
+
+Category:
+Category:
+
+General
+
+Why Stack Overflow Wins in This Category:
+
+Explains the quantum measurement process thoroughly, including its non-unitary and probabilistic nature.
+
+Supports explanation with simulation evidence and actual output, showing how Qiskit interprets measurements and state collapse.
+
+Helps beginners understand why post-measurement states must be treated differently than pre-measurement transformations.
+
+AI assists with theory, but Stack Overflow brings it to life with code and results.
+
+Question:
+Title: How does measurement change the effective transformation matrix?
+
+I have simulated three cases in Qiskit and tried doing some manual calculations to verify the simulated results. Case 1: The initial state is $\psi_i = |00\rangle = \begin{Bmatrix}1 \\0 \\ 0 \\ 0\end{Bmatrix}$ and the transformation is $H_2 = H_1 \otimes H_1 = \frac{1}{2}\begin{bmatrix}1 & 1 &1 &1 \\1 & -1 & 1 & -1 \\ 1 & 1 & -1 & -1 \\ 1 & -1 & -1 & 1\end{bmatrix}$. Therefore, the final state would be $\psi_f = \frac{1}{2} \begin{Bmatrix}1 \\1 \\ 1 \\ 1\end{Bmatrix}$. This is matching with the simulation results. Case 2: Since the first qubit is being measured, the state of first cubit collapses to $|0\rangle$, and the second qubit undergoes Hadamard transformation, the effective transformation could be $H_1\otimes \begin{bmatrix}1 & 1 \\ 0 & 0\end{bmatrix}=\frac{1}{\sqrt{2}} \begin{bmatrix}1 & 1 & 1 & 1 \\0 & 0 & 0 & 0 \\ 1 & 1 & -1 & -1 \\ 0 & 0 & 0 & 0\end{bmatrix}$. Therefore, the final state could be $\psi_f = \frac{1}{\sqrt{2}} \begin{Bmatrix}1 \\0 \\ 1 \\ 0\end{Bmatrix}$. This also is matching with the simulation results. Case 3: Since the first qubit is being measured, the state of first cubit collapses to $|0\rangle$, and the second qubit undergoes Hadamard transformation, the effective transformation could be $\begin{bmatrix}1 & 1 \\ 0 & 0\end{bmatrix}\otimes \begin{bmatrix}1 & 1 \\ 0 & 0\end{bmatrix}=\begin{bmatrix}1 & 1 & 1 & 1 \\0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0\end{bmatrix}$. Therefore, by following the same method, the final state should be $\psi_f = \begin{Bmatrix}1 \\0 \\ 0 \\ 0\end{Bmatrix}$. This is differing from the simulation results. The simulation is giving the final state to be $\psi_f = \begin{Bmatrix}0 \\0 \\ 1 \\ 0\end{Bmatrix}$. And the effective transformation matrix from the simulation seems to be $\begin{bmatrix}0 & 0 & 0 & 0 \\0 & 0 & 0 & 0 \\ 1 & 1 & -1 & -1 \\ 0 & 0 & 0 & 0\end{bmatrix}$, which is diffrent from the transformation matrix that I calculated. Exactly where am I doing mistake in my calculations? And what is the correct method to find the effective transformation matrix of a system that involves post-measurement? Thanks.
+
+Original buggy code:
+I have simulated three cases in Qiskit and tried doing some manual calculations to verify the simulated results. Case 1: The initial state is $\psi_i = |00\rangle = \begin{Bmatrix}1 \\0 \\ 0 \\ 0\end{Bmatrix}$ and the transformation is $H_2 = H_1 \otimes H_1 = \frac{1}{2}\begin{bmatrix}1 & 1 &1 &1 \\1 & -1 & 1 & -1 \\ 1 & 1 & -1 & -1 \\ 1 & -1 & -1 & 1\end{bmatrix}$. Therefore, the final state would be $\psi_f = \frac{1}{2} \begin{Bmatrix}1 \\1 \\ 1 \\ 1\end{Bmatrix}$. This is matching with the simulation results. Case 2: Since the first qubit is being measured, the state of first cubit collapses to $|0\rangle$, and the second qubit undergoes Hadamard transformation, the effective transformation could be $H_1\otimes \begin{bmatrix}1 & 1 \\ 0 & 0\end{bmatrix}=\frac{1}{\sqrt{2}} \begin{bmatrix}1 & 1 & 1 & 1 \\0 & 0 & 0 & 0 \\ 1 & 1 & -1 & -1 \\ 0 & 0 & 0 & 0\end{bmatrix}$. Therefore, the final state could be $\psi_f = \frac{1}{\sqrt{2}} \begin{Bmatrix}1 \\0 \\ 1 \\ 0\end{Bmatrix}$. This also is matching with the simulation results. Case 3: Since the first qubit is being measured, the state of first cubit collapses to $|0\rangle$, and the second qubit undergoes Hadamard transformation, the effective transformation could be $\begin{bmatrix}1 & 1 \\ 0 & 0\end{bmatrix}\otimes \begin{bmatrix}1 & 1 \\ 0 & 0\end{bmatrix}=\begin{bmatrix}1 & 1 & 1 & 1 \\0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0\end{bmatrix}$. Therefore, by following the same method, the final state should be $\psi_f = \begin{Bmatrix}1 \\0 \\ 0 \\ 0\end{Bmatrix}$. This is differing from the simulation results. The simulation is giving the final state to be $\psi_f = \begin{Bmatrix}0 \\0 \\ 1 \\ 0\end{Bmatrix}$. And the effective transformation matrix from the simulation seems to be $\begin{bmatrix}0 & 0 & 0 & 0 \\0 & 0 & 0 & 0 \\ 1 & 1 & -1 & -1 \\ 0 & 0 & 0 & 0\end{bmatrix}$, which is diffrent from the transformation matrix that I calculated. Exactly where am I doing mistake in my calculations? And what is the correct method to find the effective transformation matrix of a system that involves post-measurement? Thanks.
+
+Solution explanation:
+Note that $$ H \otimes H = \dfrac{1}{\sqrt{2}} \begin{pmatrix} 1 & 1\\ 1 & -1 \end{pmatrix} \otimes \dfrac{1}{\sqrt{2}} \begin{pmatrix} 1 & 1\\ 1 & -1 \end{pmatrix} = \dfrac{1}{2}\begin{pmatrix} 1 & 1 & 1 & 1\\ 1 & -1 & 1 & -1\\ 1 & 1 & -1 & -1\\ 1 & -1 & -1 & 1 \end{pmatrix} $$ and therefore $$(H \otimes H) |0\rangle^{\otimes 2} = H|0\rangle \otimes H|0\rangle = \dfrac{|0\rangle + |1 \rangle}{\sqrt{2}} \otimes \dfrac{|0\rangle + |1 \rangle}{\sqrt{2}} = \dfrac{|00\rangle + |01\rangle + |10\rangle + |11\rangle}{2} =\dfrac{1}{2} \begin{pmatrix}1\\1\\1\\1 \end{pmatrix}$$ And the circuit represents the operation $(H \otimes H) |0\rangle^{\otimes 2}$ and thus the final state before measurement is $|\psi\rangle = \dfrac{1}{2} \begin{pmatrix}1\\1\\1\\1 \end{pmatrix} $ Upon measurement, you have even probability of $1/4$ or $25\%$ to collapse to either the state $|00\rangle$, $|01\rangle$, $|10\rangle$ or $|11\rangle$. So if you do 1000 measurements, about 1/4 of the time you will observe the state $|00\rangle$, about 1/4 of the time you will see $|01\rangle$, and so on. You can perform a qasm (shot based) simulation and check the counts to see this effect: You can also perform a qasm simulation and check the counts to see this: Simply do
+
+```
+from qiskit import IBMQ, Aer, QuantumCircuit, execute qc = QuantumCircuit(2) qc.h([0,1]) qc.measure_all() job = execute(qc, Aer.get_backend('qasm_simulator'), shots=4321) print('States observed upon measurement:', job.result().get_counts()) States observed upon measurement: {'10': 1112, '00': 1074, '11': 1114, '01': 1021}
+```
+
+```
+from qiskit import IBMQ, Aer, QuantumCircuit, execute qc = QuantumCircuit(2) qc.h([0,1]) qc.measure_all() job = execute(qc, Aer.get_backend('qasm_simulator'), shots=4321) print('States observed upon measurement:', job.result().get_counts()) States observed upon measurement: {'10': 1112, '00': 1074, '11': 1114, '01': 1021}
+```
+
+Original fixed code:
+from qiskit import IBMQ, Aer, QuantumCircuit, execute qc = QuantumCircuit(2) qc.h([0,1]) qc.measure_all() job = execute(qc, Aer.get_backend('qasm_simulator'), shots=4321) print('States observed upon measurement:', job.result().get_counts()) States observed upon measurement: {'10': 1112, '00': 1074, '11': 1114, '01': 1021}
+
+---CODE_BLOCK---
+
+from qiskit import IBMQ, Aer, QuantumCircuit, execute qc = QuantumCircuit(2) qc.h([0,1]) qc.measure_all() job = execute(qc, Aer.get_backend('qasm_simulator'), shots=4321) print('States observed upon measurement:', job.result().get_counts()) States observed upon measurement: {'10': 1112, '00': 1074, '11': 1114, '01': 1021}

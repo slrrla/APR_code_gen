@@ -1,0 +1,176 @@
+Title:
+How to solve TSP problem with more than 3 nodes in the tutorial of Max-Cut and Traveling Salesman Problem Qiskit 0.24.0?
+
+Category:
+Category: Quantum Algorithms / Optimization Accuracy  
+Winner: Stack Overflow  
+Why Stack Overflow Is Better: The answer directly improves the quantum optimizer's performance by increasing the ansatz depth (`reps=7`), solving the root problem of invalid TSP output.  
+Why Stack Overflow Performs Well in This Category: Stack Overflow often shines in algorithmic configuration issues—where fine-tuning parameters (like reps or max_iter) is crucial for achieving valid solutions in quantum optimization problems. It offers practical, empirical fixes based on real-world usage.
+
+
+Question:
+Title: How to solve TSP problem with more than 3 nodes in the tutorial of Max-Cut and Traveling Salesman Problem Qiskit 0.24.0?
+
+I had to try the example of qiskit’s Traveling Salesman Problem with 3 nodes and executing it at IBM backend called simulator_statevector.Can execute and get the result normally. 
+ But when trying to solve the TSP problem with more than 3 nodes,I changed n = 3 to n = 4. 
+ # Generating a graph of 3 nodes
+n = 4
+num_qubits = n ** 2
+ins = tsp.random_tsp(n, seed=123)
+print('distance\n', ins.w)
+
+# Draw the graph
+G = nx.Graph()
+G.add_nodes_from(np.arange(0, ins.dim, 1))
+colors = ['r' for node in G.nodes()]
+
+for i in range(0, ins.dim):
+ for j in range(i+1, ins.dim):
+ G.add_edge(i, j, weight=ins.w[i,j])
+
+pos = {k: v for k, v in enumerate(ins.coord)}
+
+draw_graph(G, colors, pos)
+
+ And I changed backend from Aer.get_backend ('statevector_simulator') running on my device to provider.backend.simulator_statevector running on the IBM backend. 
+ aqua_globals.random_seed = np.random.default_rng(123)
+seed = 10598
+backend = provider.backend.simulator_statevector
+#backend = Aer.get_backend('statevector_simulator')
+quantum_instance = QuantumInstance(backend, seed_simulator=seed, seed_transpiler=seed)
+
+ But the result that comes out with an error. 
+ energy: -1303102.65625
+time: 5626.549758911133
+feasible: False
+solution: [1, 0, 2, []]
+solution objective: []
+Traceback (most recent call last):
+ File "<ipython-input-10-bc5619b5292f>", line 14, in <module>
+ draw_tsp_solution(G, z, colors, pos)
+ File "<ipython-input-4-999185567031>", line 29, in draw_tsp_solution
+ G2.add_edge(order[i], order[j], weight=G[order[i]][order[j]]['weight'])
+ File "/opt/conda/lib/python3.8/site-packages/networkx/classes/coreviews.py", line 51, in __getitem__
+ return self._atlas[key]
+TypeError: unhashable type: 'list'
+
+Use %tb to get the full traceback.
+
+ How should I fix it? Please give me some advice.
+
+```
+# Generating a graph of 3 nodes
+n = 4
+num_qubits = n ** 2
+ins = tsp.random_tsp(n, seed=123)
+print('distance\n', ins.w)
+
+# Draw the graph
+G = nx.Graph()
+G.add_nodes_from(np.arange(0, ins.dim, 1))
+colors = ['r' for node in G.nodes()]
+
+for i in range(0, ins.dim):
+    for j in range(i+1, ins.dim):
+        G.add_edge(i, j, weight=ins.w[i,j])
+
+pos = {k: v for k, v in enumerate(ins.coord)}
+
+draw_graph(G, colors, pos)
+```
+
+```
+aqua_globals.random_seed = np.random.default_rng(123)
+seed = 10598
+backend = provider.backend.simulator_statevector
+#backend = Aer.get_backend('statevector_simulator')
+quantum_instance = QuantumInstance(backend, seed_simulator=seed, seed_transpiler=seed)
+```
+
+```
+energy: -1303102.65625
+time: 5626.549758911133
+feasible: False
+solution: [1, 0, 2, []]
+solution objective: []
+Traceback (most recent call last):
+  File "<ipython-input-10-bc5619b5292f>", line 14, in <module>
+    draw_tsp_solution(G, z, colors, pos)
+  File "<ipython-input-4-999185567031>", line 29, in draw_tsp_solution
+    G2.add_edge(order[i], order[j], weight=G[order[i]][order[j]]['weight'])
+  File "/opt/conda/lib/python3.8/site-packages/networkx/classes/coreviews.py", line 51, in __getitem__
+    return self._atlas[key]
+TypeError: unhashable type: 'list'
+
+Use %tb to get the full traceback.
+```
+
+Original buggy code:
+# Generating a graph of 3 nodes
+n = 4
+num_qubits = n ** 2
+ins = tsp.random_tsp(n, seed=123)
+print('distance\n', ins.w)
+
+# Draw the graph
+G = nx.Graph()
+G.add_nodes_from(np.arange(0, ins.dim, 1))
+colors = ['r' for node in G.nodes()]
+
+for i in range(0, ins.dim):
+    for j in range(i+1, ins.dim):
+        G.add_edge(i, j, weight=ins.w[i,j])
+
+pos = {k: v for k, v in enumerate(ins.coord)}
+
+draw_graph(G, colors, pos)
+
+---CODE_BLOCK---
+
+aqua_globals.random_seed = np.random.default_rng(123)
+seed = 10598
+backend = provider.backend.simulator_statevector
+#backend = Aer.get_backend('statevector_simulator')
+quantum_instance = QuantumInstance(backend, seed_simulator=seed, seed_transpiler=seed)
+
+---CODE_BLOCK---
+
+energy: -1303102.65625
+time: 5626.549758911133
+feasible: False
+solution: [1, 0, 2, []]
+solution objective: []
+Traceback (most recent call last):
+  File "<ipython-input-10-bc5619b5292f>", line 14, in <module>
+    draw_tsp_solution(G, z, colors, pos)
+  File "<ipython-input-4-999185567031>", line 29, in draw_tsp_solution
+    G2.add_edge(order[i], order[j], weight=G[order[i]][order[j]]['weight'])
+  File "/opt/conda/lib/python3.8/site-packages/networkx/classes/coreviews.py", line 51, in __getitem__
+    return self._atlas[key]
+TypeError: unhashable type: 'list'
+
+Use %tb to get the full traceback.
+
+Solution explanation:
+I found the answer, my method is to increase the Ansat number of reps from 5 to 7. 
+ from solving TSP 4 node problem 
+ spsa = SPSA(maxiter=300)
+ry = TwoLocal(qubitOp.num_qubits, 'ry', 'cz', reps=7, entanglement='linear')
+vqe = VQE(qubitOp, ry, spsa, quantum_instance=quantum_instance)
+
+result = vqe.run(quantum_instance)
+
+```
+spsa = SPSA(maxiter=300)
+ry = TwoLocal(qubitOp.num_qubits, 'ry', 'cz', reps=7, entanglement='linear')
+vqe = VQE(qubitOp, ry, spsa, quantum_instance=quantum_instance)
+
+result = vqe.run(quantum_instance)
+```
+
+Original fixed code:
+spsa = SPSA(maxiter=300)
+ry = TwoLocal(qubitOp.num_qubits, 'ry', 'cz', reps=7, entanglement='linear')
+vqe = VQE(qubitOp, ry, spsa, quantum_instance=quantum_instance)
+
+result = vqe.run(quantum_instance)

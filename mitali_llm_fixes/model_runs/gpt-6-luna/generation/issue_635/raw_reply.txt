@@ -1,0 +1,26 @@
+```python
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, execute, Aer
+
+q = QuantumRegister(3)
+# FIX: one multi-bit register cannot condition independently on its bits -> use one-bit registers, because c_if compares the entire classical register value
+c = ClassicalRegister(1)
+c1 = ClassicalRegister(1)
+c2 = ClassicalRegister(1)
+# FIX: include each one-bit register in the circuit -> pass all registers, because each measurement needs its own c_if condition
+qc = QuantumCircuit(q, c, c1, c2)
+
+# FIX: measuring into one register does not populate the separate condition registers -> measure each qubit into its own register, because c_if compares a whole register
+qc.measure(q[0], c[0])
+qc.measure(q[1], c1[0])
+qc.measure(q[2], c2[0])
+
+# FIX: c_if requires a classical register, not an individual classical bit -> condition on each one-bit register, because its value then represents that measurement bit
+qc.x(q[0]).c_if(c, 1)
+qc.x(q[1]).c_if(c1, 1)
+
+backend = Aer.get_backend('qasm_simulator')
+job = execute(qc, backend, shots=1024)
+result = job.result()
+print(result.get_counts(qc))
+
+```

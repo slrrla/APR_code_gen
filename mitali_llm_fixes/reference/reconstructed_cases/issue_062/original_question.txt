@@ -1,0 +1,92 @@
+Title:
+How to get the "number of columns" in a Qiskit quantum circuit?
+
+Category:
+Category:
+Import / Visualization / Drawing / Layout
+
+Question:
+Title: How to get the "number of columns" in a Qiskit quantum circuit?
+
+I would like to compute the number of columns in a Qiskit . To be clear about what I mean by number of columns, consider the following circuit as an example: In this case, I would expect number of columns = 5 since I have 5 "serial steps" (in the first layer the $CY_{q1 \rightarrow q0}$ and $SWAP_{q2, q3}$ gates act in parallel, same for the $RY$ and $I$ gates in the second layer). Note that the method returns the "length of critical path" (i.e. maximum number of operations on a single qubit/wire). So the circuit depth is in general different from the number of columns I need; in particular, in the example above, evaluates to 3.
+
+```
+QuantumCircuit
+```
+
+```
+from qiskit.circuit.random import random_circuit qc = random_circuit(4, 3, seed=0) qc.draw('mpl')
+```
+
+```
+from qiskit.circuit.random import random_circuit qc = random_circuit(4, 3, seed=0) qc.draw('mpl')
+```
+
+```
+QuantumCircuit.depth
+```
+
+```
+qc.depth()
+```
+
+Original buggy code:
+QuantumCircuit
+
+---CODE_BLOCK---
+
+from qiskit.circuit.random import random_circuit qc = random_circuit(4, 3, seed=0) qc.draw('mpl')
+
+---CODE_BLOCK---
+
+from qiskit.circuit.random import random_circuit qc = random_circuit(4, 3, seed=0) qc.draw('mpl')
+
+---CODE_BLOCK---
+
+QuantumCircuit.depth
+
+---CODE_BLOCK---
+
+qc.depth()
+
+Solution explanation:
+I would like to compute the number of layers in a Qiskit . To be clear about what I mean by number of layers, consider the following circuit as an example: In this case, I would expect number of layers = 5 ... In the TextDrawing (ascii art) representation of the same circuit, the number of "layers" (or "columns" in the updated question) corresponds to the number of nodes. Here is a function that will return the number of "layers" (or "columns") shown in the diagram:
+
+```
+QuantumCircuit
+```
+
+```
+from qiskit.circuit.random import random_circuit qc = random_circuit(4, 3, seed=0) qc.draw('mpl')
+```
+
+```
+from qiskit.circuit.random import random_circuit qc = random_circuit(4, 3, seed=0) qc.draw('mpl')
+```
+
+```
+def num_layers(qc): return len(qc.draw(output='text').nodes)
+```
+
+```
+def num_layers(qc): return len(qc.draw(output='text').nodes)
+```
+
+Original fixed code:
+QuantumCircuit
+
+---CODE_BLOCK---
+
+from qiskit.circuit.random import random_circuit qc = random_circuit(4, 3, seed=0) qc.draw('mpl')
+
+---CODE_BLOCK---
+
+from qiskit.circuit.random import random_circuit qc = random_circuit(4, 3, seed=0) qc.draw('mpl')
+
+---CODE_BLOCK---
+
+def num_layers(qc): return len(qc.draw(output='text').nodes)
+
+---CODE_BLOCK---
+
+def num_layers(qc): return len(qc.draw(output='text').nodes)

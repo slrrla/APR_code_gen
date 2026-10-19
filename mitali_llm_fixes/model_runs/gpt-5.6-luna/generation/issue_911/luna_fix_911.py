@@ -1,0 +1,21 @@
+import qiskit
+from qiskit.circuit.random import random_circuit
+
+num_qubits = 3
+depth = 1
+max_operands = 2
+qc = random_circuit(num_qubits, depth, max_operands=max_operands, seed=1)
+qc = qc.decompose(reps=3)
+
+for name_of_gate, qargs, cargs in qc.data:
+    print("name of gate : ", name_of_gate)
+    print("qargs : ", qargs, "\n")
+
+    # FIX: qargs[1] fails for single-qubit gates -> use the last operand, because it exists for every gate
+    print("qargs[1] : ", qargs[-1])
+    # FIX: Qubit objects are not subscriptable -> use find_bit to obtain the qubit index
+    print("qargs[1][1] : ", qc.find_bit(qargs[-1]).index)
+    # FIX: Qubit has no public register attribute -> obtain the register from find_bit
+    print("qargs[1].register : ", qc.find_bit(qargs[-1]).registers[0][0])
+    # FIX: Qubit has no public index attribute -> obtain the index from find_bit
+    print("qargs[1].index : ", qc.find_bit(qargs[-1]).index)

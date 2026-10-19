@@ -1,0 +1,75 @@
+Title:
+Help debugging implementation of Draper QFT adder
+
+Category:
+
+
+Question:
+Title: Help debugging implementation of Draper QFT adder
+
+I am attempting to implement the adder found in this paper. Here is the code: Resulting in this diagram: Which yields results that don't look very good: EDIT: I found qiskit.circuit.library.DraperQFTAdder, which implements it but I still can't see where I went wrong.
+
+```
+#build the phi adder circuit #controlled phase gates are .cp() def phi_add(num_bits): qc = QuantumCircuit(2*num_bits,num_bits) #initialize a register #qc.x(0) qc.x(1) #qc.x(2) #qc.x(3) #initialize b register qc.x(4) qc.x(5) qc.x(6) qc.x(7) #append Fourier transform to second register qc.append(QFT(num_qubits=4),range(num_bits,2*num_bits)) #append phase addition gates for k in range(num_bits): for j in range(num_bits-k): qc.cp(2*np.pi/2**(j+1),control_qubit=num_bits-k-1-j,target_qubit=2*num_bits-k-1) #append inverse Fourier transform to second register qc.append(QFT(num_qubits=4,inverse=True),range(num_bits,2*num_bits)) qc.measure(range(num_bits,2*num_bits), range(num_bits)) return qc
+```
+
+```
+#build the phi adder circuit #controlled phase gates are .cp() def phi_add(num_bits): qc = QuantumCircuit(2*num_bits,num_bits) #initialize a register #qc.x(0) qc.x(1) #qc.x(2) #qc.x(3) #initialize b register qc.x(4) qc.x(5) qc.x(6) qc.x(7) #append Fourier transform to second register qc.append(QFT(num_qubits=4),range(num_bits,2*num_bits)) #append phase addition gates for k in range(num_bits): for j in range(num_bits-k): qc.cp(2*np.pi/2**(j+1),control_qubit=num_bits-k-1-j,target_qubit=2*num_bits-k-1) #append inverse Fourier transform to second register qc.append(QFT(num_qubits=4,inverse=True),range(num_bits,2*num_bits)) qc.measure(range(num_bits,2*num_bits), range(num_bits)) return qc
+```
+
+Original buggy code:
+#build the phi adder circuit #controlled phase gates are .cp() def phi_add(num_bits): qc = QuantumCircuit(2*num_bits,num_bits) #initialize a register #qc.x(0) qc.x(1) #qc.x(2) #qc.x(3) #initialize b register qc.x(4) qc.x(5) qc.x(6) qc.x(7) #append Fourier transform to second register qc.append(QFT(num_qubits=4),range(num_bits,2*num_bits)) #append phase addition gates for k in range(num_bits): for j in range(num_bits-k): qc.cp(2*np.pi/2**(j+1),control_qubit=num_bits-k-1-j,target_qubit=2*num_bits-k-1) #append inverse Fourier transform to second register qc.append(QFT(num_qubits=4,inverse=True),range(num_bits,2*num_bits)) qc.measure(range(num_bits,2*num_bits), range(num_bits)) return qc
+
+---CODE_BLOCK---
+
+#build the phi adder circuit #controlled phase gates are .cp() def phi_add(num_bits): qc = QuantumCircuit(2*num_bits,num_bits) #initialize a register #qc.x(0) qc.x(1) #qc.x(2) #qc.x(3) #initialize b register qc.x(4) qc.x(5) qc.x(6) qc.x(7) #append Fourier transform to second register qc.append(QFT(num_qubits=4),range(num_bits,2*num_bits)) #append phase addition gates for k in range(num_bits): for j in range(num_bits-k): qc.cp(2*np.pi/2**(j+1),control_qubit=num_bits-k-1-j,target_qubit=2*num_bits-k-1) #append inverse Fourier transform to second register qc.append(QFT(num_qubits=4,inverse=True),range(num_bits,2*num_bits)) qc.measure(range(num_bits,2*num_bits), range(num_bits)) return qc
+
+Solution explanation:
+The main issue is how you are using . should be false. And sice its default value is true, you will need to pass it explicitly: and Note also that, since the two registers have same size and the second register contains all 1s, the output will always be the value in the first register minus one.
+
+```
+QFT
+```
+
+```
+do_swaps
+```
+
+```
+QFT(num_qubits=4, do_swaps=False)
+```
+
+```
+QFT(num_qubits=4, do_swaps=False)
+```
+
+```
+QFT(num_qubits=4, do_swaps=False, inverse=True)
+```
+
+```
+QFT(num_qubits=4, do_swaps=False, inverse=True)
+```
+
+Original fixed code:
+QFT
+
+---CODE_BLOCK---
+
+do_swaps
+
+---CODE_BLOCK---
+
+QFT(num_qubits=4, do_swaps=False)
+
+---CODE_BLOCK---
+
+QFT(num_qubits=4, do_swaps=False)
+
+---CODE_BLOCK---
+
+QFT(num_qubits=4, do_swaps=False, inverse=True)
+
+---CODE_BLOCK---
+
+QFT(num_qubits=4, do_swaps=False, inverse=True)

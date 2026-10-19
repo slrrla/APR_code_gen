@@ -1,0 +1,75 @@
+Title:
+How can I make qiskit output raw data?
+
+Category:
+
+
+Question:
+Title: How can I make qiskit output raw data?
+
+I am new to quantum computing, and I want to make a program to output 0 or 1 randomly by Hadamard gate, and use that information to make a GUI interface. For example, a coin flip program that output "Tail" when it is 1, and "Head" when it is 0. However, when I try to get raw data by , I get the information of the result instead. By the way, here is the code: I use Qiskit with Python, and do not use Jupyter notebooks.
+
+```
+job.result(job)
+```
+
+```
+from qiskit import * simulator = Aer.get_backend('qasm_simulator') qr = QuantumRegister(1) cr = ClassicalRegister(1) circuit = QuantumCircuit(qr, cr) circuit.h(qr[0]) circuit.measure(qr, cr) job = execute(circuit, backend = simulator, shots=1024) a = job.result(job) #the problematic code print(a)
+```
+
+```
+from qiskit import * simulator = Aer.get_backend('qasm_simulator') qr = QuantumRegister(1) cr = ClassicalRegister(1) circuit = QuantumCircuit(qr, cr) circuit.h(qr[0]) circuit.measure(qr, cr) job = execute(circuit, backend = simulator, shots=1024) a = job.result(job) #the problematic code print(a)
+```
+
+Original buggy code:
+job.result(job)
+
+---CODE_BLOCK---
+
+from qiskit import * simulator = Aer.get_backend('qasm_simulator') qr = QuantumRegister(1) cr = ClassicalRegister(1) circuit = QuantumCircuit(qr, cr) circuit.h(qr[0]) circuit.measure(qr, cr) job = execute(circuit, backend = simulator, shots=1024) a = job.result(job) #the problematic code print(a)
+
+---CODE_BLOCK---
+
+from qiskit import * simulator = Aer.get_backend('qasm_simulator') qr = QuantumRegister(1) cr = ClassicalRegister(1) circuit = QuantumCircuit(qr, cr) circuit.h(qr[0]) circuit.measure(qr, cr) job = execute(circuit, backend = simulator, shots=1024) a = job.result(job) #the problematic code print(a)
+
+Solution explanation:
+You need to do to get a dictionary of the counts returned by the circuit. You would do this as follows Using your circuit and this code, will look something like . From there you might want to extract the key which has a higher value to be the result of your coin flip.
+
+```
+.get_counts()
+```
+
+```
+job = execute(circuit, backend = simulator, shots=100) result = job.result() counts_dict = result.get_counts()
+```
+
+```
+job = execute(circuit, backend = simulator, shots=100) result = job.result() counts_dict = result.get_counts()
+```
+
+```
+counts_dict
+```
+
+```
+{'0':497, '1':503}
+```
+
+Original fixed code:
+.get_counts()
+
+---CODE_BLOCK---
+
+job = execute(circuit, backend = simulator, shots=100) result = job.result() counts_dict = result.get_counts()
+
+---CODE_BLOCK---
+
+job = execute(circuit, backend = simulator, shots=100) result = job.result() counts_dict = result.get_counts()
+
+---CODE_BLOCK---
+
+counts_dict
+
+---CODE_BLOCK---
+
+{'0':497, '1':503}

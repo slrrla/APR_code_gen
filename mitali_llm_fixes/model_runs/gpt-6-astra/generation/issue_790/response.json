@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWLorYFQjvKzq0ecmSAt79dOgZDa",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport numpy as np\nfrom qiskit import QuantumCircuit\nfrom qiskit.circuit.library import PauliEvolutionGate\nfrom qiskit.quantum_info import Pauli, SparsePauliOp\nfrom qiskit.synthesis import SuzukiTrotter\n\nN_qubit = 4\nU = 1.0\nJ = 1.0\nt = 1.0\nh = [1.0] * N_qubit\n\nX = Pauli(\"X\")\nY = Pauli(\"Y\")\nZ = Pauli(\"Z\")\n\nqc = QuantumCircuit(N_qubit)\n\nfor j in range(0, N_qubit, 2):\n    # FIX: Pauli objects do not support weighted sums -> use SparsePauliOp, because it represents the intended two-qubit Hamiltonian.\n    H = SparsePauliOp([\"ZZ\", \"XX\", \"YY\"], coeffs=[U, -J, -J])\n    pauli_ev_gate = PauliEvolutionGate(H, time=t)\n    if j != N_qubit - 1:\n        qc.append(pauli_ev_gate, [j, j + 1])\n\nfor j in range(1, N_qubit, 2):\n    # FIX: Pauli objects do not support weighted sums -> use SparsePauliOp, because it represents the intended two-qubit Hamiltonian.\n    H = SparsePauliOp([\"ZZ\", \"XX\", \"YY\"], coeffs=[U, -J, -J])\n    pauli_ev_gate = PauliEvolutionGate(H, time=t)\n    if j != N_qubit - 1:\n        qc.append(pauli_ev_gate, [j, j + 1])\n\nfor j in range(N_qubit):\n    # FIX: Pauli does not support arbitrary scalar coefficients -> use SparsePauliOp, because it preserves the field strength h[j].\n    pauli_ev_gate = PauliEvolutionGate(SparsePauliOp(Z, coeffs=[h[j]]), time=t)\n    qc.append(pauli_ev_gate, [j])\n\nst = SuzukiTrotter(order=2, reps=6)\n# FIX: synthesize expects a PauliEvolutionGate, not a QuantumCircuit -> configure each evolution gate and decompose, because this applies Suzuki-Trotter synthesis while preserving the circuit's gate order.\nfor instruction in qc.data:\n    instruction.operation.synthesis = st\nqc = qc.decompose()\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419560,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 827,
+    "prompt_tokens": 1381,
+    "total_tokens": 2208,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 316,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1378,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

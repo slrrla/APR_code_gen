@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWFuYphS7ToptKkfijeJUcH0rn5P",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\n# FIX: The 'iswap' layer name is unsupported -> import iSwapGate, because TwoLocal accepts gate objects directly.\nfrom qiskit.circuit.library import TwoLocal, iSwapGate\n\nnum_spin_orbitals = 4\n\nansatz = TwoLocal(\n    num_spin_orbitals,\n    ['ry', 'rz'],\n    # FIX: The 'iswap' string fails layer lookup -> pass iSwapGate(), because this supplies the same entangler without string lookup.\n    entanglement_blocks=iSwapGate(),\n    entanglement='linear'\n)\n\nprint(ansatz.decompose())\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419194,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 128,
+    "prompt_tokens": 1307,
+    "total_tokens": 1435,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1304,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

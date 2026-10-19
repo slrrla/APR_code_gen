@@ -1,0 +1,163 @@
+Title:
+Why does manually applying Hadamard + RZ gate give different results than Qiskit ZFeatureMap?
+
+Category:
+
+
+Question:
+Title: Why does manually applying Hadamard + RZ gate give different results than Qiskit ZFeatureMap?
+
+I'm trying to understand how different quantum feature maps encode data. As part of this, I'm attempting to manually construct the same statevector that Qiskit's ZFeatureMap produces, using my own implementation with basic quantum gates (Hadamard and RZ). However, I'm getting different results and would like to understand why. Here is my code with a minimal test case — a single 1D data point: After printing the statevectors I get the following vectors: But the question is: why are they different? Am I missing anything on my manual implementation? Is ZFeatureMap doing something different than only a hadamard and RZ gates? I've trying setting instead of , but that did not generate the same results for both implementations. I suspect and are equivalent in some way, but I can't understand why that would be the case. Thanks!
+
+```
+import numpy as np from qiskit.circuit.library import ZFeatureMap from qiskit.quantum_info import Statevector x = 1 #### Manual Implementation H = (1 / np.sqrt(2)) * np.array([[1, 1], [1, -1]]) rz_2x = np.array([ [np.exp(-1j * 2 * x), 0], [0, np.exp(1j * 2 * x)] ]) initialState = np.array([1,0]) manual_state = rz_2x @ (H @ initialState) #### Qiskit zfm = ZFeatureMap(1, reps=1) zfm = zfm.assign_parameters([x]) qiskit_state = Statevector.from_instruction(zfm)
+```
+
+```
+import numpy as np from qiskit.circuit.library import ZFeatureMap from qiskit.quantum_info import Statevector x = 1 #### Manual Implementation H = (1 / np.sqrt(2)) * np.array([[1, 1], [1, -1]]) rz_2x = np.array([ [np.exp(-1j * 2 * x), 0], [0, np.exp(1j * 2 * x)] ]) initialState = np.array([1,0]) manual_state = rz_2x @ (H @ initialState) #### Qiskit zfm = ZFeatureMap(1, reps=1) zfm = zfm.assign_parameters([x]) qiskit_state = Statevector.from_instruction(zfm)
+```
+
+```
+print("Manual:", manual_state) print("Qiskit:", qiskit_state.data)
+```
+
+```
+print("Manual:", manual_state) print("Qiskit:", qiskit_state.data)
+```
+
+```
+Manual: [-0.29426-0.64297j -0.29426+0.64297j] Qiskit: [ 0.70711+0.j -0.29426+0.64297j]
+```
+
+```
+Manual: [-0.29426-0.64297j -0.29426+0.64297j] Qiskit: [ 0.70711+0.j -0.29426+0.64297j]
+```
+
+```
+initialState = np.array([0,1])
+```
+
+```
+np.array([1,0])
+```
+
+```
+-0.29426+0.64297j
+```
+
+```
+0.70711+0.j
+```
+
+Original buggy code:
+import numpy as np from qiskit.circuit.library import ZFeatureMap from qiskit.quantum_info import Statevector x = 1 #### Manual Implementation H = (1 / np.sqrt(2)) * np.array([[1, 1], [1, -1]]) rz_2x = np.array([ [np.exp(-1j * 2 * x), 0], [0, np.exp(1j * 2 * x)] ]) initialState = np.array([1,0]) manual_state = rz_2x @ (H @ initialState) #### Qiskit zfm = ZFeatureMap(1, reps=1) zfm = zfm.assign_parameters([x]) qiskit_state = Statevector.from_instruction(zfm)
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit.circuit.library import ZFeatureMap from qiskit.quantum_info import Statevector x = 1 #### Manual Implementation H = (1 / np.sqrt(2)) * np.array([[1, 1], [1, -1]]) rz_2x = np.array([ [np.exp(-1j * 2 * x), 0], [0, np.exp(1j * 2 * x)] ]) initialState = np.array([1,0]) manual_state = rz_2x @ (H @ initialState) #### Qiskit zfm = ZFeatureMap(1, reps=1) zfm = zfm.assign_parameters([x]) qiskit_state = Statevector.from_instruction(zfm)
+
+---CODE_BLOCK---
+
+print("Manual:", manual_state) print("Qiskit:", qiskit_state.data)
+
+---CODE_BLOCK---
+
+print("Manual:", manual_state) print("Qiskit:", qiskit_state.data)
+
+---CODE_BLOCK---
+
+Manual: [-0.29426-0.64297j -0.29426+0.64297j] Qiskit: [ 0.70711+0.j -0.29426+0.64297j]
+
+---CODE_BLOCK---
+
+Manual: [-0.29426-0.64297j -0.29426+0.64297j] Qiskit: [ 0.70711+0.j -0.29426+0.64297j]
+
+---CODE_BLOCK---
+
+initialState = np.array([0,1])
+
+---CODE_BLOCK---
+
+np.array([1,0])
+
+---CODE_BLOCK---
+
+-0.29426+0.64297j
+
+---CODE_BLOCK---
+
+0.70711+0.j
+
+Solution explanation:
+The circuit you are implementing by use of the function, consists of a Hadamard gate followed by a Phase gate of the form: $$ P(2x) = \begin{bmatrix}1 & 0 \\ 0 & e^{2ix} \end{bmatrix} .$$ If you replace your definition of the matrix: with that of a phase gate: and use that to calculate the the , you will get the same answer: To be clear, using an $R_z(2x)$ gate should give you the same answer to that of using a phase gate (up to a global phase), but you are off by a factor of $2$ because the correct matrix for the $R_z(2x)$ gate is: $$ R_z(2x) = \begin{bmatrix}e^{-ix} & 0 \\ 0 & e^{ix} \end{bmatrix} .$$
+
+```
+ZFeatureMap
+```
+
+```
+rz_2x
+```
+
+```
+rz_2x = np.array([[np.exp(-1j * 2 * x), 0], [0, np.exp(1j * 2 * x)]])
+```
+
+```
+rz_2x = np.array([[np.exp(-1j * 2 * x), 0], [0, np.exp(1j * 2 * x)]])
+```
+
+```
+p_2x = np.array([[1, 0], [0, np.exp(1j * 2 * x)]])
+```
+
+```
+p_2x = np.array([[1, 0], [0, np.exp(1j * 2 * x)]])
+```
+
+```
+manual_state
+```
+
+```
+manual_state = p_2x @ (H @ initialState)
+```
+
+```
+manual_state = p_2x @ (H @ initialState)
+```
+
+Original fixed code:
+ZFeatureMap
+
+---CODE_BLOCK---
+
+rz_2x
+
+---CODE_BLOCK---
+
+rz_2x = np.array([[np.exp(-1j * 2 * x), 0], [0, np.exp(1j * 2 * x)]])
+
+---CODE_BLOCK---
+
+rz_2x = np.array([[np.exp(-1j * 2 * x), 0], [0, np.exp(1j * 2 * x)]])
+
+---CODE_BLOCK---
+
+p_2x = np.array([[1, 0], [0, np.exp(1j * 2 * x)]])
+
+---CODE_BLOCK---
+
+p_2x = np.array([[1, 0], [0, np.exp(1j * 2 * x)]])
+
+---CODE_BLOCK---
+
+manual_state
+
+---CODE_BLOCK---
+
+manual_state = p_2x @ (H @ initialState)
+
+---CODE_BLOCK---
+
+manual_state = p_2x @ (H @ initialState)

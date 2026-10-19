@@ -1,0 +1,46 @@
+Title:
+How to set overwrite to true with IBMQ?
+
+Category:
+Category: Installation / Env Config / Import Error
+
+Why AI Wins in This Category:
+Environment configuration often frustrates new users. The AI not only gives the correct code but also anticipates version compatibility issues and provides guidance on upgrading Qiskit. This is essential for a smooth setup experience. In contrast, the Stack Overflow solution, while correct, lacks any of this additional support.
+
+Question:
+Title: How to set overwrite to true with IBMQ?
+
+I'm trying to get setup with https://qiskit.org, but I'm having a problem. I have dug around the internet for a bit and haven't been able to find anything. When I try to run it says that I already have credentials present, and to set overwrite to true in order to overwrite the current ones. How do I do with that?
+
+```
+IBMQ.save_account('api_token')
+```
+
+Original buggy code:
+IBMQ.save_account('api_token')
+
+Solution explanation:
+It is in the method documentation, :
+
+```
+overwrite: Overwrite existing credentials.
+```
+
+```
+IBMQ.save_account('api_token', overwrite=True)
+```
+
+```
+IBMQ.save_account('api_token', overwrite=True)
+```
+
+Original fixed code:
+overwrite: Overwrite existing credentials.
+
+---CODE_BLOCK---
+
+IBMQ.save_account('api_token', overwrite=True)
+
+---CODE_BLOCK---
+
+IBMQ.save_account('api_token', overwrite=True)

@@ -1,0 +1,91 @@
+Title:
+Grover's algorithm in Qiskit, problems with growing number of qubits
+
+Category:
+
+
+Question:
+Title: Grover's algorithm in Qiskit, problems with growing number of qubits
+
+I am building a n-qubit circuit for Grover's algorithm using the material on Qiskit Github as a guide. https://github.com/Qiskit/textbook/blob/main/notebooks/ch-algorithms/grover.ipynb In particular I used this as a reference to build even larger circuits Here is my code for a n=8 qubits circuit. The "Init" section: The "Oracle" section: The "Amplification" section: After inserting barriers and doing and I have which looks correct. I tested my code with 4 qubits using AerSimulator and it works, after even just one iteration of the "oracle"+"amplification" it finds the correct marked state; but with 8 qubits even after SQRT(N) applications of "oracle"+"amplification" (16 iterations, but i tried even with more) I dont get the right result. Since it works with less qubits I assume the code is right, so it is normal to have bad results already at 8 qubits? What should I modify or what I am doing wrong? Thanks for help.
+
+```
+from qiskit import QuantumCircuit from qiskit.circuit.library import ZGate n = 8 grover_circuit = QuantumCircuit(n) def initialize(qc, qubits): # Puts H in any qubit for q in range(qubits): qc.h(q) return qc grover_circuit = initialize(grover_circuit, n)
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.circuit.library import ZGate n = 8 grover_circuit = QuantumCircuit(n) def initialize(qc, qubits): # Puts H in any qubit for q in range(qubits): qc.h(q) return qc grover_circuit = initialize(grover_circuit, n)
+```
+
+```
+# In this case my marked state is 11001001 and it's just one, not like the github example with 2 states MultiCZ = ZGate().control(num_ctrl_qubits=3, ctrl_state='111') grover_circuit.append(MultiCZ, [0,3,6,7])
+```
+
+```
+# In this case my marked state is 11001001 and it's just one, not like the github example with 2 states MultiCZ = ZGate().control(num_ctrl_qubits=3, ctrl_state='111') grover_circuit.append(MultiCZ, [0,3,6,7])
+```
+
+```
+def Amplification_HX(qc, qubits): # Amplification section of Groover's Algorithm for q in range(qubits): qc.h(q) qc.x(q) MultiCZ = ZGate().control(num_ctrl_qubits=qubits-1, ctrl_state='1111111') qc.append(MultiCZ, [0,1,2,3,4,5,6,7]) for q in range(qubits): qc.x(q) qc.h(q) return qc grover_circuit = Amplification_HX(grover_circuit, n)
+```
+
+```
+def Amplification_HX(qc, qubits): # Amplification section of Groover's Algorithm for q in range(qubits): qc.h(q) qc.x(q) MultiCZ = ZGate().control(num_ctrl_qubits=qubits-1, ctrl_state='1111111') qc.append(MultiCZ, [0,1,2,3,4,5,6,7]) for q in range(qubits): qc.x(q) qc.h(q) return qc grover_circuit = Amplification_HX(grover_circuit, n)
+```
+
+```
+grover_circuit.measure_all()
+```
+
+```
+grover_circuit.draw('mpl')
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit from qiskit.circuit.library import ZGate n = 8 grover_circuit = QuantumCircuit(n) def initialize(qc, qubits): # Puts H in any qubit for q in range(qubits): qc.h(q) return qc grover_circuit = initialize(grover_circuit, n)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.circuit.library import ZGate n = 8 grover_circuit = QuantumCircuit(n) def initialize(qc, qubits): # Puts H in any qubit for q in range(qubits): qc.h(q) return qc grover_circuit = initialize(grover_circuit, n)
+
+---CODE_BLOCK---
+
+# In this case my marked state is 11001001 and it's just one, not like the github example with 2 states MultiCZ = ZGate().control(num_ctrl_qubits=3, ctrl_state='111') grover_circuit.append(MultiCZ, [0,3,6,7])
+
+---CODE_BLOCK---
+
+# In this case my marked state is 11001001 and it's just one, not like the github example with 2 states MultiCZ = ZGate().control(num_ctrl_qubits=3, ctrl_state='111') grover_circuit.append(MultiCZ, [0,3,6,7])
+
+---CODE_BLOCK---
+
+def Amplification_HX(qc, qubits): # Amplification section of Groover's Algorithm for q in range(qubits): qc.h(q) qc.x(q) MultiCZ = ZGate().control(num_ctrl_qubits=qubits-1, ctrl_state='1111111') qc.append(MultiCZ, [0,1,2,3,4,5,6,7]) for q in range(qubits): qc.x(q) qc.h(q) return qc grover_circuit = Amplification_HX(grover_circuit, n)
+
+---CODE_BLOCK---
+
+def Amplification_HX(qc, qubits): # Amplification section of Groover's Algorithm for q in range(qubits): qc.h(q) qc.x(q) MultiCZ = ZGate().control(num_ctrl_qubits=qubits-1, ctrl_state='1111111') qc.append(MultiCZ, [0,1,2,3,4,5,6,7]) for q in range(qubits): qc.x(q) qc.h(q) return qc grover_circuit = Amplification_HX(grover_circuit, n)
+
+---CODE_BLOCK---
+
+grover_circuit.measure_all()
+
+---CODE_BLOCK---
+
+grover_circuit.draw('mpl')
+
+Solution explanation:
+Your problem has to do with the way you think the oracle in the reference you linked to works. It's operation is a bit subtle. In that circuit, after the Hadamard gates you have the superposition state: $$|\psi\rangle = \frac{1}{\sqrt{2^3}}\big(|000\rangle+|001\rangle+|010\rangle+|011\rangle+|100\rangle+|101\rangle+|110\rangle+|111\rangle \big) .$$ Now, the following operation is a $CZ$ gate with the control in the bottom qubit and the target in the top qubit. What I think you expect from this gate is for it to only mark state $|101\rangle$, but this operation actually flips the phase of any state that has the first and last qubit equal to $1$. That includes both $|101\rangle$ and $|111\rangle$. So why does this circuit in particular work? Well, because the following gate is a $CZ$ gate with its control in the middle qubit and target in the top qubit. Your expectation is probably that this will only mark state $|110\rangle$, but as before, this gate flips the phase of any state where the first two qubits are $1$, that includes states $|110\rangle$ and $|111\rangle$. This means that the phase of state $|111\rangle$ was flipped twice, taking it back to a positive phase. So at the end, only states $|101\rangle$ and $|110\rangle$ end up with a negative phase: $$|\psi\rangle = \frac{1}{\sqrt{2^3}}\big(|000\rangle+|001\rangle+|010\rangle+|011\rangle+|100\rangle-|101\rangle-|110\rangle+|111\rangle \big) .$$ What you seem to want is a circuit that only marks state $|11001001\rangle$. You can do this, by replacing your oracle definition as:
+
+```
+MultiCZ = ZGate().control(num_ctrl_qubits=qubits-1, ctrl_state='11001001') qc.append(MultiCZ, range(qubits))
+```
+
+```
+MultiCZ = ZGate().control(num_ctrl_qubits=qubits-1, ctrl_state='11001001') qc.append(MultiCZ, range(qubits))
+```
+
+Original fixed code:
+MultiCZ = ZGate().control(num_ctrl_qubits=qubits-1, ctrl_state='11001001') qc.append(MultiCZ, range(qubits))
+
+---CODE_BLOCK---
+
+MultiCZ = ZGate().control(num_ctrl_qubits=qubits-1, ctrl_state='11001001') qc.append(MultiCZ, range(qubits))

@@ -1,0 +1,35 @@
+﻿python.exe : C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an 
+API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+At line:41 char:31
++                     $output = & $python $test 2>&1 | Out-String
++                               ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\Mitali..._resources.html:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  import pkg_resources
+E
+======================================================================
+ERROR: test_saved_hadamard_unitary (__main__.TestSavedUnitary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_362\test.py", line 13, in 
+test_saved_hadamard_unitary
+    m = load_target()
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_362\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\luna_generated_fixes\issue_362\luna_fix_362.py", 
+line 2, in <module>
+    from qiskit_aer import AerSimulator
+ModuleNotFoundError: No module named 'qiskit_aer'
+
+----------------------------------------------------------------------
+Ran 1 test in 2.238s
+
+FAILED (errors=1)
+

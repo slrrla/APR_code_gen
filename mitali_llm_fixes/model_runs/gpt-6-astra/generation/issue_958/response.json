@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWOtag7uH7INYhJike0CY8EXeSP2",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\n# FIX: The phase needed to negate a gate was unavailable -> import pi, because exp(i*pi) = -1.\nfrom math import pi\nfrom qiskit import QuantumCircuit\n\nqc = QuantumCircuit(2)\nqc.h([0, 1])\n\ngate1 = qc.h\n# FIX: Multiplying a circuit method by -1 is invalid -> add a pi global phase, because H ⊗ (-H) = -(H ⊗ H).\nqc.global_phase += pi\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419751,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 507,
+    "prompt_tokens": 517,
+    "total_tokens": 1024,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 393,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

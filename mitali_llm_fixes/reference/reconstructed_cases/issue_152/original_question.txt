@@ -1,0 +1,67 @@
+Title:
+Qiskit QFT matrix does not match with DFT matrix
+
+Category:
+Category:
+Import / Understanding Qiskit Library Behavior
+
+Why AI Wins in This Category:
+This issue touches on fundamental math differences between classical and quantum Fourier transforms. The AI response not only identifies the root cause, but educates the user on why it matters, provides hands-on code, and aligns the explanation with how QFT is used in real quantum computing. That makes it a more complete, pedagogically valuable answer.
+
+Question:
+Title: Qiskit QFT matrix does not match with DFT matrix
+
+The unitary matrix associated with the circuit in Qiskit does not match the actual DFT matrix. In fact, all the imaginary components have their sign flipped (QFT and DFT matrices seems to be each other's complex conjugate). Is that the correct behavior? Note that the circuit already includes the swap gates at the end of the circuit. The matrices have values:
+
+```
+QFT
+```
+
+```
+QFT
+```
+
+```
+import numpy as np from scipy.linalg import dft from qiskit import * from qiskit.circuit.library import QFT n = 2 dft_matrix = (1/np.sqrt(2**n)) * dft(2**n) qft_matrix = execute(QFT(n), Aer.get_backend('unitary_simulator')).result().get_unitary() # remove components almost zero for enhanced visualization eps = 0.00001 dft_matrix.real[np.abs(dft_matrix.real) < eps] = 0 dft_matrix.imag[np.abs(dft_matrix.imag) < eps] = 0 qft_matrix.real[np.abs(qft_matrix.real) < eps] = 0 qft_matrix.imag[np.abs(qft_matrix.imag) < eps] = 0 dft_matrix, qft_matrix
+```
+
+```
+import numpy as np from scipy.linalg import dft from qiskit import * from qiskit.circuit.library import QFT n = 2 dft_matrix = (1/np.sqrt(2**n)) * dft(2**n) qft_matrix = execute(QFT(n), Aer.get_backend('unitary_simulator')).result().get_unitary() # remove components almost zero for enhanced visualization eps = 0.00001 dft_matrix.real[np.abs(dft_matrix.real) < eps] = 0 dft_matrix.imag[np.abs(dft_matrix.imag) < eps] = 0 qft_matrix.real[np.abs(qft_matrix.real) < eps] = 0 qft_matrix.imag[np.abs(qft_matrix.imag) < eps] = 0 dft_matrix, qft_matrix
+```
+
+```
+dft_matrix= array([[ 0.5+0.j , 0.5+0.j , 0.5+0.j , 0.5+0.j ], [ 0.5+0.j , 0. -0.5j, -0.5+0.j , 0. +0.5j], [ 0.5+0.j , -0.5+0.j , 0.5+0.j , -0.5+0.j ], [ 0.5+0.j , 0. +0.5j, -0.5+0.j , 0. -0.5j]]), qft_matrix= array([[ 0.5+0.j , 0.5+0.j , 0.5+0.j , 0.5+0.j ], [ 0.5+0.j , 0. +0.5j, -0.5+0.j , 0. -0.5j], [ 0.5+0.j , -0.5+0.j , 0.5+0.j , -0.5+0.j ], [ 0.5+0.j , 0. -0.5j, -0.5+0.j , 0. +0.5j]])
+```
+
+```
+dft_matrix= array([[ 0.5+0.j , 0.5+0.j , 0.5+0.j , 0.5+0.j ], [ 0.5+0.j , 0. -0.5j, -0.5+0.j , 0. +0.5j], [ 0.5+0.j , -0.5+0.j , 0.5+0.j , -0.5+0.j ], [ 0.5+0.j , 0. +0.5j, -0.5+0.j , 0. -0.5j]]), qft_matrix= array([[ 0.5+0.j , 0.5+0.j , 0.5+0.j , 0.5+0.j ], [ 0.5+0.j , 0. +0.5j, -0.5+0.j , 0. -0.5j], [ 0.5+0.j , -0.5+0.j , 0.5+0.j , -0.5+0.j ], [ 0.5+0.j , 0. -0.5j, -0.5+0.j , 0. +0.5j]])
+```
+
+Original buggy code:
+QFT
+
+---CODE_BLOCK---
+
+QFT
+
+---CODE_BLOCK---
+
+import numpy as np from scipy.linalg import dft from qiskit import * from qiskit.circuit.library import QFT n = 2 dft_matrix = (1/np.sqrt(2**n)) * dft(2**n) qft_matrix = execute(QFT(n), Aer.get_backend('unitary_simulator')).result().get_unitary() # remove components almost zero for enhanced visualization eps = 0.00001 dft_matrix.real[np.abs(dft_matrix.real) < eps] = 0 dft_matrix.imag[np.abs(dft_matrix.imag) < eps] = 0 qft_matrix.real[np.abs(qft_matrix.real) < eps] = 0 qft_matrix.imag[np.abs(qft_matrix.imag) < eps] = 0 dft_matrix, qft_matrix
+
+---CODE_BLOCK---
+
+import numpy as np from scipy.linalg import dft from qiskit import * from qiskit.circuit.library import QFT n = 2 dft_matrix = (1/np.sqrt(2**n)) * dft(2**n) qft_matrix = execute(QFT(n), Aer.get_backend('unitary_simulator')).result().get_unitary() # remove components almost zero for enhanced visualization eps = 0.00001 dft_matrix.real[np.abs(dft_matrix.real) < eps] = 0 dft_matrix.imag[np.abs(dft_matrix.imag) < eps] = 0 qft_matrix.real[np.abs(qft_matrix.real) < eps] = 0 qft_matrix.imag[np.abs(qft_matrix.imag) < eps] = 0 dft_matrix, qft_matrix
+
+---CODE_BLOCK---
+
+dft_matrix= array([[ 0.5+0.j , 0.5+0.j , 0.5+0.j , 0.5+0.j ], [ 0.5+0.j , 0. -0.5j, -0.5+0.j , 0. +0.5j], [ 0.5+0.j , -0.5+0.j , 0.5+0.j , -0.5+0.j ], [ 0.5+0.j , 0. +0.5j, -0.5+0.j , 0. -0.5j]]), qft_matrix= array([[ 0.5+0.j , 0.5+0.j , 0.5+0.j , 0.5+0.j ], [ 0.5+0.j , 0. +0.5j, -0.5+0.j , 0. -0.5j], [ 0.5+0.j , -0.5+0.j , 0.5+0.j , -0.5+0.j ], [ 0.5+0.j , 0. -0.5j, -0.5+0.j , 0. +0.5j]])
+
+---CODE_BLOCK---
+
+dft_matrix= array([[ 0.5+0.j , 0.5+0.j , 0.5+0.j , 0.5+0.j ], [ 0.5+0.j , 0. -0.5j, -0.5+0.j , 0. +0.5j], [ 0.5+0.j , -0.5+0.j , 0.5+0.j , -0.5+0.j ], [ 0.5+0.j , 0. +0.5j, -0.5+0.j , 0. -0.5j]]), qft_matrix= array([[ 0.5+0.j , 0.5+0.j , 0.5+0.j , 0.5+0.j ], [ 0.5+0.j , 0. +0.5j, -0.5+0.j , 0. -0.5j], [ 0.5+0.j , -0.5+0.j , 0.5+0.j , -0.5+0.j ], [ 0.5+0.j , 0. -0.5j, -0.5+0.j , 0. +0.5j]])
+
+Solution explanation:
+According to the docs of scipy and qiskit, the first uses primitive root $\omega = e^{-\frac{2\pi i}{n}}$ and the second uses $\omega = e^{\frac{2\pi i}{n}}$. This implies that one matrix is complex conjugate of the other (which is the same as inverse).
+
+Original fixed code:
+According to the docs of scipy and qiskit, the first uses primitive root $\omega = e^{-\frac{2\pi i}{n}}$ and the second uses $\omega = e^{\frac{2\pi i}{n}}$. This implies that one matrix is complex conjugate of the other (which is the same as inverse).

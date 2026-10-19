@@ -1,0 +1,131 @@
+Title:
+Qiskit: Sum of Kraus operators are not equal to identity matrix
+
+Category:
+
+
+Question:
+Title: Qiskit: Sum of Kraus operators are not equal to identity matrix
+
+I know that one of the properties of the Kraus Operator is: $$\sum_k A_k^\dagger A_k=I\,.$$ So, in qiskit, I first converted my array to a super operator, and then I found my Kraus operators. However, the sum of the Kraus operator is not equal to the identity. And I do not know if I found my Kraus operator correctly or not. Here is my process matrix: Here is my code: From I put Kraus operators into Here is how I found the sum of Kraus operators: Here is the result: As it can be seen, it is not equal to identity. Could someone explain to me why I am finding 2.843 instead of 1. Am I doing something wrong in the code?
+
+```
+array([[ 1. , 0. , 0. , 0. ], [ 0.001, 0.986, 0.02 , 0.04 ], [ 0.014, 0.01 , 0.019, -0.957], [-0.028, -0.031, 0.949, 0.008]])
+```
+
+```
+array([[ 1. , 0. , 0. , 0. ], [ 0.001, 0.986, 0.02 , 0.04 ], [ 0.014, 0.01 , 0.019, -0.957], [-0.028, -0.031, 0.949, 0.008]])
+```
+
+```
+q_process=qi.SuperOp(process) kraus_=qi.Kraus(q_process) kraus_
+```
+
+```
+q_process=qi.SuperOp(process) kraus_=qi.Kraus(q_process) kraus_
+```
+
+```
+kraus_,
+```
+
+```
+kraus_list
+```
+
+```
+kraus_list = np.array([[[-0.833+0.j, 0.14 +0.j], [-0.14 +0.j, -0.821+0.j]], [[ 0.134+0.j, 0.812+0.j], [-0.806+0.j, 0.139+0.j]], [[ 0.14 +0.j, -0.06 +0.j], [-0.061+0.j, -0.142+0.j]], [[-0.012+0.j, -0.029+0.j], [-0.029+0.j, 0.012+0.j]], [[-1.168-0.j, -0.026-0.j], [ 0.014+0.j, -0.205-0.j]], [[ 0.201+0.j, -0.008-0.j], [ 0.021+0.j, -1.142-0.j]], [[ 0.004+0.j, -0.147-0.j], [ 0.16 +0.j, 0.005+0.j]], [[ 0. +0.j, -0.032-0.j], [-0.03 -0.j, -0. -0.j]]]) sum_of_kraus= np.matmul(kraus_list[0].conj().T,kraus_list[0])+np.matmul(kraus_list[1].conj().T,kraus_list[1])+np.matmul(kraus_list[2].conj().T,kraus_list[2])+np.matmul(kraus_list[3].conj().T,kraus_list[3])+np.matmul(kraus_list[4].conj().T,kraus_list[4])+np.matmul(kraus_list[5].conj().T,kraus_list[5])+np.matmul(kraus_list[6].conj().T,kraus_list[6])+np.matmul(kraus_list[7].conj().T,kraus_list[7])
+```
+
+```
+kraus_list = np.array([[[-0.833+0.j, 0.14 +0.j], [-0.14 +0.j, -0.821+0.j]], [[ 0.134+0.j, 0.812+0.j], [-0.806+0.j, 0.139+0.j]], [[ 0.14 +0.j, -0.06 +0.j], [-0.061+0.j, -0.142+0.j]], [[-0.012+0.j, -0.029+0.j], [-0.029+0.j, 0.012+0.j]], [[-1.168-0.j, -0.026-0.j], [ 0.014+0.j, -0.205-0.j]], [[ 0.201+0.j, -0.008-0.j], [ 0.021+0.j, -1.142-0.j]], [[ 0.004+0.j, -0.147-0.j], [ 0.16 +0.j, 0.005+0.j]], [[ 0. +0.j, -0.032-0.j], [-0.03 -0.j, -0. -0.j]]]) sum_of_kraus= np.matmul(kraus_list[0].conj().T,kraus_list[0])+np.matmul(kraus_list[1].conj().T,kraus_list[1])+np.matmul(kraus_list[2].conj().T,kraus_list[2])+np.matmul(kraus_list[3].conj().T,kraus_list[3])+np.matmul(kraus_list[4].conj().T,kraus_list[4])+np.matmul(kraus_list[5].conj().T,kraus_list[5])+np.matmul(kraus_list[6].conj().T,kraus_list[6])+np.matmul(kraus_list[7].conj().T,kraus_list[7])
+```
+
+```
+array([[2.843+0.j, 0.009+0.j], [0.009+0.j, 2.761+0.j]])
+```
+
+```
+array([[2.843+0.j, 0.009+0.j], [0.009+0.j, 2.761+0.j]])
+```
+
+Original buggy code:
+array([[ 1. , 0. , 0. , 0. ], [ 0.001, 0.986, 0.02 , 0.04 ], [ 0.014, 0.01 , 0.019, -0.957], [-0.028, -0.031, 0.949, 0.008]])
+
+---CODE_BLOCK---
+
+array([[ 1. , 0. , 0. , 0. ], [ 0.001, 0.986, 0.02 , 0.04 ], [ 0.014, 0.01 , 0.019, -0.957], [-0.028, -0.031, 0.949, 0.008]])
+
+---CODE_BLOCK---
+
+q_process=qi.SuperOp(process) kraus_=qi.Kraus(q_process) kraus_
+
+---CODE_BLOCK---
+
+q_process=qi.SuperOp(process) kraus_=qi.Kraus(q_process) kraus_
+
+---CODE_BLOCK---
+
+kraus_,
+
+---CODE_BLOCK---
+
+kraus_list
+
+---CODE_BLOCK---
+
+kraus_list = np.array([[[-0.833+0.j, 0.14 +0.j], [-0.14 +0.j, -0.821+0.j]], [[ 0.134+0.j, 0.812+0.j], [-0.806+0.j, 0.139+0.j]], [[ 0.14 +0.j, -0.06 +0.j], [-0.061+0.j, -0.142+0.j]], [[-0.012+0.j, -0.029+0.j], [-0.029+0.j, 0.012+0.j]], [[-1.168-0.j, -0.026-0.j], [ 0.014+0.j, -0.205-0.j]], [[ 0.201+0.j, -0.008-0.j], [ 0.021+0.j, -1.142-0.j]], [[ 0.004+0.j, -0.147-0.j], [ 0.16 +0.j, 0.005+0.j]], [[ 0. +0.j, -0.032-0.j], [-0.03 -0.j, -0. -0.j]]]) sum_of_kraus= np.matmul(kraus_list[0].conj().T,kraus_list[0])+np.matmul(kraus_list[1].conj().T,kraus_list[1])+np.matmul(kraus_list[2].conj().T,kraus_list[2])+np.matmul(kraus_list[3].conj().T,kraus_list[3])+np.matmul(kraus_list[4].conj().T,kraus_list[4])+np.matmul(kraus_list[5].conj().T,kraus_list[5])+np.matmul(kraus_list[6].conj().T,kraus_list[6])+np.matmul(kraus_list[7].conj().T,kraus_list[7])
+
+---CODE_BLOCK---
+
+kraus_list = np.array([[[-0.833+0.j, 0.14 +0.j], [-0.14 +0.j, -0.821+0.j]], [[ 0.134+0.j, 0.812+0.j], [-0.806+0.j, 0.139+0.j]], [[ 0.14 +0.j, -0.06 +0.j], [-0.061+0.j, -0.142+0.j]], [[-0.012+0.j, -0.029+0.j], [-0.029+0.j, 0.012+0.j]], [[-1.168-0.j, -0.026-0.j], [ 0.014+0.j, -0.205-0.j]], [[ 0.201+0.j, -0.008-0.j], [ 0.021+0.j, -1.142-0.j]], [[ 0.004+0.j, -0.147-0.j], [ 0.16 +0.j, 0.005+0.j]], [[ 0. +0.j, -0.032-0.j], [-0.03 -0.j, -0. -0.j]]]) sum_of_kraus= np.matmul(kraus_list[0].conj().T,kraus_list[0])+np.matmul(kraus_list[1].conj().T,kraus_list[1])+np.matmul(kraus_list[2].conj().T,kraus_list[2])+np.matmul(kraus_list[3].conj().T,kraus_list[3])+np.matmul(kraus_list[4].conj().T,kraus_list[4])+np.matmul(kraus_list[5].conj().T,kraus_list[5])+np.matmul(kraus_list[6].conj().T,kraus_list[6])+np.matmul(kraus_list[7].conj().T,kraus_list[7])
+
+---CODE_BLOCK---
+
+array([[2.843+0.j, 0.009+0.j], [0.009+0.j, 2.761+0.j]])
+
+---CODE_BLOCK---
+
+array([[2.843+0.j, 0.009+0.j], [0.009+0.j, 2.761+0.j]])
+
+Solution explanation:
+Since OP never disclosed their solution let me shed light on what the mistake here was: the process matrix used as input was a Pauli transfer matrix (i.e. representation matrix in the Pauli basis) but uses the representation matrix in the computational basis. Converting OP's Pauli transfer matrix into the superoperator representation yields what the input should have been: Note that the code did what it is supposed to do: it interpreted the input as superoperator with respect to vectorization which leads to a map $\Phi$ that is not even completely positive or even Hermitian-preserving anymore. As a result output generalized Kraus operators, i.e. matrices $A_1,\ldots,A_4,B_1,\ldots,B_4$ such that $\Phi=\sum_{k=1}^4 A_k(\cdot)B_k^\dagger$. Indeed, it is easy to check that the elements of satisfy ${\rm superOp}(\Phi)=\sum_{k=1}^4\overline{B_k}\otimes A_k$ meaning they are indeed generalized Kraus operators of $\Phi$.
+
+```
+qi.SuperOp
+```
+
+```
+array([[ 0.49 +0.j , -0.0155-0.4745j , -0.0155+0.4745j , 0.482 +0.j ], [ 0.0205 -0.4715j , 0.5025 -0.005j , 0.4835 +0.015j , -0.0195+0.4855j ], [ 0.0205 +0.4715j , 0.4835 -0.015j , 0.5025 +0.005j , -0.0195-0.4855j], [0.51 +0.j , 0.0155 +0.4745j , 0.0155 -0.4745j , 0.518 +0.j]])
+```
+
+```
+array([[ 0.49 +0.j , -0.0155-0.4745j , -0.0155+0.4745j , 0.482 +0.j ], [ 0.0205 -0.4715j , 0.5025 -0.005j , 0.4835 +0.015j , -0.0195+0.4855j ], [ 0.0205 +0.4715j , 0.4835 -0.015j , 0.5025 +0.005j , -0.0195-0.4855j], [0.51 +0.j , 0.0155 +0.4745j , 0.0155 -0.4745j , 0.518 +0.j]])
+```
+
+```
+qi.Kraus
+```
+
+```
+kraus_list
+```
+
+Original fixed code:
+qi.SuperOp
+
+---CODE_BLOCK---
+
+array([[ 0.49 +0.j , -0.0155-0.4745j , -0.0155+0.4745j , 0.482 +0.j ], [ 0.0205 -0.4715j , 0.5025 -0.005j , 0.4835 +0.015j , -0.0195+0.4855j ], [ 0.0205 +0.4715j , 0.4835 -0.015j , 0.5025 +0.005j , -0.0195-0.4855j], [0.51 +0.j , 0.0155 +0.4745j , 0.0155 -0.4745j , 0.518 +0.j]])
+
+---CODE_BLOCK---
+
+array([[ 0.49 +0.j , -0.0155-0.4745j , -0.0155+0.4745j , 0.482 +0.j ], [ 0.0205 -0.4715j , 0.5025 -0.005j , 0.4835 +0.015j , -0.0195+0.4855j ], [ 0.0205 +0.4715j , 0.4835 -0.015j , 0.5025 +0.005j , -0.0195-0.4855j], [0.51 +0.j , 0.0155 +0.4745j , 0.0155 -0.4745j , 0.518 +0.j]])
+
+---CODE_BLOCK---
+
+qi.Kraus
+
+---CODE_BLOCK---
+
+kraus_list

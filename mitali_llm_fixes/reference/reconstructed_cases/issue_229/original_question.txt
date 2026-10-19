@@ -1,0 +1,186 @@
+Title:
+Can I adjust the quantum circuit after transpiling it?
+
+Category:
+Category: Circuit Construction / Logic / Gates
+
+Why AI Solution Wins in This Category:
+The AI provides a simpler and more targeted technique for gate insertion in a transpiled circuit, which is directly aligned with the user's goal. It avoids unnecessary circuit splitting and composition, making it more efficient for modifying structure without reconstructing circuit components. This clarity and precision make the AI's response better for circuit construction tasks.
+
+Question:
+Title: Can I adjust the quantum circuit after transpiling it?
+
+I have a list of quantum circuits called . I tried to run those circuits on a quantum computer by submitting the jobs to the IBM job manager: I'm wondering after transpiling the whole list of circuit, is it still possible for me to modify an element in the transpiled list, like adding a gate at a particular place? For instance, if each circuit in my list have the following elements (I'm not so sure if this is a good example haha): I don't think that transpiling a circuit will mix the gates on the two sides of the barrier (the barrier will also be kept), so can I transpile all circuits first, then add a gate right before the barrier (marked as 'Here!') to each transpiled circuit, not original one ? Thanks!!
+
+```
+all_circuits
+```
+
+```
+from qiskit.compiler import transpile, assemble from qiskit.providers.ibmq.managed import IBMQJobManager for i in range(len(all_circuits)): # Submit a single job, and transpile everything just once. all_circuits[i] = transpile(all_circuits[i],backend=backend)
+```
+
+```
+from qiskit.compiler import transpile, assemble from qiskit.providers.ibmq.managed import IBMQJobManager for i in range(len(all_circuits)): # Submit a single job, and transpile everything just once. all_circuits[i] = transpile(all_circuits[i],backend=backend)
+```
+
+```
+qc = QuantumCircuit(3,3) qc.H(0) qc.crx(a,2,1) # Suppose a is some random parameter ***Here!*** qc.barrier() qc.H([1,2]) qc.cx(1,3) qc.measure(...)
+```
+
+```
+qc = QuantumCircuit(3,3) qc.H(0) qc.crx(a,2,1) # Suppose a is some random parameter ***Here!*** qc.barrier() qc.H([1,2]) qc.cx(1,3) qc.measure(...)
+```
+
+```
+CNOT
+```
+
+```
+qc.cx(0,2)
+```
+
+Original buggy code:
+all_circuits
+
+---CODE_BLOCK---
+
+from qiskit.compiler import transpile, assemble from qiskit.providers.ibmq.managed import IBMQJobManager for i in range(len(all_circuits)): # Submit a single job, and transpile everything just once. all_circuits[i] = transpile(all_circuits[i],backend=backend)
+
+---CODE_BLOCK---
+
+from qiskit.compiler import transpile, assemble from qiskit.providers.ibmq.managed import IBMQJobManager for i in range(len(all_circuits)): # Submit a single job, and transpile everything just once. all_circuits[i] = transpile(all_circuits[i],backend=backend)
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(3,3) qc.H(0) qc.crx(a,2,1) # Suppose a is some random parameter ***Here!*** qc.barrier() qc.H([1,2]) qc.cx(1,3) qc.measure(...)
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(3,3) qc.H(0) qc.crx(a,2,1) # Suppose a is some random parameter ***Here!*** qc.barrier() qc.H([1,2]) qc.cx(1,3) qc.measure(...)
+
+---CODE_BLOCK---
+
+CNOT
+
+---CODE_BLOCK---
+
+qc.cx(0,2)
+
+Solution explanation:
+Yes. You can just add gates as usual. For example: Suppose that we have the following random circuit We can transpiled it to to get: Now, we can just add additional gates on top of this transpiled circuit called "Circuit_Transpile" as you would normally do before. For example: Hopefully this helps. Update: It seems like your circuit have two parts that is being divided by the circuit barrier, and you want to add gate into the middle of the circuit (after the barrier) after the transpilation process. If that is the case, then what you can do is to split the two parts of the circuit into two different circuits then compose them together after the transpilation process. For instance: Now, do the transpilation as you would have normally do: Now, add gates that you wanted to add to the first circuit: Then compose them together to formed a full circuit:
+
+```
+from qiskit.circuit.random import random_circuit num_qubits = 2 circuit_depth = 3 max_operands = 1 #between 0 and 3 measurement_all_qubit = True qc_random = random_circuit(num_qubits, circuit_depth, max_operands=max_operands, measure= None) print(qc_random) ┌────────────┐ ┌────────────┐┌────────────┐ q_0: ────────┤ RZ(5.6174) ├───────┤ U1(5.5484) ├┤ RX(6.0937) ├ ┌───────┴────────────┴──────┐├────────────┤├────────────┤ q_1: ┤ U3(0.96086,4.3412,1.4989) ├┤ RZ(4.7727) ├┤ U1(3.1479) ├ └───────────────────────────┘└────────────┘└────────────┘
+```
+
+```
+from qiskit.circuit.random import random_circuit num_qubits = 2 circuit_depth = 3 max_operands = 1 #between 0 and 3 measurement_all_qubit = True qc_random = random_circuit(num_qubits, circuit_depth, max_operands=max_operands, measure= None) print(qc_random) ┌────────────┐ ┌────────────┐┌────────────┐ q_0: ────────┤ RZ(5.6174) ├───────┤ U1(5.5484) ├┤ RX(6.0937) ├ ┌───────┴────────────┴──────┐├────────────┤├────────────┤ q_1: ┤ U3(0.96086,4.3412,1.4989) ├┤ RZ(4.7727) ├┤ U1(3.1479) ├ └───────────────────────────┘└────────────┘└────────────┘
+```
+
+```
+ibmq_athens
+```
+
+```
+from qiskit.compiler import transpile provider = IBMQ.load_account() Circuit_Transpile = transpile(qc_random, provider.get_backend('ibmq_athens') , optimization_level=3) print(Circuit_Transpile) ┌────────────┐┌────┐┌────────────┐ q_0 -> 0 ┤ RZ(2.1427) ├┤ √X ├┤ RZ(3.8622) ├──────────────────── ├────────────┤├────┤├────────────┤┌────┐┌────────────┐ q_1 -> 1 ┤ RZ(-3.245) ├┤ √X ├┤ RZ(4.3157) ├┤ √X ├┤ RZ(1.2987) ├ └────────────┘└────┘└────────────┘└────┘└────────────┘ ancilla_0 -> 2 ────────────────────────────────────────────────────── ancilla_1 -> 3 ────────────────────────────────────────────────────── ancilla_2 -> 4 ──────────────────────────────────────────────────────
+```
+
+```
+from qiskit.compiler import transpile provider = IBMQ.load_account() Circuit_Transpile = transpile(qc_random, provider.get_backend('ibmq_athens') , optimization_level=3) print(Circuit_Transpile) ┌────────────┐┌────┐┌────────────┐ q_0 -> 0 ┤ RZ(2.1427) ├┤ √X ├┤ RZ(3.8622) ├──────────────────── ├────────────┤├────┤├────────────┤┌────┐┌────────────┐ q_1 -> 1 ┤ RZ(-3.245) ├┤ √X ├┤ RZ(4.3157) ├┤ √X ├┤ RZ(1.2987) ├ └────────────┘└────┘└────────────┘└────┘└────────────┘ ancilla_0 -> 2 ────────────────────────────────────────────────────── ancilla_1 -> 3 ────────────────────────────────────────────────────── ancilla_2 -> 4 ──────────────────────────────────────────────────────
+```
+
+```
+for i in range(5): Circuit_Transpile.h(i) print(Circuit_Transpile) ┌────────────┐┌────┐┌────────────┐┌───┐ q_0 -> 0 ┤ RZ(2.1427) ├┤ √X ├┤ RZ(3.8622) ├┤ H ├──────────────────── ├────────────┤├────┤├────────────┤├───┴┐┌────────────┐┌───┐ q_1 -> 1 ┤ RZ(-3.245) ├┤ √X ├┤ RZ(4.3157) ├┤ √X ├┤ RZ(1.2987) ├┤ H ├ └───┬───┬────┘└────┘└────────────┘└────┘└────────────┘└───┘ ancilla_0 -> 2 ────┤ H ├────────────────────────────────────────────────── ├───┤ ancilla_1 -> 3 ────┤ H ├────────────────────────────────────────────────── ├───┤ ancilla_2 -> 4 ────┤ H ├────────────────────────────────────────────────── └───┘
+```
+
+```
+for i in range(5): Circuit_Transpile.h(i) print(Circuit_Transpile) ┌────────────┐┌────┐┌────────────┐┌───┐ q_0 -> 0 ┤ RZ(2.1427) ├┤ √X ├┤ RZ(3.8622) ├┤ H ├──────────────────── ├────────────┤├────┤├────────────┤├───┴┐┌────────────┐┌───┐ q_1 -> 1 ┤ RZ(-3.245) ├┤ √X ├┤ RZ(4.3157) ├┤ √X ├┤ RZ(1.2987) ├┤ H ├ └───┬───┬────┘└────┘└────────────┘└────┘└────────────┘└───┘ ancilla_0 -> 2 ────┤ H ├────────────────────────────────────────────────── ├───┤ ancilla_1 -> 3 ────┤ H ├────────────────────────────────────────────────── ├───┤ ancilla_2 -> 4 ────┤ H ├────────────────────────────────────────────────── └───┘
+```
+
+```
+from qiskit.circuit.random import random_circuit num_qubits = 2 circuit_depth = 3 max_operands = 1 #between 0 and 3 measurement_all_qubit = True qc_random1 = random_circuit(num_qubits, circuit_depth, max_operands=max_operands, measure= None) qc_random1.barrier(range(2)) qc_random2 = random_circuit(num_qubits, circuit_depth, max_operands=max_operands, measure= None) qc_random2.barrier(range(2)) print(qc_random1) print(qc_random2) ┌───┐ ┌────────────┐ ┌───┐ ░ q_0: ┤ X ├─┤ U1(2.7235) ├────┤ X ├──────░─ ├───┤┌┴────────────┤┌───┴───┴────┐ ░ q_1: ┤ Z ├┤ RX(0.94815) ├┤ RX(2.0345) ├─░─ └───┘└─────────────┘└────────────┘ ░ ┌────────────────────┐ ┌───┐ ┌────────────┐ ░ q_0: ┤ U2(0.28027,1.7582) ├────┤ X ├─────┤ RZ(4.5689) ├─░─ ├───────────────────┬┘┌───┴───┴────┐└───┬───┬────┘ ░ q_1: ┤ U2(1.6123,1.6426) ├─┤ RZ(6.1746) ├────┤ S ├──────░─ └───────────────────┘ └────────────┘ └───┘ ░
+```
+
+```
+from qiskit.circuit.random import random_circuit num_qubits = 2 circuit_depth = 3 max_operands = 1 #between 0 and 3 measurement_all_qubit = True qc_random1 = random_circuit(num_qubits, circuit_depth, max_operands=max_operands, measure= None) qc_random1.barrier(range(2)) qc_random2 = random_circuit(num_qubits, circuit_depth, max_operands=max_operands, measure= None) qc_random2.barrier(range(2)) print(qc_random1) print(qc_random2) ┌───┐ ┌────────────┐ ┌───┐ ░ q_0: ┤ X ├─┤ U1(2.7235) ├────┤ X ├──────░─ ├───┤┌┴────────────┤┌───┴───┴────┐ ░ q_1: ┤ Z ├┤ RX(0.94815) ├┤ RX(2.0345) ├─░─ └───┘└─────────────┘└────────────┘ ░ ┌────────────────────┐ ┌───┐ ┌────────────┐ ░ q_0: ┤ U2(0.28027,1.7582) ├────┤ X ├─────┤ RZ(4.5689) ├─░─ ├───────────────────┬┘┌───┴───┴────┐└───┬───┬────┘ ░ q_1: ┤ U2(1.6123,1.6426) ├─┤ RZ(6.1746) ├────┤ S ├──────░─ └───────────────────┘ └────────────┘ └───┘ ░
+```
+
+```
+from qiskit.compiler import transpile provider = IBMQ.load_account() Circuit_Transpile1 = transpile(qc_random1, provider.get_backend('ibmq_athens') , optimization_level=3) Circuit_Transpile2 = transpile(qc_random2, provider.get_backend('ibmq_athens') , optimization_level=3) print(Circuit_Transpile1) print(Circuit_Transpile2) ┌────────────┐ ░ q_0 -> 0 ┤ RZ(3.5597) ├──────────────────────────────────────░─ └┬──────────┬┘┌────┐┌────────────┐┌────┐┌─────────┐ ░ q_1 -> 1 ─┤ RZ(-π/2) ├─┤ √X ├┤ RZ(6.1242) ├┤ √X ├┤ RZ(π/2) ├─░─ └──────────┘ └────┘└────────────┘└────┘└─────────┘ ░ ancilla_0 -> 2 ────────────────────────────────────────────────────── ancilla_1 -> 3 ────────────────────────────────────────────────────── ancilla_2 -> 4 ────────────────────────────────────────────────────── global phase: 0.29049 ┌───────────┐ ┌────┐┌────────────┐ ░ q_0 -> 0 ─┤ RZ(3.329) ├──┤ √X ├┤ RZ(5.8595) ├─░─ ┌┴───────────┴─┐├────┤├────────────┤ ░ q_1 -> 1 ┤ RZ(0.071774) ├┤ √X ├┤ RZ(4.6453) ├─░─ └──────────────┘└────┘└────────────┘ ░ ancilla_0 -> 2 ─────────────────────────────────────── ancilla_1 -> 3 ─────────────────────────────────────── ancilla_2 -> 4 ───────────────────────────────────────
+```
+
+```
+from qiskit.compiler import transpile provider = IBMQ.load_account() Circuit_Transpile1 = transpile(qc_random1, provider.get_backend('ibmq_athens') , optimization_level=3) Circuit_Transpile2 = transpile(qc_random2, provider.get_backend('ibmq_athens') , optimization_level=3) print(Circuit_Transpile1) print(Circuit_Transpile2) ┌────────────┐ ░ q_0 -> 0 ┤ RZ(3.5597) ├──────────────────────────────────────░─ └┬──────────┬┘┌────┐┌────────────┐┌────┐┌─────────┐ ░ q_1 -> 1 ─┤ RZ(-π/2) ├─┤ √X ├┤ RZ(6.1242) ├┤ √X ├┤ RZ(π/2) ├─░─ └──────────┘ └────┘└────────────┘└────┘└─────────┘ ░ ancilla_0 -> 2 ────────────────────────────────────────────────────── ancilla_1 -> 3 ────────────────────────────────────────────────────── ancilla_2 -> 4 ────────────────────────────────────────────────────── global phase: 0.29049 ┌───────────┐ ┌────┐┌────────────┐ ░ q_0 -> 0 ─┤ RZ(3.329) ├──┤ √X ├┤ RZ(5.8595) ├─░─ ┌┴───────────┴─┐├────┤├────────────┤ ░ q_1 -> 1 ┤ RZ(0.071774) ├┤ √X ├┤ RZ(4.6453) ├─░─ └──────────────┘└────┘└────────────┘ ░ ancilla_0 -> 2 ─────────────────────────────────────── ancilla_1 -> 3 ─────────────────────────────────────── ancilla_2 -> 4 ───────────────────────────────────────
+```
+
+```
+for i in range(2): Circuit_Transpile1.h(i) print(Circuit_Transpile1) ┌────────────┐ ░ ┌───┐ q_0 -> 0 ┤ RZ(3.5597) ├──────────────────────────────────────░─┤ H ├ └┬──────────┬┘┌────┐┌────────────┐┌────┐┌─────────┐ ░ ├───┤ q_1 -> 1 ─┤ RZ(-π/2) ├─┤ √X ├┤ RZ(6.1242) ├┤ √X ├┤ RZ(π/2) ├─░─┤ H ├ └──────────┘ └────┘└────────────┘└────┘└─────────┘ ░ └───┘ ancilla_0 -> 2 ─────────────────────────────────────────────────────────── ancilla_1 -> 3 ─────────────────────────────────────────────────────────── ancilla_2 -> 4 ───────────────────────────────────────────────────────────
+```
+
+```
+for i in range(2): Circuit_Transpile1.h(i) print(Circuit_Transpile1) ┌────────────┐ ░ ┌───┐ q_0 -> 0 ┤ RZ(3.5597) ├──────────────────────────────────────░─┤ H ├ └┬──────────┬┘┌────┐┌────────────┐┌────┐┌─────────┐ ░ ├───┤ q_1 -> 1 ─┤ RZ(-π/2) ├─┤ √X ├┤ RZ(6.1242) ├┤ √X ├┤ RZ(π/2) ├─░─┤ H ├ └──────────┘ └────┘└────────────┘└────┘└─────────┘ ░ └───┘ ancilla_0 -> 2 ─────────────────────────────────────────────────────────── ancilla_1 -> 3 ─────────────────────────────────────────────────────────── ancilla_2 -> 4 ───────────────────────────────────────────────────────────
+```
+
+```
+Circuit_Transpile1.compose(Circuit_Transpile2, inplace = True) print(Circuit_Transpile1) ┌────────────┐ ░ ┌───┐» q_0 -> 0 ┤ RZ(3.5597) ├──────────────────────────────────────░─┤ H ├» └┬──────────┬┘┌────┐┌────────────┐┌────┐┌─────────┐ ░ ├───┤» q_1 -> 1 ─┤ RZ(-π/2) ├─┤ √X ├┤ RZ(6.1242) ├┤ √X ├┤ RZ(π/2) ├─░─┤ H ├» └──────────┘ └────┘└────────────┘└────┘└─────────┘ ░ └───┘» ancilla_0 -> 2 ───────────────────────────────────────────────────────────» » ancilla_1 -> 3 ───────────────────────────────────────────────────────────» » ancilla_2 -> 4 ───────────────────────────────────────────────────────────» » « ┌───────────┐ ┌────┐┌────────────┐ ░ « q_0 -> 0 ─┤ RZ(3.329) ├──┤ √X ├┤ RZ(5.8595) ├─░─ « ┌┴───────────┴─┐├────┤├────────────┤ ░ « q_1 -> 1 ┤ RZ(0.071774) ├┤ √X ├┤ RZ(4.6453) ├─░─ « └──────────────┘└────┘└────────────┘ ░ «ancilla_0 -> 2 ─────────────────────────────────────── « «ancilla_1 -> 3 ─────────────────────────────────────── « «ancilla_2 -> 4 ─────────────────────────────────────── « ```
+```
+
+```
+Circuit_Transpile1.compose(Circuit_Transpile2, inplace = True) print(Circuit_Transpile1) ┌────────────┐ ░ ┌───┐» q_0 -> 0 ┤ RZ(3.5597) ├──────────────────────────────────────░─┤ H ├» └┬──────────┬┘┌────┐┌────────────┐┌────┐┌─────────┐ ░ ├───┤» q_1 -> 1 ─┤ RZ(-π/2) ├─┤ √X ├┤ RZ(6.1242) ├┤ √X ├┤ RZ(π/2) ├─░─┤ H ├» └──────────┘ └────┘└────────────┘└────┘└─────────┘ ░ └───┘» ancilla_0 -> 2 ───────────────────────────────────────────────────────────» » ancilla_1 -> 3 ───────────────────────────────────────────────────────────» » ancilla_2 -> 4 ───────────────────────────────────────────────────────────» » « ┌───────────┐ ┌────┐┌────────────┐ ░ « q_0 -> 0 ─┤ RZ(3.329) ├──┤ √X ├┤ RZ(5.8595) ├─░─ « ┌┴───────────┴─┐├────┤├────────────┤ ░ « q_1 -> 1 ┤ RZ(0.071774) ├┤ √X ├┤ RZ(4.6453) ├─░─ « └──────────────┘└────┘└────────────┘ ░ «ancilla_0 -> 2 ─────────────────────────────────────── « «ancilla_1 -> 3 ─────────────────────────────────────── « «ancilla_2 -> 4 ─────────────────────────────────────── « ```
+```
+
+Original fixed code:
+from qiskit.circuit.random import random_circuit num_qubits = 2 circuit_depth = 3 max_operands = 1 #between 0 and 3 measurement_all_qubit = True qc_random = random_circuit(num_qubits, circuit_depth, max_operands=max_operands, measure= None) print(qc_random) ┌────────────┐ ┌────────────┐┌────────────┐ q_0: ────────┤ RZ(5.6174) ├───────┤ U1(5.5484) ├┤ RX(6.0937) ├ ┌───────┴────────────┴──────┐├────────────┤├────────────┤ q_1: ┤ U3(0.96086,4.3412,1.4989) ├┤ RZ(4.7727) ├┤ U1(3.1479) ├ └───────────────────────────┘└────────────┘└────────────┘
+
+---CODE_BLOCK---
+
+from qiskit.circuit.random import random_circuit num_qubits = 2 circuit_depth = 3 max_operands = 1 #between 0 and 3 measurement_all_qubit = True qc_random = random_circuit(num_qubits, circuit_depth, max_operands=max_operands, measure= None) print(qc_random) ┌────────────┐ ┌────────────┐┌────────────┐ q_0: ────────┤ RZ(5.6174) ├───────┤ U1(5.5484) ├┤ RX(6.0937) ├ ┌───────┴────────────┴──────┐├────────────┤├────────────┤ q_1: ┤ U3(0.96086,4.3412,1.4989) ├┤ RZ(4.7727) ├┤ U1(3.1479) ├ └───────────────────────────┘└────────────┘└────────────┘
+
+---CODE_BLOCK---
+
+ibmq_athens
+
+---CODE_BLOCK---
+
+from qiskit.compiler import transpile provider = IBMQ.load_account() Circuit_Transpile = transpile(qc_random, provider.get_backend('ibmq_athens') , optimization_level=3) print(Circuit_Transpile) ┌────────────┐┌────┐┌────────────┐ q_0 -> 0 ┤ RZ(2.1427) ├┤ √X ├┤ RZ(3.8622) ├──────────────────── ├────────────┤├────┤├────────────┤┌────┐┌────────────┐ q_1 -> 1 ┤ RZ(-3.245) ├┤ √X ├┤ RZ(4.3157) ├┤ √X ├┤ RZ(1.2987) ├ └────────────┘└────┘└────────────┘└────┘└────────────┘ ancilla_0 -> 2 ────────────────────────────────────────────────────── ancilla_1 -> 3 ────────────────────────────────────────────────────── ancilla_2 -> 4 ──────────────────────────────────────────────────────
+
+---CODE_BLOCK---
+
+from qiskit.compiler import transpile provider = IBMQ.load_account() Circuit_Transpile = transpile(qc_random, provider.get_backend('ibmq_athens') , optimization_level=3) print(Circuit_Transpile) ┌────────────┐┌────┐┌────────────┐ q_0 -> 0 ┤ RZ(2.1427) ├┤ √X ├┤ RZ(3.8622) ├──────────────────── ├────────────┤├────┤├────────────┤┌────┐┌────────────┐ q_1 -> 1 ┤ RZ(-3.245) ├┤ √X ├┤ RZ(4.3157) ├┤ √X ├┤ RZ(1.2987) ├ └────────────┘└────┘└────────────┘└────┘└────────────┘ ancilla_0 -> 2 ────────────────────────────────────────────────────── ancilla_1 -> 3 ────────────────────────────────────────────────────── ancilla_2 -> 4 ──────────────────────────────────────────────────────
+
+---CODE_BLOCK---
+
+for i in range(5): Circuit_Transpile.h(i) print(Circuit_Transpile) ┌────────────┐┌────┐┌────────────┐┌───┐ q_0 -> 0 ┤ RZ(2.1427) ├┤ √X ├┤ RZ(3.8622) ├┤ H ├──────────────────── ├────────────┤├────┤├────────────┤├───┴┐┌────────────┐┌───┐ q_1 -> 1 ┤ RZ(-3.245) ├┤ √X ├┤ RZ(4.3157) ├┤ √X ├┤ RZ(1.2987) ├┤ H ├ └───┬───┬────┘└────┘└────────────┘└────┘└────────────┘└───┘ ancilla_0 -> 2 ────┤ H ├────────────────────────────────────────────────── ├───┤ ancilla_1 -> 3 ────┤ H ├────────────────────────────────────────────────── ├───┤ ancilla_2 -> 4 ────┤ H ├────────────────────────────────────────────────── └───┘
+
+---CODE_BLOCK---
+
+for i in range(5): Circuit_Transpile.h(i) print(Circuit_Transpile) ┌────────────┐┌────┐┌────────────┐┌───┐ q_0 -> 0 ┤ RZ(2.1427) ├┤ √X ├┤ RZ(3.8622) ├┤ H ├──────────────────── ├────────────┤├────┤├────────────┤├───┴┐┌────────────┐┌───┐ q_1 -> 1 ┤ RZ(-3.245) ├┤ √X ├┤ RZ(4.3157) ├┤ √X ├┤ RZ(1.2987) ├┤ H ├ └───┬───┬────┘└────┘└────────────┘└────┘└────────────┘└───┘ ancilla_0 -> 2 ────┤ H ├────────────────────────────────────────────────── ├───┤ ancilla_1 -> 3 ────┤ H ├────────────────────────────────────────────────── ├───┤ ancilla_2 -> 4 ────┤ H ├────────────────────────────────────────────────── └───┘
+
+---CODE_BLOCK---
+
+from qiskit.circuit.random import random_circuit num_qubits = 2 circuit_depth = 3 max_operands = 1 #between 0 and 3 measurement_all_qubit = True qc_random1 = random_circuit(num_qubits, circuit_depth, max_operands=max_operands, measure= None) qc_random1.barrier(range(2)) qc_random2 = random_circuit(num_qubits, circuit_depth, max_operands=max_operands, measure= None) qc_random2.barrier(range(2)) print(qc_random1) print(qc_random2) ┌───┐ ┌────────────┐ ┌───┐ ░ q_0: ┤ X ├─┤ U1(2.7235) ├────┤ X ├──────░─ ├───┤┌┴────────────┤┌───┴───┴────┐ ░ q_1: ┤ Z ├┤ RX(0.94815) ├┤ RX(2.0345) ├─░─ └───┘└─────────────┘└────────────┘ ░ ┌────────────────────┐ ┌───┐ ┌────────────┐ ░ q_0: ┤ U2(0.28027,1.7582) ├────┤ X ├─────┤ RZ(4.5689) ├─░─ ├───────────────────┬┘┌───┴───┴────┐└───┬───┬────┘ ░ q_1: ┤ U2(1.6123,1.6426) ├─┤ RZ(6.1746) ├────┤ S ├──────░─ └───────────────────┘ └────────────┘ └───┘ ░
+
+---CODE_BLOCK---
+
+from qiskit.circuit.random import random_circuit num_qubits = 2 circuit_depth = 3 max_operands = 1 #between 0 and 3 measurement_all_qubit = True qc_random1 = random_circuit(num_qubits, circuit_depth, max_operands=max_operands, measure= None) qc_random1.barrier(range(2)) qc_random2 = random_circuit(num_qubits, circuit_depth, max_operands=max_operands, measure= None) qc_random2.barrier(range(2)) print(qc_random1) print(qc_random2) ┌───┐ ┌────────────┐ ┌───┐ ░ q_0: ┤ X ├─┤ U1(2.7235) ├────┤ X ├──────░─ ├───┤┌┴────────────┤┌───┴───┴────┐ ░ q_1: ┤ Z ├┤ RX(0.94815) ├┤ RX(2.0345) ├─░─ └───┘└─────────────┘└────────────┘ ░ ┌────────────────────┐ ┌───┐ ┌────────────┐ ░ q_0: ┤ U2(0.28027,1.7582) ├────┤ X ├─────┤ RZ(4.5689) ├─░─ ├───────────────────┬┘┌───┴───┴────┐└───┬───┬────┘ ░ q_1: ┤ U2(1.6123,1.6426) ├─┤ RZ(6.1746) ├────┤ S ├──────░─ └───────────────────┘ └────────────┘ └───┘ ░
+
+---CODE_BLOCK---
+
+from qiskit.compiler import transpile provider = IBMQ.load_account() Circuit_Transpile1 = transpile(qc_random1, provider.get_backend('ibmq_athens') , optimization_level=3) Circuit_Transpile2 = transpile(qc_random2, provider.get_backend('ibmq_athens') , optimization_level=3) print(Circuit_Transpile1) print(Circuit_Transpile2) ┌────────────┐ ░ q_0 -> 0 ┤ RZ(3.5597) ├──────────────────────────────────────░─ └┬──────────┬┘┌────┐┌────────────┐┌────┐┌─────────┐ ░ q_1 -> 1 ─┤ RZ(-π/2) ├─┤ √X ├┤ RZ(6.1242) ├┤ √X ├┤ RZ(π/2) ├─░─ └──────────┘ └────┘└────────────┘└────┘└─────────┘ ░ ancilla_0 -> 2 ────────────────────────────────────────────────────── ancilla_1 -> 3 ────────────────────────────────────────────────────── ancilla_2 -> 4 ────────────────────────────────────────────────────── global phase: 0.29049 ┌───────────┐ ┌────┐┌────────────┐ ░ q_0 -> 0 ─┤ RZ(3.329) ├──┤ √X ├┤ RZ(5.8595) ├─░─ ┌┴───────────┴─┐├────┤├────────────┤ ░ q_1 -> 1 ┤ RZ(0.071774) ├┤ √X ├┤ RZ(4.6453) ├─░─ └──────────────┘└────┘└────────────┘ ░ ancilla_0 -> 2 ─────────────────────────────────────── ancilla_1 -> 3 ─────────────────────────────────────── ancilla_2 -> 4 ───────────────────────────────────────
+
+---CODE_BLOCK---
+
+from qiskit.compiler import transpile provider = IBMQ.load_account() Circuit_Transpile1 = transpile(qc_random1, provider.get_backend('ibmq_athens') , optimization_level=3) Circuit_Transpile2 = transpile(qc_random2, provider.get_backend('ibmq_athens') , optimization_level=3) print(Circuit_Transpile1) print(Circuit_Transpile2) ┌────────────┐ ░ q_0 -> 0 ┤ RZ(3.5597) ├──────────────────────────────────────░─ └┬──────────┬┘┌────┐┌────────────┐┌────┐┌─────────┐ ░ q_1 -> 1 ─┤ RZ(-π/2) ├─┤ √X ├┤ RZ(6.1242) ├┤ √X ├┤ RZ(π/2) ├─░─ └──────────┘ └────┘└────────────┘└────┘└─────────┘ ░ ancilla_0 -> 2 ────────────────────────────────────────────────────── ancilla_1 -> 3 ────────────────────────────────────────────────────── ancilla_2 -> 4 ────────────────────────────────────────────────────── global phase: 0.29049 ┌───────────┐ ┌────┐┌────────────┐ ░ q_0 -> 0 ─┤ RZ(3.329) ├──┤ √X ├┤ RZ(5.8595) ├─░─ ┌┴───────────┴─┐├────┤├────────────┤ ░ q_1 -> 1 ┤ RZ(0.071774) ├┤ √X ├┤ RZ(4.6453) ├─░─ └──────────────┘└────┘└────────────┘ ░ ancilla_0 -> 2 ─────────────────────────────────────── ancilla_1 -> 3 ─────────────────────────────────────── ancilla_2 -> 4 ───────────────────────────────────────
+
+---CODE_BLOCK---
+
+for i in range(2): Circuit_Transpile1.h(i) print(Circuit_Transpile1) ┌────────────┐ ░ ┌───┐ q_0 -> 0 ┤ RZ(3.5597) ├──────────────────────────────────────░─┤ H ├ └┬──────────┬┘┌────┐┌────────────┐┌────┐┌─────────┐ ░ ├───┤ q_1 -> 1 ─┤ RZ(-π/2) ├─┤ √X ├┤ RZ(6.1242) ├┤ √X ├┤ RZ(π/2) ├─░─┤ H ├ └──────────┘ └────┘└────────────┘└────┘└─────────┘ ░ └───┘ ancilla_0 -> 2 ─────────────────────────────────────────────────────────── ancilla_1 -> 3 ─────────────────────────────────────────────────────────── ancilla_2 -> 4 ───────────────────────────────────────────────────────────
+
+---CODE_BLOCK---
+
+for i in range(2): Circuit_Transpile1.h(i) print(Circuit_Transpile1) ┌────────────┐ ░ ┌───┐ q_0 -> 0 ┤ RZ(3.5597) ├──────────────────────────────────────░─┤ H ├ └┬──────────┬┘┌────┐┌────────────┐┌────┐┌─────────┐ ░ ├───┤ q_1 -> 1 ─┤ RZ(-π/2) ├─┤ √X ├┤ RZ(6.1242) ├┤ √X ├┤ RZ(π/2) ├─░─┤ H ├ └──────────┘ └────┘└────────────┘└────┘└─────────┘ ░ └───┘ ancilla_0 -> 2 ─────────────────────────────────────────────────────────── ancilla_1 -> 3 ─────────────────────────────────────────────────────────── ancilla_2 -> 4 ───────────────────────────────────────────────────────────
+
+---CODE_BLOCK---
+
+Circuit_Transpile1.compose(Circuit_Transpile2, inplace = True) print(Circuit_Transpile1) ┌────────────┐ ░ ┌───┐» q_0 -> 0 ┤ RZ(3.5597) ├──────────────────────────────────────░─┤ H ├» └┬──────────┬┘┌────┐┌────────────┐┌────┐┌─────────┐ ░ ├───┤» q_1 -> 1 ─┤ RZ(-π/2) ├─┤ √X ├┤ RZ(6.1242) ├┤ √X ├┤ RZ(π/2) ├─░─┤ H ├» └──────────┘ └────┘└────────────┘└────┘└─────────┘ ░ └───┘» ancilla_0 -> 2 ───────────────────────────────────────────────────────────» » ancilla_1 -> 3 ───────────────────────────────────────────────────────────» » ancilla_2 -> 4 ───────────────────────────────────────────────────────────» » « ┌───────────┐ ┌────┐┌────────────┐ ░ « q_0 -> 0 ─┤ RZ(3.329) ├──┤ √X ├┤ RZ(5.8595) ├─░─ « ┌┴───────────┴─┐├────┤├────────────┤ ░ « q_1 -> 1 ┤ RZ(0.071774) ├┤ √X ├┤ RZ(4.6453) ├─░─ « └──────────────┘└────┘└────────────┘ ░ «ancilla_0 -> 2 ─────────────────────────────────────── « «ancilla_1 -> 3 ─────────────────────────────────────── « «ancilla_2 -> 4 ─────────────────────────────────────── «

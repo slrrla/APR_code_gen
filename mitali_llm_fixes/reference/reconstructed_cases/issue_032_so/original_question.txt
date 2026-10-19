@@ -1,0 +1,100 @@
+Title:
+I am getting 'No memory for the experiment' error although i dont see any mistake
+
+Category:
+Backend/Simulation                                                                                                                                                                                                          
+Winner: AI  
+Why AI Is Better: AI explains that `statevector` simulations don't support `memory=True`, a key insight Stack Overflow misses. It also uses up-to-date Qiskit practices (`backend.run()`) and corrects backend usage—providing a clearer, forward-compatible solution.  
+Why AI Performs Well in This Category: AI excels by combining technical precision with awareness of evolving best practices in Qiskit's API. It provides error-proof, future-ready code for both new and experienced users.
+
+
+Question:
+Title: I am getting 'No memory for the experiment' error although i dont see any mistake
+
+I am trying to execute this code but I am getting this error as 'No memory for the experiment' . Can anyone help me out is there anything else I need to import to get the memory of circuit? 
+ from qiskit.providers.aer import QasmSimulator
+# Create a quantum circuit
+qc = QuantumCircuit(2, 2)
+qc.h(0)
+qc.cx(0, 1)
+qc.measure([0, 1], [0, 1])
+# Get the Qasm simulator and set the backend options
+aer_qasm_simulator = Aer.get_backend('qasm_simulator')
+# Set the backend options, method set to statevector
+options = {'method': 'statevector', 'memory' : True, 'shots':10}
+# Execute circuit using the backend options created
+job = execute(qc, backend_simulator, backend_options=options)
+result = job.result()
+# Pull the memory slots for the circuit
+memory = result.get_memory(qc)
+# Print the results from the memory slots
+print('Memory results: ', memory)```
+
+```
+from qiskit.providers.aer import QasmSimulator
+# Create a quantum circuit
+qc = QuantumCircuit(2, 2)
+qc.h(0)
+qc.cx(0, 1)
+qc.measure([0, 1], [0, 1])
+# Get the Qasm simulator and set the backend options
+aer_qasm_simulator = Aer.get_backend('qasm_simulator')
+# Set the backend options, method set to statevector
+options = {'method': 'statevector', 'memory' : True, 'shots':10}
+# Execute circuit using the backend options created
+job = execute(qc, backend_simulator, backend_options=options)
+result = job.result()
+# Pull the memory slots for the circuit
+memory = result.get_memory(qc)
+# Print the results from the memory slots
+print('Memory results: ', memory)```
+```
+
+Original buggy code:
+
+
+Solution explanation:
+The problem with your code is that memory and shots are not backend options, but execute parameters: 
+ # Set the backend options, method set to statevector
+options = {'method': 'statevector'}
+# Execute circuit using the backend options created
+job = execute(qc, aer_qasm_simulator, backend_options=options, memory=True, shots=10)
+
+ That would fix your issue. 
+ Side note: Qiskit is moving away from the execute model because, among other things, it creates this kind of confusions. 
+ The current (May 2022) way of doing what you are doing is the following: 
+ from qiskit import QuantumCircuit, Aer, transpile
+from qiskit.providers.aer import QasmSimulator
+
+# Create a quantum circuit
+qc = QuantumCircuit(2, 2)
+qc.h(0)
+qc.cx(0, 1)
+qc.measure([0, 1], [0, 1])
+
+# Get the statevector simulator
+aer_simulator_statevector = Aer.get_backend('aer_simulator_statevector')
+
+# Transpile for the backend. Strictly speacking, not necesary in this case
+qc = transpile(qc, aer_simulator_statevector)
+
+# Pull the memory slots for the circuit
+result = aer_simulator_statevector.run(qc, shots=10, memory=True).result()
+memory = result.get_memory(qc)
+
+# Print the results from the memory slots
+print('Memory results: ', memory)
+
+ Welcome to the StackOverflow community :)
+
+Original fixed code:
+options = {'method': 'statevector'}
+job = execute(qc, aer_qasm_simulator, backend_options=options, memory=True, shots=10)
+ from qiskit import QuantumCircuit, Aer, transpile
+from qiskit.providers.aer import QasmSimulator
+qc = QuantumCircuit(2, 2)
+aer_simulator_statevector = Aer.get_backend('aer_simulator_statevector')
+qc = transpile(qc, aer_simulator_statevector)
+result = aer_simulator_statevector.run(qc, shots=10, memory=True).result()
+memory = result.get_memory(qc)
+print('Memory results: ', memory)

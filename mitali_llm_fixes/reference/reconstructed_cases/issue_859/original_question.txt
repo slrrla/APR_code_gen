@@ -1,0 +1,47 @@
+Title:
+Projective measurement operation in Qiskit
+
+Category:
+
+
+Question:
+Title: Projective measurement operation in Qiskit
+
+I would like to implement the operation $\pi = \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix}$ on qiskit but I don't know how to do that. If I use the reset gate, but I use it for example on the first qubit of a Bell state $ |\psi\rangle = \frac{1}{\sqrt 2}(|00\rangle + |11\rangle)$, then the result will be $|00\rangle$ half of the times and $|01\rangle$ the other half (randomly). Instead I should obtain always $|00\rangle$. If I use a Swap gate with an auxiliary qubit, my final state will be $ |\psi\rangle = \frac{1}{\sqrt 2}(|00\rangle + |01\rangle)$ instead of $|00\rangle$. The Bell state is just an example, in general I need to work on an arbitrary state. Thank you!
+
+Original buggy code:
+I would like to implement the operation $\pi = \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix}$ on qiskit but I don't know how to do that. If I use the reset gate, but I use it for example on the first qubit of a Bell state $ |\psi\rangle = \frac{1}{\sqrt 2}(|00\rangle + |11\rangle)$, then the result will be $|00\rangle$ half of the times and $|01\rangle$ the other half (randomly). Instead I should obtain always $|00\rangle$. If I use a Swap gate with an auxiliary qubit, my final state will be $ |\psi\rangle = \frac{1}{\sqrt 2}(|00\rangle + |01\rangle)$ instead of $|00\rangle$. The Bell state is just an example, in general I need to work on an arbitrary state. Thank you!
+
+Solution explanation:
+I have thought of a way to solve this problem. If I have a QuantumCircuit "qc", I can obtain the quantum state of that circuit by using then I can use numpy.matmul to perform a matrix multiplication between this state and the projector that I want to apply. After that, I just normalized the state dividing it by its norm. If I have a multi-qubit state and I want to perform the projector only on one qubit, I can use the numpy.kron function to perform the tensor product between the projector and the identity matrix that I want to apply to the other qubits. Be careful in this process, the statevector of Qiskit gives the result using the reverse order of the qubits. After this, I just need to initialize a new circuit with my projected quantum state This kind of operation can be useful to implement quasiprobability decomposition for example.
+
+```
+statevector = np.array(Statevector(qc))
+```
+
+```
+statevector = np.array(Statevector(qc))
+```
+
+```
+qc = QuantumCircuit(Number_of_qubits) qc.initialize(list(statevector), qc.qubits)
+```
+
+```
+qc = QuantumCircuit(Number_of_qubits) qc.initialize(list(statevector), qc.qubits)
+```
+
+Original fixed code:
+statevector = np.array(Statevector(qc))
+
+---CODE_BLOCK---
+
+statevector = np.array(Statevector(qc))
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(Number_of_qubits) qc.initialize(list(statevector), qc.qubits)
+
+---CODE_BLOCK---
+
+qc = QuantumCircuit(Number_of_qubits) qc.initialize(list(statevector), qc.qubits)

@@ -1,0 +1,23 @@
+﻿python.exe : C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_058_se\fixed.py:28: 
+DeprecationWarning: The 'qiskit.Aer' entry point is deprecated and will be removed in Qiskit 1.0. You should use 'qiskit_aer.Aer' directly instead.
+At line:54 char:32
++                 $outputLines = & $python $test 2>&1
++                                ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\Mitali...rectly instead.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  backend = Aer.get_backend("statevector_simulator")
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0460_exact\lib\site-packages\qiskit_aer\backends\statevector_simulator.py:245: PendingDeprecationWarning: The 
+`StatevectorSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend. To obtain legacy functionality initialize with 
+`AerSimulator(method="statevector")` and append run circuits with the `save_state` instruction.
+  warn(
+C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_058_se\fixed.py:13: DeprecationWarning: The method 
+``qiskit.circuit.quantumcircuit.QuantumCircuit.mct()`` is deprecated as of qiskit 0.45.0. It will be removed in the Qiskit 1.0.0 release. Use QuantumCircuit.mcx as 
+direct replacement.
+  qc.mct(list(range(nqubits-1)), nqubits-1)  # multi-controlled-toffoli
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.188s
+
+OK
+

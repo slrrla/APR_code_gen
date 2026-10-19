@@ -1,0 +1,87 @@
+Title:
+Given a unitary matrix, output the gate name using Qiskit
+
+Category:
+
+
+Question:
+Title: Given a unitary matrix, output the gate name using Qiskit
+
+Given a unitary matrix of a unknown gate, can we write a program in Qiskit to output the name of the corresponding gate if that is a standard gate? So suppose I have $U = \begin{pmatrix} 0 & 1\\ 1 & 0 \end{pmatrix}$, I want Qiskit to output the Pauli $X$ gate name.
+
+Original buggy code:
+Given a unitary matrix of a unknown gate, can we write a program in Qiskit to output the name of the corresponding gate if that is a standard gate? So suppose I have $U = \begin{pmatrix} 0 & 1\\ 1 & 0 \end{pmatrix}$, I want Qiskit to output the Pauli $X$ gate name.
+
+Solution explanation:
+I don't think Qiskit itself has some functionality to directly get what you want but you could implement it by yourself using something like the following: However, this will work only for standard gates (defined in the module) that implement the attribute. If the given unitary does not correspond to any of these gates, the function will simply returns . Here is an example for the Pauli $X$ gate:
+
+```
+from inspect import getmembers, isclass import numpy as np from qiskit.circuit.library import standard_gates def get_qiskit_gate(u): for name, gate in getmembers(standard_gates, isclass): try: unitary = gate().__array__() except: continue if unitary.shape == u.shape and np.allclose(unitary, u): return name
+```
+
+```
+from inspect import getmembers, isclass import numpy as np from qiskit.circuit.library import standard_gates def get_qiskit_gate(u): for name, gate in getmembers(standard_gates, isclass): try: unitary = gate().__array__() except: continue if unitary.shape == u.shape and np.allclose(unitary, u): return name
+```
+
+```
+qiskit.circuit.library.standard_gates
+```
+
+```
+__array__
+```
+
+```
+u
+```
+
+```
+None
+```
+
+```
+unitary = np.array([[0, 1], [1, 0]]) print(get_qiskit_gate(u=unitary))
+```
+
+```
+unitary = np.array([[0, 1], [1, 0]]) print(get_qiskit_gate(u=unitary))
+```
+
+```
+XGate
+```
+
+Original fixed code:
+from inspect import getmembers, isclass import numpy as np from qiskit.circuit.library import standard_gates def get_qiskit_gate(u): for name, gate in getmembers(standard_gates, isclass): try: unitary = gate().__array__() except: continue if unitary.shape == u.shape and np.allclose(unitary, u): return name
+
+---CODE_BLOCK---
+
+from inspect import getmembers, isclass import numpy as np from qiskit.circuit.library import standard_gates def get_qiskit_gate(u): for name, gate in getmembers(standard_gates, isclass): try: unitary = gate().__array__() except: continue if unitary.shape == u.shape and np.allclose(unitary, u): return name
+
+---CODE_BLOCK---
+
+qiskit.circuit.library.standard_gates
+
+---CODE_BLOCK---
+
+__array__
+
+---CODE_BLOCK---
+
+u
+
+---CODE_BLOCK---
+
+None
+
+---CODE_BLOCK---
+
+unitary = np.array([[0, 1], [1, 0]]) print(get_qiskit_gate(u=unitary))
+
+---CODE_BLOCK---
+
+unitary = np.array([[0, 1], [1, 0]]) print(get_qiskit_gate(u=unitary))
+
+---CODE_BLOCK---
+
+XGate

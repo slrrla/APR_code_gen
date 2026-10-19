@@ -1,0 +1,83 @@
+Title:
+Bernstein-Vazirani IBMQ error due to probably measurements
+
+Category:
+
+
+Question:
+Title: Bernstein-Vazirani IBMQ error due to probably measurements
+
+I'm using the following piece of python code: The results are shown here: As you can see, the expected result is , which is correctly the value that the quantum simulator gives me. However, I find this result on the fifth position for this execution in the real quantum computer. Is this due to noise? How can I get around this? As complementary information, I tried the same code with and the server. These are the results: As you see. The error is amplified.
+
+```
+import matplotlib.pyplot as plt from qiskit import * from qiskit.tools.visualization import plot_bloch_multivector, plot_histogram from qiskit import execute, IBMQ, BasicAer from qiskit.providers.ibmq import least_busy from qiskit.tools.monitor import job_monitor secret_number = "1010" n = len(secret_number) circuit = QuantumCircuit(n+1, n) circuit.h(range(n)) circuit.x(n) circuit.h(n) circuit.barrier() for i,v in enumerate(reversed(secret_number)): if v=="1": circuit.cx(i, n) circuit.barrier() circuit.h(range(n)) circuit.barrier() circuit.measure(range(n), range(n)) simulator = Aer.get_backend("qasm_simulator") sim_result = execute(circuit, backend=simulator, shots=4096).result() IBMQ.load_account() provider = IBMQ.get_provider("ibm-q") # qcomp = provider.get_backend("ibmq_16_melbourne") qcomp = provider.get_backend("ibmq_burlington") job = execute(circuit, backend=qcomp, shots=4096) job_monitor(job) real_result = job.result() counts = real_result.get_counts(circuit) import collections c = collections.Counter(counts) # printing print(circuit.draw()) print("result simulation:") print(sim_result.get_counts()) print("results (top 5):") print(c.most_common(5))
+```
+
+```
+import matplotlib.pyplot as plt from qiskit import * from qiskit.tools.visualization import plot_bloch_multivector, plot_histogram from qiskit import execute, IBMQ, BasicAer from qiskit.providers.ibmq import least_busy from qiskit.tools.monitor import job_monitor secret_number = "1010" n = len(secret_number) circuit = QuantumCircuit(n+1, n) circuit.h(range(n)) circuit.x(n) circuit.h(n) circuit.barrier() for i,v in enumerate(reversed(secret_number)): if v=="1": circuit.cx(i, n) circuit.barrier() circuit.h(range(n)) circuit.barrier() circuit.measure(range(n), range(n)) simulator = Aer.get_backend("qasm_simulator") sim_result = execute(circuit, backend=simulator, shots=4096).result() IBMQ.load_account() provider = IBMQ.get_provider("ibm-q") # qcomp = provider.get_backend("ibmq_16_melbourne") qcomp = provider.get_backend("ibmq_burlington") job = execute(circuit, backend=qcomp, shots=4096) job_monitor(job) real_result = job.result() counts = real_result.get_counts(circuit) import collections c = collections.Counter(counts) # printing print(circuit.draw()) print("result simulation:") print(sim_result.get_counts()) print("results (top 5):") print(c.most_common(5))
+```
+
+```
+1010
+```
+
+```
+secret_number = "1011001"
+```
+
+```
+ibmq_16_melbourne
+```
+
+Original buggy code:
+import matplotlib.pyplot as plt from qiskit import * from qiskit.tools.visualization import plot_bloch_multivector, plot_histogram from qiskit import execute, IBMQ, BasicAer from qiskit.providers.ibmq import least_busy from qiskit.tools.monitor import job_monitor secret_number = "1010" n = len(secret_number) circuit = QuantumCircuit(n+1, n) circuit.h(range(n)) circuit.x(n) circuit.h(n) circuit.barrier() for i,v in enumerate(reversed(secret_number)): if v=="1": circuit.cx(i, n) circuit.barrier() circuit.h(range(n)) circuit.barrier() circuit.measure(range(n), range(n)) simulator = Aer.get_backend("qasm_simulator") sim_result = execute(circuit, backend=simulator, shots=4096).result() IBMQ.load_account() provider = IBMQ.get_provider("ibm-q") # qcomp = provider.get_backend("ibmq_16_melbourne") qcomp = provider.get_backend("ibmq_burlington") job = execute(circuit, backend=qcomp, shots=4096) job_monitor(job) real_result = job.result() counts = real_result.get_counts(circuit) import collections c = collections.Counter(counts) # printing print(circuit.draw()) print("result simulation:") print(sim_result.get_counts()) print("results (top 5):") print(c.most_common(5))
+
+---CODE_BLOCK---
+
+import matplotlib.pyplot as plt from qiskit import * from qiskit.tools.visualization import plot_bloch_multivector, plot_histogram from qiskit import execute, IBMQ, BasicAer from qiskit.providers.ibmq import least_busy from qiskit.tools.monitor import job_monitor secret_number = "1010" n = len(secret_number) circuit = QuantumCircuit(n+1, n) circuit.h(range(n)) circuit.x(n) circuit.h(n) circuit.barrier() for i,v in enumerate(reversed(secret_number)): if v=="1": circuit.cx(i, n) circuit.barrier() circuit.h(range(n)) circuit.barrier() circuit.measure(range(n), range(n)) simulator = Aer.get_backend("qasm_simulator") sim_result = execute(circuit, backend=simulator, shots=4096).result() IBMQ.load_account() provider = IBMQ.get_provider("ibm-q") # qcomp = provider.get_backend("ibmq_16_melbourne") qcomp = provider.get_backend("ibmq_burlington") job = execute(circuit, backend=qcomp, shots=4096) job_monitor(job) real_result = job.result() counts = real_result.get_counts(circuit) import collections c = collections.Counter(counts) # printing print(circuit.draw()) print("result simulation:") print(sim_result.get_counts()) print("results (top 5):") print(c.most_common(5))
+
+---CODE_BLOCK---
+
+1010
+
+---CODE_BLOCK---
+
+secret_number = "1011001"
+
+---CODE_BLOCK---
+
+ibmq_16_melbourne
+
+Solution explanation:
+I am quite certain the problem here is noise. 2-qubit gates such as the CX gate are usually more prone to errors than single qubit gates like the Z gates. Also it really depends on when you run the code because with time these machines also get worse and need recalibration. As I write this answer the CNOT error rate in burlington is 2 orders of magnitude bigger than the error rate for the single qubit gate U2 which is the one probably used to implement the Z gates you useed in the second example. The Oracle for the Bernstein algorithm can be implemented both using CX or Z gates. The CX gates make use of the Phase Kickback effect to create the same effect you can achieve with the Z gates (basically in this case a 180 degrees phase flip) so no black magic here. The issue is not in the gate itself but in the noise of the machines. If you still do not believe you can try to copy the noise model from the burlington machine and apply it to the qasm simulator. You will see that you get also really messed up results in comparison to a noiseless run. Try plugging this to your code and see what happens (reference: https://qiskit.org/documentation/apidoc/aer_noise.html) I got the following counts: These results are still better than the results you posted but I'm quite certain the issue here is in the noise and the fact that the first implementation is using CX gates and therefore will experience more trouble than the second one. You can also try playing with this: https://qiskit.org/textbook/ch-quantum-hardware/measurement-error-mitigation.html and see if you get any improvements there. Hope this is helpful ;) edit I'm not personally aware of other tricks you could play with the hardware here and I've had bad experiences with Burlington in the past as well. You probably can't apply any repetition code either (https://qiskit.org/textbook/ch-quantum-hardware/error-correction-repetition-code.html) because you'd need three times more qubits and Burlington has only 5 so I really feel there's nothing you can do to work around this using that specific device.
+
+```
+from qiskit.providers.aer.noise import NoiseModel noise_model = NoiseModel.from_backend(qcomp) # Get coupling map from backend coupling_map = qcomp.configuration().coupling_map # Get basis gates from noise model basis_gates = noise_model.basis_gates noisy_result = execute(circuit, Aer.get_backend('qasm_simulator'), coupling_map=coupling_map, basis_gates=basis_gates, noise_model=noise_model, shots=4096).result() print(noisy_result.get_counts())
+```
+
+```
+from qiskit.providers.aer.noise import NoiseModel noise_model = NoiseModel.from_backend(qcomp) # Get coupling map from backend coupling_map = qcomp.configuration().coupling_map # Get basis gates from noise model basis_gates = noise_model.basis_gates noisy_result = execute(circuit, Aer.get_backend('qasm_simulator'), coupling_map=coupling_map, basis_gates=basis_gates, noise_model=noise_model, shots=4096).result() print(noisy_result.get_counts())
+```
+
+```
+{'0010': 178, '0001': 2, '1000': 316, '1111': 2, '0011': 7, '0110': 1, '1001': 16, '1101': 1, '1100': 4, '1110': 49, '1010': 3331, '0000': 39, '1011': 150}
+```
+
+```
+{'0010': 178, '0001': 2, '1000': 316, '1111': 2, '0011': 7, '0110': 1, '1001': 16, '1101': 1, '1100': 4, '1110': 49, '1010': 3331, '0000': 39, '1011': 150}
+```
+
+Original fixed code:
+from qiskit.providers.aer.noise import NoiseModel noise_model = NoiseModel.from_backend(qcomp) # Get coupling map from backend coupling_map = qcomp.configuration().coupling_map # Get basis gates from noise model basis_gates = noise_model.basis_gates noisy_result = execute(circuit, Aer.get_backend('qasm_simulator'), coupling_map=coupling_map, basis_gates=basis_gates, noise_model=noise_model, shots=4096).result() print(noisy_result.get_counts())
+
+---CODE_BLOCK---
+
+from qiskit.providers.aer.noise import NoiseModel noise_model = NoiseModel.from_backend(qcomp) # Get coupling map from backend coupling_map = qcomp.configuration().coupling_map # Get basis gates from noise model basis_gates = noise_model.basis_gates noisy_result = execute(circuit, Aer.get_backend('qasm_simulator'), coupling_map=coupling_map, basis_gates=basis_gates, noise_model=noise_model, shots=4096).result() print(noisy_result.get_counts())
+
+---CODE_BLOCK---
+
+{'0010': 178, '0001': 2, '1000': 316, '1111': 2, '0011': 7, '0110': 1, '1001': 16, '1101': 1, '1100': 4, '1110': 49, '1010': 3331, '0000': 39, '1011': 150}
+
+---CODE_BLOCK---
+
+{'0010': 178, '0001': 2, '1000': 316, '1111': 2, '0011': 7, '0110': 1, '1001': 16, '1101': 1, '1100': 4, '1110': 49, '1010': 3331, '0000': 39, '1011': 150}

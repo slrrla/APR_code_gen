@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWVv6VsQNBhmcYLzI7Uo98rhHAwNv",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import QuantumCircuit, transpile\nfrom qiskit.providers.fake_provider import FakeVigo\n# FIX: `csp_layout` is not a valid `layout_method` -> import and run CSPLayout directly, because CSPLayout is a transpiler pass.\nfrom qiskit.transpiler import PassManager, CouplingMap\nfrom qiskit.transpiler.passes import CSPLayout\n\nqc = QuantumCircuit(3)\nqc.h(0)\nqc.cx(0, 1)\nqc.cx(1, 2)\nqc.measure_all()\n\nbackend = FakeVigo()\n\n# FIX: `transpile` cannot select CSPLayout via `layout_method` -> obtain its layout by running the pass, because CSPLayout is not a registered method.\nlayout_pass = PassManager([CSPLayout(CouplingMap(backend.configuration().coupling_map))])\nlayout_pass.run(qc)\ninitial_layout = layout_pass.property_set[\"layout\"]\n\ntranspiled = transpile(\n    qc,\n    backend=backend,\n    optimization_level=3,\n    # FIX: `csp_layout` is not a supported `layout_method` -> pass CSPLayout's result as the initial layout, because this applies its placement during transpilation.\n    initial_layout=initial_layout\n)\n\nprint(transpiled)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791417904,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 2499,
+    "prompt_tokens": 662,
+    "total_tokens": 3161,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 2196,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

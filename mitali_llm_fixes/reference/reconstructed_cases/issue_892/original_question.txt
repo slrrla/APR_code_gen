@@ -1,0 +1,83 @@
+Title:
+Qiskit - How to get statevector for each shot?
+
+Category:
+
+
+Question:
+Title: Qiskit - How to get statevector for each shot?
+
+I have a simple circuit which I run for 10 shots: Now, when I print the state vector with: The output is: State after measurement: Statevector([1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], dims=(2, 2)) The question is that to which of the 10 shots does this state vector belong to? Depending on the measurement, the state vector should be different - when q0 is measured as 0 and when q0 is 1. And how do I get the statevector for each shot?
+
+```
+from qiskit.quantum_info import Statevector from qiskit import Aer, execute, QuantumCircuit from qiskit.quantum_info import Statevector backend = Aer.get_backend("statevector_simulator") qc2 = QuantumCircuit(2, 1) qc2.h(0) qc2.measure([0], [0]) print(qc2) result = execute(qc2, backend=backend, shots=10).result()
+```
+
+```
+from qiskit.quantum_info import Statevector from qiskit import Aer, execute, QuantumCircuit from qiskit.quantum_info import Statevector backend = Aer.get_backend("statevector_simulator") qc2 = QuantumCircuit(2, 1) qc2.h(0) qc2.measure([0], [0]) print(qc2) result = execute(qc2, backend=backend, shots=10).result()
+```
+
+```
+print('State after measurement:', result.get_statevector())
+```
+
+```
+print('State after measurement:', result.get_statevector())
+```
+
+Original buggy code:
+from qiskit.quantum_info import Statevector from qiskit import Aer, execute, QuantumCircuit from qiskit.quantum_info import Statevector backend = Aer.get_backend("statevector_simulator") qc2 = QuantumCircuit(2, 1) qc2.h(0) qc2.measure([0], [0]) print(qc2) result = execute(qc2, backend=backend, shots=10).result()
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Statevector from qiskit import Aer, execute, QuantumCircuit from qiskit.quantum_info import Statevector backend = Aer.get_backend("statevector_simulator") qc2 = QuantumCircuit(2, 1) qc2.h(0) qc2.measure([0], [0]) print(qc2) result = execute(qc2, backend=backend, shots=10).result()
+
+---CODE_BLOCK---
+
+print('State after measurement:', result.get_statevector())
+
+---CODE_BLOCK---
+
+print('State after measurement:', result.get_statevector())
+
+Solution explanation:
+You can use simulator instruction. To save the statevector for each shot, set value to :
+
+```
+save_statevector
+```
+
+```
+pershot
+```
+
+```
+True
+```
+
+```
+from qiskit import Aer, execute, QuantumCircuit from qiskit.providers.aer.library import save_statevector backend = Aer.get_backend("statevector_simulator") qc2 = QuantumCircuit(2, 1) qc2.h(0) qc2.measure([0], [0]) qc2.save_statevector(label = 'test', pershot = True) result = execute(qc2, backend = backend, shots = 10).result() print(result.data(0)['test'])
+```
+
+```
+from qiskit import Aer, execute, QuantumCircuit from qiskit.providers.aer.library import save_statevector backend = Aer.get_backend("statevector_simulator") qc2 = QuantumCircuit(2, 1) qc2.h(0) qc2.measure([0], [0]) qc2.save_statevector(label = 'test', pershot = True) result = execute(qc2, backend = backend, shots = 10).result() print(result.data(0)['test'])
+```
+
+Original fixed code:
+save_statevector
+
+---CODE_BLOCK---
+
+pershot
+
+---CODE_BLOCK---
+
+True
+
+---CODE_BLOCK---
+
+from qiskit import Aer, execute, QuantumCircuit from qiskit.providers.aer.library import save_statevector backend = Aer.get_backend("statevector_simulator") qc2 = QuantumCircuit(2, 1) qc2.h(0) qc2.measure([0], [0]) qc2.save_statevector(label = 'test', pershot = True) result = execute(qc2, backend = backend, shots = 10).result() print(result.data(0)['test'])
+
+---CODE_BLOCK---
+
+from qiskit import Aer, execute, QuantumCircuit from qiskit.providers.aer.library import save_statevector backend = Aer.get_backend("statevector_simulator") qc2 = QuantumCircuit(2, 1) qc2.h(0) qc2.measure([0], [0]) qc2.save_statevector(label = 'test', pershot = True) result = execute(qc2, backend = backend, shots = 10).result() print(result.data(0)['test'])

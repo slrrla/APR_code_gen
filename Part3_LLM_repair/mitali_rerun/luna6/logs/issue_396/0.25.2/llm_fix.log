@@ -1,0 +1,45 @@
+global phase: π
+         ┌───────────────────────────┐    ┌───┐          ┌───┐                »
+state_0: ┤0                          ├────┤ H ├──────────┤ X ├────────────────»
+         │                           │┌───┴───┴────┐     ├───┤      ┌───┐     »
+state_1: ┤1 UCRZ(0,0,2.2214,-2.2214) ├┤0           ├─────┤ H ├──────┤ X ├─────»
+         │                           ││  UCRZ(0,0) │┌────┴───┴─────┐├───┤┌───┐»
+state_2: ┤2                          ├┤1           ├┤ UCRZ(1.1107) ├┤ H ├┤ X ├»
+         └───────────────────────────┘└────────────┘└──────────────┘└───┘└───┘»
+«                   ┌───┐┌───┐     
+«state_0: ───────■──┤ X ├┤ H ├─────
+«                │  ├───┤├───┤     
+«state_1: ───────■──┤ X ├┤ H ├─────
+«         ┌───┐┌─┴─┐├───┤├───┤┌───┐
+«state_2: ┤ H ├┤ X ├┤ H ├┤ X ├┤ H ├
+«         └───┘└───┘└───┘└───┘└───┘
+
+test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle) ... FAIL
+
+======================================================================
+FAIL: test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_396\test.py", line 17, in test_exact_marked_phases_and_grover_amplification
+    np.testing.assert_allclose(Operator(m['oracle']).data, expected_oracle, atol=1e-12)
+  File "C:\qiskit_envs\q0252\lib\site-packages\numpy\testing\_private\utils.py", line 1528, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\qiskit_envs\q0252\lib\site-packages\numpy\testing\_private\utils.py", line 842, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+Mismatched elements: 10 / 64 (15.6%)
+Max absolute difference: 1.5
+Max relative difference: 1.5
+ x: array([[0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j,
+        0. +0.j],
+       [0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j,...
+ y: array([[ 1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+       [ 0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.],
+       [ 0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.],...
+
+----------------------------------------------------------------------
+Ran 1 test in 3.033s
+
+FAILED (failures=1)

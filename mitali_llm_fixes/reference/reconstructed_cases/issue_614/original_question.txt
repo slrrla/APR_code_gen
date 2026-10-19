@@ -1,0 +1,115 @@
+Title:
+How to see the effects of the depolarizing channel in qiskit?
+
+Category:
+
+
+Question:
+Title: How to see the effects of the depolarizing channel in qiskit?
+
+I am playing around with adding noise to quantum circuit simulation using . My code creates a quantum circuit and simulates it with noise, as in this very simple example: In this example, the noise is in the bit-flip channel and the effect of the noise can be seen in the qubit measurement histogram. Now, I would like to make a similar routine with the noise in the depolarizing channel, i.e. call instead of . But when I do this, I can't think of a simple circuit where the measurement histogram is different with noise included than it is without noise. Generally, I think the problem is that as shown in Nielsen & Chuang Fig. 8.11, the depolarizing channel shrinks the qubit along all axes simultaneously, so it doesn't affect the measurement probabilities. The depolarizing channel does make the state more mixed, so that would be the most obvious way to see its effects. I thought of calculating the purity of the density matrix after it evolves under the noisy circuit, but apparently does not calculate a final state vector. So, is there a roundabout way to determine the purity of the final state vector using ? Alternatively, is there a way that the effects of the depolarizing channel can be revealed in the measurement probabilities alone?
+
+```
+qiskit_aer.noise.NoiseModel()
+```
+
+```
+import matplotlib.pyplot as plt import qiskit from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator from qiskit.tools.visualization import plot_histogram from qiskit_aer.noise import (NoiseModel, pauli_error, depolarizing_error) # make circuit my_qubits = [0]; circ = QuantumCircuit(len(my_qubits)); circ.x(my_qubits); circ.measure_all(); # simulate with noise noise_prob = 0.2; noise_model = NoiseModel(); error = pauli_error([('X', noise_prob), ('I', 1 - noise_prob)]) noise_model.add_quantum_error(error, ['X'], my_qubits); sim = AerSimulator(noise_model=noise_model); # transpile and run circ_trans = transpile(circ, sim); result = sim.run(circ_trans).result(); counts = result.get_counts(circ_trans) plot_histogram(counts); plt.show();
+```
+
+```
+import matplotlib.pyplot as plt import qiskit from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator from qiskit.tools.visualization import plot_histogram from qiskit_aer.noise import (NoiseModel, pauli_error, depolarizing_error) # make circuit my_qubits = [0]; circ = QuantumCircuit(len(my_qubits)); circ.x(my_qubits); circ.measure_all(); # simulate with noise noise_prob = 0.2; noise_model = NoiseModel(); error = pauli_error([('X', noise_prob), ('I', 1 - noise_prob)]) noise_model.add_quantum_error(error, ['X'], my_qubits); sim = AerSimulator(noise_model=noise_model); # transpile and run circ_trans = transpile(circ, sim); result = sim.run(circ_trans).result(); counts = result.get_counts(circ_trans) plot_histogram(counts); plt.show();
+```
+
+```
+depolarizing_error
+```
+
+```
+pauli_error
+```
+
+```
+AerSimulator
+```
+
+```
+AerSimulator
+```
+
+Original buggy code:
+qiskit_aer.noise.NoiseModel()
+
+---CODE_BLOCK---
+
+import matplotlib.pyplot as plt import qiskit from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator from qiskit.tools.visualization import plot_histogram from qiskit_aer.noise import (NoiseModel, pauli_error, depolarizing_error) # make circuit my_qubits = [0]; circ = QuantumCircuit(len(my_qubits)); circ.x(my_qubits); circ.measure_all(); # simulate with noise noise_prob = 0.2; noise_model = NoiseModel(); error = pauli_error([('X', noise_prob), ('I', 1 - noise_prob)]) noise_model.add_quantum_error(error, ['X'], my_qubits); sim = AerSimulator(noise_model=noise_model); # transpile and run circ_trans = transpile(circ, sim); result = sim.run(circ_trans).result(); counts = result.get_counts(circ_trans) plot_histogram(counts); plt.show();
+
+---CODE_BLOCK---
+
+import matplotlib.pyplot as plt import qiskit from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator from qiskit.tools.visualization import plot_histogram from qiskit_aer.noise import (NoiseModel, pauli_error, depolarizing_error) # make circuit my_qubits = [0]; circ = QuantumCircuit(len(my_qubits)); circ.x(my_qubits); circ.measure_all(); # simulate with noise noise_prob = 0.2; noise_model = NoiseModel(); error = pauli_error([('X', noise_prob), ('I', 1 - noise_prob)]) noise_model.add_quantum_error(error, ['X'], my_qubits); sim = AerSimulator(noise_model=noise_model); # transpile and run circ_trans = transpile(circ, sim); result = sim.run(circ_trans).result(); counts = result.get_counts(circ_trans) plot_histogram(counts); plt.show();
+
+---CODE_BLOCK---
+
+depolarizing_error
+
+---CODE_BLOCK---
+
+pauli_error
+
+---CODE_BLOCK---
+
+AerSimulator
+
+---CODE_BLOCK---
+
+AerSimulator
+
+Solution explanation:
+You should start noticing the effect of depolarizing error with the current circuit. However, the issue with your code is that you are using X in uppercase in this line: You should use lowercase x instead The result: And if you start increasing the circuit depth: the noise effect will increase (depending on depolarizing error parameter)
+
+```
+noise_model.add_quantum_error(error, ['X'], my_qubits)
+```
+
+```
+noise_model.add_quantum_error(error, ['X'], my_qubits)
+```
+
+```
+noise_model.add_quantum_error(error, ['x'], my_qubits)
+```
+
+```
+noise_model.add_quantum_error(error, ['x'], my_qubits)
+```
+
+```
+circ = QuantumCircuit(len(my_qubits)) for n in range(100): circ.x(my_qubits) circ.barrier() circ.measure_all()
+```
+
+```
+circ = QuantumCircuit(len(my_qubits)) for n in range(100): circ.x(my_qubits) circ.barrier() circ.measure_all()
+```
+
+Original fixed code:
+noise_model.add_quantum_error(error, ['X'], my_qubits)
+
+---CODE_BLOCK---
+
+noise_model.add_quantum_error(error, ['X'], my_qubits)
+
+---CODE_BLOCK---
+
+noise_model.add_quantum_error(error, ['x'], my_qubits)
+
+---CODE_BLOCK---
+
+noise_model.add_quantum_error(error, ['x'], my_qubits)
+
+---CODE_BLOCK---
+
+circ = QuantumCircuit(len(my_qubits)) for n in range(100): circ.x(my_qubits) circ.barrier() circ.measure_all()
+
+---CODE_BLOCK---
+
+circ = QuantumCircuit(len(my_qubits)) for n in range(100): circ.x(my_qubits) circ.barrier() circ.measure_all()

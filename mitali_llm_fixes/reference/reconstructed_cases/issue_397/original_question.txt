@@ -1,0 +1,79 @@
+Title:
+Exponential of SparsePauliOp in Qiskit
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+For constructing parameterized quantum circuits, especially UCC-style ansätze, using up-to-date APIs is critical. Stack Overflow points users to the correct replacement for deprecated tools (PauliEvolutionGate), ensuring compatibility with current and future Qiskit versions. The AI solution, though well-structured, is based on nonfunctional or deprecated methods, making it unsuitable in this context.
+
+Question:
+Title: Exponential of SparsePauliOp in Qiskit
+
+Since has been deprecated, the way I used to generate a UCC ansatz was to use . Now this is not possible, and I am unsure how to exponential my . If I have a parameterized such as for some , how do I exponentiate this to get which I could then Trotterize to decompose into gates?
+
+```
+qiskit.opflow
+```
+
+```
+(Parameter('t') * Pauli('some Pauli')).exp_i()
+```
+
+```
+SparsePauliOp
+```
+
+```
+SparsePauliOp
+```
+
+```
+SparsePauliOp(['XZ', 'YZ'], coeffs=[ParameterExpression(1.0*a), ParameterExpression(1.0*b)])
+```
+
+```
+a, b = Parameter('a'), Parameter('b')
+```
+
+```
+exp(-i(XZ*a + YZ * b))
+```
+
+Original buggy code:
+qiskit.opflow
+
+---CODE_BLOCK---
+
+(Parameter('t') * Pauli('some Pauli')).exp_i()
+
+---CODE_BLOCK---
+
+SparsePauliOp
+
+---CODE_BLOCK---
+
+SparsePauliOp
+
+---CODE_BLOCK---
+
+SparsePauliOp(['XZ', 'YZ'], coeffs=[ParameterExpression(1.0*a), ParameterExpression(1.0*b)])
+
+---CODE_BLOCK---
+
+a, b = Parameter('a'), Parameter('b')
+
+---CODE_BLOCK---
+
+exp(-i(XZ*a + YZ * b))
+
+Solution explanation:
+Take a look at PauliEvolutionGate. The UCC from Qiskit Nature in based on Qiskit's EvolvedOperatorAnsatz which in turn is built using PauliEvolutionGate. There is also a migration guide done as was deprecated, which has a section on evolution.
+
+```
+opflow
+```
+
+Original fixed code:
+opflow

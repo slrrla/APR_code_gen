@@ -1,0 +1,91 @@
+Title:
+Qiskit: Initializing $n$ qubits with binary values ($0$s and $1$s)
+
+Category:
+
+
+Question:
+Title: Qiskit: Initializing $n$ qubits with binary values ($0$s and $1$s)
+
+Is there a way in Qiskit to initialize $n$ qubits with binary values (0s and 1s)? For example, how can I initialize two qubits in the state $|11\rangle$? Here is a code snippet: I am aware of the method in this tutorial, which is also referenced here and here. This method creates an arbitrary qubit state by defining an $N$ dimensional ($N = 2^n$) state vector of amplitudes. The problem with this method is it requires creating a state vector which is exponentially large. I'm trying to initialize the qubits by defining an $n$ dimensional binary vector, which for the above example would be .
+
+```
+from qiskit import QuantumCircuit import numpy as np n = 2 circuit = QuantumCircuit(n, n) # Seeking some sort of initialization routine like this circuit.initializeQubits(initialState=np.ones(n), ...) # Define rest of the circuit ...
+```
+
+```
+from qiskit import QuantumCircuit import numpy as np n = 2 circuit = QuantumCircuit(n, n) # Seeking some sort of initialization routine like this circuit.initializeQubits(initialState=np.ones(n), ...) # Define rest of the circuit ...
+```
+
+```
+[1, 1]
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit import numpy as np n = 2 circuit = QuantumCircuit(n, n) # Seeking some sort of initialization routine like this circuit.initializeQubits(initialState=np.ones(n), ...) # Define rest of the circuit ...
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit import numpy as np n = 2 circuit = QuantumCircuit(n, n) # Seeking some sort of initialization routine like this circuit.initializeQubits(initialState=np.ones(n), ...) # Define rest of the circuit ...
+
+---CODE_BLOCK---
+
+[1, 1]
+
+Solution explanation:
+You can also create a , that can be directly initialized as follows: You can use to apply an operator/circuit to the state, where is the operator/circuit. gives you the array, containing the actual implementation of the state. Check this for more details.
+
+```
+Statevector
+```
+
+```
+from qiskit.quantum_info import Statevector sv = Statevector.from_label('11')
+```
+
+```
+from qiskit.quantum_info import Statevector sv = Statevector.from_label('11')
+```
+
+```
+sv.evolve(qc)
+```
+
+```
+qc
+```
+
+```
+sv.data
+```
+
+```
+numpy
+```
+
+Original fixed code:
+Statevector
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Statevector sv = Statevector.from_label('11')
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import Statevector sv = Statevector.from_label('11')
+
+---CODE_BLOCK---
+
+sv.evolve(qc)
+
+---CODE_BLOCK---
+
+qc
+
+---CODE_BLOCK---
+
+sv.data
+
+---CODE_BLOCK---
+
+numpy

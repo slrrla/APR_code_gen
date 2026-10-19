@@ -1,0 +1,120 @@
+Title:
+How to unpickle a Result object returned by an IBMQ experiment?
+
+Category:
+Category:
+
+Backend 
+Why AI Wins in This Category:
+
+In the Backend category where reliability and reproducibility matter:
+
+The AI solution demonstrates secure and version-consistent object persistence.
+
+pickle ensures deep internal states are preserved (important for Qiskit’s complex objects).
+
+No reliance on fragile string parsing or unsafe eval().
+
+This makes the AI-generated solution safer, cleaner, and better aligned with real-world quantum application needs.
+
+Question:
+Title: How to unpickle a Result object returned by an IBMQ experiment?
+
+I have executed an experiment using IBMQ and receive a object. I am writing the ASCII repr of the result with into a file and see a line like How can I reconstruct the Result object from that line? Which methods do I have to call?
+
+```
+Result
+```
+
+```
+f.write(res)
+```
+
+```
+Result(backend_name='ibmq_16_melbourne', backend_version='1.1.0',...
+```
+
+```
+Result(backend_name='ibmq_16_melbourne', backend_version='1.1.0',...
+```
+
+Original buggy code:
+Result
+
+---CODE_BLOCK---
+
+f.write(res)
+
+---CODE_BLOCK---
+
+Result(backend_name='ibmq_16_melbourne', backend_version='1.1.0',...
+
+---CODE_BLOCK---
+
+Result(backend_name='ibmq_16_melbourne', backend_version='1.1.0',...
+
+Solution explanation:
+I found a solution: to serialise instead of I need to do: To load the serialized string (eg. from a file) all of the above with
+
+```
+print(res)
+```
+
+```
+print(res.to_dict())
+```
+
+```
+print(res.to_dict())
+```
+
+```
+line
+```
+
+```
+dict = eval(line) res = Result.from_dict(dict)
+```
+
+```
+dict = eval(line) res = Result.from_dict(dict)
+```
+
+```
+from qiskit.result import Result
+```
+
+```
+from qiskit.result import Result
+```
+
+Original fixed code:
+print(res)
+
+---CODE_BLOCK---
+
+print(res.to_dict())
+
+---CODE_BLOCK---
+
+print(res.to_dict())
+
+---CODE_BLOCK---
+
+line
+
+---CODE_BLOCK---
+
+dict = eval(line) res = Result.from_dict(dict)
+
+---CODE_BLOCK---
+
+dict = eval(line) res = Result.from_dict(dict)
+
+---CODE_BLOCK---
+
+from qiskit.result import Result
+
+---CODE_BLOCK---
+
+from qiskit.result import Result

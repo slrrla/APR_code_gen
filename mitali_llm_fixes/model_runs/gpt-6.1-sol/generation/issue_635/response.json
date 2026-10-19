@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWW9RfsFdo6f4A2UIJ5c5h825ZZWD",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, execute, Aer\n\nq = QuantumRegister(3)\nc = ClassicalRegister(3)\nqc = QuantumCircuit(q, c)\n\nqc.measure(q, c)\n\n# FIX: Each X used an independent condition -> condition both X gates on register values 3 or 7, because these require c[0] == c[1] == 1 regardless of c[2]\nqc.x(q[0]).c_if(c, 3)\nqc.x(q[1]).c_if(c, 3)\nqc.x(q[0]).c_if(c, 7)\nqc.x(q[1]).c_if(c, 7)\n\nbackend = Aer.get_backend('qasm_simulator')\njob = execute(qc, backend, shots=1024)\nresult = job.result()\nprint(result.get_counts(qc))\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418793,
+  "model": "gpt-6.1-sol",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 388,
+    "prompt_tokens": 821,
+    "total_tokens": 1209,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 197,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

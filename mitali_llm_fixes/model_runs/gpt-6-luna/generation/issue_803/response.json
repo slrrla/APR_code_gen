@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWW1Ew6Po9mlgZqbI6IHDfxNpG0m2",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport numpy as np\nfrom qiskit import QuantumCircuit, Aer, execute\nfrom qiskit.circuit import Parameter\n\nclass QuantumCircuitWrapper:\n    def __init__(self, n_qubits, backend, shots):\n        self._circuit = QuantumCircuit(n_qubits)\n        self.theta = Parameter('theta')\n        all_qubits = list(range(n_qubits))\n        self._circuit.h(all_qubits)\n        self._circuit.barrier()\n        self._circuit.ry(self.theta, all_qubits)\n        self._circuit.measure_all()\n        self.backend = backend\n        self.shots = shots\n\n    def run(self, thetas):\n        circuits = [self._circuit.bind_parameters({self.theta: theta}) for theta in thetas]\n        job = execute(circuits, self.backend, shots=self.shots)\n        result = job.result().get_counts()\n        # FIX: get_counts returns one dictionary per circuit -> collect each dictionary's values.\n        counts = np.array([list(count.values()) for count in result])\n        print('counts', counts)\n        # FIX: result is a list of dictionaries -> print the values from each dictionary.\n        print('result.values', [list(count.values()) for count in result])\n        return counts\n\nbackend = Aer.get_backend('qasm_simulator')\nqc = QuantumCircuitWrapper(1, backend, 100)\nthetas = [0.1, 0.2, 0.3]\nprint(qc.run(thetas))\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418284,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 1095,
+    "prompt_tokens": 3001,
+    "total_tokens": 4096,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 756,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 2998,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

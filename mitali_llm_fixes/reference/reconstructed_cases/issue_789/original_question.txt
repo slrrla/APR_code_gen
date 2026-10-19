@@ -1,0 +1,115 @@
+Title:
+Insufficient memory to run circuit using the statevector simulator
+
+Category:
+
+
+Question:
+Title: Insufficient memory to run circuit using the statevector simulator
+
+I am a newbie to quantum and have been trying library for learning quantum computing (in order to explore quantum effects on cryptography). I am basically trying to build Grover Oracle for different symmetric key algorithms. For this I am learning various operations mostly performed by these algos in classical counterparts like , , and operations etc. I have created a 4 bit circuit for Full Adder in qiskit and extended it to 8 qbits. But when I am trying it for 12 bits, it raises above error I have written a simple quantum implementation of Full Adder and this Error arises when I try to measure the result. Complete Error is Does the problem lie in number of qbits simulator is able to handle or anything else. As I eventually want to perform different operations for at least 128 qbits registers in order to simulate practical symmetric algos.
+
+```
+qiskit
+```
+
+```
+XOR
+```
+
+```
+Bit Shift
+```
+
+```
+Addition
+```
+
+```
+Modulo
+```
+
+```
+Simulation failed and returned the following error message: ERROR: [Experiment 0] Insufficient memory to run circuit circuit-584 using the statevector simulator. Required memory: 67108864M, max memory: 32712M QiskitError: 'Data for experiment "circuit-584" could not be found.'
+```
+
+```
+Simulation failed and returned the following error message: ERROR: [Experiment 0] Insufficient memory to run circuit circuit-584 using the statevector simulator. Required memory: 67108864M, max memory: 32712M QiskitError: 'Data for experiment "circuit-584" could not be found.'
+```
+
+```
+length=12 a = QuantumRegister(length) b = QuantumRegister(length) s = QuantumRegister(length) aux = QuantumRegister(length) cout = QuantumRegister(1) cin = QuantumRegister(1) result = ClassicalRegister(length+1) input1 = 0xa82 input2 = 0x905 circ=QuantumCircuit(a,b,cin,s,cout,result,aux) Round_constant_XOR(circ,input1,a,length) # Copying input1 to a Round_constant_XOR(circ,input2,b,length) # Copying input2 to b full_adder(circ,a,b,cin,length,s,cout) #circ.draw(output='mpl') print("Operations Completed, now measuring qbits\n") for i in range(length): circ.measure(s[i],result[i]) circ.measure(cout,result[length]) simulator1 = AerSimulator(method='statevector') results1 = execute(circ,backend=simulator1).result() print("Result is: " + str(results1.get_counts(circ))) plot_histogram(results1.get_counts(circ))
+```
+
+```
+length=12 a = QuantumRegister(length) b = QuantumRegister(length) s = QuantumRegister(length) aux = QuantumRegister(length) cout = QuantumRegister(1) cin = QuantumRegister(1) result = ClassicalRegister(length+1) input1 = 0xa82 input2 = 0x905 circ=QuantumCircuit(a,b,cin,s,cout,result,aux) Round_constant_XOR(circ,input1,a,length) # Copying input1 to a Round_constant_XOR(circ,input2,b,length) # Copying input2 to b full_adder(circ,a,b,cin,length,s,cout) #circ.draw(output='mpl') print("Operations Completed, now measuring qbits\n") for i in range(length): circ.measure(s[i],result[i]) circ.measure(cout,result[length]) simulator1 = AerSimulator(method='statevector') results1 = execute(circ,backend=simulator1).result() print("Result is: " + str(results1.get_counts(circ))) plot_histogram(results1.get_counts(circ))
+```
+
+```
+--------------------------------------------------------------------------- QiskitError Traceback (most recent call last) C:\PROGRA~1\KMSpico\temp/ipykernel_12724/2309521244.py in <module> 31 simulator1 = AerSimulator(method='statevector') 32 results1 = execute(circ,backend=simulator1).result() ---> 33 print("Result is: " + str(results1.get_counts(circ))) 34 plot_histogram(results1.get_counts(circ)) ~\anaconda3\lib\site-packages\qiskit\result\result.py in get_counts(self, experiment) 267 dict_list = [] 268 for key in exp_keys: --> 269 exp = self._get_experiment(key) 270 try: 271 header = exp.header.to_dict() ~\anaconda3\lib\site-packages\qiskit\result\result.py in _get_experiment(self, key) 378 379 if len(exp) == 0: --> 380 raise QiskitError('Data for experiment "%s" could not be found.' % key) 381 if len(exp) == 1: 382 exp = exp[0]
+```
+
+```
+--------------------------------------------------------------------------- QiskitError Traceback (most recent call last) C:\PROGRA~1\KMSpico\temp/ipykernel_12724/2309521244.py in <module> 31 simulator1 = AerSimulator(method='statevector') 32 results1 = execute(circ,backend=simulator1).result() ---> 33 print("Result is: " + str(results1.get_counts(circ))) 34 plot_histogram(results1.get_counts(circ)) ~\anaconda3\lib\site-packages\qiskit\result\result.py in get_counts(self, experiment) 267 dict_list = [] 268 for key in exp_keys: --> 269 exp = self._get_experiment(key) 270 try: 271 header = exp.header.to_dict() ~\anaconda3\lib\site-packages\qiskit\result\result.py in _get_experiment(self, key) 378 379 if len(exp) == 0: --> 380 raise QiskitError('Data for experiment "%s" could not be found.' % key) 381 if len(exp) == 1: 382 exp = exp[0]
+```
+
+Original buggy code:
+qiskit
+
+---CODE_BLOCK---
+
+XOR
+
+---CODE_BLOCK---
+
+Bit Shift
+
+---CODE_BLOCK---
+
+Addition
+
+---CODE_BLOCK---
+
+Modulo
+
+---CODE_BLOCK---
+
+Simulation failed and returned the following error message: ERROR: [Experiment 0] Insufficient memory to run circuit circuit-584 using the statevector simulator. Required memory: 67108864M, max memory: 32712M QiskitError: 'Data for experiment "circuit-584" could not be found.'
+
+---CODE_BLOCK---
+
+Simulation failed and returned the following error message: ERROR: [Experiment 0] Insufficient memory to run circuit circuit-584 using the statevector simulator. Required memory: 67108864M, max memory: 32712M QiskitError: 'Data for experiment "circuit-584" could not be found.'
+
+---CODE_BLOCK---
+
+length=12 a = QuantumRegister(length) b = QuantumRegister(length) s = QuantumRegister(length) aux = QuantumRegister(length) cout = QuantumRegister(1) cin = QuantumRegister(1) result = ClassicalRegister(length+1) input1 = 0xa82 input2 = 0x905 circ=QuantumCircuit(a,b,cin,s,cout,result,aux) Round_constant_XOR(circ,input1,a,length) # Copying input1 to a Round_constant_XOR(circ,input2,b,length) # Copying input2 to b full_adder(circ,a,b,cin,length,s,cout) #circ.draw(output='mpl') print("Operations Completed, now measuring qbits\n") for i in range(length): circ.measure(s[i],result[i]) circ.measure(cout,result[length]) simulator1 = AerSimulator(method='statevector') results1 = execute(circ,backend=simulator1).result() print("Result is: " + str(results1.get_counts(circ))) plot_histogram(results1.get_counts(circ))
+
+---CODE_BLOCK---
+
+length=12 a = QuantumRegister(length) b = QuantumRegister(length) s = QuantumRegister(length) aux = QuantumRegister(length) cout = QuantumRegister(1) cin = QuantumRegister(1) result = ClassicalRegister(length+1) input1 = 0xa82 input2 = 0x905 circ=QuantumCircuit(a,b,cin,s,cout,result,aux) Round_constant_XOR(circ,input1,a,length) # Copying input1 to a Round_constant_XOR(circ,input2,b,length) # Copying input2 to b full_adder(circ,a,b,cin,length,s,cout) #circ.draw(output='mpl') print("Operations Completed, now measuring qbits\n") for i in range(length): circ.measure(s[i],result[i]) circ.measure(cout,result[length]) simulator1 = AerSimulator(method='statevector') results1 = execute(circ,backend=simulator1).result() print("Result is: " + str(results1.get_counts(circ))) plot_histogram(results1.get_counts(circ))
+
+---CODE_BLOCK---
+
+--------------------------------------------------------------------------- QiskitError Traceback (most recent call last) C:\PROGRA~1\KMSpico\temp/ipykernel_12724/2309521244.py in <module> 31 simulator1 = AerSimulator(method='statevector') 32 results1 = execute(circ,backend=simulator1).result() ---> 33 print("Result is: " + str(results1.get_counts(circ))) 34 plot_histogram(results1.get_counts(circ)) ~\anaconda3\lib\site-packages\qiskit\result\result.py in get_counts(self, experiment) 267 dict_list = [] 268 for key in exp_keys: --> 269 exp = self._get_experiment(key) 270 try: 271 header = exp.header.to_dict() ~\anaconda3\lib\site-packages\qiskit\result\result.py in _get_experiment(self, key) 378 379 if len(exp) == 0: --> 380 raise QiskitError('Data for experiment "%s" could not be found.' % key) 381 if len(exp) == 1: 382 exp = exp[0]
+
+---CODE_BLOCK---
+
+--------------------------------------------------------------------------- QiskitError Traceback (most recent call last) C:\PROGRA~1\KMSpico\temp/ipykernel_12724/2309521244.py in <module> 31 simulator1 = AerSimulator(method='statevector') 32 results1 = execute(circ,backend=simulator1).result() ---> 33 print("Result is: " + str(results1.get_counts(circ))) 34 plot_histogram(results1.get_counts(circ)) ~\anaconda3\lib\site-packages\qiskit\result\result.py in get_counts(self, experiment) 267 dict_list = [] 268 for key in exp_keys: --> 269 exp = self._get_experiment(key) 270 try: 271 header = exp.header.to_dict() ~\anaconda3\lib\site-packages\qiskit\result\result.py in _get_experiment(self, key) 378 379 if len(exp) == 0: --> 380 raise QiskitError('Data for experiment "%s" could not be found.' % key) 381 if len(exp) == 1: 382 exp = exp[0]
+
+Solution explanation:
+I changed the simulator provided by IBM according to my current need (qbits=50) It worked.
+
+```
+simulator1 = AerSimulator(method='matrix_product_state')
+```
+
+```
+simulator1 = AerSimulator(method='matrix_product_state')
+```
+
+Original fixed code:
+simulator1 = AerSimulator(method='matrix_product_state')
+
+---CODE_BLOCK---
+
+simulator1 = AerSimulator(method='matrix_product_state')

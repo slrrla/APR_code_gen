@@ -1,0 +1,32 @@
+Title:
+When factoring N=21 on IBMQ Devices with Shor's algorithm, does the quantum subroutine require modular exponentiation?
+
+Category:
+Why Stack Overflow Wins in This Category:
+
+In the Quantum Algorithm Design category, precision matters. Stack Overflow:
+
+Clarifies required circuit structure (5 work qubits, 10 control steps),
+
+Explains why omitting modular exponentiation breaks correctness,
+
+Offers realistic expectations for scalability,
+
+Helps the user avoid "false positive" results due to under-implementation.
+
+AI's explanation is supportive but lacks execution-level specificity.
+
+Question:
+Title: When factoring N=21 on IBMQ Devices with Shor's algorithm, does the quantum subroutine require modular exponentiation?
+
+I am currently working on Qiskit code implementing Shor algorithm in the form of a quantum circuit. I am factoring $N = 21$ (into 3 and 7) using 5 qubits, with 3 qubits in the work register and 2 in the control. The purpose is that a random integer between 2 and 20 (inclusive) will be input and the program will either use classical or quantum+classical computing to derive the factors. One thing I noticed as I was creating the circuit was that if a random number is input into the quantum subroutine, say the number 4, and there is no modular exponentiation function, just an inverse QFT on the work register, it still works and finds the period $r$, which is 6. I originally assumed this was a bug or a coding mistake, but it also made me wonder if the modular exponentiation is the same for each input. Due to this, I have two questions: Is there a universal series of gates that can transform $x$ into $a^x \mod N$, the control register output? I was under the impression it was different depending on what $x$ was, but the results I am getting are seemingly disproving that. Similarly, for numbers as small as $N=21$, does the control register output even matter? The work register output from the inverse QFT appears to be doing all of the work, no matter if the mod. exp. function is included or not? Picture below, approx. same for every input that reaches the quantum subroutine of Shor's algorithm in my code:
+
+Original buggy code:
+Title: When factoring N=21 on IBMQ Devices with Shor's algorithm, does the quantum subroutine require modular exponentiation?
+I am currently working on Qiskit code implementing Shor algorithm in the form of a quantum circuit. I am factoring $N = 21$ (into 3 and 7) using 5 qubits, with 3 qubits in the work register and 2 in the control. The purpose is that a random integer between 2 and 20 (inclusive) will be input and the program will either use classical or quantum+classical computing to derive the factors. One thing I noticed as I was creating the circuit was that if a random number is input into the quantum subroutine, say the number 4, and there is no modular exponentiation function, just an inverse QFT on the work register, it still works and finds the period $r$, which is 6. I originally assumed this was a bug or a coding mistake, but it also made me wonder if the modular exponentiation is the same for each input. Due to this, I have two questions: Is there a universal series of gates that can transform $x$ into $a^x \mod N$, the control register output? I was under the impression it was different depending on what $x$ was, but the results I am getting are seemingly disproving that. Similarly, for numbers as small as $N=21$, does the control register output even matter? The work register output from the inverse QFT appears to be doing all of the work, no matter if the mod. exp. function is included or not? Picture below, approx. same for every input that reaches the quantum subroutine of Shor's algorithm in my code:
+
+Solution explanation:
+Period finding for N=21 requires a 5 qubit work register, not 3. You need at least $\lceil \log_2 N \rceil$ work qubits. Otherwise you can't actually store intermediate values during the modular exponentiation. You also need at least $10$ controls, not 2. If you use fewer than $\lceil 2 \log_2 N \rceil$ controls, the result doesn't actually have the necessary resolution to distinguish between different periods. That being said, you can use the standard trick of recycling the control qubits so there's only one alive at a time. But you should be expecting 10 recycling steps, not 2 recycling steps. Using fewer than 5 work qubits, or fewer than 10 steps, or making the steps not do actual multiplications, is a clear sign that you are not running Shor's algorithm and are instead using knowledge of the factors to optimize the circuit (aka cheating). In which case you might as well just solve the problem classically and have the quantum computer flip coins so it can get a participation award.
+
+Original fixed code:
+Period finding for N=21 requires a 5 qubit work register, not 3. You need at least $\lceil \log_2 N \rceil$ work qubits. Otherwise you can't actually store intermediate values during the modular exponentiation. You also need at least $10$ controls, not 2. If you use fewer than $\lceil 2 \log_2 N \rceil$ controls, the result doesn't actually have the necessary resolution to distinguish between different periods. That being said, you can use the standard trick of recycling the control qubits so there's only one alive at a time. But you should be expecting 10 recycling steps, not 2 recycling steps. Using fewer than 5 work qubits, or fewer than 10 steps, or making the steps not do actual multiplications, is a clear sign that you are not running Shor's algorithm and are instead using knowledge of the factors to optimize the circuit (aka cheating). In which case you might as well just solve the problem classically and have the quantum computer flip coins so it can get a participation award.

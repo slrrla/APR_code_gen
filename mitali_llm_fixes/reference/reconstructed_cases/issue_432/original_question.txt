@@ -1,0 +1,71 @@
+Title:
+How to run PegasosQSVC in quantum backend or simulator?
+
+Category:
+Category:
+Import / Runtime Compatibility
+
+Why AI Solution Wins in This Category:
+This category demands solutions that ensure seamless compatibility between circuit logic and backend execution. The AI response provides a clear roadmap to align circuits with backend ISA, while Stack Overflow’s solution—though correct—requires manual class modifications and lacks example-driven clarity. The AI’s approach is more practical and executable for most users.
+
+Question:
+Title: How to run PegasosQSVC in quantum backend or simulator?
+
+I am making my classification project in quantum machine learning, currently trying to run PegasosQSVC in backend! The code runs normally in my environment however when I connect to backend using from and try to run it on backend it shows different errors, the first error is that I can't run my code on a simulator when I chose a simulator backend, the other one is the error I show in this question. My code is as follows : When I run this code I get the following error: What can I do to solve this issue?
+
+```
+provider.get_backend()
+```
+
+```
+QiskitRuntimeService()
+```
+
+```
+# importing feature map from qiskit.circuit.library import ZFeatureMap # define feature map to be used in the algorithm featuremap = ZFeatureMap(feature_dimension=num_qubits, reps = 3) # transpile the featuremap to make compatible with the backend topology from qiskit.compiler.transpiler import transpile transpiled_featuremap = transpile(circuits=featuremap, backend=backend) # set the session in which we will run the circuits from qiskit_ibm_runtime import Session, Sampler with Session(service= service, backend=backend) as session: sampler = Sampler(session=session, backend=backend) # set the fidelity parameter from qiskit_algorithms.state_fidelities import ComputeUncompute fidelity = ComputeUncompute(sampler=sampler) # setting the kernel from qiskit_machine_learning.kernels import FidelityQuantumKernel qkernel = FidelityQuantumKernel(feature_map=transpiled_featuremap, fidelity=fidelity) # fitting the classifier from qiskit_machine_learning.algorithms import PegasosQSVC pegasos = PegasosQSVC(quantum_kernel=qkernel, C = C, num_steps=tau) pegasos.fit(train_features,train_labels) pegasos_score = pegasos.score(test_features,test_labels) print(f"Pegasosqsvc classification test score: {pegasos_score*100}")
+```
+
+```
+# importing feature map from qiskit.circuit.library import ZFeatureMap # define feature map to be used in the algorithm featuremap = ZFeatureMap(feature_dimension=num_qubits, reps = 3) # transpile the featuremap to make compatible with the backend topology from qiskit.compiler.transpiler import transpile transpiled_featuremap = transpile(circuits=featuremap, backend=backend) # set the session in which we will run the circuits from qiskit_ibm_runtime import Session, Sampler with Session(service= service, backend=backend) as session: sampler = Sampler(session=session, backend=backend) # set the fidelity parameter from qiskit_algorithms.state_fidelities import ComputeUncompute fidelity = ComputeUncompute(sampler=sampler) # setting the kernel from qiskit_machine_learning.kernels import FidelityQuantumKernel qkernel = FidelityQuantumKernel(feature_map=transpiled_featuremap, fidelity=fidelity) # fitting the classifier from qiskit_machine_learning.algorithms import PegasosQSVC pegasos = PegasosQSVC(quantum_kernel=qkernel, C = C, num_steps=tau) pegasos.fit(train_features,train_labels) pegasos_score = pegasos.score(test_features,test_labels) print(f"Pegasosqsvc classification test score: {pegasos_score*100}")
+```
+
+```
+The instruction sxdg on qubits (1,) is not supported by the target system. Circuits that do not match the target hardware definition are no longer supported after March 4, 2024. See the transpilation documentation (https://docs.quantum.ibm.com/transpile) for instructions to transform circuits and the primitive examples (https://docs.quantum.ibm.com/run/primitives-examples) to see this coupled with operator transformations.
+```
+
+```
+The instruction sxdg on qubits (1,) is not supported by the target system. Circuits that do not match the target hardware definition are no longer supported after March 4, 2024. See the transpilation documentation (https://docs.quantum.ibm.com/transpile) for instructions to transform circuits and the primitive examples (https://docs.quantum.ibm.com/run/primitives-examples) to see this coupled with operator transformations.
+```
+
+Original buggy code:
+provider.get_backend()
+
+---CODE_BLOCK---
+
+QiskitRuntimeService()
+
+---CODE_BLOCK---
+
+# importing feature map from qiskit.circuit.library import ZFeatureMap # define feature map to be used in the algorithm featuremap = ZFeatureMap(feature_dimension=num_qubits, reps = 3) # transpile the featuremap to make compatible with the backend topology from qiskit.compiler.transpiler import transpile transpiled_featuremap = transpile(circuits=featuremap, backend=backend) # set the session in which we will run the circuits from qiskit_ibm_runtime import Session, Sampler with Session(service= service, backend=backend) as session: sampler = Sampler(session=session, backend=backend) # set the fidelity parameter from qiskit_algorithms.state_fidelities import ComputeUncompute fidelity = ComputeUncompute(sampler=sampler) # setting the kernel from qiskit_machine_learning.kernels import FidelityQuantumKernel qkernel = FidelityQuantumKernel(feature_map=transpiled_featuremap, fidelity=fidelity) # fitting the classifier from qiskit_machine_learning.algorithms import PegasosQSVC pegasos = PegasosQSVC(quantum_kernel=qkernel, C = C, num_steps=tau) pegasos.fit(train_features,train_labels) pegasos_score = pegasos.score(test_features,test_labels) print(f"Pegasosqsvc classification test score: {pegasos_score*100}")
+
+---CODE_BLOCK---
+
+# importing feature map from qiskit.circuit.library import ZFeatureMap # define feature map to be used in the algorithm featuremap = ZFeatureMap(feature_dimension=num_qubits, reps = 3) # transpile the featuremap to make compatible with the backend topology from qiskit.compiler.transpiler import transpile transpiled_featuremap = transpile(circuits=featuremap, backend=backend) # set the session in which we will run the circuits from qiskit_ibm_runtime import Session, Sampler with Session(service= service, backend=backend) as session: sampler = Sampler(session=session, backend=backend) # set the fidelity parameter from qiskit_algorithms.state_fidelities import ComputeUncompute fidelity = ComputeUncompute(sampler=sampler) # setting the kernel from qiskit_machine_learning.kernels import FidelityQuantumKernel qkernel = FidelityQuantumKernel(feature_map=transpiled_featuremap, fidelity=fidelity) # fitting the classifier from qiskit_machine_learning.algorithms import PegasosQSVC pegasos = PegasosQSVC(quantum_kernel=qkernel, C = C, num_steps=tau) pegasos.fit(train_features,train_labels) pegasos_score = pegasos.score(test_features,test_labels) print(f"Pegasosqsvc classification test score: {pegasos_score*100}")
+
+---CODE_BLOCK---
+
+The instruction sxdg on qubits (1,) is not supported by the target system. Circuits that do not match the target hardware definition are no longer supported after March 4, 2024. See the transpilation documentation (https://docs.quantum.ibm.com/transpile) for instructions to transform circuits and the primitive examples (https://docs.quantum.ibm.com/run/primitives-examples) to see this coupled with operator transformations.
+
+---CODE_BLOCK---
+
+The instruction sxdg on qubits (1,) is not supported by the target system. Circuits that do not match the target hardware definition are no longer supported after March 4, 2024. See the transpilation documentation (https://docs.quantum.ibm.com/transpile) for instructions to transform circuits and the primitive examples (https://docs.quantum.ibm.com/run/primitives-examples) to see this coupled with operator transformations.
+
+Solution explanation:
+composes the circuit with its inverse() and this ends up not conforming to the ISA requirement. There is an issue in Qiskit Algorithms specifically about that as well a more general issue around Qiskit Algorithms and ISA circuits. With the code as-is I do not know a solution - if you consider modifying some code then a workaround would be to take a local copy of ComputeUncompute and modify it to transpile the circuit it uses (ie the circuit1 + circuit2.inverse()) for some given backend. It should however still run on local Aer simulator if you use the Sampler from Aer.
+
+```
+ComputeUncompute
+```
+
+Original fixed code:
+ComputeUncompute

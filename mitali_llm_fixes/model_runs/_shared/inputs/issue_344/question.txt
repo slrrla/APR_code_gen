@@ -1,0 +1,39 @@
+Title: How to calculate the Von Neuman entropy on qiskit with the module quantum_info?
+
+I am trying to wrap my head around he module on qiskit, since most of the functions on are going to be deprecated, but I am very confused with the Statevector and DensityMatrix objects. For example, with this snippet of code: I get: as expected but then I get the error on : How can I solve this?
+
+```
+quantum_info
+```
+
+```
+qiskit.tools
+```
+
+```
+simulator = BasicAer.get_backend('statevector_simulator') # the device to run on result6 = execute(circuit6, simulator).result() outputstate6 = result6.get_statevector(circuit6, decimals=3) probability = np.abs(np.array(outputstate6))**2 outstatevector=quantum_info.states.Statevector(outputstate6) print(type(outstatevector)) print(type(outputstate6)) print(outputstate6) print(quantum_info.entropy(outputstate6))
+```
+
+```
+simulator = BasicAer.get_backend('statevector_simulator') # the device to run on result6 = execute(circuit6, simulator).result() outputstate6 = result6.get_statevector(circuit6, decimals=3) probability = np.abs(np.array(outputstate6))**2 outstatevector=quantum_info.states.Statevector(outputstate6) print(type(outstatevector)) print(type(outputstate6)) print(outputstate6) print(quantum_info.entropy(outputstate6))
+```
+
+```
+<class 'qiskit.quantum_info.states.statevector.Statevector'> <class 'numpy.ndarray'> [0.447+0.j 0. +0.j 0.632+0.j 0.632+0.j]
+```
+
+```
+<class 'qiskit.quantum_info.states.statevector.Statevector'> <class 'numpy.ndarray'> [0.447+0.j 0. +0.j 0.632+0.j 0.632+0.j]
+```
+
+```
+quantum_info.entropy(outputstate6)
+```
+
+```
+QiskitError: 'Input quantum state is not a valid'
+```
+
+```
+QiskitError: 'Input quantum state is not a valid'
+```

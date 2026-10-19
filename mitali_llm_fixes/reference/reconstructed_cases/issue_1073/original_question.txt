@@ -1,0 +1,39 @@
+Title:
+How is quantum transpilation scaled?
+
+Category:
+Circuit / Ansatz configuration
+
+Question:
+Title: How is quantum transpilation scaled?
+
+While thinking about a quantum transpiler's working I had a pretty basic doubt. Say that we are trying to transpile an $n$ qubit circuit where $n > 100$. What transpiler does is that it first tries to find a mapping, decompose the gates into basis set of the quantum computer and then tries to optimize the circuit for a reduced depth. My question is that since transpilation is done classically, isn't there going to be a limit to the circuits that we can optimize? My understanding is that if we want to optimize the running of a quantum circuit and try to reduce its gate count or depth, won't we need to have $2^n \times 2^n$ size tensors in memory for that to be carried out? We would try to see if a particular computation is redundant or a better gate sequence can carry out the same with a lesser number of gates. Or is it carried out through pure textual formats eg. optimizations based on a sequence of gate names instead of matrices? Sorry if I'm missing something fundamental here. Thanks!
+
+Original buggy code:
+While thinking about a quantum transpiler's working I had a pretty basic doubt. Say that we are trying to transpile an $n$ qubit circuit where $n > 100$. What transpiler does is that it first tries to find a mapping, decompose the gates into basis set of the quantum computer and then tries to optimize the circuit for a reduced depth. My question is that since transpilation is done classically, isn't there going to be a limit to the circuits that we can optimize? My understanding is that if we want to optimize the running of a quantum circuit and try to reduce its gate count or depth, won't we need to have $2^n \times 2^n$ size tensors in memory for that to be carried out? We would try to see if a particular computation is redundant or a better gate sequence can carry out the same with a lesser number of gates. Or is it carried out through pure textual formats eg. optimizations based on a sequence of gate names instead of matrices? Sorry if I'm missing something fundamental here. Thanks!
+
+Solution explanation:
+tl;dr Indeed, if at any point one would need to compute and store $2^n\times2^n$ unitary of the circuit in memory that would be infeasible and render the quantum computation obsolete (it may still be useful for benchmarking NISQ computers though). Transpilation mostly works either with individual 1- and 2-qubit gates or with the whole circuit but not as a large tensor, but in some alternative representation (which are numerous: graphs, ZX-calculus, tensornetworks, decision trees etc). Optimization proceeds within these data structures and does not require full matrix representation of the circuit. What is exactly meant by transpilation is a bit ambiguous I would say, so I will have a transpilation model in mind. There are two main goals of the transpilation process Compatibility. Efficiency. Compatibility means that you can not immediately execute a textbook quantum circuit of your choice on a given hardware. For example, the native gates on the hardware may not be those used in your circuit. Then you need to decompose the gates in your circuit into the native set. Another issue is the connectivity problem: on a real hardware typically one can not perform two-qubit gates on an arbitrary pair of qubits. If your textbook circuit features a gate that is not allowed directly by the hardware, you need to circumvent this problem somehow (usually by adding a bunch of gates). After the circuit is made compatible with the hardware it is of course desirable to compress it as efficiently as possible. Some things are trivial to do, like cancelling two adjacent gates (which might appear after the first step), but there are of course many other types of transformations that one can attempt to simplify the circuit. Such transformations never require to compute the whole unitary/state of the circuit. For larger number of qubits / depth of the circuit you might want to try and optimize a larger piece of the circuit, so there will be a trade-off between the classical transpilation time and gains in simplicity of the resulting circuit.
+
+```
+qiskit
+```
+
+```
+SWAP
+```
+
+```
+CNOT
+```
+
+Original fixed code:
+qiskit
+
+---CODE_BLOCK---
+
+SWAP
+
+---CODE_BLOCK---
+
+CNOT

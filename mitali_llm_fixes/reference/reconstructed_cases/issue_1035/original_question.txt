@@ -1,0 +1,115 @@
+Title:
+Is it possible to use fake backends to run Qiskit Runtime primitives?
+
+Category:
+
+
+Question:
+Title: Is it possible to use fake backends to run Qiskit Runtime primitives?
+
+I have the following code to run an primitive by using Qiskit Runtime. It computes the expectation value $\langle O \rangle = \langle \psi | O | \psi \rangle$ (in this example $\langle 0 | Z | 0 \rangle = 1$ with zero variance): I know that Qiskit Runtime primitives can run on real IBM quantum devices but what I'm wondering whether is possible run them by using fake backends (or, more in general, custom noise models). For example, how can I run the code above on the backend or passing a instance? Is there any other way to do that?
+
+```
+Estimator
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import SparsePauliOp from qiskit_ibm_runtime import QiskitRuntimeService, Options, Session, Estimator # prepare the state |Ψ> qc = QuantumCircuit(1) # define the operator/observable O O = SparsePauliOp(['Z']) service = QiskitRuntimeService() backend = 'ibmq_qasm_simulator' options = Options(resilience_level=0) with Session(service=service, backend=backend) as session: estimator = Estimator(session=session, options=options) job = estimator.run(circuits=[qc], observables=[O]) print(job.result().values)
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.quantum_info import SparsePauliOp from qiskit_ibm_runtime import QiskitRuntimeService, Options, Session, Estimator # prepare the state |Ψ> qc = QuantumCircuit(1) # define the operator/observable O O = SparsePauliOp(['Z']) service = QiskitRuntimeService() backend = 'ibmq_qasm_simulator' options = Options(resilience_level=0) with Session(service=service, backend=backend) as session: estimator = Estimator(session=session, options=options) job = estimator.run(circuits=[qc], observables=[O]) print(job.result().values)
+```
+
+```
+FakeManila
+```
+
+```
+NoiseModel
+```
+
+Original buggy code:
+Estimator
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import SparsePauliOp from qiskit_ibm_runtime import QiskitRuntimeService, Options, Session, Estimator # prepare the state |Ψ> qc = QuantumCircuit(1) # define the operator/observable O O = SparsePauliOp(['Z']) service = QiskitRuntimeService() backend = 'ibmq_qasm_simulator' options = Options(resilience_level=0) with Session(service=service, backend=backend) as session: estimator = Estimator(session=session, options=options) job = estimator.run(circuits=[qc], observables=[O]) print(job.result().values)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.quantum_info import SparsePauliOp from qiskit_ibm_runtime import QiskitRuntimeService, Options, Session, Estimator # prepare the state |Ψ> qc = QuantumCircuit(1) # define the operator/observable O O = SparsePauliOp(['Z']) service = QiskitRuntimeService() backend = 'ibmq_qasm_simulator' options = Options(resilience_level=0) with Session(service=service, backend=backend) as session: estimator = Estimator(session=session, options=options) job = estimator.run(circuits=[qc], observables=[O]) print(job.result().values)
+
+---CODE_BLOCK---
+
+FakeManila
+
+---CODE_BLOCK---
+
+NoiseModel
+
+Solution explanation:
+Using primitives with fake backends You can use to work with fake backends. As primitives implementation, and are designed to be generic that can work with almost any backend. Note that, if you are dealing with a provider that has native primitive implementations, like Qiskit Runtime or Qiskit Aer, you should use that native implementation. Most probably, it will be much more efficient. Using primitives with Qiskit runtime noisy simulators If what you want is to use primitives with Qiskit runtime noisy simulators, you can easily do that by creating the and passing it to the estimator options as follows:
+
+```
+BackendEstimator
+```
+
+```
+BackendEstimator
+```
+
+```
+BackendSampler
+```
+
+```
+from qiskit.primitives import BackendEstimator estimator = BackendEstimator(backend = FakeNairobi()) job = estimator.run(qc, O) result = job.result() print(result.values)
+```
+
+```
+from qiskit.primitives import BackendEstimator estimator = BackendEstimator(backend = FakeNairobi()) job = estimator.run(qc, O) result = job.result() print(result.values)
+```
+
+```
+NoiseModel
+```
+
+```
+from qiskit_aer.noise import NoiseModel noisy_backend = service.get_backend('ibm_nairobi') backend_noise_model = NoiseModel.from_backend(noisy_backend) simulator = service.get_backend('ibmq_qasm_simulator') options = Options() options.resilience_level = 0 options.optimization_level = 0 options.simulator = { "noise_model": backend_noise_model } with Session(service=service, backend=simulator) as session: estimator = Estimator(session=session, options=options) job = estimator.run(circuits=qc, observables=O) print(job.result().values)
+```
+
+```
+from qiskit_aer.noise import NoiseModel noisy_backend = service.get_backend('ibm_nairobi') backend_noise_model = NoiseModel.from_backend(noisy_backend) simulator = service.get_backend('ibmq_qasm_simulator') options = Options() options.resilience_level = 0 options.optimization_level = 0 options.simulator = { "noise_model": backend_noise_model } with Session(service=service, backend=simulator) as session: estimator = Estimator(session=session, options=options) job = estimator.run(circuits=qc, observables=O) print(job.result().values)
+```
+
+Original fixed code:
+BackendEstimator
+
+---CODE_BLOCK---
+
+BackendEstimator
+
+---CODE_BLOCK---
+
+BackendSampler
+
+---CODE_BLOCK---
+
+from qiskit.primitives import BackendEstimator estimator = BackendEstimator(backend = FakeNairobi()) job = estimator.run(qc, O) result = job.result() print(result.values)
+
+---CODE_BLOCK---
+
+from qiskit.primitives import BackendEstimator estimator = BackendEstimator(backend = FakeNairobi()) job = estimator.run(qc, O) result = job.result() print(result.values)
+
+---CODE_BLOCK---
+
+NoiseModel
+
+---CODE_BLOCK---
+
+from qiskit_aer.noise import NoiseModel noisy_backend = service.get_backend('ibm_nairobi') backend_noise_model = NoiseModel.from_backend(noisy_backend) simulator = service.get_backend('ibmq_qasm_simulator') options = Options() options.resilience_level = 0 options.optimization_level = 0 options.simulator = { "noise_model": backend_noise_model } with Session(service=service, backend=simulator) as session: estimator = Estimator(session=session, options=options) job = estimator.run(circuits=qc, observables=O) print(job.result().values)
+
+---CODE_BLOCK---
+
+from qiskit_aer.noise import NoiseModel noisy_backend = service.get_backend('ibm_nairobi') backend_noise_model = NoiseModel.from_backend(noisy_backend) simulator = service.get_backend('ibmq_qasm_simulator') options = Options() options.resilience_level = 0 options.optimization_level = 0 options.simulator = { "noise_model": backend_noise_model } with Session(service=service, backend=simulator) as session: estimator = Estimator(session=session, options=options) job = estimator.run(circuits=qc, observables=O) print(job.result().values)

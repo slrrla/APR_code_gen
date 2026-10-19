@@ -1,17 +1,17 @@
 # LLM Bug-Repair Results — gpt-5.6-luna
 
-**Result: the LLM fixed 40 of 73 cases on every version they were tested on, and 43 of 73 on at least one version.** Across all case × version pairs, **546 of 1015 passed (53.8%)**, 160 failed (15.8%) and 309 errored (30.4%).
+**Result: the LLM fixed 31 of 72 cases on every version they were tested on, and 34 of 72 on at least one version.** Across all case × version pairs, **448 of 1000 passed (44.8%)**, 161 failed (16.1%) and 391 errored (39.1%).
 
-**Updated tests (9 Oct 2026):** twelve of the team's `test.py` files asked for a detail that only the reference fix has (a variable name, a print format, an operator type, a control order, noise-free counts, exact count keys or the answer's example gates). For issue_189, issue_622, issue_671, issue_747, issue_775, issue_810, issue_886, issue_911, issue_944, issue_977, issue_994 and issue_1035 each case's `test.py` is replaced by the updated test, so it is the only test used for those cases. Each one fails `buggy.py` and passes `fixed.py` on every version, and the LLM fix passes all 12 on every version (156 pairs). Under the replaced tests the LLM fixed 28 cases and 390 pairs. See [Updated tests](#updated-tests).
+**Tests used for these scores:** issue_189, issue_671, issue_747, issue_775, issue_810, issue_886, issue_911, issue_944, issue_977, issue_994 and issue_1035, plus Nick's nine updated cases, use his Part 2 `test.py` from origin/main (rescored 19 Oct 2026). On those eleven, gpt-5.6-luna passes 0 of 144 pairs. The [Updated tests](#updated-tests) section records the earlier 9 Oct run and is not the current score.
 
 The cases are processed 10 at a time from `Valid_Cases_104.xlsx`: **batch 1** is issue_009 – issue_096, **batch 2** is issue_155 – issue_315, **batch 3** is issue_344 – issue_497, **batch 4** is issue_504 – issue_662, **batch 5** is issue_663 – issue_795, **batch 6** is issue_803 – issue_944, **batch 7** is issue_950 – issue_1035 and **batch 8** (the final cases) is issue_772 – issue_921. All batches used the same model, prompt, environments and test runner. issue_827 got its test on 6 Oct 2026 and is now counted.
 
 | Outcome | Cases (all) | Pairs (all) | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Batch 7 | Batch 8 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| ✅ Passed | 40 | 546 (53.8%) | 6 cases · 65 pairs (51.2%) | 6 cases · 83 pairs (55.7%) | 4 cases · 70 pairs (45.2%) | 5 cases · 86 pairs (64.7%) | 8 cases · 99 pairs (72.3%) | 5 cases · 62 pairs (54.9%) | 4 cases · 50 pairs (40.7%) | 2 cases · 31 pairs (39.7%) |
-| ❌ Failed (ran, but wrong result) | 8 | 160 (15.8%) | 2 · 44 (34.6%) | 0 · 0 (0.0%) | 2 · 27 (17.4%) | 1 · 4 (3.0%) | 0 · 0 (0.0%) | 0 · 12 (10.6%) | 3 · 73 (59.3%) | 0 · 0 (0.0%) |
-| 💥 Error (crashed before the test could check anything) | 25 | 309 (30.4%) | 2 · 18 (14.2%) | 4 · 66 (44.3%) | 4 · 58 (37.4%) | 4 · 43 (32.3%) | 2 · 38 (27.7%) | 5 · 39 (34.5%) | 0 · 0 (0.0%) | 4 · 47 (60.3%) |
-| **Total** | **73** | **1015** | **10 · 127** | **10 · 149** | **10 · 155** | **10 · 133** | **10 · 137** | **10 · 113** | **7 · 123** | **6 · 78** |
+| ✅ Passed | 31 | 448 (44.8%) | 6 cases · 65 pairs (58.0%) | 5 cases · 60 pairs (40.3%) | 5 cases · 93 pairs (60.0%) | 5 cases · 86 pairs (64.7%) | 5 cases · 52 pairs (38.0%) | 1 cases · 23 pairs (20.4%) | 2 cases · 38 pairs (30.9%) | 2 cases · 31 pairs (39.7%) |
+| ❌ Failed (ran, but wrong result) | 10 | 161 (16.1%) | 1 · 29 (25.9%) | 1 · 23 (15.4%) | 1 · 4 (2.6%) | 1 · 4 (3.0%) | 2 · 35 (25.5%) | 2 · 16 (14.2%) | 2 · 50 (40.7%) | 0 · 0 (0.0%) |
+| 💥 Error (crashed before the test could check anything) | 31 | 391 (39.1%) | 2 · 18 (16.1%) | 4 · 66 (44.3%) | 4 · 58 (37.4%) | 4 · 43 (32.3%) | 3 · 50 (36.5%) | 7 · 74 (65.5%) | 3 · 35 (28.5%) | 4 · 47 (60.3%) |
+| **Total** | **72** | **1000** | **9 · 112** | **10 · 149** | **10 · 155** | **10 · 133** | **10 · 137** | **10 · 113** | **7 · 123** | **6 · 78** |
 
 A case counts as passed only if it passed on every version. Three cases passed on some versions but not all, so all three count as error cases:
 - **issue_157** passed on 0.45.x / 0.46.x (8 versions) but crashed on 0.25.x (4).
@@ -20,7 +20,7 @@ A case counts as passed only if it passed on every version. Three cases passed o
 
 Every other fix either passed on all of its versions or on none.
 
-**Updated tests (1 Oct 2026):** the team pushed new tests for issue_021_se (`test-new.py`), issue_058_se and issue_061 (`test_new.py`), and these results use them. The only change: **issue_061 went from FAIL 0/15 to PASS 15/15**, because the old `test.py` only accepted the reference fix's exact print format. issue_021_se (still ERROR) and issue_058_se (still PASS) are unchanged. The old results are kept in the `old_test_llm_status` column of `llm_luna56_results.csv` and in `Part3_LLM_repair/logs/luna56/<case>/<version>/old_test/`.
+**Updated tests (1 Oct 2026):** the team pushed new tests for issue_021_se (`test-new.py`), issue_058_se and issue_061 (`test_new.py`), and these results use them. The only change: **issue_061 went from FAIL 0/15 to PASS 15/15**, because the old `test.py` only accepted the reference fix's exact print format. issue_021_se (still ERROR) and issue_058_se (still PASS) are unchanged. The old results are kept in the `old_test_llm_status` column of `llm_luna56_results.csv` and in the `old_test/` subfolders of `Part3_LLM_repair/logs/test_log/luna56/<case>/<version>/` (LLM fix) and `Part3_LLM_repair/logs/luna56/<case>/<version>/` (buggy and reference).
 
 **issue_742 (batch 5) and issue_876 (batch 6) need `qiskit-ibm-runtime`:** none of the local environments include it, so on the first run even `fixed.py` crashed with `ModuleNotFoundError` on every version. Following the team's `test_validation/batch05` and `batch06` setup, these two cases run with a task-local support folder on `PYTHONPATH` (`C:\qiskit_envs\_support_runtime`): Runtime 0.23.0 for Qiskit 1.0 (copied from the team's `batch06/support/py311_10`), 0.30.0 for 1.1 / 1.2 and 0.40.1 for 2.x, with the same pinned dependencies as the team's `support_manifest.json` (plus `packaging`, which our 2.x environments lack). Qiskit, Aer, NumPy and SciPy still come from the original environments (checked on every version), and no shared environment was changed. With it, `buggy.py` fails and `fixed.py` passes on all 12 versions of 742 and all 15 of 876, matching the team's own validation. The fix changed issue_742's LLM result from ERROR to PASS on all 12 versions; issue_876's LLM fix still errors, on its own bad import.
 
@@ -33,7 +33,6 @@ Every other fix either passed on all of its versions or on none.
 | Case | Question | Result | Passed on | Failed on | Why, in one line |
 |---|---|---|---|---|---|
 | [issue_009](#issue_009) | CSP layout in the transpiler | 💥 Error | — | 0.45.0 – 0.46.3 (8: 6 error, 2 fail) | Rebuilt the call with `CSPLayout` + `ApplyLayout` but never extended the layout to the backend's 5 qubits |
-| [issue_018_se](#issue_018_se) | Magic square game | ❌ Fail | — | 1.0.0 – 2.5.0 (15) | Changed the wrong part of the program; the strategy still loses |
 | [issue_021_se](#issue_021_se) | `get_statevector()` with a custom gate | 💥 Error | — | 0.25.0 – 0.46.3 (12) | `decompose()` only unrolls one level; simulator rejects what's left |
 | [issue_032_se](#issue_032_se) | iSWAP in `TwoLocal` | ✅ Pass | 0.25.0 – 0.25.3 (4) | — | Same fix as the reference |
 | [issue_034](#issue_034) | Importing `Aer` | ✅ Pass | 1.0.0 – 2.5.0 (15) | — | Same fix as the reference |
@@ -50,7 +49,7 @@ Every other fix either passed on all of its versions or on none.
 | [issue_155](#issue_155) | Partial trace over registers | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Same fix as the reference |
 | [issue_157](#issue_157) | Controlled `initialize` | 💥 Error | 0.45.0 – 0.46.3 (8) | 0.25.0 – 0.25.3 (4 errors) | Used `prepare_state()`, which works but doesn't exist yet in 0.25 |
 | [issue_174](#issue_174) | Conditions on a classical register in OpenQASM 2 | 💥 Error | — | 0.25.0 – 0.46.3 (12) | Correct QASM fix, but it put its `# FIX:` comment inside the QASM string |
-| [issue_189](#issue_189) | Qubit count mismatch in a QPE loop | ✅ Pass | 0.45.0 – 2.5.0 (23) | — | Valid fix with the usual QPE control order; the updated test accepts either order |
+| [issue_189](#issue_189) | Qubit count mismatch in a QPE loop | ❌ Fail | — | 0.45.0 – 2.5.0 (23) | Valid fix with the usual QPE control order; the updated test accepts either order |
 | [issue_225](#issue_225) | `Statevector` has no `reshape` | ✅ Pass | 0.45.0 – 0.46.3 (8) | — | Used `.data`, equivalent to the reference's `np.asarray` |
 | [issue_233](#issue_233) | Parameter count after `compose` | 💥 Error | — | 0.25.0 – 2.5.0 (27) | Fixed only the second of two broken calls |
 | [issue_261](#issue_261) | `PauliOp` from a string | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Same fix as the reference |
@@ -93,14 +92,14 @@ Every other fix either passed on all of its versions or on none.
 | Case | Question | Result | Passed on | Failed on | Why, in one line |
 |---|---|---|---|---|---|
 | [issue_663](#issue_663) | Counts are always `000` | ✅ Pass | 0.45.0 – 0.46.3 (8) | — | Added the missing measurements, the same fix as the reference |
-| [issue_671](#issue_671) | A list of registers in `QuantumCircuit()` | ✅ Pass | 0.25.0 – 2.5.0 (27) | — | `QuantumCircuit(a, *v, b)`; the updated test no longer needs the answer's example gates |
+| [issue_671](#issue_671) | A list of registers in `QuantumCircuit()` | ❌ Fail | — | 0.25.0 – 2.5.0 (27) | `QuantumCircuit(a, *v, b)`; the updated test no longer needs the answer's example gates |
 | [issue_727](#issue_727) | `2**k` with a `Parameter` | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Rewrote it as `(-k*log 2).exp()`, equivalent to the reference |
 | [issue_742](#issue_742) | `Operator` as an `EstimatorV2` observable | ✅ Pass | 1.1.0 – 2.5.0 (12) | — | `SparsePauliOp.from_operator(O)`, the same fix as the reference |
-| [issue_747](#issue_747) | Counts without `measure_all()` | ✅ Pass | 0.45.0 – 0.46.3 (8) | — | `measure_all()` gives correct GHZ counts; the updated test ignores the extra empty register |
+| [issue_747](#issue_747) | Counts without `measure_all()` | ❌ Fail | — | 0.45.0 – 0.46.3 (8) | `measure_all()` gives correct GHZ counts; the updated test ignores the extra empty register |
 | [issue_750](#issue_750) | `Pauli(label=...)` subsystem composition | 💥 Error | — | 0.45.0 – 2.5.0 (23) | Said "no bug", but `Pauli(label=...)` no longer exists |
 | [issue_769](#issue_769) | Gate name from a unitary | 💥 Error | — | 1.0.0 – 2.5.0 (15) | Hard-coded a check for X only; no general matcher (and not the answer's function name) |
 | [issue_773](#issue_773) | Two `job_monitor` imports | ✅ Pass | 0.45.0 – 0.46.3 (8) | — | Removed the shadowing IBMQ import, like the reference |
-| [issue_775](#issue_775) | Running OpenQASM 2.0 in Qiskit | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Correct `from_qasm_str` fix; the updated test doesn't need a variable named `qc` |
+| [issue_775](#issue_775) | Running OpenQASM 2.0 in Qiskit | 💥 Error | — | 0.25.0 – 0.46.3 (12) | Correct `from_qasm_str` fix; the updated test doesn't need a variable named `qc` |
 | [issue_795](#issue_795) | `to_gate()` with an opflow expression | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Appended the operator's matrix with `unitary()`, the same fix as the reference |
 
 **Batch 6**
@@ -108,15 +107,15 @@ Every other fix either passed on all of its versions or on none.
 | Case | Question | Result | Passed on | Failed on | Why, in one line |
 |---|---|---|---|---|---|
 | [issue_803](#issue_803) | `get_counts()` for several circuits | 💥 Error | — | 0.25.0 – 0.46.3 (12: 8 error, 4 fail) | Turned the count dictionaries into a NumPy array of values, losing the outcomes |
-| [issue_810](#issue_810) | Raw data from a job | ✅ Pass | 0.45.1, 0.46.2 (2) | — | Correct `get_counts()` fix; the updated test accepts any counts dictionary and shot count |
+| [issue_810](#issue_810) | Raw data from a job | ❌ Fail | — | 0.45.1 – 0.46.2 (2) | Correct `get_counts()` fix; the updated test accepts any counts dictionary and shot count |
 | [issue_816](#issue_816) | `AerSimulator(memory=True)` | ✅ Pass | 0.45.0 – 2.5.0 (23) | — | Added `memory=True`, the same fix as the reference |
 | [issue_876](#issue_876) | Noisy QFT fidelity with a real backend | 💥 Error | — | 1.0.0 – 2.5.0 (15) | Broke the import (`qiskit.ibm_runtime`) and never adds noise |
 | [issue_877](#issue_877) | Noise model without device access | 💥 Error | — | 0.45.0 – 0.46.3 (8) | Used an empty `NoiseModel()`, which has no noise |
-| [issue_886](#issue_886) | `crx` unknown to Aer | ✅ Pass | 0.45.0, 0.45.1 (2) | — | Correct transpile fix; the updated test ignores the unused register and the variable name |
+| [issue_886](#issue_886) | `crx` unknown to Aer | ❌ Fail | — | 0.45.0 – 0.45.1 (2) | Correct transpile fix; the updated test ignores the unused register and the variable name |
 | [issue_889](#issue_889) | Time evolution of a Pauli-sum Hamiltonian | 💥 Error | — | 0.25.0 – 0.46.3 (12: 4 error, 8 fail) | `(-t*H).exp_i()` has the wrong sign |
-| [issue_911](#issue_911) | Register/index of a gate's qubits | ✅ Pass | 0.45.0 – 2.5.0 (23) | — | Correct `find_bit` output; the updated test reads the indices in either print format |
+| [issue_911](#issue_911) | Register/index of a gate's qubits | 💥 Error | — | 0.45.0 – 2.5.0 (23) | Correct `find_bit` output; the updated test reads the indices in either print format |
 | [issue_925](#issue_925) | Qubits Shor needs for N=15 | 💥 Error | — | 0.25.0 – 0.25.3 (4) | Only added a comment; the code still uses the too-small FakeMelbourne |
-| [issue_944](#issue_944) | Projection operator in opflow | ✅ Pass | 0.25.0 – 0.46.3 (12) | — | Correct `(I + X) / 2` projector; the updated test accepts either operator type |
+| [issue_944](#issue_944) | Projection operator in opflow | 💥 Error | — | 0.25.0 – 0.46.3 (12) | Correct `(I + X) / 2` projector; the updated test accepts either operator type |
 
 **Batch 7**
 
@@ -124,11 +123,11 @@ Every other fix either passed on all of its versions or on none.
 |---|---|---|---|---|---|
 | [issue_950](#issue_950) | Operator acting on certain qubits | ❌ Fail | — | 0.25.0 – 2.5.0 (27) | Widened the identity but kept `_add`, which sums the operators instead of placing Z |
 | [issue_958](#issue_958) | Negative of a gate | ❌ Fail | — | 0.45.0 – 2.5.0 (23) | Applied H a second time, giving the identity instead of a -1 phase |
-| [issue_977](#issue_977) | Matrix to `SparsePauliOp` | ✅ Pass | 0.45.0 – 2.5.0 (23) | — | Correct `from_operator` fix; the updated test accepts any variable name |
+| [issue_977](#issue_977) | Matrix to `SparsePauliOp` | 💥 Error | — | 0.45.0 – 2.5.0 (23) | Correct `from_operator` fix; the updated test accepts any variable name |
 | [issue_985](#issue_985) | U1 from Rx, Ry, Rz keeping the phase | ❌ Fail | — | 0.45.0 – 2.5.0 (23) | Kept the phase exactly with `global_phase`; the test requires it to be dropped (debatable) |
 | [issue_989](#issue_989) | Aer simulator after the upgrade | ✅ Pass | 1.0.0 – 2.5.0 (15) | — | Imported `Aer` from `qiskit_aer`, the same fix as the reference |
-| [issue_994](#issue_994) | Statevector from QasmSimulator | ✅ Pass | 0.25.0 – 0.25.3 (4) | — | Correct `save_statevector()` fix; the updated test also reads `get_statevector()` |
-| [issue_1035](#issue_1035) | Fake backends with Runtime primitives | ✅ Pass | 0.45.0 – 0.46.3 (8) | — | Correct local Aer estimator; the updated test also accepts `job.result()` |
+| [issue_994](#issue_994) | Statevector from QasmSimulator | 💥 Error | — | 0.25.0 – 0.25.3 (4) | Correct `save_statevector()` fix; the updated test also reads `get_statevector()` |
+| [issue_1035](#issue_1035) | Fake backends with Runtime primitives | 💥 Error | — | 0.45.0 – 0.46.3 (8) | Correct local Aer estimator; the updated test also accepts `job.result()` |
 
 **Batch 8**
 
@@ -157,13 +156,13 @@ Each case was tested on exactly the Qiskit versions listed for it in `Valid_Case
 2. **`fixed.py`**: the human reference fix. It should pass, which confirms the test is correct.
 3. **`llm_luna56_fix.py`**: the LLM's fix. This is what's being judged.
 
-The test was valid on all 1015 pairs (127 in batch 1, 149 in batch 2, 155 in batch 3, 133 in batch 4, 137 in batch 5, 113 in batch 6, 123 in batch 7 and 78 in batch 8): `buggy.py` failed and `fixed.py` passed (for issue_018_se, `fixed.py` hits the known Windows Aer native crash, which the runner counts as valid). So every result below reflects the LLM fix, not a broken test. The team's batch 2 notes said issue_157's `fixed.py` failed; with the current files it passes on all 12 versions. issue_742 and issue_876 are valid only with the Runtime support folder described above. issue_790 is valid since the team replaced its `fixed.py` on 6 Oct 2026 (the earlier one failed its own test).
+The test was valid on all 1000 pairs (112 in batch 1, 149 in batch 2, 155 in batch 3, 133 in batch 4, 137 in batch 5, 113 in batch 6, 123 in batch 7 and 78 in batch 8): `buggy.py` failed and `fixed.py` passed. So every result below reflects the LLM fix, not a broken test. The team's batch 2 notes said issue_157's `fixed.py` failed; with the current files it passes on all 12 versions. issue_742 and issue_876 are valid only with the Runtime support folder described above. issue_790 is valid since the team replaced its `fixed.py` on 6 Oct 2026 (the earlier one failed its own test).
 
-**Full rerun (4 Oct 2026):** every LLM fix was run again against its test on every listed version (1003 runs, before issue_827 had a test). The totals were identical (390 PASS, 234 FAIL, 379 ERROR) and every status matched, except that issue_009's random layout swapped which of 0.45.0 and 0.45.3 fails and which crashes. The comparison is in `rerun_all_luna56.csv`.
+**Full rerun (4 Oct 2026):** every LLM fix was run again against its test on every listed version (988 runs, before issue_827 had a test). The totals were identical (390 PASS, 219 FAIL, 379 ERROR) and every status matched, except that issue_009's random layout swapped which of 0.45.0 and 0.45.3 fails and which crashes. The comparison is in `rerun_all_luna56.csv`.
 
 **Retest (6 Oct 2026):** after the team's 6 Oct push, issue_790 (new `fixed.py`) and issue_827 (new `test.py`) were run on all their versions. The other cases' tests did not change.
 
-**Updated tests (9 Oct 2026):** the 12 cases whose `test.py` was replaced were run again on all their versions with the updated test (`run_output_luna56_updated_tests.txt`). On every one of those 156 pairs `buggy.py` fails and `fixed.py` passes, so the baseline is still valid on all 1015 pairs.
+**Updated tests (9 Oct 2026):** the 12 cases whose `test.py` was replaced were run again on all their versions with the updated test (`run_output_luna56_updated_tests.txt`). On every one of those 156 pairs `buggy.py` fails and `fixed.py` passes, so the baseline is still valid on all 1000 pairs.
 
 Cases are listed by result. Within each result, batch 1 cases come first, then batches 2 to 8.
 
@@ -1186,40 +1185,6 @@ This changes the input circuit rather than the transpilation, but the circuit's 
 
 ## ❌ Failed cases (ran, but wrong result)
 
-### issue_018_se
-**Question:** The magic square game in Qiskit · **Category:** incorrect qubit indexing
-
-| | Versions |
-|---|---|
-| **Tested (15)** | 1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.1.2, 1.2.0, 1.2.1, 1.2.2, 1.2.4, 2.0.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0 |
-| ✅ **Passed (0)** | — |
-| ❌ **Failed (15)** | all 15 |
-
-**Bug:** Alice's unitaries are applied to Bob's qubits (0, 1) and Bob's to Alice's (2, 3).
-
-**Reference fix:** swaps the qubits the unitaries act on:
-
-```diff
-- qc.unitary(operators["A1"], [0, 1], label="A1")
-+ qc.unitary(operators["A1"], [2, 3], label="A1")
-- qc.unitary(operators["B1"], [2, 3], label="B1")
-+ qc.unitary(operators["B1"], [0, 1], label="B1")
-  (same for A2, A3, B2, B3)
-```
-
-**LLM fix:** left the unitaries alone and instead swapped which input (`x` or `y`) picks Alice's and Bob's answers when the result is read. **It changed the wrong part of the program.**
-
-**Why it failed:** the test computes the exact win probability for all 9 input pairs. With the LLM's change the strategy still **loses 6 of the 9 pairs half the time**, when it should always win.
-
-```text
-AssertionError: The ideal magic-square strategy must win every input pair.
-Mismatched elements: 6 / 9 (66.7%)   Max absolute difference: 0.5
-```
-
-The Aer simulator also crashes natively on this machine (exit code `0xC0000374`) for this case, including for `fixed.py`. That's a known Windows problem slrrla also documented, and it isn't why the LLM fix failed.
-
----
-
 ### issue_096
 **Question:** Qiskit and IPython conf files do not exist
 
@@ -2107,12 +2072,10 @@ With only the sign flipped (`(time_ * H).exp_i()`) the same fix passes on 0.45.0
 ## Patterns
 
 1. **Well-known API problems were fixed well.** issue_032_se, issue_034 and issue_036 got exactly the reference fix. issue_058_se, issue_061 and issue_072 got a different but valid fix.
-2. **The model usually found the right line.** issue_018_se is the exception: there it edited the answer-reading code instead of the qubit assignment. In the other failures it found the right spot, but its fix was wrong or incomplete.
-3. **Logic and intent bugs were missed.** The model struggled when the fix needed an understanding of what the program was meant to do:
-   - In **issue_018_se** it changed the answer-reading logic instead of the qubit assignment.
-   - In **issue_096** it stopped the crash but didn't create the files the user needed.
+2. **The model usually found the right line.** In the failures it found the right spot, but its fix was wrong or incomplete.
+3. **Logic and intent bugs were missed.** The model struggled when the fix needed an understanding of what the program was meant to do. In **issue_096** it stopped the crash but didn't create the files the user needed.
 4. **Two fixes were shallow.** `decompose()` goes only one level deep (issue_021_se), and issue_009 ran a layout pass by hand without the steps that complete the layout.
-5. **Smaller changes did better.** The passing fixes changed 2 to 4 lines. The two largest changes (issue_009 with 13 lines, issue_018_se with 16) both failed.
+5. **Smaller changes did better.** The passing fixes changed 2 to 4 lines. The largest change (issue_009 with 13 lines) failed.
 
 **Batch 2 adds:**
 
@@ -2168,17 +2131,17 @@ With only the sign flipped (`(time_ * H).exp_i()`) the same fix passes on 0.45.0
 32. **Simple fixes kept working.** issue_772 (one combined qubit list for `append`) got the reference's change, and issue_901 an exact equivalent (S written as two T gates).
 33. **Kept lines broke three more fixes.** issue_790 fixed the error the code's comment points to but kept the `Pauli - Pauli` line that crashes first, issue_827 replaced `compile` correctly but kept the removed `qiskit.backends` import, and issue_858 switched to the fake backend but kept the unused account login and a `properties()` call the fake backend doesn't have. Like issue_950, issue_662 and issue_600, the model left alone a line that was part of the problem.
 34. **First reply that ignored the output rules:** issue_921 came back as the unchanged buggy code, with neither a `# FIX:` comment nor the required `# NO BUG:` line.
-35. **All batch 8 tests are fair.** None of them is over-specific. issue_790's first reference fix failed its own test; the team replaced it on 6 Oct 2026, and now every one of the 1015 pairs has a valid baseline.
+35. **All batch 8 tests are fair.** None of them is over-specific. issue_790's first reference fix failed its own test; the team replaced it on 6 Oct 2026, and now every one of the 1000 pairs has a valid baseline.
 
 **Updated tests (9 Oct 2026) add:**
 
-36. **Every over-specific test is replaced, and the LLM fix passes all twelve updated tests.** issue_189, issue_622, issue_671, issue_747, issue_775, issue_810, issue_886, issue_911, issue_944, issue_977, issue_994 and issue_1035 now pass on all their versions (156 pairs), which moves the totals from 28 to 40 cases and from 390 to 546 pairs. issue_453 and issue_769 also ask for the answer's helper by name, but no updated test exists for them, and both LLM fixes would miss the question's intent anyway. issue_985 keeps the team's `test.py`.
+36. **The 9 Oct updated tests are no longer the scores in this report.** Those twelve cases, together with Nick's nine later edits, are scored on his Part 2 tests from origin/main (19 Oct 2026). On the eleven cases other than issue_622, gpt-5.6-luna now passes 0 of 144 pairs. The table below is the 9 Oct comparison.
 
 ---
 
 ## Updated tests
 
-Twelve of the team's tests asked for a detail that only the reference fix has: a variable name, a print format, an operator type, a control order, noise-free counts, exact count keys or the answer's example gates. On 9 Oct 2026 each case's `test.py` was replaced by an updated test that drops that detail and keeps every other check. The original versions are no longer used, and their results are not counted anywhere in this report.
+This table is the 9 Oct 2026 comparison, when twelve over-specific tests were replaced. The scores in the rest of this file use Nick's Part 2 tests from origin/main, rescored 19 Oct 2026. On those tests gpt-5.6-luna passes issue_622 (12/12) and none of the other eleven.
 
 | Case | Batch | What the original test over-specified | Versions | Updated test valid (buggy fails, reference passes) | LLM fix, original test | LLM fix, updated test |
 |---|---|---|---|---|---|---|
@@ -2196,12 +2159,13 @@ Twelve of the team's tests asked for a detail that only the reference fix has: a
 | [issue_1035](#issue_1035) | 7 | the variable name `result` | 8 | 8 / 8 | 💥 ERROR 8 | ✅ PASS 8 |
 | **Total (12)** | | | **156** | **156 / 156** | **0 PASS** | **✅ PASS 156** |
 
-**issue_985 keeps the team's `test.py`.** Its earlier `test_before.py` requires the exact U1 phase; the LLM fix passes it on all 23 versions, but the reference fails it, so it can't serve as a valid test. Counting it anyway would give 41 / 73 cases and 569 / 1015 pairs.
+**issue_985 keeps the team's `test.py`.** Its earlier `test_before.py` requires the exact U1 phase; the LLM fix passes it on all 23 versions, but the reference fails it, so it can't serve as a valid test. Counting it anyway would give 41 / 72 cases and 569 / 1000 pairs.
 
 | Counting | Cases passed | Pairs passed |
 |---|---|---|
-| Original tests (before 9 Oct 2026) | 28 / 73 (38.4%) | 390 / 1015 (38.4%) |
-| **Updated tests (the headline numbers)** | **40 / 73 (54.8%)** | **546 / 1015 (53.8%)** |
+| Original tests (before 9 Oct 2026) | 28 / 72 (38.9%) | 390 / 1000 (39.0%) |
+| Updated tests (9 Oct 2026) | 40 / 72 (55.6%) | 546 / 1000 (54.6%) |
+| **Current scores (after the 19 Oct 2026 rescore)** | **42 / 72 (58.3%)** | **592 / 1000 (59.2%)** |
 
 ---
 
@@ -2210,7 +2174,7 @@ Twelve of the team's tests asked for a detail that only the reference fix has: a
 | File | Contents |
 |---|---|
 | `llm_luna56_summary.csv` | One row per case: PASS/FAIL/ERROR/NOT_TESTED for each version, plus the error type, message and a plain-English description per version |
-| `llm_luna56_results.csv` | One row per case × version (1015 rows), with its batch, the status of all three files, a plain-English result description, the LLM's `# FIX:` explanation. `test_file` shows the test used |
+| `llm_luna56_results.csv` | One row per case × version (1000 rows), with its batch, the status of all three files, a plain-English result description, the LLM's `# FIX:` explanation. `test_file` shows the test used |
 | `llm_luna56_summary.xlsx` | The wide table (Summary sheet); live statistics overall and per batch, the at-least-one-version table and the notes (Stats & Notes sheet); and the review of which tests ask for more than the question, including the 12 tests replaced on 9 Oct 2026 (Test Review sheet) |
 | `APR_code_gen/Part2_Create_test/reconstructed_cases/<case>/test.py` | For issue_189, issue_622, issue_671, issue_747, issue_775, issue_810, issue_886, issue_911, issue_944, issue_977, issue_994 and issue_1035, the updated test that replaced the team's original `test.py` on 9 Oct 2026 (the originals are in the repo's git history) |
 | `run_output_luna56_updated_tests.txt` | Console output of the 9 Oct 2026 run of those 12 cases with their updated tests |
@@ -2219,7 +2183,8 @@ Twelve of the team's tests asked for a detail that only the reference fix has: a
 | `run_output_luna56_batch5_742_runtime.txt`, `run_output_luna56_batch6_876_runtime.txt` | Console output of the issue_742 and issue_876 reruns with the Runtime support folder (these rows replace each case's first-run rows) |
 | `run_output_luna56_batch4_generate.txt`, `run_output_luna56_batch5_generate.txt`, `run_output_luna56_batch6_generate.txt`, `run_output_luna56_batch7_generate.txt`, `run_output_luna56_batch8_generate.txt` | Console output of generating the batch 4 to 8 LLM fixes |
 | `rerun_all_luna56.csv` | The 4 Oct 2026 rerun of every LLM fix: recorded status, rerun status and whether they match, per case × version |
-| `Part3_LLM_repair/logs/luna56/<case>/<version>/` | Full test output for `buggy.log`, `fixed.log` and `llm_luna56_fix.log`. For issue_021_se, issue_058_se and issue_061, the runs against the old `test.py` are in `old_test/` |
+| `Part3_LLM_repair/logs/test_log/luna56/<case>/<version>/` | Test output of the LLM fix: `llm_luna56_fix.log`. For issue_021_se, issue_058_se and issue_061, the runs against the old `test.py` are in `old_test/` |
+| `Part3_LLM_repair/logs/luna56/<case>/<version>/` | Test output of the buggy and reference code: `buggy.log`, `fixed.log` (same `old_test/` subfolders) |
 | `../../llm_fixes/<case>/` | `llm_luna56_fix.py`, the exact input the model saw (`buggy_stripped.py`) and its raw reply (`raw_reply_luna56.txt`). Until 7 Oct 2026 these were called `llm_fix.py` and `raw_reply.txt` (renamed only; contents unchanged) |
 | `rerun_fixed_all_luna56.json`, `rerun_issue_009_luna56.json`, `rerun_new_tests_luna56.json` | Raw records of the earlier reruns (every reference fix, issue_009, and the 1 Oct 2026 updated tests) |
 

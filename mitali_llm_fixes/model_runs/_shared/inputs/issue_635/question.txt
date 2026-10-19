@@ -1,0 +1,35 @@
+Title: How to implement if statement based on measurement results in qiskit?
+
+I tried to implement three qubit bit flip code in qiskit and need to get the result of measurements and then apply recovery quantum operations conditioned on the measurement results. The following is a simplified version to initialize a circuit: I noticed that this question had a similar question and they transformed the statement into However, I want to have multiple quantum operations conditioned on the if statement can this work with "c_if"?
+
+```
+q= QuantumRegister(3) c= ClassicalRegister(3) qc= QuantumCircuit(q, c) qc.measure(q,c)
+```
+
+```
+q= QuantumRegister(3) c= ClassicalRegister(3) qc= QuantumCircuit(q, c) qc.measure(q,c)
+```
+
+```
+if(c[0]==0) qc.x(q[0])
+```
+
+```
+if(c[0]==0) qc.x(q[0])
+```
+
+```
+qc.x(q[0]).c_if(c[0], 0)
+```
+
+```
+qc.x(q[0]).c_if(c[0], 0)
+```
+
+```
+if c[0]==1 and c[1]==1: qc.x(q[0]) qc.x(q[1])
+```
+
+```
+if c[0]==1 and c[1]==1: qc.x(q[0]) qc.x(q[1])
+```

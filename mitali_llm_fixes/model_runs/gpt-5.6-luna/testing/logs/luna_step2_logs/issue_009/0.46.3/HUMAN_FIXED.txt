@@ -1,0 +1,21 @@
+﻿python.exe : C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_009\fixed.py:10: DeprecationWarning: 
+All fake backend instances based on real device snapshots (`FakeVigo`,`FakeSherbrooke`,...) have been migrated to the `qiskit_ibm_runtime` package. These classes are 
+deprecated as of qiskit 0.46.0 and will be removed in qiskit 1.0.0. To migrate your code, run `pip install qiskit-ibm-runtime` and use `from 
+qiskit_ibm_runtime.fake_provider import FakeExample` instead of `from qiskit.providers.fake_provider import FakeExample`. If you are using a custom fake backend 
+implementation, you don't need to take any action.
+At line:54 char:32
++                 $outputLines = & $python $test 2>&1
++                                ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\Mitali...ake any action.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  backend = FakeVigo()
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0463\lib\site-packages\qiskit\transpiler\basepasses.py:51: DeprecationWarning: The class 
+``qiskit.transpiler.passes.layout.noise_adaptive_layout.NoiseAdaptiveLayout`` is deprecated as of qiskit 0.46. It will be removed in the 1.0.0 release.
+  pass_instance = type.__call__(cls, *args, **kwargs)
+.
+----------------------------------------------------------------------
+Ran 1 test in 1.819s
+
+OK
+

@@ -1,0 +1,163 @@
+Title:
+what is the use of SparsePauliOp in qiskit and how to use it?
+
+Category:
+
+
+Question:
+Title: what is the use of SparsePauliOp in qiskit and how to use it?
+
+I was going through how to use . It works something like the below: I am not able to understand what exactly is its use? Is it the same as doing this: Please help me understand what exactly is , where to use it, and how it is different from generating a circuit using .
+
+```
+SparsePauliOp
+```
+
+```
+from qiskit.quantum_info import SparsePauliOp # ZX means Z on the first qubit and X on the second qubit operator = SparsePauliOp.from_list([("ZX", 1.0)]) # Not sure what is the second parameter? print(operator)
+```
+
+```
+from qiskit.quantum_info import SparsePauliOp # ZX means Z on the first qubit and X on the second qubit operator = SparsePauliOp.from_list([("ZX", 1.0)]) # Not sure what is the second parameter? print(operator)
+```
+
+```
+from qiskit import QuantumCircuit qc = QuantumCircuit(2) qc.z(0) qc.x(1) print(qc.draw())
+```
+
+```
+from qiskit import QuantumCircuit qc = QuantumCircuit(2) qc.z(0) qc.x(1) print(qc.draw())
+```
+
+```
+SparsePauliOp
+```
+
+```
+QuantumCircuit
+```
+
+Original buggy code:
+SparsePauliOp
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import SparsePauliOp # ZX means Z on the first qubit and X on the second qubit operator = SparsePauliOp.from_list([("ZX", 1.0)]) # Not sure what is the second parameter? print(operator)
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import SparsePauliOp # ZX means Z on the first qubit and X on the second qubit operator = SparsePauliOp.from_list([("ZX", 1.0)]) # Not sure what is the second parameter? print(operator)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit qc = QuantumCircuit(2) qc.z(0) qc.x(1) print(qc.draw())
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit qc = QuantumCircuit(2) qc.z(0) qc.x(1) print(qc.draw())
+
+---CODE_BLOCK---
+
+SparsePauliOp
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+Solution explanation:
+how it is different from generating a circuit using These are two different objects. A represents... well, a quantum circuit. It means that it represents a unitary $U$ such that, when applied on the state $|0\rangle$, you end up with a certain quantum state $|\psi\rangle$, which depends on the gates used in the quantum circuit. On the other hand, represents an observable. Since it's not rare that observables are disregarded as "some quantum theory stuff that I don't need to know about" when learning quantum Computing (I've been there), let us get back to the definition. An observable $O$ is simply an Hermitian matrix, which means that $O=O^\dagger$, no more, no less. The spectral theorem tells us that there is a basis of the vector space we're working in in which $O$ is diagonal, with its eigenvalues all being real. Let us denote $\lambda_i$ these eigenvalues, and $\left|\lambda_i\right\rangle$ the associated eigenvectors. Being given an arbitrary quantum state $|\psi\rangle$, we can measure it with respect to this observable $O$. What will happen is that we will obtain the classical outcome $\lambda_i$ with probability $\left|\left\langle\psi\middle|\lambda_i\right\rangle\right|^2$. If we obtain the classical outcome $\lambda_i$, then $|\psi\rangle$ has collapsed to $\left|\lambda_i\right\rangle$. So, the important point is that an observable defines how we measure a quantum state. If you change the observable, you also change the probabilities of getting the outcome $i$. In particular, what's important in the observable is its eigenbasis: this is what defines the probability of getting a particular outcome. The simplest (non-trivial) observable is the Pauli $Z_1\cdots Z_n$ word: its eigenbasis is the so-called computational basis $\left\{|0\cdots00\rangle,|0\cdots01\rangle,\dots,|1\cdots11\rangle\right\}$, which is quite convenient to work with: we can easily encode numbers using quantum states using their binary decomposition, and the probability of getting an outcome is given by the squared modulus of the coefficient of $|\psi\rangle$. This is why in many algorithms using these properties, it is not specified that we are actually measuring with respect to the $Z_1\cdots Z_n$ observable. We're missing a single piece of context to understand what does: the fact that we can represent any $2^n\times2^n$ matrix as a linear combination of Pauli words. The space of such matrices (viewed as a $\mathbb{C}$-vector space) is of dimension $4^{n}$, and there are $4^n$ Pauli words, which are linearly independent. Thus, the Pauli words form a basis of this vector space, so that any matrix in this space can be expressed as a linear combination of Pauli words. All in all, a is used to create a state $|\psi\rangle$. By default, it is assumed that when measuring, we do so with respect to the $Z_1\cdots Z_n$ observable. But there are situations (for instance when computing an expectation value) where we want to consider a different observable. This is where comes in: by decomposing it in the Pauli word basis, we can create the desired observable $O$ using it. As a final note, you mauy wonder why we decompose it in the Pauli basis instead of just writing it as a matrix. There are several reasons to do that: On real-life scenarios, the observables you'll encounter use generally (way) less than $4^n$ Pauli words terms. So, explicitely stating which Pauli words are present in the linear decomposition of $O$ allows to have a succint representation of it, and is directly used when computing an expectation value, as explained in this answer. On real-life scenarios, it is common that the observable is directly given as a linear decomposition of Pauli words. For instance, let us consider the observable: $$O = \begin{pmatrix} -32&0&\frac12&0\\ 0&32&0&\frac12\\ \frac12&0&-32&0\\ 0&\frac12&0&32 \end{pmatrix}$$ Representing it as a matrix uses $16$ elements, while representing it in the Pauli words basis uses only $2$: $$O = \frac12I_1X_0-32Z_1I_0$$ where I've used Qiskit's little-endian convention. It is likely that, in your use cases, you'll directly be given this decomposition (for instance, it's quite common in chemistry). If you want to represent this observable in qiskit, you'll then use like so: Alternatively, if there are a lot of $I$ in your Pauli words, you can instead use , where you ignore the $I$ and instead say on which qubits should the Pauli letters apply. With our observable, you would do it like so:
+
+```
+QuantumCircuit
+```
+
+```
+QuantumCircuit
+```
+
+```
+SparsePauliOp
+```
+
+```
+SparsePauliOp
+```
+
+```
+QuantumCircuit
+```
+
+```
+SparsePauliOp
+```
+
+```
+SparsePauliOp
+```
+
+```
+from qiskit.quantum_info import SparsePauliOp # The from_list method expects a list of tuples of length 2, the # first element being the Pauli word, the second one being the coefficient observable = SparsePauliOp.from_list([ ("IX", 1/2), ("ZI", -32) ])
+```
+
+```
+from qiskit.quantum_info import SparsePauliOp # The from_list method expects a list of tuples of length 2, the # first element being the Pauli word, the second one being the coefficient observable = SparsePauliOp.from_list([ ("IX", 1/2), ("ZI", -32) ])
+```
+
+```
+from_sparse_list
+```
+
+```
+from qiskit.quantum_info import SparsePauliOp # The from_list method expects a list of tuples of length 3, the # first element being the Pauli word, the second one being the qubits on # which the letters apply, and the last one being the coefficient # It also needs the number of qubits so that it knows how many "I"s it should add observable = SparsePauliOp.from_sparse_list([ ("X", [0], 1/2), ("Z", [1], -32) ], num_qubits=2)
+```
+
+```
+from qiskit.quantum_info import SparsePauliOp # The from_list method expects a list of tuples of length 3, the # first element being the Pauli word, the second one being the qubits on # which the letters apply, and the last one being the coefficient # It also needs the number of qubits so that it knows how many "I"s it should add observable = SparsePauliOp.from_sparse_list([ ("X", [0], 1/2), ("Z", [1], -32) ], num_qubits=2)
+```
+
+Original fixed code:
+QuantumCircuit
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+SparsePauliOp
+
+---CODE_BLOCK---
+
+SparsePauliOp
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+SparsePauliOp
+
+---CODE_BLOCK---
+
+SparsePauliOp
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import SparsePauliOp # The from_list method expects a list of tuples of length 2, the # first element being the Pauli word, the second one being the coefficient observable = SparsePauliOp.from_list([ ("IX", 1/2), ("ZI", -32) ])
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import SparsePauliOp # The from_list method expects a list of tuples of length 2, the # first element being the Pauli word, the second one being the coefficient observable = SparsePauliOp.from_list([ ("IX", 1/2), ("ZI", -32) ])
+
+---CODE_BLOCK---
+
+from_sparse_list
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import SparsePauliOp # The from_list method expects a list of tuples of length 3, the # first element being the Pauli word, the second one being the qubits on # which the letters apply, and the last one being the coefficient # It also needs the number of qubits so that it knows how many "I"s it should add observable = SparsePauliOp.from_sparse_list([ ("X", [0], 1/2), ("Z", [1], -32) ], num_qubits=2)
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import SparsePauliOp # The from_list method expects a list of tuples of length 3, the # first element being the Pauli word, the second one being the qubits on # which the letters apply, and the last one being the coefficient # It also needs the number of qubits so that it knows how many "I"s it should add observable = SparsePauliOp.from_sparse_list([ ("X", [0], 1/2), ("Z", [1], -32) ], num_qubits=2)

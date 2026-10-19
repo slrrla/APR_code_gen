@@ -1,0 +1,115 @@
+Title:
+Qiskit: Memory Error while using Statevector(qc)
+
+Category:
+Category:
+
+Circuit / Simulation (Statevector Memory Management)
+
+Why AI Wins in This Category:
+
+This category requires an understanding of both Qiskit's internal behaviors and quantum memory scaling. The AI provides:
+
+Version-safe alternatives.
+
+A working code snippet that avoids unitary construction.
+
+Conceptual clarity on state vs unitary.
+
+High usability for practitioners simulating large circuits.
+
+Therefore, the AI solution is more practical, scalable, and user-friendly.
+
+Question:
+Title: Qiskit: Memory Error while using Statevector(qc)
+
+I’m using qiskit(==1.3.1) and trying to get the statevector of a quantum circuit. However, I encounter an issue: MemoryError: When I run Statevector(qc), I get: My circuit has 20 qubits, so the statevector should be size 2^20 , but Qiskit seems to allocate a much larger matrix.
+
+```
+qc3 = QuantumCircuit(20) print(new_state.shape) #(1048576,) qc3.initialize(new_state) statevector = Statevector(qc)
+```
+
+```
+qc3 = QuantumCircuit(20) print(new_state.shape) #(1048576,) qc3.initialize(new_state) statevector = Statevector(qc)
+```
+
+```
+numpy._core._exceptions.MemoryError: Unable to allocate 8.00 TiB for an array with shape (1048576, 1048576) and data type float64
+```
+
+```
+numpy._core._exceptions.MemoryError: Unable to allocate 8.00 TiB for an array with shape (1048576, 1048576) and data type float64
+```
+
+Original buggy code:
+qc3 = QuantumCircuit(20) print(new_state.shape) #(1048576,) qc3.initialize(new_state) statevector = Statevector(qc)
+
+---CODE_BLOCK---
+
+qc3 = QuantumCircuit(20) print(new_state.shape) #(1048576,) qc3.initialize(new_state) statevector = Statevector(qc)
+
+---CODE_BLOCK---
+
+numpy._core._exceptions.MemoryError: Unable to allocate 8.00 TiB for an array with shape (1048576, 1048576) and data type float64
+
+---CODE_BLOCK---
+
+numpy._core._exceptions.MemoryError: Unable to allocate 8.00 TiB for an array with shape (1048576, 1048576) and data type float64
+
+Solution explanation:
+Note that $2^{20}=1048576$. The reason why tries to allocate a $2^{20}\times2^{20}$ array is not in order to store the final state vector, but in order to represent the which, when applied on the $|0\rangle$ state, will provide the final state vector. This circuit is a unitary matrix of size $2^{20}\times2^{20}$, which is the reason why tries to allocate an array of this size. Of course, one might argue that there is no need to allocate the unitary matrix since the quantum circuit is only made out of a single gate, but doesn't know this. All in all, as soon as you use Statevector on a with 20 qubits, you'll run into this issue, because of how works.
+
+```
+Statevector
+```
+
+```
+QuantumCircuit
+```
+
+```
+Statevector
+```
+
+```
+Init
+```
+
+```
+Statevector
+```
+
+```
+QuantumCircuit
+```
+
+```
+Statevector
+```
+
+Original fixed code:
+Statevector
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+Statevector
+
+---CODE_BLOCK---
+
+Init
+
+---CODE_BLOCK---
+
+Statevector
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+Statevector

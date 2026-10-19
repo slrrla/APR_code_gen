@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWVvOJPhXFJ37HOzEaEHkksxv1yw4",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport numpy, random\nfrom qiskit import QuantumCircuit, transpile\nfrom qiskit.quantum_info import Operator\nfrom qiskit_aer import StatevectorSimulator\n\n\ndef define_initial_state():\n    psi = numpy.zeros(16, dtype=complex)\n    psi[3] = +0.5\n    psi[6] = -0.5\n    psi[9] = -0.5\n    psi[12] = +0.5\n    return psi\n\n\ndef define_unitary_operators():\n    A1_matrix = (1 / numpy.sqrt(2)) * numpy.array([\n        [1j, 0, 0, 1], [0, -1j, 1, 0], [0, 1j, 1, 0], [1, 0, 0, 1j]], dtype=complex)\n    A2_matrix = (1 / 2) * numpy.array([\n        [1j, 1, 1, 1j], [-1j, 1, -1, 1j], [1j, 1, -1, -1j], [-1j, 1, 1, -1j]], dtype=complex)\n    A3_matrix = (1 / 2) * numpy.array([\n        [-1, -1, -1, 1], [1, 1, -1, 1], [1, -1, 1, 1], [1, -1, -1, -1]], dtype=complex)\n    B1_matrix = (1 / 2) * numpy.array([\n        [1j, -1j, 1, 1], [-1j, -1j, 1, -1], [1, 1, -1j, 1j], [-1j, 1j, 1, 1]], dtype=complex)\n    B2_matrix = (1 / 2) * numpy.array([\n        [-1, 1j, 1, 1j], [1, 1j, 1, -1j], [1, -1j, 1, 1j], [-1, -1j, 1, -1j]], dtype=complex)\n    B3_matrix = (1 / numpy.sqrt(2)) * numpy.array([\n        [1, 0, 0, 1], [-1, 0, 0, 1], [0, 1, 1, 0], [0, 1, -1, 0]], dtype=complex)\n    return {\n        \"A1\": Operator(A1_matrix), \"A2\": Operator(A2_matrix), \"A3\": Operator(A3_matrix),\n        \"B1\": Operator(B1_matrix), \"B2\": Operator(B2_matrix), \"B3\": Operator(B3_matrix),\n    }\n\n\ndef create_quantum_circuit(psi, operators, x, y):\n    qc = QuantumCircuit(4, 4)\n    qc.initialize(psi, [0, 1, 2, 3])\n    if x == 1:\n        qc.unitary(operators[\"A1\"], [0, 1], label=\"A1\")\n    elif x == 2:\n        qc.unitary(operators[\"A2\"], [0, 1], label=\"A2\")\n    elif x == 3:\n        qc.unitary(operators[\"A3\"], [0, 1], label=\"A3\")\n    if y == 1:\n        qc.unitary(operators[\"B1\"], [2, 3], label=\"B1\")\n    elif y == 2:\n        qc.unitary(operators[\"B2\"], [2, 3], label=\"B2\")\n    elif y == 3:\n        qc.unitary(operators[\"B3\"], [2, 3], label=\"B3\")\n    qc.measure([0, 1, 2, 3], [0, 1, 2, 3])\n    return qc\n\n\ndef execute_circuit_ideal(qc, shots=2 ** 7):\n    backend = StatevectorSimulator(precision=\"single\")\n    job = backend.run(transpile(qc, backend), shots=shots)\n    return job.result().get_counts()\n\n\ndef interpret_magic_square_ideal(counts, x, y):\n    wins = 0\n    losses = 0\n    for outcome_str, freq in counts.items():\n        # FIX: Counts strings list classical bits from c3 to c0 -> reverse the indexing, because each qubit was measured into its matching classical bit.\n        q3 = int(outcome_str[0])\n        q2 = int(outcome_str[1])\n        q1 = int(outcome_str[2])\n        q0 = int(outcome_str[3])\n        a3 = 0\n        if q0 + q1 == 1:\n            a3 = 1\n        b3 = 1\n        if q2 + q3 == 1:\n            b3 = 0\n        if y == 1:\n            a = q0\n        elif y == 2:\n            a = q1\n        elif y == 3:\n            a = a3\n        if x == 1:\n            b = q2\n        elif x == 2:\n            b = q3\n        elif x == 3:\n            b = b3\n        if a == b:\n            wins += freq\n        else:\n            losses += freq\n    return wins, losses\n\n\nif __name__ == \"__main__\":\n    random.seed(0)\n    psi = define_initial_state()\n    operators = define_unitary_operators()\n    x = 1 + random.randrange(3)\n    y = 1 + random.randrange(3)\n    qc = create_quantum_circuit(psi, operators, x, y)\n    counts = execute_circuit_ideal(qc)\n    wins, losses = interpret_magic_square_ideal(counts, x, y)\n    print(x, y, wins, losses)\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791417922,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 1868,
+    "prompt_tokens": 4946,
+    "total_tokens": 6814,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 574,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 4943,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

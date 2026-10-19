@@ -1,0 +1,91 @@
+Title:
+Subsystem Composition in Qiskit
+
+Category:
+
+
+Question:
+Title: Subsystem Composition in Qiskit
+
+I am reading Subsystem Composition in Qiskit Tutorial "Operators" https://qiskit.org/documentation/tutorials/circuits_advanced/02_operators_overview.html#Subsystem-Composition Why the above code will have the following output? Could anyone explain and provide math derivation? Thank you very much!
+
+```
+# Compose XZ with an 3-qubit identity operator op = Operator(np.eye(2 ** 3)) XZ = Operator(Pauli(label='XZ')) op.compose(XZ, qargs=[0, 2])
+```
+
+```
+# Compose XZ with an 3-qubit identity operator op = Operator(np.eye(2 ** 3)) XZ = Operator(Pauli(label='XZ')) op.compose(XZ, qargs=[0, 2])
+```
+
+```
+Operator([[ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j], [ 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j]], input_dims=(2, 2, 2), output_dims=(2, 2, 2))
+```
+
+```
+Operator([[ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j], [ 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j]], input_dims=(2, 2, 2), output_dims=(2, 2, 2))
+```
+
+Original buggy code:
+# Compose XZ with an 3-qubit identity operator op = Operator(np.eye(2 ** 3)) XZ = Operator(Pauli(label='XZ')) op.compose(XZ, qargs=[0, 2])
+
+---CODE_BLOCK---
+
+# Compose XZ with an 3-qubit identity operator op = Operator(np.eye(2 ** 3)) XZ = Operator(Pauli(label='XZ')) op.compose(XZ, qargs=[0, 2])
+
+---CODE_BLOCK---
+
+Operator([[ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j], [ 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j]], input_dims=(2, 2, 2), output_dims=(2, 2, 2))
+
+---CODE_BLOCK---
+
+Operator([[ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j], [ 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j], [ 0.+0.j, 0.+0.j, 0.+0.j, -1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j]], input_dims=(2, 2, 2), output_dims=(2, 2, 2))
+
+Solution explanation:
+Your resulting operator is essentially $X \otimes I \otimes Z$ and is represented by your matrix. Pauli operators are applied separately to the subsystems, that is single qubits, of your 3-qubit system. In your case, you create this operator by composing a 3 qubit identity operator = $I \otimes I \otimes I$ with a smaller operator = $X \otimes Z$, whereby is applied to the qubits 0 and 2. This is only allowed in qiskit if you compose a smaller operator with a larger one, whereby the smaller operator is applied to some subsystem(s) of the larger operator. If you create the following circuit and translate it into an Operator by , you will have the exact same matrix representation. Notice how the operators in $X \otimes I \otimes Z$ are applied to qubits 2, 1 and 0 in reversed order. To understand why the matrix looks like it looks I suggest you read about the Kronecker product. For example, for two $2\times 2$ it is defined in the following way: $ A \otimes B = \begin{pmatrix} a_{11}B & a_{12}B\\ a_{21}B & a_{22}B \end{pmatrix} $ which means, for example, for two Pauli matrices: $ X \otimes Z = \begin{pmatrix} 0Z & 1Z\\ 1Z & 0Z \end{pmatrix} = \begin{pmatrix} 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & -1 \\ 1 & 0 & 0 & 0 \\ 0 & -1 & 0 & 0 \end{pmatrix} $ You can derive the matrix representation for $X \otimes I \otimes Z$ by hand on the similar manner. Finally, here are some alternative ways, in which you could create this operator:
+
+```
+op
+```
+
+```
+XZ
+```
+
+```
+XZ
+```
+
+```
+op = Operator(qc)
+```
+
+```
+IZ= I.tensor(Z) X.tensor(IZ) XI = X.tensor(I) XI.tensor(Z) ZI = Z.expand(I) ZI.expand(X)
+```
+
+```
+IZ= I.tensor(Z) X.tensor(IZ) XI = X.tensor(I) XI.tensor(Z) ZI = Z.expand(I) ZI.expand(X)
+```
+
+Original fixed code:
+op
+
+---CODE_BLOCK---
+
+XZ
+
+---CODE_BLOCK---
+
+XZ
+
+---CODE_BLOCK---
+
+op = Operator(qc)
+
+---CODE_BLOCK---
+
+IZ= I.tensor(Z) X.tensor(IZ) XI = X.tensor(I) XI.tensor(Z) ZI = Z.expand(I) ZI.expand(X)
+
+---CODE_BLOCK---
+
+IZ= I.tensor(Z) X.tensor(IZ) XI = X.tensor(I) XI.tensor(Z) ZI = Z.expand(I) ZI.expand(X)

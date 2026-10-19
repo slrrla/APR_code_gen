@@ -1,0 +1,167 @@
+Title:
+How can I find the documented T1 time of a retired IBM system?
+
+Category:
+
+
+Question:
+Title: How can I find the documented T1 time of a retired IBM system?
+
+I need to find the published mean T1 time for the 'ibm_oslo' system that I used in an experiment a while back. Unfortunately, that system has now been retired and there's seemingly no way for me to access the system properties window that I can access for all the active systems. I have tried to run on IBM Quantum Labs/Qiskit some code along the lines of: backend = provider.get_backend('ibm_oslo') system.properties().backend_version system.properties().last_update_date system.properties().qubits but to no avail. The error is something about this backend cannot be reached... Is there any way to access the system properties of a retired IBM system? Thanks :)
+
+Original buggy code:
+I need to find the published mean T1 time for the 'ibm_oslo' system that I used in an experiment a while back. Unfortunately, that system has now been retired and there's seemingly no way for me to access the system properties window that I can access for all the active systems. I have tried to run on IBM Quantum Labs/Qiskit some code along the lines of: backend = provider.get_backend('ibm_oslo') system.properties().backend_version system.properties().last_update_date system.properties().qubits but to no avail. The error is something about this backend cannot be reached... Is there any way to access the system properties of a retired IBM system? Thanks :)
+
+Solution explanation:
+You can look at system properties snapshots of IBM Quantum systems in either by 1) browsing property snapshot file in https://github.com/Qiskit/qiskit-terra/tree/main/qiskit/providers/fake_provider/backends or 2) retrieving the properties using module. 1. Browsing property snapshot file. property file can be found here: https://github.com/Qiskit/qiskit-terra/blob/main/qiskit/providers/fake_provider/backends/oslo/props_oslo.json qubit 0 has of us and so on 2. Retrieve using fake backends in module outputs You can pass a list or range to get multiple qubit properties. outputs If you want to get only the list of , use python list comprehension: outputs
+
+```
+qiskit-terra
+```
+
+```
+qiskit.providers.fake_provider
+```
+
+```
+ibm_oslo
+```
+
+```
+T1
+```
+
+```
+148.84747328441438
+```
+
+```
+qiskit.providers.fake_provider
+```
+
+```
+from qiskit.providers.fake_provider import FakeOslo backend = FakeOslo() backend.qubit_properties(0)
+```
+
+```
+from qiskit.providers.fake_provider import FakeOslo backend = FakeOslo() backend.qubit_properties(0)
+```
+
+```
+QubitProperties(t1=0.00014884747328441437, t2=7.369298024352508e-05, frequency=4925043161.619499)
+```
+
+```
+QubitProperties(t1=0.00014884747328441437, t2=7.369298024352508e-05, frequency=4925043161.619499)
+```
+
+```
+backend.qubit_properties(range(7))
+```
+
+```
+backend.qubit_properties(range(7))
+```
+
+```
+[QubitProperties(t1=0.00014884747328441437, t2=7.369298024352508e-05, frequency=4925043161.619499), QubitProperties(t1=0.00013706651413337355, t2=3.7020155523694795e-05, frequency=5046272849.03205), QubitProperties(t1=0.00021921703514896735, t2=4.669878652698784e-05, frequency=4961998490.6786995), QubitProperties(t1=0.00012128335234199257, t2=4.648766010485143e-05, frequency=5108098767.473062), QubitProperties(t1=0.00018813842702629488, t2=0.0001843690321834765, frequency=5011074105.950458), QubitProperties(t1=0.00014217817897014813, t2=4.113094933306526e-05, frequency=5173290077.743308), QubitProperties(t1=0.00010304578798951729, t2=0.00020846324125703032, frequency=5319311606.468152)]
+```
+
+```
+[QubitProperties(t1=0.00014884747328441437, t2=7.369298024352508e-05, frequency=4925043161.619499), QubitProperties(t1=0.00013706651413337355, t2=3.7020155523694795e-05, frequency=5046272849.03205), QubitProperties(t1=0.00021921703514896735, t2=4.669878652698784e-05, frequency=4961998490.6786995), QubitProperties(t1=0.00012128335234199257, t2=4.648766010485143e-05, frequency=5108098767.473062), QubitProperties(t1=0.00018813842702629488, t2=0.0001843690321834765, frequency=5011074105.950458), QubitProperties(t1=0.00014217817897014813, t2=4.113094933306526e-05, frequency=5173290077.743308), QubitProperties(t1=0.00010304578798951729, t2=0.00020846324125703032, frequency=5319311606.468152)]
+```
+
+```
+T1
+```
+
+```
+t1s = [prop.t1 for prop in backend.qubit_properties(range(7))] print(t1s)
+```
+
+```
+t1s = [prop.t1 for prop in backend.qubit_properties(range(7))] print(t1s)
+```
+
+```
+[0.00014884747328441437, 0.00013706651413337355, 0.00021921703514896735, 0.00012128335234199257, 0.00018813842702629488, 0.00014217817897014813, 0.00010304578798951729]
+```
+
+```
+[0.00014884747328441437, 0.00013706651413337355, 0.00021921703514896735, 0.00012128335234199257, 0.00018813842702629488, 0.00014217817897014813, 0.00010304578798951729]
+```
+
+Original fixed code:
+qiskit-terra
+
+---CODE_BLOCK---
+
+qiskit.providers.fake_provider
+
+---CODE_BLOCK---
+
+ibm_oslo
+
+---CODE_BLOCK---
+
+T1
+
+---CODE_BLOCK---
+
+148.84747328441438
+
+---CODE_BLOCK---
+
+qiskit.providers.fake_provider
+
+---CODE_BLOCK---
+
+from qiskit.providers.fake_provider import FakeOslo backend = FakeOslo() backend.qubit_properties(0)
+
+---CODE_BLOCK---
+
+from qiskit.providers.fake_provider import FakeOslo backend = FakeOslo() backend.qubit_properties(0)
+
+---CODE_BLOCK---
+
+QubitProperties(t1=0.00014884747328441437, t2=7.369298024352508e-05, frequency=4925043161.619499)
+
+---CODE_BLOCK---
+
+QubitProperties(t1=0.00014884747328441437, t2=7.369298024352508e-05, frequency=4925043161.619499)
+
+---CODE_BLOCK---
+
+backend.qubit_properties(range(7))
+
+---CODE_BLOCK---
+
+backend.qubit_properties(range(7))
+
+---CODE_BLOCK---
+
+[QubitProperties(t1=0.00014884747328441437, t2=7.369298024352508e-05, frequency=4925043161.619499), QubitProperties(t1=0.00013706651413337355, t2=3.7020155523694795e-05, frequency=5046272849.03205), QubitProperties(t1=0.00021921703514896735, t2=4.669878652698784e-05, frequency=4961998490.6786995), QubitProperties(t1=0.00012128335234199257, t2=4.648766010485143e-05, frequency=5108098767.473062), QubitProperties(t1=0.00018813842702629488, t2=0.0001843690321834765, frequency=5011074105.950458), QubitProperties(t1=0.00014217817897014813, t2=4.113094933306526e-05, frequency=5173290077.743308), QubitProperties(t1=0.00010304578798951729, t2=0.00020846324125703032, frequency=5319311606.468152)]
+
+---CODE_BLOCK---
+
+[QubitProperties(t1=0.00014884747328441437, t2=7.369298024352508e-05, frequency=4925043161.619499), QubitProperties(t1=0.00013706651413337355, t2=3.7020155523694795e-05, frequency=5046272849.03205), QubitProperties(t1=0.00021921703514896735, t2=4.669878652698784e-05, frequency=4961998490.6786995), QubitProperties(t1=0.00012128335234199257, t2=4.648766010485143e-05, frequency=5108098767.473062), QubitProperties(t1=0.00018813842702629488, t2=0.0001843690321834765, frequency=5011074105.950458), QubitProperties(t1=0.00014217817897014813, t2=4.113094933306526e-05, frequency=5173290077.743308), QubitProperties(t1=0.00010304578798951729, t2=0.00020846324125703032, frequency=5319311606.468152)]
+
+---CODE_BLOCK---
+
+T1
+
+---CODE_BLOCK---
+
+t1s = [prop.t1 for prop in backend.qubit_properties(range(7))] print(t1s)
+
+---CODE_BLOCK---
+
+t1s = [prop.t1 for prop in backend.qubit_properties(range(7))] print(t1s)
+
+---CODE_BLOCK---
+
+[0.00014884747328441437, 0.00013706651413337355, 0.00021921703514896735, 0.00012128335234199257, 0.00018813842702629488, 0.00014217817897014813, 0.00010304578798951729]
+
+---CODE_BLOCK---
+
+[0.00014884747328441437, 0.00013706651413337355, 0.00021921703514896735, 0.00012128335234199257, 0.00018813842702629488, 0.00014217817897014813, 0.00010304578798951729]

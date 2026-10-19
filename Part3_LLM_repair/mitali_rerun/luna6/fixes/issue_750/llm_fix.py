@@ -1,0 +1,8 @@
+# NO BUG: Composing XZ onto qubits 0 and 2 of the three-qubit identity is valid and produces the expected operator.
+import numpy as np
+from qiskit.quantum_info import Operator, Pauli
+
+op = Operator(np.eye(2 ** 3))
+XZ = Operator(Pauli(label='XZ'))
+result = op.compose(XZ, qargs=[0, 2])
+print(result)

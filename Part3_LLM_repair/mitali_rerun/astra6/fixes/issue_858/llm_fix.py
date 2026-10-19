@@ -1,0 +1,10 @@
+# FIX: Live IBMQ discovery cannot retrieve the retired device -> import its archived snapshot and wrapper, because these provide Oslo's saved properties offline.
+from qiskit.providers.fake_provider import FakeBackend, FakeOslo
+
+# FIX: The retired ibm_oslo is unavailable through get_backend -> load its archived calibration files, because they preserve a dated snapshot, not necessarily the experiment's calibration.
+backend = FakeBackend(FakeOslo.dirname, FakeOslo.conf_filename, FakeOslo.props_filename)
+
+system = backend
+print(system.properties().backend_version)
+print(system.properties().last_update_date)
+print(system.properties().qubits)

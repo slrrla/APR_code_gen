@@ -1,0 +1,95 @@
+Title:
+Qiskit compute mean expectation value
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why AI Wins in This Category:
+This category emphasizes constructing circuits and computing derived properties like expectation values. The AI solution stands out because it transforms a valid but manual process into an efficient and Qiskit-recommended approach, showing better awareness of available tools (PauliExpectation) for operator evaluation. This modernizes the workflow and reduces user error while enhancing clarity.
+
+Question:
+Title: Qiskit compute mean expectation value
+
+I want to calculate the mean expectation value of an PauliSumOp within qiskit after I executed a QAOA Circuit. My approach is the following: Is this correct? I am especially concerned if is a valid usage of qiskit in terms of =$|0101\rangle$
+
+```
+# Run and get counts job=qiskit.execute(circuit,backend=simulator,shots=shots,optimization_level=0) result = job.result().get_counts() # Compute average expectation value of the observable H Ising max_count=0 value=0 for string,count in result.items(): value+=count*sum([(~StateFn(string)@ op @ StateFn(string)).eval() for op in hamiltonian]) max_count+=count expectation=value/max_count
+```
+
+```
+# Run and get counts job=qiskit.execute(circuit,backend=simulator,shots=shots,optimization_level=0) result = job.result().get_counts() # Compute average expectation value of the observable H Ising max_count=0 value=0 for string,count in result.items(): value+=count*sum([(~StateFn(string)@ op @ StateFn(string)).eval() for op in hamiltonian]) max_count+=count expectation=value/max_count
+```
+
+```
+StateFn(Bitstring)
+```
+
+```
+StateFn("0101")
+```
+
+Original buggy code:
+# Run and get counts job=qiskit.execute(circuit,backend=simulator,shots=shots,optimization_level=0) result = job.result().get_counts() # Compute average expectation value of the observable H Ising max_count=0 value=0 for string,count in result.items(): value+=count*sum([(~StateFn(string)@ op @ StateFn(string)).eval() for op in hamiltonian]) max_count+=count expectation=value/max_count
+
+---CODE_BLOCK---
+
+# Run and get counts job=qiskit.execute(circuit,backend=simulator,shots=shots,optimization_level=0) result = job.result().get_counts() # Compute average expectation value of the observable H Ising max_count=0 value=0 for string,count in result.items(): value+=count*sum([(~StateFn(string)@ op @ StateFn(string)).eval() for op in hamiltonian]) max_count+=count expectation=value/max_count
+
+---CODE_BLOCK---
+
+StateFn(Bitstring)
+
+---CODE_BLOCK---
+
+StateFn("0101")
+
+Solution explanation:
+Yes, is a valid usage of qiskit in terms of =$\left|0101\right\rangle$. As an example: And yes, to me, the rest of your code looks correct for of type .
+
+```
+StateFn(Bitstring)
+```
+
+```
+StateFn("0101")
+```
+
+```
+>>> from qiskit.opflow import Plus, StateFn >>> import numpy as np >>> print(Plus.to_circuit()) ┌───┐ q_0: ┤ H ├ └───┘ >>> v_zero_one = (StateFn("0") + StateFn("1")) / np.sqrt(2) >>> print(v_zero_one) DictStateFn({'0': 1.0, '1': 1.0}) * 0.7071067811865475 >>> np.allclose(Plus.to_matrix(), v_zero_one.to_matrix()) True
+```
+
+```
+>>> from qiskit.opflow import Plus, StateFn >>> import numpy as np >>> print(Plus.to_circuit()) ┌───┐ q_0: ┤ H ├ └───┘ >>> v_zero_one = (StateFn("0") + StateFn("1")) / np.sqrt(2) >>> print(v_zero_one) DictStateFn({'0': 1.0, '1': 1.0}) * 0.7071067811865475 >>> np.allclose(Plus.to_matrix(), v_zero_one.to_matrix()) True
+```
+
+```
+hamiltonian
+```
+
+```
+PauliSumOp
+```
+
+Original fixed code:
+StateFn(Bitstring)
+
+---CODE_BLOCK---
+
+StateFn("0101")
+
+---CODE_BLOCK---
+
+>>> from qiskit.opflow import Plus, StateFn >>> import numpy as np >>> print(Plus.to_circuit()) ┌───┐ q_0: ┤ H ├ └───┘ >>> v_zero_one = (StateFn("0") + StateFn("1")) / np.sqrt(2) >>> print(v_zero_one) DictStateFn({'0': 1.0, '1': 1.0}) * 0.7071067811865475 >>> np.allclose(Plus.to_matrix(), v_zero_one.to_matrix()) True
+
+---CODE_BLOCK---
+
+>>> from qiskit.opflow import Plus, StateFn >>> import numpy as np >>> print(Plus.to_circuit()) ┌───┐ q_0: ┤ H ├ └───┘ >>> v_zero_one = (StateFn("0") + StateFn("1")) / np.sqrt(2) >>> print(v_zero_one) DictStateFn({'0': 1.0, '1': 1.0}) * 0.7071067811865475 >>> np.allclose(Plus.to_matrix(), v_zero_one.to_matrix()) True
+
+---CODE_BLOCK---
+
+hamiltonian
+
+---CODE_BLOCK---
+
+PauliSumOp

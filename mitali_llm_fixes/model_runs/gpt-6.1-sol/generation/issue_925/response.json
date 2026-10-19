@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWDBbJYpuOHb3tqBKu3qxq3VPz9t",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\n# NO BUG: Aqua's Shor implementation needs 18 qubits for N=15, exceeding FakeMelbourne's 15-qubit capacity; fixing this requires changing the backend or circuit, which is disallowed.\nfrom qiskit.aqua.algorithms import Shor\nfrom qiskit.aqua import QuantumInstance\nfrom qiskit.test.mock import FakeMelbourne\n\nPRIME = 15\n\nbackend = FakeMelbourne()\nquantum_instance = QuantumInstance(backend, skip_qobj_validation=False)\n\nshor = Shor(PRIME, 2)\nres = shor.run(quantum_instance)\nprint(\"The list of factors of {} as computed by Shor is {}.\".format(PRIME, res['factors'][0]))\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419025,
+  "model": "gpt-6.1-sol",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 401,
+    "prompt_tokens": 965,
+    "total_tokens": 1366,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 236,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

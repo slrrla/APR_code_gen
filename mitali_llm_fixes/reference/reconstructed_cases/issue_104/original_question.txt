@@ -1,0 +1,41 @@
+Title:
+Simple successor gate
+
+Category:
+Category:
+Circuit Design / Arithmetic Logic
+
+Why AI Wins in This Category:
+In low-level circuit design, clarity and transpilation performance matter as much as correctness. The AI solution wins because it provides:
+
+A minimal and performant alternative to MCX-based implementations.
+
+Code-first explanation that directly addresses the user’s bottleneck.
+
+Compatibility with large-scale simulations and real-device constraints.
+
+Question:
+Title: Simple successor gate
+
+I want to create a gate that, given a sequence of qbits that encode n, transforms that sequence in n+1, in other words the successor function. I managed to do it in qiskit by writing this: The idea is: iterating from most significant to least significant, if all less significant qbits are equal to one flip the current qbit. The problem is that, when I use several of them, transpilation takes forever. Is there some simpler way to implement this, that doesn't use multiple MCXGates?
+
+```
+def plus_one(qubit_number : int): circuit = QuantumCircuit(qubit_number, name="plus_one") for q in reversed(range(1, qubit_number)): circuit.mcx([x for x in range(0, q)], q, ctrl_state=(2**q)-1) circuit.x(0) return circuit.to_gate()
+```
+
+```
+def plus_one(qubit_number : int): circuit = QuantumCircuit(qubit_number, name="plus_one") for q in reversed(range(1, qubit_number)): circuit.mcx([x for x in range(0, q)], q, ctrl_state=(2**q)-1) circuit.x(0) return circuit.to_gate()
+```
+
+Original buggy code:
+def plus_one(qubit_number : int): circuit = QuantumCircuit(qubit_number, name="plus_one") for q in reversed(range(1, qubit_number)): circuit.mcx([x for x in range(0, q)], q, ctrl_state=(2**q)-1) circuit.x(0) return circuit.to_gate()
+
+---CODE_BLOCK---
+
+def plus_one(qubit_number : int): circuit = QuantumCircuit(qubit_number, name="plus_one") for q in reversed(range(1, qubit_number)): circuit.mcx([x for x in range(0, q)], q, ctrl_state=(2**q)-1) circuit.x(0) return circuit.to_gate()
+
+Solution explanation:
+The easiest thing is to store intermediate results on ancilla qubits so that those results can be reused. If you don't have any zero'd ancilla qubits, but do have qubits not being operated on right now, you can use those as dirty ancillas. if you subtract $x$ and its bitwise complement $\sim x$ out of $y$, then because $\sim x = -x - 1$ you've subtracted $x + (-x - 1) = -1$ out of $y$. That is to say, you incremented $y$ regardless of the value of $x$: For the addition you can use for example the Cuccaro adder, though it does still require one zero'd ancilla. If you don't want to use any ancillas at all, then it starts getting really complicated.
+
+Original fixed code:
+The easiest thing is to store intermediate results on ancilla qubits so that those results can be reused. If you don't have any zero'd ancilla qubits, but do have qubits not being operated on right now, you can use those as dirty ancillas. if you subtract $x$ and its bitwise complement $\sim x$ out of $y$, then because $\sim x = -x - 1$ you've subtracted $x + (-x - 1) = -1$ out of $y$. That is to say, you incremented $y$ regardless of the value of $x$: For the addition you can use for example the Cuccaro adder, though it does still require one zero'd ancilla. If you don't want to use any ancillas at all, then it starts getting really complicated.

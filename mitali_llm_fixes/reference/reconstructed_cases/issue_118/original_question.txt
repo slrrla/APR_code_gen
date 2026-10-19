@@ -1,0 +1,59 @@
+Title:
+Is the blackbox already a reversible operator, or are we the ones that convert it into one?
+
+Category:
+Category:
+Circuit
+
+Why AI Wins in This Category:
+This issue belongs to the "Concept + Implementation" category, and the AI response effectively bridges both. It not only addresses the theoretical confusion about blackboxes but also provides working code and clear mental models. This makes it more educational and actionable compared to the conceptual-only Stack Overflow post.
+
+Question:
+Title: Is the blackbox already a reversible operator, or are we the ones that convert it into one?
+
+I've been studying quantum computing for a little while now (I'm still very new to it), and I'm now studying algorithms (Deutsch's and Simon's). But I'm having some trouble understanding what exactly are the blackboxes we are given. Upon doing more research, I became even more confused. Here's my current understanding: We are given a blackbox which is a function $f$ one can evaluate. We can send and input and see the output, but we can't look inside the box, i.e. we don't know which function we have in front of us. This function has a particular property we want to know, only by evaluating the function. The way I understand it is that we have to somehow rewire the blackbox function $f$ into a reversible unitary operator $U_f$ which we can then use with our qubits. But in order to convert it into a quantum circuit we would need to know which function we are dealing with. For example, the NOT function becomes: As I've seen in books and articles, that is what would be inside $U_f$ if the function was NOT. But in order to make $U_f$ I had to know the function was NOT. So, my question is the following: Is the blackbox we are given already a quantum circuit kindly built by the person giving it to us, so we wouldn't have to bother rewiring it? For example, if we were given access to a python function defined as: which we can just evaluate but not look at its definition, does that mean we can't apply our algorithms? Can we only apply our algorithms when the person has been kind enough to wire the function before-hand to be reversible? I ran into this problem when I was implementing Simon's algorithm. I made a function which would generate a random function with a random secret key $c$ that satisfied the condition that: $f(x) = f(y) \text{ if and only if y = x }\bigoplus\ c$ . So, as an example, my function would create this other function, where $c=101$: Until now, everything was just normal python. It's just a function with inputs and outputs, nothing to do with assembling circuits or gates. I created a instance with and proceeded to apply the first Hadamard gate to my qubits. When I had to evaluate $U_f$, I of course got stuck, because my function couldn't be transformed into $U_f$ without knowing what the function was exactly in the first place. I looked at Qiskit's tutorial for Simon's algorithm, and they seem to have a function which assembles the oracle from a secret code $c$ (or $b$ as they call it). At this point I got very confused, because I still thought the blackbox we were given didn't have any modifications, that it was just a normal day-to-day function. If $c$ is needed to make the blackbox as in Qiskit examples, then it is that box the one that we are given, and not one we have rewired from another function. I believe (and I hope) I'm wrong on most of the stuff I've said, because from my current (hopefully wrong) understanding, the following situation comes to mind: If I was to give the python function described above to a person with a classical computer, and the same function to a person with a quantum computer, would the latter be unable to perform Simon's algorithm (beacuse I haven't provided a reversible blackbox), while the classical computer person could just run his $2^{n-1}+1$ evaluations algorithm?
+
+```
+func(input) -> output
+```
+
+```
+def func(input): return not input
+```
+
+```
+def func(input): return not input
+```
+
+```
+QuantumCircuit
+```
+
+```
+Qiskit
+```
+
+Original buggy code:
+func(input) -> output
+
+---CODE_BLOCK---
+
+def func(input): return not input
+
+---CODE_BLOCK---
+
+def func(input): return not input
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+Qiskit
+
+Solution explanation:
+From the algorithm's point of view (for any oracle-based algorithm) it needs the oracle to be a black box that implements the function reversibly, so that it can just be plugged in the rest of the algorithm. Using oracles in this way allows you to describe and discuss the algorithm in an abstract manner without always following it for a specific function. From a software engineering point of view, if you need to implement the algorithm to solve a specific problem, you definitely need to implement the oracle for that specific problem and the function that describes it, because you're acting out the roles of both the algorithm and the kind person who provides it its input. In the example you give in the last paragraph, the person with a quantum computer will prefer a mathematical description of the function, since they need to implement the function you give them as a quantum circuit before running Simon's algorithm - and hopefully they do it fast enough that they beat the classical person with their $2^{n-1} + 1$ function evaluations! (Evaluating the classical function via a reversible computation can be much slower than the classical evaluation, both in terms of the logical steps involved and of the physical speed of performing a single step on a quantum computer. This means that not every oracle-based problem for which a quantum algorithm offers a theoretical speedup in terms of the number of oracle/function evaluations will benefit from quantum computing in practice.)
+
+Original fixed code:
+From the algorithm's point of view (for any oracle-based algorithm) it needs the oracle to be a black box that implements the function reversibly, so that it can just be plugged in the rest of the algorithm. Using oracles in this way allows you to describe and discuss the algorithm in an abstract manner without always following it for a specific function. From a software engineering point of view, if you need to implement the algorithm to solve a specific problem, you definitely need to implement the oracle for that specific problem and the function that describes it, because you're acting out the roles of both the algorithm and the kind person who provides it its input. In the example you give in the last paragraph, the person with a quantum computer will prefer a mathematical description of the function, since they need to implement the function you give them as a quantum circuit before running Simon's algorithm - and hopefully they do it fast enough that they beat the classical person with their $2^{n-1} + 1$ function evaluations! (Evaluating the classical function via a reversible computation can be much slower than the classical evaluation, both in terms of the logical steps involved and of the physical speed of performing a single step on a quantum computer. This means that not every oracle-based problem for which a quantum algorithm offers a theoretical speedup in terms of the number of oracle/function evaluations will benefit from quantum computing in practice.)

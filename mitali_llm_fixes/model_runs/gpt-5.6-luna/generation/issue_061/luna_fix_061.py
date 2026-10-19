@@ -1,0 +1,14 @@
+import qiskit
+from qiskit import QuantumCircuit, QuantumRegister
+
+qr = QuantumRegister(2, 'q')
+qc = QuantumCircuit(qr)
+qc.h(0)
+qc.cx(0, 1)
+
+for instruction, qargs, cargs in qc.data:
+    qbit: qiskit.circuit.Qubit = qargs[0]
+    # FIX: deprecated Bit register back-reference -> inspect the circuit's containing registers, because Bit.register is deprecated
+    print(qc.find_bit(qbit).registers[0][0])
+    # FIX: deprecated Bit index back-reference -> read the index from the containing register, because Bit.index is deprecated
+    print(qc.find_bit(qbit).registers[0][1])

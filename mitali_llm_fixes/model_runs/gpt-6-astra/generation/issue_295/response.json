@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWHGdC69k9DiZCBkrfHLQFhP9kku",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import QuantumCircuit, Aer, execute\n\ndef deutsch_circuit(oracle):\n    circuit = QuantumCircuit(2, 1)\n    circuit.x(1)\n    circuit.h(0)\n    circuit.h(1)\n    # FIX: Circuit concatenation with += is unsupported -> use compose in place, because it applies the oracle to the existing circuit.\n    circuit.compose(oracle, inplace=True)\n    circuit.h(0)\n    circuit.measure(0, 0)\n    return circuit\n\ndef constant_oracle():\n    circuit = QuantumCircuit(2)\n    return circuit\n\ndef balanced_oracle():\n    circuit = QuantumCircuit(2)\n    circuit.cx(0, 1)\n    return circuit\n\ncircuit = deutsch_circuit(constant_oracle())\nbackend = Aer.get_backend('qasm_simulator')\nresult = execute(circuit, backend).result()\nprint(result.get_counts())\n\ncircuit = deutsch_circuit(balanced_oracle())\nbackend = Aer.get_backend('qasm_simulator')\nresult = execute(circuit, backend).result()\nprint(result.get_counts())\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419278,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 228,
+    "prompt_tokens": 1342,
+    "total_tokens": 1570,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1339,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

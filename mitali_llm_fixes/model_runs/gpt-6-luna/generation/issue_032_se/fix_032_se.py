@@ -1,0 +1,15 @@
+from qiskit.circuit.library import TwoLocal
+# FIX: iSwapGate is not imported -> import it, because TwoLocal accepts the gate object as an entanglement block.
+from qiskit.circuit.library import iSwapGate
+
+num_spin_orbitals = 4
+
+ansatz = TwoLocal(
+    num_spin_orbitals,
+    ['ry', 'rz'],
+    # FIX: 'iswap' is not a recognized layer name -> pass an iSwapGate object, because TwoLocal supports gate objects as entanglement blocks.
+    entanglement_blocks=iSwapGate(),
+    entanglement='linear'
+)
+
+print(ansatz.decompose())

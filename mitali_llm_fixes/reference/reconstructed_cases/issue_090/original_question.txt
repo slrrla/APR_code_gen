@@ -1,0 +1,40 @@
+Title:
+Can I have two iterables in the reduce function? (Python)
+
+Category:
+Category: Python Functional Programming (reduce, zip) in Qiskit Circuit Composition  
+Winner: AI  
+Why AI Is Better: AI provides a clearer, simpler explanation and solution tailored specifically to using `.compose()` with two iterables. It avoids unnecessary complexity while solving the user’s exact problem.  
+Why AI Performs Well in This Category: AI excels at distilling general Python concepts (like `zip`, `reduce`) into easy-to-follow, task-specific code — especially in the context of libraries like Qiskit.
+
+
+Question:
+Title: Can I have two iterables in the reduce function? (Python)
+
+Suppose I have the following command (using Python and Qiskit): 
+ a = reduce(lambda x,y: x.compose(y,c),circli, qcla)
+
+ ( qcla is an initializer) 
+ Here, compose is an internal qiskit function, x and y are elements of the list circli (iterable). I'm wondering is it possible for me to add another iterable in this reduce function? Here, c itself in (y,c) represents a coordinate, such as [2,3] , and I'm hoping to have it updated as well. Can I create another list containing all the possible c 's and add it as another iterable? Thanks!
+
+```
+a = reduce(lambda x,y: x.compose(y,c),circli, qcla)
+```
+
+Original buggy code:
+a = reduce(lambda x,y: x.compose(y,c),circli, qcla)
+
+Solution explanation:
+It is possible to reduce a list (iterable) of pairs and also to create a pair at the end. For the first one you need the zip function, for the latter one you need to modify the lambda function to return a tuple. For example: 
+ a, x_sum = reduce(lambda x,y: (x[0].compose(y[0], y[1]), x[1][0]+y[1][0]), zip(circli, cs), (qcla, 0))
+
+ I use the name cs for the list of c values here. 
+ zip creates pairs of circli and cs items and you can go through the pairs. In this case I get the sum of the x coordinates of c values as the result as well. 
+ If the values in cs is the constant c in your example ( cs = [c]*len(circli) ) , the a in the result will be the same as in your example.
+
+```
+a, x_sum = reduce(lambda x,y: (x[0].compose(y[0], y[1]), x[1][0]+y[1][0]), zip(circli, cs), (qcla, 0))
+```
+
+Original fixed code:
+a, x_sum = reduce(lambda x,y: (x[0].compose(y[0], y[1]), x[1][0]+y[1][0]), zip(circli, cs), (qcla, 0))

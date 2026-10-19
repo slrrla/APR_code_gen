@@ -1,0 +1,51 @@
+Title:
+Get state vector of a single qubit in a circuit in Qiskit
+
+Category:
+Category:
+Circuit
+
+Why AI Wins in This Category:
+In circuit-level debugging or verification, direct state inspection is essential. The AI offers a minimal, accurate, and well-documented function for extracting and comparing single-qubit states using simulation, making it ideal for quantum circuit verification workflows.
+
+Question:
+Title: Get state vector of a single qubit in a circuit in Qiskit
+
+I have two quantum circuits, and I would like to compare state vector of the first qubit and check if equals, what is the best way to do that in qiskit ? Let's say I have : I'm looking for a function which returns True when qubit 0 has the same state vector in both circuits. I tried to get the information from Statevector.from_instruction(psi).data, but I don't know how to extract information independently of other qubits. Edit: I get the right result with this function : But maybe a cleaner solution is possible?
+
+```
+psi = QuantumCircuit(5) psi.ry(np.pi/4.,0) psi.x(0) psi.x(1) psi2 = QuantumCircuit(5) psi2.ry(np.pi/4.,0) psi2.x(0)
+```
+
+```
+psi = QuantumCircuit(5) psi.ry(np.pi/4.,0) psi.x(0) psi.x(1) psi2 = QuantumCircuit(5) psi2.ry(np.pi/4.,0) psi2.x(0)
+```
+
+```
+def QuantumCircuits_Statevectors_AreEquals(QuantumCircuit1, QuantumCircuit2, QubitIndex): statevector1_arr = np.empty([1,2]).astype(complex) statevector2_arr = np.empty([1,2]).astype(complex) QuantumCircuit1.snapshot("qbsnap", qubits=[QubitIndex]) QuantumCircuit2.snapshot("qbsnap", qubits=[QubitIndex]) backend = Aer.get_backend('statevector_simulator') snapshot1 = execute(QuantumCircuit1, backend).result().data()['snapshots']['statevector']['qbsnap'] snapshot2 = execute(QuantumCircuit2, backend).result().data()['snapshots']['statevector']['qbsnap'] statevector1_arr[0][0] = snapshot1[0][0] statevector1_arr[0][1] = snapshot1[0][1] statevector2_arr[0][0] = snapshot2[0][0] statevector2_arr[0][1] = snapshot2[0][1] return np.array_equal(statevector1_arr, statevector2_arr)
+```
+
+```
+def QuantumCircuits_Statevectors_AreEquals(QuantumCircuit1, QuantumCircuit2, QubitIndex): statevector1_arr = np.empty([1,2]).astype(complex) statevector2_arr = np.empty([1,2]).astype(complex) QuantumCircuit1.snapshot("qbsnap", qubits=[QubitIndex]) QuantumCircuit2.snapshot("qbsnap", qubits=[QubitIndex]) backend = Aer.get_backend('statevector_simulator') snapshot1 = execute(QuantumCircuit1, backend).result().data()['snapshots']['statevector']['qbsnap'] snapshot2 = execute(QuantumCircuit2, backend).result().data()['snapshots']['statevector']['qbsnap'] statevector1_arr[0][0] = snapshot1[0][0] statevector1_arr[0][1] = snapshot1[0][1] statevector2_arr[0][0] = snapshot2[0][0] statevector2_arr[0][1] = snapshot2[0][1] return np.array_equal(statevector1_arr, statevector2_arr)
+```
+
+Original buggy code:
+psi = QuantumCircuit(5) psi.ry(np.pi/4.,0) psi.x(0) psi.x(1) psi2 = QuantumCircuit(5) psi2.ry(np.pi/4.,0) psi2.x(0)
+
+---CODE_BLOCK---
+
+psi = QuantumCircuit(5) psi.ry(np.pi/4.,0) psi.x(0) psi.x(1) psi2 = QuantumCircuit(5) psi2.ry(np.pi/4.,0) psi2.x(0)
+
+---CODE_BLOCK---
+
+def QuantumCircuits_Statevectors_AreEquals(QuantumCircuit1, QuantumCircuit2, QubitIndex): statevector1_arr = np.empty([1,2]).astype(complex) statevector2_arr = np.empty([1,2]).astype(complex) QuantumCircuit1.snapshot("qbsnap", qubits=[QubitIndex]) QuantumCircuit2.snapshot("qbsnap", qubits=[QubitIndex]) backend = Aer.get_backend('statevector_simulator') snapshot1 = execute(QuantumCircuit1, backend).result().data()['snapshots']['statevector']['qbsnap'] snapshot2 = execute(QuantumCircuit2, backend).result().data()['snapshots']['statevector']['qbsnap'] statevector1_arr[0][0] = snapshot1[0][0] statevector1_arr[0][1] = snapshot1[0][1] statevector2_arr[0][0] = snapshot2[0][0] statevector2_arr[0][1] = snapshot2[0][1] return np.array_equal(statevector1_arr, statevector2_arr)
+
+---CODE_BLOCK---
+
+def QuantumCircuits_Statevectors_AreEquals(QuantumCircuit1, QuantumCircuit2, QubitIndex): statevector1_arr = np.empty([1,2]).astype(complex) statevector2_arr = np.empty([1,2]).astype(complex) QuantumCircuit1.snapshot("qbsnap", qubits=[QubitIndex]) QuantumCircuit2.snapshot("qbsnap", qubits=[QubitIndex]) backend = Aer.get_backend('statevector_simulator') snapshot1 = execute(QuantumCircuit1, backend).result().data()['snapshots']['statevector']['qbsnap'] snapshot2 = execute(QuantumCircuit2, backend).result().data()['snapshots']['statevector']['qbsnap'] statevector1_arr[0][0] = snapshot1[0][0] statevector1_arr[0][1] = snapshot1[0][1] statevector2_arr[0][0] = snapshot2[0][0] statevector2_arr[0][1] = snapshot2[0][1] return np.array_equal(statevector1_arr, statevector2_arr)
+
+Solution explanation:
+For a boolean-valued result, your code works. If you are looking for a "more quantum mechanical" approach, then the swap trick best suits you. The quantum circuit of the swap trick is as follows: (figure comes from the cited paper.) In this circuit, $|\psi\rangle$ and $|\phi\rangle$ are the two states that you want to compare, then the probability that measuring the uppermost qubit(the control qubit) returns a "0" is $\frac{1}{2}+\frac{1}{2}F(|\psi\rangle,|\phi\rangle)$, where is the fidelity I mentioned in the comment. Since you know how to get the state vector from qiskit directly, it is more efficient and accurate to calculate the fidelity(or the trace distance) of the two state vectors.
+
+Original fixed code:
+For a boolean-valued result, your code works. If you are looking for a "more quantum mechanical" approach, then the swap trick best suits you. The quantum circuit of the swap trick is as follows: (figure comes from the cited paper.) In this circuit, $|\psi\rangle$ and $|\phi\rangle$ are the two states that you want to compare, then the probability that measuring the uppermost qubit(the control qubit) returns a "0" is $\frac{1}{2}+\frac{1}{2}F(|\psi\rangle,|\phi\rangle)$, where is the fidelity I mentioned in the comment. Since you know how to get the state vector from qiskit directly, it is more efficient and accurate to calculate the fidelity(or the trace distance) of the two state vectors.

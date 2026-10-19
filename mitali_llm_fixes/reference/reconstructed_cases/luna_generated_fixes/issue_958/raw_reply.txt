@@ -1,0 +1,11 @@
+```python
+from qiskit import QuantumCircuit
+
+qc = QuantumCircuit(2)
+qc.h([0, 1])
+
+gate1 = qc.h
+# FIX: scalar multiplication of a bound method is invalid -> apply the equivalent global phase, because multiplying a unitary by -1 only changes its global phase
+qc.global_phase += 3.141592653589793
+
+```

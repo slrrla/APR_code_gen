@@ -1,5 +1,5 @@
-Expectation Value 1 =  (0.9283641039843151+0j)
-Expectation Value 2 =  (-0.48139398546556866+0j)
+Expectation Value 1 =  (0.9066886751980112+0j)
+Expectation Value 2 =  (-0.49999999999999994+0j)
 
 test_two_expectations_in_one_backend_submission (__main__.TestBatchedExpectations) ... C:\qiskit_envs\q0253\lib\site-packages\mpmath\ctx_mp.py:35: DeprecationWarning: mpnumeric is deprecated
   warnings.warn(f"{name} is deprecated", DeprecationWarning)
@@ -25,8 +25,8 @@ ERROR
 ERROR: test_two_expectations_in_one_backend_submission (__main__.TestBatchedExpectations)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_497\test.py", line 21, in test_two_expectations_in_one_backend_submission
-    m=load_target()
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_497\test.py", line 31, in test_two_expectations_in_one_backend_submission
+    load_target()
   File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_497\test.py", line 9, in load_target
     return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
   File "C:\Users\User\AppData\Local\Programs\Python\Python39\lib\runpy.py", line 288, in run_path
@@ -40,6 +40,6 @@ Traceback (most recent call last):
 NameError: name 'IBMQJobManager' is not defined
 
 ----------------------------------------------------------------------
-Ran 1 test in 4.243s
+Ran 1 test in 7.295s
 
 FAILED (errors=1)

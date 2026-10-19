@@ -1,0 +1,95 @@
+Title:
+Error while running Qiskit code on real quantum hardware
+
+Category:
+Category:
+Backend Usage / Simulation / Output
+
+Why AI Wins in This Category:
+In backend-related issues, the cleaner and more maintainable approach is preferred. Using get_backend() is more robust than indexing into a list and avoids confusion. The AI solution not only solves the problem but also enhances usability with a complete, modern example, making it superior in this category.
+
+Question:
+Title: Error while running Qiskit code on real quantum hardware
+
+I started to learn Qiskit, so sorry if my question is very basic. So far I used or , however, now I would like to run my circuit on real IBM Q processor. Here is my code, I wanted to execute: However, this error was shown: I think that the problem is hidden in getting backends or command. Note: I run my code in Quantum Lab on IBM Q website interface. Could any please help me how to change my code to run it on real IBM Q processor?
+
+```
+qasm_simulator
+```
+
+```
+state_vectorsimulator
+```
+
+```
+%matplotlib inline # Importing standard Qiskit libraries and configuring account from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute, Aer, IBMQ from qiskit.compiler import transpile, assemble from qiskit.tools.jupyter import * from qiskit.visualization import * provider = IBMQ.load_account() backend = provider.backends(name='ibmq_ourense') q = QuantumRegister(5, name = 'q') c = ClassicalRegister(2,name = 'c') circuit = QuantumCircuit(q,c) circuit.h(q[0]) circuit.cx(q[0],q[1]) circuit.measure(q[0],c[0]) circuit.measure(q[1],c[1]) job = execute(circuit, backend, shots = 1024) counts = job.result().get_counts() plot_histogram(counts)
+```
+
+```
+%matplotlib inline # Importing standard Qiskit libraries and configuring account from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute, Aer, IBMQ from qiskit.compiler import transpile, assemble from qiskit.tools.jupyter import * from qiskit.visualization import * provider = IBMQ.load_account() backend = provider.backends(name='ibmq_ourense') q = QuantumRegister(5, name = 'q') c = ClassicalRegister(2,name = 'c') circuit = QuantumCircuit(q,c) circuit.h(q[0]) circuit.cx(q[0],q[1]) circuit.measure(q[0],c[0]) circuit.measure(q[1],c[1]) job = execute(circuit, backend, shots = 1024) counts = job.result().get_counts() plot_histogram(counts)
+```
+
+```
+--------------------------------------------------------------------------- AttributeError Traceback (most recent call last) <ipython-input-26-b48ae13f56aa> in <module> 11 circuit.measure(q[1],c[1]) 12 ---> 13 job = execute(circuit, backend, shots = 1024) 14 counts = job.result().get_couns() 15 plot_histogram(counts) /opt/conda/lib/python3.7/site-packages/qiskit/execute.py in execute(experiments, backend, basis_gates, coupling_map, backend_properties, initial_layout, seed_transpiler, optimization_level, pass_manager, qobj_id, qobj_header, shots, memory, max_credits, seed_simulator, default_qubit_los, default_meas_los, schedule_los, meas_level, meas_return, memory_slots, memory_slot_size, rep_time, rep_delay, parameter_binds, schedule_circuit, inst_map, meas_map, scheduling_method, init_qubits, **run_config) 258 seed_transpiler=seed_transpiler, 259 optimization_level=optimization_level, --> 260 backend=backend) 261 262 if schedule_circuit: /opt/conda/lib/python3.7/site-packages/qiskit/compiler/transpile.py in transpile(circuits, backend, basis_gates, coupling_map, backend_properties, initial_layout, layout_method, routing_method, translation_method, seed_transpiler, optimization_level, pass_manager, callback, output_name) 211 callback, output_name) 212 --> 213 _check_circuits_coupling_map(circuits, transpile_args, backend) 214 215 # Transpile circuits in parallel /opt/conda/lib/python3.7/site-packages/qiskit/compiler/transpile.py in _check_circuits_coupling_map(circuits, transpile_args, backend) 244 245 # If coupling_map is None, the limit might be in the backend (like in 1Q devices) --> 246 elif backend is not None and not backend.configuration().simulator: 247 max_qubits = backend.configuration().n_qubits 248 AttributeError: 'list' object has no attribute 'configuration'
+```
+
+```
+--------------------------------------------------------------------------- AttributeError Traceback (most recent call last) <ipython-input-26-b48ae13f56aa> in <module> 11 circuit.measure(q[1],c[1]) 12 ---> 13 job = execute(circuit, backend, shots = 1024) 14 counts = job.result().get_couns() 15 plot_histogram(counts) /opt/conda/lib/python3.7/site-packages/qiskit/execute.py in execute(experiments, backend, basis_gates, coupling_map, backend_properties, initial_layout, seed_transpiler, optimization_level, pass_manager, qobj_id, qobj_header, shots, memory, max_credits, seed_simulator, default_qubit_los, default_meas_los, schedule_los, meas_level, meas_return, memory_slots, memory_slot_size, rep_time, rep_delay, parameter_binds, schedule_circuit, inst_map, meas_map, scheduling_method, init_qubits, **run_config) 258 seed_transpiler=seed_transpiler, 259 optimization_level=optimization_level, --> 260 backend=backend) 261 262 if schedule_circuit: /opt/conda/lib/python3.7/site-packages/qiskit/compiler/transpile.py in transpile(circuits, backend, basis_gates, coupling_map, backend_properties, initial_layout, layout_method, routing_method, translation_method, seed_transpiler, optimization_level, pass_manager, callback, output_name) 211 callback, output_name) 212 --> 213 _check_circuits_coupling_map(circuits, transpile_args, backend) 214 215 # Transpile circuits in parallel /opt/conda/lib/python3.7/site-packages/qiskit/compiler/transpile.py in _check_circuits_coupling_map(circuits, transpile_args, backend) 244 245 # If coupling_map is None, the limit might be in the backend (like in 1Q devices) --> 246 elif backend is not None and not backend.configuration().simulator: 247 max_qubits = backend.configuration().n_qubits 248 AttributeError: 'list' object has no attribute 'configuration'
+```
+
+```
+execute
+```
+
+Original buggy code:
+qasm_simulator
+
+---CODE_BLOCK---
+
+state_vectorsimulator
+
+---CODE_BLOCK---
+
+%matplotlib inline # Importing standard Qiskit libraries and configuring account from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute, Aer, IBMQ from qiskit.compiler import transpile, assemble from qiskit.tools.jupyter import * from qiskit.visualization import * provider = IBMQ.load_account() backend = provider.backends(name='ibmq_ourense') q = QuantumRegister(5, name = 'q') c = ClassicalRegister(2,name = 'c') circuit = QuantumCircuit(q,c) circuit.h(q[0]) circuit.cx(q[0],q[1]) circuit.measure(q[0],c[0]) circuit.measure(q[1],c[1]) job = execute(circuit, backend, shots = 1024) counts = job.result().get_counts() plot_histogram(counts)
+
+---CODE_BLOCK---
+
+%matplotlib inline # Importing standard Qiskit libraries and configuring account from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute, Aer, IBMQ from qiskit.compiler import transpile, assemble from qiskit.tools.jupyter import * from qiskit.visualization import * provider = IBMQ.load_account() backend = provider.backends(name='ibmq_ourense') q = QuantumRegister(5, name = 'q') c = ClassicalRegister(2,name = 'c') circuit = QuantumCircuit(q,c) circuit.h(q[0]) circuit.cx(q[0],q[1]) circuit.measure(q[0],c[0]) circuit.measure(q[1],c[1]) job = execute(circuit, backend, shots = 1024) counts = job.result().get_counts() plot_histogram(counts)
+
+---CODE_BLOCK---
+
+--------------------------------------------------------------------------- AttributeError Traceback (most recent call last) <ipython-input-26-b48ae13f56aa> in <module> 11 circuit.measure(q[1],c[1]) 12 ---> 13 job = execute(circuit, backend, shots = 1024) 14 counts = job.result().get_couns() 15 plot_histogram(counts) /opt/conda/lib/python3.7/site-packages/qiskit/execute.py in execute(experiments, backend, basis_gates, coupling_map, backend_properties, initial_layout, seed_transpiler, optimization_level, pass_manager, qobj_id, qobj_header, shots, memory, max_credits, seed_simulator, default_qubit_los, default_meas_los, schedule_los, meas_level, meas_return, memory_slots, memory_slot_size, rep_time, rep_delay, parameter_binds, schedule_circuit, inst_map, meas_map, scheduling_method, init_qubits, **run_config) 258 seed_transpiler=seed_transpiler, 259 optimization_level=optimization_level, --> 260 backend=backend) 261 262 if schedule_circuit: /opt/conda/lib/python3.7/site-packages/qiskit/compiler/transpile.py in transpile(circuits, backend, basis_gates, coupling_map, backend_properties, initial_layout, layout_method, routing_method, translation_method, seed_transpiler, optimization_level, pass_manager, callback, output_name) 211 callback, output_name) 212 --> 213 _check_circuits_coupling_map(circuits, transpile_args, backend) 214 215 # Transpile circuits in parallel /opt/conda/lib/python3.7/site-packages/qiskit/compiler/transpile.py in _check_circuits_coupling_map(circuits, transpile_args, backend) 244 245 # If coupling_map is None, the limit might be in the backend (like in 1Q devices) --> 246 elif backend is not None and not backend.configuration().simulator: 247 max_qubits = backend.configuration().n_qubits 248 AttributeError: 'list' object has no attribute 'configuration'
+
+---CODE_BLOCK---
+
+--------------------------------------------------------------------------- AttributeError Traceback (most recent call last) <ipython-input-26-b48ae13f56aa> in <module> 11 circuit.measure(q[1],c[1]) 12 ---> 13 job = execute(circuit, backend, shots = 1024) 14 counts = job.result().get_couns() 15 plot_histogram(counts) /opt/conda/lib/python3.7/site-packages/qiskit/execute.py in execute(experiments, backend, basis_gates, coupling_map, backend_properties, initial_layout, seed_transpiler, optimization_level, pass_manager, qobj_id, qobj_header, shots, memory, max_credits, seed_simulator, default_qubit_los, default_meas_los, schedule_los, meas_level, meas_return, memory_slots, memory_slot_size, rep_time, rep_delay, parameter_binds, schedule_circuit, inst_map, meas_map, scheduling_method, init_qubits, **run_config) 258 seed_transpiler=seed_transpiler, 259 optimization_level=optimization_level, --> 260 backend=backend) 261 262 if schedule_circuit: /opt/conda/lib/python3.7/site-packages/qiskit/compiler/transpile.py in transpile(circuits, backend, basis_gates, coupling_map, backend_properties, initial_layout, layout_method, routing_method, translation_method, seed_transpiler, optimization_level, pass_manager, callback, output_name) 211 callback, output_name) 212 --> 213 _check_circuits_coupling_map(circuits, transpile_args, backend) 214 215 # Transpile circuits in parallel /opt/conda/lib/python3.7/site-packages/qiskit/compiler/transpile.py in _check_circuits_coupling_map(circuits, transpile_args, backend) 244 245 # If coupling_map is None, the limit might be in the backend (like in 1Q devices) --> 246 elif backend is not None and not backend.configuration().simulator: 247 max_qubits = backend.configuration().n_qubits 248 AttributeError: 'list' object has no attribute 'configuration'
+
+---CODE_BLOCK---
+
+execute
+
+Solution explanation:
+Looks like returns a list of backends whose name is (a list whose length is obviously 1). Try .
+
+```
+backend = provider.backends(name='ibmq_ourense')
+```
+
+```
+ibmq_oursense
+```
+
+```
+backend = provider.backends(name='ibmq_ourense')[0]
+```
+
+Original fixed code:
+backend = provider.backends(name='ibmq_ourense')
+
+---CODE_BLOCK---
+
+ibmq_oursense
+
+---CODE_BLOCK---
+
+backend = provider.backends(name='ibmq_ourense')[0]

@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWOoXVVuZ02FmwtNssYE8vpKIZet",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit.quantum_info import Operator\n\ni, j, N = 2, 8, 10\n# FIX: The identity had too few qubits for qargs -> use N qubits, because the target indices belong to the full system.\nop = Operator.from_label('I' * N)\nopZ = Operator.from_label('Z' * (j - i - 1))\n# FIX: Addition produces identity plus the Z operator -> use compose, because the desired operator applies Z only on the selected qubits.\nop = op.compose(opZ, qargs=list(range(i + 1, j)))\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419746,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 135,
+    "prompt_tokens": 2240,
+    "total_tokens": 2375,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 2237,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

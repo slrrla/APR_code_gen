@@ -1,0 +1,30 @@
+﻿python.exe : C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an 
+API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+At line:46 char:32
++                     $output = (& $python $testFile 2>&1 | Out-String)
++                                ~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\Mitali..._resources.html:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  import pkg_resources
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\providers\aer\backends\qasm_simulator.py:329: PendingDeprecationWarning: The 
+`QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn('The `QasmSimulator` backend will be deprecated in the'
+F
+======================================================================
+FAIL: test_full_conditional_truth_table (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_635\test.py", line 41, in 
+test_full_conditional_truth_table
+    self.assertEqual(observed, {expected}, "Conditional AND failed for basis %03d" % basis)
+AssertionError: Items in the first set but not the second:
+0
+Items in the second set but not the first:
+1 : Conditional AND failed for basis 001
+
+----------------------------------------------------------------------
+Ran 1 test in 4.087s
+
+FAILED (failures=1)
+

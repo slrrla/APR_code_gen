@@ -1,0 +1,199 @@
+Title:
+How to format a qiskit circuit to only have a high level abstraction?
+
+Category:
+Category:
+Visualization / Drawing / Layout
+
+Why Stack Overflow Wins in This Category:
+For visualization tasks, clarity and using standard Qiskit features matter most. Stack Overflow shows how to directly use Qiskit’s public API (mcx and to_instruction) to achieve the abstraction cleanly. The AI solution works but over-engineers the problem with extra code, making it less practical for everyday use.
+
+Question:
+Title: How to format a qiskit circuit to only have a high level abstraction?
+
+Consider the following situation, we import a 3-bit Toffoli gate as follows: I further define a Quantum Register of size 4 and a circuit containing it: I form a small circuit by applying Hadamard on the last qubit followed by : The output of the following code is as follows: As we can see that the underlying logic of is shown which makes the circuit too big, is there any way to display a higher-level abstraction which would consume less space and simply conceal the underlying gate logic? Edit: This question is not limited to $n$-bit Toffoli gate but to any circuit which may even be defined by user.
+
+```
+from qiskit.aqua.circuits.gates.multi_control_toffoli_gate import _cccx
+```
+
+```
+from qiskit.aqua.circuits.gates.multi_control_toffoli_gate import _cccx
+```
+
+```
+qr = QuantumRegister(4, 'q') circuit = QuantumCircuit(qr)
+```
+
+```
+qr = QuantumRegister(4, 'q') circuit = QuantumCircuit(qr)
+```
+
+```
+_cccx
+```
+
+```
+circuit.h(3) circuit.barrier() _cccx(circuit, q) circuit.barrier() circuit.draw(output="mpl")
+```
+
+```
+circuit.h(3) circuit.barrier() _cccx(circuit, q) circuit.barrier() circuit.draw(output="mpl")
+```
+
+```
+_cccx
+```
+
+Original buggy code:
+from qiskit.aqua.circuits.gates.multi_control_toffoli_gate import _cccx
+
+---CODE_BLOCK---
+
+from qiskit.aqua.circuits.gates.multi_control_toffoli_gate import _cccx
+
+---CODE_BLOCK---
+
+qr = QuantumRegister(4, 'q') circuit = QuantumCircuit(qr)
+
+---CODE_BLOCK---
+
+qr = QuantumRegister(4, 'q') circuit = QuantumCircuit(qr)
+
+---CODE_BLOCK---
+
+_cccx
+
+---CODE_BLOCK---
+
+circuit.h(3) circuit.barrier() _cccx(circuit, q) circuit.barrier() circuit.draw(output="mpl")
+
+---CODE_BLOCK---
+
+circuit.h(3) circuit.barrier() _cccx(circuit, q) circuit.barrier() circuit.draw(output="mpl")
+
+---CODE_BLOCK---
+
+_cccx
+
+Solution explanation:
+You should use the method of the circuit instead (methods with a leading underscore are usually for internal usage and not developed for users), then you can do Which outputs If you decompose or transpile the circuit you'll get down to the implementation of the multi-controlled X to get General logic wrapping into s To wrap any circuit logic into an abstract block you can use the object. First you define a subcircuit and then append it onto the larger circuit as . Here's a short example: If you decompose the circuit you'll see the components. If you don't want to wrap it into a block you can just directly append to the circuit using the method:
+
+```
+mcx
+```
+
+```
+from qiskit import QuantumCircuit circuit = QuantumCircuit(4) circuit.h(3) circuit.mcx([0, 1, 2], 3) circuit.draw(output='mpl')
+```
+
+```
+from qiskit import QuantumCircuit circuit = QuantumCircuit(4) circuit.h(3) circuit.mcx([0, 1, 2], 3) circuit.draw(output='mpl')
+```
+
+```
+from qiskit import transpile basis_gates = ['h', 'cx', 'cu1', 'u1', 'u3'] transpiled = transpile(circuit, basis_gates=basis_gates) transpiled.draw(output='mpl', filename='c3x_decomp.png')
+```
+
+```
+from qiskit import transpile basis_gates = ['h', 'cx', 'cu1', 'u1', 'u3'] transpiled = transpile(circuit, basis_gates=basis_gates) transpiled.draw(output='mpl', filename='c3x_decomp.png')
+```
+
+```
+Instruction
+```
+
+```
+Instruction
+```
+
+```
+Instruction
+```
+
+```
+larger = QuantumCircuit(5) larger.h(4) sub = QuantumCircuit(4, name='My subcircuit') sub.ccx(0, 1, 2) sub.h([0, 1, 2, 3]) sub.crx(0.2, 3, 0) larger.append(sub.to_instruction(), [1, 2, 3, 4]) larger.draw(output='mpl')
+```
+
+```
+larger = QuantumCircuit(5) larger.h(4) sub = QuantumCircuit(4, name='My subcircuit') sub.ccx(0, 1, 2) sub.h([0, 1, 2, 3]) sub.crx(0.2, 3, 0) larger.append(sub.to_instruction(), [1, 2, 3, 4]) larger.draw(output='mpl')
+```
+
+```
+larger
+```
+
+```
+sub
+```
+
+```
+compose
+```
+
+```
+composed = larger.compose(sub, qubits=[1, 2, 3, 4)
+```
+
+```
+composed = larger.compose(sub, qubits=[1, 2, 3, 4)
+```
+
+Original fixed code:
+mcx
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit circuit = QuantumCircuit(4) circuit.h(3) circuit.mcx([0, 1, 2], 3) circuit.draw(output='mpl')
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit circuit = QuantumCircuit(4) circuit.h(3) circuit.mcx([0, 1, 2], 3) circuit.draw(output='mpl')
+
+---CODE_BLOCK---
+
+from qiskit import transpile basis_gates = ['h', 'cx', 'cu1', 'u1', 'u3'] transpiled = transpile(circuit, basis_gates=basis_gates) transpiled.draw(output='mpl', filename='c3x_decomp.png')
+
+---CODE_BLOCK---
+
+from qiskit import transpile basis_gates = ['h', 'cx', 'cu1', 'u1', 'u3'] transpiled = transpile(circuit, basis_gates=basis_gates) transpiled.draw(output='mpl', filename='c3x_decomp.png')
+
+---CODE_BLOCK---
+
+Instruction
+
+---CODE_BLOCK---
+
+Instruction
+
+---CODE_BLOCK---
+
+Instruction
+
+---CODE_BLOCK---
+
+larger = QuantumCircuit(5) larger.h(4) sub = QuantumCircuit(4, name='My subcircuit') sub.ccx(0, 1, 2) sub.h([0, 1, 2, 3]) sub.crx(0.2, 3, 0) larger.append(sub.to_instruction(), [1, 2, 3, 4]) larger.draw(output='mpl')
+
+---CODE_BLOCK---
+
+larger = QuantumCircuit(5) larger.h(4) sub = QuantumCircuit(4, name='My subcircuit') sub.ccx(0, 1, 2) sub.h([0, 1, 2, 3]) sub.crx(0.2, 3, 0) larger.append(sub.to_instruction(), [1, 2, 3, 4]) larger.draw(output='mpl')
+
+---CODE_BLOCK---
+
+larger
+
+---CODE_BLOCK---
+
+sub
+
+---CODE_BLOCK---
+
+compose
+
+---CODE_BLOCK---
+
+composed = larger.compose(sub, qubits=[1, 2, 3, 4)
+
+---CODE_BLOCK---
+
+composed = larger.compose(sub, qubits=[1, 2, 3, 4)

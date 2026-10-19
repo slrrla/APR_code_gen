@@ -1,0 +1,119 @@
+Title:
+Using Qiskit VQE for solving an eigenvalue problem
+
+Category:
+Category:
+Import / Usage of Chemistry Modules
+
+Why AI Wins in This Category:
+While the Stack Overflow workaround is creative, it relies on deprecated Aqua chemistry modules (FermionicOperator, MatrixOperator, etc.), which are no longer recommended in Qiskit. The AI solution embraces the newer, actively supported opflow interface and shows how to build a Hamiltonian from scratch using Pauli terms. This is more sustainable, flexible, and relevant for users learning modern Qiskit usage.
+
+Question:
+Title: Using Qiskit VQE for solving an eigenvalue problem
+
+I am a new user of Qiskit and I believe there is a simple answer to my question but I have had a very hard time finding a straightforward answer. I am trying to transform a given $3 \times 3$ (Hermitian) Hamiltonian matrix into a qubit operator and then use the built-in VQE solver for evaluating the minimum eigenvalue for said matrix. I have been successful in doing something similar using the built-in class (see example below) but for this example the Hamiltonian is mapped to a Fermionic one-body qubit Hamiltonian which has $2^n$ eigenvalues instead of $n$ eigenvalues (where $n=3$ for this case). I am hoping there is a simple way to directly map a matrix to a qubit operator. My vague understanding is I need to write the matrix as a sum of weighted Pauli operators but I would expect there would exist some predefined function for doing this? (I have looked at the source code for the class but it did not help me much). With result:
+
+```
+qiskit.chemistry.FermionicOperator
+```
+
+```
+FermionicOperator
+```
+
+```
+import numpy as np import scipy import h5py from qiskit.aqua.algorithms import VQE, NumPyEigensolver from qiskit.chemistry import FermionicOperator from qiskit import Aer backend = Aer.get_backend("qasm_simulator") c1=1 c2=2 c3=3 ff=np.zeros((3,3)) ff[1,1]=2 ff[2,2]=1 n=3 Hamil=np.zeros((n,n)) Hamil[1,1]=c2 Hamil[2,2]=-c3/2+c2 Hamil[0,2]=np.sqrt(2)*c1 Hamil[1,2]=np.sqrt(2)*c1 Hamil[2,0]=np.sqrt(2)*c1 Hamil[2,1]=np.sqrt(2)*c1 vals,vecs=np.linalg.eig(Hamil) print("Standard Eigenvalues: ") print(vals) Hamil_op = FermionicOperator(h1=Hamil) Hamil_ops = Hamil_op.mapping(map_type='parity', threshold=1e-12) result = NumPyEigensolver(Hamil_ops,k=int(2**n)).run() print("Quibit Eigenvalues=") print(result['eigenvalues']) vqe = VQE(operator=Hamil_ops) vqe_result = np.real(vqe.run(backend)['eigenvalue']) print("VQE Eigenvalue") print(vqe_result)
+```
+
+```
+import numpy as np import scipy import h5py from qiskit.aqua.algorithms import VQE, NumPyEigensolver from qiskit.chemistry import FermionicOperator from qiskit import Aer backend = Aer.get_backend("qasm_simulator") c1=1 c2=2 c3=3 ff=np.zeros((3,3)) ff[1,1]=2 ff[2,2]=1 n=3 Hamil=np.zeros((n,n)) Hamil[1,1]=c2 Hamil[2,2]=-c3/2+c2 Hamil[0,2]=np.sqrt(2)*c1 Hamil[1,2]=np.sqrt(2)*c1 Hamil[2,0]=np.sqrt(2)*c1 Hamil[2,1]=np.sqrt(2)*c1 vals,vecs=np.linalg.eig(Hamil) print("Standard Eigenvalues: ") print(vals) Hamil_op = FermionicOperator(h1=Hamil) Hamil_ops = Hamil_op.mapping(map_type='parity', threshold=1e-12) result = NumPyEigensolver(Hamil_ops,k=int(2**n)).run() print("Quibit Eigenvalues=") print(result['eigenvalues']) vqe = VQE(operator=Hamil_ops) vqe_result = np.real(vqe.run(backend)['eigenvalue']) print("VQE Eigenvalue") print(vqe_result)
+```
+
+```
+Standard Eigenvalues: [-1.45426242 0.90078898 3.05347344] Quibit Eigenvalues= [-1.45426242+0.j -0.55347344+0.j 0. +0.j 0.90078898+0.j 1.59921102+0.j 2.5 +0.j 3.05347344+0.j 3.95426242+0.j] VQE Eigenvalue 0.18608074335373637
+```
+
+```
+Standard Eigenvalues: [-1.45426242 0.90078898 3.05347344] Quibit Eigenvalues= [-1.45426242+0.j -0.55347344+0.j 0. +0.j 0.90078898+0.j 1.59921102+0.j 2.5 +0.j 3.05347344+0.j 3.95426242+0.j] VQE Eigenvalue 0.18608074335373637
+```
+
+Original buggy code:
+qiskit.chemistry.FermionicOperator
+
+---CODE_BLOCK---
+
+FermionicOperator
+
+---CODE_BLOCK---
+
+import numpy as np import scipy import h5py from qiskit.aqua.algorithms import VQE, NumPyEigensolver from qiskit.chemistry import FermionicOperator from qiskit import Aer backend = Aer.get_backend("qasm_simulator") c1=1 c2=2 c3=3 ff=np.zeros((3,3)) ff[1,1]=2 ff[2,2]=1 n=3 Hamil=np.zeros((n,n)) Hamil[1,1]=c2 Hamil[2,2]=-c3/2+c2 Hamil[0,2]=np.sqrt(2)*c1 Hamil[1,2]=np.sqrt(2)*c1 Hamil[2,0]=np.sqrt(2)*c1 Hamil[2,1]=np.sqrt(2)*c1 vals,vecs=np.linalg.eig(Hamil) print("Standard Eigenvalues: ") print(vals) Hamil_op = FermionicOperator(h1=Hamil) Hamil_ops = Hamil_op.mapping(map_type='parity', threshold=1e-12) result = NumPyEigensolver(Hamil_ops,k=int(2**n)).run() print("Quibit Eigenvalues=") print(result['eigenvalues']) vqe = VQE(operator=Hamil_ops) vqe_result = np.real(vqe.run(backend)['eigenvalue']) print("VQE Eigenvalue") print(vqe_result)
+
+---CODE_BLOCK---
+
+import numpy as np import scipy import h5py from qiskit.aqua.algorithms import VQE, NumPyEigensolver from qiskit.chemistry import FermionicOperator from qiskit import Aer backend = Aer.get_backend("qasm_simulator") c1=1 c2=2 c3=3 ff=np.zeros((3,3)) ff[1,1]=2 ff[2,2]=1 n=3 Hamil=np.zeros((n,n)) Hamil[1,1]=c2 Hamil[2,2]=-c3/2+c2 Hamil[0,2]=np.sqrt(2)*c1 Hamil[1,2]=np.sqrt(2)*c1 Hamil[2,0]=np.sqrt(2)*c1 Hamil[2,1]=np.sqrt(2)*c1 vals,vecs=np.linalg.eig(Hamil) print("Standard Eigenvalues: ") print(vals) Hamil_op = FermionicOperator(h1=Hamil) Hamil_ops = Hamil_op.mapping(map_type='parity', threshold=1e-12) result = NumPyEigensolver(Hamil_ops,k=int(2**n)).run() print("Quibit Eigenvalues=") print(result['eigenvalues']) vqe = VQE(operator=Hamil_ops) vqe_result = np.real(vqe.run(backend)['eigenvalue']) print("VQE Eigenvalue") print(vqe_result)
+
+---CODE_BLOCK---
+
+Standard Eigenvalues: [-1.45426242 0.90078898 3.05347344] Quibit Eigenvalues= [-1.45426242+0.j -0.55347344+0.j 0. +0.j 0.90078898+0.j 1.59921102+0.j 2.5 +0.j 3.05347344+0.j 3.95426242+0.j] VQE Eigenvalue 0.18608074335373637
+
+---CODE_BLOCK---
+
+Standard Eigenvalues: [-1.45426242 0.90078898 3.05347344] Quibit Eigenvalues= [-1.45426242+0.j -0.55347344+0.j 0. +0.j 0.90078898+0.j 1.59921102+0.j 2.5 +0.j 3.05347344+0.j 3.95426242+0.j] VQE Eigenvalue 0.18608074335373637
+
+Solution explanation:
+I believe to have answered my own question through further attempts. Per the comment from KAJ226, it is true that a $(3 \times 3)$ matrix cannot be represented as a string of Paulis so I have nested the $(3 \times 3)$ matrix into a $(4 \times 4)$ matrix where the final row and column are all zeros. From this I can omit the useless eigenvalue/eigenvector and just retain the relevant results for the $(3 \times 3)$ matrix. My solution mostly came from using the , , and classes. Below is a sample of my code with corresponding outputs. Thanks to those who gave suggestions to help me out! With result:
+
+```
+WeightedPauliOperator
+```
+
+```
+MatrixOperator
+```
+
+```
+op_converter
+```
+
+```
+import numpy as np import scipy import h5py from qiskit.aqua.algorithms import VQE, NumPyEigensolver from qiskit.aqua.operators import WeightedPauliOperator, MatrixOperator, op_converter from qiskit import Aer backend = Aer.get_backend("qasm_simulator") c1=-0.5 c2=.75 c3=2 n1=3 Hamil=np.zeros((n1,n1)) Hamil[1,1]=c2 Hamil[2,2]=-c3/2+c2 Hamil[0,2]=c1 Hamil[1,2]=c1 Hamil[2,0]=c1 Hamil[2,1]=c1 print("(3x3) Hamiltonian") print(Hamil) vals,vecs=np.linalg.eig(Hamil) print("Standard Eigenvalues: ") print(vals) n2=4 Hamil=np.zeros((n2,n2)) Hamil[1,1]=c2 Hamil[2,2]=-c3/2+c2 Hamil[0,2]=c1 Hamil[1,2]=c1 Hamil[2,0]=c1 Hamil[2,1]=c1 print("(4x4) Hamiltonian") print(Hamil) Hamil_Mat=MatrixOperator(Hamil) Hamil_Qop = op_converter.to_weighted_pauli_operator(Hamil_Mat) q_vals = NumPyEigensolver(Hamil_Qop,k=4).run() print("Qubit Op Eigenvalues: ") print(q_vals['eigenvalues']) vqe=VQE(Hamil_Qop) vqe_result=vqe.run(backend) print("VQE Eigenvalue: ") print(vqe_result['eigenvalue'])
+```
+
+```
+import numpy as np import scipy import h5py from qiskit.aqua.algorithms import VQE, NumPyEigensolver from qiskit.aqua.operators import WeightedPauliOperator, MatrixOperator, op_converter from qiskit import Aer backend = Aer.get_backend("qasm_simulator") c1=-0.5 c2=.75 c3=2 n1=3 Hamil=np.zeros((n1,n1)) Hamil[1,1]=c2 Hamil[2,2]=-c3/2+c2 Hamil[0,2]=c1 Hamil[1,2]=c1 Hamil[2,0]=c1 Hamil[2,1]=c1 print("(3x3) Hamiltonian") print(Hamil) vals,vecs=np.linalg.eig(Hamil) print("Standard Eigenvalues: ") print(vals) n2=4 Hamil=np.zeros((n2,n2)) Hamil[1,1]=c2 Hamil[2,2]=-c3/2+c2 Hamil[0,2]=c1 Hamil[1,2]=c1 Hamil[2,0]=c1 Hamil[2,1]=c1 print("(4x4) Hamiltonian") print(Hamil) Hamil_Mat=MatrixOperator(Hamil) Hamil_Qop = op_converter.to_weighted_pauli_operator(Hamil_Mat) q_vals = NumPyEigensolver(Hamil_Qop,k=4).run() print("Qubit Op Eigenvalues: ") print(q_vals['eigenvalues']) vqe=VQE(Hamil_Qop) vqe_result=vqe.run(backend) print("VQE Eigenvalue: ") print(vqe_result['eigenvalue'])
+```
+
+```
+(3x3) Hamiltonian [[ 0. 0. -0.5 ] [ 0. 0.75 -0.5 ] [-0.5 -0.5 -0.25]] Standard Eigenvalues: [-0.75 0.25 1. ] (4x4) Hamiltonian [[ 0. 0. -0.5 0. ] [ 0. 0.75 -0.5 0. ] [-0.5 -0.5 -0.25 0. ] [ 0. 0. 0. 0. ]] Qubit Op Eigenvalues: [-0.75+0.j 0. +0.j 0.25+0.j 1. +0.j] VQE Eigenvalue: (-0.705078125+0j)
+```
+
+```
+(3x3) Hamiltonian [[ 0. 0. -0.5 ] [ 0. 0.75 -0.5 ] [-0.5 -0.5 -0.25]] Standard Eigenvalues: [-0.75 0.25 1. ] (4x4) Hamiltonian [[ 0. 0. -0.5 0. ] [ 0. 0.75 -0.5 0. ] [-0.5 -0.5 -0.25 0. ] [ 0. 0. 0. 0. ]] Qubit Op Eigenvalues: [-0.75+0.j 0. +0.j 0.25+0.j 1. +0.j] VQE Eigenvalue: (-0.705078125+0j)
+```
+
+Original fixed code:
+WeightedPauliOperator
+
+---CODE_BLOCK---
+
+MatrixOperator
+
+---CODE_BLOCK---
+
+op_converter
+
+---CODE_BLOCK---
+
+import numpy as np import scipy import h5py from qiskit.aqua.algorithms import VQE, NumPyEigensolver from qiskit.aqua.operators import WeightedPauliOperator, MatrixOperator, op_converter from qiskit import Aer backend = Aer.get_backend("qasm_simulator") c1=-0.5 c2=.75 c3=2 n1=3 Hamil=np.zeros((n1,n1)) Hamil[1,1]=c2 Hamil[2,2]=-c3/2+c2 Hamil[0,2]=c1 Hamil[1,2]=c1 Hamil[2,0]=c1 Hamil[2,1]=c1 print("(3x3) Hamiltonian") print(Hamil) vals,vecs=np.linalg.eig(Hamil) print("Standard Eigenvalues: ") print(vals) n2=4 Hamil=np.zeros((n2,n2)) Hamil[1,1]=c2 Hamil[2,2]=-c3/2+c2 Hamil[0,2]=c1 Hamil[1,2]=c1 Hamil[2,0]=c1 Hamil[2,1]=c1 print("(4x4) Hamiltonian") print(Hamil) Hamil_Mat=MatrixOperator(Hamil) Hamil_Qop = op_converter.to_weighted_pauli_operator(Hamil_Mat) q_vals = NumPyEigensolver(Hamil_Qop,k=4).run() print("Qubit Op Eigenvalues: ") print(q_vals['eigenvalues']) vqe=VQE(Hamil_Qop) vqe_result=vqe.run(backend) print("VQE Eigenvalue: ") print(vqe_result['eigenvalue'])
+
+---CODE_BLOCK---
+
+import numpy as np import scipy import h5py from qiskit.aqua.algorithms import VQE, NumPyEigensolver from qiskit.aqua.operators import WeightedPauliOperator, MatrixOperator, op_converter from qiskit import Aer backend = Aer.get_backend("qasm_simulator") c1=-0.5 c2=.75 c3=2 n1=3 Hamil=np.zeros((n1,n1)) Hamil[1,1]=c2 Hamil[2,2]=-c3/2+c2 Hamil[0,2]=c1 Hamil[1,2]=c1 Hamil[2,0]=c1 Hamil[2,1]=c1 print("(3x3) Hamiltonian") print(Hamil) vals,vecs=np.linalg.eig(Hamil) print("Standard Eigenvalues: ") print(vals) n2=4 Hamil=np.zeros((n2,n2)) Hamil[1,1]=c2 Hamil[2,2]=-c3/2+c2 Hamil[0,2]=c1 Hamil[1,2]=c1 Hamil[2,0]=c1 Hamil[2,1]=c1 print("(4x4) Hamiltonian") print(Hamil) Hamil_Mat=MatrixOperator(Hamil) Hamil_Qop = op_converter.to_weighted_pauli_operator(Hamil_Mat) q_vals = NumPyEigensolver(Hamil_Qop,k=4).run() print("Qubit Op Eigenvalues: ") print(q_vals['eigenvalues']) vqe=VQE(Hamil_Qop) vqe_result=vqe.run(backend) print("VQE Eigenvalue: ") print(vqe_result['eigenvalue'])
+
+---CODE_BLOCK---
+
+(3x3) Hamiltonian [[ 0. 0. -0.5 ] [ 0. 0.75 -0.5 ] [-0.5 -0.5 -0.25]] Standard Eigenvalues: [-0.75 0.25 1. ] (4x4) Hamiltonian [[ 0. 0. -0.5 0. ] [ 0. 0.75 -0.5 0. ] [-0.5 -0.5 -0.25 0. ] [ 0. 0. 0. 0. ]] Qubit Op Eigenvalues: [-0.75+0.j 0. +0.j 0.25+0.j 1. +0.j] VQE Eigenvalue: (-0.705078125+0j)
+
+---CODE_BLOCK---
+
+(3x3) Hamiltonian [[ 0. 0. -0.5 ] [ 0. 0.75 -0.5 ] [-0.5 -0.5 -0.25]] Standard Eigenvalues: [-0.75 0.25 1. ] (4x4) Hamiltonian [[ 0. 0. -0.5 0. ] [ 0. 0.75 -0.5 0. ] [-0.5 -0.5 -0.25 0. ] [ 0. 0. 0. 0. ]] Qubit Op Eigenvalues: [-0.75+0.j 0. +0.j 0.25+0.j 1. +0.j] VQE Eigenvalue: (-0.705078125+0j)

@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWW59nmmB2rt3Ou1dtFaLAEgHySTK",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\n# FIX: The QASM 2 exporter was not explicitly imported -> import qiskit.qasm2, because it provides the supported serialization API.\nimport qiskit.qasm2\n\nc = qiskit.QuantumCircuit(1)\nc.h(0)\n\n# FIX: QuantumCircuit.qasm() was removed -> use qiskit.qasm2.dumps(c), because it returns the circuit as an OpenQASM 2.0 string.\nqasm_str = qiskit.qasm2.dumps(c)\nprint(qasm_str)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418527,
+  "model": "gpt-6.1-sol",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 335,
+    "prompt_tokens": 598,
+    "total_tokens": 933,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 213,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

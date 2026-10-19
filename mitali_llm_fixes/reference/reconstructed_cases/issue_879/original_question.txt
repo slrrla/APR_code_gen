@@ -1,0 +1,67 @@
+Title:
+How to take Statevector for subsystem?
+
+Category:
+
+
+Question:
+Title: How to take Statevector for subsystem?
+
+I want to calculate the 2nd Renyi entropy using the density matrix in Qiskit. To do this, I need to calculate the $Tr(\rho^2)$ for subsystem. The complete system consists of 12 qubits from which I want to choose a subsystem from two specific ones (for example, #3 and #5). I thought to use but if there are other methods I will be glad to hear from you. Here is my quantum state:
+
+```
+qiskit.quantum_info.Statevector
+```
+
+```
+num_qubits = 12 measureZZ = QuantumCircuit(num_qubits,num_qubits) measureZZ.h(0) measureZZ.h(1) measureZZ.h(5) measureZZ.h(6) measureZZ.cx(0, 2) measureZZ.cx(1, 3) measureZZ.cx(5, 7) measureZZ.cx(6, 8) measureZZ.cx(0, 3) measureZZ.cx(1, 4) measureZZ.cx(5, 8) measureZZ.cx(6, 9) measureZZ.cx(2, 5) measureZZ.cx(4, 6) measureZZ.cx(7, 10) measureZZ.cx(9, 11)
+```
+
+```
+num_qubits = 12 measureZZ = QuantumCircuit(num_qubits,num_qubits) measureZZ.h(0) measureZZ.h(1) measureZZ.h(5) measureZZ.h(6) measureZZ.cx(0, 2) measureZZ.cx(1, 3) measureZZ.cx(5, 7) measureZZ.cx(6, 8) measureZZ.cx(0, 3) measureZZ.cx(1, 4) measureZZ.cx(5, 8) measureZZ.cx(6, 9) measureZZ.cx(2, 5) measureZZ.cx(4, 6) measureZZ.cx(7, 10) measureZZ.cx(9, 11)
+```
+
+Original buggy code:
+qiskit.quantum_info.Statevector
+
+---CODE_BLOCK---
+
+num_qubits = 12 measureZZ = QuantumCircuit(num_qubits,num_qubits) measureZZ.h(0) measureZZ.h(1) measureZZ.h(5) measureZZ.h(6) measureZZ.cx(0, 2) measureZZ.cx(1, 3) measureZZ.cx(5, 7) measureZZ.cx(6, 8) measureZZ.cx(0, 3) measureZZ.cx(1, 4) measureZZ.cx(5, 8) measureZZ.cx(6, 9) measureZZ.cx(2, 5) measureZZ.cx(4, 6) measureZZ.cx(7, 10) measureZZ.cx(9, 11)
+
+---CODE_BLOCK---
+
+num_qubits = 12 measureZZ = QuantumCircuit(num_qubits,num_qubits) measureZZ.h(0) measureZZ.h(1) measureZZ.h(5) measureZZ.h(6) measureZZ.cx(0, 2) measureZZ.cx(1, 3) measureZZ.cx(5, 7) measureZZ.cx(6, 8) measureZZ.cx(0, 3) measureZZ.cx(1, 4) measureZZ.cx(5, 8) measureZZ.cx(6, 9) measureZZ.cx(2, 5) measureZZ.cx(4, 6) measureZZ.cx(7, 10) measureZZ.cx(9, 11)
+
+Solution explanation:
+In general, a subsystem could be entangled with the rest of the system and we can not describe it using a state vector. A general method that can be always used to describe the state of a subsystem is density matrix. To get the reduced density matrix of a subsystem you can use . For example, to get the density matrix for 3rd and 5th qubits: Note that, in Qiskit you can use to get $Tr(\rho^2)$
+
+```
+partial_trace
+```
+
+```
+from qiskit.quantum_info import DensityMatrix from qiskit.quantum_info.states import partial_trace traced_over = list(range(0, num_qubits)) traced_over.remove(3) traced_over.remove(5) rho = DensityMatrix.from_instruction(measureZZ) rho_3_5 = partial_trace(rho, traced_over)
+```
+
+```
+from qiskit.quantum_info import DensityMatrix from qiskit.quantum_info.states import partial_trace traced_over = list(range(0, num_qubits)) traced_over.remove(3) traced_over.remove(5) rho = DensityMatrix.from_instruction(measureZZ) rho_3_5 = partial_trace(rho, traced_over)
+```
+
+```
+DensityMatrix.purity
+```
+
+Original fixed code:
+partial_trace
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import DensityMatrix from qiskit.quantum_info.states import partial_trace traced_over = list(range(0, num_qubits)) traced_over.remove(3) traced_over.remove(5) rho = DensityMatrix.from_instruction(measureZZ) rho_3_5 = partial_trace(rho, traced_over)
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import DensityMatrix from qiskit.quantum_info.states import partial_trace traced_over = list(range(0, num_qubits)) traced_over.remove(3) traced_over.remove(5) rho = DensityMatrix.from_instruction(measureZZ) rho_3_5 = partial_trace(rho, traced_over)
+
+---CODE_BLOCK---
+
+DensityMatrix.purity

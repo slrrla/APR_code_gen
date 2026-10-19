@@ -1,0 +1,67 @@
+Title:
+Expected Value in Qiskit
+
+Category:
+
+
+Question:
+Title: Expected Value in Qiskit
+
+In Qiskit I would like to comute expected vlue of the form $$ \langle \psi | O^2 | \psi \rangle $$ I have been able to create the quantum state $| \psi \rangle$ and I have also been able to define $O$ using in Qiskit. For reference, $O$ is of the form $$ \sum_{r=1}^n r (I- Z_r) $$ Here $Z_r$ is the Pauli $Z$ operator acting on the $r$-th qubit. How can I compute the desired expected value?
+
+```
+SparsePauliOp
+```
+
+Original buggy code:
+SparsePauliOp
+
+Solution explanation:
+If you have a statevector defined as a object, and an operator defined as an object, the easiest way to compute the expectation is by using the method of the statevector. Here's an example: This results in an expectation value of
+
+```
+Statevector
+```
+
+```
+SparsePauliOp
+```
+
+```
+expectation_value
+```
+
+```
+import numpy as np from qiskit.quantum_info import Statevector, SparsePauliOp O = SparsePauliOp(data=["II", "IZ", "ZI", "ZZ", "XX"], coeffs=[-1, 0.4, -0.4, -1, 0.1]) O_sqr = O @ O ψ = np.sqrt(1/2)*(Statevector.from_label('00') + Statevector.from_label('11')) exp_val = ψ.expectation_value(O_sqr) print(exp_val)
+```
+
+```
+import numpy as np from qiskit.quantum_info import Statevector, SparsePauliOp O = SparsePauliOp(data=["II", "IZ", "ZI", "ZZ", "XX"], coeffs=[-1, 0.4, -0.4, -1, 0.1]) O_sqr = O @ O ψ = np.sqrt(1/2)*(Statevector.from_label('00') + Statevector.from_label('11')) exp_val = ψ.expectation_value(O_sqr) print(exp_val)
+```
+
+```
+3.61
+```
+
+Original fixed code:
+Statevector
+
+---CODE_BLOCK---
+
+SparsePauliOp
+
+---CODE_BLOCK---
+
+expectation_value
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit.quantum_info import Statevector, SparsePauliOp O = SparsePauliOp(data=["II", "IZ", "ZI", "ZZ", "XX"], coeffs=[-1, 0.4, -0.4, -1, 0.1]) O_sqr = O @ O ψ = np.sqrt(1/2)*(Statevector.from_label('00') + Statevector.from_label('11')) exp_val = ψ.expectation_value(O_sqr) print(exp_val)
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit.quantum_info import Statevector, SparsePauliOp O = SparsePauliOp(data=["II", "IZ", "ZI", "ZZ", "XX"], coeffs=[-1, 0.4, -0.4, -1, 0.1]) O_sqr = O @ O ψ = np.sqrt(1/2)*(Statevector.from_label('00') + Statevector.from_label('11')) exp_val = ψ.expectation_value(O_sqr) print(exp_val)
+
+---CODE_BLOCK---
+
+3.61

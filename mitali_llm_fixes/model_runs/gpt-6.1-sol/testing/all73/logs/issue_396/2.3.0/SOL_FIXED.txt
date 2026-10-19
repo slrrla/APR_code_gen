@@ -1,0 +1,36 @@
+CASE=issue_396
+QISKIT=2.3.0
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\gpt-6.1-sol\generation\issue_396\fix_396.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_396\test.py
+
+C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\gpt-6.1-sol\generation\issue_396\fix_396.py:10: DeprecationWarning: The class ``qiskit.circuit.library.grover_operator.GroverOperator`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use qiskit.circuit.library.grover_operator instead.
+  grover_op = GroverOperator(oracle)
+E
+======================================================================
+ERROR: test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_396\test.py", line 14, in test_exact_marked_phases_and_grover_amplification
+    m = load_target()
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_396\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_230_exact\lib\runpy.py", line 289, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_230_exact\lib\runpy.py", line 96, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_230_exact\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\gpt-6.1-sol\generation\issue_396\fix_396.py", line 10, in <module>
+    grover_op = GroverOperator(oracle)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_230_exact\lib\site-packages\qiskit\utils\deprecation.py", line 97, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_230_exact\lib\site-packages\qiskit\circuit\library\grover_operator.py", line 485, in __init__
+    self._build()
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_230_exact\lib\site-packages\qiskit\circuit\library\grover_operator.py", line 523, in _build
+    num_state_qubits = self.oracle.num_qubits - self.oracle.num_ancillas
+AttributeError: 'DiagonalGate' object has no attribute 'num_ancillas'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.721s
+
+FAILED (errors=1)

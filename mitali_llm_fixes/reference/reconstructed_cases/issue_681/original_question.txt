@@ -1,0 +1,91 @@
+Title:
+SAT solver simulation by qiskit works wrong
+
+Category:
+
+
+Question:
+Title: SAT solver simulation by qiskit works wrong
+
+I tried to build a qiskit QuantumCircuit solving k-SAT problems. However, the result seems wrong comparing with the heuristic SAT solver, PySAT. The first code defines kSAT function for k maximum size of clause, n variables, and m number of clauses. The problem matrix formularizes kSAT problem. For example, $$f=(x_1 \lor x_2)\land (\neg x_1 \lor x_3)\land (x_2 \lor x_3)$$ is represented by $$[[1,1,0]\\ [-1,0,1]\\ [0,1,1]]$$ This is an example of 3-SAT problem (with n=4, m=20) However, the result seems wrong {'1011': 137} You can test the problem with the PySAT Could you explain what's wrong and how to debug this kind of error?
+
+```
+from qiskit import QuantumCircuit from qiskit.circuit.library import MCXGate from qiskit_aer.primitives import SamplerV2 def kSAT(k=3, n=3, m=3): qc = QuantumCircuit(n + m + 1, n + m +1) qc.x(range(n, n + m)) qc.h(range(n)) # Problem matrix generation: \{-1,0,1\}^{m \times n} matrix = np.zeros((m, n), dtype=int) non_zero_indices = [] for row in range(m): non_zero_indices.append(np.random.choice(n, size=k, replace=False)) matrix[row, non_zero_indices[row]] = np.random.choice([-1, 1], size=k) problem = matrix print(problem) # De morgan's law inverse_problem = -1 * problem for i in range(m): for j in range(n): if inverse_problem[i][j] == -1: qc.x(j) target = non_zero_indices[i].tolist() mcx = MCXGate(3) qc.mcx(target, n + i) qc.barrier() qc.mcx(list(range(n,n+m)), n+m) return qc, problem k=3 n=4 m=20 qc, problem = kSAT(k, n, m) qc.measure(range(n + m+1), range(n+m+1)) qc.draw('mpl')
+```
+
+```
+from qiskit import QuantumCircuit from qiskit.circuit.library import MCXGate from qiskit_aer.primitives import SamplerV2 def kSAT(k=3, n=3, m=3): qc = QuantumCircuit(n + m + 1, n + m +1) qc.x(range(n, n + m)) qc.h(range(n)) # Problem matrix generation: \{-1,0,1\}^{m \times n} matrix = np.zeros((m, n), dtype=int) non_zero_indices = [] for row in range(m): non_zero_indices.append(np.random.choice(n, size=k, replace=False)) matrix[row, non_zero_indices[row]] = np.random.choice([-1, 1], size=k) problem = matrix print(problem) # De morgan's law inverse_problem = -1 * problem for i in range(m): for j in range(n): if inverse_problem[i][j] == -1: qc.x(j) target = non_zero_indices[i].tolist() mcx = MCXGate(3) qc.mcx(target, n + i) qc.barrier() qc.mcx(list(range(n,n+m)), n+m) return qc, problem k=3 n=4 m=20 qc, problem = kSAT(k, n, m) qc.measure(range(n + m+1), range(n+m+1)) qc.draw('mpl')
+```
+
+```
+[[ 0 1 1 -1] [ 0 -1 -1 -1] [ 1 1 1 0] [ 0 -1 -1 1] [ 0 1 -1 -1] # the result conflicts with this clause [-1 0 1 -1] [ 1 1 0 1] [ 0 -1 -1 1] [ 1 -1 0 1] [-1 0 -1 -1] [ 1 0 -1 -1] [ 1 -1 1 0] [ 1 1 0 1] [-1 1 -1 0] [-1 1 0 -1] [ 1 0 1 -1] [ 0 -1 -1 -1] [-1 1 0 -1] [ 1 0 1 1] [ 1 -1 -1 0]]
+```
+
+```
+[[ 0 1 1 -1] [ 0 -1 -1 -1] [ 1 1 1 0] [ 0 -1 -1 1] [ 0 1 -1 -1] # the result conflicts with this clause [-1 0 1 -1] [ 1 1 0 1] [ 0 -1 -1 1] [ 1 -1 0 1] [-1 0 -1 -1] [ 1 0 -1 -1] [ 1 -1 1 0] [ 1 1 0 1] [-1 1 -1 0] [-1 1 0 -1] [ 1 0 1 -1] [ 0 -1 -1 -1] [-1 1 0 -1] [ 1 0 1 1] [ 1 -1 -1 0]]
+```
+
+```
+sampler = SamplerV2() job = sampler.run([qc], shots=2048) job_result = job.result() counts = job_result[0].data.c.get_counts() filtered_counts = {key: value for key, value in counts.items() if key[0] == '1'} modified_counts = {key[-n:]: value for key, value in filtered_counts.items()} reversed_counts = {key[-1:-n-1:-1]: value for key, value in filtered_counts.items()} print(reversed_counts)
+```
+
+```
+sampler = SamplerV2() job = sampler.run([qc], shots=2048) job_result = job.result() counts = job_result[0].data.c.get_counts() filtered_counts = {key: value for key, value in counts.items() if key[0] == '1'} modified_counts = {key[-n:]: value for key, value in filtered_counts.items()} reversed_counts = {key[-1:-n-1:-1]: value for key, value in filtered_counts.items()} print(reversed_counts)
+```
+
+```
+from pysat.solvers import Glucose3 g = Glucose3() for i in range(m): c = list(range(1, n+1)) * problem[i] c = [int(x) for x in c if x != 0] g.add_clause(c) print(g.solve()) print(g.get_model())
+```
+
+```
+from pysat.solvers import Glucose3 g = Glucose3() for i in range(m): c = list(range(1, n+1)) * problem[i] c = [int(x) for x in c if x != 0] g.add_clause(c) print(g.solve()) print(g.get_model())
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit from qiskit.circuit.library import MCXGate from qiskit_aer.primitives import SamplerV2 def kSAT(k=3, n=3, m=3): qc = QuantumCircuit(n + m + 1, n + m +1) qc.x(range(n, n + m)) qc.h(range(n)) # Problem matrix generation: \{-1,0,1\}^{m \times n} matrix = np.zeros((m, n), dtype=int) non_zero_indices = [] for row in range(m): non_zero_indices.append(np.random.choice(n, size=k, replace=False)) matrix[row, non_zero_indices[row]] = np.random.choice([-1, 1], size=k) problem = matrix print(problem) # De morgan's law inverse_problem = -1 * problem for i in range(m): for j in range(n): if inverse_problem[i][j] == -1: qc.x(j) target = non_zero_indices[i].tolist() mcx = MCXGate(3) qc.mcx(target, n + i) qc.barrier() qc.mcx(list(range(n,n+m)), n+m) return qc, problem k=3 n=4 m=20 qc, problem = kSAT(k, n, m) qc.measure(range(n + m+1), range(n+m+1)) qc.draw('mpl')
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit.circuit.library import MCXGate from qiskit_aer.primitives import SamplerV2 def kSAT(k=3, n=3, m=3): qc = QuantumCircuit(n + m + 1, n + m +1) qc.x(range(n, n + m)) qc.h(range(n)) # Problem matrix generation: \{-1,0,1\}^{m \times n} matrix = np.zeros((m, n), dtype=int) non_zero_indices = [] for row in range(m): non_zero_indices.append(np.random.choice(n, size=k, replace=False)) matrix[row, non_zero_indices[row]] = np.random.choice([-1, 1], size=k) problem = matrix print(problem) # De morgan's law inverse_problem = -1 * problem for i in range(m): for j in range(n): if inverse_problem[i][j] == -1: qc.x(j) target = non_zero_indices[i].tolist() mcx = MCXGate(3) qc.mcx(target, n + i) qc.barrier() qc.mcx(list(range(n,n+m)), n+m) return qc, problem k=3 n=4 m=20 qc, problem = kSAT(k, n, m) qc.measure(range(n + m+1), range(n+m+1)) qc.draw('mpl')
+
+---CODE_BLOCK---
+
+[[ 0 1 1 -1] [ 0 -1 -1 -1] [ 1 1 1 0] [ 0 -1 -1 1] [ 0 1 -1 -1] # the result conflicts with this clause [-1 0 1 -1] [ 1 1 0 1] [ 0 -1 -1 1] [ 1 -1 0 1] [-1 0 -1 -1] [ 1 0 -1 -1] [ 1 -1 1 0] [ 1 1 0 1] [-1 1 -1 0] [-1 1 0 -1] [ 1 0 1 -1] [ 0 -1 -1 -1] [-1 1 0 -1] [ 1 0 1 1] [ 1 -1 -1 0]]
+
+---CODE_BLOCK---
+
+[[ 0 1 1 -1] [ 0 -1 -1 -1] [ 1 1 1 0] [ 0 -1 -1 1] [ 0 1 -1 -1] # the result conflicts with this clause [-1 0 1 -1] [ 1 1 0 1] [ 0 -1 -1 1] [ 1 -1 0 1] [-1 0 -1 -1] [ 1 0 -1 -1] [ 1 -1 1 0] [ 1 1 0 1] [-1 1 -1 0] [-1 1 0 -1] [ 1 0 1 -1] [ 0 -1 -1 -1] [-1 1 0 -1] [ 1 0 1 1] [ 1 -1 -1 0]]
+
+---CODE_BLOCK---
+
+sampler = SamplerV2() job = sampler.run([qc], shots=2048) job_result = job.result() counts = job_result[0].data.c.get_counts() filtered_counts = {key: value for key, value in counts.items() if key[0] == '1'} modified_counts = {key[-n:]: value for key, value in filtered_counts.items()} reversed_counts = {key[-1:-n-1:-1]: value for key, value in filtered_counts.items()} print(reversed_counts)
+
+---CODE_BLOCK---
+
+sampler = SamplerV2() job = sampler.run([qc], shots=2048) job_result = job.result() counts = job_result[0].data.c.get_counts() filtered_counts = {key: value for key, value in counts.items() if key[0] == '1'} modified_counts = {key[-n:]: value for key, value in filtered_counts.items()} reversed_counts = {key[-1:-n-1:-1]: value for key, value in filtered_counts.items()} print(reversed_counts)
+
+---CODE_BLOCK---
+
+from pysat.solvers import Glucose3 g = Glucose3() for i in range(m): c = list(range(1, n+1)) * problem[i] c = [int(x) for x in c if x != 0] g.add_clause(c) print(g.solve()) print(g.get_model())
+
+---CODE_BLOCK---
+
+from pysat.solvers import Glucose3 g = Glucose3() for i in range(m): c = list(range(1, n+1)) * problem[i] c = [int(x) for x in c if x != 0] g.add_clause(c) print(g.solve()) print(g.get_model())
+
+Solution explanation:
+Sorry for hasty question. I only added x gate in front of mcx. The correct code is like below.
+
+```
+def kSAT(): ### for i in range(m): for j in range(n): if inverse_problem[i][j] == -1: qc.x(j) target = non_zero_indices[i].tolist() mcx = MCXGate(k) qc.mcx(target, n + i) for j in range(n): if inverse_problem[i][j] == -1: qc.x(j) ###
+```
+
+```
+def kSAT(): ### for i in range(m): for j in range(n): if inverse_problem[i][j] == -1: qc.x(j) target = non_zero_indices[i].tolist() mcx = MCXGate(k) qc.mcx(target, n + i) for j in range(n): if inverse_problem[i][j] == -1: qc.x(j) ###
+```
+
+Original fixed code:
+def kSAT(): ### for i in range(m): for j in range(n): if inverse_problem[i][j] == -1: qc.x(j) target = non_zero_indices[i].tolist() mcx = MCXGate(k) qc.mcx(target, n + i) for j in range(n): if inverse_problem[i][j] == -1: qc.x(j) ###
+
+---CODE_BLOCK---
+
+def kSAT(): ### for i in range(m): for j in range(n): if inverse_problem[i][j] == -1: qc.x(j) target = non_zero_indices[i].tolist() mcx = MCXGate(k) qc.mcx(target, n + i) for j in range(n): if inverse_problem[i][j] == -1: qc.x(j) ###

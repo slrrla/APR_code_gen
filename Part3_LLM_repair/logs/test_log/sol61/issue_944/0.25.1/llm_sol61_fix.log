@@ -1,0 +1,19 @@
+
+test_projector_and_solver_conversion (__main__.Regression) ... C:\qiskit_envs\q0251\lib\site-packages\mpmath\ctx_mp.py:35: DeprecationWarning: mpnumeric is deprecated
+  warnings.warn(f"{name} is deprecated", DeprecationWarning)
+C:\qiskit_envs\q0251\lib\site-packages\mpmath\rational.py:4: DeprecationWarning: the rational private module is deprecated
+  warnings.warn("the rational private module is deprecated",
+ERROR
+
+======================================================================
+ERROR: test_projector_and_solver_conversion (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_944\test.py", line 23, in test_projector_and_solver_conversion
+    np.testing.assert_allclose(m["proj"].data, expected, atol=1e-12)
+AttributeError: 'MatrixOp' object has no attribute 'data'
+
+----------------------------------------------------------------------
+Ran 1 test in 3.743s
+
+FAILED (errors=1)

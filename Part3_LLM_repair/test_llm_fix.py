@@ -12,6 +12,7 @@ FIXES_DIR = HERE / "llm_fixes"
 MODEL_TAG = "luna56"
 RESULTS_DIR = HERE / "results" / MODEL_TAG
 LOG_DIR = HERE / "logs" / MODEL_TAG
+TEST_LOG_DIR = HERE / "logs" / "test_log" / MODEL_TAG
 XLSX = HERE / "Valid_Cases_104.xlsx"
 ENV_ROOT = Path(r"C:\qiskit_envs")
 SUPPORT_ROOT = ENV_ROOT / "_support"
@@ -152,7 +153,7 @@ def run_one(case, version, variant, py_tags):
         except Exception as e:
             record.update(status="ENV_ERROR", returncode=None, detail=repr(e), checks="", failed_checks="")
     record["seconds"] = round(time.monotonic() - started, 2)
-    log = LOG_DIR / case / version / f"{variant}.log"
+    log = (TEST_LOG_DIR if variant == LLM_VARIANT else LOG_DIR) / case / version / f"{variant}.log"
     log.parent.mkdir(parents=True, exist_ok=True)
     log.write_text(output, encoding="utf-8")
     print(f"{case:14} {version:7} {variant:8} {record['status']:8} {record['detail'][:120]}", flush=True)
@@ -166,12 +167,13 @@ def main():
     ap.add_argument("--model", default="gpt-5.6-luna", choices=MODEL_TAGS)
     args = ap.parse_args()
 
-    global MODEL_TAG, LLM_VARIANT, VARIANTS, RESULTS_DIR, LOG_DIR
+    global MODEL_TAG, LLM_VARIANT, VARIANTS, RESULTS_DIR, LOG_DIR, TEST_LOG_DIR
     MODEL_TAG = MODEL_TAGS[args.model]
     LLM_VARIANT = f"llm_{MODEL_TAG}_fix"
     VARIANTS = ["buggy", "fixed", LLM_VARIANT]
     RESULTS_DIR = HERE / "results" / MODEL_TAG
     LOG_DIR = HERE / "logs" / MODEL_TAG
+    TEST_LOG_DIR = HERE / "logs" / "test_log" / MODEL_TAG
 
     sheet = load_sheet_info()
     cases = args.cases or [c for c in CASES if (FIXES_DIR / c / f"{LLM_VARIANT}.py").exists()]
@@ -213,6 +215,7 @@ def main():
                 "llm_error": l["detail"], "lines_changed": changed,
                 "llm_fix_explanation": " | ".join(comments), "llm_runtime_s": l["seconds"],
                 "log_dir": (LOG_DIR / case / v).relative_to(HERE).as_posix(),
+                "llm_log_dir": (TEST_LOG_DIR / case / v).relative_to(HERE).as_posix(),
             })
 
     path = RESULTS_DIR / f"llm_{MODEL_TAG}_results.csv"

@@ -31,7 +31,7 @@ Traceback (most recent call last):
           ^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\qiskit_envs\q121\Lib\site-packages\qiskit\transpiler\passes\basis\basis_translator.py", line 224, in run
     raise TranspilerError(
-qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['cx', 's', 'h'] to the backend's (or manually specified) target basis: ['snapshot', 'barrier', 'h', 'delay', 'switch_case', 'for_loop', 'if_else', 't', 'measure', 'while_loop', 'store', 'id', 'cx', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 'cx', 's'] to the backend's (or manually specified) target basis: ['if_else', 'barrier', 'id', 'cx', 'snapshot', 'delay', 'for_loop', 'while_loop', 'store', 't', 'h', 'switch_case', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
 
 The above exception was the direct cause of the following exception:
 
@@ -56,7 +56,7 @@ Traceback (most recent call last):
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\qiskit_envs\q121\Lib\site-packages\qiskit\transpiler\passmanager.py", line 466, in wrapper
     raise TranspilerError(ex.message) from ex
-qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['cx', 's', 'h'] to the backend's (or manually specified) target basis: ['snapshot', 'barrier', 'h', 'delay', 'switch_case', 'for_loop', 'if_else', 't', 'measure', 'while_loop', 'store', 'id', 'cx', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 'cx', 's'] to the backend's (or manually specified) target basis: ['if_else', 'barrier', 'id', 'cx', 'snapshot', 'delay', 'for_loop', 'while_loop', 'store', 't', 'h', 'switch_case', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
 
 ======================================================================
 ERROR: test_output_uses_requested_discrete_basis (__main__.Regression.test_output_uses_requested_discrete_basis)
@@ -87,7 +87,7 @@ Traceback (most recent call last):
           ^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\qiskit_envs\q121\Lib\site-packages\qiskit\transpiler\passes\basis\basis_translator.py", line 224, in run
     raise TranspilerError(
-qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['cx', 's', 'h'] to the backend's (or manually specified) target basis: ['snapshot', 'barrier', 'h', 'delay', 'switch_case', 'for_loop', 'if_else', 't', 'measure', 'while_loop', 'store', 'id', 'cx', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 'cx', 's'] to the backend's (or manually specified) target basis: ['if_else', 'barrier', 'id', 'cx', 'snapshot', 'delay', 'for_loop', 'while_loop', 'store', 't', 'h', 'switch_case', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
 
 The above exception was the direct cause of the following exception:
 
@@ -112,9 +112,9 @@ Traceback (most recent call last):
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\qiskit_envs\q121\Lib\site-packages\qiskit\transpiler\passmanager.py", line 466, in wrapper
     raise TranspilerError(ex.message) from ex
-qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['cx', 's', 'h'] to the backend's (or manually specified) target basis: ['snapshot', 'barrier', 'h', 'delay', 'switch_case', 'for_loop', 'if_else', 't', 'measure', 'while_loop', 'store', 'id', 'cx', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
+qiskit.transpiler.exceptions.TranspilerError: "Unable to translate the operations in the circuit: ['h', 'cx', 's'] to the backend's (or manually specified) target basis: ['if_else', 'barrier', 'id', 'cx', 'snapshot', 'delay', 'for_loop', 'while_loop', 'store', 't', 'h', 'switch_case', 'measure', 'reset']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors"
 
 ----------------------------------------------------------------------
-Ran 2 tests in 0.148s
+Ran 2 tests in 0.125s
 
 FAILED (errors=2)

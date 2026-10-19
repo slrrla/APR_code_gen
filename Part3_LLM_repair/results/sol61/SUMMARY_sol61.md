@@ -1,29 +1,29 @@
-# LLM Bug-Repair Results: gpt-6.1-sol (all 73 cases)
+# LLM Bug-Repair Results: gpt-6.1-sol (all 72 cases)
 
-**Result: gpt-6.1-sol fixed 46 of the 73 cases on every version they were tested on, and 48 of 73 on at least one version.** gpt-6-astra fixed 46 and 49, gpt-6-luna 40 and 44, and gpt-5.6-luna 40 and 43. Across all case × version pairs, **657 of 1015 passed (64.7%)**, 195 failed (19.2%) and 163 errored (16.1%), against 703 passes (69.3%) for gpt-6-astra, 550 (54.2%) for gpt-6-luna and 546 (53.8%) for gpt-5.6-luna.
+**Result: gpt-6.1-sol fixed 45 of the 72 cases on every version they were tested on, and 47 of 72 on at least one version.** gpt-6-astra fixed 44 and 47, gpt-6-luna 36 and 40, and gpt-5.6-luna 31 and 34. Across all case × version pairs, **650 of 1000 passed (65.0%)**, 178 failed (17.8%) and 172 errored (17.2%), against 688 passes (68.8%) for gpt-6-astra, 541 (54.1%) for gpt-6-luna and 448 (44.8%) for gpt-5.6-luna.
 
-gpt-6.1-sol ties gpt-6-astra on whole cases but passes fewer pairs, because the two cases it loses (issue_396 and issue_443) run on 27 versions each, while the one it gains (issue_635) runs on 4. 55 of its 73 fixes are the same code as gpt-6-astra's.
+gpt-6.1-sol passes one more case on every version than gpt-6-astra (45 versus 44) and fewer pairs (650 versus 688). 54 of its 72 fixes are the same code as gpt-6-astra's.
 
 | Outcome | gpt-6.1-sol cases | gpt-6.1-sol pairs | gpt-6-astra cases | gpt-6-astra pairs | gpt-6-luna cases | gpt-6-luna pairs | gpt-5.6-luna cases | gpt-5.6-luna pairs |
 |---|---|---|---|---|---|---|---|---|
-| ✅ Passed | 46 | 657 (64.7%) | 46 | 703 (69.3%) | 40 | 550 (54.2%) | 40 | 546 (53.8%) |
-| ❌ Failed (ran, but wrong result) | 10 | 195 (19.2%) | 9 | 141 (13.9%) | 9 | 170 (16.7%) | 8 | 160 (15.8%) |
-| 💥 Error (crashed, or timed out, before the test could check anything) | 17 | 163 (16.1%) | 18 | 171 (16.8%) | 24 | 295 (29.1%) | 25 | 309 (30.4%) |
-| **Total** | **73** | **1015** | **73** | **1015** | **73** | **1015** | **73** | **1015** |
+| ✅ Passed | 45 | 650 (65.0%) | 44 | 688 (68.8%) | 36 | 541 (54.1%) | 31 | 448 (44.8%) |
+| ❌ Failed (ran, but wrong result) | 9 | 178 (17.8%) | 9 | 132 (13.2%) | 8 | 128 (12.8%) | 10 | 161 (16.1%) |
+| 💥 Error (crashed, or timed out, before the test could check anything) | 18 | 172 (17.2%) | 19 | 180 (18.0%) | 28 | 331 (33.1%) | 31 | 391 (39.1%) |
+| **Total** | **72** | **1000** | **72** | **1000** | **72** | **1000** | **72** | **1000** |
 
 **By batch:**
 
 | Batch | Cases | gpt-6.1-sol: pass on every version | on at least one | Pairs passed | Failed | Errored | gpt-6-astra: pass on every version | Pairs passed | gpt-6-luna: pass on every version | Pairs passed | gpt-5.6-luna: pass on every version | Pairs passed |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | issue_009 – issue_096 | 8 / 10 | 8 | 85 / 127 (66.9%) | 42 | 0 | 8 | 85 (66.9%) | 7 | 73 (57.5%) | 6 | 65 (51.2%) |
-| 2 | issue_155 – issue_315 | 7 / 10 | 9 | 118 / 149 (79.2%) | 0 | 31 | 7 | 118 (79.2%) | 6 | 102 (68.5%) | 6 | 83 (55.7%) |
-| 3 | issue_344 – issue_497 | 4 / 10 | 4 | 66 / 155 (42.6%) | 54 | 35 | 5 | 116 (74.8%) | 6 | 109 (70.3%) | 4 | 70 (45.2%) |
+| 1 | issue_009 – issue_096 | 8 / 9 | 8 | 85 / 112 (75.9%) | 27 | 0 | 8 | 85 (75.9%) | 7 | 73 (65.2%) | 6 | 65 (58.0%) |
+| 2 | issue_155 – issue_315 | 6 / 10 | 8 | 95 / 149 (63.8%) | 23 | 31 | 6 | 95 (63.8%) | 5 | 79 (53.0%) | 5 | 60 (40.3%) |
+| 3 | issue_344 – issue_497 | 6 / 10 | 6 | 93 / 155 (60.0%) | 54 | 8 | 7 | 143 (92.3%) | 7 | 132 (85.2%) | 5 | 93 (60.0%) |
 | 4 | issue_504 – issue_662 | 9 / 10 | 9 | 129 / 133 (97.0%) | 0 | 4 | 8 | 125 (94.0%) | 4 | 74 (55.6%) | 5 | 86 (64.7%) |
-| 5 | issue_663 – issue_795 | 9 / 10 | 9 | 122 / 137 (89.1%) | 0 | 15 | 9 | 122 (89.1%) | 8 | 99 (72.3%) | 8 | 99 (72.3%) |
-| 6 | issue_803 – issue_944 | 3 / 10 | 3 | 37 / 113 (32.7%) | 45 | 31 | 3 | 37 (32.7%) | 4 | 35 (31.0%) | 5 | 62 (54.9%) |
-| 7 | issue_950 – issue_1035 | 4 / 7 | 4 | 69 / 123 (56.1%) | 31 | 23 | 4 | 69 (56.1%) | 3 | 27 (22.0%) | 4 | 50 (40.7%) |
+| 5 | issue_663 – issue_795 | 7 / 10 | 7 | 83 / 137 (60.6%) | 27 | 27 | 7 | 83 (60.6%) | 6 | 60 (43.8%) | 5 | 52 (38.0%) |
+| 6 | issue_803 – issue_944 | 3 / 10 | 3 | 46 / 113 (40.7%) | 16 | 51 | 2 | 38 (33.6%) | 2 | 31 (27.4%) | 1 | 23 (20.4%) |
+| 7 | issue_950 – issue_1035 | 4 / 7 | 4 | 88 / 123 (71.5%) | 8 | 27 | 4 | 88 (71.5%) | 3 | 61 (49.6%) | 2 | 38 (30.9%) |
 | 8 | issue_772 – issue_921 | 2 / 6 | 2 | 31 / 78 (39.7%) | 23 | 24 | 2 | 31 (39.7%) | 2 | 31 (39.7%) | 2 | 31 (39.7%) |
-| **All** | | **46 / 73** | **48** | **657 / 1015 (64.7%)** | **195** | **163** | **46** | **703 (69.3%)** | **40** | **550 (54.2%)** | **40** | **546 (53.8%)** |
+| **All** |  | **45 / 72** | **47** | **650 / 1000 (65.0%)** | **178** | **172** | **44** | **688 (68.8%)** | **36** | **541 (54.1%)** | **31** | **448 (44.8%)** |
 
 A case counts as passed only if it passed on every version; a case that crashed or timed out on at least one version counts as an error. Two gpt-6.1-sol cases passed on some versions but not all:
 - **issue_155** passed on 0.45.x / 0.46.x (8 versions) but crashed on 0.25.x (4): `QuantumCircuit.find_bit()` doesn't exist yet in 0.25 (same code as gpt-6-astra).
@@ -38,7 +38,7 @@ A case counts as passed only if it passed on every version; a case that crashed 
 - **gpt-6-luna:** better on 12 cases (issue_021_se, issue_174, issue_233, issue_600, issue_622, issue_624, issue_635, issue_662, issue_750, issue_944, issue_950, issue_977) and worse on 7 (issue_315, issue_396, issue_415, issue_443, issue_810, issue_877, issue_1035).
 - **gpt-5.6-luna:** better on 12 cases (issue_009, issue_021_se, issue_174, issue_233, issue_344, issue_369, issue_600, issue_624, issue_635, issue_662, issue_750, issue_950) and worse on 7 (issue_155, issue_396, issue_443, issue_497, issue_810, issue_911, issue_1035).
 - **Two "NO BUG" answers:** for issue_925 and issue_1035 gpt-6.1-sol returned the code unchanged with a `# NO BUG:` line, exactly like gpt-6-astra. Every case in this dataset has a real bug (the buggy code fails its test and the reference passes), so both count as wrong.
-- **Same code:** 55 of the 73 fixes are the same code as gpt-6-astra's, 24 as gpt-6-luna's and 23 as gpt-5.6-luna's (only the `# FIX:` comments are worded differently).
+- **Same code:** 54 of the 72 fixes are the same code as gpt-6-astra's, 24 as gpt-6-luna's and 23 as gpt-5.6-luna's (only the `# FIX:` comments are worded differently).
 
 **Over-specific tests:** the twelve that were replaced are listed in [Updated tests](#updated-tests). Six cases with no updated test also ask for a detail only the reference has, and gpt-6.1-sol's script runs but misses it: issue_453 calls the answer's helper `compose_with_auto_ancillas()`, issue_497 reads a variable named `sampler`, issue_769 calls the answer's `get_qiskit_gate()`, issue_876 reads `rho_real`, issue_877 requires the reference's 27-qubit device although the question only asks for a large IBM device, and issue_958 wants the reference's second circuit `qc2`. These count as errors or failures here, as they did for the other models.
 
@@ -51,7 +51,6 @@ A case counts as passed only if it passed on every version; a case that crashed 
 | Case | Question | gpt-6.1-sol | gpt-6-astra | gpt-6-luna | gpt-5.6-luna | Same code as | Why, in one line |
 |---|---|---|---|---|---|---|---|
 | [issue_009](#issue_009) | CSP layout in the transpiler | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | 💥 Error 0/8 | No | Runs `CSPLayout` through a `PassManager` and passes its layout as `initial_layout` |
-| [issue_018_se](#issue_018_se) | Magic square game | ❌ Fail 0/15 | ❌ Fail 0/15 | ❌ Fail 0/15 | ❌ Fail 0/15 | gpt-6-astra | Swapped Alice's and Bob's bit positions; the bug is in the measured qubits |
 | [issue_021_se](#issue_021_se) | `get_statevector()` with a custom gate | ✅ Pass 12/12 | ✅ Pass 12/12 | 💥 Error 0/12 | 💥 Error 0/12 | gpt-6-astra | `assemble(transpile(circuit, svsim))` unrolls the custom gate and `initialize()` |
 | [issue_032_se](#issue_032_se) | iSWAP in `TwoLocal` | ✅ Pass 4/4 | ✅ Pass 4/4 | ✅ Pass 4/4 | ✅ Pass 4/4 | All three | `iSwapGate()` instead of the string `'iswap'` |
 | [issue_034](#issue_034) | Importing `Aer` | ✅ Pass 15/15 | ✅ Pass 15/15 | ✅ Pass 15/15 | ✅ Pass 15/15 | All three | `from qiskit_aer import Aer` |
@@ -68,7 +67,7 @@ A case counts as passed only if it passed on every version; a case that crashed 
 | [issue_155](#issue_155) | Partial trace over registers | 💥 Error (8/12) | 💥 Error (8/12) | 💥 Error (8/12) | ✅ Pass 12/12 | gpt-6-astra | Correct register-to-index conversion, but `find_bit()` doesn't exist in 0.25 |
 | [issue_157](#issue_157) | Controlled `initialize` | 💥 Error (8/12) | 💥 Error (8/12) | 💥 Error (8/12) | 💥 Error (8/12) | All three | `prepare_state()` works, but doesn't exist in 0.25 |
 | [issue_174](#issue_174) | Conditions on a classical register in OpenQASM 2 | ✅ Pass 12/12 | ✅ Pass 12/12 | 💥 Error 0/12 | 💥 Error 0/12 | gpt-6-astra (the luna fixes have a `#` line inside the QASM string) | `if (c==1)`, with the `# FIX:` comment outside the QASM string |
-| [issue_189](#issue_189) | Qubit count mismatch in a QPE loop | ✅ Pass 23/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | All three | Valid fix with the usual QPE control order; the updated test accepts either order |
+| [issue_189](#issue_189) | Qubit count mismatch in a QPE loop | ❌ Fail 0/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | All three | Rescored 19 Oct 2026 on Nick's main test. gpt-6.1-sol 0 pass / 23 fail / 0 error; gpt-6-astra 0 pass / 23 fail / 0 error; gpt-6-luna 0 pass / 23 fail / 0 error; gpt-5.6-luna 0 pass / 23 fail / 0 error. |
 | [issue_225](#issue_225) | `Statevector` has no `reshape` | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | All three | `.data.reshape(-1, 1)` |
 | [issue_233](#issue_233) | Parameter count after `compose` | ✅ Pass 27/27 | ✅ Pass 27/27 | 💥 Error 0/27 | 💥 Error 0/27 | gpt-6-astra | Replaced both broken `num_parameters_settable()` calls |
 | [issue_261](#issue_261) | `PauliOp` from a string | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | All three | Builds the operator with `eval()` on the Hamiltonian string |
@@ -111,14 +110,14 @@ A case counts as passed only if it passed on every version; a case that crashed 
 | Case | Question | gpt-6.1-sol | gpt-6-astra | gpt-6-luna | gpt-5.6-luna | Same code as | Why, in one line |
 |---|---|---|---|---|---|---|---|
 | [issue_663](#issue_663) | Counts are always `000` | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | gpt-6-astra, gpt-6-luna | Added the missing measurements |
-| [issue_671](#issue_671) | A list of registers in `QuantumCircuit()` | ✅ Pass 27/27 | ✅ Pass 27/27 | ✅ Pass 27/27 | ✅ Pass 27/27 | All three | `QuantumCircuit(a, *v, b)`; the updated test no longer needs the answer's example gates |
+| [issue_671](#issue_671) | A list of registers in `QuantumCircuit()` | ❌ Fail 0/27 | ❌ Fail 0/27 | ❌ Fail 0/27 | ❌ Fail 0/27 | All three | Rescored 19 Oct 2026 on Nick's main test. gpt-6.1-sol 0 pass / 27 fail / 0 error; gpt-6-astra 0 pass / 27 fail / 0 error; gpt-6-luna 0 pass / 27 fail / 0 error; gpt-5.6-luna 0 pass / 27 fail / 0 error. |
 | [issue_727](#issue_727) | `2**k` with a `Parameter` | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | gpt-6-astra | `(k * numpy.log(2)).exp()` |
 | [issue_742](#issue_742) | `Operator` as an `EstimatorV2` observable | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | All three | `SparsePauliOp.from_operator(O)` |
-| [issue_747](#issue_747) | Counts without `measure_all()` | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | gpt-6-luna | Measures into the existing register, so the keys are `000` / `111` |
+| [issue_747](#issue_747) | Counts without `measure_all()` | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ❌ Fail 0/8 | gpt-6-luna | Rescored 19 Oct 2026 on Nick's main test. gpt-6.1-sol 8 pass / 0 fail / 0 error; gpt-6-astra 8 pass / 0 fail / 0 error; gpt-6-luna 8 pass / 0 fail / 0 error; gpt-5.6-luna 0 pass / 8 fail / 0 error. |
 | [issue_750](#issue_750) | `Pauli(label=...)` subsystem composition | ✅ Pass 23/23 | ✅ Pass 23/23 | 💥 Error 0/23 | 💥 Error 0/23 | gpt-6-astra | `Pauli('XZ')` instead of the removed `label=` keyword |
 | [issue_769](#issue_769) | Gate name from a unitary | 💥 Error 0/15 | 💥 Error 0/15 | 💥 Error 0/15 | 💥 Error 0/15 | No | Standard-gate matcher; the test calls the answer's `get_qiskit_gate()` |
 | [issue_773](#issue_773) | Two `job_monitor` imports | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | All three | Removed the shadowing IBMQ import |
-| [issue_775](#issue_775) | Running OpenQASM 2.0 in Qiskit | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | All three | Correct `from_qasm_str`; the updated test doesn't need a variable named `qc` |
+| [issue_775](#issue_775) | Running OpenQASM 2.0 in Qiskit | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | All three | Rescored 19 Oct 2026 on Nick's main test. gpt-6.1-sol 0 pass / 0 fail / 12 error; gpt-6-astra 0 pass / 0 fail / 12 error; gpt-6-luna 0 pass / 0 fail / 12 error; gpt-5.6-luna 0 pass / 0 fail / 12 error. |
 | [issue_795](#issue_795) | `to_gate()` with an opflow expression | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | All three | Appends the operator's matrix with `unitary()` |
 
 **Batch 6**
@@ -126,15 +125,15 @@ A case counts as passed only if it passed on every version; a case that crashed 
 | Case | Question | gpt-6.1-sol | gpt-6-astra | gpt-6-luna | gpt-5.6-luna | Same code as | Why, in one line |
 |---|---|---|---|---|---|---|---|
 | [issue_803](#issue_803) | `get_counts()` for several circuits | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | gpt-6-astra | NumPy array of value lists, losing the outcome keys |
-| [issue_810](#issue_810) | Raw data from a job | ❌ Fail 0/2 | ❌ Fail 0/2 | ✅ Pass 2/2 | ✅ Pass 2/2 | gpt-6-astra | Returns per-shot memory instead of a counts dictionary |
+| [issue_810](#issue_810) | Raw data from a job | ❌ Fail 0/2 | ❌ Fail 0/2 | ❌ Fail 0/2 | ❌ Fail 0/2 | gpt-6-astra | Rescored 19 Oct 2026 on Nick's main test. gpt-6.1-sol 0 pass / 2 fail / 0 error; gpt-6-astra 0 pass / 2 fail / 0 error; gpt-6-luna 0 pass / 2 fail / 0 error; gpt-5.6-luna 0 pass / 2 fail / 0 error. |
 | [issue_816](#issue_816) | `AerSimulator(memory=True)` | ✅ Pass 23/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | All three | `memory=True` |
 | [issue_876](#issue_876) | Noisy QFT fidelity with a real backend | 💥 Error 0/15 | 💥 Error 0/15 | 💥 Error 0/15 | 💥 Error 0/15 | No | Noisy density-matrix simulation runs; the test wants a variable named `rho_real` |
 | [issue_877](#issue_877) | Noise model without device access | ❌ Fail 0/8 | 💥 Error 0/8 | ✅ Pass 8/8 | 💥 Error 0/8 | No | 127-qubit `FakeWashington` works; the test wants the reference's 27-qubit device |
-| [issue_886](#issue_886) | `crx` unknown to Aer | ✅ Pass 2/2 | ✅ Pass 2/2 | ✅ Pass 2/2 | ✅ Pass 2/2 | gpt-6-luna, gpt-5.6-luna | Transpiles for the simulator; the updated test ignores the unused register and the variable name |
+| [issue_886](#issue_886) | `crx` unknown to Aer | ❌ Fail 0/2 | ❌ Fail 0/2 | ❌ Fail 0/2 | ❌ Fail 0/2 | gpt-6-luna, gpt-5.6-luna | Rescored 19 Oct 2026 on Nick's main test. gpt-6.1-sol 0 pass / 2 fail / 0 error; gpt-6-astra 0 pass / 2 fail / 0 error; gpt-6-luna 0 pass / 2 fail / 0 error; gpt-5.6-luna 0 pass / 2 fail / 0 error. |
 | [issue_889](#issue_889) | Time evolution of a Pauli-sum Hamiltonian | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | No | Rewrote the Hamiltonian itself; the `exp_i()` gate fails the unitarity check in 0.25 |
-| [issue_911](#issue_911) | Register/index of a gate's qubits | ❌ Fail 0/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | ✅ Pass 23/23 | No | Prints only each gate's last qubit |
+| [issue_911](#issue_911) | Register/index of a gate's qubits | 💥 Error 0/23 | 💥 Error 0/23 | 💥 Error 0/23 | 💥 Error 0/23 | No | Rescored 19 Oct 2026 on Nick's main test. gpt-6.1-sol 0 pass / 0 fail / 23 error; gpt-6-astra 0 pass / 0 fail / 23 error; gpt-6-luna 0 pass / 0 fail / 23 error; gpt-5.6-luna 0 pass / 0 fail / 23 error. |
 | [issue_925](#issue_925) | Qubits Shor needs for N=15 | 💥 Error 0/4 | 💥 Error 0/4 | 💥 Timeout 0/4 | 💥 Error 0/4 | gpt-6-astra, gpt-5.6-luna | Said "NO BUG": the backend is too small for Shor |
-| [issue_944](#issue_944) | Projection operator in opflow | ✅ Pass 12/12 | ✅ Pass 12/12 | ❌ Fail 0/12 | ✅ Pass 12/12 | gpt-6-astra | Correct explicit projector; the updated test accepts any operator type |
+| [issue_944](#issue_944) | Projection operator in opflow | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | gpt-6-astra | Rescored 19 Oct 2026 on Nick's main test. gpt-6.1-sol 0 pass / 0 fail / 12 error; gpt-6-astra 0 pass / 0 fail / 12 error; gpt-6-luna 0 pass / 0 fail / 12 error; gpt-5.6-luna 0 pass / 0 fail / 12 error. |
 
 **Batch 7**
 
@@ -142,11 +141,11 @@ A case counts as passed only if it passed on every version; a case that crashed 
 |---|---|---|---|---|---|---|---|
 | [issue_950](#issue_950) | Operator acting on certain qubits | ✅ Pass 27/27 | ✅ Pass 27/27 | ❌ Fail 0/27 | ❌ Fail 0/27 | gpt-6-astra | `compose()` on an N-qubit identity instead of `_add()` |
 | [issue_958](#issue_958) | Negative of a gate | 💥 Error 0/23 | 💥 Error 0/23 | 💥 Error 0/23 | ❌ Fail 0/23 | gpt-6-astra | `qc.global_phase += pi` is right; the test also wants the reference's `qc2` |
-| [issue_977](#issue_977) | Matrix to `SparsePauliOp` | ✅ Pass 23/23 | ✅ Pass 23/23 | ❌ Fail 0/23 | ✅ Pass 23/23 | gpt-6-astra, gpt-5.6-luna | `from_operator()` is right; the updated test accepts any variable name |
+| [issue_977](#issue_977) | Matrix to `SparsePauliOp` | 💥 Error 0/23 | 💥 Error 0/23 | 💥 Error 0/23 | 💥 Error 0/23 | gpt-6-astra, gpt-5.6-luna | Rescored 19 Oct 2026 on Nick's main test. gpt-6.1-sol 0 pass / 0 fail / 23 error; gpt-6-astra 0 pass / 0 fail / 23 error; gpt-6-luna 0 pass / 0 fail / 23 error; gpt-5.6-luna 0 pass / 0 fail / 23 error. |
 | [issue_985](#issue_985) | U1 from Rx, Ry, Rz keeping the phase | ❌ Fail 0/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | gpt-6-astra | `p(lam)` keeps the phase; the test wants it dropped (debatable; `test_before.py`: passes 23/23) |
 | [issue_989](#issue_989) | Aer simulator after the upgrade | ✅ Pass 15/15 | ✅ Pass 15/15 | ✅ Pass 15/15 | ✅ Pass 15/15 | All three | `from qiskit_aer import Aer` |
-| [issue_994](#issue_994) | Statevector from QasmSimulator | ✅ Pass 4/4 | ✅ Pass 4/4 | ✅ Pass 4/4 | ✅ Pass 4/4 | All three | Correct `save_statevector()`; the updated test also reads `get_statevector()` |
-| [issue_1035](#issue_1035) | Fake backends with Runtime primitives | ❌ Fail 0/8 | ❌ Fail 0/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | gpt-6-astra | Said "NO BUG" and kept the cloud Runtime session |
+| [issue_994](#issue_994) | Statevector from QasmSimulator | 💥 Error 0/4 | 💥 Error 0/4 | 💥 Error 0/4 | 💥 Error 0/4 | All three | Rescored 19 Oct 2026 on Nick's main test. gpt-6.1-sol 0 pass / 0 fail / 4 error; gpt-6-astra 0 pass / 0 fail / 4 error; gpt-6-luna 0 pass / 0 fail / 4 error; gpt-5.6-luna 0 pass / 0 fail / 4 error. |
+| [issue_1035](#issue_1035) | Fake backends with Runtime primitives | ❌ Fail 0/8 | ❌ Fail 0/8 | 💥 Error 0/8 | 💥 Error 0/8 | gpt-6-astra | Rescored 19 Oct 2026 on Nick's main test. gpt-6.1-sol 0 pass / 8 fail / 0 error; gpt-6-astra 0 pass / 8 fail / 0 error; gpt-6-luna 0 pass / 0 fail / 8 error; gpt-5.6-luna 0 pass / 0 fail / 8 error. |
 
 **Batch 8**
 
@@ -171,7 +170,7 @@ Exactly the same pipeline as gpt-5.6-luna, gpt-6-luna and gpt-6-astra; only the 
 2. **Output:** `llm_fixes/<case>/llm_sol61_fix.py` and the raw reply in `raw_reply_sol61.txt`, next to the untouched files of the other models.
 3. **Testing:** `python test_llm_fix.py --model gpt-6.1-sol --cases <cases>` runs `buggy.py`, `fixed.py` and `llm_sol61_fix.py` through each case's test on every version listed in `Valid_Cases_104.xlsx`, in the same environments and with the same rules (temporary home folder, 120-second timeout). issue_021_se uses `test-new.py`, and issue_058_se and issue_061 use `test_new.py`, as for the other models. The 12 cases in [Updated tests](#updated-tests) use the updated test, which now replaces their `test.py`.
 
-The test was valid on all 1015 pairs: `buggy.py` failed and `fixed.py` passed (for issue_018_se, `fixed.py` hits the known Windows Aer native crash in the simulator check, which counts as valid, as before). All batches were tested on 10 Oct 2026.
+The test was valid on all 1000 pairs: `buggy.py` failed and `fixed.py` passed. All batches were tested on 10 Oct 2026.
 
 **Timeouts and reruns:** a run that doesn't finish in 120 seconds counts as an error. Batches 4–8 were tested twice: after the first pass, the single-worker rerun of issue_565 stopped while writing the results file (a bug in `test_llm_fix.py` that only appears before any descriptions exist; now fixed), so those batches were run again. Every case got the same result both times, except that the machine was under load in the second pass: `buggy.py` / `fixed.py` of issue_504 and issue_663 timed out on 6 pairs, which made them invalid, and the gpt-6.1-sol fix timed out on 2 versions of each. Both cases were rerun with a single worker (`run_output_sol61_rerun_504_663.txt`): every pair became valid and the fix passed on all versions, as in the first pass. gpt-6.1-sol's issue_565 fix timed out on all 4 versions, and again in a single-worker rerun (`run_output_sol61_rerun_565.txt`), so that timeout is real (gpt-6-astra's identical fix behaves the same).
 
@@ -507,13 +506,6 @@ Passed: the LLM kept the S gate and registered the exact decomposition S = T T i
 
 ## ❌ Failed cases (ran, but wrong result)
 
-### issue_018_se
-**Batch 1** · **Versions (15):** 1.0.0 – 2.5.0 · **gpt-6.1-sol:** ❌ Fail 0/15 · **gpt-6-astra:** ❌ Fail 0/15 · **gpt-6-luna:** ❌ Fail 0/15 · **gpt-5.6-luna:** ❌ Fail 0/15 · **Lines changed:** 8 · **Same code as:** gpt-6-astra
-
-Failed: the LLM swapped which classical bit positions it reads as Alice's and Bob's outputs (same code as gpt-6-astra). The real bug is which qubits the players measure, so the exact loss probabilities are identical to the buggy code (0.5 on six of the nine (x, y) inputs) and test_exact_perfect_strategy_for_all_nine_inputs fails. The simulator check also hits the Windows Aer native crash. All four models fail this case.
-
-**Model's own explanation:** `# FIX: Alice's and Bob's measurement pairs were exchanged -> decode Alice from the right pair and Bob from the left, because Qiskit displays classical bits as c3 c2 c1 c0.`
-
 ### issue_096
 **Batch 1** · **Versions (27):** 0.25.0 – 2.5.0 · **gpt-6.1-sol:** ❌ Fail 0/27 · **gpt-6-astra:** ❌ Fail 0/27 · **gpt-6-luna:** ❌ Fail 0/27 · **gpt-5.6-luna:** ❌ Fail 0/27 · **Lines changed:** 2 · **Same code as:** gpt-6-luna
 
@@ -704,25 +696,25 @@ Error: the LLM changed the problem name from 'ising' to 'energy' but kept the ru
 
 ## Updated tests
 
-For twelve cases the team's original `test.py` asked for a detail only the reference has; on 9 Oct 2026 each of those `test.py` files was replaced by an updated test, and gpt-6.1-sol was scored with the updated tests only, exactly like the other three models. Each updated test fails `buggy.py` and passes `fixed.py` on every version.
+These rows are the 19 Oct 2026 scores on Nick's Part 2 tests from origin/main. issue_622 was already on that test; the other eleven were rescored onto it.
 
 | Case | What the original test over-specified | Pairs | gpt-6.1-sol | gpt-6-astra | gpt-6-luna | gpt-5.6-luna |
 |---|---|---|---|---|---|---|
-| [issue_189](#issue_189) | the reference's control order | 23 | ✅ PASS 23 | ✅ PASS 23 | ✅ PASS 23 | ✅ PASS 23 |
+| [issue_189](#issue_189) | the reference's control order | 23 | ❌ 0/23 | ❌ 0/23 | ❌ 0/23 | ❌ 0/23 |
 | [issue_622](#issue_622) | noise-free counts | 12 | ✅ PASS 12 | ✅ PASS 12 | 💥 ERROR 12 | ✅ PASS 12 |
-| [issue_671](#issue_671) | the answer's example gates | 27 | ✅ PASS 27 | ✅ PASS 27 | ✅ PASS 27 | ✅ PASS 27 |
-| [issue_747](#issue_747) | exact `'000'` / `'111'` keys | 8 | ✅ PASS 8 | ✅ PASS 8 | ✅ PASS 8 | ✅ PASS 8 |
-| [issue_775](#issue_775) | the variable name `qc` | 12 | ✅ PASS 12 | ✅ PASS 12 | ✅ PASS 12 | ✅ PASS 12 |
-| [issue_810](#issue_810) | a variable name and shot count | 2 | ❌ FAIL 2 | ❌ FAIL 2 | ✅ PASS 2 | ✅ PASS 2 |
-| [issue_886](#issue_886) | an exact count key and variable name | 2 | ✅ PASS 2 | ✅ PASS 2 | ✅ PASS 2 | ✅ PASS 2 |
-| [issue_911](#issue_911) | an exact print format | 23 | ❌ FAIL 23 | ❌ FAIL 23 | ❌ FAIL 23 | ✅ PASS 23 |
-| [issue_944](#issue_944) | an attribute of the reference's operator type | 12 | ✅ PASS 12 | ✅ PASS 12 | ❌ FAIL 12 | ✅ PASS 12 |
-| [issue_977](#issue_977) | the variable name `op` | 23 | ✅ PASS 23 | ✅ PASS 23 | ❌ FAIL 23 | ✅ PASS 23 |
-| [issue_994](#issue_994) | the reference's snapshot variable | 4 | ✅ PASS 4 | ✅ PASS 4 | ✅ PASS 4 | ✅ PASS 4 |
-| [issue_1035](#issue_1035) | the variable name `result` | 8 | ❌ FAIL 8 | ❌ FAIL 8 | ✅ PASS 8 | ✅ PASS 8 |
-| **Total (12)** | | **156** | **✅ PASS 123** | **✅ PASS 123** | **✅ PASS 86** | **✅ PASS 156** |
+| [issue_671](#issue_671) | the answer's example gates | 27 | ❌ 0/27 | ❌ 0/27 | ❌ 0/27 | ❌ 0/27 |
+| [issue_747](#issue_747) | exact `'000'` / `'111'` keys | 8 | ✅ 8/8 | ✅ 8/8 | ✅ 8/8 | ❌ 0/8 |
+| [issue_775](#issue_775) | the variable name `qc` | 12 | 💥 0/12 | 💥 0/12 | 💥 0/12 | 💥 0/12 |
+| [issue_810](#issue_810) | a variable name and shot count | 2 | ❌ 0/2 | ❌ 0/2 | ❌ 0/2 | ❌ 0/2 |
+| [issue_886](#issue_886) | an exact count key and variable name | 2 | ❌ 0/2 | ❌ 0/2 | ❌ 0/2 | ❌ 0/2 |
+| [issue_911](#issue_911) | an exact print format | 23 | 💥 0/23 | 💥 0/23 | 💥 0/23 | 💥 0/23 |
+| [issue_944](#issue_944) | an attribute of the reference's operator type | 12 | 💥 0/12 | 💥 0/12 | 💥 0/12 | 💥 0/12 |
+| [issue_977](#issue_977) | the variable name `op` | 23 | 💥 0/23 | 💥 0/23 | 💥 0/23 | 💥 0/23 |
+| [issue_994](#issue_994) | the reference's snapshot variable | 4 | 💥 0/4 | 💥 0/4 | 💥 0/4 | 💥 0/4 |
+| [issue_1035](#issue_1035) | the variable name `result` | 8 | ❌ 0/8 | ❌ 0/8 | 💥 0/8 | 💥 0/8 |
+| **Total (12)** |  | **156** | **20 / 156** | **20 / 156** | **8 / 156** | **12 / 156** |
 
-**Result:** gpt-6.1-sol passes 9 of the twelve updated tests on every version (123 pairs), the same nine as gpt-6-astra. In the other three the updated test shows a real problem: issue_810 returns per-shot memory instead of a counts dictionary, issue_911 reports only each gate's last qubit, and issue_1035 is the unchanged "NO BUG" code. gpt-6-luna passes eight of the twelve and gpt-5.6-luna all twelve.
+**Result on Nick's main tests (these 12 cases):** gpt-6.1-sol 2 cases / 20 pairs; gpt-6-astra 2 cases / 20 pairs; gpt-6-luna 1 case / 8 pairs; gpt-5.6-luna 1 case / 12 pairs.
 
 **issue_985 keeps the team's `test.py`.** gpt-6.1-sol's `p(lam)` fix (the same code as gpt-6-astra's) keeps the U1 phase; the team's earlier `test_before.py`, which requires that, passes it on all 23 versions, but the reference fails `test_before.py`, so it can't serve as a valid test.
 
@@ -732,12 +724,13 @@ For twelve cases the team's original `test.py` asked for a detail only the refer
 
 | File | Contents |
 |---|---|
-| `llm_sol61_results.csv` | One row per case × version (1015 rows): status of `buggy.py`, `fixed.py` and `llm_sol61_fix.py`, a plain-English result description and the LLM's `# FIX:` explanation. `test_file` shows the test used |
-| `llm_sol61_summary.csv` | One row per case (73): batch, versions, test file, gpt-6.1-sol outcome and pass / fail / error counts (timeouts count as errors), gpt-6-astra, gpt-6-luna and gpt-5.6-luna outcome and passes, lines changed, first error and description |
+| `llm_sol61_results.csv` | One row per case × version (1000 rows): status of `buggy.py`, `fixed.py` and `llm_sol61_fix.py`, a plain-English result description and the LLM's `# FIX:` explanation. `test_file` shows the test used |
+| `llm_sol61_summary.csv` | One row per case (72): batch, versions, test file, gpt-6.1-sol outcome and pass / fail / error counts (timeouts count as errors), gpt-6-astra, gpt-6-luna and gpt-5.6-luna outcome and passes, lines changed, first error and description |
 | `run_output_sol61_batch<N>_generate.txt` | Console output of generating the fixes for batches 1–8 |
 | `run_output_sol61_batch<N>.txt` | Console output of the batch 1–8 test runs (for batches 4–8, the second pass) |
 | `run_output_sol61_rerun_565.txt`, `run_output_sol61_rerun_504_663.txt` | Console output of the single-worker reruns after the timeouts |
-| `Part3_LLM_repair/logs/sol61/<case>/<version>/` | Full test output: `buggy.log`, `fixed.log`, `llm_sol61_fix.log` |
+| `Part3_LLM_repair/logs/test_log/sol61/<case>/<version>/` | Test output of the LLM fix: `llm_sol61_fix.log` |
+| `Part3_LLM_repair/logs/sol61/<case>/<version>/` | Test output of the buggy and reference code: `buggy.log`, `fixed.log` |
 | `../../llm_fixes/<case>/` | `llm_sol61_fix.py`, `raw_reply_sol61.txt`, and the shared `buggy_stripped.py` |
 
 The other models' results are in `../astra6/` (`SUMMARY_astra6.md`), `../luna6/` (`SUMMARY_luna6.md`) and `../luna56/` (`SUMMARY_luna56.md`).

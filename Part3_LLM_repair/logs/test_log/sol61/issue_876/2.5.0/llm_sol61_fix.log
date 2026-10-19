@@ -1,0 +1,14 @@
+
+test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression.test_fidelity_compares_ideal_qft_with_actual_noisy_result) ... C:\APR2\APR_code_gen\Part3_LLM_repair\llm_fixes\issue_876\llm_sol61_fix.py:9: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)
+  qc = QFT(6)
+C:\qiskit_envs\q250\Lib\site-packages\qiskit\circuit\library\basis_change\qft.py:108: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.
+  super().__init__(name=name)
+C:\qiskit_envs\q250\Lib\site-packages\qiskit_aer\backends\aer_simulator.py:853: DeprecationWarning: max_circuits is deprecated as of qiskit-ibm-runtime 0.37.0 and will be removed no sooner than 3 months after the release date. Please see our documentation on job limits https://quantum.cloud.ibm.com/docs/guides/job-limits#job-limits.
+  max_experiments=backend.max_circuits,
+ok
+test_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 7.824s
+
+OK

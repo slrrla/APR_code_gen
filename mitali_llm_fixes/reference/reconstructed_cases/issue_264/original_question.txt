@@ -1,0 +1,118 @@
+Title:
+How to implement SU(2) rotation with qiskit?
+
+Category:
+Category: Installation / Env Config / Import Error
+
+Why AI Solution Wins in This Category
+This issue deals with constructing a valid SU(2) operator and importing it into a circuit using Qiskit. The AI avoids common errors like unitarity violations by relying on Qiskit's native gates (RY, RZ), which are guaranteed to produce valid quantum operations. For an “import-style” error (applying a custom matrix), the AI approach is more robust, less error-prone, and better suited for Qiskit users.
+
+Question:
+Title: How to implement SU(2) rotation with qiskit?
+
+Before I start, I would like to say sorry for this possibly stupid question of mine. I just recently got into the topic of quantum computing and try me there. I'm currently trying to display a SU(2) rotation using Qiskit. After the implementations, I tried to achieve such a rotation with some matrices. This is one of them: Output: I would be very happy if you could help me with this problem. Later the rotation should also be visible on a Blochsphere. If the code is not sufficient, I will submit it later if necessary.
+
+```
+from ibm_quantum_widgets import CircuitComposer from qiskit.quantum_info import Statevector from qiskit.visualization import plot_bloch_multivector from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit from numpy import pi import numpy as np from qiskit.quantum_info.operators import Operator, Pauli qreg_q = QuantumRegister(1, 'q') circuit = QuantumCircuit(qreg_q) clreg = ClassicalRegister(1) ...
+```
+
+```
+from ibm_quantum_widgets import CircuitComposer from qiskit.quantum_info import Statevector from qiskit.visualization import plot_bloch_multivector from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit from numpy import pi import numpy as np from qiskit.quantum_info.operators import Operator, Pauli qreg_q = QuantumRegister(1, 'q') circuit = QuantumCircuit(qreg_q) clreg = ClassicalRegister(1) ...
+```
+
+```
+def rn_su2_5(theta, n1,n2,n3): #This represents a matrix operator that will evolve() a Statevector by matrix-vector multiplication and will evolve() a DensityMatrix by left and right multiplication return Operator([ [np.cos(theta/2)- 1j*n3*np.sin(theta/2), -1j*(n1-1j*n2)*np.sin(theta/2)], [-1j*(n1+1j*n2)*np.sin(theta/2), np.cos(theta/2)+1j*n3*np.sin(theta/2)] ],input_dims=(2, 1), output_dims=(2, 1)) print(rn_su2_5(pi,1,1,1)) circuit.unitary(rn_su2_5(pi,1,1,1),0)
+```
+
+```
+def rn_su2_5(theta, n1,n2,n3): #This represents a matrix operator that will evolve() a Statevector by matrix-vector multiplication and will evolve() a DensityMatrix by left and right multiplication return Operator([ [np.cos(theta/2)- 1j*n3*np.sin(theta/2), -1j*(n1-1j*n2)*np.sin(theta/2)], [-1j*(n1+1j*n2)*np.sin(theta/2), np.cos(theta/2)+1j*n3*np.sin(theta/2)] ],input_dims=(2, 1), output_dims=(2, 1)) print(rn_su2_5(pi,1,1,1)) circuit.unitary(rn_su2_5(pi,1,1,1),0)
+```
+
+```
+Operator([[ 6.123234e-17-1.j, -1.000000e+00-1.j], [ 1.000000e+00-1.j, 6.123234e-17+1.j]], input_dims=(2, 1), output_dims=(2, 1)) **ExtensionError: 'Input matrix is not unitary.'**
+```
+
+```
+Operator([[ 6.123234e-17-1.j, -1.000000e+00-1.j], [ 1.000000e+00-1.j, 6.123234e-17+1.j]], input_dims=(2, 1), output_dims=(2, 1)) **ExtensionError: 'Input matrix is not unitary.'**
+```
+
+Original buggy code:
+from ibm_quantum_widgets import CircuitComposer from qiskit.quantum_info import Statevector from qiskit.visualization import plot_bloch_multivector from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit from numpy import pi import numpy as np from qiskit.quantum_info.operators import Operator, Pauli qreg_q = QuantumRegister(1, 'q') circuit = QuantumCircuit(qreg_q) clreg = ClassicalRegister(1) ...
+
+---CODE_BLOCK---
+
+from ibm_quantum_widgets import CircuitComposer from qiskit.quantum_info import Statevector from qiskit.visualization import plot_bloch_multivector from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit from numpy import pi import numpy as np from qiskit.quantum_info.operators import Operator, Pauli qreg_q = QuantumRegister(1, 'q') circuit = QuantumCircuit(qreg_q) clreg = ClassicalRegister(1) ...
+
+---CODE_BLOCK---
+
+def rn_su2_5(theta, n1,n2,n3): #This represents a matrix operator that will evolve() a Statevector by matrix-vector multiplication and will evolve() a DensityMatrix by left and right multiplication return Operator([ [np.cos(theta/2)- 1j*n3*np.sin(theta/2), -1j*(n1-1j*n2)*np.sin(theta/2)], [-1j*(n1+1j*n2)*np.sin(theta/2), np.cos(theta/2)+1j*n3*np.sin(theta/2)] ],input_dims=(2, 1), output_dims=(2, 1)) print(rn_su2_5(pi,1,1,1)) circuit.unitary(rn_su2_5(pi,1,1,1),0)
+
+---CODE_BLOCK---
+
+def rn_su2_5(theta, n1,n2,n3): #This represents a matrix operator that will evolve() a Statevector by matrix-vector multiplication and will evolve() a DensityMatrix by left and right multiplication return Operator([ [np.cos(theta/2)- 1j*n3*np.sin(theta/2), -1j*(n1-1j*n2)*np.sin(theta/2)], [-1j*(n1+1j*n2)*np.sin(theta/2), np.cos(theta/2)+1j*n3*np.sin(theta/2)] ],input_dims=(2, 1), output_dims=(2, 1)) print(rn_su2_5(pi,1,1,1)) circuit.unitary(rn_su2_5(pi,1,1,1),0)
+
+---CODE_BLOCK---
+
+Operator([[ 6.123234e-17-1.j, -1.000000e+00-1.j], [ 1.000000e+00-1.j, 6.123234e-17+1.j]], input_dims=(2, 1), output_dims=(2, 1)) **ExtensionError: 'Input matrix is not unitary.'**
+
+---CODE_BLOCK---
+
+Operator([[ 6.123234e-17-1.j, -1.000000e+00-1.j], [ 1.000000e+00-1.j, 6.123234e-17+1.j]], input_dims=(2, 1), output_dims=(2, 1)) **ExtensionError: 'Input matrix is not unitary.'**
+
+Solution explanation:
+The problem is that the vector must have an magnitude (length) of $1$, see for example this document (page 8, equation 50). I implemented a debug line that shows you wether the matrix is unitary or not. When choosing or the matrix becomes unitary. I checked in the notebook here at Github. The rotation by $\frac{\pi}{4}$ around the $z$-axis can be performed as follows (for this I oriented myself to this lecture note): which looks as follows: Note that in the code above some polishing still need to be done such as exception handling of corner cases (e.g. in trigonometric functions).
+
+```
+n=[n1,n2,n3]
+```
+
+```
+n=[0,0,1]
+```
+
+```
+n=[1/np.sqrt(3), 1/np.sqrt(3), 1/np.sqrt(3)]
+```
+
+```
+# Matrix taken from # https://docplayer.org/117986458-Die-symmetriegruppen-so-3-und-su-2.html (p. 11, equation 46) # https://www.uni-muenster.de/Physik.TP/archive/fileadmin/lehre/teilchen/ws1011/SO3SU2.pdf (p. 8, equation 50) def rn_su2(theta, n): n1 = n[0] n2 = n[1] n3 = n[2] return Operator([ [np.cos(theta/2) - 1j*n3*np.sin(theta/2), -1j*(n1 - 1j*n2)*np.sin(theta/2)], [-1j*(n1 + 1j*n2)*np.sin(theta/2), np.cos(theta/2) + 1j*n3*np.sin(theta/2)] ], input_dims=(2, 1), output_dims=(2, 1)) # Magnitude of the vector n must be 1 n = [0,0,1] n = [1/np.sqrt(3), 1/np.sqrt(3), 1/np.sqrt(3)] # Debug: check if the matrix is unitary mat = np.array(rn_su2(5, n)) # Compute A^dagger.A and see if it is identity matrix mat = np.conj(mat.T).dot(mat) print(mat) # construct the operator rotated = circuit.unitary(rn_su2(pi, n), 0)
+```
+
+```
+# Matrix taken from # https://docplayer.org/117986458-Die-symmetriegruppen-so-3-und-su-2.html (p. 11, equation 46) # https://www.uni-muenster.de/Physik.TP/archive/fileadmin/lehre/teilchen/ws1011/SO3SU2.pdf (p. 8, equation 50) def rn_su2(theta, n): n1 = n[0] n2 = n[1] n3 = n[2] return Operator([ [np.cos(theta/2) - 1j*n3*np.sin(theta/2), -1j*(n1 - 1j*n2)*np.sin(theta/2)], [-1j*(n1 + 1j*n2)*np.sin(theta/2), np.cos(theta/2) + 1j*n3*np.sin(theta/2)] ], input_dims=(2, 1), output_dims=(2, 1)) # Magnitude of the vector n must be 1 n = [0,0,1] n = [1/np.sqrt(3), 1/np.sqrt(3), 1/np.sqrt(3)] # Debug: check if the matrix is unitary mat = np.array(rn_su2(5, n)) # Compute A^dagger.A and see if it is identity matrix mat = np.conj(mat.T).dot(mat) print(mat) # construct the operator rotated = circuit.unitary(rn_su2(pi, n), 0)
+```
+
+```
+rot_angle = pi/4 n = [0, 0, 1] rot_operator = rn_su2(rot_angle, n) rot_matrix = np.array(rot_operator) start_vec = [1, 0, 0] _bloch = Bloch() _bloch.vector_color = ['blue', 'red'] sv = [] vec = start_vec sv.append(vec) spherical_vec = to_spherical(vec) ϕ = spherical_vec[1] θ = spherical_vec[2] print(spherical_vec) sx = msigma(1) sy = msigma(2) sz = msigma(3) M_q = (np.sin(θ)*np.cos(ϕ)*sx + np.sin(θ)*np.sin(ϕ)*sy + np.cos(θ)*sz) U_n = np.eye(2)*np.cos(rot_angle/2) -1j*(n[0]*sx+n[1]*sy+n[2]*sz)*np.sin(rot_angle/2) M_q_rotated = U_n*M_q*np.matrix(U_n).H print(M_q_rotated) cos_θ_rotated = float(N(re(M_q_rotated[0,0]))) θ_rotated = np.arccos(cos_θ_rotated) print(θ_rotated) #e^(ix) = cos(x) + i*sin(x) #see https://en.wikipedia.org/wiki/Euler%27s_identity temp = float(N(re(M_q_rotated[1,0]))) temp = temp/np.sin(θ_rotated) ϕ_rotated = np.arccos(temp) print(ϕ_rotated) vec = np.array(to_cartesian([1, θ_rotated, ϕ_rotated])) sv.append(vec) _bloch.add_vectors(sv) _bloch.render()
+```
+
+```
+rot_angle = pi/4 n = [0, 0, 1] rot_operator = rn_su2(rot_angle, n) rot_matrix = np.array(rot_operator) start_vec = [1, 0, 0] _bloch = Bloch() _bloch.vector_color = ['blue', 'red'] sv = [] vec = start_vec sv.append(vec) spherical_vec = to_spherical(vec) ϕ = spherical_vec[1] θ = spherical_vec[2] print(spherical_vec) sx = msigma(1) sy = msigma(2) sz = msigma(3) M_q = (np.sin(θ)*np.cos(ϕ)*sx + np.sin(θ)*np.sin(ϕ)*sy + np.cos(θ)*sz) U_n = np.eye(2)*np.cos(rot_angle/2) -1j*(n[0]*sx+n[1]*sy+n[2]*sz)*np.sin(rot_angle/2) M_q_rotated = U_n*M_q*np.matrix(U_n).H print(M_q_rotated) cos_θ_rotated = float(N(re(M_q_rotated[0,0]))) θ_rotated = np.arccos(cos_θ_rotated) print(θ_rotated) #e^(ix) = cos(x) + i*sin(x) #see https://en.wikipedia.org/wiki/Euler%27s_identity temp = float(N(re(M_q_rotated[1,0]))) temp = temp/np.sin(θ_rotated) ϕ_rotated = np.arccos(temp) print(ϕ_rotated) vec = np.array(to_cartesian([1, θ_rotated, ϕ_rotated])) sv.append(vec) _bloch.add_vectors(sv) _bloch.render()
+```
+
+Original fixed code:
+n=[n1,n2,n3]
+
+---CODE_BLOCK---
+
+n=[0,0,1]
+
+---CODE_BLOCK---
+
+n=[1/np.sqrt(3), 1/np.sqrt(3), 1/np.sqrt(3)]
+
+---CODE_BLOCK---
+
+# Matrix taken from # https://docplayer.org/117986458-Die-symmetriegruppen-so-3-und-su-2.html (p. 11, equation 46) # https://www.uni-muenster.de/Physik.TP/archive/fileadmin/lehre/teilchen/ws1011/SO3SU2.pdf (p. 8, equation 50) def rn_su2(theta, n): n1 = n[0] n2 = n[1] n3 = n[2] return Operator([ [np.cos(theta/2) - 1j*n3*np.sin(theta/2), -1j*(n1 - 1j*n2)*np.sin(theta/2)], [-1j*(n1 + 1j*n2)*np.sin(theta/2), np.cos(theta/2) + 1j*n3*np.sin(theta/2)] ], input_dims=(2, 1), output_dims=(2, 1)) # Magnitude of the vector n must be 1 n = [0,0,1] n = [1/np.sqrt(3), 1/np.sqrt(3), 1/np.sqrt(3)] # Debug: check if the matrix is unitary mat = np.array(rn_su2(5, n)) # Compute A^dagger.A and see if it is identity matrix mat = np.conj(mat.T).dot(mat) print(mat) # construct the operator rotated = circuit.unitary(rn_su2(pi, n), 0)
+
+---CODE_BLOCK---
+
+# Matrix taken from # https://docplayer.org/117986458-Die-symmetriegruppen-so-3-und-su-2.html (p. 11, equation 46) # https://www.uni-muenster.de/Physik.TP/archive/fileadmin/lehre/teilchen/ws1011/SO3SU2.pdf (p. 8, equation 50) def rn_su2(theta, n): n1 = n[0] n2 = n[1] n3 = n[2] return Operator([ [np.cos(theta/2) - 1j*n3*np.sin(theta/2), -1j*(n1 - 1j*n2)*np.sin(theta/2)], [-1j*(n1 + 1j*n2)*np.sin(theta/2), np.cos(theta/2) + 1j*n3*np.sin(theta/2)] ], input_dims=(2, 1), output_dims=(2, 1)) # Magnitude of the vector n must be 1 n = [0,0,1] n = [1/np.sqrt(3), 1/np.sqrt(3), 1/np.sqrt(3)] # Debug: check if the matrix is unitary mat = np.array(rn_su2(5, n)) # Compute A^dagger.A and see if it is identity matrix mat = np.conj(mat.T).dot(mat) print(mat) # construct the operator rotated = circuit.unitary(rn_su2(pi, n), 0)
+
+---CODE_BLOCK---
+
+rot_angle = pi/4 n = [0, 0, 1] rot_operator = rn_su2(rot_angle, n) rot_matrix = np.array(rot_operator) start_vec = [1, 0, 0] _bloch = Bloch() _bloch.vector_color = ['blue', 'red'] sv = [] vec = start_vec sv.append(vec) spherical_vec = to_spherical(vec) ϕ = spherical_vec[1] θ = spherical_vec[2] print(spherical_vec) sx = msigma(1) sy = msigma(2) sz = msigma(3) M_q = (np.sin(θ)*np.cos(ϕ)*sx + np.sin(θ)*np.sin(ϕ)*sy + np.cos(θ)*sz) U_n = np.eye(2)*np.cos(rot_angle/2) -1j*(n[0]*sx+n[1]*sy+n[2]*sz)*np.sin(rot_angle/2) M_q_rotated = U_n*M_q*np.matrix(U_n).H print(M_q_rotated) cos_θ_rotated = float(N(re(M_q_rotated[0,0]))) θ_rotated = np.arccos(cos_θ_rotated) print(θ_rotated) #e^(ix) = cos(x) + i*sin(x) #see https://en.wikipedia.org/wiki/Euler%27s_identity temp = float(N(re(M_q_rotated[1,0]))) temp = temp/np.sin(θ_rotated) ϕ_rotated = np.arccos(temp) print(ϕ_rotated) vec = np.array(to_cartesian([1, θ_rotated, ϕ_rotated])) sv.append(vec) _bloch.add_vectors(sv) _bloch.render()
+
+---CODE_BLOCK---
+
+rot_angle = pi/4 n = [0, 0, 1] rot_operator = rn_su2(rot_angle, n) rot_matrix = np.array(rot_operator) start_vec = [1, 0, 0] _bloch = Bloch() _bloch.vector_color = ['blue', 'red'] sv = [] vec = start_vec sv.append(vec) spherical_vec = to_spherical(vec) ϕ = spherical_vec[1] θ = spherical_vec[2] print(spherical_vec) sx = msigma(1) sy = msigma(2) sz = msigma(3) M_q = (np.sin(θ)*np.cos(ϕ)*sx + np.sin(θ)*np.sin(ϕ)*sy + np.cos(θ)*sz) U_n = np.eye(2)*np.cos(rot_angle/2) -1j*(n[0]*sx+n[1]*sy+n[2]*sz)*np.sin(rot_angle/2) M_q_rotated = U_n*M_q*np.matrix(U_n).H print(M_q_rotated) cos_θ_rotated = float(N(re(M_q_rotated[0,0]))) θ_rotated = np.arccos(cos_θ_rotated) print(θ_rotated) #e^(ix) = cos(x) + i*sin(x) #see https://en.wikipedia.org/wiki/Euler%27s_identity temp = float(N(re(M_q_rotated[1,0]))) temp = temp/np.sin(θ_rotated) ϕ_rotated = np.arccos(temp) print(ϕ_rotated) vec = np.array(to_cartesian([1, θ_rotated, ϕ_rotated])) sv.append(vec) _bloch.add_vectors(sv) _bloch.render()

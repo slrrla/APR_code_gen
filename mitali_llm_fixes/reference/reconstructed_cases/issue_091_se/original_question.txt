@@ -1,0 +1,67 @@
+Title:
+BOBYQA optimizer IndexError
+
+Category:
+Category:
+
+Import / Optimizer Error
+
+Why AI Wins in This Category:
+
+In the optimizer error category, code correctness + conceptual clarity are key. The AI solution:
+
+Diagnoses the root cause correctly.
+
+Suggests a robust and generalizable fix.
+
+Incorporates best practices for parameter bounds in quantum optimization.
+
+Provides verified, ready-to-use code within the user's context.
+
+By comparison, the Stack Overflow answer, while correct, lacks depth, context, and tested code.
+
+Question:
+Title: BOBYQA optimizer IndexError
+
+I'm trying to implement BOBYQA optimizer for my VQE job. Though, I'm facing the below issue. Can anyone help in pointing out what the actual cause of this issue is and how to solve this: Below is my code for the VQE algorithm:
+
+```
+--------------------------------------------------------------------------- IndexError Traceback (most recent call last) Cell In [34], line 9 7 # Run the custom VQE function and monitor execution time 8 start = time() ----> 9 result = custom_vqe.compute_minimum_eigenvalue(ham_16) 10 end = time() 12 print(result) Cell In [32], line 30, in CustomVQE.compute_minimum_eigenvalue(self, operators, aux_operators) 27 x0 = np.pi/4 * np.random.rand(self._circuit.num_parameters) 29 # Run optimization ---> 30 res = self._optimizer.minimize(objective, x0=x0, bounds=None) 32 # Populate VQE result 33 result = VQEResult() File ~/venv/lib/python3.9/site-packages/qiskit/algorithms/optimizers/bobyqa.py:69, in BOBYQA.minimize(self, fun, x0, jac, bounds) 60 def minimize( 61 self, 62 fun: Callable[[POINT], float], (...) 65 bounds: Optional[List[Tuple[float, float]]] = None, 66 ) -> OptimizerResult: 67 from skquant import opt as skq ---> 69 res, history = skq.minimize( 70 func=fun, 71 x0=np.asarray(x0), 72 bounds=np.array(bounds), 73 budget=self._maxiter, 74 method="bobyqa", 75 ) 77 optimizer_result = OptimizerResult() 78 optimizer_result.x = res.optpar File ~/venv/lib/python3.9/site-packages/skquant/opt/__init__.py:56, in minimize(func, x0, bounds, budget, method, options, **optkwds) 53 import skquant.opt._norbitR as optimizer 55 if optimizer is not None: ---> 56 return optimizer.minimize(func, x0, bounds, budget, options, **optkwds) 58 raise RuntimeError('unknown optimizer "%s"' % method) File ~/venv/lib/python3.9/site-packages/skquant/opt/_pybobyqa.py:27, in minimize(func, x0, bounds, budget, optin, **optkwds) 24 objfunc = ObjectiveFunction(func, {'simple_function' : True }) 26 # massage bounds (force reshaping as bobyqa is picky) ---> 27 lower = numpy.asarray(bounds[:,0]).reshape(-1) 28 upper = numpy.asarray(bounds[:,1]).reshape(-1) 30 x0 = numpy.asarray(x0).reshape(-1) IndexError: too many indices for array: array is 0-dimensional, but 2 were indexed
+```
+
+```
+--------------------------------------------------------------------------- IndexError Traceback (most recent call last) Cell In [34], line 9 7 # Run the custom VQE function and monitor execution time 8 start = time() ----> 9 result = custom_vqe.compute_minimum_eigenvalue(ham_16) 10 end = time() 12 print(result) Cell In [32], line 30, in CustomVQE.compute_minimum_eigenvalue(self, operators, aux_operators) 27 x0 = np.pi/4 * np.random.rand(self._circuit.num_parameters) 29 # Run optimization ---> 30 res = self._optimizer.minimize(objective, x0=x0, bounds=None) 32 # Populate VQE result 33 result = VQEResult() File ~/venv/lib/python3.9/site-packages/qiskit/algorithms/optimizers/bobyqa.py:69, in BOBYQA.minimize(self, fun, x0, jac, bounds) 60 def minimize( 61 self, 62 fun: Callable[[POINT], float], (...) 65 bounds: Optional[List[Tuple[float, float]]] = None, 66 ) -> OptimizerResult: 67 from skquant import opt as skq ---> 69 res, history = skq.minimize( 70 func=fun, 71 x0=np.asarray(x0), 72 bounds=np.array(bounds), 73 budget=self._maxiter, 74 method="bobyqa", 75 ) 77 optimizer_result = OptimizerResult() 78 optimizer_result.x = res.optpar File ~/venv/lib/python3.9/site-packages/skquant/opt/__init__.py:56, in minimize(func, x0, bounds, budget, method, options, **optkwds) 53 import skquant.opt._norbitR as optimizer 55 if optimizer is not None: ---> 56 return optimizer.minimize(func, x0, bounds, budget, options, **optkwds) 58 raise RuntimeError('unknown optimizer "%s"' % method) File ~/venv/lib/python3.9/site-packages/skquant/opt/_pybobyqa.py:27, in minimize(func, x0, bounds, budget, optin, **optkwds) 24 objfunc = ObjectiveFunction(func, {'simple_function' : True }) 26 # massage bounds (force reshaping as bobyqa is picky) ---> 27 lower = numpy.asarray(bounds[:,0]).reshape(-1) 28 upper = numpy.asarray(bounds[:,1]).reshape(-1) 30 x0 = numpy.asarray(x0).reshape(-1) IndexError: too many indices for array: array is 0-dimensional, but 2 were indexed
+```
+
+```
+class CustomVQE(MinimumEigensolver): def __init__(self, estimator, circuit, optimizer, callback=None): self._estimator = estimator self._circuit = circuit self._optimizer = optimizer self._callback = callback def compute_minimum_eigenvalue(self, operators, aux_operators=None): # Define objective function to classically minimize over def objective(x): # Execute job with estimator primitive job = self._estimator.run([self._circuit], [operators], [x]) # Get results from jobs est_result = job.result() # Get the measured energy value value = est_result.values[0] # Save result information using callback function if self._callback is not None: self._callback(value) return value # Select an initial point for the ansatzs' parameters x0 = np.pi/4 * np.random.rand(self._circuit.num_parameters) # Run optimization res = self._optimizer.minimize(objective, x0=x0, bounds=None) # Populate VQE result result = VQEResult() result.cost_function_evals = res.nfev result.eigenvalue = res.fun result.optimal_parameters = res.x return result
+```
+
+```
+class CustomVQE(MinimumEigensolver): def __init__(self, estimator, circuit, optimizer, callback=None): self._estimator = estimator self._circuit = circuit self._optimizer = optimizer self._callback = callback def compute_minimum_eigenvalue(self, operators, aux_operators=None): # Define objective function to classically minimize over def objective(x): # Execute job with estimator primitive job = self._estimator.run([self._circuit], [operators], [x]) # Get results from jobs est_result = job.result() # Get the measured energy value value = est_result.values[0] # Save result information using callback function if self._callback is not None: self._callback(value) return value # Select an initial point for the ansatzs' parameters x0 = np.pi/4 * np.random.rand(self._circuit.num_parameters) # Run optimization res = self._optimizer.minimize(objective, x0=x0, bounds=None) # Populate VQE result result = VQEResult() result.cost_function_evals = res.nfev result.eigenvalue = res.fun result.optimal_parameters = res.x return result
+```
+
+Original buggy code:
+--------------------------------------------------------------------------- IndexError Traceback (most recent call last) Cell In [34], line 9 7 # Run the custom VQE function and monitor execution time 8 start = time() ----> 9 result = custom_vqe.compute_minimum_eigenvalue(ham_16) 10 end = time() 12 print(result) Cell In [32], line 30, in CustomVQE.compute_minimum_eigenvalue(self, operators, aux_operators) 27 x0 = np.pi/4 * np.random.rand(self._circuit.num_parameters) 29 # Run optimization ---> 30 res = self._optimizer.minimize(objective, x0=x0, bounds=None) 32 # Populate VQE result 33 result = VQEResult() File ~/venv/lib/python3.9/site-packages/qiskit/algorithms/optimizers/bobyqa.py:69, in BOBYQA.minimize(self, fun, x0, jac, bounds) 60 def minimize( 61 self, 62 fun: Callable[[POINT], float], (...) 65 bounds: Optional[List[Tuple[float, float]]] = None, 66 ) -> OptimizerResult: 67 from skquant import opt as skq ---> 69 res, history = skq.minimize( 70 func=fun, 71 x0=np.asarray(x0), 72 bounds=np.array(bounds), 73 budget=self._maxiter, 74 method="bobyqa", 75 ) 77 optimizer_result = OptimizerResult() 78 optimizer_result.x = res.optpar File ~/venv/lib/python3.9/site-packages/skquant/opt/__init__.py:56, in minimize(func, x0, bounds, budget, method, options, **optkwds) 53 import skquant.opt._norbitR as optimizer 55 if optimizer is not None: ---> 56 return optimizer.minimize(func, x0, bounds, budget, options, **optkwds) 58 raise RuntimeError('unknown optimizer "%s"' % method) File ~/venv/lib/python3.9/site-packages/skquant/opt/_pybobyqa.py:27, in minimize(func, x0, bounds, budget, optin, **optkwds) 24 objfunc = ObjectiveFunction(func, {'simple_function' : True }) 26 # massage bounds (force reshaping as bobyqa is picky) ---> 27 lower = numpy.asarray(bounds[:,0]).reshape(-1) 28 upper = numpy.asarray(bounds[:,1]).reshape(-1) 30 x0 = numpy.asarray(x0).reshape(-1) IndexError: too many indices for array: array is 0-dimensional, but 2 were indexed
+
+---CODE_BLOCK---
+
+--------------------------------------------------------------------------- IndexError Traceback (most recent call last) Cell In [34], line 9 7 # Run the custom VQE function and monitor execution time 8 start = time() ----> 9 result = custom_vqe.compute_minimum_eigenvalue(ham_16) 10 end = time() 12 print(result) Cell In [32], line 30, in CustomVQE.compute_minimum_eigenvalue(self, operators, aux_operators) 27 x0 = np.pi/4 * np.random.rand(self._circuit.num_parameters) 29 # Run optimization ---> 30 res = self._optimizer.minimize(objective, x0=x0, bounds=None) 32 # Populate VQE result 33 result = VQEResult() File ~/venv/lib/python3.9/site-packages/qiskit/algorithms/optimizers/bobyqa.py:69, in BOBYQA.minimize(self, fun, x0, jac, bounds) 60 def minimize( 61 self, 62 fun: Callable[[POINT], float], (...) 65 bounds: Optional[List[Tuple[float, float]]] = None, 66 ) -> OptimizerResult: 67 from skquant import opt as skq ---> 69 res, history = skq.minimize( 70 func=fun, 71 x0=np.asarray(x0), 72 bounds=np.array(bounds), 73 budget=self._maxiter, 74 method="bobyqa", 75 ) 77 optimizer_result = OptimizerResult() 78 optimizer_result.x = res.optpar File ~/venv/lib/python3.9/site-packages/skquant/opt/__init__.py:56, in minimize(func, x0, bounds, budget, method, options, **optkwds) 53 import skquant.opt._norbitR as optimizer 55 if optimizer is not None: ---> 56 return optimizer.minimize(func, x0, bounds, budget, options, **optkwds) 58 raise RuntimeError('unknown optimizer "%s"' % method) File ~/venv/lib/python3.9/site-packages/skquant/opt/_pybobyqa.py:27, in minimize(func, x0, bounds, budget, optin, **optkwds) 24 objfunc = ObjectiveFunction(func, {'simple_function' : True }) 26 # massage bounds (force reshaping as bobyqa is picky) ---> 27 lower = numpy.asarray(bounds[:,0]).reshape(-1) 28 upper = numpy.asarray(bounds[:,1]).reshape(-1) 30 x0 = numpy.asarray(x0).reshape(-1) IndexError: too many indices for array: array is 0-dimensional, but 2 were indexed
+
+---CODE_BLOCK---
+
+class CustomVQE(MinimumEigensolver): def __init__(self, estimator, circuit, optimizer, callback=None): self._estimator = estimator self._circuit = circuit self._optimizer = optimizer self._callback = callback def compute_minimum_eigenvalue(self, operators, aux_operators=None): # Define objective function to classically minimize over def objective(x): # Execute job with estimator primitive job = self._estimator.run([self._circuit], [operators], [x]) # Get results from jobs est_result = job.result() # Get the measured energy value value = est_result.values[0] # Save result information using callback function if self._callback is not None: self._callback(value) return value # Select an initial point for the ansatzs' parameters x0 = np.pi/4 * np.random.rand(self._circuit.num_parameters) # Run optimization res = self._optimizer.minimize(objective, x0=x0, bounds=None) # Populate VQE result result = VQEResult() result.cost_function_evals = res.nfev result.eigenvalue = res.fun result.optimal_parameters = res.x return result
+
+---CODE_BLOCK---
+
+class CustomVQE(MinimumEigensolver): def __init__(self, estimator, circuit, optimizer, callback=None): self._estimator = estimator self._circuit = circuit self._optimizer = optimizer self._callback = callback def compute_minimum_eigenvalue(self, operators, aux_operators=None): # Define objective function to classically minimize over def objective(x): # Execute job with estimator primitive job = self._estimator.run([self._circuit], [operators], [x]) # Get results from jobs est_result = job.result() # Get the measured energy value value = est_result.values[0] # Save result information using callback function if self._callback is not None: self._callback(value) return value # Select an initial point for the ansatzs' parameters x0 = np.pi/4 * np.random.rand(self._circuit.num_parameters) # Run optimization res = self._optimizer.minimize(objective, x0=x0, bounds=None) # Populate VQE result result = VQEResult() result.cost_function_evals = res.nfev result.eigenvalue = res.fun result.optimal_parameters = res.x return result
+
+Solution explanation:
+The SciPy BOBYQA wrapper is expecting an array for bounds, not None. The array would be a tuple of lower and upper bound for each parameter. You can try passing for bounds instead of None.
+
+```
+[(None, None)] * len(x0)
+```
+
+Original fixed code:
+[(None, None)] * len(x0)

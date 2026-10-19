@@ -1,5 +1,5 @@
 
-test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state) ... C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\buggy.py:12: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)
+test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression.test_fidelity_compares_ideal_qft_with_actual_noisy_result) ... C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\buggy.py:12: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)
   qc = QFT(6)
 C:\qiskit_envs\q240\Lib\site-packages\qiskit\circuit\library\basis_change\qft.py:108: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.
   super().__init__(name=name)
@@ -9,7 +9,7 @@ test_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_
 ERROR
 
 ======================================================================
-ERROR: test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state)
+ERROR: test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression.test_fidelity_compares_ideal_qft_with_actual_noisy_result)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "C:\qiskit_envs\q240\Lib\site-packages\qiskit\result\result.py", line 301, in get_statevector
@@ -20,12 +20,14 @@ KeyError: 'statevector'
 The above exception was the direct cause of the following exception:
 
 Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 31, in test_fidelity_matches_independent_uniform_state
-    m = target()
-        ^^^^^^^^
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 15, in target
-    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 82, in test_fidelity_compares_ideal_qft_with_actual_noisy_result
+    states = noisy_saved_states()
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 47, in noisy_saved_states
+    runs, _ = target()
+              ^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 35, in target
+    runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
   File "<frozen runpy>", line 287, in run_path
   File "<frozen runpy>", line 98, in _run_module_code
   File "<frozen runpy>", line 88, in _run_code
@@ -48,12 +50,14 @@ KeyError: 'statevector'
 The above exception was the direct cause of the following exception:
 
 Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 21, in test_real_noisy_density_matrix_is_physical
-    m = target()
-        ^^^^^^^^
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 15, in target
-    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 70, in test_real_noisy_density_matrix_is_physical
+    states = noisy_saved_states()
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 47, in noisy_saved_states
+    runs, _ = target()
+              ^^^^^^^^
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 35, in target
+    runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
   File "<frozen runpy>", line 287, in run_path
   File "<frozen runpy>", line 98, in _run_module_code
   File "<frozen runpy>", line 88, in _run_code
@@ -65,6 +69,6 @@ Traceback (most recent call last):
 qiskit.exceptions.QiskitError: 'No statevector for experiment "None"'
 
 ----------------------------------------------------------------------
-Ran 2 tests in 5.863s
+Ran 2 tests in 8.808s
 
 FAILED (errors=2)

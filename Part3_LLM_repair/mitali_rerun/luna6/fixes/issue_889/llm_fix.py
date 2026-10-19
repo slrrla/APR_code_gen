@@ -1,0 +1,34 @@
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.opflow import PauliSumOp
+# FIX: H is an operator, not a circuit gate -> import PauliEvolutionGate, because time evolution must be represented by a gate.
+from qiskit.circuit.library import PauliEvolutionGate
+
+N = 3
+eps = 1.0
+t = 0.5
+time_ = 1.0
+
+def onsite_term(k, N):
+    label = ['I'] * N
+    label[k] = 'Z'
+    # FIX: the onsite number operator is (I - Z) / 2 -> include both Pauli terms, because n = (I - Z) / 2.
+    return PauliSumOp.from_list([(''.join(['I'] * N), eps / 2), (''.join(label), -eps / 2)])
+
+def hopping_term(k, N):
+    label = ['I'] * N
+    label[k] = 'X'
+    label[(k + 1) % N] = 'X'
+    # FIX: hopping includes both XX and YY with coefficient t / 2 -> include both terms, because the Jordan-Wigner image of c†ᵢcⱼ + c†ⱼcᵢ is (XX + YY) / 2.
+    return PauliSumOp.from_list([(''.join(label), t / 2), (''.join(['Y' if i in (k, (k + 1) % N) else 'I' for i in range(N)]), t / 2)])
+
+H = None
+for k in range(N):
+    term1 = onsite_term(k, N)
+    term2 = hopping_term(k, N)
+    H = term1 if H is None else H + term1
+    H = H + term2
+
+circ = QuantumCircuit(N)
+# FIX: a Hamiltonian cannot be appended directly as a gate -> append its time-evolution gate, because it implements exp(-i time_ H).
+circ.append(PauliEvolutionGate(H.primitive, time=time_), list(range(N)))

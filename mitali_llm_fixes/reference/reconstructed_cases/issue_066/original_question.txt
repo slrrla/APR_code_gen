@@ -1,0 +1,135 @@
+Title:
+Using Qiskit AerSimulator with an NVIDIA GPU
+
+Category:
+Category:
+
+Installation / Env Config / Import Error
+
+Why AI Wins in This Category:
+
+This category demands step-by-step troubleshooting across hardware, drivers, and Python environments. AI excels by:
+
+Covering all potential misconfigurations (CUDA, PyTorch, env vars).
+
+Helping diagnose both torch and qiskit GPU failures.
+
+Offering installation commands, code, and diagnostics in one place.
+
+Question:
+Title: Using Qiskit AerSimulator with an NVIDIA GPU
+
+I am trying to use my NVIDIA GPU to enhance my ability to simulate Qiskit. I've got a simple Qiskit circuit that I would like to simulate in a Python venv on VSCode, using my OS: Pop!_OS 22.04. My GPU is an NVIDIA RTX 3060, running driver version 565.77 with CUDA 12.7 I am using nvcc, version 11.5 My Python venv contains qiskit-aer-gpu, cuQuantum and cuTensor among other things. Calling torch.cuda.is_available() inside my venv returns 'False', while I believe it should return 'True' if everything were correct. When I attempt to simulate my circuit using AerSimulator(method="Statevector", device="GPU"), I receive a RuntimeError: "No CUDA device available!". What I can do to allow the GPU to be used; I can simulate just fine using my CPU. How might I be able to progress forward? I've seen How can we access GPU to execute qiskit codes. If possible give me a sample code, which seemed to be a similar issue. But I've not managed to derive a solution.
+
+Original buggy code:
+I am trying to use my NVIDIA GPU to enhance my ability to simulate Qiskit. I've got a simple Qiskit circuit that I would like to simulate in a Python venv on VSCode, using my OS: Pop!_OS 22.04. My GPU is an NVIDIA RTX 3060, running driver version 565.77 with CUDA 12.7 I am using nvcc, version 11.5 My Python venv contains qiskit-aer-gpu, cuQuantum and cuTensor among other things. Calling torch.cuda.is_available() inside my venv returns 'False', while I believe it should return 'True' if everything were correct. When I attempt to simulate my circuit using AerSimulator(method="Statevector", device="GPU"), I receive a RuntimeError: "No CUDA device available!". What I can do to allow the GPU to be used; I can simulate just fine using my CPU. How might I be able to progress forward? I've seen How can we access GPU to execute qiskit codes. If possible give me a sample code, which seemed to be a similar issue. But I've not managed to derive a solution.
+
+Solution explanation:
+I am using Qiskit and a GPU in a Docker container. I don't know if your environment is the same, but I ran into the same problem. In my case, the problem was solved by simply restarting the container. I'm leaving the log here in case it's helpful. Specifically, Before Input: Output: Input: Output: After restarting container: Output: Output: version info
+
+```
+!nvidia-smi -L
+```
+
+```
+!nvidia-smi -L
+```
+
+```
+Failed to initialize NVML: Unknown Error
+```
+
+```
+Failed to initialize NVML: Unknown Error
+```
+
+```
+from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator backend = AerSimulator(method="statevector", device="GPU") # Create a quantum circuit qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.measure_all() # Cinpile the circuit qc = transpile(qc, backend) # Execute the circuit result = backend.run(qc).result() # Show the probability print(result.get_counts())
+```
+
+```
+from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator backend = AerSimulator(method="statevector", device="GPU") # Create a quantum circuit qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.measure_all() # Cinpile the circuit qc = transpile(qc, backend) # Execute the circuit result = backend.run(qc).result() # Show the probability print(result.get_counts())
+```
+
+```
+--------------------------------------------------------------------------- RuntimeError Traceback (most recent call last) Cell In[8], line 16 13 qc = transpile(qc, backend) 15 # Execute the circuit ---> 16 result = backend.run(qc).result() 18 # Show the probability 19 print(result.get_counts()) File /usr/local/lib/python3.10/dist-packages/qiskit_aer/jobs/utils.py:38, in requires_submit.<locals>._wrapper(self, *args, **kwargs) 36 if self._future is None: 37 raise JobError("Job not submitted yet!. You have to .submit() first!") ---> 38 return func(self, *args, **kwargs) File /usr/local/lib/python3.10/dist-packages/qiskit_aer/jobs/aerjob.py:96, in AerJob.result(self, timeout) 78 @requires_submit 79 def result(self, timeout=None): 80 # pylint: disable=arguments-differ 81 """Get job result. The behavior is the same as the underlying 82 concurrent Future objects, 83 (...) 94 concurrent.futures.CancelledError: if job cancelled before completed. 95 """ ---> 96 return self._future.result(timeout=timeout) File /usr/lib/python3.10/concurrent/futures/_base.py:458, in Future.result(self, timeout) 456 raise CancelledError() 457 elif self._state == FINISHED: --> 458 return self.__get_result() 459 else: 460 raise TimeoutError() File /usr/lib/python3.10/concurrent/futures/_base.py:403, in Future.__get_result(self) 401 if self._exception: 402 try: --> 403 raise self._exception 404 finally: 405 # Break a reference cycle with the exception in self._exception 406 self = None File /usr/lib/python3.10/concurrent/futures/thread.py:58, in _WorkItem.run(self) 55 return 57 try: ---> 58 result = self.fn(*self.args, **self.kwargs) 59 except BaseException as exc: 60 self.future.set_exception(exc) File /usr/local/lib/python3.10/dist-packages/qiskit_aer/backends/aerbackend.py:490, in AerBackend._execute_circuits_job(self, circuits, parameter_binds, run_options, job_id, format_result) 485 # Run simulation 486 metadata_map = { 487 aer_circuit.circ_id: circuit.metadata 488 for aer_circuit, circuit in zip(aer_circuits, circuits) 489 } --> 490 output = self._execute_circuits(aer_circuits, noise_model, config) 492 # Validate output 493 if not isinstance(output, dict): File /usr/local/lib/python3.10/dist-packages/qiskit_aer/backends/aer_simulator.py:928, in AerSimulator._execute_circuits(self, aer_circuits, noise_model, config) 926 def _execute_circuits(self, aer_circuits, noise_model, config): 927 """Execute circuits on the backend.""" --> 928 ret = cpp_execute_circuits(self._controller, aer_circuits, noise_model, config) 929 return ret File /usr/local/lib/python3.10/dist-packages/qiskit_aer/backends/backend_utils.py:446, in cpp_execute_circuits(controller, aer_circuits, noise_model, config) 442 config.library_dir = LIBRARY_DIR 444 noise_model = noise_model.to_dict(serializable=True) if noise_model else {} --> 446 return controller.execute(aer_circuits, noise_model, config) RuntimeError: No CUDA device available!
+```
+
+```
+--------------------------------------------------------------------------- RuntimeError Traceback (most recent call last) Cell In[8], line 16 13 qc = transpile(qc, backend) 15 # Execute the circuit ---> 16 result = backend.run(qc).result() 18 # Show the probability 19 print(result.get_counts()) File /usr/local/lib/python3.10/dist-packages/qiskit_aer/jobs/utils.py:38, in requires_submit.<locals>._wrapper(self, *args, **kwargs) 36 if self._future is None: 37 raise JobError("Job not submitted yet!. You have to .submit() first!") ---> 38 return func(self, *args, **kwargs) File /usr/local/lib/python3.10/dist-packages/qiskit_aer/jobs/aerjob.py:96, in AerJob.result(self, timeout) 78 @requires_submit 79 def result(self, timeout=None): 80 # pylint: disable=arguments-differ 81 """Get job result. The behavior is the same as the underlying 82 concurrent Future objects, 83 (...) 94 concurrent.futures.CancelledError: if job cancelled before completed. 95 """ ---> 96 return self._future.result(timeout=timeout) File /usr/lib/python3.10/concurrent/futures/_base.py:458, in Future.result(self, timeout) 456 raise CancelledError() 457 elif self._state == FINISHED: --> 458 return self.__get_result() 459 else: 460 raise TimeoutError() File /usr/lib/python3.10/concurrent/futures/_base.py:403, in Future.__get_result(self) 401 if self._exception: 402 try: --> 403 raise self._exception 404 finally: 405 # Break a reference cycle with the exception in self._exception 406 self = None File /usr/lib/python3.10/concurrent/futures/thread.py:58, in _WorkItem.run(self) 55 return 57 try: ---> 58 result = self.fn(*self.args, **self.kwargs) 59 except BaseException as exc: 60 self.future.set_exception(exc) File /usr/local/lib/python3.10/dist-packages/qiskit_aer/backends/aerbackend.py:490, in AerBackend._execute_circuits_job(self, circuits, parameter_binds, run_options, job_id, format_result) 485 # Run simulation 486 metadata_map = { 487 aer_circuit.circ_id: circuit.metadata 488 for aer_circuit, circuit in zip(aer_circuits, circuits) 489 } --> 490 output = self._execute_circuits(aer_circuits, noise_model, config) 492 # Validate output 493 if not isinstance(output, dict): File /usr/local/lib/python3.10/dist-packages/qiskit_aer/backends/aer_simulator.py:928, in AerSimulator._execute_circuits(self, aer_circuits, noise_model, config) 926 def _execute_circuits(self, aer_circuits, noise_model, config): 927 """Execute circuits on the backend.""" --> 928 ret = cpp_execute_circuits(self._controller, aer_circuits, noise_model, config) 929 return ret File /usr/local/lib/python3.10/dist-packages/qiskit_aer/backends/backend_utils.py:446, in cpp_execute_circuits(controller, aer_circuits, noise_model, config) 442 config.library_dir = LIBRARY_DIR 444 noise_model = noise_model.to_dict(serializable=True) if noise_model else {} --> 446 return controller.execute(aer_circuits, noise_model, config) RuntimeError: No CUDA device available!
+```
+
+```
+GPU 0: NVIDIA A100 ...
+```
+
+```
+GPU 0: NVIDIA A100 ...
+```
+
+```
+{'00': 524, '11': 500}
+```
+
+```
+{'00': 524, '11': 500}
+```
+
+```
+%pip show qiskit qiskit-aer qiskit-aer-gpu Name: qiskit Version: 1.3.2 Summary: An open-source SDK for working with quantum computers at the level of extended quantum circuits, operators, and primitives. Home-page: Author: Author-email: Qiskit Development Team <[email protected]> License: Apache 2.0 Location: /usr/local/lib/python3.10/dist-packages Requires: dill, numpy, python-dateutil, rustworkx, scipy, stevedore, symengine, sympy, typing-extensions Required-by: qiskit-aer, qiskit-aer-gpu, qiskit-ibm-runtime --- Name: qiskit-aer Version: 0.16.1 Summary: Aer - High performance simulators for Qiskit Home-page: https://github.com/Qiskit/qiskit-aer Author: AER Development Team Author-email: [email protected] License: Apache 2.0 Location: /usr/local/lib/python3.10/dist-packages Requires: numpy, psutil, qiskit, scipy Required-by: --- Name: qiskit-aer-gpu Version: 0.15.1 Summary: Aer - High performance simulators for Qiskit Home-page: https://github.com/Qiskit/qiskit-aer Author: AER Development Team Author-email: [email protected] License: Apache 2.0 Location: /usr/local/lib/python3.10/dist-packages Requires: cuquantum-cu12, numpy, nvidia-cublas-cu12, nvidia-cuda-runtime-cu12, nvidia-cusolver-cu12, nvidia-cusparse-cu12, nvidia-nvjitlink-cu12, psutil, qiskit, scipy Required-by: Note: you may need to restart the kernel to use updated packages. ```
+```
+
+```
+%pip show qiskit qiskit-aer qiskit-aer-gpu Name: qiskit Version: 1.3.2 Summary: An open-source SDK for working with quantum computers at the level of extended quantum circuits, operators, and primitives. Home-page: Author: Author-email: Qiskit Development Team <[email protected]> License: Apache 2.0 Location: /usr/local/lib/python3.10/dist-packages Requires: dill, numpy, python-dateutil, rustworkx, scipy, stevedore, symengine, sympy, typing-extensions Required-by: qiskit-aer, qiskit-aer-gpu, qiskit-ibm-runtime --- Name: qiskit-aer Version: 0.16.1 Summary: Aer - High performance simulators for Qiskit Home-page: https://github.com/Qiskit/qiskit-aer Author: AER Development Team Author-email: [email protected] License: Apache 2.0 Location: /usr/local/lib/python3.10/dist-packages Requires: numpy, psutil, qiskit, scipy Required-by: --- Name: qiskit-aer-gpu Version: 0.15.1 Summary: Aer - High performance simulators for Qiskit Home-page: https://github.com/Qiskit/qiskit-aer Author: AER Development Team Author-email: [email protected] License: Apache 2.0 Location: /usr/local/lib/python3.10/dist-packages Requires: cuquantum-cu12, numpy, nvidia-cublas-cu12, nvidia-cuda-runtime-cu12, nvidia-cusolver-cu12, nvidia-cusparse-cu12, nvidia-nvjitlink-cu12, psutil, qiskit, scipy Required-by: Note: you may need to restart the kernel to use updated packages. ```
+```
+
+Original fixed code:
+!nvidia-smi -L
+
+---CODE_BLOCK---
+
+!nvidia-smi -L
+
+---CODE_BLOCK---
+
+Failed to initialize NVML: Unknown Error
+
+---CODE_BLOCK---
+
+Failed to initialize NVML: Unknown Error
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator backend = AerSimulator(method="statevector", device="GPU") # Create a quantum circuit qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.measure_all() # Cinpile the circuit qc = transpile(qc, backend) # Execute the circuit result = backend.run(qc).result() # Show the probability print(result.get_counts())
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator backend = AerSimulator(method="statevector", device="GPU") # Create a quantum circuit qc = QuantumCircuit(2) qc.h(0) qc.cx(0, 1) qc.measure_all() # Cinpile the circuit qc = transpile(qc, backend) # Execute the circuit result = backend.run(qc).result() # Show the probability print(result.get_counts())
+
+---CODE_BLOCK---
+
+--------------------------------------------------------------------------- RuntimeError Traceback (most recent call last) Cell In[8], line 16 13 qc = transpile(qc, backend) 15 # Execute the circuit ---> 16 result = backend.run(qc).result() 18 # Show the probability 19 print(result.get_counts()) File /usr/local/lib/python3.10/dist-packages/qiskit_aer/jobs/utils.py:38, in requires_submit.<locals>._wrapper(self, *args, **kwargs) 36 if self._future is None: 37 raise JobError("Job not submitted yet!. You have to .submit() first!") ---> 38 return func(self, *args, **kwargs) File /usr/local/lib/python3.10/dist-packages/qiskit_aer/jobs/aerjob.py:96, in AerJob.result(self, timeout) 78 @requires_submit 79 def result(self, timeout=None): 80 # pylint: disable=arguments-differ 81 """Get job result. The behavior is the same as the underlying 82 concurrent Future objects, 83 (...) 94 concurrent.futures.CancelledError: if job cancelled before completed. 95 """ ---> 96 return self._future.result(timeout=timeout) File /usr/lib/python3.10/concurrent/futures/_base.py:458, in Future.result(self, timeout) 456 raise CancelledError() 457 elif self._state == FINISHED: --> 458 return self.__get_result() 459 else: 460 raise TimeoutError() File /usr/lib/python3.10/concurrent/futures/_base.py:403, in Future.__get_result(self) 401 if self._exception: 402 try: --> 403 raise self._exception 404 finally: 405 # Break a reference cycle with the exception in self._exception 406 self = None File /usr/lib/python3.10/concurrent/futures/thread.py:58, in _WorkItem.run(self) 55 return 57 try: ---> 58 result = self.fn(*self.args, **self.kwargs) 59 except BaseException as exc: 60 self.future.set_exception(exc) File /usr/local/lib/python3.10/dist-packages/qiskit_aer/backends/aerbackend.py:490, in AerBackend._execute_circuits_job(self, circuits, parameter_binds, run_options, job_id, format_result) 485 # Run simulation 486 metadata_map = { 487 aer_circuit.circ_id: circuit.metadata 488 for aer_circuit, circuit in zip(aer_circuits, circuits) 489 } --> 490 output = self._execute_circuits(aer_circuits, noise_model, config) 492 # Validate output 493 if not isinstance(output, dict): File /usr/local/lib/python3.10/dist-packages/qiskit_aer/backends/aer_simulator.py:928, in AerSimulator._execute_circuits(self, aer_circuits, noise_model, config) 926 def _execute_circuits(self, aer_circuits, noise_model, config): 927 """Execute circuits on the backend.""" --> 928 ret = cpp_execute_circuits(self._controller, aer_circuits, noise_model, config) 929 return ret File /usr/local/lib/python3.10/dist-packages/qiskit_aer/backends/backend_utils.py:446, in cpp_execute_circuits(controller, aer_circuits, noise_model, config) 442 config.library_dir = LIBRARY_DIR 444 noise_model = noise_model.to_dict(serializable=True) if noise_model else {} --> 446 return controller.execute(aer_circuits, noise_model, config) RuntimeError: No CUDA device available!
+
+---CODE_BLOCK---
+
+--------------------------------------------------------------------------- RuntimeError Traceback (most recent call last) Cell In[8], line 16 13 qc = transpile(qc, backend) 15 # Execute the circuit ---> 16 result = backend.run(qc).result() 18 # Show the probability 19 print(result.get_counts()) File /usr/local/lib/python3.10/dist-packages/qiskit_aer/jobs/utils.py:38, in requires_submit.<locals>._wrapper(self, *args, **kwargs) 36 if self._future is None: 37 raise JobError("Job not submitted yet!. You have to .submit() first!") ---> 38 return func(self, *args, **kwargs) File /usr/local/lib/python3.10/dist-packages/qiskit_aer/jobs/aerjob.py:96, in AerJob.result(self, timeout) 78 @requires_submit 79 def result(self, timeout=None): 80 # pylint: disable=arguments-differ 81 """Get job result. The behavior is the same as the underlying 82 concurrent Future objects, 83 (...) 94 concurrent.futures.CancelledError: if job cancelled before completed. 95 """ ---> 96 return self._future.result(timeout=timeout) File /usr/lib/python3.10/concurrent/futures/_base.py:458, in Future.result(self, timeout) 456 raise CancelledError() 457 elif self._state == FINISHED: --> 458 return self.__get_result() 459 else: 460 raise TimeoutError() File /usr/lib/python3.10/concurrent/futures/_base.py:403, in Future.__get_result(self) 401 if self._exception: 402 try: --> 403 raise self._exception 404 finally: 405 # Break a reference cycle with the exception in self._exception 406 self = None File /usr/lib/python3.10/concurrent/futures/thread.py:58, in _WorkItem.run(self) 55 return 57 try: ---> 58 result = self.fn(*self.args, **self.kwargs) 59 except BaseException as exc: 60 self.future.set_exception(exc) File /usr/local/lib/python3.10/dist-packages/qiskit_aer/backends/aerbackend.py:490, in AerBackend._execute_circuits_job(self, circuits, parameter_binds, run_options, job_id, format_result) 485 # Run simulation 486 metadata_map = { 487 aer_circuit.circ_id: circuit.metadata 488 for aer_circuit, circuit in zip(aer_circuits, circuits) 489 } --> 490 output = self._execute_circuits(aer_circuits, noise_model, config) 492 # Validate output 493 if not isinstance(output, dict): File /usr/local/lib/python3.10/dist-packages/qiskit_aer/backends/aer_simulator.py:928, in AerSimulator._execute_circuits(self, aer_circuits, noise_model, config) 926 def _execute_circuits(self, aer_circuits, noise_model, config): 927 """Execute circuits on the backend.""" --> 928 ret = cpp_execute_circuits(self._controller, aer_circuits, noise_model, config) 929 return ret File /usr/local/lib/python3.10/dist-packages/qiskit_aer/backends/backend_utils.py:446, in cpp_execute_circuits(controller, aer_circuits, noise_model, config) 442 config.library_dir = LIBRARY_DIR 444 noise_model = noise_model.to_dict(serializable=True) if noise_model else {} --> 446 return controller.execute(aer_circuits, noise_model, config) RuntimeError: No CUDA device available!
+
+---CODE_BLOCK---
+
+GPU 0: NVIDIA A100 ...
+
+---CODE_BLOCK---
+
+GPU 0: NVIDIA A100 ...
+
+---CODE_BLOCK---
+
+{'00': 524, '11': 500}
+
+---CODE_BLOCK---
+
+{'00': 524, '11': 500}
+
+---CODE_BLOCK---
+
+%pip show qiskit qiskit-aer qiskit-aer-gpu Name: qiskit Version: 1.3.2 Summary: An open-source SDK for working with quantum computers at the level of extended quantum circuits, operators, and primitives. Home-page: Author: Author-email: Qiskit Development Team <[email protected]> License: Apache 2.0 Location: /usr/local/lib/python3.10/dist-packages Requires: dill, numpy, python-dateutil, rustworkx, scipy, stevedore, symengine, sympy, typing-extensions Required-by: qiskit-aer, qiskit-aer-gpu, qiskit-ibm-runtime --- Name: qiskit-aer Version: 0.16.1 Summary: Aer - High performance simulators for Qiskit Home-page: https://github.com/Qiskit/qiskit-aer Author: AER Development Team Author-email: [email protected] License: Apache 2.0 Location: /usr/local/lib/python3.10/dist-packages Requires: numpy, psutil, qiskit, scipy Required-by: --- Name: qiskit-aer-gpu Version: 0.15.1 Summary: Aer - High performance simulators for Qiskit Home-page: https://github.com/Qiskit/qiskit-aer Author: AER Development Team Author-email: [email protected] License: Apache 2.0 Location: /usr/local/lib/python3.10/dist-packages Requires: cuquantum-cu12, numpy, nvidia-cublas-cu12, nvidia-cuda-runtime-cu12, nvidia-cusolver-cu12, nvidia-cusparse-cu12, nvidia-nvjitlink-cu12, psutil, qiskit, scipy Required-by: Note: you may need to restart the kernel to use updated packages.

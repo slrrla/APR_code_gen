@@ -1,0 +1,137 @@
+Title:
+How to run the multiple circuits in a single Job of IBM Backed?
+
+Category:
+Category: Circuit Execution / Backend API Usage  
+Winner: Stack Overflow  
+Why Stack Overflow Is Better: It correctly diagnosed that the user passed a tuple instead of a list of circuits to `backend.run()`, and provided a concise, working fix. It also correctly retains `dynamic=True` for compatible backends.  
+Why Stack Overflow Performs Well in This Category: Stack Overflow answers often reflect real-world debugging experience and minimal reproducible fixes. These are particularly effective in resolving API misuse and parameter-type issues in execution workflows.
+
+
+Question:
+Title: How to run the multiple circuits in a single Job of IBM Backed?
+
+I aim to run multiple circuits using a single instance of the IBMBacked class. Due to the significant number of queued jobs on the IBM Cloud, executing individual circuits and waiting for their results for extended periods has proven challenging. To address this, I aim to consolidate the execution of 10 or 20 circuits into a single job, which can then be submitted to the IBM Cloud instance to receive consolidated results. But I am facing the issue of how to do this and every time I get an error. 
+ I have included a code sample and details of any associated errors for your reference. 
+ def circuit():
+
+ qr = QuantumRegister(2)
+ cr = ClassicalRegister(2)
+ circuit = QuantumCircuit(qr,cr)
+ circuit.x(qr[1])
+ circuit.x(qr[0]).c_if(cr, 1) # c_if(cr, 2) mean Cr= 010 if a<b
+ circuit.x(qr[0])
+ circuit.measure(0,0)
+ circuit.measure(1,1) 
+ return circuit
+
+hub = "ibm-q"
+group = "open"
+project = "main"
+backend_name = "ibm_brisbane"
+hgp = f"{hub}/{group}/{project}"
+provider = IBMProvider()
+backend = provider.get_backend(backend_name, instance=hgp)
+
+qc_transpiled1 = transpile(circuit(), backend)
+qc_transpiled2= transpile(circuit(), backend)
+qc_transpiled3 = transpile(circuit(), backend)
+
+circuits=(qc_transpiled1,qc_transpiled2,qc_transpiled3,)
+job = backend.run(circuits, shots=1024, dynamic=True)
+
+ Error:
+
+```
+def circuit():
+    
+    qr = QuantumRegister(2)
+    cr = ClassicalRegister(2)
+    circuit = QuantumCircuit(qr,cr)
+    circuit.x(qr[1])
+    circuit.x(qr[0]).c_if(cr, 1) # c_if(cr, 2)  mean Cr= 010 if a<b
+    circuit.x(qr[0])
+    circuit.measure(0,0)
+    circuit.measure(1,1)             
+    return  circuit
+
+
+hub = "ibm-q"
+group = "open"
+project = "main"
+backend_name = "ibm_brisbane"
+hgp = f"{hub}/{group}/{project}"
+provider = IBMProvider()
+backend = provider.get_backend(backend_name, instance=hgp)
+
+qc_transpiled1 = transpile(circuit(), backend)
+qc_transpiled2= transpile(circuit(), backend)
+qc_transpiled3 = transpile(circuit(), backend)
+
+circuits=(qc_transpiled1,qc_transpiled2,qc_transpiled3,)
+job = backend.run(circuits, shots=1024,  dynamic=True)
+```
+
+Original buggy code:
+def circuit():
+    
+    qr = QuantumRegister(2)
+    cr = ClassicalRegister(2)
+    circuit = QuantumCircuit(qr,cr)
+    circuit.x(qr[1])
+    circuit.x(qr[0]).c_if(cr, 1) # c_if(cr, 2)  mean Cr= 010 if a<b
+    circuit.x(qr[0])
+    circuit.measure(0,0)
+    circuit.measure(1,1)             
+    return  circuit
+
+
+hub = "ibm-q"
+group = "open"
+project = "main"
+backend_name = "ibm_brisbane"
+hgp = f"{hub}/{group}/{project}"
+provider = IBMProvider()
+backend = provider.get_backend(backend_name, instance=hgp)
+
+qc_transpiled1 = transpile(circuit(), backend)
+qc_transpiled2= transpile(circuit(), backend)
+qc_transpiled3 = transpile(circuit(), backend)
+
+circuits=(qc_transpiled1,qc_transpiled2,qc_transpiled3,)
+job = backend.run(circuits, shots=1024,  dynamic=True)
+
+Solution explanation:
+I attempted to create a tuple of circuits before submitting them to the IBM machine, similar to how we execute circuits using primitives like 'Sample.' However, this approach was incorrect for dynamic circuits supported by IBM. Instead of passing a tuple, I should have passed a list of circuits. The correction has been made, and it is functioning properly now. 
+ qc_transpiled1 = transpile(circuit(), backend)
+qc_transpiled2= transpile(circuit(), backend)
+qc_transpiled3 = transpile(circuit(), backend)
+circuits=[]
+circuits.append(qc_transpiled1 )
+circuits.append(qc_transpiled2 )
+circuits.append(qc_transpiled2 )
+job = backend.run(circuits, shots=20000, dynamic=True)
+job.job_id()
+
+```
+qc_transpiled1 = transpile(circuit(), backend)
+qc_transpiled2= transpile(circuit(), backend)
+qc_transpiled3 = transpile(circuit(), backend)
+circuits=[]
+circuits.append(qc_transpiled1 )
+circuits.append(qc_transpiled2 )
+circuits.append(qc_transpiled2 )
+job = backend.run(circuits, shots=20000, dynamic=True)
+job.job_id()
+```
+
+Original fixed code:
+qc_transpiled1 = transpile(circuit(), backend)
+qc_transpiled2= transpile(circuit(), backend)
+qc_transpiled3 = transpile(circuit(), backend)
+circuits=[]
+circuits.append(qc_transpiled1 )
+circuits.append(qc_transpiled2 )
+circuits.append(qc_transpiled2 )
+job = backend.run(circuits, shots=20000, dynamic=True)
+job.job_id()

@@ -1,0 +1,142 @@
+Title:
+ModuleNotFoundError: No module named 'qiskit_algorithms'
+
+Category:
+Category: Installation / Env Config / Import Error
+
+Why AI Wins in This Category:
+In configuration-related issues, clarity, precision, and actionable steps are essential. The AI-generated response offers a complete resolution path — from installation, to import correction, to functional verification — making it far more effective for users migrating to Qiskit 1.0.
+
+Question:
+Title: ModuleNotFoundError: No module named 'qiskit_algorithms'
+
+I am doing the code migration from to The above module works in . Its substitute in is as below: The below module works in both the versions. However, the below modules are not working in and giving me error. Please suggest corrections for these modules as .
+
+```
+qiskit== 0.46.0
+```
+
+```
+qiskit==1.0
+```
+
+```
+from qiskit.opflow import MatrixOp
+```
+
+```
+from qiskit.opflow import MatrixOp
+```
+
+```
+qiskit==0.46.0
+```
+
+```
+qiskit==1.0
+```
+
+```
+from qiskit.quantum_info import SparsePauliOp
+```
+
+```
+from qiskit.quantum_info import SparsePauliOp
+```
+
+```
+EfficientSU2
+```
+
+```
+from qiskit.circuit.library import EfficientSU2
+```
+
+```
+from qiskit.circuit.library import EfficientSU2
+```
+
+```
+qiskit==1.0
+```
+
+```
+from qiskit_algorithms.optimizers import COBYLA from qiskit.algorithms import VQE ModuleNotFoundError: No module named 'qiskit_algorithms'
+```
+
+```
+from qiskit_algorithms.optimizers import COBYLA from qiskit.algorithms import VQE ModuleNotFoundError: No module named 'qiskit_algorithms'
+```
+
+```
+per qiskit==1.0
+```
+
+Original buggy code:
+qiskit== 0.46.0
+
+---CODE_BLOCK---
+
+qiskit==1.0
+
+---CODE_BLOCK---
+
+from qiskit.opflow import MatrixOp
+
+---CODE_BLOCK---
+
+from qiskit.opflow import MatrixOp
+
+---CODE_BLOCK---
+
+qiskit==0.46.0
+
+---CODE_BLOCK---
+
+qiskit==1.0
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import SparsePauliOp
+
+---CODE_BLOCK---
+
+from qiskit.quantum_info import SparsePauliOp
+
+---CODE_BLOCK---
+
+EfficientSU2
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import EfficientSU2
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import EfficientSU2
+
+---CODE_BLOCK---
+
+qiskit==1.0
+
+---CODE_BLOCK---
+
+from qiskit_algorithms.optimizers import COBYLA from qiskit.algorithms import VQE ModuleNotFoundError: No module named 'qiskit_algorithms'
+
+---CODE_BLOCK---
+
+from qiskit_algorithms.optimizers import COBYLA from qiskit.algorithms import VQE ModuleNotFoundError: No module named 'qiskit_algorithms'
+
+---CODE_BLOCK---
+
+per qiskit==1.0
+
+Solution explanation:
+The were moved out of qiskit into their own separate repository, and their use deprecated from qiskit and removed in 1.0 release. There is a migration guide here https://docs.quantum.ibm.com/api/migration-guides/qiskit-algorithms-module. You would need to install the new qiskit-algorithms package and change imports as the migration guide explains.
+
+```
+algorithms
+```
+
+Original fixed code:
+algorithms

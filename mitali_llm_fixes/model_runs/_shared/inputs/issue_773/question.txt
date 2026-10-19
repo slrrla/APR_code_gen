@@ -1,0 +1,11 @@
+Title: Existence of multiple job monitor in qiskit
+
+I can see in example code of qiskit, to implement job monitors on IBM Quantum machines, example uses any of the following I have downloaded qiskit in my laptop and used both of them. Could not see any differences. What is the difference between them? Does the invocation vary depending on the Quantum machine on which job is being executed?
+
+```
+from qiskit.tools.monitor import job_monitor from qiskit.providers.ibmq.job import job_monitor
+```
+
+```
+from qiskit.tools.monitor import job_monitor from qiskit.providers.ibmq.job import job_monitor
+```

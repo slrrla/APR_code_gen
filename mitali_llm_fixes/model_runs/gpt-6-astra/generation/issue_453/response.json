@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWIOJNQ6YY8JSuFSpsZipfmLm0SE",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit.circuit import QuantumRegister, AncillaRegister, QuantumCircuit\n\nqr1 = QuantumRegister(4)\nanc1 = AncillaRegister(2)\nqc1 = QuantumCircuit(qr1, anc1)\nqc1.ccx(qr1[0], qr1[1], anc1[0])\nqc1.ccx(qr1[2], anc1[0], anc1[1])\nqc1.cx(anc1[1], qr1[3])\nqc1.ccx(qr1[2], anc1[0], anc1[1])\nqc1.ccx(qr1[0], qr1[1], anc1[0])\n\ncirc = QuantumCircuit(4)\ncirc.h([0, 1, 2, 3])\ncirc.barrier()\n\n# FIX: circ had only four qubits and mapped only four of qc1's six -> add its ancilla register and map all six, because compose requires space and a mapping for every source qubit.\ncirc.add_register(anc1)\ncirc.compose(qc1, [0, 1, 2, 3, 4, 5], inplace=True)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419348,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 248,
+    "prompt_tokens": 930,
+    "total_tokens": 1178,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

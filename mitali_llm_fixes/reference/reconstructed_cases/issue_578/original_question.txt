@@ -1,0 +1,99 @@
+Title:
+Calculating the Expectation Value After Mid-Circuit Measurements in Qiskit
+
+Category:
+Category:
+Circuit Construction / Expectation Value Evaluation
+Why AI Wins in This Category:
+In expectation value computation, especially in educational or iterative development contexts, clarity and simplicity are key. The AI's approach:
+Clearly separates measurement and estimation logic.
+Uses Qiskit’s built-in primitives effectively.
+Requires less manual algebra or post-processing.
+Is ideal for Jupyter and beginner experimentation.
+This makes it more practical and adaptable for typical quantum computing workflows.
+
+Question:
+Title: Calculating the Expectation Value After Mid-Circuit Measurements in Qiskit
+
+I've been trying to implement a QML algorithm but I've run into a problem with calculating the expectation value of a certain part of the circuit after doing mid circuit measurements. I have a simplified example for you: Let's say I have a circuit prepared in some state and some observable: Then, I do some operations of some of the qubits and then measure them: And finally I try to calculate the expval: I get and error saying: "qiskit.exceptions.QiskitError: 'Cannot apply instruction with classical bits: measure'" Is there any way to delete the qubit that I don't need on the circuit anymore or calculate the expectation value without the measured qubits?
+
+```
+X = Operator([[0, 1], [1, 0]]) M_hat = X.tensor(X).tensor(X).tensor(X).tensor(X).tensor(X) psi = QuantumCircuit(6, 2)
+```
+
+```
+X = Operator([[0, 1], [1, 0]]) M_hat = X.tensor(X).tensor(X).tensor(X).tensor(X).tensor(X) psi = QuantumCircuit(6, 2)
+```
+
+```
+psi.x(0) psi.h(1) psi.measure(0, 0) psi.measure(1, 1) psi.reset(0) psi.reset(1)
+```
+
+```
+psi.x(0) psi.h(1) psi.measure(0, 0) psi.measure(1, 1) psi.reset(0) psi.reset(1)
+```
+
+```
+estimator = Estimator(options={"shots" : 1}) expectation_value = estimator.run(psi, M_hat, run_options={"shots" : 1}).result().values print("expectation: ", expectation_value)
+```
+
+```
+estimator = Estimator(options={"shots" : 1}) expectation_value = estimator.run(psi, M_hat, run_options={"shots" : 1}).result().values print("expectation: ", expectation_value)
+```
+
+Original buggy code:
+X = Operator([[0, 1], [1, 0]]) M_hat = X.tensor(X).tensor(X).tensor(X).tensor(X).tensor(X) psi = QuantumCircuit(6, 2)
+
+---CODE_BLOCK---
+
+X = Operator([[0, 1], [1, 0]]) M_hat = X.tensor(X).tensor(X).tensor(X).tensor(X).tensor(X) psi = QuantumCircuit(6, 2)
+
+---CODE_BLOCK---
+
+psi.x(0) psi.h(1) psi.measure(0, 0) psi.measure(1, 1) psi.reset(0) psi.reset(1)
+
+---CODE_BLOCK---
+
+psi.x(0) psi.h(1) psi.measure(0, 0) psi.measure(1, 1) psi.reset(0) psi.reset(1)
+
+---CODE_BLOCK---
+
+estimator = Estimator(options={"shots" : 1}) expectation_value = estimator.run(psi, M_hat, run_options={"shots" : 1}).result().values print("expectation: ", expectation_value)
+
+---CODE_BLOCK---
+
+estimator = Estimator(options={"shots" : 1}) expectation_value = estimator.run(psi, M_hat, run_options={"shots" : 1}).result().values print("expectation: ", expectation_value)
+
+Solution explanation:
+The error you're encountering is because the Qiskit backend isn't able to compute the expectation value of an operator on a circuit that contains classical measurement instructions. To compute the expectation value after the measurements, you'd typically have to: Run the circuit for multiple shots For each shot, obtain the measurement result and calculate the expectation value Average the results of the expectation values over all shots Here's how this could look: As an alternative, if you are just simulating, you could use a statevector simulator to compute the expectation value directly. With this, you don't have to go through the process of measuring, counting, and then estimating the expectation values. This could look something like: Note that this might not be the most efficient implementation, but is a good illustration of the idea.
+
+```
+# Create the Observable using SparsePauliOp X = SparsePauliOp(Pauli('X')) M_hat = X.tensor(X).tensor(X).tensor(X).tensor(X).tensor(X) matrix_m_hat = np.real(M_hat.to_matrix()) n = 6 # Quantum circuit psi = QuantumCircuit(n) psi.x(0) psi.h(1) psi.measure_all() # Use Aer's qasm_simulator backend = Aer.get_backend('qasm_simulator') t_qc = transpile(psi, backend=backend) result = backend.run(t_qc, shots=1000).result() counts = result.get_counts() for key, value in counts.items(): # Convert bit string to state vector idx = int(key, 2) # Convert binary string to integer state_vector = np.zeros(2**n) state_vector[idx] = 1 # Calculate expectation value for this outcome outcome_exp_value = statevector.T.conj() @ matrix_m_hat @ statevector expectation_value += outcome_exp_value * value expectation_value /= 1000 # Divide by total number of shots to get the average print(f"Expectation Value: {np.round(expectation_value,2).real}")
+```
+
+```
+# Create the Observable using SparsePauliOp X = SparsePauliOp(Pauli('X')) M_hat = X.tensor(X).tensor(X).tensor(X).tensor(X).tensor(X) matrix_m_hat = np.real(M_hat.to_matrix()) n = 6 # Quantum circuit psi = QuantumCircuit(n) psi.x(0) psi.h(1) psi.measure_all() # Use Aer's qasm_simulator backend = Aer.get_backend('qasm_simulator') t_qc = transpile(psi, backend=backend) result = backend.run(t_qc, shots=1000).result() counts = result.get_counts() for key, value in counts.items(): # Convert bit string to state vector idx = int(key, 2) # Convert binary string to integer state_vector = np.zeros(2**n) state_vector[idx] = 1 # Calculate expectation value for this outcome outcome_exp_value = statevector.T.conj() @ matrix_m_hat @ statevector expectation_value += outcome_exp_value * value expectation_value /= 1000 # Divide by total number of shots to get the average print(f"Expectation Value: {np.round(expectation_value,2).real}")
+```
+
+```
+# Create the Observable using SparsePauliOp X = SparsePauliOp(Pauli('X')) M_hat = X.tensor(X).tensor(X).tensor(X).tensor(X).tensor(X) matrix_m_hat = np.real(M_hat.to_matrix()) # Circuit psi = QuantumCircuit(6) psi.x(0) psi.h(1) # No measurements or resets needed for statevector simulation simulator = Aer.get_backend('statevector_simulator') result = execute(psi, simulator).result() statevector = np.array(result.get_statevector()) # Compute the expectation value expectation = statevector.T.conj() @ matrix_m_hat @ statevector print("expectation: ", expectation.real)
+```
+
+```
+# Create the Observable using SparsePauliOp X = SparsePauliOp(Pauli('X')) M_hat = X.tensor(X).tensor(X).tensor(X).tensor(X).tensor(X) matrix_m_hat = np.real(M_hat.to_matrix()) # Circuit psi = QuantumCircuit(6) psi.x(0) psi.h(1) # No measurements or resets needed for statevector simulation simulator = Aer.get_backend('statevector_simulator') result = execute(psi, simulator).result() statevector = np.array(result.get_statevector()) # Compute the expectation value expectation = statevector.T.conj() @ matrix_m_hat @ statevector print("expectation: ", expectation.real)
+```
+
+Original fixed code:
+# Create the Observable using SparsePauliOp X = SparsePauliOp(Pauli('X')) M_hat = X.tensor(X).tensor(X).tensor(X).tensor(X).tensor(X) matrix_m_hat = np.real(M_hat.to_matrix()) n = 6 # Quantum circuit psi = QuantumCircuit(n) psi.x(0) psi.h(1) psi.measure_all() # Use Aer's qasm_simulator backend = Aer.get_backend('qasm_simulator') t_qc = transpile(psi, backend=backend) result = backend.run(t_qc, shots=1000).result() counts = result.get_counts() for key, value in counts.items(): # Convert bit string to state vector idx = int(key, 2) # Convert binary string to integer state_vector = np.zeros(2**n) state_vector[idx] = 1 # Calculate expectation value for this outcome outcome_exp_value = statevector.T.conj() @ matrix_m_hat @ statevector expectation_value += outcome_exp_value * value expectation_value /= 1000 # Divide by total number of shots to get the average print(f"Expectation Value: {np.round(expectation_value,2).real}")
+
+---CODE_BLOCK---
+
+# Create the Observable using SparsePauliOp X = SparsePauliOp(Pauli('X')) M_hat = X.tensor(X).tensor(X).tensor(X).tensor(X).tensor(X) matrix_m_hat = np.real(M_hat.to_matrix()) n = 6 # Quantum circuit psi = QuantumCircuit(n) psi.x(0) psi.h(1) psi.measure_all() # Use Aer's qasm_simulator backend = Aer.get_backend('qasm_simulator') t_qc = transpile(psi, backend=backend) result = backend.run(t_qc, shots=1000).result() counts = result.get_counts() for key, value in counts.items(): # Convert bit string to state vector idx = int(key, 2) # Convert binary string to integer state_vector = np.zeros(2**n) state_vector[idx] = 1 # Calculate expectation value for this outcome outcome_exp_value = statevector.T.conj() @ matrix_m_hat @ statevector expectation_value += outcome_exp_value * value expectation_value /= 1000 # Divide by total number of shots to get the average print(f"Expectation Value: {np.round(expectation_value,2).real}")
+
+---CODE_BLOCK---
+
+# Create the Observable using SparsePauliOp X = SparsePauliOp(Pauli('X')) M_hat = X.tensor(X).tensor(X).tensor(X).tensor(X).tensor(X) matrix_m_hat = np.real(M_hat.to_matrix()) # Circuit psi = QuantumCircuit(6) psi.x(0) psi.h(1) # No measurements or resets needed for statevector simulation simulator = Aer.get_backend('statevector_simulator') result = execute(psi, simulator).result() statevector = np.array(result.get_statevector()) # Compute the expectation value expectation = statevector.T.conj() @ matrix_m_hat @ statevector print("expectation: ", expectation.real)
+
+---CODE_BLOCK---
+
+# Create the Observable using SparsePauliOp X = SparsePauliOp(Pauli('X')) M_hat = X.tensor(X).tensor(X).tensor(X).tensor(X).tensor(X) matrix_m_hat = np.real(M_hat.to_matrix()) # Circuit psi = QuantumCircuit(6) psi.x(0) psi.h(1) # No measurements or resets needed for statevector simulation simulator = Aer.get_backend('statevector_simulator') result = execute(psi, simulator).result() statevector = np.array(result.get_statevector()) # Compute the expectation value expectation = statevector.T.conj() @ matrix_m_hat @ statevector print("expectation: ", expectation.real)

@@ -1,0 +1,51 @@
+Title:
+Finding Eigenvectors of a Unitary in a Quantum circuit
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+Eigenvector decomposition is a linear algebra problem. Qiskit’s operators expose the matrix form, and numpy already provides exact eigendecomposition. The Stack Overflow solution directly applies this reasoning. The AI’s use of VQE is overly complicated and not suited to the task, making Stack Overflow the clear winner.
+
+Question:
+Title: Finding Eigenvectors of a Unitary in a Quantum circuit
+
+I have a unitary gate $U$, which is applied on some $n$-qubit quantum circuit ($n=7$ for my scenario). I wish to find the $n$-qubit state, which is the eigenvector (and possibly eigenvalues) of this unitary in Qiskit's latest version. How do I do that?
+
+Original buggy code:
+I have a unitary gate $U$, which is applied on some $n$-qubit quantum circuit ($n=7$ for my scenario). I wish to find the $n$-qubit state, which is the eigenvector (and possibly eigenvalues) of this unitary in Qiskit's latest version. How do I do that?
+
+Solution explanation:
+You can simply use numpy: This process generalizes for any gate: simply apply on them and query their attribute to get a numpy array, and let numpy handle the eigendecomposition.
+
+```
+from qiskit.circuit.library import XGate gate = XGate() # Get the underlying array unitary_matrix = gate.to_matrix() # Or you can get it like this from qiskit.quantum_info import Operator unitary_matrix = Operator(gate).data # Now you can compute the eigenvalues and eigenvectors using numpy import numpy as np eigenvalues, eigenvectors = np.linalg.eig(unitary_matrix) print(eigenvalues) # [ 1.+0.j -1.+0.j] print(eigenvectors) # [[ 0.70710678-0.j 0.70710678+0.j] # [ 0.70710678+0.j -0.70710678-0.j]]
+```
+
+```
+from qiskit.circuit.library import XGate gate = XGate() # Get the underlying array unitary_matrix = gate.to_matrix() # Or you can get it like this from qiskit.quantum_info import Operator unitary_matrix = Operator(gate).data # Now you can compute the eigenvalues and eigenvectors using numpy import numpy as np eigenvalues, eigenvectors = np.linalg.eig(unitary_matrix) print(eigenvalues) # [ 1.+0.j -1.+0.j] print(eigenvectors) # [[ 0.70710678-0.j 0.70710678+0.j] # [ 0.70710678+0.j -0.70710678-0.j]]
+```
+
+```
+Operator
+```
+
+```
+data
+```
+
+Original fixed code:
+from qiskit.circuit.library import XGate gate = XGate() # Get the underlying array unitary_matrix = gate.to_matrix() # Or you can get it like this from qiskit.quantum_info import Operator unitary_matrix = Operator(gate).data # Now you can compute the eigenvalues and eigenvectors using numpy import numpy as np eigenvalues, eigenvectors = np.linalg.eig(unitary_matrix) print(eigenvalues) # [ 1.+0.j -1.+0.j] print(eigenvectors) # [[ 0.70710678-0.j 0.70710678+0.j] # [ 0.70710678+0.j -0.70710678-0.j]]
+
+---CODE_BLOCK---
+
+from qiskit.circuit.library import XGate gate = XGate() # Get the underlying array unitary_matrix = gate.to_matrix() # Or you can get it like this from qiskit.quantum_info import Operator unitary_matrix = Operator(gate).data # Now you can compute the eigenvalues and eigenvectors using numpy import numpy as np eigenvalues, eigenvectors = np.linalg.eig(unitary_matrix) print(eigenvalues) # [ 1.+0.j -1.+0.j] print(eigenvectors) # [[ 0.70710678-0.j 0.70710678+0.j] # [ 0.70710678+0.j -0.70710678-0.j]]
+
+---CODE_BLOCK---
+
+Operator
+
+---CODE_BLOCK---
+
+data

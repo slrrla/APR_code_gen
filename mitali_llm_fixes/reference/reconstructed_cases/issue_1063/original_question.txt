@@ -1,0 +1,59 @@
+Title:
+qiskit : can you get circuit from unitary matrix?
+
+Category:
+
+
+Question:
+Title: qiskit : can you get circuit from unitary matrix?
+
+In qiskit you can get a unitary matrix from a circuit (circuit to unitary matrix example). Is the opposite direction possible? Can you input a unitary matrix and have qiskit come up with a circuit? If it helps you can restrict the matrices to be clifford + multi-qubit controlled pauli strings. Here's an example that goes from circuit -> unitary and then attempts to get the original circuit back based on the answer below :
+
+```
+import numpy as np np.set_printoptions(threshold=np.inf) import qiskit backend=qiskit.Aer.get_backend('unitary_simulator') qr=qiskit.QuantumRegister(4,name="qr") CirA=qiskit.QuantumCircuit(qr); CirA.cx(3,2) CirA.h(0) CirA.cx(0,2) CirA.h(1) CirA.cx(1,3) print(CirA) job=qiskit.execute(CirA,backend,shots=1) result=job.result() MatA=result.get_unitary(CirA,3) CirB=qiskit.QuantumCircuit(qr); CirB.unitary(MatA,[ 0, 1, 2, 3 ],label='CirB') print(CirA) unroller = qiskit.transpiler.passes.Unroller(basis=['u', 'cx']) uCirA = qiskit.converters.dag_to_circuit(unroller.run(qiskit.converters.circuit_to_dag(CirA))) print(uCirA) uCirB = qiskit.converters.dag_to_circuit(unroller.run(qiskit.converters.circuit_to_dag(CirB))) print(uCirB)
+```
+
+```
+import numpy as np np.set_printoptions(threshold=np.inf) import qiskit backend=qiskit.Aer.get_backend('unitary_simulator') qr=qiskit.QuantumRegister(4,name="qr") CirA=qiskit.QuantumCircuit(qr); CirA.cx(3,2) CirA.h(0) CirA.cx(0,2) CirA.h(1) CirA.cx(1,3) print(CirA) job=qiskit.execute(CirA,backend,shots=1) result=job.result() MatA=result.get_unitary(CirA,3) CirB=qiskit.QuantumCircuit(qr); CirB.unitary(MatA,[ 0, 1, 2, 3 ],label='CirB') print(CirA) unroller = qiskit.transpiler.passes.Unroller(basis=['u', 'cx']) uCirA = qiskit.converters.dag_to_circuit(unroller.run(qiskit.converters.circuit_to_dag(CirA))) print(uCirA) uCirB = qiskit.converters.dag_to_circuit(unroller.run(qiskit.converters.circuit_to_dag(CirB))) print(uCirB)
+```
+
+Original buggy code:
+import numpy as np np.set_printoptions(threshold=np.inf) import qiskit backend=qiskit.Aer.get_backend('unitary_simulator') qr=qiskit.QuantumRegister(4,name="qr") CirA=qiskit.QuantumCircuit(qr); CirA.cx(3,2) CirA.h(0) CirA.cx(0,2) CirA.h(1) CirA.cx(1,3) print(CirA) job=qiskit.execute(CirA,backend,shots=1) result=job.result() MatA=result.get_unitary(CirA,3) CirB=qiskit.QuantumCircuit(qr); CirB.unitary(MatA,[ 0, 1, 2, 3 ],label='CirB') print(CirA) unroller = qiskit.transpiler.passes.Unroller(basis=['u', 'cx']) uCirA = qiskit.converters.dag_to_circuit(unroller.run(qiskit.converters.circuit_to_dag(CirA))) print(uCirA) uCirB = qiskit.converters.dag_to_circuit(unroller.run(qiskit.converters.circuit_to_dag(CirB))) print(uCirB)
+
+---CODE_BLOCK---
+
+import numpy as np np.set_printoptions(threshold=np.inf) import qiskit backend=qiskit.Aer.get_backend('unitary_simulator') qr=qiskit.QuantumRegister(4,name="qr") CirA=qiskit.QuantumCircuit(qr); CirA.cx(3,2) CirA.h(0) CirA.cx(0,2) CirA.h(1) CirA.cx(1,3) print(CirA) job=qiskit.execute(CirA,backend,shots=1) result=job.result() MatA=result.get_unitary(CirA,3) CirB=qiskit.QuantumCircuit(qr); CirB.unitary(MatA,[ 0, 1, 2, 3 ],label='CirB') print(CirA) unroller = qiskit.transpiler.passes.Unroller(basis=['u', 'cx']) uCirA = qiskit.converters.dag_to_circuit(unroller.run(qiskit.converters.circuit_to_dag(CirA))) print(uCirA) uCirB = qiskit.converters.dag_to_circuit(unroller.run(qiskit.converters.circuit_to_dag(CirB))) print(uCirB)
+
+Solution explanation:
+You can easily create a quantum circuit which implements a unitary by appending a to the circuit, or using method: For more information about how Qiskit constructs the circuit from the unitary matrix see here.
+
+```
+UnitaryGate
+```
+
+```
+QuantumCircuit.unitary()
+```
+
+```
+# Get some random unitary: from qiskit.quantum_info import random_unitary num_qubits = 4 U = random_unitary(2 ** num_qubits) # Create the quantum circuit: qr = QuantumRegister(num_qubits, 'q') circ = QuantumCircuit(qr) circ.unitary(U, qr)
+```
+
+```
+# Get some random unitary: from qiskit.quantum_info import random_unitary num_qubits = 4 U = random_unitary(2 ** num_qubits) # Create the quantum circuit: qr = QuantumRegister(num_qubits, 'q') circ = QuantumCircuit(qr) circ.unitary(U, qr)
+```
+
+Original fixed code:
+UnitaryGate
+
+---CODE_BLOCK---
+
+QuantumCircuit.unitary()
+
+---CODE_BLOCK---
+
+# Get some random unitary: from qiskit.quantum_info import random_unitary num_qubits = 4 U = random_unitary(2 ** num_qubits) # Create the quantum circuit: qr = QuantumRegister(num_qubits, 'q') circ = QuantumCircuit(qr) circ.unitary(U, qr)
+
+---CODE_BLOCK---
+
+# Get some random unitary: from qiskit.quantum_info import random_unitary num_qubits = 4 U = random_unitary(2 ** num_qubits) # Create the quantum circuit: qr = QuantumRegister(num_qubits, 'q') circ = QuantumCircuit(qr) circ.unitary(U, qr)

@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWW2725YB92dhBMNRGweqQ6rtLl1u",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport numpy as np\nfrom qiskit import QuantumCircuit\nfrom qiskit.opflow import PauliSumOp\n# FIX: H is an operator, not a circuit gate -> import PauliEvolutionGate, because time evolution must be represented by a gate.\nfrom qiskit.circuit.library import PauliEvolutionGate\n\nN = 3\neps = 1.0\nt = 0.5\ntime_ = 1.0\n\ndef onsite_term(k, N):\n    label = ['I'] * N\n    label[k] = 'Z'\n    # FIX: the onsite number operator is (I - Z) / 2 -> include both Pauli terms, because n = (I - Z) / 2.\n    return PauliSumOp.from_list([(''.join(['I'] * N), eps / 2), (''.join(label), -eps / 2)])\n\ndef hopping_term(k, N):\n    label = ['I'] * N\n    label[k] = 'X'\n    label[(k + 1) % N] = 'X'\n    # FIX: hopping includes both XX and YY with coefficient t / 2 -> include both terms, because the Jordan-Wigner image of c†ᵢcⱼ + c†ⱼcᵢ is (XX + YY) / 2.\n    return PauliSumOp.from_list([(''.join(label), t / 2), (''.join(['Y' if i in (k, (k + 1) % N) else 'I' for i in range(N)]), t / 2)])\n\nH = None\nfor k in range(N):\n    term1 = onsite_term(k, N)\n    term2 = hopping_term(k, N)\n    H = term1 if H is None else H + term1\n    H = H + term2\n\ncirc = QuantumCircuit(N)\n# FIX: a Hamiltonian cannot be appended directly as a gate -> append its time-evolution gate, because it implements exp(-i time_ H).\ncirc.append(PauliEvolutionGate(H.primitive, time=time_), list(range(N)))\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418339,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 2291,
+    "prompt_tokens": 1099,
+    "total_tokens": 3390,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 1814,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1096,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

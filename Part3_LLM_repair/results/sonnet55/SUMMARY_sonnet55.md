@@ -1,29 +1,29 @@
-# LLM Bug-Repair Results: claude-sonnet-5-5 (all 73 cases)
+# LLM Bug-Repair Results: claude-sonnet-5-5 (all 72 cases)
 
-**Result: claude-sonnet-5-5 fixed 43 of the 73 cases on every version they were tested on, and 46 of 73 on at least one version.** For comparison (every version / at least one): claude-opus-5-5 44 and 50, gpt-6.1-sol 46 and 48, gpt-6-astra 46 and 49, gpt-6-luna 40 and 44, and gpt-5.6-luna 40 and 43. Across all case × version pairs, **567 of 1015 passed (55.9%)**, 266 failed (26.2%) and 182 errored (17.9%), against 646 (63.6%) for claude-opus-5-5, 657 (64.7%) for gpt-6.1-sol, 703 (69.3%) for gpt-6-astra, 550 (54.2%) for gpt-6-luna, 546 (53.8%) for gpt-5.6-luna.
+**Result: claude-sonnet-5-5 fixed 38 of the 72 cases on every version they were tested on, and 41 of 72 on at least one version.** For comparison (every version / at least one): claude-opus-5-5 40 and 45, gpt-6.1-sol 45 and 47, gpt-6-astra 44 and 47, gpt-6-luna 36 and 40, and gpt-5.6-luna 31 and 34. Across all case × version pairs, **520 of 1000 passed (52.0%)**, 259 failed (25.9%) and 221 errored (22.1%), against 593 (59.3%) for claude-opus-5-5, 650 (65.0%) for gpt-6.1-sol, 688 (68.8%) for gpt-6-astra, 541 (54.1%) for gpt-6-luna, 448 (44.8%) for gpt-5.6-luna.
 
 claude-sonnet-5-5 fixes one case fewer on every version than claude-opus-5-5 and three fewer than gpt-6.1-sol and gpt-6-astra, and it passes far fewer pairs, because most of the cases it misses run on many versions (issue_233 and issue_950 on 27 each, issue_750 and issue_977 on 23, issue_901 on 19). Most of its misses are fixes that run but fix the wrong thing: in issue_233 and issue_295 it changed other lines and kept the failing one, in issue_950 and issue_977 it kept part of the bug, and in issue_901 it added the S gate to the target basis instead of decomposing it. Unlike claude-opus-5-5 it mostly kept the original imports, so it loses Qiskit 0.25.x on only three cases. It gave two "NO BUG" answers (issue_750 and issue_921), the same two as both luna models.
 
 | Outcome | claude-sonnet-5-5 cases | claude-sonnet-5-5 pairs | claude-opus-5-5 cases | claude-opus-5-5 pairs | gpt-6.1-sol cases | gpt-6.1-sol pairs | gpt-6-astra cases | gpt-6-astra pairs | gpt-6-luna cases | gpt-6-luna pairs | gpt-5.6-luna cases | gpt-5.6-luna pairs |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| ✅ Passed | 43 | 567 (55.9%) | 44 | 646 (63.6%) | 46 | 657 (64.7%) | 46 | 703 (69.3%) | 40 | 550 (54.2%) | 40 | 546 (53.8%) |
-| ❌ Failed (ran, but wrong result) | 14 | 266 (26.2%) | 11 | 183 (18.0%) | 10 | 195 (19.2%) | 9 | 141 (13.9%) | 9 | 170 (16.7%) | 8 | 160 (15.8%) |
-| 💥 Error (crashed, or timed out, before the test could check anything) | 16 | 182 (17.9%) | 18 | 186 (18.3%) | 17 | 163 (16.1%) | 18 | 171 (16.8%) | 24 | 295 (29.1%) | 25 | 309 (30.4%) |
-| **Total** | **73** | **1015** | **73** | **1015** | **73** | **1015** | **73** | **1015** | **73** | **1015** | **73** | **1015** |
+| ✅ Passed | 38 | 520 (52.0%) | 40 | 593 (59.3%) | 45 | 650 (65.0%) | 44 | 688 (68.8%) | 36 | 541 (54.1%) | 31 | 448 (44.8%) |
+| ❌ Failed (ran, but wrong result) | 15 | 259 (25.9%) | 12 | 189 (18.9%) | 9 | 178 (17.8%) | 9 | 132 (13.2%) | 8 | 128 (12.8%) | 10 | 161 (16.1%) |
+| 💥 Error (crashed, or timed out, before the test could check anything) | 19 | 221 (22.1%) | 20 | 218 (21.8%) | 18 | 172 (17.2%) | 19 | 180 (18.0%) | 28 | 331 (33.1%) | 31 | 391 (39.1%) |
+| **Total** | **72** | **1000** | **72** | **1000** | **72** | **1000** | **72** | **1000** | **72** | **1000** | **72** | **1000** |
 
 **By batch:**
 
 | Batch | Cases | claude-sonnet-5-5: pass on every version | on at least one | Pairs passed | Failed | Errored | claude-opus-5-5: pass on every version | Pairs passed | gpt-6.1-sol: pass on every version | Pairs passed | gpt-6-astra: pass on every version | Pairs passed | gpt-6-luna: pass on every version | Pairs passed | gpt-5.6-luna: pass on every version | Pairs passed |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | issue_009 – issue_096 | 8 / 10 | 8 | 85 / 127 (66.9%) | 42 | 0 | 7 | 70 (55.1%) | 8 | 85 (66.9%) | 8 | 85 (66.9%) | 7 | 73 (57.5%) | 6 | 65 (51.2%) |
-| 2 | issue_155 – issue_315 | 5 / 10 | 7 | 83 / 149 (55.7%) | 0 | 66 | 7 | 118 (79.2%) | 7 | 118 (79.2%) | 7 | 118 (79.2%) | 6 | 102 (68.5%) | 6 | 83 (55.7%) |
-| 3 | issue_344 – issue_497 | 5 / 10 | 5 | 70 / 155 (45.2%) | 62 | 23 | 5 | 70 (45.2%) | 4 | 66 (42.6%) | 5 | 116 (74.8%) | 6 | 109 (70.3%) | 4 | 70 (45.2%) |
+| 1 | issue_009 – issue_096 | 8 / 9 | 8 | 85 / 112 (75.9%) | 27 | 0 | 7 | 70 (62.5%) | 8 | 85 (75.9%) | 8 | 85 (75.9%) | 7 | 73 (65.2%) | 6 | 65 (58.0%) |
+| 2 | issue_155 – issue_315 | 4 / 10 | 6 | 60 / 149 (40.3%) | 23 | 66 | 6 | 95 (63.8%) | 6 | 95 (63.8%) | 6 | 95 (63.8%) | 5 | 79 (53.0%) | 5 | 60 (40.3%) |
+| 3 | issue_344 – issue_497 | 6 / 10 | 6 | 93 / 155 (60.0%) | 62 | 0 | 6 | 93 (60.0%) | 6 | 93 (60.0%) | 7 | 143 (92.3%) | 7 | 132 (85.2%) | 5 | 93 (60.0%) |
 | 4 | issue_504 – issue_662 | 7 / 10 | 8 | 121 / 133 (91.0%) | 4 | 8 | 7 | 121 (91.0%) | 9 | 129 (97.0%) | 8 | 125 (94.0%) | 4 | 74 (55.6%) | 5 | 86 (64.7%) |
-| 5 | issue_663 – issue_795 | 8 / 10 | 8 | 99 / 137 (72.3%) | 0 | 38 | 8 | 118 (86.1%) | 9 | 122 (89.1%) | 9 | 122 (89.1%) | 8 | 99 (72.3%) | 8 | 99 (72.3%) |
-| 6 | issue_803 – issue_944 | 6 / 10 | 6 | 66 / 113 (58.4%) | 12 | 35 | 4 | 41 (36.3%) | 3 | 37 (32.7%) | 3 | 37 (32.7%) | 4 | 35 (31.0%) | 5 | 62 (54.9%) |
-| 7 | issue_950 – issue_1035 | 2 / 7 | 2 | 19 / 123 (15.4%) | 104 | 0 | 4 | 69 (56.1%) | 4 | 69 (56.1%) | 4 | 69 (56.1%) | 3 | 27 (22.0%) | 4 | 50 (40.7%) |
+| 5 | issue_663 – issue_795 | 7 / 10 | 7 | 72 / 137 (52.6%) | 27 | 38 | 7 | 83 (60.6%) | 7 | 83 (60.6%) | 7 | 83 (60.6%) | 6 | 60 (43.8%) | 5 | 52 (38.0%) |
+| 6 | issue_803 – issue_944 | 2 / 10 | 2 | 27 / 113 (23.9%) | 16 | 70 | 2 | 27 (23.9%) | 3 | 46 (40.7%) | 2 | 38 (33.6%) | 2 | 31 (27.4%) | 1 | 23 (20.4%) |
+| 7 | issue_950 – issue_1035 | 2 / 7 | 2 | 38 / 123 (30.9%) | 58 | 27 | 3 | 65 (52.8%) | 4 | 88 (71.5%) | 4 | 88 (71.5%) | 3 | 61 (49.6%) | 2 | 38 (30.9%) |
 | 8 | issue_772 – issue_921 | 2 / 6 | 2 | 24 / 78 (30.8%) | 42 | 12 | 2 | 39 (50.0%) | 2 | 31 (39.7%) | 2 | 31 (39.7%) | 2 | 31 (39.7%) | 2 | 31 (39.7%) |
-| **All** | | **43 / 73** | **46** | **567 / 1015 (55.9%)** | **266** | **182** | **44** | **646 (63.6%)** | **46** | **657 (64.7%)** | **46** | **703 (69.3%)** | **40** | **550 (54.2%)** | **40** | **546 (53.8%)** |
+| **All** |  | **38 / 72** | **41** | **520 / 1000 (52.0%)** | **259** | **221** | **40** | **593 (59.3%)** | **45** | **650 (65.0%)** | **44** | **688 (68.8%)** | **36** | **541 (54.1%)** | **31** | **448 (44.8%)** |
 
 A case counts as passed only if it passed on every version; a case that crashed or timed out on at least one version counts as an error. 3 claude-sonnet-5-5 cases passed on some versions but not all (issue_155, issue_157, issue_600), each on 0.45.x / 0.46.x (8 versions) but not on 0.25.x (4):
 - **issue_155** uses `QuantumCircuit.find_bit()` (the same approach as gpt-6.1-sol, gpt-6-astra and gpt-6-luna), **issue_157** imports `StatePreparation` and **issue_600** kept the `PauliGate` import; none of these exist yet in 0.25.
@@ -37,7 +37,7 @@ A case counts as passed only if it passed on every version; a case that crashed 
 - **gpt-6-astra:** better on 5 cases (issue_415, issue_810, issue_911, issue_925, issue_827) and worse on 9 (issue_233, issue_295, issue_396, issue_443, issue_600, issue_750, issue_950, issue_977, issue_901).
 - **gpt-6-luna:** better on 9 cases (issue_021_se, issue_174, issue_622, issue_624, issue_662, issue_911, issue_925, issue_944, issue_827) and worse on 7 (issue_295, issue_315, issue_396, issue_443, issue_877, issue_1035, issue_901).
 - **gpt-5.6-luna:** better on 10 cases (issue_009, issue_021_se, issue_174, issue_344, issue_369, issue_415, issue_624, issue_662, issue_925, issue_827) and worse on 8 (issue_155, issue_295, issue_396, issue_443, issue_497, issue_977, issue_1035, issue_901).
-- **Same code:** 22 of the 73 fixes are the same code as claude-opus-5-5's, 19 as gpt-6.1-sol's, 19 as gpt-6-astra's, 20 as gpt-6-luna's, 19 as gpt-5.6-luna's (only the `# FIX:` comments are worded differently).
+- **Same code:** 22 of the 72 fixes are the same code as claude-opus-5-5's, 19 as gpt-6.1-sol's, 19 as gpt-6-astra's, 20 as gpt-6-luna's, 19 as gpt-5.6-luna's (only the `# FIX:` comments are worded differently).
 
 **Over-specific tests:** the twelve that were replaced are listed in [Updated tests](#updated-tests). Six cases with no updated test also ask for a detail only the reference has: issue_453 calls the answer's helper `compose_with_auto_ancillas()`, issue_497 reads a variable named `sampler`, issue_769 calls the answer's `get_qiskit_gate()`, issue_876 reads `rho_real`, issue_877 requires the reference's 27-qubit device, and issue_958 wants the reference's second circuit `qc2`. For claude-sonnet-5-5, issue_453 and issue_769 fail mainly on that detail (its standard-gate matcher in issue_769 is what the user asked for); in the other four its code also has a problem of its own (two submissions in issue_497, an out-of-memory 127-qubit statevector in issue_876, an uninstalled package in issue_877 and `-H` on one qubit in issue_958). issue_1035 rejects any Runtime session, including the local testing mode with a fake backend that claude-sonnet-5-5 and claude-opus-5-5 used.
 
@@ -50,7 +50,6 @@ A case counts as passed only if it passed on every version; a case that crashed 
 | Case | Question | claude-sonnet-5-5 | claude-opus-5-5 | gpt-6.1-sol | gpt-6-astra | gpt-6-luna | gpt-5.6-luna | Same code as | Why, in one line |
 |---|---|---|---|---|---|---|---|---|---|
 | [issue_009](#issue_009) | CSP layout in the transpiler | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | 💥 Error 0/8 | gpt-6-luna | Removed the invalid `layout_method`; level 3 already tries a perfect layout |
-| [issue_018_se](#issue_018_se) | Magic square game | ❌ Fail 0/15 | ❌ Fail 0/15 | ❌ Fail 0/15 | ❌ Fail 0/15 | ❌ Fail 0/15 | ❌ Fail 0/15 | No | Reversed the bit order it reads; the bug is in the measured qubits |
 | [issue_021_se](#issue_021_se) | `get_statevector()` with a custom gate | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | 💥 Error 0/12 | 💥 Error 0/12 | No | Transpiles before `assemble()`, unrolling the custom gate and `initialize()` |
 | [issue_032_se](#issue_032_se) | iSWAP in `TwoLocal` | ✅ Pass 4/4 | ✅ Pass 4/4 | ✅ Pass 4/4 | ✅ Pass 4/4 | ✅ Pass 4/4 | ✅ Pass 4/4 | No | `iSwapGate()` instead of the string `'iswap'` |
 | [issue_034](#issue_034) | Importing `Aer` | ✅ Pass 15/15 | ✅ Pass 15/15 | ✅ Pass 15/15 | ✅ Pass 15/15 | ✅ Pass 15/15 | ✅ Pass 15/15 | claude-opus-5-5 | `from qiskit_aer import Aer` |
@@ -67,7 +66,7 @@ A case counts as passed only if it passed on every version; a case that crashed 
 | [issue_155](#issue_155) | Partial trace over registers | 💥 Error (8/12) | ✅ Pass 12/12 | 💥 Error (8/12) | 💥 Error (8/12) | 💥 Error (8/12) | ✅ Pass 12/12 | No | Correct register-to-index conversion, but `find_bit()` doesn't exist in 0.25 |
 | [issue_157](#issue_157) | Controlled `initialize` | 💥 Error (8/12) | 💥 Error (8/12) | 💥 Error (8/12) | 💥 Error (8/12) | 💥 Error (8/12) | 💥 Error (8/12) | No | `StatePreparation` works, but doesn't exist in 0.25 |
 | [issue_174](#issue_174) | Conditions on a classical register in OpenQASM 2 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | 💥 Error 0/12 | 💥 Error 0/12 | No | `if (c==1)`, with valid `//` comments inside the QASM string |
-| [issue_189](#issue_189) | Qubit count mismatch in a QPE loop | ✅ Pass 23/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | All four GPT models, claude-opus-5-5 | Valid fix with the usual QPE control order; the updated test accepts either order |
+| [issue_189](#issue_189) | Qubit count mismatch in a QPE loop | ❌ Fail 0/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | All four GPT models, claude-opus-5-5 | Rescored 19 Oct 2026 on Nick's main test. claude-sonnet-5-5 0 pass / 23 fail / 0 error; claude-opus-5-5 0 pass / 23 fail / 0 error; gpt-6.1-sol 0 pass / 23 fail / 0 error; gpt-6-astra 0 pass / 23 fail / 0 error; gpt-6-luna 0 pass / 23 fail / 0 error; gpt-5.6-luna 0 pass / 23 fail / 0 error. |
 | [issue_225](#issue_225) | `Statevector` has no `reshape` | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | claude-opus-5-5 | `np.asarray(...)` before `reshape()` |
 | [issue_233](#issue_233) | Parameter count after `compose` | 💥 Error 0/27 | ✅ Pass 27/27 | ✅ Pass 27/27 | ✅ Pass 27/27 | 💥 Error 0/27 | 💥 Error 0/27 | No | Wrong diagnosis: kept the `num_parameters_settable()` calls (TypeError) |
 | [issue_261](#issue_261) | `PauliOp` from a string | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | No | Builds the operator with `eval()` on the Hamiltonian string |
@@ -110,14 +109,14 @@ A case counts as passed only if it passed on every version; a case that crashed 
 | Case | Question | claude-sonnet-5-5 | claude-opus-5-5 | gpt-6.1-sol | gpt-6-astra | gpt-6-luna | gpt-5.6-luna | Same code as | Why, in one line |
 |---|---|---|---|---|---|---|---|---|---|
 | [issue_663](#issue_663) | Counts are always `000` | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | gpt-6.1-sol, gpt-6-astra, gpt-6-luna | Added the missing measurements |
-| [issue_671](#issue_671) | A list of registers in `QuantumCircuit()` | ✅ Pass 27/27 | ✅ Pass 27/27 | ✅ Pass 27/27 | ✅ Pass 27/27 | ✅ Pass 27/27 | ✅ Pass 27/27 | All four GPT models, claude-opus-5-5 | `QuantumCircuit(a, *v, b)`; the updated test no longer needs the answer's example gates |
+| [issue_671](#issue_671) | A list of registers in `QuantumCircuit()` | ❌ Fail 0/27 | ❌ Fail 0/27 | ❌ Fail 0/27 | ❌ Fail 0/27 | ❌ Fail 0/27 | ❌ Fail 0/27 | All four GPT models, claude-opus-5-5 | Rescored 19 Oct 2026 on Nick's main test. claude-sonnet-5-5 0 pass / 27 fail / 0 error; claude-opus-5-5 0 pass / 27 fail / 0 error; gpt-6.1-sol 0 pass / 27 fail / 0 error; gpt-6-astra 0 pass / 27 fail / 0 error; gpt-6-luna 0 pass / 27 fail / 0 error; gpt-5.6-luna 0 pass / 27 fail / 0 error. |
 | [issue_727](#issue_727) | `2**k` with a `Parameter` | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | No | `(k * numpy.log(2)).exp()` |
 | [issue_742](#issue_742) | `Operator` as an `EstimatorV2` observable | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | All four GPT models, claude-opus-5-5 | `SparsePauliOp.from_operator(O)` |
-| [issue_747](#issue_747) | Counts without `measure_all()` | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | claude-opus-5-5, gpt-6-astra | Measures into the existing register, so the keys are `000` / `111` |
+| [issue_747](#issue_747) | Counts without `measure_all()` | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ❌ Fail 0/8 | claude-opus-5-5, gpt-6-astra | Rescored 19 Oct 2026 on Nick's main test. claude-sonnet-5-5 8 pass / 0 fail / 0 error; claude-opus-5-5 8 pass / 0 fail / 0 error; gpt-6.1-sol 8 pass / 0 fail / 0 error; gpt-6-astra 8 pass / 0 fail / 0 error; gpt-6-luna 8 pass / 0 fail / 0 error; gpt-5.6-luna 0 pass / 8 fail / 0 error. |
 | [issue_750](#issue_750) | `Pauli(label=...)` subsystem composition | 💥 Error 0/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | 💥 Error 0/23 | 💥 Error 0/23 | gpt-6-luna, gpt-5.6-luna | Said "NO BUG"; `Pauli(label=...)` no longer exists |
 | [issue_769](#issue_769) | Gate name from a unitary | 💥 Error 0/15 | 💥 Error 0/15 | 💥 Error 0/15 | 💥 Error 0/15 | 💥 Error 0/15 | 💥 Error 0/15 | No | Standard-gate matcher; the test calls the answer's `get_qiskit_gate()` |
 | [issue_773](#issue_773) | Two `job_monitor` imports | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | All four GPT models, claude-opus-5-5 | Removed the shadowing IBMQ import |
-| [issue_775](#issue_775) | Running OpenQASM 2.0 in Qiskit | ✅ Pass 12/12 | 💥 Error (8/12) | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | No | Correct `from_qasm_str`, old imports kept; the updated test doesn't need `qc` |
+| [issue_775](#issue_775) | Running OpenQASM 2.0 in Qiskit | ✅ Pass 12/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | No | Rescored 19 Oct 2026 on Nick's main test. claude-sonnet-5-5 12 pass / 0 fail / 0 error; claude-opus-5-5 0 pass / 0 fail / 12 error; gpt-6.1-sol 0 pass / 0 fail / 12 error; gpt-6-astra 0 pass / 0 fail / 12 error; gpt-6-luna 0 pass / 0 fail / 12 error; gpt-5.6-luna 0 pass / 0 fail / 12 error. |
 | [issue_795](#issue_795) | `to_gate()` with an opflow expression | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | All four GPT models | Appends the operator's matrix with `unitary()` |
 
 **Batch 6**
@@ -125,15 +124,15 @@ A case counts as passed only if it passed on every version; a case that crashed 
 | Case | Question | claude-sonnet-5-5 | claude-opus-5-5 | gpt-6.1-sol | gpt-6-astra | gpt-6-luna | gpt-5.6-luna | Same code as | Why, in one line |
 |---|---|---|---|---|---|---|---|---|---|
 | [issue_803](#issue_803) | `get_counts()` for several circuits | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | gpt-6.1-sol, gpt-6-astra | NumPy array of value lists, losing the outcome keys |
-| [issue_810](#issue_810) | Raw data from a job | ✅ Pass 2/2 | ❌ Fail 0/2 | ❌ Fail 0/2 | ❌ Fail 0/2 | ✅ Pass 2/2 | ✅ Pass 2/2 | gpt-6-luna, gpt-5.6-luna | `job.result().get_counts()` |
+| [issue_810](#issue_810) | Raw data from a job | ❌ Fail 0/2 | ❌ Fail 0/2 | ❌ Fail 0/2 | ❌ Fail 0/2 | ❌ Fail 0/2 | ❌ Fail 0/2 | gpt-6-luna, gpt-5.6-luna | Rescored 19 Oct 2026 on Nick's main test. claude-sonnet-5-5 0 pass / 2 fail / 0 error; claude-opus-5-5 0 pass / 2 fail / 0 error; gpt-6.1-sol 0 pass / 2 fail / 0 error; gpt-6-astra 0 pass / 2 fail / 0 error; gpt-6-luna 0 pass / 2 fail / 0 error; gpt-5.6-luna 0 pass / 2 fail / 0 error. |
 | [issue_816](#issue_816) | `AerSimulator(memory=True)` | ✅ Pass 23/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | All four GPT models, claude-opus-5-5 | `memory=True` |
 | [issue_876](#issue_876) | Noisy QFT fidelity with a real backend | 💥 Error 0/15 | 💥 Error 0/15 | 💥 Error 0/15 | 💥 Error 0/15 | 💥 Error 0/15 | 💥 Error 0/15 | No | `save_statevector()` on the 127-qubit transpiled circuit (out of memory) |
 | [issue_877](#issue_877) | Noise model without device access | 💥 Error 0/8 | 💥 Error 0/8 | ❌ Fail 0/8 | 💥 Error 0/8 | ✅ Pass 8/8 | 💥 Error 0/8 | claude-opus-5-5 | 127-qubit fake device from `qiskit_ibm_runtime`, which isn't installed |
-| [issue_886](#issue_886) | `crx` unknown to Aer | ✅ Pass 2/2 | ✅ Pass 2/2 | ✅ Pass 2/2 | ✅ Pass 2/2 | ✅ Pass 2/2 | ✅ Pass 2/2 | No | Transpiles for the simulator; the updated test ignores the unused register and the variable name |
+| [issue_886](#issue_886) | `crx` unknown to Aer | ❌ Fail 0/2 | ❌ Fail 0/2 | ❌ Fail 0/2 | ❌ Fail 0/2 | ❌ Fail 0/2 | ❌ Fail 0/2 | No | Rescored 19 Oct 2026 on Nick's main test. claude-sonnet-5-5 0 pass / 2 fail / 0 error; claude-opus-5-5 0 pass / 2 fail / 0 error; gpt-6.1-sol 0 pass / 2 fail / 0 error; gpt-6-astra 0 pass / 2 fail / 0 error; gpt-6-luna 0 pass / 2 fail / 0 error; gpt-5.6-luna 0 pass / 2 fail / 0 error. |
 | [issue_889](#issue_889) | Time evolution of a Pauli-sum Hamiltonian | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | No | `PauliEvolutionGate` is one Trotter step, not the exact evolution; missing in 0.25 |
-| [issue_911](#issue_911) | Register/index of a gate's qubits | ✅ Pass 23/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | ✅ Pass 23/23 | No | Loops over every qubit with `find_bit()` |
+| [issue_911](#issue_911) | Register/index of a gate's qubits | 💥 Error 0/23 | 💥 Error 0/23 | 💥 Error 0/23 | 💥 Error 0/23 | 💥 Error 0/23 | 💥 Error 0/23 | No | Rescored 19 Oct 2026 on Nick's main test. claude-sonnet-5-5 0 pass / 0 fail / 23 error; claude-opus-5-5 0 pass / 0 fail / 23 error; gpt-6.1-sol 0 pass / 0 fail / 23 error; gpt-6-astra 0 pass / 0 fail / 23 error; gpt-6-luna 0 pass / 0 fail / 23 error; gpt-5.6-luna 0 pass / 0 fail / 23 error. |
 | [issue_925](#issue_925) | Qubits Shor needs for N=15 | ✅ Pass 4/4 | ✅ Pass 4/4 | 💥 Error 0/4 | 💥 Error 0/4 | 💥 Timeout 0/4 | 💥 Error 0/4 | No | Aer `qasm_simulator`, like the reference |
-| [issue_944](#issue_944) | Projection operator in opflow | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ✅ Pass 12/12 | ❌ Fail 0/12 | ✅ Pass 12/12 | No | Explicit projector as `MatrixOp`; the updated test accepts any operator type |
+| [issue_944](#issue_944) | Projection operator in opflow | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | 💥 Error 0/12 | No | Rescored 19 Oct 2026 on Nick's main test. claude-sonnet-5-5 0 pass / 0 fail / 12 error; claude-opus-5-5 0 pass / 0 fail / 12 error; gpt-6.1-sol 0 pass / 0 fail / 12 error; gpt-6-astra 0 pass / 0 fail / 12 error; gpt-6-luna 0 pass / 0 fail / 12 error; gpt-5.6-luna 0 pass / 0 fail / 12 error. |
 
 **Batch 7**
 
@@ -141,11 +140,11 @@ A case counts as passed only if it passed on every version; a case that crashed 
 |---|---|---|---|---|---|---|---|---|---|
 | [issue_950](#issue_950) | Operator acting on certain qubits | ❌ Fail 0/27 | ✅ Pass 27/27 | ✅ Pass 27/27 | ✅ Pass 27/27 | ❌ Fail 0/27 | ❌ Fail 0/27 | gpt-6-luna, gpt-5.6-luna | N-qubit identity, but kept `_add()` |
 | [issue_958](#issue_958) | Negative of a gate | ❌ Fail 0/23 | ❌ Fail 0/23 | 💥 Error 0/23 | 💥 Error 0/23 | 💥 Error 0/23 | ❌ Fail 0/23 | No | `-H` on qubit 1 only, not `-(H x H)`; the test also wants `qc2` |
-| [issue_977](#issue_977) | Matrix to `SparsePauliOp` | ❌ Fail 0/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | ✅ Pass 23/23 | ❌ Fail 0/23 | ✅ Pass 23/23 | No | `from_operator()`, but kept `.to_operator()`, so no `SparsePauliOp` is left |
+| [issue_977](#issue_977) | Matrix to `SparsePauliOp` | 💥 Error 0/23 | 💥 Error 0/23 | 💥 Error 0/23 | 💥 Error 0/23 | 💥 Error 0/23 | 💥 Error 0/23 | No | Rescored 19 Oct 2026 on Nick's main test. claude-sonnet-5-5 0 pass / 0 fail / 23 error; claude-opus-5-5 0 pass / 0 fail / 23 error; gpt-6.1-sol 0 pass / 0 fail / 23 error; gpt-6-astra 0 pass / 0 fail / 23 error; gpt-6-luna 0 pass / 0 fail / 23 error; gpt-5.6-luna 0 pass / 0 fail / 23 error. |
 | [issue_985](#issue_985) | U1 from Rx, Ry, Rz keeping the phase | ❌ Fail 0/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | ❌ Fail 0/23 | claude-opus-5-5, gpt-6.1-sol, gpt-6-astra | `p(lam)` keeps the phase; the test wants it dropped (debatable) |
 | [issue_989](#issue_989) | Aer simulator after the upgrade | ✅ Pass 15/15 | ✅ Pass 15/15 | ✅ Pass 15/15 | ✅ Pass 15/15 | ✅ Pass 15/15 | ✅ Pass 15/15 | All four GPT models, claude-opus-5-5 | `from qiskit_aer import Aer` |
-| [issue_994](#issue_994) | Statevector from QasmSimulator | ✅ Pass 4/4 | ✅ Pass 4/4 | ✅ Pass 4/4 | ✅ Pass 4/4 | ✅ Pass 4/4 | ✅ Pass 4/4 | All four GPT models | Correct `save_statevector()`; the updated test also reads `get_statevector()` |
-| [issue_1035](#issue_1035) | Fake backends with Runtime primitives | ❌ Fail 0/8 | ❌ Fail 0/8 | ❌ Fail 0/8 | ❌ Fail 0/8 | ✅ Pass 8/8 | ✅ Pass 8/8 | No | Runtime local testing mode; the offline test rejects any Runtime session |
+| [issue_994](#issue_994) | Statevector from QasmSimulator | 💥 Error 0/4 | 💥 Error 0/4 | 💥 Error 0/4 | 💥 Error 0/4 | 💥 Error 0/4 | 💥 Error 0/4 | All four GPT models | Rescored 19 Oct 2026 on Nick's main test. claude-sonnet-5-5 0 pass / 0 fail / 4 error; claude-opus-5-5 0 pass / 0 fail / 4 error; gpt-6.1-sol 0 pass / 0 fail / 4 error; gpt-6-astra 0 pass / 0 fail / 4 error; gpt-6-luna 0 pass / 0 fail / 4 error; gpt-5.6-luna 0 pass / 0 fail / 4 error. |
+| [issue_1035](#issue_1035) | Fake backends with Runtime primitives | ❌ Fail 0/8 | ❌ Fail 0/8 | ❌ Fail 0/8 | ❌ Fail 0/8 | 💥 Error 0/8 | 💥 Error 0/8 | No | Rescored 19 Oct 2026 on Nick's main test. claude-sonnet-5-5 0 pass / 8 fail / 0 error; claude-opus-5-5 0 pass / 8 fail / 0 error; gpt-6.1-sol 0 pass / 8 fail / 0 error; gpt-6-astra 0 pass / 8 fail / 0 error; gpt-6-luna 0 pass / 0 fail / 8 error; gpt-5.6-luna 0 pass / 0 fail / 8 error. |
 
 **Batch 8**
 
@@ -170,11 +169,11 @@ Exactly the same pipeline as the GPT models; only the model name changed (`promp
 2. **Output:** `llm_fixes/<case>/llm_sonnet55_fix.py` and the raw reply in `raw_reply_sonnet55.txt`, next to the untouched files of the other models.
 3. **Testing:** `python test_llm_fix.py --model claude-sonnet-5-5 --cases <cases>`, one batch at a time, runs `buggy.py`, `fixed.py` and `llm_sonnet55_fix.py` through each case's test on every version listed in `Valid_Cases_104.xlsx`, in the same environments and with the same rules (temporary home folder, 120-second timeout). issue_021_se uses `test-new.py`, and issue_058_se and issue_061 use `test_new.py`, as for the other models. The 12 cases in [Updated tests](#updated-tests) use the updated test, which now replaces their `test.py`.
 
-The test was valid on 1015 of 1015 pairs: `buggy.py` failed and `fixed.py` passed (for issue_018_se, `fixed.py` hits the known Windows Aer native crash in the simulator check, which counts as valid, as before).
+The test was valid on 1000 of 1000 pairs: `buggy.py` failed and `fixed.py` passed.
 
-**Generation:** all 73 fixes were generated in one run on 13 Oct 2026 (`run_output_sonnet55_generate.txt`); each case is a separate, independent API call, so this gives the same prompts as generating batch by batch. The issue_901 reply contained two python code blocks (a first attempt, then a corrected one); `prompt.py` now keeps the last block, and that fix was re-extracted from the saved reply without a new API call.
+**Generation:** all 72 fixes were generated in one run on 13 Oct 2026 (`run_output_sonnet55_generate.txt`); each case is a separate, independent API call, so this gives the same prompts as generating batch by batch. The issue_901 reply contained two python code blocks (a first attempt, then a corrected one); `prompt.py` now keeps the last block, and that fix was re-extracted from the saved reply without a new API call.
 
-**Timeouts and reruns:** a run that doesn't finish in 120 seconds counts as an error. All 1015 pairs were valid in the batch runs. The only timeout was the claude-sonnet-5-5 fix of issue_565, on all 4 versions; a single-worker rerun (`run_output_sonnet55_rerun_565.txt`) timed out again, so that timeout is real (the issue_565 fixes of claude-opus-5-5, gpt-6.1-sol and gpt-6-astra behave the same).
+**Timeouts and reruns:** a run that doesn't finish in 120 seconds counts as an error. All 1000 pairs were valid in the batch runs. The only timeout was the claude-sonnet-5-5 fix of issue_565, on all 4 versions; a single-worker rerun (`run_output_sonnet55_rerun_565.txt`) timed out again, so that timeout is real (the issue_565 fixes of claude-opus-5-5, gpt-6.1-sol and gpt-6-astra behave the same).
 
 Status meanings: ✅ **PASS** means every check passed. ❌ **FAIL** means the fix ran but a check found the wrong result. 💥 **ERROR** means the fix crashed or timed out before the checks could finish.
 
@@ -485,13 +484,6 @@ Passed: the LLM replaced compile() with assemble(transpile(...)) and the removed
 
 ## ❌ Failed cases (ran, but wrong result)
 
-### issue_018_se
-**Batch 1** · **Versions (15):** 1.0.0 – 2.5.0 · **claude-sonnet-5-5:** ❌ Fail 0/15 · **claude-opus-5-5:** ❌ Fail 0/15 · **gpt-6.1-sol:** ❌ Fail 0/15 · **gpt-6-astra:** ❌ Fail 0/15 · **gpt-6-luna:** ❌ Fail 0/15 · **gpt-5.6-luna:** ❌ Fail 0/15 · **Lines changed:** 8 · **Same code as:** No
-
-Failed: the LLM reversed the order in which it reads the four bits of each outcome string, assuming the bug is Qiskit's little-endian bit order. The real bug is which qubits the players measure, so the loss probabilities stay at 0.5 on six of the nine (x, y) inputs and test_exact_perfect_strategy_for_all_nine_inputs fails. The simulator check also hits the known Windows Aer native crash. Every model so far fails this case.
-
-**Model's own explanation:** `# FIX: indices assumed big-endian bit strings -> reversed the index mapping, because Qiskit count strings put qubit 0 in the rightmost character`
-
 ### issue_096
 **Batch 1** · **Versions (27):** 0.25.0 – 2.5.0 · **claude-sonnet-5-5:** ❌ Fail 0/27 · **claude-opus-5-5:** ❌ Fail 0/27 · **gpt-6.1-sol:** ❌ Fail 0/27 · **gpt-6-astra:** ❌ Fail 0/27 · **gpt-6-luna:** ❌ Fail 0/27 · **gpt-5.6-luna:** ❌ Fail 0/27 · **Lines changed:** 3 · **Same code as:** No
 
@@ -703,25 +695,25 @@ Error: the LLM answered NO BUG, saying the code already uses the valid Aqua 0.6 
 
 ## Updated tests
 
-For twelve cases the team's original `test.py` asked for a detail only the reference has; on 9 Oct 2026 each of those `test.py` files was replaced by an updated test, and claude-sonnet-5-5 was scored with the updated tests only, exactly like the other models. Each updated test fails `buggy.py` and passes `fixed.py` on every version.
+These rows are the 19 Oct 2026 scores on Nick's Part 2 tests from origin/main. issue_622 was already on that test; the other eleven were rescored onto it.
 
 | Case | What the original test over-specified | Pairs | claude-sonnet-5-5 | claude-opus-5-5 | gpt-6.1-sol | gpt-6-astra | gpt-6-luna | gpt-5.6-luna |
 |---|---|---|---|---|---|---|---|---|
-| [issue_189](#issue_189) | the reference's control order | 23 | ✅ PASS 23 | ✅ PASS 23 | ✅ PASS 23 | ✅ PASS 23 | ✅ PASS 23 | ✅ PASS 23 |
+| [issue_189](#issue_189) | the reference's control order | 23 | ❌ 0/23 | ❌ 0/23 | ❌ 0/23 | ❌ 0/23 | ❌ 0/23 | ❌ 0/23 |
 | [issue_622](#issue_622) | noise-free counts | 12 | ✅ PASS 12 | ✅ PASS 12 | ✅ PASS 12 | ✅ PASS 12 | 💥 ERROR 12 | ✅ PASS 12 |
-| [issue_671](#issue_671) | the answer's example gates | 27 | ✅ PASS 27 | ✅ PASS 27 | ✅ PASS 27 | ✅ PASS 27 | ✅ PASS 27 | ✅ PASS 27 |
-| [issue_747](#issue_747) | exact `'000'` / `'111'` keys | 8 | ✅ PASS 8 | ✅ PASS 8 | ✅ PASS 8 | ✅ PASS 8 | ✅ PASS 8 | ✅ PASS 8 |
-| [issue_775](#issue_775) | the variable name `qc` | 12 | ✅ PASS 12 | ERROR 8/12 | ✅ PASS 12 | ✅ PASS 12 | ✅ PASS 12 | ✅ PASS 12 |
-| [issue_810](#issue_810) | a variable name and shot count | 2 | ✅ PASS 2 | ❌ FAIL 2 | ❌ FAIL 2 | ❌ FAIL 2 | ✅ PASS 2 | ✅ PASS 2 |
-| [issue_886](#issue_886) | an exact count key and variable name | 2 | ✅ PASS 2 | ✅ PASS 2 | ✅ PASS 2 | ✅ PASS 2 | ✅ PASS 2 | ✅ PASS 2 |
-| [issue_911](#issue_911) | an exact print format | 23 | ✅ PASS 23 | ❌ FAIL 23 | ❌ FAIL 23 | ❌ FAIL 23 | ❌ FAIL 23 | ✅ PASS 23 |
-| [issue_944](#issue_944) | an attribute of the reference's operator type | 12 | ✅ PASS 12 | ✅ PASS 12 | ✅ PASS 12 | ✅ PASS 12 | ❌ FAIL 12 | ✅ PASS 12 |
-| [issue_977](#issue_977) | the variable name `op` | 23 | ❌ FAIL 23 | ✅ PASS 23 | ✅ PASS 23 | ✅ PASS 23 | ❌ FAIL 23 | ✅ PASS 23 |
-| [issue_994](#issue_994) | the reference's snapshot variable | 4 | ✅ PASS 4 | ✅ PASS 4 | ✅ PASS 4 | ✅ PASS 4 | ✅ PASS 4 | ✅ PASS 4 |
-| [issue_1035](#issue_1035) | the variable name `result` | 8 | ❌ FAIL 8 | ❌ FAIL 8 | ❌ FAIL 8 | ❌ FAIL 8 | ✅ PASS 8 | ✅ PASS 8 |
-| **Total (12)** | | **156** | **✅ PASS 125** | **✅ PASS 119** | **✅ PASS 123** | **✅ PASS 123** | **✅ PASS 86** | **✅ PASS 156** |
+| [issue_671](#issue_671) | the answer's example gates | 27 | ❌ 0/27 | ❌ 0/27 | ❌ 0/27 | ❌ 0/27 | ❌ 0/27 | ❌ 0/27 |
+| [issue_747](#issue_747) | exact `'000'` / `'111'` keys | 8 | ✅ 8/8 | ✅ 8/8 | ✅ 8/8 | ✅ 8/8 | ✅ 8/8 | ❌ 0/8 |
+| [issue_775](#issue_775) | the variable name `qc` | 12 | ✅ 12/12 | 💥 0/12 | 💥 0/12 | 💥 0/12 | 💥 0/12 | 💥 0/12 |
+| [issue_810](#issue_810) | a variable name and shot count | 2 | ❌ 0/2 | ❌ 0/2 | ❌ 0/2 | ❌ 0/2 | ❌ 0/2 | ❌ 0/2 |
+| [issue_886](#issue_886) | an exact count key and variable name | 2 | ❌ 0/2 | ❌ 0/2 | ❌ 0/2 | ❌ 0/2 | ❌ 0/2 | ❌ 0/2 |
+| [issue_911](#issue_911) | an exact print format | 23 | 💥 0/23 | 💥 0/23 | 💥 0/23 | 💥 0/23 | 💥 0/23 | 💥 0/23 |
+| [issue_944](#issue_944) | an attribute of the reference's operator type | 12 | 💥 0/12 | 💥 0/12 | 💥 0/12 | 💥 0/12 | 💥 0/12 | 💥 0/12 |
+| [issue_977](#issue_977) | the variable name `op` | 23 | 💥 0/23 | 💥 0/23 | 💥 0/23 | 💥 0/23 | 💥 0/23 | 💥 0/23 |
+| [issue_994](#issue_994) | the reference's snapshot variable | 4 | 💥 0/4 | 💥 0/4 | 💥 0/4 | 💥 0/4 | 💥 0/4 | 💥 0/4 |
+| [issue_1035](#issue_1035) | the variable name `result` | 8 | ❌ 0/8 | ❌ 0/8 | ❌ 0/8 | ❌ 0/8 | 💥 0/8 | 💥 0/8 |
+| **Total (12)** |  | **156** | **32 / 156** | **20 / 156** | **20 / 156** | **20 / 156** | **8 / 156** | **12 / 156** |
 
-**Result:** claude-sonnet-5-5 passes 10 of the twelve updated tests on every version (125 pairs); for comparison, claude-opus-5-5 8, gpt-6.1-sol 9, gpt-6-astra 9, gpt-6-luna 8, gpt-5.6-luna 12. In the other two: issue_977 kept the buggy code's `.to_operator()`, so no `SparsePauliOp` is left for the test to find, and issue_1035 uses a Runtime session in local testing mode, which the offline test rejects.
+**Result on Nick's main tests (these 12 cases):** claude-sonnet-5-5 3 cases / 32 pairs; claude-opus-5-5 2 cases / 20 pairs; gpt-6.1-sol 2 cases / 20 pairs; gpt-6-astra 2 cases / 20 pairs; gpt-6-luna 1 case / 8 pairs; gpt-5.6-luna 1 case / 12 pairs.
 
 **issue_985 keeps the team's `test.py`.** claude-sonnet-5-5's fix is ❌ Fail 0/23 on the current test. The team's earlier `test_before.py` requires the exact U1 phase, but the reference fails it, so it can't serve as a valid test.
 
@@ -731,13 +723,14 @@ For twelve cases the team's original `test.py` asked for a detail only the refer
 
 | File | Contents |
 |---|---|
-| `llm_sonnet55_results.csv` | One row per case × version (1015 rows): status of `buggy.py`, `fixed.py` and `llm_sonnet55_fix.py`, a plain-English result description and the LLM's `# FIX:` explanation. `test_file` shows the test used |
-| `llm_sonnet55_summary.csv` | One row per case (73): batch, versions, test file, claude-sonnet-5-5 outcome and pass / fail / error counts (timeouts count as errors), claude-opus-5-5, gpt-6.1-sol, gpt-6-astra, gpt-6-luna, gpt-5.6-luna outcome and passes, lines changed, first error and description |
+| `llm_sonnet55_results.csv` | One row per case × version (1000 rows): status of `buggy.py`, `fixed.py` and `llm_sonnet55_fix.py`, a plain-English result description and the LLM's `# FIX:` explanation. `test_file` shows the test used |
+| `llm_sonnet55_summary.csv` | One row per case (72): batch, versions, test file, claude-sonnet-5-5 outcome and pass / fail / error counts (timeouts count as errors), claude-opus-5-5, gpt-6.1-sol, gpt-6-astra, gpt-6-luna, gpt-5.6-luna outcome and passes, lines changed, first error and description |
 | `llm_sonnet55_summary.xlsx` | The same results as a workbook: one row per case with the status of every version, and a Stats & Notes sheet |
-| `run_output_sonnet55_generate.txt` | Console output of generating the 73 fixes |
+| `run_output_sonnet55_generate.txt` | Console output of generating the 72 fixes |
 | `run_output_sonnet55_batch<N>.txt` | Console output of the batch 1–8 test runs |
 | `run_output_sonnet55_rerun_565.txt` | Console output of the single-worker rerun after the timeouts |
-| `Part3_LLM_repair/logs/sonnet55/<case>/<version>/` | Full test output: `buggy.log`, `fixed.log`, `llm_sonnet55_fix.log` |
+| `Part3_LLM_repair/logs/test_log/sonnet55/<case>/<version>/` | Test output of the LLM fix: `llm_sonnet55_fix.log` |
+| `Part3_LLM_repair/logs/sonnet55/<case>/<version>/` | Test output of the buggy and reference code: `buggy.log`, `fixed.log` |
 | `../../llm_fixes/<case>/` | `llm_sonnet55_fix.py`, `raw_reply_sonnet55.txt`, and the shared `buggy_stripped.py` |
 
 The other models' results are in `../opus55/` (`SUMMARY_opus55.md`), `../sol61/` (`SUMMARY_sol61.md`), `../astra6/` (`SUMMARY_astra6.md`), `../luna6/` (`SUMMARY_luna6.md`), `../luna56/` (`SUMMARY_luna56.md`).

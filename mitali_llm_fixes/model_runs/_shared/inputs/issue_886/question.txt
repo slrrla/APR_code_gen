@@ -1,0 +1,19 @@
+Title: Error when using crx gate in quantum circuit
+
+When I try to run a quantum circuit that has a gate in it, I get an error . Below is an example of the code that I am trying to run: Please help me with this.
+
+```
+crx
+```
+
+```
+AerError: 'unknown instruction: crx'
+```
+
+```
+from qiskit import QuantumCircuit from qiskit_aer import Aer import numpy as np circ = QuantumCircuit(2,2) circ.crx(np.pi/2, 0,1) circ.measure_all() job = Aer.get_backend('qasm_simulator').run(circ) job.result().get_counts()
+```
+
+```
+from qiskit import QuantumCircuit from qiskit_aer import Aer import numpy as np circ = QuantumCircuit(2,2) circ.crx(np.pi/2, 0,1) circ.measure_all() job = Aer.get_backend('qasm_simulator').run(circ) job.result().get_counts()
+```

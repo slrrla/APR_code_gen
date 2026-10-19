@@ -1,0 +1,43 @@
+Title:
+How to implement a exponential of a hamiltonian, but non-unitary, matrix in QISKIT?
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+In circuit construction, especially for time-evolution operators, it’s essential to leverage native Qiskit abstractions (Pauli sums, Trotterization) for parameterized, hardware-friendly implementations. Stack Overflow does exactly that, producing a parameterized circuit for 
+𝑒
+−
+𝑖
+𝜙
+𝐴
+e
+−iϕA
+. The AI answer suggests a generic matrix exponential approach, which is less efficient and not parameterized, and could fail for truly non-unitary matrices.
+
+Question:
+Title: How to implement a exponential of a hamiltonian, but non-unitary, matrix in QISKIT?
+
+I need a way to implement exponential of a matrix so that I can create a gate that is analogous to rotation using that matrix, similar to how rotation in the $x$ axis uses the Pauli-$X$ gate. This is one of the matrices that I want to implement the exponential. $A = \frac{1}{2\sqrt{2}}\begin{pmatrix} 0 & 1 & 1 & 0\\ 1 & 0 & 0 & 1\\ 1 & 0 & 0 & 1\\ 0 & 1 & 1 & 0 \end{pmatrix}$ I want to to make a circuit that computes $e^{i \phi A}$
+
+Original buggy code:
+I need a way to implement exponential of a matrix so that I can create a gate that is analogous to rotation using that matrix, similar to how rotation in the $x$ axis uses the Pauli-$X$ gate. This is one of the matrices that I want to implement the exponential. $A = \frac{1}{2\sqrt{2}}\begin{pmatrix} 0 & 1 & 1 & 0\\ 1 & 0 & 0 & 1\\ 1 & 0 & 0 & 1\\ 0 & 1 & 1 & 0 \end{pmatrix}$ I want to to make a circuit that computes $e^{i \phi A}$
+
+Solution explanation:
+Hamiltonian needs to be Hermitian not unitary. Matrix $A$ is Hermitian so it can be exponentiated using the classes in qiskit's opflow. Note that, your matrix can be written as $A = \frac{1}{2\sqrt{2}}(I \otimes X + X \otimes I)$ So the following circuit computes $e^{-i \phi A}$
+
+```
+from qiskit.opflow import I, X from qiskit.opflow import PauliTrotterEvolution, Suzuki from qiskit.circuit import Parameter from numpy import sqrt _const = 1 / (2 * sqrt(2)) A = _const * (I ^ X) + _const * (X ^ I) phi = Parameter('ϕ') evolution_op = (phi * A).exp_i() # exp(-iϕA) trotterized_op = PauliTrotterEvolution(trotter_mode = Suzuki(order = 1)).convert(evolution_op) circ = trotterized_op.to_circuit() circ.draw('mpl')
+```
+
+```
+from qiskit.opflow import I, X from qiskit.opflow import PauliTrotterEvolution, Suzuki from qiskit.circuit import Parameter from numpy import sqrt _const = 1 / (2 * sqrt(2)) A = _const * (I ^ X) + _const * (X ^ I) phi = Parameter('ϕ') evolution_op = (phi * A).exp_i() # exp(-iϕA) trotterized_op = PauliTrotterEvolution(trotter_mode = Suzuki(order = 1)).convert(evolution_op) circ = trotterized_op.to_circuit() circ.draw('mpl')
+```
+
+Original fixed code:
+from qiskit.opflow import I, X from qiskit.opflow import PauliTrotterEvolution, Suzuki from qiskit.circuit import Parameter from numpy import sqrt _const = 1 / (2 * sqrt(2)) A = _const * (I ^ X) + _const * (X ^ I) phi = Parameter('ϕ') evolution_op = (phi * A).exp_i() # exp(-iϕA) trotterized_op = PauliTrotterEvolution(trotter_mode = Suzuki(order = 1)).convert(evolution_op) circ = trotterized_op.to_circuit() circ.draw('mpl')
+
+---CODE_BLOCK---
+
+from qiskit.opflow import I, X from qiskit.opflow import PauliTrotterEvolution, Suzuki from qiskit.circuit import Parameter from numpy import sqrt _const = 1 / (2 * sqrt(2)) A = _const * (I ^ X) + _const * (X ^ I) phi = Parameter('ϕ') evolution_op = (phi * A).exp_i() # exp(-iϕA) trotterized_op = PauliTrotterEvolution(trotter_mode = Suzuki(order = 1)).convert(evolution_op) circ = trotterized_op.to_circuit() circ.draw('mpl')

@@ -1,0 +1,75 @@
+Title:
+Can I teleport a string of 0s and 1s?
+
+Category:
+
+
+Question:
+Title: Can I teleport a string of 0s and 1s?
+
+I have recently started with quantum computing and created a quantum teleportation circuit to transmit a qubit state from to using Qiskit. I understand that I can transmit any state information from to . Is it then fair to expect that I can also transmit a morse code like string of 0s and 1s (say 1001)? This is the circuit I built after watching/reading Qiskit tutorials.
+
+```
+q_0
+```
+
+```
+q_2
+```
+
+```
+q_0
+```
+
+```
+q_2
+```
+
+Original buggy code:
+q_0
+
+---CODE_BLOCK---
+
+q_2
+
+---CODE_BLOCK---
+
+q_0
+
+---CODE_BLOCK---
+
+q_2
+
+Solution explanation:
+As you noticed, the first thing you do is to put the $q_0$ to the state you want to teleport to $q_2$. For instance, if you want to transport $|1\rangle$ to $q_2$ then you would first apply the $X$ gate to flip $q_0$ to the state $|1\rangle$. This is because the initial state of a quantum computer is usually starts in the state $|000\cdots0\rangle$. Thus, if you want to teleport $1$ then apply $X$ gate to $q_0$ in the beginning, if you want to teleport $0$ then do nothing. So if you insist to design a program in Qiskit to generate a quantum circuit to teleport a morse code of some sort, you can do it as follow: The output would be:
+
+```
+%matplotlib inline from qiskit import QuantumCircuit, execute, BasicAer, IBMQ from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit from numpy import pi def teleported_circuit(code): qreg_q = QuantumRegister(3, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) if code == 1: circuit.x(qreg_q[0]) circuit.barrier(range(3)) circuit.h(qreg_q[1]) circuit.cx(qreg_q[1], qreg_q[2]) circuit.cx(qreg_q[0], qreg_q[1]) circuit.h(qreg_q[0]) circuit.barrier(range(3)) circuit.cx(qreg_q[1], qreg_q[2]) circuit.cz(qreg_q[0], qreg_q[2]) circuit.measure(qreg_q[2], creg_c[0]) backend = BasicAer.get_backend('statevector_simulator') job = execute(circuit, backend, shots = 1) return job.result().get_counts() #### Example #### code_string = [1,0,0,1,1,1] teleported_code = [ teleported_circuit(code_string[i]) for i in range(len(code_string)) ] print('Here is your telported code:', teleported_code)
+```
+
+```
+%matplotlib inline from qiskit import QuantumCircuit, execute, BasicAer, IBMQ from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit from numpy import pi def teleported_circuit(code): qreg_q = QuantumRegister(3, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) if code == 1: circuit.x(qreg_q[0]) circuit.barrier(range(3)) circuit.h(qreg_q[1]) circuit.cx(qreg_q[1], qreg_q[2]) circuit.cx(qreg_q[0], qreg_q[1]) circuit.h(qreg_q[0]) circuit.barrier(range(3)) circuit.cx(qreg_q[1], qreg_q[2]) circuit.cz(qreg_q[0], qreg_q[2]) circuit.measure(qreg_q[2], creg_c[0]) backend = BasicAer.get_backend('statevector_simulator') job = execute(circuit, backend, shots = 1) return job.result().get_counts() #### Example #### code_string = [1,0,0,1,1,1] teleported_code = [ teleported_circuit(code_string[i]) for i in range(len(code_string)) ] print('Here is your telported code:', teleported_code)
+```
+
+```
+Here is your telported code: [{'1': 1}, {'0': 1}, {'0': 1}, {'1': 1}, {'1': 1}, {'1': 1}]
+```
+
+```
+Here is your telported code: [{'1': 1}, {'0': 1}, {'0': 1}, {'1': 1}, {'1': 1}, {'1': 1}]
+```
+
+Original fixed code:
+%matplotlib inline from qiskit import QuantumCircuit, execute, BasicAer, IBMQ from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit from numpy import pi def teleported_circuit(code): qreg_q = QuantumRegister(3, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) if code == 1: circuit.x(qreg_q[0]) circuit.barrier(range(3)) circuit.h(qreg_q[1]) circuit.cx(qreg_q[1], qreg_q[2]) circuit.cx(qreg_q[0], qreg_q[1]) circuit.h(qreg_q[0]) circuit.barrier(range(3)) circuit.cx(qreg_q[1], qreg_q[2]) circuit.cz(qreg_q[0], qreg_q[2]) circuit.measure(qreg_q[2], creg_c[0]) backend = BasicAer.get_backend('statevector_simulator') job = execute(circuit, backend, shots = 1) return job.result().get_counts() #### Example #### code_string = [1,0,0,1,1,1] teleported_code = [ teleported_circuit(code_string[i]) for i in range(len(code_string)) ] print('Here is your telported code:', teleported_code)
+
+---CODE_BLOCK---
+
+%matplotlib inline from qiskit import QuantumCircuit, execute, BasicAer, IBMQ from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit from numpy import pi def teleported_circuit(code): qreg_q = QuantumRegister(3, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) if code == 1: circuit.x(qreg_q[0]) circuit.barrier(range(3)) circuit.h(qreg_q[1]) circuit.cx(qreg_q[1], qreg_q[2]) circuit.cx(qreg_q[0], qreg_q[1]) circuit.h(qreg_q[0]) circuit.barrier(range(3)) circuit.cx(qreg_q[1], qreg_q[2]) circuit.cz(qreg_q[0], qreg_q[2]) circuit.measure(qreg_q[2], creg_c[0]) backend = BasicAer.get_backend('statevector_simulator') job = execute(circuit, backend, shots = 1) return job.result().get_counts() #### Example #### code_string = [1,0,0,1,1,1] teleported_code = [ teleported_circuit(code_string[i]) for i in range(len(code_string)) ] print('Here is your telported code:', teleported_code)
+
+---CODE_BLOCK---
+
+Here is your telported code: [{'1': 1}, {'0': 1}, {'0': 1}, {'1': 1}, {'1': 1}, {'1': 1}]
+
+---CODE_BLOCK---
+
+Here is your telported code: [{'1': 1}, {'0': 1}, {'0': 1}, {'1': 1}, {'1': 1}, {'1': 1}]

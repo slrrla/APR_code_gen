@@ -1,0 +1,63 @@
+Title:
+Using Qiskit State Tomography on Subsystems
+
+Category:
+Category:
+Backend Usage / Simulation / Output
+
+Why AI Wins in This Category:
+For backend simulation tasks like state tomography, a solution that not only points to the right method but also demonstrates how to use it, interpret it, and verify it is superior. The AI solution:
+
+Clarifies the logic behind subsystem tomography.
+
+Includes fidelity comparison steps.
+
+Is self-contained and verifiable.
+
+This makes the AI-generated answer better suited for understanding and implementing tomography on subsystems in Qiskit.
+
+Question:
+Title: Using Qiskit State Tomography on Subsystems
+
+I have a version of the following circuit set up. I have seen that I can use StateTomography by coding the following By using the coding above I am able to see how this tomography can be used to approximate the state of the entire system with fidelity being a comparison to the state of the circuit, but my goal is to use Quantum State Tomography (QST) on only $q_1$ and use the fidelity to compare this to $q_0$. I have seen in the tutorial on Qiskit that I can run the tomography on parallel subsystems, but I'm not sure how to extend this to my goal described above. Any help would be greatly appreciated! (Previous edit removed as I resolved that issue independently)
+
+```
+from qiskit import QuantumCircuit circuit=QuantumCircuit(2) initial_state0=[1/np.sqrt(2),1/np.sqrt(2)] circuit.initialize(initial_state0, 0) initial_state1=[1, 0] circuit.initialize(initial_state1,1) circuit.cx(0,1)
+```
+
+```
+from qiskit import QuantumCircuit circuit=QuantumCircuit(2) initial_state0=[1/np.sqrt(2),1/np.sqrt(2)] circuit.initialize(initial_state0, 0) initial_state1=[1, 0] circuit.initialize(initial_state1,1) circuit.cx(0,1)
+```
+
+```
+from qiskit_experiments.library import StateTomography from qiskit.providers.aer import Aer backend = Aer.get_backend('qasm_simulator') # QST Experiment qstexp1 = StateTomography(circuit) qstdata1 = qstexp1.run(backend, seed_simulation=1000).block_for_results() # Print results for result in qstdata1.analysis_results(): print(result)
+```
+
+```
+from qiskit_experiments.library import StateTomography from qiskit.providers.aer import Aer backend = Aer.get_backend('qasm_simulator') # QST Experiment qstexp1 = StateTomography(circuit) qstdata1 = qstexp1.run(backend, seed_simulation=1000).block_for_results() # Print results for result in qstdata1.analysis_results(): print(result)
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit circuit=QuantumCircuit(2) initial_state0=[1/np.sqrt(2),1/np.sqrt(2)] circuit.initialize(initial_state0, 0) initial_state1=[1, 0] circuit.initialize(initial_state1,1) circuit.cx(0,1)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit circuit=QuantumCircuit(2) initial_state0=[1/np.sqrt(2),1/np.sqrt(2)] circuit.initialize(initial_state0, 0) initial_state1=[1, 0] circuit.initialize(initial_state1,1) circuit.cx(0,1)
+
+---CODE_BLOCK---
+
+from qiskit_experiments.library import StateTomography from qiskit.providers.aer import Aer backend = Aer.get_backend('qasm_simulator') # QST Experiment qstexp1 = StateTomography(circuit) qstdata1 = qstexp1.run(backend, seed_simulation=1000).block_for_results() # Print results for result in qstdata1.analysis_results(): print(result)
+
+---CODE_BLOCK---
+
+from qiskit_experiments.library import StateTomography from qiskit.providers.aer import Aer backend = Aer.get_backend('qasm_simulator') # QST Experiment qstexp1 = StateTomography(circuit) qstdata1 = qstexp1.run(backend, seed_simulation=1000).block_for_results() # Print results for result in qstdata1.analysis_results(): print(result)
+
+Solution explanation:
+In the tutorial, tomography on parallel subsystems assumes that subsystems are independent. From your post, I deduce you are interested in something different, i.e., performing tomography of one state after a single circuit has been executed on several qubits. To this purpose, just modify your code using . In this way, you will obtain the density matrix of $q_1$. Analytically, such a matrix can be obtained as the partial trace with respect to the density matrix of whole output state -- $I/2$, in your example. Indeed, your result will be (about) $I/2$, as expected.
+
+```
+qstexp1 = StateTomography(circuit, measurement_qubits=[1])
+```
+
+Original fixed code:
+qstexp1 = StateTomography(circuit, measurement_qubits=[1])

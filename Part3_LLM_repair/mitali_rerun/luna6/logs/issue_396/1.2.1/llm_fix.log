@@ -1,0 +1,43 @@
+         ┌────┐
+state_0: ┤0   ├
+         │    │
+state_1: ┤1 Q ├
+         │    │
+state_2: ┤2   ├
+         └────┘
+
+test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle.test_exact_marked_phases_and_grover_amplification) ... FAIL
+
+======================================================================
+FAIL: test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle.test_exact_marked_phases_and_grover_amplification)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_396\test.py", line 17, in test_exact_marked_phases_and_grover_amplification
+    np.testing.assert_allclose(Operator(m['oracle']).data, expected_oracle, atol=1e-12)
+  File "C:\qiskit_envs\q121\Lib\site-packages\numpy\testing\_private\utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\qiskit_envs\q121\Lib\site-packages\numpy\testing\_private\utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+Mismatched elements: 10 / 64 (15.6%)
+First 5 mismatches are at indices:
+ [0, 0]: 0j (ACTUAL), 1.0 (DESIRED)
+ [1, 1]: 0j (ACTUAL), 1.0 (DESIRED)
+ [2, 2]: 0j (ACTUAL), 1.0 (DESIRED)
+ [3, 3]: 0j (ACTUAL), 1.0 (DESIRED)
+ [4, 4]: 0j (ACTUAL), 1.0 (DESIRED)
+Max absolute difference among violations: 1.5
+Max relative difference among violations: 1.5
+ ACTUAL: array([[0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j,
+        0. +0.j],
+       [0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j, 0. +0.j,...
+ DESIRED: array([[ 1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+       [ 0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.],
+       [ 0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.],...
+
+----------------------------------------------------------------------
+Ran 1 test in 2.491s
+
+FAILED (failures=1)

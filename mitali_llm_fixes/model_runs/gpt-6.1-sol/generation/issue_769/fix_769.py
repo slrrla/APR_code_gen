@@ -1,0 +1,9 @@
+import numpy as np
+# FIX: the obsolete extensions import provided no standard-gate lookup -> use the circuit library and its gate mapping, because UnitaryGate does not infer a standard gate's name.
+from qiskit.circuit.library import UnitaryGate
+from qiskit.circuit.library.standard_gates import get_standard_gate_name_mapping
+
+unitary = np.array([[0, 1], [1, 0]])
+gate = UnitaryGate(unitary)
+# FIX: gate.name always reports "unitary" -> find a matching standard gate, because comparing matrices identifies the gate rather than its wrapper.
+print(next((name for name, candidate in get_standard_gate_name_mapping().items() if candidate.num_qubits == gate.num_qubits and not candidate.is_parameterized() and np.allclose(candidate.to_matrix(), unitary)), gate.name))

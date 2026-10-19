@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWVvyanIkjjHj3ZFx9oJY3mchnMge",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport qiskit as qk\nfrom qiskit import Aer\nfrom qiskit.ignis.mitigation.measurement import complete_meas_cal\n\n_backend = Aer.get_backend('qasm_simulator')\n\nqreg = qk.QuantumRegister(7)\n# FIX: qreg[5] shared physical qubit 12 with qreg[0] -> map it to unused qubit 15, because an initial layout must map each virtual qubit to a distinct physical qubit\nlayout = {qreg[0]: 12, qreg[1]: 11, qreg[2]: 13, qreg[3]: 17, qreg[4]: 14, qreg[5]: 15, qreg[6]: 6}\n\nmeas_calibs, state_labels = complete_meas_cal(\n    qubit_list=[0, 1, 2], qr=qreg, circlabel='mcal')\nprint(meas_calibs[0])\nqk.compiler.transpile(meas_calibs, backend=_backend, initial_layout=layout)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791417958,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 1442,
+    "prompt_tokens": 1132,
+    "total_tokens": 2574,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 1192,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1129,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

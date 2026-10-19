@@ -1,0 +1,47 @@
+Title: Projection Operator in qiskit.opflow
+
+I am looking for a way to implement a projection operator like $\mid +\rangle\langle+\mid$ in qiskits opflow module. I tried but this gives me an error message. There must be a direct implementation of projection operators right? I can't use the operators in for what I want to do, except if there is a way to convert those operators to the ones in opflow. Edit: The error message I get from is The reason I think I can't use 's opearotors it that I want to compute the spectrum using and this seems to me to not work with a operator: I am generally confused about the connection and difference between and because they seem to me to have a large overlap. Is one of those an older module and should not be used anymore? Is there a general way to convert objects like operators from one to the other?
+
+```
+Plus @ ~Plus
+```
+
+```
+qiskit.quantum_info
+```
+
+```
+(Plus)@(~Plus)
+```
+
+```
+ValueError: Composition with a Statefunctions in the first operand is not defined.
+```
+
+```
+qiskit.quantum_info
+```
+
+```
+qiskit.algorithms.NumPyEigensolver
+```
+
+```
+quantum_info
+```
+
+```
+>>>plus = Statevector([1/np.sqrt(2),1/np.sqrt(2)]).to_operator() >>>plus Operator([[0.5+0.j, 0.5+0.j], [0.5+0.j, 0.5+0.j]], input_dims=(2,), output_dims=(2,)) >>>solver = NumPyEigensolver() >>>spectrum = solver.compute_eigenvalues(plus) AttributeError: 'Operator' object has no attribute 'to_spmatrix'
+```
+
+```
+>>>plus = Statevector([1/np.sqrt(2),1/np.sqrt(2)]).to_operator() >>>plus Operator([[0.5+0.j, 0.5+0.j], [0.5+0.j, 0.5+0.j]], input_dims=(2,), output_dims=(2,)) >>>solver = NumPyEigensolver() >>>spectrum = solver.compute_eigenvalues(plus) AttributeError: 'Operator' object has no attribute 'to_spmatrix'
+```
+
+```
+qiskit.quantum_info
+```
+
+```
+qiskit.opflow
+```

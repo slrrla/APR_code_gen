@@ -1,0 +1,51 @@
+Title:
+Which Qiskit Aer ideal quantum circuit simulator to use when aer_simulator is no longer available?
+
+Category:
+
+
+Question:
+Title: Which Qiskit Aer ideal quantum circuit simulator to use when aer_simulator is no longer available?
+
+Some Qiskit tutorials have aer_simulator in the code and I have noticed that this simulator is no longer available. Which of the existing simulators should I use to replace aer_simulator? The example tutorial is here.
+
+```
+from qiskit import QuantumCircuit from qiskit import Aer Aer.backends()
+```
+
+```
+from qiskit import QuantumCircuit from qiskit import Aer Aer.backends()
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit from qiskit import Aer Aer.backends()
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit from qiskit import Aer Aer.backends()
+
+Solution explanation:
+The was introduced in version 0.25.0 of Qiskit. If it is not listed by you should try upgrading Qiskit to the latest version. You can use to install the latest version.
+
+```
+aer_simulator
+```
+
+```
+Aer.backends()
+```
+
+```
+pip install qiskit --upgrade
+```
+
+Original fixed code:
+aer_simulator
+
+---CODE_BLOCK---
+
+Aer.backends()
+
+---CODE_BLOCK---
+
+pip install qiskit --upgrade

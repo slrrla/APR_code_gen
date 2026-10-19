@@ -1,0 +1,16 @@
+```python
+import numpy as np
+from qiskit.quantum_info import Statevector
+# FIX: I and X were missing -> import the opflow operators, because they express the + state projector.
+from qiskit.opflow import Plus, I, X
+from qiskit.algorithms import NumPyEigensolver
+
+# FIX: composing a ket with a bra is unsupported here -> use (I + X) / 2, the |+><+| projector.
+proj = (I + X) / 2
+
+plus = Statevector([1/np.sqrt(2), 1/np.sqrt(2)]).to_operator()
+solver = NumPyEigensolver()
+# FIX: quantum_info Operator lacks the opflow sparse-matrix API -> pass the equivalent opflow projector.
+spectrum = solver.compute_eigenvalues(proj)
+
+```

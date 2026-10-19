@@ -1,0 +1,51 @@
+Title:
+Actual execution time on real hardware
+
+Category:
+
+
+Question:
+Title: Actual execution time on real hardware
+
+I am trying to calculate the actual execution time on real HW. We have access for IBMQ systems. What I am thinking is that to find the actual execution time on real HW so that we can know whether our quantum circuit violates or not violates the and of the Real HW. Are there any for doing this? Any help or suggestion in the right direction would be great help for us.
+
+```
+T1
+```
+
+```
+T2 time
+```
+
+```
+APIs
+```
+
+Original buggy code:
+T1
+
+---CODE_BLOCK---
+
+T2 time
+
+---CODE_BLOCK---
+
+APIs
+
+Solution explanation:
+You could use schedule to see execution time, pass a tranpiled circuit to schedule it. D0 is first drive, M0 is first measurement.
+
+```
+from qiskit import QuantumCircuit, QuantumRegister from qiskit_ibm_runtime import QiskitRuntimeService from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit import schedule service = QiskitRuntimeService() backend = service.backend('ibm_brisbane') properties = backend.qubit_properties(range(backend.n_qubits)) qr = QuantumRegister(1) qc = QuantumCircuit(qr) qc.sx(0) qc.measure_all() pm = generate_preset_pass_manager(backend=backend, optimization_level=1) isa_qc = pm.run(qc) scheduled_circuit = schedule(isa_qc, backend=backend) circuit_duration = scheduled_circuit.duration * backend.configuration().dt print("execution time {:}[ns]".format(circuit_duration*1000*1000*1000)) print("t1 {:}[ns]".format(properties[0].t1*1000*1000*1000)) print("t2 {:}[ns]".format(properties[0].t2*1000*1000*1000)) scheduled_circuit.draw(backend=backend)
+```
+
+```
+from qiskit import QuantumCircuit, QuantumRegister from qiskit_ibm_runtime import QiskitRuntimeService from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit import schedule service = QiskitRuntimeService() backend = service.backend('ibm_brisbane') properties = backend.qubit_properties(range(backend.n_qubits)) qr = QuantumRegister(1) qc = QuantumCircuit(qr) qc.sx(0) qc.measure_all() pm = generate_preset_pass_manager(backend=backend, optimization_level=1) isa_qc = pm.run(qc) scheduled_circuit = schedule(isa_qc, backend=backend) circuit_duration = scheduled_circuit.duration * backend.configuration().dt print("execution time {:}[ns]".format(circuit_duration*1000*1000*1000)) print("t1 {:}[ns]".format(properties[0].t1*1000*1000*1000)) print("t2 {:}[ns]".format(properties[0].t2*1000*1000*1000)) scheduled_circuit.draw(backend=backend)
+```
+
+Original fixed code:
+from qiskit import QuantumCircuit, QuantumRegister from qiskit_ibm_runtime import QiskitRuntimeService from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit import schedule service = QiskitRuntimeService() backend = service.backend('ibm_brisbane') properties = backend.qubit_properties(range(backend.n_qubits)) qr = QuantumRegister(1) qc = QuantumCircuit(qr) qc.sx(0) qc.measure_all() pm = generate_preset_pass_manager(backend=backend, optimization_level=1) isa_qc = pm.run(qc) scheduled_circuit = schedule(isa_qc, backend=backend) circuit_duration = scheduled_circuit.duration * backend.configuration().dt print("execution time {:}[ns]".format(circuit_duration*1000*1000*1000)) print("t1 {:}[ns]".format(properties[0].t1*1000*1000*1000)) print("t2 {:}[ns]".format(properties[0].t2*1000*1000*1000)) scheduled_circuit.draw(backend=backend)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, QuantumRegister from qiskit_ibm_runtime import QiskitRuntimeService from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit import schedule service = QiskitRuntimeService() backend = service.backend('ibm_brisbane') properties = backend.qubit_properties(range(backend.n_qubits)) qr = QuantumRegister(1) qc = QuantumCircuit(qr) qc.sx(0) qc.measure_all() pm = generate_preset_pass_manager(backend=backend, optimization_level=1) isa_qc = pm.run(qc) scheduled_circuit = schedule(isa_qc, backend=backend) circuit_duration = scheduled_circuit.duration * backend.configuration().dt print("execution time {:}[ns]".format(circuit_duration*1000*1000*1000)) print("t1 {:}[ns]".format(properties[0].t1*1000*1000*1000)) print("t2 {:}[ns]".format(properties[0].t2*1000*1000*1000)) scheduled_circuit.draw(backend=backend)

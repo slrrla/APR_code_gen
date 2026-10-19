@@ -1,0 +1,29 @@
+CASE=issue_189
+QISKIT=1.1.2
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\gpt-6.1-sol\generation\issue_189\fix_189.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_189\test.py
+
+F
+======================================================================
+FAIL: test_qpe_mapping_and_controlled_powers (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_189\test.py", line 32, in test_qpe_mapping_and_controlled_powers
+    self.assertEqual([qpe.qubits.index(q) for q in qargs], [i,3,4,5,6,7,8])
+AssertionError: Lists differ: [2, 3, 4, 5, 6, 7, 8] != [0, 3, 4, 5, 6, 7, 8]
+
+First differing element 0:
+2
+0
+
+- [2, 3, 4, 5, 6, 7, 8]
+?  ^
+
++ [0, 3, 4, 5, 6, 7, 8]
+?  ^
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.574s
+
+FAILED (failures=1)

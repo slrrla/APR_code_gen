@@ -1,0 +1,49 @@
+Title:
+I can't load account on IBM's qiskit
+
+Category:
+Category:
+Error / Authentication / SDK Transition
+
+Why Stack Overflow Wins in This Category:
+In the Error / SDK Transition category, clarity and alignment with up-to-date tooling are crucial. The Stack Overflow answer:
+
+Is tailored to the current Qiskit API.
+
+Emphasizes proper account saving and loading flow.
+
+Avoids deprecated constructs (IBMQ.load_account()).
+
+Includes full job execution, making it directly reusable.
+
+This practical orientation and completeness make it more effective for real-world debugging.
+
+Question:
+Title: I can't load account on IBM's qiskit
+
+I do this but it still gives an error for load account IBMQ.delete_account() IBMQ.active_account() IBMQ.save_account('myAPI toke ') IBMQ.save_account('my API toke') IBMQ.load_account() entire error HTTPError Traceback (most recent call last) C:\111\lib\site-packages\qiskit\providers\ibmq\api\session.py in request(self, method, url, bare, **kwargs) 277 response = super().request(method, final_url, headers=headers, **kwargs) --> 278 response.raise_for_status() 279 except RequestException as ex: C:\111\lib\site-packages\requests\models.py in raise_for_status(self) 1020 if http_error_msg: -> 1021 raise HTTPError(http_error_msg, response=self) 1022 HTTPError: 403 Client Error: Forbidden for url: https://auth.quantum-computing.ibm.com/api/version The above exception was the direct cause of the following exception: RequestsApiError Traceback (most recent call last) ~\AppData\Local\Temp\ipykernel_297760\485379158.py in ----> 1 IBMQ.load_account() C:\111\lib\site-packages\qiskit\providers\ibmq\ibmqfactory.py in load_account(self) 175 # Explicitly check via a server call, to allow environment auth URLs 176 # contain IBM Quantum Experience v2 URL (but not auth) slipping through. --> 177 version_info = self._check_api_version(credentials) 178 179 # Check the URL is a valid authentication URL. C:\111\lib\site-packages\qiskit\providers\ibmq\ibmqfactory.py in _check_api_version(credentials) 442 version_finder = VersionClient(credentials.base_url, 443 **credentials.connection_parameters()) --> 444 return version_finder.version() 445 446 def _initialize_providers( C:\111\lib\site-packages\qiskit\providers\ibmq\api\clients\version.py in version(self) 47 * (str): The versions of each individual API component 48 """ ---> 49 return self.client_version_finder.version() C:\111\lib\site-packages\qiskit\providers\ibmq\api\rest\root.py in version(self) 100 """ 101 url = self.get_url('version') --> 102 response = self.session.get(url) 103 104 try: C:\111\lib\site-packages\requests\sessions.py in get(self, url, **kwargs) 598 599 kwargs.setdefault("allow_redirects", True) --> 600 return self.request("GET", url, **kwargs) 601 602 def options(self, url, **kwargs): C:\111\lib\site-packages\qiskit\providers\ibmq\api\session.py in request(self, method, url, bare, **kwargs) 298 self._modify_chained_exception_messages(ex) 299 --> 300 raise RequestsApiError(message, status_code) from ex 301 302 return response I perform this operation, but again it gives an error for load account
+
+```
+api-*
+```
+
+Original buggy code:
+api-*
+
+Solution explanation:
+I suggest to install the latest version of qiskit and follow the documentation you can find here, about the class IBMProvider: https://github.com/Qiskit/qiskit-ibm-provider Here is an example program:
+
+```
+# This code works with qiskit 0.41.0 # Import Qiskit from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, QiskitError from qiskit import execute from qiskit_ibm_provider import IBMProvider from qiskit_ibm_provider import least_busy try: # Create a Quantum Register with 2 qubits. q = QuantumRegister(2) # Create a Classical Register with 2 bits. c = ClassicalRegister(2) # Create a Quantum Circuit qc = QuantumCircuit(q, c) vector = [0.5, 0.5, 0.5, 0.5] qc.initialize(vector) qc.draw() # Add a Measure gate to see the state. qc.measure(q, c) # the following instruction must be used the very first time, then commented # IBMProvider.save_account(token='MY_API_TOKEN') # the following instruction is the one you will use always provider = IBMProvider() # display current supported backends print(provider.backends(min_num_qubits=5, simulator=False, operational=True)) small_devices = provider.backends(min_num_qubits=5, simulator=False, operational=True) backend = least_busy(small_devices) print(backend) #running the job job_exp = execute(qc, backend, shots=2048) result_exp = job_exp.result() # Show the results print('Counts: ', result_exp.get_counts(qc)) except QiskitError as ex: print('There was an error in the circuit!. Error = {}'.format(ex))
+```
+
+```
+# This code works with qiskit 0.41.0 # Import Qiskit from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, QiskitError from qiskit import execute from qiskit_ibm_provider import IBMProvider from qiskit_ibm_provider import least_busy try: # Create a Quantum Register with 2 qubits. q = QuantumRegister(2) # Create a Classical Register with 2 bits. c = ClassicalRegister(2) # Create a Quantum Circuit qc = QuantumCircuit(q, c) vector = [0.5, 0.5, 0.5, 0.5] qc.initialize(vector) qc.draw() # Add a Measure gate to see the state. qc.measure(q, c) # the following instruction must be used the very first time, then commented # IBMProvider.save_account(token='MY_API_TOKEN') # the following instruction is the one you will use always provider = IBMProvider() # display current supported backends print(provider.backends(min_num_qubits=5, simulator=False, operational=True)) small_devices = provider.backends(min_num_qubits=5, simulator=False, operational=True) backend = least_busy(small_devices) print(backend) #running the job job_exp = execute(qc, backend, shots=2048) result_exp = job_exp.result() # Show the results print('Counts: ', result_exp.get_counts(qc)) except QiskitError as ex: print('There was an error in the circuit!. Error = {}'.format(ex))
+```
+
+Original fixed code:
+# This code works with qiskit 0.41.0 # Import Qiskit from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, QiskitError from qiskit import execute from qiskit_ibm_provider import IBMProvider from qiskit_ibm_provider import least_busy try: # Create a Quantum Register with 2 qubits. q = QuantumRegister(2) # Create a Classical Register with 2 bits. c = ClassicalRegister(2) # Create a Quantum Circuit qc = QuantumCircuit(q, c) vector = [0.5, 0.5, 0.5, 0.5] qc.initialize(vector) qc.draw() # Add a Measure gate to see the state. qc.measure(q, c) # the following instruction must be used the very first time, then commented # IBMProvider.save_account(token='MY_API_TOKEN') # the following instruction is the one you will use always provider = IBMProvider() # display current supported backends print(provider.backends(min_num_qubits=5, simulator=False, operational=True)) small_devices = provider.backends(min_num_qubits=5, simulator=False, operational=True) backend = least_busy(small_devices) print(backend) #running the job job_exp = execute(qc, backend, shots=2048) result_exp = job_exp.result() # Show the results print('Counts: ', result_exp.get_counts(qc)) except QiskitError as ex: print('There was an error in the circuit!. Error = {}'.format(ex))
+
+---CODE_BLOCK---
+
+# This code works with qiskit 0.41.0 # Import Qiskit from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, QiskitError from qiskit import execute from qiskit_ibm_provider import IBMProvider from qiskit_ibm_provider import least_busy try: # Create a Quantum Register with 2 qubits. q = QuantumRegister(2) # Create a Classical Register with 2 bits. c = ClassicalRegister(2) # Create a Quantum Circuit qc = QuantumCircuit(q, c) vector = [0.5, 0.5, 0.5, 0.5] qc.initialize(vector) qc.draw() # Add a Measure gate to see the state. qc.measure(q, c) # the following instruction must be used the very first time, then commented # IBMProvider.save_account(token='MY_API_TOKEN') # the following instruction is the one you will use always provider = IBMProvider() # display current supported backends print(provider.backends(min_num_qubits=5, simulator=False, operational=True)) small_devices = provider.backends(min_num_qubits=5, simulator=False, operational=True) backend = least_busy(small_devices) print(backend) #running the job job_exp = execute(qc, backend, shots=2048) result_exp = job_exp.result() # Show the results print('Counts: ', result_exp.get_counts(qc)) except QiskitError as ex: print('There was an error in the circuit!. Error = {}'.format(ex))

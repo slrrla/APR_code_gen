@@ -1,0 +1,23 @@
+Title:
+How can I implement a Hamiltonian which is sum of tensored pauli operators on qiskit?
+
+Category:
+
+
+Question:
+Title: How can I implement a Hamiltonian which is sum of tensored pauli operators on qiskit?
+
+I am working with a Tight Binding Hamiltonian with N sites and one orbital at each site in a closed chain. I have converted the fermionic expression to a spin expression using Jordan Wigner Transformation. I want to apply this as a gate in qiskit without using the built-in lattice model functions. This is the Hamiltonian in terms of fermionic operators : $$ H_{\text{sys}} = \sum_{i} \epsilon_i c_{i }^{\dagger} c_{i } + t \sum_{i } (c_{i}^\dagger c_{i+1 } + c_{i+1}^\dagger c_{i } ) $$ This is the expression of the transformed Hamiltonian : $$ H_{\text{sys}} = \sum _{k=1}^{N} \textbf{I}^{\otimes (k-1)} \otimes \epsilon _k \big( \sigma ^- . \sigma ^+ \big)_k \otimes \textbf{I}^{\otimes(N-k)} + \sum _{k=1}^{N} \textbf{I}^{\otimes (k-1)} \otimes \big( \sigma ^- \big) _k \otimes \big( \sigma^+\big)_{k+1} \otimes \textbf{I}^{\otimes (N-k-1)} \\ - \sum _{k=1}^{N} \textbf{I}^{\otimes (k-1)} \otimes \big( \sigma ^+ \big) _k \otimes \big( \sigma^-\big)_{k+1} \otimes \textbf{I}^{\otimes (N-k-1)} $$ $ \sigma _{\pm} = \frac{X \pm i Y}{2}$ I want to know how I can implement this as a gate in qiskit without creating the matrix first, and by simply tensoring the Pauli operators and summing them up using PauliSumOp. What is the best way to implement it in general?
+
+Original buggy code:
+I am working with a Tight Binding Hamiltonian with N sites and one orbital at each site in a closed chain. I have converted the fermionic expression to a spin expression using Jordan Wigner Transformation. I want to apply this as a gate in qiskit without using the built-in lattice model functions. This is the Hamiltonian in terms of fermionic operators : $$ H_{\text{sys}} = \sum_{i} \epsilon_i c_{i }^{\dagger} c_{i } + t \sum_{i } (c_{i}^\dagger c_{i+1 } + c_{i+1}^\dagger c_{i } ) $$ This is the expression of the transformed Hamiltonian : $$ H_{\text{sys}} = \sum _{k=1}^{N} \textbf{I}^{\otimes (k-1)} \otimes \epsilon _k \big( \sigma ^- . \sigma ^+ \big)_k \otimes \textbf{I}^{\otimes(N-k)} + \sum _{k=1}^{N} \textbf{I}^{\otimes (k-1)} \otimes \big( \sigma ^- \big) _k \otimes \big( \sigma^+\big)_{k+1} \otimes \textbf{I}^{\otimes (N-k-1)} \\ - \sum _{k=1}^{N} \textbf{I}^{\otimes (k-1)} \otimes \big( \sigma ^+ \big) _k \otimes \big( \sigma^-\big)_{k+1} \otimes \textbf{I}^{\otimes (N-k-1)} $$ $ \sigma _{\pm} = \frac{X \pm i Y}{2}$ I want to know how I can implement this as a gate in qiskit without creating the matrix first, and by simply tensoring the Pauli operators and summing them up using PauliSumOp. What is the best way to implement it in general?
+
+Solution explanation:
+I used the SparsePauliOp to write the Hamiltonian. And then I used to implement the time evolution operator.
+
+```
+circ.hamiltonian(H,time,list(range(N)))
+```
+
+Original fixed code:
+circ.hamiltonian(H,time,list(range(N)))

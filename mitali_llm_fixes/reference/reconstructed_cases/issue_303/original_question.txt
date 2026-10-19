@@ -1,0 +1,55 @@
+Title:
+In what order does Qiskit assign parameter values?
+
+Category:
+Category:
+Import / Env Config / Parameter Binding
+
+Why Stack Overflow Wins in This Category:
+For parameter binding and configuration issues, internal accuracy about Qiskit’s behavior is crucial. Stack Overflow explains the rationale behind Qiskit’s sorted parameter behavior and offers practical suggestions. The AI answer assumes an incorrect mechanism, which can lead to errors during circuit execution. Thus, the Stack Overflow response is both technically sound and safer for users.
+
+Question:
+Title: In what order does Qiskit assign parameter values?
+
+It seems that "assign_parameters" method introduces the values of the parameters in alphabetical order of different "ParameterVector"s' names. Here is a simple example: Is there a way to introduce them in the temporal order of the circuit diagram? Is the same order applied when introducing parameters as an argument in ? Thank you in advance!
+
+```
+import qiskit from qiskit import QuantumCircuit qc = QuantumCircuit(2) b = qiskit.circuit.ParameterVector('beta', 2) a = qiskit.circuit.ParameterVector('alfa', 2) d = qiskit.circuit.ParameterVector('delta', 1) qc.rx(b[0],0) qc.rx(b[1],1) qc.ry(a[0],0) qc.ry(a[1],1) qc.rz(d[0],0) values= [1,2,3,4,5] print(qc.parameters) qc.assign_parameters(values, inplace=True) qc.draw("mpl")
+```
+
+```
+import qiskit from qiskit import QuantumCircuit qc = QuantumCircuit(2) b = qiskit.circuit.ParameterVector('beta', 2) a = qiskit.circuit.ParameterVector('alfa', 2) d = qiskit.circuit.ParameterVector('delta', 1) qc.rx(b[0],0) qc.rx(b[1],1) qc.ry(a[0],0) qc.ry(a[1],1) qc.rz(d[0],0) values= [1,2,3,4,5] print(qc.parameters) qc.assign_parameters(values, inplace=True) qc.draw("mpl")
+```
+
+```
+Estimator().run(circuit, observable, parameters)
+```
+
+Original buggy code:
+import qiskit from qiskit import QuantumCircuit qc = QuantumCircuit(2) b = qiskit.circuit.ParameterVector('beta', 2) a = qiskit.circuit.ParameterVector('alfa', 2) d = qiskit.circuit.ParameterVector('delta', 1) qc.rx(b[0],0) qc.rx(b[1],1) qc.ry(a[0],0) qc.ry(a[1],1) qc.rz(d[0],0) values= [1,2,3,4,5] print(qc.parameters) qc.assign_parameters(values, inplace=True) qc.draw("mpl")
+
+---CODE_BLOCK---
+
+import qiskit from qiskit import QuantumCircuit qc = QuantumCircuit(2) b = qiskit.circuit.ParameterVector('beta', 2) a = qiskit.circuit.ParameterVector('alfa', 2) d = qiskit.circuit.ParameterVector('delta', 1) qc.rx(b[0],0) qc.rx(b[1],1) qc.ry(a[0],0) qc.ry(a[1],1) qc.rz(d[0],0) values= [1,2,3,4,5] print(qc.parameters) qc.assign_parameters(values, inplace=True) qc.draw("mpl")
+
+---CODE_BLOCK---
+
+Estimator().run(circuit, observable, parameters)
+
+Solution explanation:
+Since the "temporal order" is not unique if we compile the circuit (or e.g. if operations commute), Qiskit assigns the parameters sorted by parameter name. This remains unique under circuit transformation and therefore binding values at different compilation stages always gives the same result. See also the original PR for more info. If you want to enforce a "temporal order", you could insert barriers after each timeslice, which will ensure the compiler doesn't move the operations around (note that this will also prevent some optimizations). Then you could name the parameters after the timeslices, something like . Is the same order applied when introducing parameters as an argument in Estimator().run(circuit, observable, parameters) ? Yes, since this code internally calls .
+
+```
+Parameter("<slice_num>_...")
+```
+
+```
+circuit.assign_parameters(parameters)
+```
+
+Original fixed code:
+Parameter("<slice_num>_...")
+
+---CODE_BLOCK---
+
+circuit.assign_parameters(parameters)

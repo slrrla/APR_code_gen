@@ -1,0 +1,175 @@
+Title:
+Phase shift on qiskit quantum teleportation simulation
+
+Category:
+Category:
+Import
+
+Why AI Wins in This Category:
+In Import / Simulation Debugging scenarios, correctness and reproducibility matter most. The AI:
+
+Offers a fully functional code block ready to run.
+
+Addresses subtle conceptual pitfalls like phase shift and initialization artifacts.
+
+Enhances understanding with educational explanation and stepwise logic.
+
+This comprehensive approach makes it more actionable and complete than the Stack Overflow response.
+
+Question:
+Title: Phase shift on qiskit quantum teleportation simulation
+
+I wonder in Qiskit why the phase shift occurred in my simulation and how I can turn it off. I posted another question regarding the same simulation here, and while I tried to solve this on my own, I found that the phase shift disrupted my quantum teleportation simulation. FYI: This simulation is running quantum teleportation by parts so we can communicate through the terminal. Now, I'll describe my code and what's the problem with screenshots. Alice generates a random state And since this is an initialized object, I put this qubit into the quantum circuit to get the state vector. The result is same as the below: Alice teleport through Bell state I created 3-compound qubit system using tensor product as below. The compound qubit system is the same as below: And then, by using a standard quantum teleportation circuit, I proceed with quantum teleportation. Then I got below output. Next,I put this compound state vector using the initialize method and measured Allice's part The output will be the same as below. As we can see, we got the same information bit except the phase shift. So I expected that when we apply appropriate quantum operation, we could get the same initial 3-quantum system which is the same as [-0.06990825-0.44371049j 0. -0.j 0. -0.j 0. -0.j 0.61540968+0.64769187j 0. +0.j 0. +0.j 0. +0.j ] However, when we implement the below code, we still have a phase shift. I know that in real, Bob also has to measure his qubit, but in a simulation, we want to get the same compound state vector as our input. Also, I know that there is no need to run quantum teleportation simulation by parts like this, and it won't work in IBM Quantum, but for our purpose, running well in our local computer on the Qiskit is enough. First, I thought that the global phase was the reason, so I put "global_phase=0" to make sure even I knew that the default value is 0 for the global phase. After that, I'm still now sure what's the problem. We could see that the initial information reside in part 3 except the phase shift, and we couldn't change the phase shift appropriately. Is there a misunderstanding from me regarding quantum teleportation? Please let me know if you have any concerns. Thank you for taking the time to read all of this.
+
+```
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute, BasicAer, IBMQ from qiskit import Aer from qiskit.visualization import plot_histogram, plot_bloch_multivector from qiskit import * import matplotlib.pyplot as plt from qiskit.visualization import plot_histogram from qiskit.extensions import Initialize from qiskit.quantum_info import Statevector, random_statevector #randome statevector generated from |0> state. def random_state(nqubits): """Creates a random nqubit state vector""" from numpy import append, array, sqrt from numpy.random import random real_parts = array([]) im_parts = array([]) for amplitude in range(2**nqubits): real_parts = append(real_parts, (random()*2)-1) im_parts = append(im_parts, (random()*2)-1) # Combine into list of complex numbers: amps = real_parts + 1j*im_parts # Normalise magnitude_squared = 0 for a in amps: magnitude_squared += abs(a)**2 amps /= sqrt(magnitude_squared) return amps psi = random_state(1) # Initialize the state to be teleported init_gate = Initialize(psi)
+```
+
+```
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute, BasicAer, IBMQ from qiskit import Aer from qiskit.visualization import plot_histogram, plot_bloch_multivector from qiskit import * import matplotlib.pyplot as plt from qiskit.visualization import plot_histogram from qiskit.extensions import Initialize from qiskit.quantum_info import Statevector, random_statevector #randome statevector generated from |0> state. def random_state(nqubits): """Creates a random nqubit state vector""" from numpy import append, array, sqrt from numpy.random import random real_parts = array([]) im_parts = array([]) for amplitude in range(2**nqubits): real_parts = append(real_parts, (random()*2)-1) im_parts = append(im_parts, (random()*2)-1) # Combine into list of complex numbers: amps = real_parts + 1j*im_parts # Normalise magnitude_squared = 0 for a in amps: magnitude_squared += abs(a)**2 amps /= sqrt(magnitude_squared) return amps psi = random_state(1) # Initialize the state to be teleported init_gate = Initialize(psi)
+```
+
+```
+#quantum circuit for getting statevector from initialize objects. qc_init = QuantumCircuit(1,global_phase=0) #Check initial random state print("initial random state") print(init_gate) qc_init.append(init_gate, [0]) print(qc_init) compiled_circuit_init = transpile(qc_init, Aer.get_backend('statevector_simulator')) simulator_init = Aer.get_backend('statevector_simulator') result_init = simulator_init.run(compiled_circuit_init).result() init_statevector = result_init.get_statevector()
+```
+
+```
+#quantum circuit for getting statevector from initialize objects. qc_init = QuantumCircuit(1,global_phase=0) #Check initial random state print("initial random state") print(init_gate) qc_init.append(init_gate, [0]) print(qc_init) compiled_circuit_init = transpile(qc_init, Aer.get_backend('statevector_simulator')) simulator_init = Aer.get_backend('statevector_simulator') result_init = simulator_init.run(compiled_circuit_init).result() init_statevector = result_init.get_statevector()
+```
+
+```
+#use evolve to change Initialize method to Statevector. statevector_bell = Statevector.from_label('00') # Combine the individual statevectors using tensor product compound_statevector = init_statevector.tensor(statevector_bell) print("tensor product result\n") print(compound_statevector.data)
+```
+
+```
+#use evolve to change Initialize method to Statevector. statevector_bell = Statevector.from_label('00') # Combine the individual statevectors using tensor product compound_statevector = init_statevector.tensor(statevector_bell) print("tensor product result\n") print(compound_statevector.data)
+```
+
+```
+#qc is stage1. generate Bell state and operate in Alice's side qc = QuantumCircuit(3, 2,global_phase=0) # Prepare an entangled Bell pair between Alice and Bob qc.h(1) qc.cx(1, 2) qc.barrier() # Entangle the state to be teleported with Alice's qubit qc.cx(0, 1) qc.h(0) #evolve compound statevector through evolve method. compound_statevector = compound_statevector.evolve(qc) print(qc) print("result\n") print(compound_statevector.data)
+```
+
+```
+#qc is stage1. generate Bell state and operate in Alice's side qc = QuantumCircuit(3, 2,global_phase=0) # Prepare an entangled Bell pair between Alice and Bob qc.h(1) qc.cx(1, 2) qc.barrier() # Entangle the state to be teleported with Alice's qubit qc.cx(0, 1) qc.h(0) #evolve compound statevector through evolve method. compound_statevector = compound_statevector.evolve(qc) print(qc) print("result\n") print(compound_statevector.data)
+```
+
+```
+#qc1 is stage2. measure Alice's side qc1 = QuantumCircuit(3,2,global_phase=0) # Measurement on Alice's qubits qc1.initialize(compound_statevector,[0,1,2]) qc1.measure([0, 1], [0, 1]) # Print the circuit and execute to obtain Alice's measurement result print("Measurement outcomes for Alice's qubits:") print(qc1) simulator = BasicAer.get_backend('statevector_simulator') job_alice = execute(qc1, simulator, shots=1) result_alice = job_alice.result() statevector_alice = result_alice.get_statevector() print(statevector_alice) alice_measurement_result = list(result_alice.get_counts(qc1).keys())[0] # Display Alice's measurement result and wait for user input print("Alice's measured information:", alice_measurement_result) input("Press Enter to continue and apply corrections to Bob's qubit")
+```
+
+```
+#qc1 is stage2. measure Alice's side qc1 = QuantumCircuit(3,2,global_phase=0) # Measurement on Alice's qubits qc1.initialize(compound_statevector,[0,1,2]) qc1.measure([0, 1], [0, 1]) # Print the circuit and execute to obtain Alice's measurement result print("Measurement outcomes for Alice's qubits:") print(qc1) simulator = BasicAer.get_backend('statevector_simulator') job_alice = execute(qc1, simulator, shots=1) result_alice = job_alice.result() statevector_alice = result_alice.get_statevector() print(statevector_alice) alice_measurement_result = list(result_alice.get_counts(qc1).keys())[0] # Display Alice's measurement result and wait for user input print("Alice's measured information:", alice_measurement_result) input("Press Enter to continue and apply corrections to Bob's qubit")
+```
+
+```
+#qc2 is stage3. Bob implement operation. qc2 = QuantumCircuit(3, 1,global_phase=0) #typing measured output and feed into bob's quantum circuit will be implemented. qc2.initialize(statevector_alice, [0,1,2]) # Apply corrections to Bob's qubit based on Alice's measurement result if alice_measurement_result[0] == '1': qc2.z(2) if alice_measurement_result[1] == '1': qc2.x(2) print("Complete Quantum Circuit:") print(qc2) job_bob = execute(qc2, simulator, shots=1) result_bob = job_bob.result() statevector_bob = result_bob.get_statevector() print("Measurement outcomes for Bob's qubit:") print(statevector_bob)
+```
+
+```
+#qc2 is stage3. Bob implement operation. qc2 = QuantumCircuit(3, 1,global_phase=0) #typing measured output and feed into bob's quantum circuit will be implemented. qc2.initialize(statevector_alice, [0,1,2]) # Apply corrections to Bob's qubit based on Alice's measurement result if alice_measurement_result[0] == '1': qc2.z(2) if alice_measurement_result[1] == '1': qc2.x(2) print("Complete Quantum Circuit:") print(qc2) job_bob = execute(qc2, simulator, shots=1) result_bob = job_bob.result() statevector_bob = result_bob.get_statevector() print("Measurement outcomes for Bob's qubit:") print(statevector_bob)
+```
+
+Original buggy code:
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute, BasicAer, IBMQ from qiskit import Aer from qiskit.visualization import plot_histogram, plot_bloch_multivector from qiskit import * import matplotlib.pyplot as plt from qiskit.visualization import plot_histogram from qiskit.extensions import Initialize from qiskit.quantum_info import Statevector, random_statevector #randome statevector generated from |0> state. def random_state(nqubits): """Creates a random nqubit state vector""" from numpy import append, array, sqrt from numpy.random import random real_parts = array([]) im_parts = array([]) for amplitude in range(2**nqubits): real_parts = append(real_parts, (random()*2)-1) im_parts = append(im_parts, (random()*2)-1) # Combine into list of complex numbers: amps = real_parts + 1j*im_parts # Normalise magnitude_squared = 0 for a in amps: magnitude_squared += abs(a)**2 amps /= sqrt(magnitude_squared) return amps psi = random_state(1) # Initialize the state to be teleported init_gate = Initialize(psi)
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute, BasicAer, IBMQ from qiskit import Aer from qiskit.visualization import plot_histogram, plot_bloch_multivector from qiskit import * import matplotlib.pyplot as plt from qiskit.visualization import plot_histogram from qiskit.extensions import Initialize from qiskit.quantum_info import Statevector, random_statevector #randome statevector generated from |0> state. def random_state(nqubits): """Creates a random nqubit state vector""" from numpy import append, array, sqrt from numpy.random import random real_parts = array([]) im_parts = array([]) for amplitude in range(2**nqubits): real_parts = append(real_parts, (random()*2)-1) im_parts = append(im_parts, (random()*2)-1) # Combine into list of complex numbers: amps = real_parts + 1j*im_parts # Normalise magnitude_squared = 0 for a in amps: magnitude_squared += abs(a)**2 amps /= sqrt(magnitude_squared) return amps psi = random_state(1) # Initialize the state to be teleported init_gate = Initialize(psi)
+
+---CODE_BLOCK---
+
+#quantum circuit for getting statevector from initialize objects. qc_init = QuantumCircuit(1,global_phase=0) #Check initial random state print("initial random state") print(init_gate) qc_init.append(init_gate, [0]) print(qc_init) compiled_circuit_init = transpile(qc_init, Aer.get_backend('statevector_simulator')) simulator_init = Aer.get_backend('statevector_simulator') result_init = simulator_init.run(compiled_circuit_init).result() init_statevector = result_init.get_statevector()
+
+---CODE_BLOCK---
+
+#quantum circuit for getting statevector from initialize objects. qc_init = QuantumCircuit(1,global_phase=0) #Check initial random state print("initial random state") print(init_gate) qc_init.append(init_gate, [0]) print(qc_init) compiled_circuit_init = transpile(qc_init, Aer.get_backend('statevector_simulator')) simulator_init = Aer.get_backend('statevector_simulator') result_init = simulator_init.run(compiled_circuit_init).result() init_statevector = result_init.get_statevector()
+
+---CODE_BLOCK---
+
+#use evolve to change Initialize method to Statevector. statevector_bell = Statevector.from_label('00') # Combine the individual statevectors using tensor product compound_statevector = init_statevector.tensor(statevector_bell) print("tensor product result\n") print(compound_statevector.data)
+
+---CODE_BLOCK---
+
+#use evolve to change Initialize method to Statevector. statevector_bell = Statevector.from_label('00') # Combine the individual statevectors using tensor product compound_statevector = init_statevector.tensor(statevector_bell) print("tensor product result\n") print(compound_statevector.data)
+
+---CODE_BLOCK---
+
+#qc is stage1. generate Bell state and operate in Alice's side qc = QuantumCircuit(3, 2,global_phase=0) # Prepare an entangled Bell pair between Alice and Bob qc.h(1) qc.cx(1, 2) qc.barrier() # Entangle the state to be teleported with Alice's qubit qc.cx(0, 1) qc.h(0) #evolve compound statevector through evolve method. compound_statevector = compound_statevector.evolve(qc) print(qc) print("result\n") print(compound_statevector.data)
+
+---CODE_BLOCK---
+
+#qc is stage1. generate Bell state and operate in Alice's side qc = QuantumCircuit(3, 2,global_phase=0) # Prepare an entangled Bell pair between Alice and Bob qc.h(1) qc.cx(1, 2) qc.barrier() # Entangle the state to be teleported with Alice's qubit qc.cx(0, 1) qc.h(0) #evolve compound statevector through evolve method. compound_statevector = compound_statevector.evolve(qc) print(qc) print("result\n") print(compound_statevector.data)
+
+---CODE_BLOCK---
+
+#qc1 is stage2. measure Alice's side qc1 = QuantumCircuit(3,2,global_phase=0) # Measurement on Alice's qubits qc1.initialize(compound_statevector,[0,1,2]) qc1.measure([0, 1], [0, 1]) # Print the circuit and execute to obtain Alice's measurement result print("Measurement outcomes for Alice's qubits:") print(qc1) simulator = BasicAer.get_backend('statevector_simulator') job_alice = execute(qc1, simulator, shots=1) result_alice = job_alice.result() statevector_alice = result_alice.get_statevector() print(statevector_alice) alice_measurement_result = list(result_alice.get_counts(qc1).keys())[0] # Display Alice's measurement result and wait for user input print("Alice's measured information:", alice_measurement_result) input("Press Enter to continue and apply corrections to Bob's qubit")
+
+---CODE_BLOCK---
+
+#qc1 is stage2. measure Alice's side qc1 = QuantumCircuit(3,2,global_phase=0) # Measurement on Alice's qubits qc1.initialize(compound_statevector,[0,1,2]) qc1.measure([0, 1], [0, 1]) # Print the circuit and execute to obtain Alice's measurement result print("Measurement outcomes for Alice's qubits:") print(qc1) simulator = BasicAer.get_backend('statevector_simulator') job_alice = execute(qc1, simulator, shots=1) result_alice = job_alice.result() statevector_alice = result_alice.get_statevector() print(statevector_alice) alice_measurement_result = list(result_alice.get_counts(qc1).keys())[0] # Display Alice's measurement result and wait for user input print("Alice's measured information:", alice_measurement_result) input("Press Enter to continue and apply corrections to Bob's qubit")
+
+---CODE_BLOCK---
+
+#qc2 is stage3. Bob implement operation. qc2 = QuantumCircuit(3, 1,global_phase=0) #typing measured output and feed into bob's quantum circuit will be implemented. qc2.initialize(statevector_alice, [0,1,2]) # Apply corrections to Bob's qubit based on Alice's measurement result if alice_measurement_result[0] == '1': qc2.z(2) if alice_measurement_result[1] == '1': qc2.x(2) print("Complete Quantum Circuit:") print(qc2) job_bob = execute(qc2, simulator, shots=1) result_bob = job_bob.result() statevector_bob = result_bob.get_statevector() print("Measurement outcomes for Bob's qubit:") print(statevector_bob)
+
+---CODE_BLOCK---
+
+#qc2 is stage3. Bob implement operation. qc2 = QuantumCircuit(3, 1,global_phase=0) #typing measured output and feed into bob's quantum circuit will be implemented. qc2.initialize(statevector_alice, [0,1,2]) # Apply corrections to Bob's qubit based on Alice's measurement result if alice_measurement_result[0] == '1': qc2.z(2) if alice_measurement_result[1] == '1': qc2.x(2) print("Complete Quantum Circuit:") print(qc2) job_bob = execute(qc2, simulator, shots=1) result_bob = job_bob.result() statevector_bob = result_bob.get_statevector() print("Measurement outcomes for Bob's qubit:") print(statevector_bob)
+
+Solution explanation:
+Qiskit uses little-endian bit ordering (see this answer for details). It seems that you didn't take that into consideration in some places in your code. For example, to tensor product with such that is the first qubit you should use: instead of You may need to review all your code to make sure there are no other issues related to bit ordering. Also, you should switch $X$ and $Z$ gates while applying the correction.
+
+```
+init_statevector
+```
+
+```
+statevector_bell
+```
+
+```
+init_statevector
+```
+
+```
+compound_statevector = statevector_bell.tensor(init_statevector)
+```
+
+```
+compound_statevector = statevector_bell.tensor(init_statevector)
+```
+
+```
+compound_statevector = init_statevector.tensor(statevector_bell)
+```
+
+```
+compound_statevector = init_statevector.tensor(statevector_bell)
+```
+
+Original fixed code:
+init_statevector
+
+---CODE_BLOCK---
+
+statevector_bell
+
+---CODE_BLOCK---
+
+init_statevector
+
+---CODE_BLOCK---
+
+compound_statevector = statevector_bell.tensor(init_statevector)
+
+---CODE_BLOCK---
+
+compound_statevector = statevector_bell.tensor(init_statevector)
+
+---CODE_BLOCK---
+
+compound_statevector = init_statevector.tensor(statevector_bell)
+
+---CODE_BLOCK---
+
+compound_statevector = init_statevector.tensor(statevector_bell)

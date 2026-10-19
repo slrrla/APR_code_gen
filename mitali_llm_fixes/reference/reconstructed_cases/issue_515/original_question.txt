@@ -1,0 +1,222 @@
+Title:
+How to actually send Qiskit code to the que to be ran on an IBM Quantum Computer?
+
+Category:
+Category: Backend Usage / Import
+
+Why AI Solution Wins in This Category:
+In the Backend Usage category, clarity and a full end-to-end working example are crucial. The AI-generated solution provides step-by-step guidance with complete runnable code and practical tips (e.g., memory flag), making it more helpful for beginners and ensuring smooth backend submission. This comprehensiveness and clarity make the AI solution superior in this context
+
+Question:
+Title: How to actually send Qiskit code to the que to be ran on an IBM Quantum Computer?
+
+Apologies for what I feel is a very simple question, So I've figured out how to work with simulating a quantum circuit in Qiskit, but now I'm trying to figure out how I would actually send the code to the queue for a quantum computer. Say I have the following simple code. What do I need to change about the code and/or what would I need to do to actually run this on a quantum computer.
+
+```
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, Aer, execute from numpy import pi qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.h(qreg_q[0]) circuit.measure(qreg_q[0], creg_c[0]) backend = Aer.get_backend('qasm_simulator') job = execute(circuit, Aer.get_backend('qasm_simulator'), shots=20000, memory=True) output=[] result_list=job.result().get_memory() for entry in result_list: output.append(int(entry)) print(output)
+```
+
+```
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, Aer, execute from numpy import pi qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.h(qreg_q[0]) circuit.measure(qreg_q[0], creg_c[0]) backend = Aer.get_backend('qasm_simulator') job = execute(circuit, Aer.get_backend('qasm_simulator'), shots=20000, memory=True) output=[] result_list=job.result().get_memory() for entry in result_list: output.append(int(entry)) print(output)
+```
+
+Original buggy code:
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, Aer, execute from numpy import pi qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.h(qreg_q[0]) circuit.measure(qreg_q[0], creg_c[0]) backend = Aer.get_backend('qasm_simulator') job = execute(circuit, Aer.get_backend('qasm_simulator'), shots=20000, memory=True) output=[] result_list=job.result().get_memory() for entry in result_list: output.append(int(entry)) print(output)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, Aer, execute from numpy import pi qreg_q = QuantumRegister(1, 'q') creg_c = ClassicalRegister(1, 'c') circuit = QuantumCircuit(qreg_q, creg_c) circuit.h(qreg_q[0]) circuit.measure(qreg_q[0], creg_c[0]) backend = Aer.get_backend('qasm_simulator') job = execute(circuit, Aer.get_backend('qasm_simulator'), shots=20000, memory=True) output=[] result_list=job.result().get_memory() for entry in result_list: output.append(int(entry)) print(output)
+
+Solution explanation:
+1. Load your account and select provider The Qiskit account object is the local reference for accessing your IBM Quantum account, and all of the providers, backends, etc., that are available to you. The IBM Quantum account has functions for handling administrative tasks. The credentials can be saved to disk, or used in a session and never saved. where we have assumed that the user has stored their IBM Quantum account information locally ahead of time using . here is the API token you obtain from your IBM Quantum account. To access a given provider one should use the method of the IBMQ account, filtering by , , or : Calling or will return the default public provider instance . 2. Choose backend and send job All providers inherit from and implement the methods (returns all backend objects known to the provider) and (returns the named backend). Using the public provider instance from above: Selecting a backend is done by name using the method: Then all you need to do is substitute the Aer simulator with this backend in your code and your job will be run on an actual quantum computer! Source: Access systems with your account
+
+```
+IBMQ
+```
+
+```
+from qiskit import IBMQ # IBMQ.save_account(TOKEN) IBMQ.load_account() # Load account from disk IBMQ.providers() # List all available providers
+```
+
+```
+from qiskit import IBMQ # IBMQ.save_account(TOKEN) IBMQ.load_account() # Load account from disk IBMQ.providers() # List all available providers
+```
+
+```
+IBMQ.save_account(TOKEN)
+```
+
+```
+TOKEN
+```
+
+```
+get_provider()
+```
+
+```
+hub
+```
+
+```
+group
+```
+
+```
+project
+```
+
+```
+IBMQ.get_provider(hub='ibm-q')
+```
+
+```
+IBMQ.get_provider(hub='ibm-q')
+```
+
+```
+IBMQ.get_provider(group='open')
+```
+
+```
+IBMQ.get_provider(group='open')
+```
+
+```
+IBMQ.load_account()
+```
+
+```
+IBMQ.enable_account()
+```
+
+```
+<AccountProvider for IBMQ(hub='ibm-q', group='open', project='main')>
+```
+
+```
+qiskit.providers.BaseProvider
+```
+
+```
+backends()
+```
+
+```
+get_backend(NAME)
+```
+
+```
+provider = IBMQ.get_provider(hub='ibm-q') provider.backends()
+```
+
+```
+provider = IBMQ.get_provider(hub='ibm-q') provider.backends()
+```
+
+```
+get_backend(NAME)
+```
+
+```
+backend = provider.get_backend('ibmq_vigo') backend
+```
+
+```
+backend = provider.get_backend('ibmq_vigo') backend
+```
+
+Original fixed code:
+IBMQ
+
+---CODE_BLOCK---
+
+from qiskit import IBMQ # IBMQ.save_account(TOKEN) IBMQ.load_account() # Load account from disk IBMQ.providers() # List all available providers
+
+---CODE_BLOCK---
+
+from qiskit import IBMQ # IBMQ.save_account(TOKEN) IBMQ.load_account() # Load account from disk IBMQ.providers() # List all available providers
+
+---CODE_BLOCK---
+
+IBMQ.save_account(TOKEN)
+
+---CODE_BLOCK---
+
+TOKEN
+
+---CODE_BLOCK---
+
+get_provider()
+
+---CODE_BLOCK---
+
+hub
+
+---CODE_BLOCK---
+
+group
+
+---CODE_BLOCK---
+
+project
+
+---CODE_BLOCK---
+
+IBMQ.get_provider(hub='ibm-q')
+
+---CODE_BLOCK---
+
+IBMQ.get_provider(hub='ibm-q')
+
+---CODE_BLOCK---
+
+IBMQ.get_provider(group='open')
+
+---CODE_BLOCK---
+
+IBMQ.get_provider(group='open')
+
+---CODE_BLOCK---
+
+IBMQ.load_account()
+
+---CODE_BLOCK---
+
+IBMQ.enable_account()
+
+---CODE_BLOCK---
+
+<AccountProvider for IBMQ(hub='ibm-q', group='open', project='main')>
+
+---CODE_BLOCK---
+
+qiskit.providers.BaseProvider
+
+---CODE_BLOCK---
+
+backends()
+
+---CODE_BLOCK---
+
+get_backend(NAME)
+
+---CODE_BLOCK---
+
+provider = IBMQ.get_provider(hub='ibm-q') provider.backends()
+
+---CODE_BLOCK---
+
+provider = IBMQ.get_provider(hub='ibm-q') provider.backends()
+
+---CODE_BLOCK---
+
+get_backend(NAME)
+
+---CODE_BLOCK---
+
+backend = provider.get_backend('ibmq_vigo') backend
+
+---CODE_BLOCK---
+
+backend = provider.get_backend('ibmq_vigo') backend

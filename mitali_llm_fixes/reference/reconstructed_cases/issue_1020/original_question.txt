@@ -1,0 +1,39 @@
+Title:
+How can I generate a quaternion using Qiskit?
+
+Category:
+
+
+Question:
+Title: How can I generate a quaternion using Qiskit?
+
+I noticed there's a class in qiskit docs (Here). I've seen there're a couple of methods such as and , but I'm not quite familiar with this class and wondering how can I generate a random quaternion and use those methods available in qiskit? Also, can we use quaternions to solve the practical problems in quantum computing?
+
+```
+Quaternion
+```
+
+```
+norm
+```
+
+```
+normalize
+```
+
+Original buggy code:
+Quaternion
+
+---CODE_BLOCK---
+
+norm
+
+---CODE_BLOCK---
+
+normalize
+
+Solution explanation:
+Quaternion algebra is at the heart of quantum computing, but it's almost never referred to by that name. In quantum computing quaternions show up as two-dimensional unitary matrices, which are single-qubit operations. There's an isomorphism between unit quaternions $(\vert q \vert=1)$ and elements of the Lie group $SU(2)$. Similarly, there's an isomorphism between pure quaternions $(\text{Re}(q)=0)$ and elements of the Lie algebra $\mathfrak{su}(2)$. (This is the well known isomorphism of Lie algebras $\mathfrak{sp}(1)\cong\mathfrak{su}(2)$.) $SU(2)$ consists of all $U(2)$ operations that have trivial global phase (i.e. determinant equal to 1). Since qubit operations differing by global phase are physically indistinguishable, $SU(2)\cong SP(1) = \lbrace \text{unit quaternions} \rbrace$ contains a single copy of every possible single-qubit operation. The correspondence can be seen by comparing the conventional orthonormal basis in $\mathbb{H}^1$, $\lbrace 1,i,j,k \rbrace$, to the the Pauli matrices $\lbrace X,Y,Z \rbrace$: \begin{align} 1 \cong I_2=\begin{bmatrix} 1 &0 \\ 0 &1 \end{bmatrix} && i\cong iX=\begin{bmatrix} 0 & i \\ i & 0 \end{bmatrix} \\ j \cong -iY =\begin{bmatrix} 0 &-1 \\ 1 &0 \end{bmatrix} && k \cong iZ=\begin{bmatrix} i &0 \\ 0 &-i \end{bmatrix}. \end{align} It's easy to see that commutation (adjoint action), multiplication (group action), and exponential maps are identical whether one chooses the language of quaternions or Pauli matrices. But the choice is always Pauli matrices in quantum computing references. Presumably this is because physicists and computer scientists are generally more comfortable with matrices than non-commutative division algebras. In answer to the question, I would strongly recommend getting comfortable working with the matrix representation of quaternions (i.e. as elements of $SU(2)$). This will make it much easier for you to work with standard programs and references in the space where matrix algebra reigns supreme.
+
+Original fixed code:
+Quaternion algebra is at the heart of quantum computing, but it's almost never referred to by that name. In quantum computing quaternions show up as two-dimensional unitary matrices, which are single-qubit operations. There's an isomorphism between unit quaternions $(\vert q \vert=1)$ and elements of the Lie group $SU(2)$. Similarly, there's an isomorphism between pure quaternions $(\text{Re}(q)=0)$ and elements of the Lie algebra $\mathfrak{su}(2)$. (This is the well known isomorphism of Lie algebras $\mathfrak{sp}(1)\cong\mathfrak{su}(2)$.) $SU(2)$ consists of all $U(2)$ operations that have trivial global phase (i.e. determinant equal to 1). Since qubit operations differing by global phase are physically indistinguishable, $SU(2)\cong SP(1) = \lbrace \text{unit quaternions} \rbrace$ contains a single copy of every possible single-qubit operation. The correspondence can be seen by comparing the conventional orthonormal basis in $\mathbb{H}^1$, $\lbrace 1,i,j,k \rbrace$, to the the Pauli matrices $\lbrace X,Y,Z \rbrace$: \begin{align} 1 \cong I_2=\begin{bmatrix} 1 &0 \\ 0 &1 \end{bmatrix} && i\cong iX=\begin{bmatrix} 0 & i \\ i & 0 \end{bmatrix} \\ j \cong -iY =\begin{bmatrix} 0 &-1 \\ 1 &0 \end{bmatrix} && k \cong iZ=\begin{bmatrix} i &0 \\ 0 &-i \end{bmatrix}. \end{align} It's easy to see that commutation (adjoint action), multiplication (group action), and exponential maps are identical whether one chooses the language of quaternions or Pauli matrices. But the choice is always Pauli matrices in quantum computing references. Presumably this is because physicists and computer scientists are generally more comfortable with matrices than non-commutative division algebras. In answer to the question, I would strongly recommend getting comfortable working with the matrix representation of quaternions (i.e. as elements of $SU(2)$). This will make it much easier for you to work with standard programs and references in the space where matrix algebra reigns supreme.

@@ -1,5 +1,5 @@
 
-test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state) ... C:\qiskit_envs\q120\Lib\site-packages\qiskit\providers\fake_provider\fake_backend.py:22: DeprecationWarning: qiskit.providers.models is deprecated since Qiskit 1.2 and will be removed in Qiskit 2.0. With the removal of Qobj, there is no need for these schema-conformant objects. If you still need to use them, it could be because you are using a BackendV1, which is also deprecated in favor of BackendV2.
+test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression.test_fidelity_compares_ideal_qft_with_actual_noisy_result) ... C:\qiskit_envs\q120\Lib\site-packages\qiskit\providers\fake_provider\fake_backend.py:22: DeprecationWarning: qiskit.providers.models is deprecated since Qiskit 1.2 and will be removed in Qiskit 2.0. With the removal of Qobj, there is no need for these schema-conformant objects. If you still need to use them, it could be because you are using a BackendV1, which is also deprecated in favor of BackendV2.
   from qiskit.providers.models import BackendProperties
 C:\qiskit_envs\q120\Lib\site-packages\qiskit\qobj\pulse_qobj.py:576: DeprecationWarning: The class ``qiskit.qobj.pulse_qobj.PulseLibraryItem`` is deprecated as of qiskit 1.2. It will be removed in the 2.0 release. The `Qobj` class and related functionality are part of the deprecated `BackendV1` workflow,  and no longer necessary for `BackendV2`. If a user workflow requires `Qobj` it likely relies on deprecated functionality and should be updated to use `BackendV2`.
   return cls(**data)
@@ -9,6 +9,6 @@ ok
 test_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical) ... ok
 
 ----------------------------------------------------------------------
-Ran 2 tests in 13.277s
+Ran 2 tests in 23.092s
 
 OK

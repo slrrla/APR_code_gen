@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWW3rkskd8i9u05UVMy8O2kdBdeRC",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import QuantumCircuit, execute\nfrom qiskit.providers.aer import QasmSimulator\n\nqc = QuantumCircuit(2)\nqc.h(0)\nqc.cx(0, 1)\n# FIX: The circuit does not save its statevector -> add a save instruction, because QasmSimulator only returns it when explicitly requested.\nqc.save_statevector()\n\nbackend = QasmSimulator()\nbackend_options = {\"method\": \"statevector\"}\n\njob = execute(qc, backend, backend_options=backend_options)\njob_result = job.result()\nprint(job_result.get_statevector(qc))\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418447,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 279,
+    "prompt_tokens": 816,
+    "total_tokens": 1095,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 146,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

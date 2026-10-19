@@ -1,0 +1,131 @@
+Title:
+Qiskit: bind parameters to sub-circuit
+
+Category:
+
+
+Question:
+Title: Qiskit: bind parameters to sub-circuit
+
+I am trying to implement a Hadamard test on a parametrized sub-circuit $V(\bf{a})$. I create an outer circuit and then append the parametrized $V(\bf{a})$ to it. When I finally contruct the bigger circuit and try to bind the parameters, I get the following error: How do I get overcome this problem?
+
+```
+def outer_circuit(subcircuit, imaginary=False): qc = QuantumCircuit(4, 1) qc.append(subcircuit, qc.qubits) [...] # operations return qc def subcircuit(): a = ParameterVector('a', 9) m, n = Parameter('m'), Parameter('n') qc = QuantumCircuit(4, name='V') [...] # random operations which use parameters return qc
+```
+
+```
+def outer_circuit(subcircuit, imaginary=False): qc = QuantumCircuit(4, 1) qc.append(subcircuit, qc.qubits) [...] # operations return qc def subcircuit(): a = ParameterVector('a', 9) m, n = Parameter('m'), Parameter('n') qc = QuantumCircuit(4, name='V') [...] # random operations which use parameters return qc
+```
+
+```
+operator = subcircuit() test = outer_circuit(operator) test.bind_parameters({'a': np.random.rand(9)}) >> CircuitError: 'Cannot bind parameters (a) not present in the circuit.'
+```
+
+```
+operator = subcircuit() test = outer_circuit(operator) test.bind_parameters({'a': np.random.rand(9)}) >> CircuitError: 'Cannot bind parameters (a) not present in the circuit.'
+```
+
+Original buggy code:
+def outer_circuit(subcircuit, imaginary=False): qc = QuantumCircuit(4, 1) qc.append(subcircuit, qc.qubits) [...] # operations return qc def subcircuit(): a = ParameterVector('a', 9) m, n = Parameter('m'), Parameter('n') qc = QuantumCircuit(4, name='V') [...] # random operations which use parameters return qc
+
+---CODE_BLOCK---
+
+def outer_circuit(subcircuit, imaginary=False): qc = QuantumCircuit(4, 1) qc.append(subcircuit, qc.qubits) [...] # operations return qc def subcircuit(): a = ParameterVector('a', 9) m, n = Parameter('m'), Parameter('n') qc = QuantumCircuit(4, name='V') [...] # random operations which use parameters return qc
+
+---CODE_BLOCK---
+
+operator = subcircuit() test = outer_circuit(operator) test.bind_parameters({'a': np.random.rand(9)}) >> CircuitError: 'Cannot bind parameters (a) not present in the circuit.'
+
+---CODE_BLOCK---
+
+operator = subcircuit() test = outer_circuit(operator) test.bind_parameters({'a': np.random.rand(9)}) >> CircuitError: 'Cannot bind parameters (a) not present in the circuit.'
+
+Solution explanation:
+When you append a sub-circuit to a larger circuit, the sub-circuit parameters are added to list of circuit parameters. You can easily check this as follows: So, you can bind them as any parameters in the larger circuit. The issue is that the keys of the parameter dictionary must be the instances not the names[see here]. So, you need to call as follows: Of course to do this the variable needs to be in the scope when you call . The fastest way to do this in your case - although not recommended - is to make it global:
+
+```
+operator = subcircuit() print(operator.parameters) test = outer_circuit(operator) print(test.parameters)
+```
+
+```
+operator = subcircuit() print(operator.parameters) test = outer_circuit(operator) print(test.parameters)
+```
+
+```
+Parameter
+```
+
+```
+Parameter
+```
+
+```
+bind_parameters
+```
+
+```
+test.bind_parameters({a: np.random.rand(9)})
+```
+
+```
+test.bind_parameters({a: np.random.rand(9)})
+```
+
+```
+a
+```
+
+```
+bind_parameters
+```
+
+```
+def subcircuit(): global a a = ParameterVector('a', 9) [...]
+```
+
+```
+def subcircuit(): global a a = ParameterVector('a', 9) [...]
+```
+
+Original fixed code:
+operator = subcircuit() print(operator.parameters) test = outer_circuit(operator) print(test.parameters)
+
+---CODE_BLOCK---
+
+operator = subcircuit() print(operator.parameters) test = outer_circuit(operator) print(test.parameters)
+
+---CODE_BLOCK---
+
+Parameter
+
+---CODE_BLOCK---
+
+Parameter
+
+---CODE_BLOCK---
+
+bind_parameters
+
+---CODE_BLOCK---
+
+test.bind_parameters({a: np.random.rand(9)})
+
+---CODE_BLOCK---
+
+test.bind_parameters({a: np.random.rand(9)})
+
+---CODE_BLOCK---
+
+a
+
+---CODE_BLOCK---
+
+bind_parameters
+
+---CODE_BLOCK---
+
+def subcircuit(): global a a = ParameterVector('a', 9) [...]
+
+---CODE_BLOCK---
+
+def subcircuit(): global a a = ParameterVector('a', 9) [...]

@@ -1,0 +1,82 @@
+Title:
+How to get the simulation method used by AerSimulator(method='automatic')?
+
+Category:
+Category
+Backend Usage / Simulation / Output
+Also minor overlap with: Debuggig
+Winner: Stack Overflow
+Why AI Underperforms in This Category:
+Questions about backend internals or simulation metadata require familiarity with Qiskit’s result object hierarchy.
+AI sometimes relies on surface-level object attributes (.options.method) without verifying deeper fields (like .result().metadata).
+Stack Overflow users with real experience often know these hidden corners better.
+
+Question:
+Title: How to get the simulation method used by AerSimulator(method='automatic')?
+
+Is it possible to obtain the simulation method by a simulation run when using ? For example running a circuit: Then trying to obtain the simulation method used by the two methods: This will only output 'automatic' but I would like to know what method the simulator actually used during the simulation run, e.g. 'statevector', 'density_matrix', 'stabilizer', etc.
+
+```
+AerSimulator(method='automatic')
+```
+
+```
+simulation_run = AerSimulator(method='automatic').run(qc)
+```
+
+```
+simulation_run = AerSimulator(method='automatic').run(qc)
+```
+
+```
+simulation_run.backend().configuration().backend_name simulation_run.backend().options.method
+```
+
+```
+simulation_run.backend().configuration().backend_name simulation_run.backend().options.method
+```
+
+Original buggy code:
+AerSimulator(method='automatic')
+
+---CODE_BLOCK---
+
+simulation_run = AerSimulator(method='automatic').run(qc)
+
+---CODE_BLOCK---
+
+simulation_run = AerSimulator(method='automatic').run(qc)
+
+---CODE_BLOCK---
+
+simulation_run.backend().configuration().backend_name simulation_run.backend().options.method
+
+---CODE_BLOCK---
+
+simulation_run.backend().configuration().backend_name simulation_run.backend().options.method
+
+Solution explanation:
+Method is reported in metadata in the . So, you can get it using the below code snippet:
+
+```
+ExperimentResult
+```
+
+```
+simulation_run.result().results[0].metadata['method']
+```
+
+```
+simulation_run.result().results[0].metadata['method']
+```
+
+Original fixed code:
+ExperimentResult
+
+---CODE_BLOCK---
+
+simulation_run.result().results[0].metadata['method']
+
+---CODE_BLOCK---
+
+simulation_run.result().results[0].metadata['method']

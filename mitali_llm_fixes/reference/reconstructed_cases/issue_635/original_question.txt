@@ -1,0 +1,115 @@
+Title:
+How to implement if statement based on measurement results in qiskit?
+
+Category:
+
+
+Question:
+Title: How to implement if statement based on measurement results in qiskit?
+
+I tried to implement three qubit bit flip code in qiskit and need to get the result of measurements and then apply recovery quantum operations conditioned on the measurement results. The following is a simplified version to initialize a circuit: I noticed that this question had a similar question and they transformed the statement into However, I want to have multiple quantum operations conditioned on the if statement can this work with "c_if"?
+
+```
+q= QuantumRegister(3) c= ClassicalRegister(3) qc= QuantumCircuit(q, c) qc.measure(q,c)
+```
+
+```
+q= QuantumRegister(3) c= ClassicalRegister(3) qc= QuantumCircuit(q, c) qc.measure(q,c)
+```
+
+```
+if(c[0]==0) qc.x(q[0])
+```
+
+```
+if(c[0]==0) qc.x(q[0])
+```
+
+```
+qc.x(q[0]).c_if(c[0], 0)
+```
+
+```
+qc.x(q[0]).c_if(c[0], 0)
+```
+
+```
+if c[0]==1 and c[1]==1: qc.x(q[0]) qc.x(q[1])
+```
+
+```
+if c[0]==1 and c[1]==1: qc.x(q[0]) qc.x(q[1])
+```
+
+Original buggy code:
+q= QuantumRegister(3) c= ClassicalRegister(3) qc= QuantumCircuit(q, c) qc.measure(q,c)
+
+---CODE_BLOCK---
+
+q= QuantumRegister(3) c= ClassicalRegister(3) qc= QuantumCircuit(q, c) qc.measure(q,c)
+
+---CODE_BLOCK---
+
+if(c[0]==0) qc.x(q[0])
+
+---CODE_BLOCK---
+
+if(c[0]==0) qc.x(q[0])
+
+---CODE_BLOCK---
+
+qc.x(q[0]).c_if(c[0], 0)
+
+---CODE_BLOCK---
+
+qc.x(q[0]).c_if(c[0], 0)
+
+---CODE_BLOCK---
+
+if c[0]==1 and c[1]==1: qc.x(q[0]) qc.x(q[1])
+
+---CODE_BLOCK---
+
+if c[0]==1 and c[1]==1: qc.x(q[0]) qc.x(q[1])
+
+Solution explanation:
+AFAIK, what you want can't be run on the hardware right now. See this github issue. However, you can do this in the simulators. If, for example, and make up a two-bit classical register , you can do this:
+
+```
+c[0]
+```
+
+```
+c[1]
+```
+
+```
+c
+```
+
+```
+qc.x(q[0]).c_if(c,3) qc.x(q[1]).c_if(c,3)
+```
+
+```
+qc.x(q[0]).c_if(c,3) qc.x(q[1]).c_if(c,3)
+```
+
+Original fixed code:
+c[0]
+
+---CODE_BLOCK---
+
+c[1]
+
+---CODE_BLOCK---
+
+c
+
+---CODE_BLOCK---
+
+qc.x(q[0]).c_if(c,3) qc.x(q[1]).c_if(c,3)
+
+---CODE_BLOCK---
+
+qc.x(q[0]).c_if(c,3) qc.x(q[1]).c_if(c,3)

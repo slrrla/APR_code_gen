@@ -1,0 +1,55 @@
+Title:
+How efficient is Qiskit's unitary decomposition?
+
+Category:
+Category:
+Version Compatibility / Deprecated API
+
+Why Stack Overflow Wins in This Category:
+Efficiency of decomposition is tied to Qiskit internals and published algorithms. The Stack Overflow solution precisely cites Qiskit’s decomposition pipeline and references the scientific literature, which is critical for correctness in this category. The AI’s generic discussion lacks technical depth and misrepresents Qiskit’s actual methods. Hence, the Stack Overflow solution is better.
+
+Question:
+Title: How efficient is Qiskit's unitary decomposition?
+
+In Qiskit's extension package we have the module that you can initialize using a unitary matrix and then add it to your circuit. How efficiently is this decomposition done under the hood? Also, if I wanted to do the decomposition myself, what's the best way of doing so?
+
+```
+UnitaryGate
+```
+
+Original buggy code:
+UnitaryGate
+
+Solution explanation:
+For 2x2 unitary, it is just a U3-gate. For 4x4 unitary, is used. implements KAK decomposition method described in arXiv:0806.4015 by Drury and Love. This method uses optimal number of CNOT gates. For larger unitaries, class is used. This class implements the method introduced by Iten et al. in arXiv:1501.06911. This method achieves the theoretical lower bound on the number of used CNOT gates. Update: In Qiskit version 0.37 a new module is added to apply Quantum Shannon Decomposition of arbitrary unitaries. This functionality replaces the previous isometry-based approach. The Quantum Shannon Decomposition (arXiv:quant-ph/0406176) uses about half the CNOT gates as the isometry implementation when decomposing unitary matrices of greater than two qubits.
+
+```
+TwoQubitBasisDecomposer
+```
+
+```
+TwoQubitBasisDecomposer
+```
+
+```
+Isometry
+```
+
+```
+qiskit.quantum_info.synthesis.qsd
+```
+
+Original fixed code:
+TwoQubitBasisDecomposer
+
+---CODE_BLOCK---
+
+TwoQubitBasisDecomposer
+
+---CODE_BLOCK---
+
+Isometry
+
+---CODE_BLOCK---
+
+qiskit.quantum_info.synthesis.qsd

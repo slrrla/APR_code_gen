@@ -1,0 +1,55 @@
+Title:
+Principal square root of Pauli Y gate in Qiskit?
+
+Category:
+
+
+Question:
+Title: Principal square root of Pauli Y gate in Qiskit?
+
+I've seen a similar question asked (How do I compute the square root of the $Y$ gate?) but I'm trying to understand how I can use the gates $Y^{\frac{1}{2}}$ or $Y^{\frac{1}{4}}$ in Qiskit in terms of other building blocks, if it is possible. Is there a way to use the gate $Y^{\frac{1}{2}} = \begin{bmatrix} \frac{1}{2} + \frac{1}{2}i & -\frac{1}{2} - \frac{1}{2}i\\ \frac{1}{2} + \frac{1}{2}i & \frac{1}{2} + \frac{1}{2}i \end{bmatrix}$ in Qiskit? I can say that $Y = iRY(\pi)$ and compute the square root manually, but how can I describe such an operation, if possible, in Qiskit?
+
+Original buggy code:
+I've seen a similar question asked (How do I compute the square root of the $Y$ gate?) but I'm trying to understand how I can use the gates $Y^{\frac{1}{2}}$ or $Y^{\frac{1}{4}}$ in Qiskit in terms of other building blocks, if it is possible. Is there a way to use the gate $Y^{\frac{1}{2}} = \begin{bmatrix} \frac{1}{2} + \frac{1}{2}i & -\frac{1}{2} - \frac{1}{2}i\\ \frac{1}{2} + \frac{1}{2}i & \frac{1}{2} + \frac{1}{2}i \end{bmatrix}$ in Qiskit? I can say that $Y = iRY(\pi)$ and compute the square root manually, but how can I describe such an operation, if possible, in Qiskit?
+
+Solution explanation:
+For some reason this took a while to find, but has a simple solution: Where is the object and is the register to apply the gate on.
+
+```
+circ.append(YGate().power(1/2), [qbit])
+```
+
+```
+circ.append(YGate().power(1/2), [qbit])
+```
+
+```
+circ
+```
+
+```
+QuantumCircuit
+```
+
+```
+qbit
+```
+
+Original fixed code:
+circ.append(YGate().power(1/2), [qbit])
+
+---CODE_BLOCK---
+
+circ.append(YGate().power(1/2), [qbit])
+
+---CODE_BLOCK---
+
+circ
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+qbit

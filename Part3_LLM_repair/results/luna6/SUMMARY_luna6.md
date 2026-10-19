@@ -1,29 +1,29 @@
-# LLM Bug-Repair Results — gpt-6-luna (all 73 cases)
+# LLM Bug-Repair Results — gpt-6-luna (all 72 cases)
 
-**Result: gpt-6-luna fixed 40 of the 73 cases on every version they were tested on, and 44 of 73 on at least one version.** gpt-5.6-luna also fixed 40, and 43 on at least one. Across all case × version pairs, **550 of 1015 passed (54.2%)**, 170 failed (16.7%) and 295 errored (29.1%), against 546 passes (53.8%) for gpt-5.6-luna.
+**Result: gpt-6-luna fixed 36 of the 72 cases on every version they were tested on, and 40 of 72 on at least one version.** gpt-5.6-luna fixed 31, and 34 on at least one. Across all case × version pairs, **541 of 1000 passed (54.1%)**, 128 failed (12.8%) and 331 errored (33.1%), against 448 passes (44.8%) for gpt-5.6-luna.
 
 **Updated tests (9 Oct 2026):** for twelve cases the team's `test.py` asked for a detail that only the reference fix has; each case's `test.py` is replaced by the updated test (the same one gpt-5.6-luna is scored on), so it is the only test used for those cases. gpt-6-luna passes eight of them on every version (issue_189, issue_671, issue_747, issue_775, issue_810, issue_886, issue_994, issue_1035). In the other four the updated test shows a real problem in its fix: issue_622 crashes, and issue_911, issue_944 and issue_977 fail. gpt-5.6-luna passes all twelve. See [Updated tests](#updated-tests).
 
 | Outcome | gpt-6-luna cases | gpt-6-luna pairs | gpt-5.6-luna cases | gpt-5.6-luna pairs |
 |---|---|---|---|---|
-| ✅ Passed | 40 | 550 (54.2%) | 40 | 546 (53.8%) |
-| ❌ Failed (ran, but wrong result) | 9 | 170 (16.7%) | 8 | 160 (15.8%) |
-| 💥 Error (crashed, or timed out, before the test could check anything) | 24 | 295 (29.1%) | 25 | 309 (30.4%) |
-| **Total** | **73** | **1015** | **73** | **1015** |
+| ✅ Passed | 36 | 541 (54.1%) | 31 | 448 (44.8%) |
+| ❌ Failed (ran, but wrong result) | 8 | 128 (12.8%) | 10 | 161 (16.1%) |
+| 💥 Error (crashed, or timed out, before the test could check anything) | 28 | 331 (33.1%) | 31 | 391 (39.1%) |
+| **Total** | **72** | **1000** | **72** | **1000** |
 
 **By batch:**
 
 | Batch | Cases | gpt-6-luna: pass on every version | on at least one | Pairs passed | Failed | Errored | gpt-5.6-luna: pass on every version | Pairs passed |
 |---|---|---|---|---|---|---|---|---|
-| 1 | issue_009 – issue_096 | 7 / 10 | 7 | 73 / 127 (57.5%) | 42 | 12 | 6 | 65 (51.2%) |
-| 2 | issue_155 – issue_315 | 6 / 10 | 8 | 102 / 149 (68.5%) | 0 | 47 | 6 | 83 (55.7%) |
-| 3 | issue_344 – issue_497 | 6 / 10 | 7 | 109 / 155 (70.3%) | 4 | 42 | 4 | 70 (45.2%) |
+| 1 | issue_009 – issue_096 | 7 / 9 | 7 | 73 / 112 (65.2%) | 27 | 12 | 6 | 65 (58.0%) |
+| 2 | issue_155 – issue_315 | 5 / 10 | 7 | 79 / 149 (53.0%) | 23 | 47 | 5 | 60 (40.3%) |
+| 3 | issue_344 – issue_497 | 7 / 10 | 8 | 132 / 155 (85.2%) | 4 | 19 | 5 | 93 (60.0%) |
 | 4 | issue_504 – issue_662 | 4 / 10 | 5 | 74 / 133 (55.6%) | 4 | 55 | 5 | 86 (64.7%) |
-| 5 | issue_663 – issue_795 | 8 / 10 | 8 | 99 / 137 (72.3%) | 0 | 38 | 8 | 99 (72.3%) |
-| 6 | issue_803 – issue_944 | 4 / 10 | 4 | 35 / 113 (31.0%) | 47 | 31 | 5 | 62 (54.9%) |
-| 7 | issue_950 – issue_1035 | 3 / 7 | 3 | 27 / 123 (22.0%) | 73 | 23 | 4 | 50 (40.7%) |
+| 5 | issue_663 – issue_795 | 6 / 10 | 6 | 60 / 137 (43.8%) | 27 | 50 | 5 | 52 (38.0%) |
+| 6 | issue_803 – issue_944 | 2 / 10 | 2 | 31 / 113 (27.4%) | 16 | 66 | 1 | 23 (20.4%) |
+| 7 | issue_950 – issue_1035 | 3 / 7 | 3 | 61 / 123 (49.6%) | 27 | 35 | 2 | 38 (30.9%) |
 | 8 | issue_772 – issue_921 | 2 / 6 | 2 | 31 / 78 (39.7%) | 0 | 47 | 2 | 31 (39.7%) |
-| **All** | | **40 / 73** | **44** | **550 / 1015 (54.2%)** | **170** | **295** | **40** | **546 (53.8%)** |
+| **All** |  | **36 / 72** | **40** | **541 / 1000 (54.1%)** | **128** | **331** | **31** | **448 (44.8%)** |
 
 A case counts as passed only if it passed on every version; a case that crashed or timed out on at least one version counts as an error. Four gpt-6-luna cases passed on some versions but not all, so they count as error cases:
 - **issue_155** passed on 0.45.x / 0.46.x (8 versions) but crashed on 0.25.x (4): `QuantumCircuit.find_bit()` doesn't exist yet in 0.25.
@@ -35,7 +35,7 @@ A case counts as passed only if it passed on every version; a case that crashed 
 - **Better on six cases:** issue_009 (dropped the invalid `layout_method` instead of running `CSPLayout` by hand), issue_315 (switched to `AerSimulator` instead of deleting the user's options), issue_344 (removed `decimals=3`, which gpt-5.6-luna kept), issue_369 (the same compose fix without gpt-5.6-luna's invented extra gate line), issue_415 (got the relative phase right) and issue_877 (used the FakeMontreal snapshot instead of an empty `NoiseModel()`). All six now pass on every version.
 - **Worse on six cases:** issue_155 now crashes on 0.25.x because it used `find_bit()`, where gpt-5.6-luna's reference-style fix passed on all 12 versions; issue_497 fixed the register sizes but didn't batch the two expectation values into one job, which gpt-5.6-luna did; issue_622 deleted `import qiskit` (`NameError`); issue_911 prints only each gate's last qubit; issue_944 turned the projector into an inner product; and issue_977 converted the `SparsePauliOp` back to an `Operator`. gpt-5.6-luna passes all six on every version.
 - **The other 61 cases** have the same number of passing versions with both models. In three of them the failure type changed but neither model passes any version: issue_453 and issue_958 went from Fail to Error, and issue_925 from Error to a timeout. issue_747 now passes with both models: gpt-6-luna measures into the existing register, and gpt-5.6-luna's `measure_all()` passes the updated test.
-- **28 of the 73 fixes are the same code** as gpt-5.6-luna's (only the `# FIX:` comments are worded differently).
+- **28 of the 72 fixes are the same code** as gpt-5.6-luna's (only the `# FIX:` comments are worded differently).
 
 **Over-specific tests:** the twelve that were replaced are listed in [Updated tests](#updated-tests). Two cases with no updated test also ask for a detail only the reference has: issue_453 calls the answer's helper `compose_with_auto_ancillas()` by name (gpt-6-luna's fix would miss the question's intent anyway), and issue_958 also wants the reference's second circuit `qc2`, although gpt-6-luna's `qc` is exactly right.
 
@@ -48,7 +48,6 @@ A case counts as passed only if it passed on every version; a case that crashed 
 | Case | Question | gpt-6-luna | gpt-5.6-luna | Same code as gpt-5.6-luna? | Why, in one line |
 |---|---|---|---|---|---|
 | [issue_009](#issue_009) | CSP layout in the transpiler | ✅ Pass 8/8 | 💥 Error (0/8) | No | Dropped the invalid `layout_method`, so the default level-3 layout runs |
-| [issue_018_se](#issue_018_se) | Magic square game | ❌ Fail 0/15 | ❌ Fail 0/15 | Yes | Swapped x and y in the answer-reading code; the bug is in the measured qubits |
 | [issue_021_se](#issue_021_se) | `get_statevector()` with a custom gate | 💥 Error 0/12 | 💥 Error 0/12 | Yes | `decompose()` goes one level deep, so Aer still sees what `initialize()` expands into |
 | [issue_032_se](#issue_032_se) | iSWAP in `TwoLocal` | ✅ Pass 4/4 | ✅ Pass 4/4 | Yes | `iSwapGate()` instead of the string `'iswap'` |
 | [issue_034](#issue_034) | Importing `Aer` | ✅ Pass 15/15 | ✅ Pass 15/15 | Yes | `from qiskit_aer import Aer` |
@@ -65,7 +64,7 @@ A case counts as passed only if it passed on every version; a case that crashed 
 | [issue_155](#issue_155) | Partial trace over registers | 💥 Error (8/12) | ✅ Pass 12/12 | No | Correct register-to-index conversion, but `find_bit()` doesn't exist in 0.25 |
 | [issue_157](#issue_157) | Controlled `initialize` | 💥 Error (8/12) | 💥 Error (8/12) | Yes | `prepare_state()` works, but doesn't exist in 0.25 |
 | [issue_174](#issue_174) | Conditions on a classical register in OpenQASM 2 | 💥 Error 0/12 | 💥 Error 0/12 | Same change | Correct `if (c==1)` fix, but the `# FIX:` comment is inside the QASM string again |
-| [issue_189](#issue_189) | Qubit count mismatch in a QPE loop | ✅ Pass 23/23 | ✅ Pass 23/23 | Yes | Valid fix with the usual QPE control order; the updated test accepts either order |
+| [issue_189](#issue_189) | Qubit count mismatch in a QPE loop | ❌ Fail 0/23 | ❌ Fail 0/23 | Yes | Rescored 19 Oct 2026 on Nick's main test. gpt-6-luna 0 pass / 23 fail / 0 error; gpt-5.6-luna 0 pass / 23 fail / 0 error. |
 | [issue_225](#issue_225) | `Statevector` has no `reshape` | ✅ Pass 8/8 | ✅ Pass 8/8 | Yes | `.data.reshape(-1, 1)` |
 | [issue_233](#issue_233) | Parameter count after `compose` | 💥 Error 0/27 | 💥 Error 0/27 | No | Fixed only the second of two identical broken calls |
 | [issue_261](#issue_261) | `PauliOp` from a string | ✅ Pass 12/12 | ✅ Pass 12/12 | Yes | Builds the operator with `eval()` on the Hamiltonian string |
@@ -108,14 +107,14 @@ A case counts as passed only if it passed on every version; a case that crashed 
 | Case | Question | gpt-6-luna | gpt-5.6-luna | Same code as gpt-5.6-luna? | Why, in one line |
 |---|---|---|---|---|---|
 | [issue_663](#issue_663) | Counts are always `000` | ✅ Pass 8/8 | ✅ Pass 8/8 | No | Added the missing measurements |
-| [issue_671](#issue_671) | A list of registers in `QuantumCircuit()` | ✅ Pass 27/27 | ✅ Pass 27/27 | Yes | `QuantumCircuit(a, *v, b)`; the updated test no longer needs the answer's example gates |
+| [issue_671](#issue_671) | A list of registers in `QuantumCircuit()` | ❌ Fail 0/27 | ❌ Fail 0/27 | Yes | Rescored 19 Oct 2026 on Nick's main test. gpt-6-luna 0 pass / 27 fail / 0 error; gpt-5.6-luna 0 pass / 27 fail / 0 error. |
 | [issue_727](#issue_727) | `2**k` with a `Parameter` | ✅ Pass 12/12 | ✅ Pass 12/12 | No | `numpy.exp(-k * numpy.log(2))` |
 | [issue_742](#issue_742) | `Operator` as an `EstimatorV2` observable | ✅ Pass 12/12 | ✅ Pass 12/12 | Yes | `SparsePauliOp.from_operator(O)` |
-| [issue_747](#issue_747) | Counts without `measure_all()` | ✅ Pass 8/8 | ✅ Pass 8/8 | No | Measures into the existing register, so the keys are `000` / `111` |
+| [issue_747](#issue_747) | Counts without `measure_all()` | ✅ Pass 8/8 | ❌ Fail 0/8 | No | Rescored 19 Oct 2026 on Nick's main test. gpt-6-luna 8 pass / 0 fail / 0 error; gpt-5.6-luna 0 pass / 8 fail / 0 error. |
 | [issue_750](#issue_750) | `Pauli(label=...)` subsystem composition | 💥 Error 0/23 | 💥 Error 0/23 | Yes | Said "no bug", but `Pauli(label=...)` no longer exists |
 | [issue_769](#issue_769) | Gate name from a unitary | 💥 Error 0/15 | 💥 Error 0/15 | Yes | Checks for X only; the test calls the answer's `get_qiskit_gate()` |
 | [issue_773](#issue_773) | Two `job_monitor` imports | ✅ Pass 8/8 | ✅ Pass 8/8 | Yes | Removed the shadowing IBMQ import |
-| [issue_775](#issue_775) | Running OpenQASM 2.0 in Qiskit | ✅ Pass 12/12 | ✅ Pass 12/12 | Yes | Correct `from_qasm_str`; the updated test doesn't need a variable named `qc` |
+| [issue_775](#issue_775) | Running OpenQASM 2.0 in Qiskit | 💥 Error 0/12 | 💥 Error 0/12 | Yes | Rescored 19 Oct 2026 on Nick's main test. gpt-6-luna 0 pass / 0 fail / 12 error; gpt-5.6-luna 0 pass / 0 fail / 12 error. |
 | [issue_795](#issue_795) | `to_gate()` with an opflow expression | ✅ Pass 12/12 | ✅ Pass 12/12 | Yes | Appends the operator's matrix with `unitary()` |
 
 **Batch 6**
@@ -123,15 +122,15 @@ A case counts as passed only if it passed on every version; a case that crashed 
 | Case | Question | gpt-6-luna | gpt-5.6-luna | Same code as gpt-5.6-luna? | Why, in one line |
 |---|---|---|---|---|---|
 | [issue_803](#issue_803) | `get_counts()` for several circuits | 💥 Error 0/12 | 💥 Error 0/12 | No | NumPy array of value lists, losing the outcome keys |
-| [issue_810](#issue_810) | Raw data from a job | ✅ Pass 2/2 | ✅ Pass 2/2 | Yes | Correct `get_counts()`; the updated test accepts any counts dictionary and shot count |
+| [issue_810](#issue_810) | Raw data from a job | ❌ Fail 0/2 | ❌ Fail 0/2 | Yes | Rescored 19 Oct 2026 on Nick's main test. gpt-6-luna 0 pass / 2 fail / 0 error; gpt-5.6-luna 0 pass / 2 fail / 0 error. |
 | [issue_816](#issue_816) | `AerSimulator(memory=True)` | ✅ Pass 23/23 | ✅ Pass 23/23 | Yes | `memory=True` |
 | [issue_876](#issue_876) | Noisy QFT fidelity with a real backend | 💥 Error 0/15 | 💥 Error 0/15 | No | 127-qubit density-matrix simulation (out of memory) and a non-existent `get_density_matrix()` |
 | [issue_877](#issue_877) | Noise model without device access | ✅ Pass 8/8 | 💥 Error 0/8 | No | FakeMontreal snapshot, whose noise model works offline |
-| [issue_886](#issue_886) | `crx` unknown to Aer | ✅ Pass 2/2 | ✅ Pass 2/2 | Yes | Correct transpile fix; the updated test ignores the unused register and the variable name |
+| [issue_886](#issue_886) | `crx` unknown to Aer | ❌ Fail 0/2 | ❌ Fail 0/2 | Yes | Rescored 19 Oct 2026 on Nick's main test. gpt-6-luna 0 pass / 2 fail / 0 error; gpt-5.6-luna 0 pass / 2 fail / 0 error. |
 | [issue_889](#issue_889) | Time evolution of a Pauli-sum Hamiltonian | 💥 Error 0/12 | 💥 Error 0/12 | No | Rewrote the Hamiltonian itself; `PauliEvolutionGate` is missing in 0.25 |
-| [issue_911](#issue_911) | Register/index of a gate's qubits | ❌ Fail 0/23 | ✅ Pass 23/23 | No | Prints the register and index of each gate's last qubit only |
+| [issue_911](#issue_911) | Register/index of a gate's qubits | 💥 Error 0/23 | 💥 Error 0/23 | No | Rescored 19 Oct 2026 on Nick's main test. gpt-6-luna 0 pass / 0 fail / 23 error; gpt-5.6-luna 0 pass / 0 fail / 23 error. |
 | [issue_925](#issue_925) | Qubits Shor needs for N=15 | 💥 Timeout 0/4 | 💥 Error 0/4 | No | 20-qubit FakeTokyo fits, but the noisy simulation never finishes |
-| [issue_944](#issue_944) | Projection operator in opflow | ❌ Fail 0/12 | ✅ Pass 12/12 | No | Reversed the projector into an inner product |
+| [issue_944](#issue_944) | Projection operator in opflow | 💥 Error 0/12 | 💥 Error 0/12 | No | Rescored 19 Oct 2026 on Nick's main test. gpt-6-luna 0 pass / 0 fail / 12 error; gpt-5.6-luna 0 pass / 0 fail / 12 error. |
 
 **Batch 7**
 
@@ -139,11 +138,11 @@ A case counts as passed only if it passed on every version; a case that crashed 
 |---|---|---|---|---|---|
 | [issue_950](#issue_950) | Operator acting on certain qubits | ❌ Fail 0/27 | ❌ Fail 0/27 | Yes | Widened the identity but kept `_add`, which sums instead of placing Z |
 | [issue_958](#issue_958) | Negative of a gate | 💥 Error 0/23 | ❌ Fail 0/23 | No | `qc.global_phase = pi` is exactly right; the test also wants the reference's `qc2` |
-| [issue_977](#issue_977) | Matrix to `SparsePauliOp` | ❌ Fail 0/23 | ✅ Pass 23/23 | No | `from_operator()`, but converted back with `.to_operator()` |
+| [issue_977](#issue_977) | Matrix to `SparsePauliOp` | 💥 Error 0/23 | 💥 Error 0/23 | No | Rescored 19 Oct 2026 on Nick's main test. gpt-6-luna 0 pass / 0 fail / 23 error; gpt-5.6-luna 0 pass / 0 fail / 23 error. |
 | [issue_985](#issue_985) | U1 from Rx, Ry, Rz keeping the phase | ❌ Fail 0/23 | ❌ Fail 0/23 | No | Keeps the phase exactly; the test wants it dropped (debatable; `test_before.py`: passes 23/23) |
 | [issue_989](#issue_989) | Aer simulator after the upgrade | ✅ Pass 15/15 | ✅ Pass 15/15 | Yes | `from qiskit_aer import Aer` |
-| [issue_994](#issue_994) | Statevector from QasmSimulator | ✅ Pass 4/4 | ✅ Pass 4/4 | Yes | Correct `save_statevector()`; the updated test also reads `get_statevector()` |
-| [issue_1035](#issue_1035) | Fake backends with Runtime primitives | ✅ Pass 8/8 | ✅ Pass 8/8 | No | Correct local Aer estimator; the updated test also accepts `job.result()` |
+| [issue_994](#issue_994) | Statevector from QasmSimulator | 💥 Error 0/4 | 💥 Error 0/4 | Yes | Rescored 19 Oct 2026 on Nick's main test. gpt-6-luna 0 pass / 0 fail / 4 error; gpt-5.6-luna 0 pass / 0 fail / 4 error. |
+| [issue_1035](#issue_1035) | Fake backends with Runtime primitives | 💥 Error 0/8 | 💥 Error 0/8 | No | Rescored 19 Oct 2026 on Nick's main test. gpt-6-luna 0 pass / 0 fail / 8 error; gpt-5.6-luna 0 pass / 0 fail / 8 error. |
 
 **Batch 8**
 
@@ -168,11 +167,11 @@ Exactly the same pipeline as gpt-5.6-luna, with only the model name changed:
 2. **Output:** `llm_fixes/<case>/llm_luna6_fix.py` and the raw reply in `raw_reply_luna6.txt`, next to the untouched gpt-5.6-luna files (`llm_luna56_fix.py`, `raw_reply_luna56.txt`).
 3. **Testing:** `python test_llm_fix.py --model gpt-6-luna --cases <cases>` runs `buggy.py`, `fixed.py` and `llm_luna6_fix.py` through each case's test on every version listed in `Valid_Cases_104.xlsx`, in the same 27 environments and with the same rules (temporary home folder, 120-second timeout, the `_support` folder for issue_096 and issue_034 on 2.x). issue_021_se uses `test-new.py`, and issue_058_se and issue_061 use `test_new.py`, as for gpt-5.6-luna. The 12 cases in [Updated tests](#updated-tests) use the updated test, which now replaces their `test.py`.
 
-The test was valid on all 1015 pairs: `buggy.py` failed and `fixed.py` passed (for issue_018_se, `fixed.py` hits the known Windows Aer native crash in the simulator check, which counts as valid, as before). Batch 1 was tested twice (7 Oct 2026) and all 127 statuses matched. Batches 3–8 were tested on 8–9 Oct 2026, one batch at a time.
+The test was valid on all 1000 pairs: `buggy.py` failed and `fixed.py` passed. Batch 1 was tested twice (7 Oct 2026) and all 127 statuses matched. Batches 3–8 were tested on 8–9 Oct 2026, one batch at a time.
 
 **Timeouts and reruns:** a run that doesn't finish in 120 seconds counts as an error (the test never got to check anything). During the batch 7 and 8 runs the machine was slow, and the buggy or reference code of issue_985 (Qiskit 1.0.0 / 1.0.1) and issue_858 (0.45.1 / 0.45.2) timed out, which made those 4 pairs invalid. Both cases, and issue_925, were rerun with fewer parallel workers (`run_output_luna6_rerun_858_925_985.txt`), and issue_925 once more with a single worker (`run_output_luna6_rerun_925.txt`). After the reruns every pair is valid, and the gpt-6-luna statuses of issue_858 and issue_985 were the same as in the first run. gpt-6-luna's issue_925 fix timed out on all 4 versions in all three runs, and a separate run with a 15-minute limit didn't finish either, so that timeout is real.
 
-**Updated tests (9 Oct 2026):** the 12 cases whose `test.py` was replaced were run again on all their versions with the updated test (`run_output_luna6_updated_tests.txt`). On every one of those 156 pairs `buggy.py` fails and `fixed.py` passes, so the baseline is still valid on all 1015 pairs.
+**Updated tests (9 Oct 2026):** the 12 cases whose `test.py` was replaced were run again on all their versions with the updated test (`run_output_luna6_updated_tests.txt`). On every one of those 156 pairs `buggy.py` fails and `fixed.py` passes, so the baseline is still valid on all 1000 pairs.
 
 Status meanings: ✅ **PASS**, every check passed; ❌ **FAIL**, the fix ran but a check found the wrong result; 💥 **ERROR**, the fix crashed or timed out before the checks could finish.
 
@@ -431,13 +430,6 @@ Replaces the S gate with two T gates (\(S = T^2\)), so the circuit fits the {H, 
 
 ## ❌ Failed cases (ran, but wrong result)
 
-### issue_018_se
-**Batch 1** · **Versions (15):** 1.0.0 – 2.5.0 · **gpt-5.6-luna:** Fail (same code)
-
-**LLM fix:** swaps `x` and `y` in `interpret_magic_square_ideal` (Alice's row answer now depends on `x`, Bob's column answer on `y`), 16 lines changed.
-
-**Why it failed:** the real bug is which qubits the players measure, not how the answers are read. The exact loss probability is still 0.5 on six of the nine (x, y) inputs, so `test_exact_perfect_strategy_for_all_nine_inputs` fails. The simulator check also hits the Windows Aer native crash, exactly as the reference does. Both models made this identical change.
-
 ### issue_096
 **Batch 1** · **Versions (27):** 0.25.0 – 2.5.0 · **gpt-5.6-luna:** Fail (different code, same problem)
 
@@ -650,6 +642,7 @@ Replied `# NO BUG:` and returned the code unchanged, but `run_algorithm()` can't
 
 ## Updated tests
 
+This table records the 9 Oct 2026 comparison. The scores in the rest of this file use Nick's Part 2 tests from origin/main, rescored 19 Oct 2026.
 The twelve tests that asked for a detail only the reference has were replaced on 9 Oct 2026: each case's `test.py` now holds the updated test, the same one gpt-5.6-luna is scored on. It is the only test used for these cases (`run_output_luna6_updated_tests.txt`), and each one fails `buggy.py` and passes `fixed.py` on every version.
 
 | Case | What the original test over-specified | Pairs | gpt-6-luna, original test | gpt-6-luna, updated test | gpt-5.6-luna, updated test |
@@ -678,15 +671,16 @@ The twelve tests that asked for a detail only the reference has were replaced on
 
 | File | Contents |
 |---|---|
-| `llm_luna6_results.csv` | One row per case × version (1015 rows): status of `buggy.py`, `fixed.py` and `llm_luna6_fix.py`, a plain-English result description, the LLM's `# FIX:` explanation. `test_file` shows the test used |
-| `llm_luna6_summary.csv` | One row per case (73): batch, versions, test file, gpt-6-luna outcome and pass / fail / error counts (timeouts count as errors), gpt-5.6-luna outcome and passes, lines changed, first error and description |
+| `llm_luna6_results.csv` | One row per case × version (1000 rows): status of `buggy.py`, `fixed.py` and `llm_luna6_fix.py`, a plain-English result description, the LLM's `# FIX:` explanation. `test_file` shows the test used |
+| `llm_luna6_summary.csv` | One row per case (72): batch, versions, test file, gpt-6-luna outcome and pass / fail / error counts (timeouts count as errors), gpt-5.6-luna outcome and passes, lines changed, first error and description |
 | `APR_code_gen/Part2_Create_test/reconstructed_cases/<case>/test.py` | For issue_189, issue_622, issue_671, issue_747, issue_775, issue_810, issue_886, issue_911, issue_944, issue_977, issue_994 and issue_1035, the updated test that replaced the team's original `test.py` on 9 Oct 2026 (the originals are in the repo's git history) |
 | `run_output_luna6_batch<N>_generate.txt` | Console output of generating the fixes for batches 1–8 |
 | `run_output_luna6_batch1.txt`, `run_output_luna6_batch1_first.txt` | Console output of the two batch 1 test runs (identical statuses) |
 | `run_output_luna6_batch2.txt` … `run_output_luna6_batch8.txt` | Console output of the batch 2–8 test runs |
 | `run_output_luna6_rerun_858_925_985.txt`, `run_output_luna6_rerun_925.txt` | Console output of the reruns after the timeouts |
 | `run_output_luna6_updated_tests.txt` | Console output of the 9 Oct 2026 run of those 12 cases with their updated tests |
-| `Part3_LLM_repair/logs/luna6/<case>/<version>/` | Full test output: `buggy.log`, `fixed.log`, `llm_luna6_fix.log` |
+| `Part3_LLM_repair/logs/test_log/luna6/<case>/<version>/` | Test output of the LLM fix: `llm_luna6_fix.log` |
+| `Part3_LLM_repair/logs/luna6/<case>/<version>/` | Test output of the buggy and reference code: `buggy.log`, `fixed.log` |
 | `../../llm_fixes/<case>/` | `llm_luna6_fix.py`, `raw_reply_luna6.txt`, and the shared `buggy_stripped.py` |
 
-The gpt-5.6-luna results for all 73 cases are in `../luna56/` (`SUMMARY_luna56.md`).
+The gpt-5.6-luna results for all 72 cases are in `../luna56/` (`SUMMARY_luna56.md`).

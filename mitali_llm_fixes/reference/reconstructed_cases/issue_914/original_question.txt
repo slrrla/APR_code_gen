@@ -1,0 +1,99 @@
+Title:
+Why a Fourier Adder Gives Multiple Faulty Results?
+
+Category:
+
+
+Question:
+Title: Why a Fourier Adder Gives Multiple Faulty Results?
+
+I followed this tutorial and wrote a code that implements the following circuit: By writing the following code: This circuit should implement $3 + 1 = 4$ by adding the value of register to register (Fourier adder). It should give $ 100\ (bin) = 4\ (dec)$ as an answer for every shot, that is it should be accurate on simulator but it is not. Why is the output wrong? Sorry for advance if I wrote something wrong in code. The output I got is:
+
+```
+from qiskit import QuantumCircuit, Aer, QuantumRegister, ClassicalRegister import qiskit from qiskit import IBMQ import numpy as np from qiskit.circuit.library import QFT from math import pi def set_input_state(a,b): get_binary = lambda x : '{0:{fill}3b}'.format(x, fill='0') r_a = QuantumRegister(3, 'a') r_b = QuantumRegister(3, 'b') cr = ClassicalRegister(3, 'c') qc = QuantumCircuit(r_a, r_b, cr) a_binary = get_binary(a) b_binary = get_binary(b) for i in range(3): if a_binary[i] == '1': qc.x(r_a[2-i]) if b_binary[i] == '1': qc.x(r_b[2-i]) return qc, r_a, r_b, cr def controlled_rotations(qc, reg_a, reg_b, n): for i in range(0,n+1): qc.cp(np.pi/2**i, reg_b[n-i], reg_a[n]) a = 1 b = 3 qc, r_a, r_b, cr = set_input_state(a, b) qc.append(QFT(3, do_swaps=False), [2, 1, 0]) for i in range(0,3): controlled_rotations(qc, r_a, r_b, 2-i) qc.append(QFT(3, do_swaps=False).inverse(), [2, 1, 0]) qc.measure(r_a, cr) qc.draw('mpl') backend= Aer.get_backend('qasm_simulator') job=qiskit.execute(qc, backend, shots=100) result = job.result() counts = result.get_counts(qc) print(counts)
+```
+
+```
+from qiskit import QuantumCircuit, Aer, QuantumRegister, ClassicalRegister import qiskit from qiskit import IBMQ import numpy as np from qiskit.circuit.library import QFT from math import pi def set_input_state(a,b): get_binary = lambda x : '{0:{fill}3b}'.format(x, fill='0') r_a = QuantumRegister(3, 'a') r_b = QuantumRegister(3, 'b') cr = ClassicalRegister(3, 'c') qc = QuantumCircuit(r_a, r_b, cr) a_binary = get_binary(a) b_binary = get_binary(b) for i in range(3): if a_binary[i] == '1': qc.x(r_a[2-i]) if b_binary[i] == '1': qc.x(r_b[2-i]) return qc, r_a, r_b, cr def controlled_rotations(qc, reg_a, reg_b, n): for i in range(0,n+1): qc.cp(np.pi/2**i, reg_b[n-i], reg_a[n]) a = 1 b = 3 qc, r_a, r_b, cr = set_input_state(a, b) qc.append(QFT(3, do_swaps=False), [2, 1, 0]) for i in range(0,3): controlled_rotations(qc, r_a, r_b, 2-i) qc.append(QFT(3, do_swaps=False).inverse(), [2, 1, 0]) qc.measure(r_a, cr) qc.draw('mpl') backend= Aer.get_backend('qasm_simulator') job=qiskit.execute(qc, backend, shots=100) result = job.result() counts = result.get_counts(qc) print(counts)
+```
+
+```
+r_b
+```
+
+```
+r_a
+```
+
+```
+{'111': 67, '011': 5, '000': 10, '010': 7, '110': 11}
+```
+
+Original buggy code:
+from qiskit import QuantumCircuit, Aer, QuantumRegister, ClassicalRegister import qiskit from qiskit import IBMQ import numpy as np from qiskit.circuit.library import QFT from math import pi def set_input_state(a,b): get_binary = lambda x : '{0:{fill}3b}'.format(x, fill='0') r_a = QuantumRegister(3, 'a') r_b = QuantumRegister(3, 'b') cr = ClassicalRegister(3, 'c') qc = QuantumCircuit(r_a, r_b, cr) a_binary = get_binary(a) b_binary = get_binary(b) for i in range(3): if a_binary[i] == '1': qc.x(r_a[2-i]) if b_binary[i] == '1': qc.x(r_b[2-i]) return qc, r_a, r_b, cr def controlled_rotations(qc, reg_a, reg_b, n): for i in range(0,n+1): qc.cp(np.pi/2**i, reg_b[n-i], reg_a[n]) a = 1 b = 3 qc, r_a, r_b, cr = set_input_state(a, b) qc.append(QFT(3, do_swaps=False), [2, 1, 0]) for i in range(0,3): controlled_rotations(qc, r_a, r_b, 2-i) qc.append(QFT(3, do_swaps=False).inverse(), [2, 1, 0]) qc.measure(r_a, cr) qc.draw('mpl') backend= Aer.get_backend('qasm_simulator') job=qiskit.execute(qc, backend, shots=100) result = job.result() counts = result.get_counts(qc) print(counts)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, Aer, QuantumRegister, ClassicalRegister import qiskit from qiskit import IBMQ import numpy as np from qiskit.circuit.library import QFT from math import pi def set_input_state(a,b): get_binary = lambda x : '{0:{fill}3b}'.format(x, fill='0') r_a = QuantumRegister(3, 'a') r_b = QuantumRegister(3, 'b') cr = ClassicalRegister(3, 'c') qc = QuantumCircuit(r_a, r_b, cr) a_binary = get_binary(a) b_binary = get_binary(b) for i in range(3): if a_binary[i] == '1': qc.x(r_a[2-i]) if b_binary[i] == '1': qc.x(r_b[2-i]) return qc, r_a, r_b, cr def controlled_rotations(qc, reg_a, reg_b, n): for i in range(0,n+1): qc.cp(np.pi/2**i, reg_b[n-i], reg_a[n]) a = 1 b = 3 qc, r_a, r_b, cr = set_input_state(a, b) qc.append(QFT(3, do_swaps=False), [2, 1, 0]) for i in range(0,3): controlled_rotations(qc, r_a, r_b, 2-i) qc.append(QFT(3, do_swaps=False).inverse(), [2, 1, 0]) qc.measure(r_a, cr) qc.draw('mpl') backend= Aer.get_backend('qasm_simulator') job=qiskit.execute(qc, backend, shots=100) result = job.result() counts = result.get_counts(qc) print(counts)
+
+---CODE_BLOCK---
+
+r_b
+
+---CODE_BLOCK---
+
+r_a
+
+---CODE_BLOCK---
+
+{'111': 67, '011': 5, '000': 10, '010': 7, '110': 11}
+
+Solution explanation:
+I haven't watched the tutorial, but I have looked at your code and corrected it. I have identified 2 problems: Problem 1 - Omitting the SWAP gates in the QFT: Why would you do such thing? The layer of the SWAP gates is necessary and it sets things up just as we need. Note that (Little-endian): $$EQ \ (1): \ QFT \lvert x\rangle = \lvert \tilde{x} \rangle = \frac{1}{\sqrt{2^n}} \bigotimes_{k = 1}^{n} \left[|0\rangle + \exp \left( \frac{i 2 \pi x}{2^k} \right) |1\rangle \right] $$ We'll take the case of the MSB as an example that demonstrates the role of the SWAP gates. In the case of the MSB $k = 1$, so the value of the exponent is $i \pi x$ - I.e the value of the exponent is an even multiple of $\pi$ if $x$ is even, or an odd multiple of $\pi$ if $x$ is odd. Since the parity of a binary number is determined by the value of the LSB ($0$ = even, $1$ = odd), and since $H|0\rangle = |+\rangle$ (no phase), $H|1\rangle = |-\rangle$ ($\pi$ phase) - Applying $H$ on the LSB and swapping it with the MSB satisfies the above equation for the MSB. Problem 2 - Mistaken rotations in the Fourier addition attempt: In that part we would like to grant the qubits in the target register with the necessary phase shifts such that the desired addition will take place in the Fourier basis, and then when we apply the $QFT^{\dagger}$ and measure in order to see the result in the computational basis. According to equation $(1)$, the value of the target register is already $|\tilde{x}\rangle$. Now we try to add the value of the control register, let it be $|y\rangle$, to the target register. We can do this by applying the right controlled-phase gates. From equation $(1)$ it can be deduced that each qubit should be granted with an additional phase shift of $\frac{i 2 \pi y}{2^k}$. Since $|y\rangle$ is encoded within the qubits of the control register, a calculation of the phase shift needed to be applied from each qubit in the control qubit to every qubit in the target register is required. For that purpose I have wrote the following simple function: And in between the $QFT$ and the $QFT^{\dagger}$ we apply this: And now the Fourier (modulo) adder works perfectly. Note that if the phase being calculated is $2 \pi$ we can break from the inner loop, since phase shifts of even multiples of $\pi$ are indistinguishable and therefore redundant. Edit - The full corrected code, for convenience:
+
+```
+def calcPhase(control_q, target_q, num_qubits): ''' Functionality: This function calculates the phase to be applied upon a specific qubit in the target register, given a specific qubit in the control register, for the Fourier addtion operation. Parameters: control_q (int) - Index of the control qubit within the control register (little-endian). target_q (int) - Index of the target qubit within the control register (little-endian). num_qubits (int) - Amount of qubits in each register. Returns: phase (float) - The phase needed to be applied, in radians. ''' k = num_qubits - target_q phase = ((2 * np.pi) * (2 ** control_q)) / (2 ** k) return phase
+```
+
+```
+def calcPhase(control_q, target_q, num_qubits): ''' Functionality: This function calculates the phase to be applied upon a specific qubit in the target register, given a specific qubit in the control register, for the Fourier addtion operation. Parameters: control_q (int) - Index of the control qubit within the control register (little-endian). target_q (int) - Index of the target qubit within the control register (little-endian). num_qubits (int) - Amount of qubits in each register. Returns: phase (float) - The phase needed to be applied, in radians. ''' k = num_qubits - target_q phase = ((2 * np.pi) * (2 ** control_q)) / (2 ** k) return phase
+```
+
+```
+n = 3 for i in range(0,n): for j in range(n - i): phase = calcPhase(control_q = i, target_q = j, num_qubits = n) if phase == 2 * np.pi: break qc.cp(phase, r_b[i], r_a[j])
+```
+
+```
+n = 3 for i in range(0,n): for j in range(n - i): phase = calcPhase(control_q = i, target_q = j, num_qubits = n) if phase == 2 * np.pi: break qc.cp(phase, r_b[i], r_a[j])
+```
+
+```
+from qiskit import QuantumCircuit, Aer, QuantumRegister, ClassicalRegister, execute import numpy as np from qiskit.circuit.library import QFT def set_input_state(a,b): get_binary = lambda x : '{0:{fill}3b}'.format(x, fill='0') r_a = QuantumRegister(3, 'a') r_b = QuantumRegister(3, 'b') cr = ClassicalRegister(3, 'c') qc = QuantumCircuit(r_a, r_b, cr) a_binary = get_binary(a) b_binary = get_binary(b) for i in range(3): if a_binary[i] == '1': qc.x(r_a[2-i]) if b_binary[i] == '1': qc.x(r_b[2-i]) return qc, r_a, r_b, cr def calcPhase(control_q, target_q, num_qubits): ''' Functionality: This function calculates the phase to be applied upon a specific qubit in the target register, given a specific qubit in the control register, for the Fourier addtion operation. Parameters: control_q (int) - Index of the control qubit within the control register (little-endian). target_q (int) - Index of the target qubit within the control register (little-endian). num_qubits (int) - Amount of qubits in each register. Returns: phase (float) - The phase needed to be applied, in radians. ''' k = num_qubits - target_q phase = ((2 * np.pi) * (2 ** control_q)) / (2 ** k) return phase a = 1 b = 3 qc, r_a, r_b, cr = set_input_state(a, b) qc.append(QFT(3), r_a) n = 3 for i in range(0,n): for j in range(n - i): phase = calcPhase(control_q = i, target_q = j, num_qubits = n) if phase == 2 * np.pi: break qc.cp(phase, r_b[i], r_a[j]) qc.barrier() qc.append(QFT(3).inverse(), r_a) qc.measure(r_a, cr) display(qc.draw('mpl')) backend = Aer.get_backend('qasm_simulator') job = execute(qc, backend, shots = 100) result = job.result() counts = result.get_counts(qc) print(counts)
+```
+
+```
+from qiskit import QuantumCircuit, Aer, QuantumRegister, ClassicalRegister, execute import numpy as np from qiskit.circuit.library import QFT def set_input_state(a,b): get_binary = lambda x : '{0:{fill}3b}'.format(x, fill='0') r_a = QuantumRegister(3, 'a') r_b = QuantumRegister(3, 'b') cr = ClassicalRegister(3, 'c') qc = QuantumCircuit(r_a, r_b, cr) a_binary = get_binary(a) b_binary = get_binary(b) for i in range(3): if a_binary[i] == '1': qc.x(r_a[2-i]) if b_binary[i] == '1': qc.x(r_b[2-i]) return qc, r_a, r_b, cr def calcPhase(control_q, target_q, num_qubits): ''' Functionality: This function calculates the phase to be applied upon a specific qubit in the target register, given a specific qubit in the control register, for the Fourier addtion operation. Parameters: control_q (int) - Index of the control qubit within the control register (little-endian). target_q (int) - Index of the target qubit within the control register (little-endian). num_qubits (int) - Amount of qubits in each register. Returns: phase (float) - The phase needed to be applied, in radians. ''' k = num_qubits - target_q phase = ((2 * np.pi) * (2 ** control_q)) / (2 ** k) return phase a = 1 b = 3 qc, r_a, r_b, cr = set_input_state(a, b) qc.append(QFT(3), r_a) n = 3 for i in range(0,n): for j in range(n - i): phase = calcPhase(control_q = i, target_q = j, num_qubits = n) if phase == 2 * np.pi: break qc.cp(phase, r_b[i], r_a[j]) qc.barrier() qc.append(QFT(3).inverse(), r_a) qc.measure(r_a, cr) display(qc.draw('mpl')) backend = Aer.get_backend('qasm_simulator') job = execute(qc, backend, shots = 100) result = job.result() counts = result.get_counts(qc) print(counts)
+```
+
+Original fixed code:
+def calcPhase(control_q, target_q, num_qubits): ''' Functionality: This function calculates the phase to be applied upon a specific qubit in the target register, given a specific qubit in the control register, for the Fourier addtion operation. Parameters: control_q (int) - Index of the control qubit within the control register (little-endian). target_q (int) - Index of the target qubit within the control register (little-endian). num_qubits (int) - Amount of qubits in each register. Returns: phase (float) - The phase needed to be applied, in radians. ''' k = num_qubits - target_q phase = ((2 * np.pi) * (2 ** control_q)) / (2 ** k) return phase
+
+---CODE_BLOCK---
+
+def calcPhase(control_q, target_q, num_qubits): ''' Functionality: This function calculates the phase to be applied upon a specific qubit in the target register, given a specific qubit in the control register, for the Fourier addtion operation. Parameters: control_q (int) - Index of the control qubit within the control register (little-endian). target_q (int) - Index of the target qubit within the control register (little-endian). num_qubits (int) - Amount of qubits in each register. Returns: phase (float) - The phase needed to be applied, in radians. ''' k = num_qubits - target_q phase = ((2 * np.pi) * (2 ** control_q)) / (2 ** k) return phase
+
+---CODE_BLOCK---
+
+n = 3 for i in range(0,n): for j in range(n - i): phase = calcPhase(control_q = i, target_q = j, num_qubits = n) if phase == 2 * np.pi: break qc.cp(phase, r_b[i], r_a[j])
+
+---CODE_BLOCK---
+
+n = 3 for i in range(0,n): for j in range(n - i): phase = calcPhase(control_q = i, target_q = j, num_qubits = n) if phase == 2 * np.pi: break qc.cp(phase, r_b[i], r_a[j])
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, Aer, QuantumRegister, ClassicalRegister, execute import numpy as np from qiskit.circuit.library import QFT def set_input_state(a,b): get_binary = lambda x : '{0:{fill}3b}'.format(x, fill='0') r_a = QuantumRegister(3, 'a') r_b = QuantumRegister(3, 'b') cr = ClassicalRegister(3, 'c') qc = QuantumCircuit(r_a, r_b, cr) a_binary = get_binary(a) b_binary = get_binary(b) for i in range(3): if a_binary[i] == '1': qc.x(r_a[2-i]) if b_binary[i] == '1': qc.x(r_b[2-i]) return qc, r_a, r_b, cr def calcPhase(control_q, target_q, num_qubits): ''' Functionality: This function calculates the phase to be applied upon a specific qubit in the target register, given a specific qubit in the control register, for the Fourier addtion operation. Parameters: control_q (int) - Index of the control qubit within the control register (little-endian). target_q (int) - Index of the target qubit within the control register (little-endian). num_qubits (int) - Amount of qubits in each register. Returns: phase (float) - The phase needed to be applied, in radians. ''' k = num_qubits - target_q phase = ((2 * np.pi) * (2 ** control_q)) / (2 ** k) return phase a = 1 b = 3 qc, r_a, r_b, cr = set_input_state(a, b) qc.append(QFT(3), r_a) n = 3 for i in range(0,n): for j in range(n - i): phase = calcPhase(control_q = i, target_q = j, num_qubits = n) if phase == 2 * np.pi: break qc.cp(phase, r_b[i], r_a[j]) qc.barrier() qc.append(QFT(3).inverse(), r_a) qc.measure(r_a, cr) display(qc.draw('mpl')) backend = Aer.get_backend('qasm_simulator') job = execute(qc, backend, shots = 100) result = job.result() counts = result.get_counts(qc) print(counts)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, Aer, QuantumRegister, ClassicalRegister, execute import numpy as np from qiskit.circuit.library import QFT def set_input_state(a,b): get_binary = lambda x : '{0:{fill}3b}'.format(x, fill='0') r_a = QuantumRegister(3, 'a') r_b = QuantumRegister(3, 'b') cr = ClassicalRegister(3, 'c') qc = QuantumCircuit(r_a, r_b, cr) a_binary = get_binary(a) b_binary = get_binary(b) for i in range(3): if a_binary[i] == '1': qc.x(r_a[2-i]) if b_binary[i] == '1': qc.x(r_b[2-i]) return qc, r_a, r_b, cr def calcPhase(control_q, target_q, num_qubits): ''' Functionality: This function calculates the phase to be applied upon a specific qubit in the target register, given a specific qubit in the control register, for the Fourier addtion operation. Parameters: control_q (int) - Index of the control qubit within the control register (little-endian). target_q (int) - Index of the target qubit within the control register (little-endian). num_qubits (int) - Amount of qubits in each register. Returns: phase (float) - The phase needed to be applied, in radians. ''' k = num_qubits - target_q phase = ((2 * np.pi) * (2 ** control_q)) / (2 ** k) return phase a = 1 b = 3 qc, r_a, r_b, cr = set_input_state(a, b) qc.append(QFT(3), r_a) n = 3 for i in range(0,n): for j in range(n - i): phase = calcPhase(control_q = i, target_q = j, num_qubits = n) if phase == 2 * np.pi: break qc.cp(phase, r_b[i], r_a[j]) qc.barrier() qc.append(QFT(3).inverse(), r_a) qc.measure(r_a, cr) display(qc.draw('mpl')) backend = Aer.get_backend('qasm_simulator') job = execute(qc, backend, shots = 100) result = job.result() counts = result.get_counts(qc) print(counts)

@@ -1,0 +1,46 @@
+Title:
+Operation conditioned on measurement result
+
+Category:
+Category: Circuit Construction / Logic / Gates
+
+Why Stack Overflow Solution Wins in This Category:
+In this category, the key is logical correctness and quantum gate equivalence. The Stack Overflow solution correctly decomposes the conditional HS unitary using sdg() and h() in the correct order, matching the described transformation matrix. The AI solution, though clean and runnable, implements H•S, not H•S†, which changes the output basis and violates the user’s requirement. Therefore, Stack Overflow is better for correctness and educational clarity in this case
+
+Question:
+Title: Operation conditioned on measurement result
+
+I have a 2 qubit circuit where I wish to measure the first qubit and the measurement outcome determines what operation to implement on qubit 2. The whole process can be simulated using the following operation \begin{equation} |0\rangle\langle0|\otimes H+|1\rangle\langle1|\otimes HS \end{equation} where H is a Hadamard gate and S is the phase gate, i.e. if the result is 0 I will measure in X basis and if it is 1 I will measure in Y basis. As a unitary this is \begin{equation} \begin{pmatrix} \frac{1}{\sqrt{2}}&\frac{1}{\sqrt{2}}&0&0\\ \frac{1}{\sqrt{2}}&-\frac{1}{\sqrt{2}}&0&0\\ 0&0&\frac{1}{\sqrt{2}}&\frac{i}{\sqrt{2}}\\ 0&0&\frac{1}{\sqrt{2}}&\frac{-i}{\sqrt{2}}\\ \end{pmatrix} \end{equation} This can be implemented on IBM's simulator using but does anyone know how to implement this on the real IBM devices? I tried using transpile to see what gates it can be decomposed into. However this gave a very complicated matrix. Is there a simpler way to implement conditional operations on real IBM devices? Thanks!
+
+```
+c_if
+```
+
+Original buggy code:
+c_if
+
+Solution explanation:
+If you want to implement something like this, which can be visualized as: then I don't think you will be able to run it as it on the hardware, since the operation is not yet implementable directly. So to side step this, you need to use deferred measurement principle, which is what you mentioned... as you have determined that the whole process can be simulated by the unitary matrix \begin{equation} U = \begin{pmatrix} \frac{1}{\sqrt{2}}&\frac{1}{\sqrt{2}}&0&0\\ \frac{1}{\sqrt{2}}&-\frac{1}{\sqrt{2}}&0&0\\ 0&0&\frac{1}{\sqrt{2}}&\frac{i}{\sqrt{2}}\\ 0&0&\frac{1}{\sqrt{2}}&\frac{-i}{\sqrt{2}}\\ \end{pmatrix} \end{equation} which you can decomposed into: I don't think this is too long of a circuit. Although the transpiled circuit (based on the new native gates set of IBM's hardware $\{CX, ID, RZ, SX, X \}$), looks quite long... however, I think it is still doable. I don't think there is any other way around in general if you want to perform conditional statement at the moment though so this is probably the only way.
+
+```
+qc= QuantumCircuit(q, c) qc.measure(0,0) qc.h(q[1]).c_if(c,0) qc.sdg(q[1]).c_if(c,1) qc.h(q[1]).c_if(c,1)
+```
+
+```
+qc= QuantumCircuit(q, c) qc.measure(0,0) qc.h(q[1]).c_if(c,0) qc.sdg(q[1]).c_if(c,1) qc.h(q[1]).c_if(c,1)
+```
+
+```
+c_if
+```
+
+Original fixed code:
+qc= QuantumCircuit(q, c) qc.measure(0,0) qc.h(q[1]).c_if(c,0) qc.sdg(q[1]).c_if(c,1) qc.h(q[1]).c_if(c,1)
+
+---CODE_BLOCK---
+
+qc= QuantumCircuit(q, c) qc.measure(0,0) qc.h(q[1]).c_if(c,0) qc.sdg(q[1]).c_if(c,1) qc.h(q[1]).c_if(c,1)
+
+---CODE_BLOCK---
+
+c_if

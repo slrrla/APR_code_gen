@@ -1,0 +1,48 @@
+Title:
+Qiskit | ImportError: cannot import name 'Aer' from 'qiskit'
+
+Category:
+Category: Import Error / Module Split  
+Winner: Both  
+Why Both Are Good: Both solutions correctly identify that `Aer` needs to be imported from the `qiskit-aer` package and guide the user on how to fix it. The Stack Overflow response is brief and effective, while the AI solution adds helpful context and verification tips.  
+Why AI Performs Well in This Category: AI excels at offering **complete technical guidance** with version context, verification steps, and modularity explanations — valuable when libraries change structure.
+
+
+Question:
+Title: Qiskit | ImportError: cannot import name 'Aer' from 'qiskit'
+
+While installing and tried to import Aer, I get an error. 
+ !pip install qiskit
+
+import numpy as np
+from qiskit import QuantumCircuit, Aer, transpile, assemble
+from qiskit.visualization import plot_histogram
+import random
+
+ Any inromation would be highly appreciated.
+
+```
+!pip install qiskit
+
+import numpy as np
+from qiskit import QuantumCircuit, Aer, transpile, assemble
+from qiskit.visualization import plot_histogram
+import random
+```
+
+Original buggy code:
+!pip install qiskit
+
+import numpy as np
+from qiskit import QuantumCircuit, Aer, transpile, assemble
+from qiskit.visualization import plot_histogram
+import random
+
+Solution explanation:
+To fix this issue, install qiskit-aer package by doing pip install qiskit-aer . And then in your code replace: 
+ from qiskit import Aer to from qiskit_aer import Aer 
+ If you have any further problems please include your qiskit version in the question.
+
+Original fixed code:
+from qiskit import Aer to from qiskit_aer import Aer
+ If you have any further problems please include your qiskit version in the question.

@@ -1,14 +1,14 @@
 
-test_exact_negative_h_tensor_h_not_just_global_equivalence (__main__.Regression.test_exact_negative_h_tensor_h_not_just_global_equivalence) ... ERROR
+test_h_tensor_h_up_to_the_permitted_global_phase (__main__.Regression.test_h_tensor_h_up_to_the_permitted_global_phase) ... ERROR
 
 ======================================================================
-ERROR: test_exact_negative_h_tensor_h_not_just_global_equivalence (__main__.Regression.test_exact_negative_h_tensor_h_not_just_global_equivalence)
+ERROR: test_h_tensor_h_up_to_the_permitted_global_phase (__main__.Regression.test_h_tensor_h_up_to_the_permitted_global_phase)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_958\test.py", line 22, in test_exact_negative_h_tensor_h_not_just_global_equivalence
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_958\test.py", line 27, in test_h_tensor_h_up_to_the_permitted_global_phase
     m=target()
       ^^^^^^^^
-  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_958\test.py", line 15, in target
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_958\test.py", line 19, in target
     namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "<frozen runpy>", line 291, in run_path
@@ -20,6 +20,6 @@ Traceback (most recent call last):
 TypeError: unsupported operand type(s) for *: 'int' and 'method'
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.991s
+Ran 1 test in 1.997s
 
 FAILED (errors=1)

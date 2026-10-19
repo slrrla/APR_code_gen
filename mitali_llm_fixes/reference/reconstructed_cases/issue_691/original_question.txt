@@ -1,0 +1,187 @@
+Title:
+Conversion error: from a QISKIT circuit to a QASM string and back
+
+Category:
+
+
+Question:
+Title: Conversion error: from a QISKIT circuit to a QASM string and back
+
+I created a circuit in qiskit and then converted it into a QASM string. When I try to make a circuit out of the QASM string I get the error: I used the following code to convert a circuit into a QASM file: Then I loaded the QASM string like so: After this, I get the QASM error above. I believe gate was generated automatically during the conversion to QASM. It seems the mapping from a qiskit circuit to QASM string is not reversible. How this can be fixed? This is a toy QASM file that produces the error. This is a full qiskit version printout: Ubuntu 20.04.5 LTS
+
+```
+QasmError: "Cannot find gate definition for 'mcphase', line 3 file circuit.qasm"
+```
+
+```
+QasmError: "Cannot find gate definition for 'mcphase', line 3 file circuit.qasm"
+```
+
+```
+qasm_file_name = "circuit.qasm" main_circuit.qasm(formatted=True, filename=qasm_file_name)
+```
+
+```
+qasm_file_name = "circuit.qasm" main_circuit.qasm(formatted=True, filename=qasm_file_name)
+```
+
+```
+circuit = QuantumCircuit.from_qasm_file(qasm_file_name)
+```
+
+```
+circuit = QuantumCircuit.from_qasm_file(qasm_file_name)
+```
+
+```
+mcphase
+```
+
+```
+OPENQASM 2.0; include "qelib1.inc"; gate ccircuit_87_dg q0,q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,q16,q17,q18,q19,q20 { cx q0,q4; cu(pi/2,0,pi,0) q0,q4; mcphase(pi/8) q0,q4; cu(pi/2,0,pi,0) q0,q6;}
+```
+
+```
+OPENQASM 2.0; include "qelib1.inc"; gate ccircuit_87_dg q0,q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,q16,q17,q18,q19,q20 { cx q0,q4; cu(pi/2,0,pi,0) q0,q4; mcphase(pi/8) q0,q4; cu(pi/2,0,pi,0) q0,q6;}
+```
+
+```
+{'qiskit-terra': '0.22.2', 'qiskit-aer': '0.11.1', 'qiskit-ignis': '0.7.0', 'qiskit-ibmq-provider': '0.19.2', 'qiskit': '0.39.2', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+```
+
+```
+{'qiskit-terra': '0.22.2', 'qiskit-aer': '0.11.1', 'qiskit-ignis': '0.7.0', 'qiskit-ibmq-provider': '0.19.2', 'qiskit': '0.39.2', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+```
+
+Original buggy code:
+QasmError: "Cannot find gate definition for 'mcphase', line 3 file circuit.qasm"
+
+---CODE_BLOCK---
+
+QasmError: "Cannot find gate definition for 'mcphase', line 3 file circuit.qasm"
+
+---CODE_BLOCK---
+
+qasm_file_name = "circuit.qasm" main_circuit.qasm(formatted=True, filename=qasm_file_name)
+
+---CODE_BLOCK---
+
+qasm_file_name = "circuit.qasm" main_circuit.qasm(formatted=True, filename=qasm_file_name)
+
+---CODE_BLOCK---
+
+circuit = QuantumCircuit.from_qasm_file(qasm_file_name)
+
+---CODE_BLOCK---
+
+circuit = QuantumCircuit.from_qasm_file(qasm_file_name)
+
+---CODE_BLOCK---
+
+mcphase
+
+---CODE_BLOCK---
+
+OPENQASM 2.0; include "qelib1.inc"; gate ccircuit_87_dg q0,q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,q16,q17,q18,q19,q20 { cx q0,q4; cu(pi/2,0,pi,0) q0,q4; mcphase(pi/8) q0,q4; cu(pi/2,0,pi,0) q0,q6;}
+
+---CODE_BLOCK---
+
+OPENQASM 2.0; include "qelib1.inc"; gate ccircuit_87_dg q0,q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,q16,q17,q18,q19,q20 { cx q0,q4; cu(pi/2,0,pi,0) q0,q4; mcphase(pi/8) q0,q4; cu(pi/2,0,pi,0) q0,q6;}
+
+---CODE_BLOCK---
+
+{'qiskit-terra': '0.22.2', 'qiskit-aer': '0.11.1', 'qiskit-ignis': '0.7.0', 'qiskit-ibmq-provider': '0.19.2', 'qiskit': '0.39.2', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+
+---CODE_BLOCK---
+
+{'qiskit-terra': '0.22.2', 'qiskit-aer': '0.11.1', 'qiskit-ignis': '0.7.0', 'qiskit-ibmq-provider': '0.19.2', 'qiskit': '0.39.2', 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+
+Solution explanation:
+It is a bug. And it has been reported several times before. Here are some workarounds to overcome this issue. Try the one you prefer: Add the sub-circuits using instead of : Transpile the circuit into elementary gates: If you prefer to keep the structure of the saved circuit as close as possible to the original circuit, you can the gates that cause the issue only: Add the missing definition(s) to Qasm:
+
+```
+compose
+```
+
+```
+append
+```
+
+```
+main_circuit.compose(sub_circuit, qubits = [...], inplace = True)
+```
+
+```
+main_circuit.compose(sub_circuit, qubits = [...], inplace = True)
+```
+
+```
+main_circuit = transpile(main_circuit, basis_gates = ['u', 'cx'])
+```
+
+```
+main_circuit = transpile(main_circuit, basis_gates = ['u', 'cx'])
+```
+
+```
+decompose
+```
+
+```
+sub_circuit.append(MCPhaseGate(pi / 8, num_ctrl_qubits = 1, label = 'mcp'), [1, 2]) sub_circuit = sub_circuit.decompose(gates_to_decompose=['mcp'])
+```
+
+```
+sub_circuit.append(MCPhaseGate(pi / 8, num_ctrl_qubits = 1, label = 'mcp'), [1, 2]) sub_circuit = sub_circuit.decompose(gates_to_decompose=['mcp'])
+```
+
+```
+qasm_file_name = 'circuit.qasm' qasm_file_in = open(qasm_file_name, 'r') qasm_str = qasm_file_in.read() qasm_file_in.close() qasm_str = qasm_str.replace('include "qelib1.inc";', 'include "qelib1.inc";\ngate mcphase(param0) q0,q1 { cp(param0) q0,q1; }') circuit = QuantumCircuit.from_qasm_str(qasm_str)
+```
+
+```
+qasm_file_name = 'circuit.qasm' qasm_file_in = open(qasm_file_name, 'r') qasm_str = qasm_file_in.read() qasm_file_in.close() qasm_str = qasm_str.replace('include "qelib1.inc";', 'include "qelib1.inc";\ngate mcphase(param0) q0,q1 { cp(param0) q0,q1; }') circuit = QuantumCircuit.from_qasm_str(qasm_str)
+```
+
+Original fixed code:
+compose
+
+---CODE_BLOCK---
+
+append
+
+---CODE_BLOCK---
+
+main_circuit.compose(sub_circuit, qubits = [...], inplace = True)
+
+---CODE_BLOCK---
+
+main_circuit.compose(sub_circuit, qubits = [...], inplace = True)
+
+---CODE_BLOCK---
+
+main_circuit = transpile(main_circuit, basis_gates = ['u', 'cx'])
+
+---CODE_BLOCK---
+
+main_circuit = transpile(main_circuit, basis_gates = ['u', 'cx'])
+
+---CODE_BLOCK---
+
+decompose
+
+---CODE_BLOCK---
+
+sub_circuit.append(MCPhaseGate(pi / 8, num_ctrl_qubits = 1, label = 'mcp'), [1, 2]) sub_circuit = sub_circuit.decompose(gates_to_decompose=['mcp'])
+
+---CODE_BLOCK---
+
+sub_circuit.append(MCPhaseGate(pi / 8, num_ctrl_qubits = 1, label = 'mcp'), [1, 2]) sub_circuit = sub_circuit.decompose(gates_to_decompose=['mcp'])
+
+---CODE_BLOCK---
+
+qasm_file_name = 'circuit.qasm' qasm_file_in = open(qasm_file_name, 'r') qasm_str = qasm_file_in.read() qasm_file_in.close() qasm_str = qasm_str.replace('include "qelib1.inc";', 'include "qelib1.inc";\ngate mcphase(param0) q0,q1 { cp(param0) q0,q1; }') circuit = QuantumCircuit.from_qasm_str(qasm_str)
+
+---CODE_BLOCK---
+
+qasm_file_name = 'circuit.qasm' qasm_file_in = open(qasm_file_name, 'r') qasm_str = qasm_file_in.read() qasm_file_in.close() qasm_str = qasm_str.replace('include "qelib1.inc";', 'include "qelib1.inc";\ngate mcphase(param0) q0,q1 { cp(param0) q0,q1; }') circuit = QuantumCircuit.from_qasm_str(qasm_str)

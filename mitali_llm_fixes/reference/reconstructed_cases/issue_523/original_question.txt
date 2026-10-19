@@ -1,0 +1,160 @@
+Title:
+HRSCumulativeMultiplier Factorization didn't give expected result
+
+Category:
+Category: Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+Stack Overflow provides deep insight into how to correctly structure Grover's algorithm with modular multiplication in Qiskit. It supplies:
+
+Theoretical justification for Grover iteration count
+
+Modulo-based reasoning for result validation
+
+Complete and optimized working example code
+
+Correct use of the multiplier’s inverse and targeted oracle marking
+
+This makes it the more effective and educational answer for circuit construction involving Grover amplification and arithmetic logic
+
+Question:
+Title: HRSCumulativeMultiplier Factorization didn't give expected result
+
+I have: Two 8-qubit multiplication operands One 8-qubit multiplication result One 1-qubit aux I initialize all operands in superposition with Hadamard gate, then I marked expected result which is or in binary with . Then the last, is performed for amplify expected result. And then quantum register. Filtering amplitude (shot) greater than 1, got following result: index A B Result Aux Shots 0 6 43 1 1 2 1 4 33 9 1 2 2 0 7 0 1 2 3 98 7 13 0 2 4 2 51 7 0 2 5 34 13 8 0 2 6 107 4 14 1 2 7 13 244 4 0 2 8 108 49 1 1 2 9 15 184 14 1 2 10 72 67 0 0 2 11 10 3 11 0 2 12 75 72 8 1 2 13 72 98 10 1 2 14 11 58 7 1 2 15 38 54 8 0 2 As you see, I didn't see expected result which is . Even, multiplication result seems not reflect with its operands which are the factors except at where . Here is the following code: And here is the raw output for shots greater than 2: I expect, it supposed to return the factors of like , , and so on...
+
+```
+180
+```
+
+```
+1011 0100
+```
+
+```
+Multi-Controlled Z
+```
+
+```
+Diffuser
+```
+
+```
+measure_all()
+```
+
+```
+180
+```
+
+```
+index 2
+```
+
+```
+0*7=0
+```
+
+```
+from qiskit import QuantumCircuit, QuantumRegister, from qiskit.circuit.library import HRSCumulativeMultiplier, # Define quantum registers first_operand = QuantumRegister(n_bit, 'operand_a') second_operand = QuantumRegister(n_bit, 'operand_b') multiplication_result = QuantumRegister(n_bit, 'result') aux = QuantumRegister(1, 'aux') qc = QuantumCircuit(first_operand, second_operand, multiplication_result, aux) # All Superposition qc.h(first_operand) qc.h(second_operand) # qc.barrier() expected_result = '10110100' # 180 in decimal print(f'Expected: {expected_result}') # Multiplier multiplier = HRSCumulativeMultiplier(num_state_qubits=n_bit, num_result_qubits=n_bit) qc.append(multiplier, qargs=list(first_operand) + list(second_operand) + list(multiplication_result) + list(aux)) qc.barrier() for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(multiplication_result[i]) qc.barrier() qc.h(multiplication_result[-1]) qc.mcx(multiplication_result[:-1], multiplication_result[-1]) qc.h(multiplication_result[-1]) qc.barrier() for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(multiplication_result[i]) qc.barrier() # Diffuser qc.h(first_operand) qc.h(second_operand) qc.h(multiplication_result) qc.h(aux) # qc.barrier() qc.x(first_operand) qc.x(second_operand) qc.x(multiplication_result) qc.x(aux) qc.barrier() qc.h(aux) qc.mcx(list(range(n_bit*3)), aux) qc.h(aux) qc.barrier() qc.x(first_operand) qc.x(second_operand) qc.x(multiplication_result) qc.x(aux) # qc.barrier() qc.h(first_operand) qc.h(second_operand) qc.h(multiplication_result) qc.h(aux) qc.measure_all() display(qc.draw('mpl'))
+```
+
+```
+from qiskit import QuantumCircuit, QuantumRegister, from qiskit.circuit.library import HRSCumulativeMultiplier, # Define quantum registers first_operand = QuantumRegister(n_bit, 'operand_a') second_operand = QuantumRegister(n_bit, 'operand_b') multiplication_result = QuantumRegister(n_bit, 'result') aux = QuantumRegister(1, 'aux') qc = QuantumCircuit(first_operand, second_operand, multiplication_result, aux) # All Superposition qc.h(first_operand) qc.h(second_operand) # qc.barrier() expected_result = '10110100' # 180 in decimal print(f'Expected: {expected_result}') # Multiplier multiplier = HRSCumulativeMultiplier(num_state_qubits=n_bit, num_result_qubits=n_bit) qc.append(multiplier, qargs=list(first_operand) + list(second_operand) + list(multiplication_result) + list(aux)) qc.barrier() for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(multiplication_result[i]) qc.barrier() qc.h(multiplication_result[-1]) qc.mcx(multiplication_result[:-1], multiplication_result[-1]) qc.h(multiplication_result[-1]) qc.barrier() for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(multiplication_result[i]) qc.barrier() # Diffuser qc.h(first_operand) qc.h(second_operand) qc.h(multiplication_result) qc.h(aux) # qc.barrier() qc.x(first_operand) qc.x(second_operand) qc.x(multiplication_result) qc.x(aux) qc.barrier() qc.h(aux) qc.mcx(list(range(n_bit*3)), aux) qc.h(aux) qc.barrier() qc.x(first_operand) qc.x(second_operand) qc.x(multiplication_result) qc.x(aux) # qc.barrier() qc.h(first_operand) qc.h(second_operand) qc.h(multiplication_result) qc.h(aux) qc.measure_all() display(qc.draw('mpl'))
+```
+
+```
+{'1000000010000011000101011': 2, '1000010010000010000100001': 2, '1000000000000000000000111': 2, '0000011010110001000000111': 2, '0000001110000001000110011': 2, '0000010000010001000001101': 2, '1000011100110101100000100': 2, '0000001000000110111110100': 2, '1000000010110110000110001': 2, '1000011100000111110111000': 2, '0000000000100100001000011': 2, '0000010110000101000000011': 2, '1000010000100101101001000': 2, '1000010100100100001100010': 2, '1000001110000101100111010': 2, '0000010000010011000110110': 2}
+```
+
+```
+{'1000000010000011000101011': 2, '1000010010000010000100001': 2, '1000000000000000000000111': 2, '0000011010110001000000111': 2, '0000001110000001000110011': 2, '0000010000010001000001101': 2, '1000011100110101100000100': 2, '0000001000000110111110100': 2, '1000000010110110000110001': 2, '1000011100000111110111000': 2, '0000000000100100001000011': 2, '0000010110000101000000011': 2, '1000010000100101101001000': 2, '1000010100100100001100010': 2, '1000001110000101100111010': 2, '0000010000010011000110110': 2}
+```
+
+```
+180
+```
+
+```
+2*90
+```
+
+```
+4*45
+```
+
+Original buggy code:
+180
+
+---CODE_BLOCK---
+
+1011 0100
+
+---CODE_BLOCK---
+
+Multi-Controlled Z
+
+---CODE_BLOCK---
+
+Diffuser
+
+---CODE_BLOCK---
+
+measure_all()
+
+---CODE_BLOCK---
+
+180
+
+---CODE_BLOCK---
+
+index 2
+
+---CODE_BLOCK---
+
+0*7=0
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, QuantumRegister, from qiskit.circuit.library import HRSCumulativeMultiplier, # Define quantum registers first_operand = QuantumRegister(n_bit, 'operand_a') second_operand = QuantumRegister(n_bit, 'operand_b') multiplication_result = QuantumRegister(n_bit, 'result') aux = QuantumRegister(1, 'aux') qc = QuantumCircuit(first_operand, second_operand, multiplication_result, aux) # All Superposition qc.h(first_operand) qc.h(second_operand) # qc.barrier() expected_result = '10110100' # 180 in decimal print(f'Expected: {expected_result}') # Multiplier multiplier = HRSCumulativeMultiplier(num_state_qubits=n_bit, num_result_qubits=n_bit) qc.append(multiplier, qargs=list(first_operand) + list(second_operand) + list(multiplication_result) + list(aux)) qc.barrier() for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(multiplication_result[i]) qc.barrier() qc.h(multiplication_result[-1]) qc.mcx(multiplication_result[:-1], multiplication_result[-1]) qc.h(multiplication_result[-1]) qc.barrier() for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(multiplication_result[i]) qc.barrier() # Diffuser qc.h(first_operand) qc.h(second_operand) qc.h(multiplication_result) qc.h(aux) # qc.barrier() qc.x(first_operand) qc.x(second_operand) qc.x(multiplication_result) qc.x(aux) qc.barrier() qc.h(aux) qc.mcx(list(range(n_bit*3)), aux) qc.h(aux) qc.barrier() qc.x(first_operand) qc.x(second_operand) qc.x(multiplication_result) qc.x(aux) # qc.barrier() qc.h(first_operand) qc.h(second_operand) qc.h(multiplication_result) qc.h(aux) qc.measure_all() display(qc.draw('mpl'))
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit, QuantumRegister, from qiskit.circuit.library import HRSCumulativeMultiplier, # Define quantum registers first_operand = QuantumRegister(n_bit, 'operand_a') second_operand = QuantumRegister(n_bit, 'operand_b') multiplication_result = QuantumRegister(n_bit, 'result') aux = QuantumRegister(1, 'aux') qc = QuantumCircuit(first_operand, second_operand, multiplication_result, aux) # All Superposition qc.h(first_operand) qc.h(second_operand) # qc.barrier() expected_result = '10110100' # 180 in decimal print(f'Expected: {expected_result}') # Multiplier multiplier = HRSCumulativeMultiplier(num_state_qubits=n_bit, num_result_qubits=n_bit) qc.append(multiplier, qargs=list(first_operand) + list(second_operand) + list(multiplication_result) + list(aux)) qc.barrier() for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(multiplication_result[i]) qc.barrier() qc.h(multiplication_result[-1]) qc.mcx(multiplication_result[:-1], multiplication_result[-1]) qc.h(multiplication_result[-1]) qc.barrier() for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(multiplication_result[i]) qc.barrier() # Diffuser qc.h(first_operand) qc.h(second_operand) qc.h(multiplication_result) qc.h(aux) # qc.barrier() qc.x(first_operand) qc.x(second_operand) qc.x(multiplication_result) qc.x(aux) qc.barrier() qc.h(aux) qc.mcx(list(range(n_bit*3)), aux) qc.h(aux) qc.barrier() qc.x(first_operand) qc.x(second_operand) qc.x(multiplication_result) qc.x(aux) # qc.barrier() qc.h(first_operand) qc.h(second_operand) qc.h(multiplication_result) qc.h(aux) qc.measure_all() display(qc.draw('mpl'))
+
+---CODE_BLOCK---
+
+{'1000000010000011000101011': 2, '1000010010000010000100001': 2, '1000000000000000000000111': 2, '0000011010110001000000111': 2, '0000001110000001000110011': 2, '0000010000010001000001101': 2, '1000011100110101100000100': 2, '0000001000000110111110100': 2, '1000000010110110000110001': 2, '1000011100000111110111000': 2, '0000000000100100001000011': 2, '0000010110000101000000011': 2, '1000010000100101101001000': 2, '1000010100100100001100010': 2, '1000001110000101100111010': 2, '0000010000010011000110110': 2}
+
+---CODE_BLOCK---
+
+{'1000000010000011000101011': 2, '1000010010000010000100001': 2, '1000000000000000000000111': 2, '0000011010110001000000111': 2, '0000001110000001000110011': 2, '0000010000010001000001101': 2, '1000011100110101100000100': 2, '0000001000000110111110100': 2, '1000000010110110000110001': 2, '1000011100000111110111000': 2, '0000000000100100001000011': 2, '0000010110000101000000011': 2, '1000010000100101101001000': 2, '1000010100100100001100010': 2, '1000001110000101100111010': 2, '0000010000010011000110110': 2}
+
+---CODE_BLOCK---
+
+180
+
+---CODE_BLOCK---
+
+2*90
+
+---CODE_BLOCK---
+
+4*45
+
+Solution explanation:
+The diffuser should only be applied to your operand registers. (1,180), (2,90), (3,60), (4,45), (5,36), (6,30), (9,20), (10,18), (12,15) are the 9 possible ways ways you can factorize 180, but you can get each of these combinations on either the first operand or the second operand, so there's a total of 18 “conventional” solutions. Furthermore, as @egretta-thula mentioned, this a modulo N multiplier, so there will be even more solutions satisfying $ (a \times b) \text{ mod } 2^8 = 180$. Since you are marking a few solutions out of a total of $N = 2^{(8+8)} = 65536$ superposition items, you might need to apply the oracle+diffuser in Grover’s algorithm more than just once. You need roughly $\lfloor\ \pi/4 \sqrt(N/M) \rfloor$ times, where $M$ are the possible solutions. So keep this in mind to pick how many iterations you need. You won’t get the solution with 100% probability, so you need many more shots to maximize the chances of seeing the right results. One thing I forgot to note before is that, as @egretta-thula also pointed out, you need to perform the uncomputation of the multiplier. I mentioned to you in a separate post that this uncomputation step is a very important for the algorithm to work correctly. Here is an example for a smaller number of qubits ($n = 5$). The oracle is marking number $21$, for which the possible pairs that meet the condition $(a \times b) \text{ mod } 2^5 = 21$ are: $(1, 21), (3, 7), (5, 17), (7, 3), (9, 13), (11, 31), (13, 9), (15, 27), (17, 5), (19, 23), (21, 1), (23, 19), (25, 29), (27, 15), (29, 25), (31, 11).$ Since there are a total of $2^{(5+5)} = 1024$ superposition states, and a total of $16$ possible solutions, you need to apply $\lfloor\ \pi/4 \sqrt(1024/16) \rfloor = 6$ iterations. Here's how the circuit looks like: And this is the plot of the results: As you can see, the 16 expected solutions are correctly amplified.
+
+```
+# imports from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, transpile from qiskit.circuit.library import HRSCumulativeMultiplier from qiskit.visualization import plot_histogram from qiskit_aer import AerSimulator sim = AerSimulator() expected_result = '10101' # 21 in decimal n_bit = len(expected_result) # number of qubits print(f'Expected: {expected_result}') # function to mark element def mark_elem(expected_result): n = len(expected_result) qc = QuantumCircuit(n, name=' Mark Elem') for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(i) qc.barrier() qc.h(n-1) qc.mcx(list(range(n-1)), n-1) qc.h(n-1) qc.barrier() for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(i) return qc # function for diffuser def diffuser(n): qc = QuantumCircuit(n, name=' Diffuser') qc.h(range(n)) # qc.barrier() qc.x(range(n)) qc.barrier() qc.h(n-1) qc.mcx(list(range(n-1)),n-1) qc.h(n-1) qc.barrier() qc.x(range(n)) # qc.barrier() qc.h(range(n)) return qc # multipler gate multiplier = HRSCumulativeMultiplier(num_state_qubits=n_bit, num_result_qubits=n_bit) # Define quantum registers first_operand = QuantumRegister(n_bit, 'operand_a') second_operand = QuantumRegister(n_bit, 'operand_b') multiplication_result = QuantumRegister(n_bit, 'result') aux = QuantumRegister(1, 'aux') first_meas = ClassicalRegister(n_bit,'a_m') second_meas = ClassicalRegister(n_bit,'b_m') qc = QuantumCircuit(first_operand, second_operand, multiplication_result, aux, first_meas, second_meas) # initialize operands in superposition qc.h(first_operand) qc.h(second_operand) # iterate to apply oracle+diffuser for i in range(6): qc.append(multiplier, qargs=list(first_operand) + list(second_operand) + list(multiplication_result) + list(aux)) qc.append(mark_elem(expected_result),multiplication_result) qc.append(multiplier.inverse(), qargs=list(first_operand) + list(second_operand) + list(multiplication_result) + list(aux)) qc.append(diffuser(2*n_bit),range(2*n_bit)) qc.barrier() qc.measure(first_operand,first_meas) qc.measure(second_operand,second_meas) # transpile, run sim, extract results qc_t = transpile(qc,sim) counts = sim.run(qc_t, shots=2**14).result().get_counts() counts_new = {str(int(key[0:n_bit+1],2))+' '+str(int(key[n_bit+1:],2)): value for key, value in counts.items()} plot_histogram(counts_new, figsize=(30,5))
+```
+
+```
+# imports from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, transpile from qiskit.circuit.library import HRSCumulativeMultiplier from qiskit.visualization import plot_histogram from qiskit_aer import AerSimulator sim = AerSimulator() expected_result = '10101' # 21 in decimal n_bit = len(expected_result) # number of qubits print(f'Expected: {expected_result}') # function to mark element def mark_elem(expected_result): n = len(expected_result) qc = QuantumCircuit(n, name=' Mark Elem') for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(i) qc.barrier() qc.h(n-1) qc.mcx(list(range(n-1)), n-1) qc.h(n-1) qc.barrier() for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(i) return qc # function for diffuser def diffuser(n): qc = QuantumCircuit(n, name=' Diffuser') qc.h(range(n)) # qc.barrier() qc.x(range(n)) qc.barrier() qc.h(n-1) qc.mcx(list(range(n-1)),n-1) qc.h(n-1) qc.barrier() qc.x(range(n)) # qc.barrier() qc.h(range(n)) return qc # multipler gate multiplier = HRSCumulativeMultiplier(num_state_qubits=n_bit, num_result_qubits=n_bit) # Define quantum registers first_operand = QuantumRegister(n_bit, 'operand_a') second_operand = QuantumRegister(n_bit, 'operand_b') multiplication_result = QuantumRegister(n_bit, 'result') aux = QuantumRegister(1, 'aux') first_meas = ClassicalRegister(n_bit,'a_m') second_meas = ClassicalRegister(n_bit,'b_m') qc = QuantumCircuit(first_operand, second_operand, multiplication_result, aux, first_meas, second_meas) # initialize operands in superposition qc.h(first_operand) qc.h(second_operand) # iterate to apply oracle+diffuser for i in range(6): qc.append(multiplier, qargs=list(first_operand) + list(second_operand) + list(multiplication_result) + list(aux)) qc.append(mark_elem(expected_result),multiplication_result) qc.append(multiplier.inverse(), qargs=list(first_operand) + list(second_operand) + list(multiplication_result) + list(aux)) qc.append(diffuser(2*n_bit),range(2*n_bit)) qc.barrier() qc.measure(first_operand,first_meas) qc.measure(second_operand,second_meas) # transpile, run sim, extract results qc_t = transpile(qc,sim) counts = sim.run(qc_t, shots=2**14).result().get_counts() counts_new = {str(int(key[0:n_bit+1],2))+' '+str(int(key[n_bit+1:],2)): value for key, value in counts.items()} plot_histogram(counts_new, figsize=(30,5))
+```
+
+Original fixed code:
+# imports from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, transpile from qiskit.circuit.library import HRSCumulativeMultiplier from qiskit.visualization import plot_histogram from qiskit_aer import AerSimulator sim = AerSimulator() expected_result = '10101' # 21 in decimal n_bit = len(expected_result) # number of qubits print(f'Expected: {expected_result}') # function to mark element def mark_elem(expected_result): n = len(expected_result) qc = QuantumCircuit(n, name=' Mark Elem') for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(i) qc.barrier() qc.h(n-1) qc.mcx(list(range(n-1)), n-1) qc.h(n-1) qc.barrier() for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(i) return qc # function for diffuser def diffuser(n): qc = QuantumCircuit(n, name=' Diffuser') qc.h(range(n)) # qc.barrier() qc.x(range(n)) qc.barrier() qc.h(n-1) qc.mcx(list(range(n-1)),n-1) qc.h(n-1) qc.barrier() qc.x(range(n)) # qc.barrier() qc.h(range(n)) return qc # multipler gate multiplier = HRSCumulativeMultiplier(num_state_qubits=n_bit, num_result_qubits=n_bit) # Define quantum registers first_operand = QuantumRegister(n_bit, 'operand_a') second_operand = QuantumRegister(n_bit, 'operand_b') multiplication_result = QuantumRegister(n_bit, 'result') aux = QuantumRegister(1, 'aux') first_meas = ClassicalRegister(n_bit,'a_m') second_meas = ClassicalRegister(n_bit,'b_m') qc = QuantumCircuit(first_operand, second_operand, multiplication_result, aux, first_meas, second_meas) # initialize operands in superposition qc.h(first_operand) qc.h(second_operand) # iterate to apply oracle+diffuser for i in range(6): qc.append(multiplier, qargs=list(first_operand) + list(second_operand) + list(multiplication_result) + list(aux)) qc.append(mark_elem(expected_result),multiplication_result) qc.append(multiplier.inverse(), qargs=list(first_operand) + list(second_operand) + list(multiplication_result) + list(aux)) qc.append(diffuser(2*n_bit),range(2*n_bit)) qc.barrier() qc.measure(first_operand,first_meas) qc.measure(second_operand,second_meas) # transpile, run sim, extract results qc_t = transpile(qc,sim) counts = sim.run(qc_t, shots=2**14).result().get_counts() counts_new = {str(int(key[0:n_bit+1],2))+' '+str(int(key[n_bit+1:],2)): value for key, value in counts.items()} plot_histogram(counts_new, figsize=(30,5))
+
+---CODE_BLOCK---
+
+# imports from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, transpile from qiskit.circuit.library import HRSCumulativeMultiplier from qiskit.visualization import plot_histogram from qiskit_aer import AerSimulator sim = AerSimulator() expected_result = '10101' # 21 in decimal n_bit = len(expected_result) # number of qubits print(f'Expected: {expected_result}') # function to mark element def mark_elem(expected_result): n = len(expected_result) qc = QuantumCircuit(n, name=' Mark Elem') for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(i) qc.barrier() qc.h(n-1) qc.mcx(list(range(n-1)), n-1) qc.h(n-1) qc.barrier() for i, v in enumerate(expected_result[::-1]): if v == '0': qc.x(i) return qc # function for diffuser def diffuser(n): qc = QuantumCircuit(n, name=' Diffuser') qc.h(range(n)) # qc.barrier() qc.x(range(n)) qc.barrier() qc.h(n-1) qc.mcx(list(range(n-1)),n-1) qc.h(n-1) qc.barrier() qc.x(range(n)) # qc.barrier() qc.h(range(n)) return qc # multipler gate multiplier = HRSCumulativeMultiplier(num_state_qubits=n_bit, num_result_qubits=n_bit) # Define quantum registers first_operand = QuantumRegister(n_bit, 'operand_a') second_operand = QuantumRegister(n_bit, 'operand_b') multiplication_result = QuantumRegister(n_bit, 'result') aux = QuantumRegister(1, 'aux') first_meas = ClassicalRegister(n_bit,'a_m') second_meas = ClassicalRegister(n_bit,'b_m') qc = QuantumCircuit(first_operand, second_operand, multiplication_result, aux, first_meas, second_meas) # initialize operands in superposition qc.h(first_operand) qc.h(second_operand) # iterate to apply oracle+diffuser for i in range(6): qc.append(multiplier, qargs=list(first_operand) + list(second_operand) + list(multiplication_result) + list(aux)) qc.append(mark_elem(expected_result),multiplication_result) qc.append(multiplier.inverse(), qargs=list(first_operand) + list(second_operand) + list(multiplication_result) + list(aux)) qc.append(diffuser(2*n_bit),range(2*n_bit)) qc.barrier() qc.measure(first_operand,first_meas) qc.measure(second_operand,second_meas) # transpile, run sim, extract results qc_t = transpile(qc,sim) counts = sim.run(qc_t, shots=2**14).result().get_counts() counts_new = {str(int(key[0:n_bit+1],2))+' '+str(int(key[n_bit+1:],2)): value for key, value in counts.items()} plot_histogram(counts_new, figsize=(30,5))

@@ -1,0 +1,130 @@
+Title:
+What is the difference between HamiltonianGate and PauliEvolutionGate in qiskit?
+
+Category:
+Category: Import / API Understanding
+
+Why Stack Overflow Solution Wins in This Category:
+In API and behavior understanding questions, correct diagnosis of default parameter behavior (like reps=1 in PauliEvolutionGate) is critical. Stack Overflow not only explains this but provides exact code to resolve discrepancies. The AI omits the cause of the difference and fails to guide users toward practical resolution.
+
+Question:
+Title: What is the difference between HamiltonianGate and PauliEvolutionGate in qiskit?
+
+The implements $ U = exp(-itH)$ for an operator $H$ consisting of Pauli terms. Since qiskit 1.0 there is also which implements $U = exp(-itH)$. What is the difference (if $H$ consists of Pauli terms)? More concretely, why does implement the gate directly corresponding to the Hadamard gate, while seems to result in a different operator in the following example:
+
+```
+PauliEvolutionGate
+```
+
+```
+HamiltonianGate
+```
+
+```
+HamiltonianGate
+```
+
+```
+PauliEvolutionGate
+```
+
+```
+import qiskit print('Qiskit Version: ', qiskit.__version__) from qiskit.circuit.library import HGate, PauliEvolutionGate, HamiltonianGate from qiskit.quantum_info import SparsePauliOp, Operator h = SparsePauliOp(['I', 'X', 'Z'], coeffs=[ 1.57079633+0.j, -1.11072073+0.j, -1.11072073+0.j]) u_pauli = Operator(PauliEvolutionGate(h, time=1)) print(u_pauli) u_hamil = Operator(HamiltonianGate(h, time=1)) print(u_hamil) u_hadamard = Operator(HGate()) print('Equivalence:') print('Pauli and Hamiltonian evolution:') print(u_pauli.equiv(u_hamil, atol=1e-2)) print('Pauli evolution and Hadamard gate:') print(u_pauli.equiv(u_hadamard, atol=1e-2)) print('Hamiltonian evolution and Hadamard gate:') print(u_hamil.equiv(u_hadamard, atol=1e-2))
+```
+
+```
+import qiskit print('Qiskit Version: ', qiskit.__version__) from qiskit.circuit.library import HGate, PauliEvolutionGate, HamiltonianGate from qiskit.quantum_info import SparsePauliOp, Operator h = SparsePauliOp(['I', 'X', 'Z'], coeffs=[ 1.57079633+0.j, -1.11072073+0.j, -1.11072073+0.j]) u_pauli = Operator(PauliEvolutionGate(h, time=1)) print(u_pauli) u_hamil = Operator(HamiltonianGate(h, time=1)) print(u_hamil) u_hadamard = Operator(HGate()) print('Equivalence:') print('Pauli and Hamiltonian evolution:') print(u_pauli.equiv(u_hamil, atol=1e-2)) print('Pauli evolution and Hadamard gate:') print(u_pauli.equiv(u_hadamard, atol=1e-2)) print('Hamiltonian evolution and Hadamard gate:') print(u_hamil.equiv(u_hadamard, atol=1e-2))
+```
+
+```
+-> Qiskit Version: 1.1.0 Operator([[ 0.3978466 -0.19715007j, 0.39784661+0.80284993j], [ 0.3978466 -0.80284993j, -0.3978466 -0.19715007j]], input_dims=(2,), output_dims=(2,)) Operator([[ 0.70710678-8.68630257e-09j, 0.70710678-2.26635039e-09j], [ 0.70710678-2.26635039e-09j, -0.70710678-4.15360180e-09j]], input_dims=(2,), output_dims=(2,)) Equivalence: Pauli and Hamiltonian evolution: False Pauli evolution and Hadamard gate: False Hamiltonian evolution and Hadamard gate: True ```
+```
+
+```
+-> Qiskit Version: 1.1.0 Operator([[ 0.3978466 -0.19715007j, 0.39784661+0.80284993j], [ 0.3978466 -0.80284993j, -0.3978466 -0.19715007j]], input_dims=(2,), output_dims=(2,)) Operator([[ 0.70710678-8.68630257e-09j, 0.70710678-2.26635039e-09j], [ 0.70710678-2.26635039e-09j, -0.70710678-4.15360180e-09j]], input_dims=(2,), output_dims=(2,)) Equivalence: Pauli and Hamiltonian evolution: False Pauli evolution and Hadamard gate: False Hamiltonian evolution and Hadamard gate: True ```
+```
+
+Original buggy code:
+PauliEvolutionGate
+
+---CODE_BLOCK---
+
+HamiltonianGate
+
+---CODE_BLOCK---
+
+HamiltonianGate
+
+---CODE_BLOCK---
+
+PauliEvolutionGate
+
+---CODE_BLOCK---
+
+import qiskit print('Qiskit Version: ', qiskit.__version__) from qiskit.circuit.library import HGate, PauliEvolutionGate, HamiltonianGate from qiskit.quantum_info import SparsePauliOp, Operator h = SparsePauliOp(['I', 'X', 'Z'], coeffs=[ 1.57079633+0.j, -1.11072073+0.j, -1.11072073+0.j]) u_pauli = Operator(PauliEvolutionGate(h, time=1)) print(u_pauli) u_hamil = Operator(HamiltonianGate(h, time=1)) print(u_hamil) u_hadamard = Operator(HGate()) print('Equivalence:') print('Pauli and Hamiltonian evolution:') print(u_pauli.equiv(u_hamil, atol=1e-2)) print('Pauli evolution and Hadamard gate:') print(u_pauli.equiv(u_hadamard, atol=1e-2)) print('Hamiltonian evolution and Hadamard gate:') print(u_hamil.equiv(u_hadamard, atol=1e-2))
+
+---CODE_BLOCK---
+
+import qiskit print('Qiskit Version: ', qiskit.__version__) from qiskit.circuit.library import HGate, PauliEvolutionGate, HamiltonianGate from qiskit.quantum_info import SparsePauliOp, Operator h = SparsePauliOp(['I', 'X', 'Z'], coeffs=[ 1.57079633+0.j, -1.11072073+0.j, -1.11072073+0.j]) u_pauli = Operator(PauliEvolutionGate(h, time=1)) print(u_pauli) u_hamil = Operator(HamiltonianGate(h, time=1)) print(u_hamil) u_hadamard = Operator(HGate()) print('Equivalence:') print('Pauli and Hamiltonian evolution:') print(u_pauli.equiv(u_hamil, atol=1e-2)) print('Pauli evolution and Hadamard gate:') print(u_pauli.equiv(u_hadamard, atol=1e-2)) print('Hamiltonian evolution and Hadamard gate:') print(u_hamil.equiv(u_hadamard, atol=1e-2))
+
+---CODE_BLOCK---
+
+-> Qiskit Version: 1.1.0 Operator([[ 0.3978466 -0.19715007j, 0.39784661+0.80284993j], [ 0.3978466 -0.80284993j, -0.3978466 -0.19715007j]], input_dims=(2,), output_dims=(2,)) Operator([[ 0.70710678-8.68630257e-09j, 0.70710678-2.26635039e-09j], [ 0.70710678-2.26635039e-09j, -0.70710678-4.15360180e-09j]], input_dims=(2,), output_dims=(2,)) Equivalence: Pauli and Hamiltonian evolution: False Pauli evolution and Hadamard gate: False Hamiltonian evolution and Hadamard gate: True
+
+Solution explanation:
+If you read the documentation for the , the synthesis of the gate defaults to Lie-Trotter product formula with a single repetition; therefore, you need to perform repeated products of the some number of times to get the correct approximation. If you replace your code for something like this: you will get the right result. Alternatively, you can define an object with an increased number of repetitions:
+
+```
+PauliEvolutionGate
+```
+
+```
+PauliEvolutionGate
+```
+
+```
+u_pauli = Operator(PauliEvolutionGate(h/100, time=1)) for i in range(99): u_pauli = Operator(PauliEvolutionGate(h/100, time=1)) @ u_pauli
+```
+
+```
+u_pauli = Operator(PauliEvolutionGate(h/100, time=1)) for i in range(99): u_pauli = Operator(PauliEvolutionGate(h/100, time=1)) @ u_pauli
+```
+
+```
+LieTrotter
+```
+
+```
+from qiskit.synthesis.evolution import LieTrotter n_lietrotter = LieTrotter() n_lietrotter.reps = 100 u_pauli = Operator(PauliEvolutionGate(h, time=1, synthesis=n_lietrotter))
+```
+
+```
+from qiskit.synthesis.evolution import LieTrotter n_lietrotter = LieTrotter() n_lietrotter.reps = 100 u_pauli = Operator(PauliEvolutionGate(h, time=1, synthesis=n_lietrotter))
+```
+
+Original fixed code:
+PauliEvolutionGate
+
+---CODE_BLOCK---
+
+PauliEvolutionGate
+
+---CODE_BLOCK---
+
+u_pauli = Operator(PauliEvolutionGate(h/100, time=1)) for i in range(99): u_pauli = Operator(PauliEvolutionGate(h/100, time=1)) @ u_pauli
+
+---CODE_BLOCK---
+
+u_pauli = Operator(PauliEvolutionGate(h/100, time=1)) for i in range(99): u_pauli = Operator(PauliEvolutionGate(h/100, time=1)) @ u_pauli
+
+---CODE_BLOCK---
+
+LieTrotter
+
+---CODE_BLOCK---
+
+from qiskit.synthesis.evolution import LieTrotter n_lietrotter = LieTrotter() n_lietrotter.reps = 100 u_pauli = Operator(PauliEvolutionGate(h, time=1, synthesis=n_lietrotter))
+
+---CODE_BLOCK---
+
+from qiskit.synthesis.evolution import LieTrotter n_lietrotter = LieTrotter() n_lietrotter.reps = 100 u_pauli = Operator(PauliEvolutionGate(h, time=1, synthesis=n_lietrotter))

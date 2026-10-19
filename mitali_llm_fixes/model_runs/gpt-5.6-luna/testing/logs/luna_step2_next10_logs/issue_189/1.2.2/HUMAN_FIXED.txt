@@ -1,0 +1,16 @@
+﻿python.exe : C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_189\test.py:31: DeprecationWarning: 
+Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 2.0. Instead, use the `operation`, `qubits` and 
+`clbits` named attributes.
+At line:63 char:36
++                     $outputLines = & $python $testPath 2>&1
++                                    ~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\Mitali...med attributes.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  for i,(op,qargs,cargs) in enumerate(qpe.data):
+.
+----------------------------------------------------------------------
+Ran 1 test in 2.109s
+
+OK
+

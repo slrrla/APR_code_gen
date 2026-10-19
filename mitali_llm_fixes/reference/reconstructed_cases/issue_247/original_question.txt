@@ -1,0 +1,70 @@
+Title:
+run() got an unexpected keyword argument 'seed'
+
+Category:
+Category: Installation / Env Config / Import Error
+
+Why AI Wins in This Category:
+Beginners benefit from comprehensive answers that not only solve the immediate error but also build understanding of why it occurred and how to maintain reproducibility. The AI response gives a full context of versioning, future-proofing, and coding practices, which are especially important in environments like Qiskit that evolve rapidly.
+
+Question:
+Title: run() got an unexpected keyword argument 'seed'
+
+I am new in quantum computing. I was going through the user guide of IBM Q so I was just trying to run the python code they have provided at the end of this page enter link description here while runnig the code this error pop up " run() got an unexpected keyword argument 'seed' " I don't know what this 'seed' parameter do please help me to solve this problem. In case feeling lazy to find the code in given link I have put the code blow
+
+```
+# example_u3.py import numpy as np import matplotlib.pyplot as plt from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute, Aer # Define the Quantum and Classical Registers q = QuantumRegister(1) c = ClassicalRegister(1) # Build the circuits circuits = [] middle = QuantumCircuit(q, c) meas = QuantumCircuit(q, c) meas.barrier() meas.measure(q, c) exp_vector = range(0,50) exp_theta = [] theta = 0.0 for exp_index in exp_vector: delta_theta = 2*np.pi/len(exp_vector) theta = theta + delta_theta exp_theta.append(theta) middle.u3(delta_theta,0,0,q) circuits.append(middle + meas) # Execute the circuits shots = 1024 job = execute(circuits, backend = Aer.get_backend('qasm_simulator'), shots=shots, seed=8) result = job.result() # Plot the result exp_data = [] exp_error = [] for exp_index in exp_vector: data = result.get_counts(circuits[exp_index]) try: p0 = data['0']/shots except KeyError: p0 = 0 exp_data.append(p0) exp_error.append(np.sqrt(p0*(1-p0)/shots)) plt.errorbar(exp_theta, exp_data, exp_error) plt.xlabel('theta') plt.ylabel('Pr(0)') plt.grid(True) plt.show()
+```
+
+```
+# example_u3.py import numpy as np import matplotlib.pyplot as plt from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute, Aer # Define the Quantum and Classical Registers q = QuantumRegister(1) c = ClassicalRegister(1) # Build the circuits circuits = [] middle = QuantumCircuit(q, c) meas = QuantumCircuit(q, c) meas.barrier() meas.measure(q, c) exp_vector = range(0,50) exp_theta = [] theta = 0.0 for exp_index in exp_vector: delta_theta = 2*np.pi/len(exp_vector) theta = theta + delta_theta exp_theta.append(theta) middle.u3(delta_theta,0,0,q) circuits.append(middle + meas) # Execute the circuits shots = 1024 job = execute(circuits, backend = Aer.get_backend('qasm_simulator'), shots=shots, seed=8) result = job.result() # Plot the result exp_data = [] exp_error = [] for exp_index in exp_vector: data = result.get_counts(circuits[exp_index]) try: p0 = data['0']/shots except KeyError: p0 = 0 exp_data.append(p0) exp_error.append(np.sqrt(p0*(1-p0)/shots)) plt.errorbar(exp_theta, exp_data, exp_error) plt.xlabel('theta') plt.ylabel('Pr(0)') plt.grid(True) plt.show()
+```
+
+Original buggy code:
+# example_u3.py import numpy as np import matplotlib.pyplot as plt from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute, Aer # Define the Quantum and Classical Registers q = QuantumRegister(1) c = ClassicalRegister(1) # Build the circuits circuits = [] middle = QuantumCircuit(q, c) meas = QuantumCircuit(q, c) meas.barrier() meas.measure(q, c) exp_vector = range(0,50) exp_theta = [] theta = 0.0 for exp_index in exp_vector: delta_theta = 2*np.pi/len(exp_vector) theta = theta + delta_theta exp_theta.append(theta) middle.u3(delta_theta,0,0,q) circuits.append(middle + meas) # Execute the circuits shots = 1024 job = execute(circuits, backend = Aer.get_backend('qasm_simulator'), shots=shots, seed=8) result = job.result() # Plot the result exp_data = [] exp_error = [] for exp_index in exp_vector: data = result.get_counts(circuits[exp_index]) try: p0 = data['0']/shots except KeyError: p0 = 0 exp_data.append(p0) exp_error.append(np.sqrt(p0*(1-p0)/shots)) plt.errorbar(exp_theta, exp_data, exp_error) plt.xlabel('theta') plt.ylabel('Pr(0)') plt.grid(True) plt.show()
+
+---CODE_BLOCK---
+
+# example_u3.py import numpy as np import matplotlib.pyplot as plt from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute, Aer # Define the Quantum and Classical Registers q = QuantumRegister(1) c = ClassicalRegister(1) # Build the circuits circuits = [] middle = QuantumCircuit(q, c) meas = QuantumCircuit(q, c) meas.barrier() meas.measure(q, c) exp_vector = range(0,50) exp_theta = [] theta = 0.0 for exp_index in exp_vector: delta_theta = 2*np.pi/len(exp_vector) theta = theta + delta_theta exp_theta.append(theta) middle.u3(delta_theta,0,0,q) circuits.append(middle + meas) # Execute the circuits shots = 1024 job = execute(circuits, backend = Aer.get_backend('qasm_simulator'), shots=shots, seed=8) result = job.result() # Plot the result exp_data = [] exp_error = [] for exp_index in exp_vector: data = result.get_counts(circuits[exp_index]) try: p0 = data['0']/shots except KeyError: p0 = 0 exp_data.append(p0) exp_error.append(np.sqrt(p0*(1-p0)/shots)) plt.errorbar(exp_theta, exp_data, exp_error) plt.xlabel('theta') plt.ylabel('Pr(0)') plt.grid(True) plt.show()
+
+Solution explanation:
+The parameter has been split into two parameters - and . These ensure that if you run the simulator or transplier respectively you will recieve the same results every time, which is good for replicability. If this is not a property you need, you can remove this paramter all together so that the line reads
+
+```
+seed
+```
+
+```
+seed_simulator
+```
+
+```
+seed_transplier
+```
+
+```
+job = execute(circuits, backend=Aer.get_backend('qasm_simulator'), shots=shots)
+```
+
+```
+job = execute(circuits, backend=Aer.get_backend('qasm_simulator'), shots=shots)
+```
+
+Original fixed code:
+seed
+
+---CODE_BLOCK---
+
+seed_simulator
+
+---CODE_BLOCK---
+
+seed_transplier
+
+---CODE_BLOCK---
+
+job = execute(circuits, backend=Aer.get_backend('qasm_simulator'), shots=shots)
+
+---CODE_BLOCK---
+
+job = execute(circuits, backend=Aer.get_backend('qasm_simulator'), shots=shots)

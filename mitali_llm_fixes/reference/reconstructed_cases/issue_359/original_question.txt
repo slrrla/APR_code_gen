@@ -1,0 +1,215 @@
+Title:
+get.statevector() error: Failed to load qobj: Duplicate key "statevector" in save instruction
+
+Category:
+Category:
+Import / Installation / Environment Configuration
+
+Why AI Wins in This Category:
+For issues involving Qiskit simulator internals and circuit metadata, users need not only the fix but also why it happens, how to prevent it, and code-level examples to reinforce understanding. The AI solution offers all of this with two well-demonstrated alternatives, making it more comprehensive and user-friendly than the Stack Overflow response.
+
+Question:
+Title: get.statevector() error: Failed to load qobj: Duplicate key "statevector" in save instruction
+
+I'm building a mini tutorial to introduce the construction of composite systems using qiskit. While doing so I am demonstrating multiple ways to construct and view the statevector, but I have come across an error which I'm hoping to circumvent. In the initial cells I have created and displayed a simple two qubit circuit, qc, with Hadamard gates on each qubit. I then have the following two cells to show two different ways to simulate and display the resulting statevector. The second version is Individually they both work to display an identical statevector, but running them in sequence gives the error: Failed to load qobj: Duplicate key "statevector" in save instruction.. My understanding is that even though my second one does not explicitly use , it still saves it as a part of the source coding. As a result I then have two statevectors saved and I need to somehow specify which one I am wanting to 'get'? I've tried specifying an experiment in my second by using as a parameter, but nothing I've set it equal to has worked. Any ideas? Note: I do know that if I simply switch the order of these it will work as the will update to just the one that has been saved preventing the error, but I'm hoping there might be another way to do this either by applying another in the second input cell, or perhaps by somehow specifying the accurately.
+
+```
+svsim = Aer.get_backend('aer_simulator') qc.save_statevector() qobj = assemble(qc) final_state = svsim.run(qobj).result().get_statevector() #Now to display it from qiskit.visualization import array_to_latex array_to_latex(final_state, prefix="|\psi^{AB} \\rangle = ")
+```
+
+```
+svsim = Aer.get_backend('aer_simulator') qc.save_statevector() qobj = assemble(qc) final_state = svsim.run(qobj).result().get_statevector() #Now to display it from qiskit.visualization import array_to_latex array_to_latex(final_state, prefix="|\psi^{AB} \\rangle = ")
+```
+
+```
+from qiskit import execute backend=Aer.get_backend('statevector_simulator') result=execute(qc,backend).result() out_state=result.get_statevector() array_to_latex(out_state, prefix="|\psi^{AB} \\rangle = ")
+```
+
+```
+from qiskit import execute backend=Aer.get_backend('statevector_simulator') result=execute(qc,backend).result() out_state=result.get_statevector() array_to_latex(out_state, prefix="|\psi^{AB} \\rangle = ")
+```
+
+```
+save_statevector()
+```
+
+```
+get_statevector()
+```
+
+```
+experiment=
+```
+
+```
+save_statevector()
+```
+
+```
+save_statevector()
+```
+
+```
+experiment =
+```
+
+Original buggy code:
+svsim = Aer.get_backend('aer_simulator') qc.save_statevector() qobj = assemble(qc) final_state = svsim.run(qobj).result().get_statevector() #Now to display it from qiskit.visualization import array_to_latex array_to_latex(final_state, prefix="|\psi^{AB} \\rangle = ")
+
+---CODE_BLOCK---
+
+svsim = Aer.get_backend('aer_simulator') qc.save_statevector() qobj = assemble(qc) final_state = svsim.run(qobj).result().get_statevector() #Now to display it from qiskit.visualization import array_to_latex array_to_latex(final_state, prefix="|\psi^{AB} \\rangle = ")
+
+---CODE_BLOCK---
+
+from qiskit import execute backend=Aer.get_backend('statevector_simulator') result=execute(qc,backend).result() out_state=result.get_statevector() array_to_latex(out_state, prefix="|\psi^{AB} \\rangle = ")
+
+---CODE_BLOCK---
+
+from qiskit import execute backend=Aer.get_backend('statevector_simulator') result=execute(qc,backend).result() out_state=result.get_statevector() array_to_latex(out_state, prefix="|\psi^{AB} \\rangle = ")
+
+---CODE_BLOCK---
+
+save_statevector()
+
+---CODE_BLOCK---
+
+get_statevector()
+
+---CODE_BLOCK---
+
+experiment=
+
+---CODE_BLOCK---
+
+save_statevector()
+
+---CODE_BLOCK---
+
+save_statevector()
+
+---CODE_BLOCK---
+
+experiment =
+
+Solution explanation:
+When you call method to add instruction to your circuit, you can specify a label. After circuit execution, the will be saved to dictionary where the key will be that label. If you don't specify a label, will be used by default. And when you simulate your circuit using , the result will be saved, similarly, to dictionary. The key this time also will be . Clearly, this will cause an issue if you add instruction to your circuit then use to execute it. A simple workaround is to call with a label: then retrieve the value using this label:
+
+```
+save_statevector()
+```
+
+```
+SaveStatevector
+```
+
+```
+Statevector
+```
+
+```
+Result.data
+```
+
+```
+statevector
+```
+
+```
+statevector_simulator
+```
+
+```
+Result.data
+```
+
+```
+statevector
+```
+
+```
+SaveStatevector
+```
+
+```
+statevector_simulator
+```
+
+```
+save_statevector()
+```
+
+```
+qc.save_statevector(label = 'sv')
+```
+
+```
+qc.save_statevector(label = 'sv')
+```
+
+```
+final_state = svsim.run(qobj).result().data()['sv']
+```
+
+```
+final_state = svsim.run(qobj).result().data()['sv']
+```
+
+Original fixed code:
+save_statevector()
+
+---CODE_BLOCK---
+
+SaveStatevector
+
+---CODE_BLOCK---
+
+Statevector
+
+---CODE_BLOCK---
+
+Result.data
+
+---CODE_BLOCK---
+
+statevector
+
+---CODE_BLOCK---
+
+statevector_simulator
+
+---CODE_BLOCK---
+
+Result.data
+
+---CODE_BLOCK---
+
+statevector
+
+---CODE_BLOCK---
+
+SaveStatevector
+
+---CODE_BLOCK---
+
+statevector_simulator
+
+---CODE_BLOCK---
+
+save_statevector()
+
+---CODE_BLOCK---
+
+qc.save_statevector(label = 'sv')
+
+---CODE_BLOCK---
+
+qc.save_statevector(label = 'sv')
+
+---CODE_BLOCK---
+
+final_state = svsim.run(qobj).result().data()['sv']
+
+---CODE_BLOCK---
+
+final_state = svsim.run(qobj).result().data()['sv']

@@ -1,0 +1,59 @@
+Title:
+qiskit DraperQFTAdder
+
+Category:
+
+
+Question:
+Title: qiskit DraperQFTAdder
+
+my code: results: question: I'm trying to use DraperQFTAdder to add 2 3-bit numbers, but I got some unexpected results. I discovered using qc.reverse() from another post on StackExchange. It solved some problems, but not all. I guess the order of qubit is different from which I supposed, which leads to my problem. I wonder how qiskit ranks their qubits in DraperQFTAdder, and how to use this function correctly.
+
+```
+import itertools from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator from qiskit.circuit.library import DraperQFTAdder backend = AerSimulator() adder = DraperQFTAdder(3).decompose() for l in list(itertools.product([0, 1], repeat=6)): qc = QuantumCircuit(6) for i, bit in enumerate(l): if bit == 1: qc.x(i) qc.append(adder, [0, 1, 2, 3, 4, 5]) qc = qc.reverse_bits() qc.measure_all() job = backend.run(transpile(qc, backend), shots=1024) print(f"Input: {l}. Result: {job.result().get_counts()}")
+```
+
+```
+import itertools from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator from qiskit.circuit.library import DraperQFTAdder backend = AerSimulator() adder = DraperQFTAdder(3).decompose() for l in list(itertools.product([0, 1], repeat=6)): qc = QuantumCircuit(6) for i, bit in enumerate(l): if bit == 1: qc.x(i) qc.append(adder, [0, 1, 2, 3, 4, 5]) qc = qc.reverse_bits() qc.measure_all() job = backend.run(transpile(qc, backend), shots=1024) print(f"Input: {l}. Result: {job.result().get_counts()}")
+```
+
+```
+Input: (0, 0, 0, 0, 0, 0). Result: {'000000': 1024} correct ...(some correct parts is ignored) Input: (0, 0, 1, 0, 0, 1). Result: {'001000': 1024} incorrect ... Input: (0, 0, 1, 0, 1, 1). Result: {'001010': 1024} incorrect Input: (0, 0, 1, 1, 0, 0). Result: {'001101': 1024} correct Input: (0, 0, 1, 1, 0, 1). Result: {'001100': 1024} incorrect Input: (0, 0, 1, 1, 1, 0). Result: {'001111': 1024} ... Input: (0, 0, 1, 1, 1, 1). Result: {'001110': 1024} ... Input: (0, 1, 0, 0, 0, 0). Result: {'010010': 1024} Input: (0, 1, 0, 0, 0, 1). Result: {'010011': 1024} Input: (0, 1, 0, 0, 1, 0). Result: {'010001': 1024} Input: (0, 1, 0, 0, 1, 1). Result: {'010000': 1024} ...(results below are ignored)
+```
+
+```
+Input: (0, 0, 0, 0, 0, 0). Result: {'000000': 1024} correct ...(some correct parts is ignored) Input: (0, 0, 1, 0, 0, 1). Result: {'001000': 1024} incorrect ... Input: (0, 0, 1, 0, 1, 1). Result: {'001010': 1024} incorrect Input: (0, 0, 1, 1, 0, 0). Result: {'001101': 1024} correct Input: (0, 0, 1, 1, 0, 1). Result: {'001100': 1024} incorrect Input: (0, 0, 1, 1, 1, 0). Result: {'001111': 1024} ... Input: (0, 0, 1, 1, 1, 1). Result: {'001110': 1024} ... Input: (0, 1, 0, 0, 0, 0). Result: {'010010': 1024} Input: (0, 1, 0, 0, 0, 1). Result: {'010011': 1024} Input: (0, 1, 0, 0, 1, 0). Result: {'010001': 1024} Input: (0, 1, 0, 0, 1, 1). Result: {'010000': 1024} ...(results below are ignored)
+```
+
+Original buggy code:
+import itertools from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator from qiskit.circuit.library import DraperQFTAdder backend = AerSimulator() adder = DraperQFTAdder(3).decompose() for l in list(itertools.product([0, 1], repeat=6)): qc = QuantumCircuit(6) for i, bit in enumerate(l): if bit == 1: qc.x(i) qc.append(adder, [0, 1, 2, 3, 4, 5]) qc = qc.reverse_bits() qc.measure_all() job = backend.run(transpile(qc, backend), shots=1024) print(f"Input: {l}. Result: {job.result().get_counts()}")
+
+---CODE_BLOCK---
+
+import itertools from qiskit import QuantumCircuit, transpile from qiskit_aer import AerSimulator from qiskit.circuit.library import DraperQFTAdder backend = AerSimulator() adder = DraperQFTAdder(3).decompose() for l in list(itertools.product([0, 1], repeat=6)): qc = QuantumCircuit(6) for i, bit in enumerate(l): if bit == 1: qc.x(i) qc.append(adder, [0, 1, 2, 3, 4, 5]) qc = qc.reverse_bits() qc.measure_all() job = backend.run(transpile(qc, backend), shots=1024) print(f"Input: {l}. Result: {job.result().get_counts()}")
+
+---CODE_BLOCK---
+
+Input: (0, 0, 0, 0, 0, 0). Result: {'000000': 1024} correct ...(some correct parts is ignored) Input: (0, 0, 1, 0, 0, 1). Result: {'001000': 1024} incorrect ... Input: (0, 0, 1, 0, 1, 1). Result: {'001010': 1024} incorrect Input: (0, 0, 1, 1, 0, 0). Result: {'001101': 1024} correct Input: (0, 0, 1, 1, 0, 1). Result: {'001100': 1024} incorrect Input: (0, 0, 1, 1, 1, 0). Result: {'001111': 1024} ... Input: (0, 0, 1, 1, 1, 1). Result: {'001110': 1024} ... Input: (0, 1, 0, 0, 0, 0). Result: {'010010': 1024} Input: (0, 1, 0, 0, 0, 1). Result: {'010011': 1024} Input: (0, 1, 0, 0, 1, 0). Result: {'010001': 1024} Input: (0, 1, 0, 0, 1, 1). Result: {'010000': 1024} ...(results below are ignored)
+
+---CODE_BLOCK---
+
+Input: (0, 0, 0, 0, 0, 0). Result: {'000000': 1024} correct ...(some correct parts is ignored) Input: (0, 0, 1, 0, 0, 1). Result: {'001000': 1024} incorrect ... Input: (0, 0, 1, 0, 1, 1). Result: {'001010': 1024} incorrect Input: (0, 0, 1, 1, 0, 0). Result: {'001101': 1024} correct Input: (0, 0, 1, 1, 0, 1). Result: {'001100': 1024} incorrect Input: (0, 0, 1, 1, 1, 0). Result: {'001111': 1024} ... Input: (0, 0, 1, 1, 1, 1). Result: {'001110': 1024} ... Input: (0, 1, 0, 0, 0, 0). Result: {'010010': 1024} Input: (0, 1, 0, 0, 0, 1). Result: {'010011': 1024} Input: (0, 1, 0, 0, 1, 0). Result: {'010001': 1024} Input: (0, 1, 0, 0, 1, 1). Result: {'010000': 1024} ...(results below are ignored)
+
+Solution explanation:
+Thank you @Egretta.Thula for answering my question. Here I give my code to solve this problem. I hope it will help someone who meet the same problem. ''' ''' And here're the result: ''' 0 + 0 = 0 0 + 4 = 4 0 + 2 = 2 0 + 6 = 6 0 + 1 = 1 0 + 5 = 5 0 + 3 = 3 ... 7 + 6 = 5 7 + 1 = 0 7 + 5 = 4 7 + 3 = 2 7 + 7 = 6 '''
+
+```
+for l in list(itertools.product([0, 1], repeat=6)): qc = QuantumCircuit(6) for i, bit in enumerate(l): if bit == 1: qc.x(i) qc.append(adder, [0, 1, 2, 3, 4, 5]) qc.measure_all() summand1 = 0 for i in range(3): if l[i] == 1: summand1 += 2**(i) summand2 = 0 for i in range(3): if l[i+3] == 1: summand2 += 2**(i) sum = 0 job = backend.run(transpile(qc, backend), shots=1024) res_dict = job.result().get_counts() res_sum = res_dict.most_frequent() sum = 0 for i in range(3): if res_sum[i] == '1': sum += 2**(2-i) print(f"{summand1} + {summand2} = {sum}")
+```
+
+```
+for l in list(itertools.product([0, 1], repeat=6)): qc = QuantumCircuit(6) for i, bit in enumerate(l): if bit == 1: qc.x(i) qc.append(adder, [0, 1, 2, 3, 4, 5]) qc.measure_all() summand1 = 0 for i in range(3): if l[i] == 1: summand1 += 2**(i) summand2 = 0 for i in range(3): if l[i+3] == 1: summand2 += 2**(i) sum = 0 job = backend.run(transpile(qc, backend), shots=1024) res_dict = job.result().get_counts() res_sum = res_dict.most_frequent() sum = 0 for i in range(3): if res_sum[i] == '1': sum += 2**(2-i) print(f"{summand1} + {summand2} = {sum}")
+```
+
+Original fixed code:
+for l in list(itertools.product([0, 1], repeat=6)): qc = QuantumCircuit(6) for i, bit in enumerate(l): if bit == 1: qc.x(i) qc.append(adder, [0, 1, 2, 3, 4, 5]) qc.measure_all() summand1 = 0 for i in range(3): if l[i] == 1: summand1 += 2**(i) summand2 = 0 for i in range(3): if l[i+3] == 1: summand2 += 2**(i) sum = 0 job = backend.run(transpile(qc, backend), shots=1024) res_dict = job.result().get_counts() res_sum = res_dict.most_frequent() sum = 0 for i in range(3): if res_sum[i] == '1': sum += 2**(2-i) print(f"{summand1} + {summand2} = {sum}")
+
+---CODE_BLOCK---
+
+for l in list(itertools.product([0, 1], repeat=6)): qc = QuantumCircuit(6) for i, bit in enumerate(l): if bit == 1: qc.x(i) qc.append(adder, [0, 1, 2, 3, 4, 5]) qc.measure_all() summand1 = 0 for i in range(3): if l[i] == 1: summand1 += 2**(i) summand2 = 0 for i in range(3): if l[i+3] == 1: summand2 += 2**(i) sum = 0 job = backend.run(transpile(qc, backend), shots=1024) res_dict = job.result().get_counts() res_sum = res_dict.most_frequent() sum = 0 for i in range(3): if res_sum[i] == '1': sum += 2**(2-i) print(f"{summand1} + {summand2} = {sum}")

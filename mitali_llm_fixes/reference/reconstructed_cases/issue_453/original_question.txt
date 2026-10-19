@@ -1,0 +1,135 @@
+Title:
+How to compose a larger circuit onto a smaller circuit in Qiskit, adding extra quantum registers to some fixed list
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Stack Overflow Wins in This Category:
+Circuit composition requires careful ancilla handling, especially when subcircuits vary in their ancilla requirements. The Stack Overflow answer solves the problem comprehensively by integrating AncillaRegister and extending ancillas dynamically, offering a scalable and reusable solution. The AI’s manual approach is correct but incomplete for the real-world use case.
+
+Question:
+Title: How to compose a larger circuit onto a smaller circuit in Qiskit, adding extra quantum registers to some fixed list
+
+$\newcommand{\ket}[1]{|{#1}\rangle}$ I have a Qiskit quantum circuit for multiplication $M$, that I want to onto another qiskit quantum circuit for inner product of vectors $I$. $M$ uses some ancillary qubits to perform the map $\ket{a}\ket{b}\ket{c} \mapsto \ket{a}\ket{b}\ket{c\oplus (a\cdot b)}$. Ideally when I compose $M$ onto $I$ as a subroutine, I would only want to declare and map the quantum states (registers) of $I$ that I care about: $\ket{a},\ket{b},\ket{c}$ and let the additional qubits be counted as some ancillas in $I$, maybe in some fixed register , whose length can be appropriately extended. According to the Qiskit documentation, to , $M$ can be narrower or of equal width to $I$, and methods like have been deprecated and removed. How can I go about doing this, if at all? I would be okay using any other SDK like Cirq, as I need a QASM2 at the end. But my circuits use classically controlled operations, which Cirq does not seem to support.
+
+```
+compose
+```
+
+```
+anc
+```
+
+```
+compose
+```
+
+```
+extend
+```
+
+```
+dump
+```
+
+Original buggy code:
+compose
+
+---CODE_BLOCK---
+
+anc
+
+---CODE_BLOCK---
+
+compose
+
+---CODE_BLOCK---
+
+extend
+
+---CODE_BLOCK---
+
+dump
+
+Solution explanation:
+If you already know how many ancillas are needed for each subcircuit, just add to your circuit ancillas enough to support the subcircuit with maximum number of ancillas, then pass a subset of these qubits according to the need. For example: Another solution is to dynamically add ancilla qubits to your circuit when needed: Assuming that Subcircuits use zeroed ancilla bits. Subcircuits represent ancilla qubits using instances of class (directly or indirectly through ) then you can monkey-patch such that whenever you compose any subcircuit to your circuit the needed ancilla qubits will be added automatically as follows: Basically, method checks if the subcircuit uses ancilla qubits more than what is already in the main circuit and add them before composing the subcircuit. An example usage:
+
+```
+qr = QuantumRegister(4) anc = AncillaRegister(10) circ = QuantumCircuit(qr, anc) # subcircuit1 needs 5 ancillas: circ.compose(subcircuit1, qr[:] + anc[0:5], inplace=True) # subcircuit2 needs 7 ancillas: circ.compose(subcircuit2, qr[:] + anc[0:7], inplace=True)
+```
+
+```
+qr = QuantumRegister(4) anc = AncillaRegister(10) circ = QuantumCircuit(qr, anc) # subcircuit1 needs 5 ancillas: circ.compose(subcircuit1, qr[:] + anc[0:5], inplace=True) # subcircuit2 needs 7 ancillas: circ.compose(subcircuit2, qr[:] + anc[0:7], inplace=True)
+```
+
+```
+AncillaQubit
+```
+
+```
+AncillaRegister
+```
+
+```
+QuantumCircuit
+```
+
+```
+from typing import Optional, Sequence, Union from qiskit.circuit import QuantumCircuit, AncillaQubit from qiskit.circuit.instruction import Instruction from qiskit.circuit.quantumcircuit import QubitSpecifier, ClbitSpecifier def compose_with_auto_ancillas( self, other: Union["QuantumCircuit", Instruction], qubits: QubitSpecifier | Sequence[QubitSpecifier] | None = None, clbits: ClbitSpecifier | Sequence[ClbitSpecifier] | None = None, front: bool = False, inplace: bool = False, wrap: bool = False, ): num_self_ancillas = len(self.ancillas) num_other_ancillas = len(other.ancillas) if num_other_ancillas > 0: if num_self_ancillas < num_other_ancillas: extra_ancillas = [] for _ in range(num_other_ancillas - num_self_ancillas): extra_ancillas.append(AncillaQubit()) self.add_bits(extra_ancillas) qubits = qubits + self.ancillas[0:num_other_ancillas] return self.compose(other, qubits, clbits, front, inplace, wrap) QuantumCircuit.compose_with_auto_ancillas = compose_with_auto_ancillas
+```
+
+```
+from typing import Optional, Sequence, Union from qiskit.circuit import QuantumCircuit, AncillaQubit from qiskit.circuit.instruction import Instruction from qiskit.circuit.quantumcircuit import QubitSpecifier, ClbitSpecifier def compose_with_auto_ancillas( self, other: Union["QuantumCircuit", Instruction], qubits: QubitSpecifier | Sequence[QubitSpecifier] | None = None, clbits: ClbitSpecifier | Sequence[ClbitSpecifier] | None = None, front: bool = False, inplace: bool = False, wrap: bool = False, ): num_self_ancillas = len(self.ancillas) num_other_ancillas = len(other.ancillas) if num_other_ancillas > 0: if num_self_ancillas < num_other_ancillas: extra_ancillas = [] for _ in range(num_other_ancillas - num_self_ancillas): extra_ancillas.append(AncillaQubit()) self.add_bits(extra_ancillas) qubits = qubits + self.ancillas[0:num_other_ancillas] return self.compose(other, qubits, clbits, front, inplace, wrap) QuantumCircuit.compose_with_auto_ancillas = compose_with_auto_ancillas
+```
+
+```
+compose_with_auto_ancillas()
+```
+
+```
+# A subcircuit: qr1 = QuantumRegister(4) anc1 = AncillaRegister(2) qc1 = QuantumCircuit(qr1, anc1) qc1.ccx(qr1[0], qr1[1], anc1[0]) qc1.ccx(qr1[2], anc1[0], anc1[1]) qc1.cx(anc1[1], qr1[3]) qc1.ccx(qr1[2], anc1[0], anc1[1]) qc1.ccx(qr1[0], qr1[1], anc1[0]) # The main circuit: # Note that, you don't have to add any ancilla at the beginning, # they will be added when needed. circ = QuantumCircuit(4) circ.h([0, 1, 2, 3]) circ.barrier() circ.compose_with_auto_ancillas(qc1, [0, 1, 2, 3], inplace=True)
+```
+
+```
+# A subcircuit: qr1 = QuantumRegister(4) anc1 = AncillaRegister(2) qc1 = QuantumCircuit(qr1, anc1) qc1.ccx(qr1[0], qr1[1], anc1[0]) qc1.ccx(qr1[2], anc1[0], anc1[1]) qc1.cx(anc1[1], qr1[3]) qc1.ccx(qr1[2], anc1[0], anc1[1]) qc1.ccx(qr1[0], qr1[1], anc1[0]) # The main circuit: # Note that, you don't have to add any ancilla at the beginning, # they will be added when needed. circ = QuantumCircuit(4) circ.h([0, 1, 2, 3]) circ.barrier() circ.compose_with_auto_ancillas(qc1, [0, 1, 2, 3], inplace=True)
+```
+
+Original fixed code:
+qr = QuantumRegister(4) anc = AncillaRegister(10) circ = QuantumCircuit(qr, anc) # subcircuit1 needs 5 ancillas: circ.compose(subcircuit1, qr[:] + anc[0:5], inplace=True) # subcircuit2 needs 7 ancillas: circ.compose(subcircuit2, qr[:] + anc[0:7], inplace=True)
+
+---CODE_BLOCK---
+
+qr = QuantumRegister(4) anc = AncillaRegister(10) circ = QuantumCircuit(qr, anc) # subcircuit1 needs 5 ancillas: circ.compose(subcircuit1, qr[:] + anc[0:5], inplace=True) # subcircuit2 needs 7 ancillas: circ.compose(subcircuit2, qr[:] + anc[0:7], inplace=True)
+
+---CODE_BLOCK---
+
+AncillaQubit
+
+---CODE_BLOCK---
+
+AncillaRegister
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+from typing import Optional, Sequence, Union from qiskit.circuit import QuantumCircuit, AncillaQubit from qiskit.circuit.instruction import Instruction from qiskit.circuit.quantumcircuit import QubitSpecifier, ClbitSpecifier def compose_with_auto_ancillas( self, other: Union["QuantumCircuit", Instruction], qubits: QubitSpecifier | Sequence[QubitSpecifier] | None = None, clbits: ClbitSpecifier | Sequence[ClbitSpecifier] | None = None, front: bool = False, inplace: bool = False, wrap: bool = False, ): num_self_ancillas = len(self.ancillas) num_other_ancillas = len(other.ancillas) if num_other_ancillas > 0: if num_self_ancillas < num_other_ancillas: extra_ancillas = [] for _ in range(num_other_ancillas - num_self_ancillas): extra_ancillas.append(AncillaQubit()) self.add_bits(extra_ancillas) qubits = qubits + self.ancillas[0:num_other_ancillas] return self.compose(other, qubits, clbits, front, inplace, wrap) QuantumCircuit.compose_with_auto_ancillas = compose_with_auto_ancillas
+
+---CODE_BLOCK---
+
+from typing import Optional, Sequence, Union from qiskit.circuit import QuantumCircuit, AncillaQubit from qiskit.circuit.instruction import Instruction from qiskit.circuit.quantumcircuit import QubitSpecifier, ClbitSpecifier def compose_with_auto_ancillas( self, other: Union["QuantumCircuit", Instruction], qubits: QubitSpecifier | Sequence[QubitSpecifier] | None = None, clbits: ClbitSpecifier | Sequence[ClbitSpecifier] | None = None, front: bool = False, inplace: bool = False, wrap: bool = False, ): num_self_ancillas = len(self.ancillas) num_other_ancillas = len(other.ancillas) if num_other_ancillas > 0: if num_self_ancillas < num_other_ancillas: extra_ancillas = [] for _ in range(num_other_ancillas - num_self_ancillas): extra_ancillas.append(AncillaQubit()) self.add_bits(extra_ancillas) qubits = qubits + self.ancillas[0:num_other_ancillas] return self.compose(other, qubits, clbits, front, inplace, wrap) QuantumCircuit.compose_with_auto_ancillas = compose_with_auto_ancillas
+
+---CODE_BLOCK---
+
+compose_with_auto_ancillas()
+
+---CODE_BLOCK---
+
+# A subcircuit: qr1 = QuantumRegister(4) anc1 = AncillaRegister(2) qc1 = QuantumCircuit(qr1, anc1) qc1.ccx(qr1[0], qr1[1], anc1[0]) qc1.ccx(qr1[2], anc1[0], anc1[1]) qc1.cx(anc1[1], qr1[3]) qc1.ccx(qr1[2], anc1[0], anc1[1]) qc1.ccx(qr1[0], qr1[1], anc1[0]) # The main circuit: # Note that, you don't have to add any ancilla at the beginning, # they will be added when needed. circ = QuantumCircuit(4) circ.h([0, 1, 2, 3]) circ.barrier() circ.compose_with_auto_ancillas(qc1, [0, 1, 2, 3], inplace=True)
+
+---CODE_BLOCK---
+
+# A subcircuit: qr1 = QuantumRegister(4) anc1 = AncillaRegister(2) qc1 = QuantumCircuit(qr1, anc1) qc1.ccx(qr1[0], qr1[1], anc1[0]) qc1.ccx(qr1[2], anc1[0], anc1[1]) qc1.cx(anc1[1], qr1[3]) qc1.ccx(qr1[2], anc1[0], anc1[1]) qc1.ccx(qr1[0], qr1[1], anc1[0]) # The main circuit: # Note that, you don't have to add any ancilla at the beginning, # they will be added when needed. circ = QuantumCircuit(4) circ.h([0, 1, 2, 3]) circ.barrier() circ.compose_with_auto_ancillas(qc1, [0, 1, 2, 3], inplace=True)

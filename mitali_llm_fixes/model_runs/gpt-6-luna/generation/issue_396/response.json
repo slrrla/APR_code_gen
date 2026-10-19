@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWVxJjDIOo8K3bYHv2Om0XWZ8NvCP",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit.quantum_info import Statevector\nfrom qiskit.circuit.library import GroverOperator\n\ntargets = ['101', '110']\n\n# FIX: from_label requires one bitstring, not a list -> build a statevector supported on both targets, because GroverOperator marks its nonzero basis states\noracle = Statevector([0, 0, 0, 0, 0, 1 / 2**0.5, 1 / 2**0.5, 0])\n\ngrover_op = GroverOperator(oracle)\nprint(grover_op)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418041,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 1285,
+    "prompt_tokens": 752,
+    "total_tokens": 2037,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 1137,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

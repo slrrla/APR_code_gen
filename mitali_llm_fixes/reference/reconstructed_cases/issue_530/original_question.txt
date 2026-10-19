@@ -1,0 +1,119 @@
+Title:
+Discrepancy between answers from different Estimators in qiskit
+
+Category:
+Category:
+Backend Usage / Simulation / Output
+
+Why Stack Overflow Wins in This Category:
+In backend usage tasks, efficiency and resource management are critical. The Stack Overflow solution directly optimizes job submission by batching circuits, reducing queue times and backend overhead. This makes it the superior approach for real hardware use
+
+Question:
+Title: Discrepancy between answers from different Estimators in qiskit
+
+After upgrading to qiskit 1.0.0, I tried using different estimators: estimatorv2, qiskit-aer estimator and default primitive estimator. But I get different expectation values with each of them? Am I doing something wrong? Below is the code that I am using. This gives me different result: I would expect all of them to be very close to each other.
+
+```
+import numpy as np from qiskit.circuit.library import TwoLocal from qiskit.primitives import Estimator from qiskit.quantum_info import SparsePauliOp from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_aer import AerSimulator from qiskit_aer.primitives import Estimator as AerEstimator from qiskit_ibm_runtime import EstimatorV2 seed = 20 n_qubits = 2 obs = SparsePauliOp(['ZY', 'YI', 'IY', 'II', 'YY', 'ZY', 'XI', 'YZ', 'ZZ', 'IX'], coeffs=[0.64414354+0.j, 0.38074849+0.j, 0.66304791+0.j, 0.16365073+0.j, 0.96260781+0.j, 0.34666184+0.j, 0.99175099+0.j, 0.2350579 +0.j, 0.58569427+0.j, 0.4066901 +0.j]) # Ansatz circuit = TwoLocal( n_qubits, ["rx", "ry", "rz"], ["cx"], "linear", reps=3, ) params = np.random.uniform(low=0, high=2 * np.pi, size=circuit.num_parameters) # Estimator V2 aer_sim = AerSimulator(method="automatic") pm = generate_preset_pass_manager(backend=aer_sim, optimization_level=1) isa_qc = pm.run(circuit) est = EstimatorV2(backend=aer_sim) pub = (isa_qc, obs, params) result = est.run([pub]).result() print(f"Expectation value from Estimatorv2: {result[0].data.evs}") # Aer Estimator est = AerEstimator(run_options={"seed": seed}, approximation=False) result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from AerEstimator: {result.values[0]}") # Primitive Estimator est = Estimator(options={"seed": seed}) result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from qiskit.primitve Estimator: {result.values[0]}")
+```
+
+```
+import numpy as np from qiskit.circuit.library import TwoLocal from qiskit.primitives import Estimator from qiskit.quantum_info import SparsePauliOp from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_aer import AerSimulator from qiskit_aer.primitives import Estimator as AerEstimator from qiskit_ibm_runtime import EstimatorV2 seed = 20 n_qubits = 2 obs = SparsePauliOp(['ZY', 'YI', 'IY', 'II', 'YY', 'ZY', 'XI', 'YZ', 'ZZ', 'IX'], coeffs=[0.64414354+0.j, 0.38074849+0.j, 0.66304791+0.j, 0.16365073+0.j, 0.96260781+0.j, 0.34666184+0.j, 0.99175099+0.j, 0.2350579 +0.j, 0.58569427+0.j, 0.4066901 +0.j]) # Ansatz circuit = TwoLocal( n_qubits, ["rx", "ry", "rz"], ["cx"], "linear", reps=3, ) params = np.random.uniform(low=0, high=2 * np.pi, size=circuit.num_parameters) # Estimator V2 aer_sim = AerSimulator(method="automatic") pm = generate_preset_pass_manager(backend=aer_sim, optimization_level=1) isa_qc = pm.run(circuit) est = EstimatorV2(backend=aer_sim) pub = (isa_qc, obs, params) result = est.run([pub]).result() print(f"Expectation value from Estimatorv2: {result[0].data.evs}") # Aer Estimator est = AerEstimator(run_options={"seed": seed}, approximation=False) result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from AerEstimator: {result.values[0]}") # Primitive Estimator est = Estimator(options={"seed": seed}) result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from qiskit.primitve Estimator: {result.values[0]}")
+```
+
+```
+Expectation value from Estimatorv2: 0.4890561498339845 Expectation value from AerEstimator: 0.40740949503906254 Expectation value from qiskit.primitve Estimator: 0.4549841069144796
+```
+
+```
+Expectation value from Estimatorv2: 0.4890561498339845 Expectation value from AerEstimator: 0.40740949503906254 Expectation value from qiskit.primitve Estimator: 0.4549841069144796
+```
+
+Original buggy code:
+import numpy as np from qiskit.circuit.library import TwoLocal from qiskit.primitives import Estimator from qiskit.quantum_info import SparsePauliOp from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_aer import AerSimulator from qiskit_aer.primitives import Estimator as AerEstimator from qiskit_ibm_runtime import EstimatorV2 seed = 20 n_qubits = 2 obs = SparsePauliOp(['ZY', 'YI', 'IY', 'II', 'YY', 'ZY', 'XI', 'YZ', 'ZZ', 'IX'], coeffs=[0.64414354+0.j, 0.38074849+0.j, 0.66304791+0.j, 0.16365073+0.j, 0.96260781+0.j, 0.34666184+0.j, 0.99175099+0.j, 0.2350579 +0.j, 0.58569427+0.j, 0.4066901 +0.j]) # Ansatz circuit = TwoLocal( n_qubits, ["rx", "ry", "rz"], ["cx"], "linear", reps=3, ) params = np.random.uniform(low=0, high=2 * np.pi, size=circuit.num_parameters) # Estimator V2 aer_sim = AerSimulator(method="automatic") pm = generate_preset_pass_manager(backend=aer_sim, optimization_level=1) isa_qc = pm.run(circuit) est = EstimatorV2(backend=aer_sim) pub = (isa_qc, obs, params) result = est.run([pub]).result() print(f"Expectation value from Estimatorv2: {result[0].data.evs}") # Aer Estimator est = AerEstimator(run_options={"seed": seed}, approximation=False) result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from AerEstimator: {result.values[0]}") # Primitive Estimator est = Estimator(options={"seed": seed}) result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from qiskit.primitve Estimator: {result.values[0]}")
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit.circuit.library import TwoLocal from qiskit.primitives import Estimator from qiskit.quantum_info import SparsePauliOp from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_aer import AerSimulator from qiskit_aer.primitives import Estimator as AerEstimator from qiskit_ibm_runtime import EstimatorV2 seed = 20 n_qubits = 2 obs = SparsePauliOp(['ZY', 'YI', 'IY', 'II', 'YY', 'ZY', 'XI', 'YZ', 'ZZ', 'IX'], coeffs=[0.64414354+0.j, 0.38074849+0.j, 0.66304791+0.j, 0.16365073+0.j, 0.96260781+0.j, 0.34666184+0.j, 0.99175099+0.j, 0.2350579 +0.j, 0.58569427+0.j, 0.4066901 +0.j]) # Ansatz circuit = TwoLocal( n_qubits, ["rx", "ry", "rz"], ["cx"], "linear", reps=3, ) params = np.random.uniform(low=0, high=2 * np.pi, size=circuit.num_parameters) # Estimator V2 aer_sim = AerSimulator(method="automatic") pm = generate_preset_pass_manager(backend=aer_sim, optimization_level=1) isa_qc = pm.run(circuit) est = EstimatorV2(backend=aer_sim) pub = (isa_qc, obs, params) result = est.run([pub]).result() print(f"Expectation value from Estimatorv2: {result[0].data.evs}") # Aer Estimator est = AerEstimator(run_options={"seed": seed}, approximation=False) result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from AerEstimator: {result.values[0]}") # Primitive Estimator est = Estimator(options={"seed": seed}) result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from qiskit.primitve Estimator: {result.values[0]}")
+
+---CODE_BLOCK---
+
+Expectation value from Estimatorv2: 0.4890561498339845 Expectation value from AerEstimator: 0.40740949503906254 Expectation value from qiskit.primitve Estimator: 0.4549841069144796
+
+---CODE_BLOCK---
+
+Expectation value from Estimatorv2: 0.4890561498339845 Expectation value from AerEstimator: 0.40740949503906254 Expectation value from qiskit.primitve Estimator: 0.4549841069144796
+
+Solution explanation:
+You are seeing the discrepancy because Estimator gives an ideal result by default whereas the other Estimators are using shots. Another way you can get reproducible expectation values is by properly using seed value in all the estimators. Here is how you can do this: For EstimatorV2, you can use the option to set a seed value. For Estimator, you can set the so that it calculates ideal expectation value (just like Estimator). Here is your code with all the changes made: Running this code you get the expectation values which are very close:
+
+```
+qiskit.primitives
+```
+
+```
+seed_estimator
+```
+
+```
+qiskit_aer.primitives
+```
+
+```
+approximation=True
+```
+
+```
+qiskit.primitives
+```
+
+```
+import numpy as np from qiskit.circuit.library import TwoLocal from qiskit.primitives import Estimator from qiskit.quantum_info import SparsePauliOp from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_aer import AerSimulator from qiskit_aer.primitives import Estimator as AerEstimator from qiskit_ibm_runtime import EstimatorV2 seed = 20 n_qubits = 2 obs = SparsePauliOp(['ZY', 'YI', 'IY', 'II', 'YY', 'ZY', 'XI', 'YZ', 'ZZ', 'IX'], coeffs=[0.64414354+0.j, 0.38074849+0.j, 0.66304791+0.j, 0.16365073+0.j, 0.96260781+0.j, 0.34666184+0.j, 0.99175099+0.j, 0.2350579 +0.j, 0.58569427+0.j, 0.4066901 +0.j]) # Ansatz circuit = TwoLocal( n_qubits, ["rx", "ry", "rz"], ["cx"], "linear", reps=3, ) params = np.random.uniform(low=0, high=2 * np.pi, size=circuit.num_parameters) # Estimator V2 aer_sim = AerSimulator(method="automatic") pm = generate_preset_pass_manager(backend=aer_sim, optimization_level=1) isa_qc = pm.run(circuit) est = EstimatorV2(backend=aer_sim, options={"seed_estimator":seed}) # Here you set the seed_simulator option pub = (isa_qc, obs, params) result = est.run([pub]).result() print(f"Expectation value from Estimatorv2: {result[0].data.evs}") # Aer Estimator est = AerEstimator(run_options={"seed": seed}, approximation=True) # Changed to aproximation=True result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from AerEstimator: {result.values[0]}") # Primitive Estimator est = Estimator(options={"seed": seed}) result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from qiskit.primitve Estimator: {result.values[0]}")
+```
+
+```
+import numpy as np from qiskit.circuit.library import TwoLocal from qiskit.primitives import Estimator from qiskit.quantum_info import SparsePauliOp from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_aer import AerSimulator from qiskit_aer.primitives import Estimator as AerEstimator from qiskit_ibm_runtime import EstimatorV2 seed = 20 n_qubits = 2 obs = SparsePauliOp(['ZY', 'YI', 'IY', 'II', 'YY', 'ZY', 'XI', 'YZ', 'ZZ', 'IX'], coeffs=[0.64414354+0.j, 0.38074849+0.j, 0.66304791+0.j, 0.16365073+0.j, 0.96260781+0.j, 0.34666184+0.j, 0.99175099+0.j, 0.2350579 +0.j, 0.58569427+0.j, 0.4066901 +0.j]) # Ansatz circuit = TwoLocal( n_qubits, ["rx", "ry", "rz"], ["cx"], "linear", reps=3, ) params = np.random.uniform(low=0, high=2 * np.pi, size=circuit.num_parameters) # Estimator V2 aer_sim = AerSimulator(method="automatic") pm = generate_preset_pass_manager(backend=aer_sim, optimization_level=1) isa_qc = pm.run(circuit) est = EstimatorV2(backend=aer_sim, options={"seed_estimator":seed}) # Here you set the seed_simulator option pub = (isa_qc, obs, params) result = est.run([pub]).result() print(f"Expectation value from Estimatorv2: {result[0].data.evs}") # Aer Estimator est = AerEstimator(run_options={"seed": seed}, approximation=True) # Changed to aproximation=True result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from AerEstimator: {result.values[0]}") # Primitive Estimator est = Estimator(options={"seed": seed}) result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from qiskit.primitve Estimator: {result.values[0]}")
+```
+
+```
+Expectation value from Estimatorv2: 1.2858884791699219 Expectation value from AerEstimator: 1.288727373816423 Expectation value from qiskit.primitve Estimator: 1.2887273738164235
+```
+
+```
+Expectation value from Estimatorv2: 1.2858884791699219 Expectation value from AerEstimator: 1.288727373816423 Expectation value from qiskit.primitve Estimator: 1.2887273738164235
+```
+
+Original fixed code:
+qiskit.primitives
+
+---CODE_BLOCK---
+
+seed_estimator
+
+---CODE_BLOCK---
+
+qiskit_aer.primitives
+
+---CODE_BLOCK---
+
+approximation=True
+
+---CODE_BLOCK---
+
+qiskit.primitives
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit.circuit.library import TwoLocal from qiskit.primitives import Estimator from qiskit.quantum_info import SparsePauliOp from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_aer import AerSimulator from qiskit_aer.primitives import Estimator as AerEstimator from qiskit_ibm_runtime import EstimatorV2 seed = 20 n_qubits = 2 obs = SparsePauliOp(['ZY', 'YI', 'IY', 'II', 'YY', 'ZY', 'XI', 'YZ', 'ZZ', 'IX'], coeffs=[0.64414354+0.j, 0.38074849+0.j, 0.66304791+0.j, 0.16365073+0.j, 0.96260781+0.j, 0.34666184+0.j, 0.99175099+0.j, 0.2350579 +0.j, 0.58569427+0.j, 0.4066901 +0.j]) # Ansatz circuit = TwoLocal( n_qubits, ["rx", "ry", "rz"], ["cx"], "linear", reps=3, ) params = np.random.uniform(low=0, high=2 * np.pi, size=circuit.num_parameters) # Estimator V2 aer_sim = AerSimulator(method="automatic") pm = generate_preset_pass_manager(backend=aer_sim, optimization_level=1) isa_qc = pm.run(circuit) est = EstimatorV2(backend=aer_sim, options={"seed_estimator":seed}) # Here you set the seed_simulator option pub = (isa_qc, obs, params) result = est.run([pub]).result() print(f"Expectation value from Estimatorv2: {result[0].data.evs}") # Aer Estimator est = AerEstimator(run_options={"seed": seed}, approximation=True) # Changed to aproximation=True result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from AerEstimator: {result.values[0]}") # Primitive Estimator est = Estimator(options={"seed": seed}) result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from qiskit.primitve Estimator: {result.values[0]}")
+
+---CODE_BLOCK---
+
+import numpy as np from qiskit.circuit.library import TwoLocal from qiskit.primitives import Estimator from qiskit.quantum_info import SparsePauliOp from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager from qiskit_aer import AerSimulator from qiskit_aer.primitives import Estimator as AerEstimator from qiskit_ibm_runtime import EstimatorV2 seed = 20 n_qubits = 2 obs = SparsePauliOp(['ZY', 'YI', 'IY', 'II', 'YY', 'ZY', 'XI', 'YZ', 'ZZ', 'IX'], coeffs=[0.64414354+0.j, 0.38074849+0.j, 0.66304791+0.j, 0.16365073+0.j, 0.96260781+0.j, 0.34666184+0.j, 0.99175099+0.j, 0.2350579 +0.j, 0.58569427+0.j, 0.4066901 +0.j]) # Ansatz circuit = TwoLocal( n_qubits, ["rx", "ry", "rz"], ["cx"], "linear", reps=3, ) params = np.random.uniform(low=0, high=2 * np.pi, size=circuit.num_parameters) # Estimator V2 aer_sim = AerSimulator(method="automatic") pm = generate_preset_pass_manager(backend=aer_sim, optimization_level=1) isa_qc = pm.run(circuit) est = EstimatorV2(backend=aer_sim, options={"seed_estimator":seed}) # Here you set the seed_simulator option pub = (isa_qc, obs, params) result = est.run([pub]).result() print(f"Expectation value from Estimatorv2: {result[0].data.evs}") # Aer Estimator est = AerEstimator(run_options={"seed": seed}, approximation=True) # Changed to aproximation=True result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from AerEstimator: {result.values[0]}") # Primitive Estimator est = Estimator(options={"seed": seed}) result = est.run([isa_qc], [obs], [params]).result() print(f"Expectation value from qiskit.primitve Estimator: {result.values[0]}")
+
+---CODE_BLOCK---
+
+Expectation value from Estimatorv2: 1.2858884791699219 Expectation value from AerEstimator: 1.288727373816423 Expectation value from qiskit.primitve Estimator: 1.2887273738164235
+
+---CODE_BLOCK---
+
+Expectation value from Estimatorv2: 1.2858884791699219 Expectation value from AerEstimator: 1.288727373816423 Expectation value from qiskit.primitve Estimator: 1.2887273738164235

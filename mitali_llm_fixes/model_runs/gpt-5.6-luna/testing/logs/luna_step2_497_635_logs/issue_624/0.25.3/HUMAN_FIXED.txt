@@ -1,0 +1,21 @@
+﻿python.exe : C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an 
+API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+At line:46 char:32
++                     $output = (& $python $testFile 2>&1 | Out-String)
++                                ~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\Mitali..._resources.html:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  import pkg_resources
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\spnego\_ntlm_raw\crypto.py:22: CryptographyDeprecationWarning: Python 3.8 is no longer 
+supported by the Python core team and support for it is deprecated in cryptography. The next release of cryptography will remove support for Python 3.8.
+  from cryptography.hazmat.backends import default_backend
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\utils\run_circuits.py:374: PendingDeprecationWarning: Using a qobj for run() is 
+deprecated and will be removed in a future release.
+  job = backend.run(qobj, validate=False)
+.
+----------------------------------------------------------------------
+Ran 1 test in 4.541s
+
+OK
+

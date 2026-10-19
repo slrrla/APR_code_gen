@@ -1,0 +1,155 @@
+Title:
+Qiskit: Add a standard gate to circuit from a string
+
+Category:
+
+
+Question:
+Title: Qiskit: Add a standard gate to circuit from a string
+
+Given a circuit, if one wishes to add a gate, it is done through a line like the one below Here, we have added a control-X gate on the 0 and 1 qubits. This is probably a Python question but how can one do this given the string and integers and i.e. without manually typing them? I tried using https://stackoverflow.com/questions/3061/calling-a-function-of-a-module-by-using-its-name-a-string but getattr did not work for me.
+
+```
+mycircuit.cx(0, 1)
+```
+
+```
+mycircuit.cx(0, 1)
+```
+
+```
+'cx'
+```
+
+```
+0
+```
+
+```
+1
+```
+
+```
+from qiskit import QuantumCircuit circ = QuantumCircuit(2) circ.draw() a = ('cx', 0, 1) circ = getattr(circ, a[0])(a[1], a[2]) circ.draw()
+```
+
+```
+from qiskit import QuantumCircuit circ = QuantumCircuit(2) circ.draw() a = ('cx', 0, 1) circ = getattr(circ, a[0])(a[1], a[2]) circ.draw()
+```
+
+Original buggy code:
+mycircuit.cx(0, 1)
+
+---CODE_BLOCK---
+
+mycircuit.cx(0, 1)
+
+---CODE_BLOCK---
+
+'cx'
+
+---CODE_BLOCK---
+
+0
+
+---CODE_BLOCK---
+
+1
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit circ = QuantumCircuit(2) circ.draw() a = ('cx', 0, 1) circ = getattr(circ, a[0])(a[1], a[2]) circ.draw()
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit circ = QuantumCircuit(2) circ.draw() a = ('cx', 0, 1) circ = getattr(circ, a[0])(a[1], a[2]) circ.draw()
+
+Solution explanation:
+You are getting because doesn't return a . It returns an , which doesn't have a method. Removing the assignment of to what is returned from should get rid of the error.
+
+```
+AttributeError: 'InstructionSet' object has no attribute 'draw'
+```
+
+```
+getattr
+```
+
+```
+QuantumCircuit
+```
+
+```
+InstructionSet
+```
+
+```
+draw()
+```
+
+```
+from qiskit import QuantumCircuit circuit = QuantumCircuit(2) print(type(circuit)) # prints <class 'qiskit.circuit.quantumcircuit.QuantumCircuit'> circuit.draw() a = ('cx', 0, 1) circuit = getattr(circuit, a[0])(a[1], a[2]) print(type(circuit)) # prints <class 'qiskit.circuit.instructionset.InstructionSet'>
+```
+
+```
+from qiskit import QuantumCircuit circuit = QuantumCircuit(2) print(type(circuit)) # prints <class 'qiskit.circuit.quantumcircuit.QuantumCircuit'> circuit.draw() a = ('cx', 0, 1) circuit = getattr(circuit, a[0])(a[1], a[2]) print(type(circuit)) # prints <class 'qiskit.circuit.instructionset.InstructionSet'>
+```
+
+```
+circuit
+```
+
+```
+getatrr
+```
+
+```
+from qiskit import QuantumCircuit circuit = QuantumCircuit(2) circuit.draw() a = ('cx', 0, 1) getattr(circuit, a[0])(a[1], a[2]) circuit.draw()
+```
+
+```
+from qiskit import QuantumCircuit circuit = QuantumCircuit(2) circuit.draw() a = ('cx', 0, 1) getattr(circuit, a[0])(a[1], a[2]) circuit.draw()
+```
+
+Original fixed code:
+AttributeError: 'InstructionSet' object has no attribute 'draw'
+
+---CODE_BLOCK---
+
+getattr
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+InstructionSet
+
+---CODE_BLOCK---
+
+draw()
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit circuit = QuantumCircuit(2) print(type(circuit)) # prints <class 'qiskit.circuit.quantumcircuit.QuantumCircuit'> circuit.draw() a = ('cx', 0, 1) circuit = getattr(circuit, a[0])(a[1], a[2]) print(type(circuit)) # prints <class 'qiskit.circuit.instructionset.InstructionSet'>
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit circuit = QuantumCircuit(2) print(type(circuit)) # prints <class 'qiskit.circuit.quantumcircuit.QuantumCircuit'> circuit.draw() a = ('cx', 0, 1) circuit = getattr(circuit, a[0])(a[1], a[2]) print(type(circuit)) # prints <class 'qiskit.circuit.instructionset.InstructionSet'>
+
+---CODE_BLOCK---
+
+circuit
+
+---CODE_BLOCK---
+
+getatrr
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit circuit = QuantumCircuit(2) circuit.draw() a = ('cx', 0, 1) getattr(circuit, a[0])(a[1], a[2]) circuit.draw()
+
+---CODE_BLOCK---
+
+from qiskit import QuantumCircuit circuit = QuantumCircuit(2) circuit.draw() a = ('cx', 0, 1) getattr(circuit, a[0])(a[1], a[2]) circuit.draw()

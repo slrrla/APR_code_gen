@@ -1,0 +1,107 @@
+Title:
+Print data() with statevector and qasm simulator - Qiskit
+
+Category:
+
+
+Question:
+Title: Print data() with statevector and qasm simulator - Qiskit
+
+I am new to Qiskit and I am trying to implement some very simple 1-qubit gates. I want to initialize the state of the qubit (to 0 and then to 1) and then apply the gate and print the new state of the qubit. And I call the function like this: Now the output of all this is: I know that the data() function returns the Instruction object, a list of Qubits objects and a list of classical bits with the order they added. So here the second list is the list with the qubits. But when the qubit is '0', shouldn't it return a list with all 0? I am not sure about the meaning of the output.
+
+```
+def I(input): q = QuantumRegister(1) c = ClassicalRegister(1) qc = QuantumCircuit(q, c) if input == '1': #if input = 1, initialize the qubit to 1 qc.x(q[0]) qc.iden(q[0] ) qc.measure( q[0], c[0]) backend = Aer.get_backend('statevector_simulator') result = qiskit.execute(qc, backend=backend, shots=1).result() output = result.data(qc) return output
+```
+
+```
+def I(input): q = QuantumRegister(1) c = ClassicalRegister(1) qc = QuantumCircuit(q, c) if input == '1': #if input = 1, initialize the qubit to 1 qc.x(q[0]) qc.iden(q[0] ) qc.measure( q[0], c[0]) backend = Aer.get_backend('statevector_simulator') result = qiskit.execute(qc, backend=backend, shots=1).result() output = result.data(qc) return output
+```
+
+```
+print('\nResults for the Iden gate') for input in ['0','1']: print(' Input',input,'gives output',I(input))
+```
+
+```
+print('\nResults for the Iden gate') for input in ['0','1']: print(' Input',input,'gives output',I(input))
+```
+
+```
+Results for the Iden gate Input 0 gives output {'statevector': [[1.0, 0.0], [0.0, 0.0]], 'counts': {'0x0': 1}} Input 1 gives output {'statevector': [[0.0, 0.0], [1.0, 0.0]], 'counts': {'0x1': 1}}
+```
+
+```
+Results for the Iden gate Input 0 gives output {'statevector': [[1.0, 0.0], [0.0, 0.0]], 'counts': {'0x0': 1}} Input 1 gives output {'statevector': [[0.0, 0.0], [1.0, 0.0]], 'counts': {'0x1': 1}}
+```
+
+Original buggy code:
+def I(input): q = QuantumRegister(1) c = ClassicalRegister(1) qc = QuantumCircuit(q, c) if input == '1': #if input = 1, initialize the qubit to 1 qc.x(q[0]) qc.iden(q[0] ) qc.measure( q[0], c[0]) backend = Aer.get_backend('statevector_simulator') result = qiskit.execute(qc, backend=backend, shots=1).result() output = result.data(qc) return output
+
+---CODE_BLOCK---
+
+def I(input): q = QuantumRegister(1) c = ClassicalRegister(1) qc = QuantumCircuit(q, c) if input == '1': #if input = 1, initialize the qubit to 1 qc.x(q[0]) qc.iden(q[0] ) qc.measure( q[0], c[0]) backend = Aer.get_backend('statevector_simulator') result = qiskit.execute(qc, backend=backend, shots=1).result() output = result.data(qc) return output
+
+---CODE_BLOCK---
+
+print('\nResults for the Iden gate') for input in ['0','1']: print(' Input',input,'gives output',I(input))
+
+---CODE_BLOCK---
+
+print('\nResults for the Iden gate') for input in ['0','1']: print(' Input',input,'gives output',I(input))
+
+---CODE_BLOCK---
+
+Results for the Iden gate Input 0 gives output {'statevector': [[1.0, 0.0], [0.0, 0.0]], 'counts': {'0x0': 1}} Input 1 gives output {'statevector': [[0.0, 0.0], [1.0, 0.0]], 'counts': {'0x1': 1}}
+
+---CODE_BLOCK---
+
+Results for the Iden gate Input 0 gives output {'statevector': [[1.0, 0.0], [0.0, 0.0]], 'counts': {'0x0': 1}} Input 1 gives output {'statevector': [[0.0, 0.0], [1.0, 0.0]], 'counts': {'0x1': 1}}
+
+Solution explanation:
+The return from is information about the result of running the circuit . In your example, there are 2 pieces of information returned - the statevector and the counts. The statevector is a way of describing the state of the qubit, and the result contains the statevector from the end of the circuit. Each of the arrays in the overall array corresponds to a coefficient in front of one of the basis states, the first element is the real part and the second is the imaginary. So, for your this statevector is saying at the end of the circuit the qubit was in the state $(1+0i)\vert 0 \rangle + (0+0i)\vert 1 \rangle$, which is the same as saying the qubit is in the $\vert 0 \rangle$ state. The counts is saying how many times each output occurred in the results, so for 0x0 (aka 0) was the result once, which can be seen from the . This field is mainly used with the .
+
+```
+result.data(qc)
+```
+
+```
+qc
+```
+
+```
+Input 0
+```
+
+```
+Input 0
+```
+
+```
+1
+```
+
+```
+qasm_simulator
+```
+
+Original fixed code:
+result.data(qc)
+
+---CODE_BLOCK---
+
+qc
+
+---CODE_BLOCK---
+
+Input 0
+
+---CODE_BLOCK---
+
+Input 0
+
+---CODE_BLOCK---
+
+1
+
+---CODE_BLOCK---
+
+qasm_simulator

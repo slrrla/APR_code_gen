@@ -1,0 +1,101 @@
+Title:
+How to Run a Dynamic Qiskit Circuit Using the Sampler Primitive?
+
+Category:
+Category: Backend/Simulation
+Winner: AI  
+Why AI Is Better: While both solutions correctly acknowledge the architectural limits of Qiskit's Sampler with dynamic circuits, the AI goes further by correcting the user's broken code and demonstrating valid conditional operations. It turns an abstract limitation into concrete guidance.
+Why AI Performs Well in This Category: AI balances architectural knowledge (feature compatibility) with practical help (code correction), offering not just theory but a working path forward—key when users are confused by syntax *and* system limits.
+
+
+Question:
+Title: How to Run a Dynamic Qiskit Circuit Using the Sampler Primitive?
+
+I aim to execute my Qiskit dynamic circuit using a sampler. The rationale behind this choice is that a sampler allows me to run multiple circuits concurrently, whereas using a backend restricts me to executing one circuit at a time. However, while I have developed the code, I am uncertain about where to specify the 'dynamic=True' parameter. 
+ Code: 
+ from qiskit_ibm_runtime import QiskitRuntimeService, Sampler
+from qiskit import QuantumCircuit
+
+service = QiskitRuntimeService(
+ channel='ibm_quantum',
+ instance='ibm-q/open/main',
+)
+
+bell = QuantumCircuit(2,1)
+bell.h(0)
+bell.x(res[0]).c_if(cr, 0) # 
+bell.cx(0, 1)
+bell.x(res[1]).c_if(cr, 0) # 
+bell.measure_all()
+
+# executes three Bell circuits
+with Sampler(
+ circuits=[bell] * 3,
+ service=service,
+ options={'backend': 'ibmq_qasm_simulator'},
+) as sampler:
+ # alternatively you can also pass circuits as objects
+ result = sampler(circuits=[bell] * 3)
+ print(result)
+
+```
+from qiskit_ibm_runtime import QiskitRuntimeService, Sampler
+from qiskit import QuantumCircuit
+
+service = QiskitRuntimeService(
+    channel='ibm_quantum',
+    instance='ibm-q/open/main',
+)
+
+bell = QuantumCircuit(2,1)
+bell.h(0)
+bell.x(res[0]).c_if(cr, 0) # 
+bell.cx(0, 1)
+bell.x(res[1]).c_if(cr, 0) # 
+bell.measure_all()
+
+# executes three Bell circuits
+with Sampler(
+    circuits=[bell] * 3,
+    service=service,
+    options={'backend': 'ibmq_qasm_simulator'},
+) as sampler:
+    # alternatively you can also pass circuits as objects
+    result = sampler(circuits=[bell] * 3)
+    print(result)
+```
+
+Original buggy code:
+from qiskit_ibm_runtime import QiskitRuntimeService, Sampler
+from qiskit import QuantumCircuit
+
+service = QiskitRuntimeService(
+    channel='ibm_quantum',
+    instance='ibm-q/open/main',
+)
+
+bell = QuantumCircuit(2,1)
+bell.h(0)
+bell.x(res[0]).c_if(cr, 0) # 
+bell.cx(0, 1)
+bell.x(res[1]).c_if(cr, 0) # 
+bell.measure_all()
+
+# executes three Bell circuits
+with Sampler(
+    circuits=[bell] * 3,
+    service=service,
+    options={'backend': 'ibmq_qasm_simulator'},
+) as sampler:
+    # alternatively you can also pass circuits as objects
+    result = sampler(circuits=[bell] * 3)
+    print(result)
+
+Solution explanation:
+At the moment, Qiskit Runtime does not enable you to run dynamic circuits (so you cannot use Sampler primitive on a Runtime backend) as shown here: https://qiskit.org/ecosystem/ibm-runtime/compare.html . 
+
+ However, in the last update of Qiskit IBM provider; we can now wrap the backend.run call within a Session as well, enabling you to do what you want: https://qiskit.org/ecosystem/ibm-provider/stubs/qiskit_ibm_provider.Session.html 
+And use BackendSampler.run() with the circuits that you want (which this time can be set as Dynamic circuits as you’re using the usual IBM provider. You should therefore put the dynamic=True parameter in the IBm provider backend options once it is declared.
+
+Original fixed code:
+And use BackendSampler.run() with the circuits that you want (which this time can be set as Dynamic circuits as you’re using the usual IBM provider. You should therefore put the dynamic=True parameter in the IBm provider backend options once it is declared.

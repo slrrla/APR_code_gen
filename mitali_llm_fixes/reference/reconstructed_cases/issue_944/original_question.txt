@@ -1,0 +1,139 @@
+Title:
+Projection Operator in qiskit.opflow
+
+Category:
+
+
+Question:
+Title: Projection Operator in qiskit.opflow
+
+I am looking for a way to implement a projection operator like $\mid +\rangle\langle+\mid$ in qiskits opflow module. I tried but this gives me an error message. There must be a direct implementation of projection operators right? I can't use the operators in for what I want to do, except if there is a way to convert those operators to the ones in opflow. Edit: The error message I get from is The reason I think I can't use 's opearotors it that I want to compute the spectrum using and this seems to me to not work with a operator: I am generally confused about the connection and difference between and because they seem to me to have a large overlap. Is one of those an older module and should not be used anymore? Is there a general way to convert objects like operators from one to the other?
+
+```
+Plus @ ~Plus
+```
+
+```
+qiskit.quantum_info
+```
+
+```
+(Plus)@(~Plus)
+```
+
+```
+ValueError: Composition with a Statefunctions in the first operand is not defined.
+```
+
+```
+qiskit.quantum_info
+```
+
+```
+qiskit.algorithms.NumPyEigensolver
+```
+
+```
+quantum_info
+```
+
+```
+>>>plus = Statevector([1/np.sqrt(2),1/np.sqrt(2)]).to_operator() >>>plus Operator([[0.5+0.j, 0.5+0.j], [0.5+0.j, 0.5+0.j]], input_dims=(2,), output_dims=(2,)) >>>solver = NumPyEigensolver() >>>spectrum = solver.compute_eigenvalues(plus) AttributeError: 'Operator' object has no attribute 'to_spmatrix'
+```
+
+```
+>>>plus = Statevector([1/np.sqrt(2),1/np.sqrt(2)]).to_operator() >>>plus Operator([[0.5+0.j, 0.5+0.j], [0.5+0.j, 0.5+0.j]], input_dims=(2,), output_dims=(2,)) >>>solver = NumPyEigensolver() >>>spectrum = solver.compute_eigenvalues(plus) AttributeError: 'Operator' object has no attribute 'to_spmatrix'
+```
+
+```
+qiskit.quantum_info
+```
+
+```
+qiskit.opflow
+```
+
+Original buggy code:
+Plus @ ~Plus
+
+---CODE_BLOCK---
+
+qiskit.quantum_info
+
+---CODE_BLOCK---
+
+(Plus)@(~Plus)
+
+---CODE_BLOCK---
+
+ValueError: Composition with a Statefunctions in the first operand is not defined.
+
+---CODE_BLOCK---
+
+qiskit.quantum_info
+
+---CODE_BLOCK---
+
+qiskit.algorithms.NumPyEigensolver
+
+---CODE_BLOCK---
+
+quantum_info
+
+---CODE_BLOCK---
+
+>>>plus = Statevector([1/np.sqrt(2),1/np.sqrt(2)]).to_operator() >>>plus Operator([[0.5+0.j, 0.5+0.j], [0.5+0.j, 0.5+0.j]], input_dims=(2,), output_dims=(2,)) >>>solver = NumPyEigensolver() >>>spectrum = solver.compute_eigenvalues(plus) AttributeError: 'Operator' object has no attribute 'to_spmatrix'
+
+---CODE_BLOCK---
+
+>>>plus = Statevector([1/np.sqrt(2),1/np.sqrt(2)]).to_operator() >>>plus Operator([[0.5+0.j, 0.5+0.j], [0.5+0.j, 0.5+0.j]], input_dims=(2,), output_dims=(2,)) >>>solver = NumPyEigensolver() >>>spectrum = solver.compute_eigenvalues(plus) AttributeError: 'Operator' object has no attribute 'to_spmatrix'
+
+---CODE_BLOCK---
+
+qiskit.quantum_info
+
+---CODE_BLOCK---
+
+qiskit.opflow
+
+Solution explanation:
+You can convert a operator to a operator easily by passing it as a parameter to constructor:
+
+```
+qiskit.quantum_info
+```
+
+```
+qiskit.opflow
+```
+
+```
+PrimitiveOp
+```
+
+```
+from qiskit.opflow import PrimitiveOp # |+> sv = Statevector.from_label('+') # |+><+| proj = sv.to_operator() # Convert to opflow operator: op = PrimitiveOp(proj)
+```
+
+```
+from qiskit.opflow import PrimitiveOp # |+> sv = Statevector.from_label('+') # |+><+| proj = sv.to_operator() # Convert to opflow operator: op = PrimitiveOp(proj)
+```
+
+Original fixed code:
+qiskit.quantum_info
+
+---CODE_BLOCK---
+
+qiskit.opflow
+
+---CODE_BLOCK---
+
+PrimitiveOp
+
+---CODE_BLOCK---
+
+from qiskit.opflow import PrimitiveOp # |+> sv = Statevector.from_label('+') # |+><+| proj = sv.to_operator() # Convert to opflow operator: op = PrimitiveOp(proj)
+
+---CODE_BLOCK---
+
+from qiskit.opflow import PrimitiveOp # |+> sv = Statevector.from_label('+') # |+><+| proj = sv.to_operator() # Convert to opflow operator: op = PrimitiveOp(proj)

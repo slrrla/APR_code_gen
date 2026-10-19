@@ -1,0 +1,127 @@
+Title:
+How to Properly Run a Circuit with Qiskit on AWS Braket, AttributeError: 'AwsDevice' object has no attribute 'configuration' by Current Implementation
+
+Category:
+Category:
+Circuit
+
+Why Stack Overflow Wins in This Category:
+In the Circuit category, particularly for execution on non-IBM backends like AWS Braket, using the correct provider and method is essential. Stack Overflow:
+
+Diagnoses the core problem (AwsDevice ≠ Qiskit backend)
+
+Provides the right backend object (AWSBraketProvider)
+
+Shares runnable and valid code with backend.run()
+
+This targeted and accurate correction makes it the more helpful and trustworthy response for the user’s exact execution issue.
+
+Question:
+Title: How to Properly Run a Circuit with Qiskit on AWS Braket, AttributeError: 'AwsDevice' object has no attribute 'configuration' by Current Implementation
+
+Description: I'm currently working on a project that involves running quantum circuits as a hybrid job on the aws tensor network simulator 'tn1'. However, I'm encountering some issues when trying to execute my circuit Explanation of Gates in Circuit: The quantum circuit I'm trying to execute consists of a Grover oracle and a diffusion circuit. The Grover oracle includes various quantum gates such as Hadamard (H), Controlled-NOT (CNOT), and rotational gates (e.g., Rz). The diffusion circuit is composed of Hadamard gates, multi-controlled X gates, and single-qubit X gates. This is a how I create the the Grover oracle: This is a how I create the diffusion circuit: Current execute_quantum_circuit function that is causing the traceback: Error on the Cloudwatch logs: "AttributeError: 'AwsDevice' object has no attribute 'configuration" Need assistance: I would appreciate any insights or guidance on how to create the 'def' to properly configure and execute the quantum circuit on AWS Braket using Qiskit as Hybrid Job, as well as any suggestions for debugging the AttributeError related to the AwsDevice object. P.S.: I have also attempted using backend.run, job.execute, and task.run, but encountered similar issues. i suspect it might be something related to I might not be using the correct parameters to execute the circuit or using incorrect commands.
+
+```
+def create_grover_oracle(target, num_qubits): qr = QuantumRegister(num_qubits) oracle_circuit = QuantumCircuit(qr) # to encode the target into the quantum state for i, bit in enumerate(address): if bit == '1': oracle_circuit.x(i) # apply CZ gates pairwise between adjacent qubits for i in range(num_qubits - 1): oracle_circuit.cz(i, i+1) # uncompute the encoding for i, bit in enumerate(target): if bit == '1': oracle_circuit.x(i) return oracle_circuit
+```
+
+```
+def create_grover_oracle(target, num_qubits): qr = QuantumRegister(num_qubits) oracle_circuit = QuantumCircuit(qr) # to encode the target into the quantum state for i, bit in enumerate(address): if bit == '1': oracle_circuit.x(i) # apply CZ gates pairwise between adjacent qubits for i in range(num_qubits - 1): oracle_circuit.cz(i, i+1) # uncompute the encoding for i, bit in enumerate(target): if bit == '1': oracle_circuit.x(i) return oracle_circuit
+```
+
+```
+def create_diffusion_circuit(num_qubits): qr = QuantumRegister(num_qubits) diffusion_circuit = QuantumCircuit(qr) # apply Hadamard gates to all qubits diffusion_circuit.h(range(num_qubits)) # apply X gate to all qubits diffusion_circuit.x(range(num_qubits)) # apply multi-controlled Z gate diffusion_circuit.h(num_qubits-1) diffusion_circuit.mct(list(range(num_qubits-1)), num_qubits-1) diffusion_circuit.h(num_qubits-1) # apply X gate again diffusion_circuit.x(range(num_qubits)) # apply Hadamard gates again diffusion_circuit.h(range(num_qubits)) return diffusion_circuit
+```
+
+```
+def create_diffusion_circuit(num_qubits): qr = QuantumRegister(num_qubits) diffusion_circuit = QuantumCircuit(qr) # apply Hadamard gates to all qubits diffusion_circuit.h(range(num_qubits)) # apply X gate to all qubits diffusion_circuit.x(range(num_qubits)) # apply multi-controlled Z gate diffusion_circuit.h(num_qubits-1) diffusion_circuit.mct(list(range(num_qubits-1)), num_qubits-1) diffusion_circuit.h(num_qubits-1) # apply X gate again diffusion_circuit.x(range(num_qubits)) # apply Hadamard gates again diffusion_circuit.h(range(num_qubits)) return diffusion_circuit
+```
+
+```
+def execute_quantum_circuit(backend, circuit, shots=1000): transpiled_circuit = transpile(circuit, backend) job = execute(transpiled_circuit, backend, shots=shots) # Get the result of the job result = job.result() # Get the counts of measurement outcomes counts = result.get_counts() return counts
+```
+
+```
+def execute_quantum_circuit(backend, circuit, shots=1000): transpiled_circuit = transpile(circuit, backend) job = execute(transpiled_circuit, backend, shots=shots) # Get the result of the job result = job.result() # Get the counts of measurement outcomes counts = result.get_counts() return counts
+```
+
+Original buggy code:
+def create_grover_oracle(target, num_qubits): qr = QuantumRegister(num_qubits) oracle_circuit = QuantumCircuit(qr) # to encode the target into the quantum state for i, bit in enumerate(address): if bit == '1': oracle_circuit.x(i) # apply CZ gates pairwise between adjacent qubits for i in range(num_qubits - 1): oracle_circuit.cz(i, i+1) # uncompute the encoding for i, bit in enumerate(target): if bit == '1': oracle_circuit.x(i) return oracle_circuit
+
+---CODE_BLOCK---
+
+def create_grover_oracle(target, num_qubits): qr = QuantumRegister(num_qubits) oracle_circuit = QuantumCircuit(qr) # to encode the target into the quantum state for i, bit in enumerate(address): if bit == '1': oracle_circuit.x(i) # apply CZ gates pairwise between adjacent qubits for i in range(num_qubits - 1): oracle_circuit.cz(i, i+1) # uncompute the encoding for i, bit in enumerate(target): if bit == '1': oracle_circuit.x(i) return oracle_circuit
+
+---CODE_BLOCK---
+
+def create_diffusion_circuit(num_qubits): qr = QuantumRegister(num_qubits) diffusion_circuit = QuantumCircuit(qr) # apply Hadamard gates to all qubits diffusion_circuit.h(range(num_qubits)) # apply X gate to all qubits diffusion_circuit.x(range(num_qubits)) # apply multi-controlled Z gate diffusion_circuit.h(num_qubits-1) diffusion_circuit.mct(list(range(num_qubits-1)), num_qubits-1) diffusion_circuit.h(num_qubits-1) # apply X gate again diffusion_circuit.x(range(num_qubits)) # apply Hadamard gates again diffusion_circuit.h(range(num_qubits)) return diffusion_circuit
+
+---CODE_BLOCK---
+
+def create_diffusion_circuit(num_qubits): qr = QuantumRegister(num_qubits) diffusion_circuit = QuantumCircuit(qr) # apply Hadamard gates to all qubits diffusion_circuit.h(range(num_qubits)) # apply X gate to all qubits diffusion_circuit.x(range(num_qubits)) # apply multi-controlled Z gate diffusion_circuit.h(num_qubits-1) diffusion_circuit.mct(list(range(num_qubits-1)), num_qubits-1) diffusion_circuit.h(num_qubits-1) # apply X gate again diffusion_circuit.x(range(num_qubits)) # apply Hadamard gates again diffusion_circuit.h(range(num_qubits)) return diffusion_circuit
+
+---CODE_BLOCK---
+
+def execute_quantum_circuit(backend, circuit, shots=1000): transpiled_circuit = transpile(circuit, backend) job = execute(transpiled_circuit, backend, shots=shots) # Get the result of the job result = job.result() # Get the counts of measurement outcomes counts = result.get_counts() return counts
+
+---CODE_BLOCK---
+
+def execute_quantum_circuit(backend, circuit, shots=1000): transpiled_circuit = transpile(circuit, backend) job = execute(transpiled_circuit, backend, shots=shots) # Get the result of the job result = job.result() # Get the counts of measurement outcomes counts = result.get_counts() return counts
+
+Solution explanation:
+To run or transpile the qiskit circuit, you should define the as an object, instead of the object. Below I show an example of how to run qiskit circuit on Amazon Braket, and how to submit it as a hybrid job. You should be able to run the same code with your diffusion circuit (however, there is an undefined variable in the Grover circuit). In order to run the same code with hybrid job, you can simply uncomment the line starting with . For more examples, you can check out the "tutorials" folder in the qiskit-braket-provider repo (link).
+
+```
+backend
+```
+
+```
+AWSBraketProvider
+```
+
+```
+AwsDevice
+```
+
+```
+from qiskit_braket_provider import AWSBraketProvider from braket.jobs import hybrid_job from braket.aws import AwsDevice from braket.devices import Devices from qiskit import QuantumCircuit, transpile # @hybrid_job(device=AwsDevice(Devices.Amazon.TN1).arn) def execute_quantum_circuit(circuit, shots=1000): backend = AWSBraketProvider().get_backend("TN1") transpiled_circuit = transpile(circuit, backend) job = backend.run(transpiled_circuit, shots=shots) # Get the result of the job result = job.result() # Get the counts of measurement outcomes counts = result.get_counts() return counts circuit = QuantumCircuit(2) circuit.h(0) circuit.cx(0, 1) execute_quantum_circuit(circuit) # {'11': 507, '00': 493}
+```
+
+```
+from qiskit_braket_provider import AWSBraketProvider from braket.jobs import hybrid_job from braket.aws import AwsDevice from braket.devices import Devices from qiskit import QuantumCircuit, transpile # @hybrid_job(device=AwsDevice(Devices.Amazon.TN1).arn) def execute_quantum_circuit(circuit, shots=1000): backend = AWSBraketProvider().get_backend("TN1") transpiled_circuit = transpile(circuit, backend) job = backend.run(transpiled_circuit, shots=shots) # Get the result of the job result = job.result() # Get the counts of measurement outcomes counts = result.get_counts() return counts circuit = QuantumCircuit(2) circuit.h(0) circuit.cx(0, 1) execute_quantum_circuit(circuit) # {'11': 507, '00': 493}
+```
+
+```
+address
+```
+
+```
+@hybrid_job
+```
+
+Original fixed code:
+backend
+
+---CODE_BLOCK---
+
+AWSBraketProvider
+
+---CODE_BLOCK---
+
+AwsDevice
+
+---CODE_BLOCK---
+
+from qiskit_braket_provider import AWSBraketProvider from braket.jobs import hybrid_job from braket.aws import AwsDevice from braket.devices import Devices from qiskit import QuantumCircuit, transpile # @hybrid_job(device=AwsDevice(Devices.Amazon.TN1).arn) def execute_quantum_circuit(circuit, shots=1000): backend = AWSBraketProvider().get_backend("TN1") transpiled_circuit = transpile(circuit, backend) job = backend.run(transpiled_circuit, shots=shots) # Get the result of the job result = job.result() # Get the counts of measurement outcomes counts = result.get_counts() return counts circuit = QuantumCircuit(2) circuit.h(0) circuit.cx(0, 1) execute_quantum_circuit(circuit) # {'11': 507, '00': 493}
+
+---CODE_BLOCK---
+
+from qiskit_braket_provider import AWSBraketProvider from braket.jobs import hybrid_job from braket.aws import AwsDevice from braket.devices import Devices from qiskit import QuantumCircuit, transpile # @hybrid_job(device=AwsDevice(Devices.Amazon.TN1).arn) def execute_quantum_circuit(circuit, shots=1000): backend = AWSBraketProvider().get_backend("TN1") transpiled_circuit = transpile(circuit, backend) job = backend.run(transpiled_circuit, shots=shots) # Get the result of the job result = job.result() # Get the counts of measurement outcomes counts = result.get_counts() return counts circuit = QuantumCircuit(2) circuit.h(0) circuit.cx(0, 1) execute_quantum_circuit(circuit) # {'11': 507, '00': 493}
+
+---CODE_BLOCK---
+
+address
+
+---CODE_BLOCK---
+
+@hybrid_job

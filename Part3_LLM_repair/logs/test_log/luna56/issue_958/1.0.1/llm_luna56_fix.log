@@ -1,0 +1,16 @@
+
+test_h_tensor_h_up_to_the_permitted_global_phase (__main__.Regression.test_h_tensor_h_up_to_the_permitted_global_phase) ... 
+  test_h_tensor_h_up_to_the_permitted_global_phase (__main__.Regression.test_h_tensor_h_up_to_the_permitted_global_phase) (circuit='qc') ... FAIL
+
+======================================================================
+FAIL: test_h_tensor_h_up_to_the_permitted_global_phase (__main__.Regression.test_h_tensor_h_up_to_the_permitted_global_phase) (circuit='qc')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\APR2\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_958\test.py", line 36, in test_h_tensor_h_up_to_the_permitted_global_phase
+    self.assertTrue(Operator(circuit).equiv(Operator(expected)),
+AssertionError: False is not true : The full operation must be H tensor H up to global phase
+
+----------------------------------------------------------------------
+Ran 1 test in 1.483s
+
+FAILED (failures=1)

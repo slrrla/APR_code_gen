@@ -1,0 +1,167 @@
+Title:
+How to obtain qubit's amplitude in qiskit
+
+Category:
+Category:
+Circuit Construction / Logic / Gates
+
+Why Both Are Same in This Category:
+In the Circuit category, precision and correctness in circuit simulation are key. Both answers deliver identical and correct code using Qiskit’s native tools (Aer, execute, get_statevector). They both achieve the user's goal of extracting amplitudes for educational simulation purposes, making them functionally and technically equivalent.
+
+Question:
+Title: How to obtain qubit's amplitude in qiskit
+
+For example, I have some circuit After operations: probability amplitudes of the qubits will change. I know that I can estimate them by measuring qubits a bunch of times and normalizing the : But is there a way to directly obtain true amplitudes? Yeah, it's impossible in real life, but I hope the information is contained under the hood of for education purposes.
+
+```
+circuit = QuantumCircuit(2)
+```
+
+```
+circuit = QuantumCircuit(2)
+```
+
+```
+circuit.h(0) circuit.cx(0, 1)
+```
+
+```
+circuit.h(0) circuit.cx(0, 1)
+```
+
+```
+counts
+```
+
+```
+result = execute(circuit, backend, shots=1000).result() counts = result.get_counts(circuit)
+```
+
+```
+result = execute(circuit, backend, shots=1000).result() counts = result.get_counts(circuit)
+```
+
+```
+qiskit
+```
+
+Original buggy code:
+circuit = QuantumCircuit(2)
+
+---CODE_BLOCK---
+
+circuit = QuantumCircuit(2)
+
+---CODE_BLOCK---
+
+circuit.h(0) circuit.cx(0, 1)
+
+---CODE_BLOCK---
+
+circuit.h(0) circuit.cx(0, 1)
+
+---CODE_BLOCK---
+
+counts
+
+---CODE_BLOCK---
+
+result = execute(circuit, backend, shots=1000).result() counts = result.get_counts(circuit)
+
+---CODE_BLOCK---
+
+result = execute(circuit, backend, shots=1000).result() counts = result.get_counts(circuit)
+
+---CODE_BLOCK---
+
+qiskit
+
+Solution explanation:
+You can get these "true amplitudes" through the use of the within Aer. If you execute the circuit on the backend, it will return a statevector for the circuit. This statevector, when normalized, will return the theoretical probabilities of each state. Let's take the circuit you posted as an example: The statevector will be in the form of a list, with each entry representing a possible state. In this example, the statevector would be returned as . This can be read as: State probability = 0.70710678+0.j (which is $\frac{1}{\sqrt2}$) State probability = 0 State probability = 0 State probability = 0.70710678+0.j (which is $\frac{1}{\sqrt2}$) Which, when normalized would give you a 50% probability of the state and a 50% probability of the state .
+
+```
+statevector_simulator
+```
+
+```
+statevector_simulator
+```
+
+```
+circuit = QuantumCircuit(2) circuit.h(0) circuit.cx(0, 1) # Retrieve the statevector_simulator backend backend = Aer.get_backend('statevector_simulator') result = execute(circuit, backend, shots=1000).result() # Get the statevector from result(). statevector = result.get_statevector(circuit) # Normalize statevector to receive the true probabilities.
+```
+
+```
+circuit = QuantumCircuit(2) circuit.h(0) circuit.cx(0, 1) # Retrieve the statevector_simulator backend backend = Aer.get_backend('statevector_simulator') result = execute(circuit, backend, shots=1000).result() # Get the statevector from result(). statevector = result.get_statevector(circuit) # Normalize statevector to receive the true probabilities.
+```
+
+```
+[0.70710678+0.j 0. +0.j 0. +0.j 0.70710678+0.j]
+```
+
+```
+00
+```
+
+```
+01
+```
+
+```
+10
+```
+
+```
+11
+```
+
+```
+00
+```
+
+```
+11
+```
+
+Original fixed code:
+statevector_simulator
+
+---CODE_BLOCK---
+
+statevector_simulator
+
+---CODE_BLOCK---
+
+circuit = QuantumCircuit(2) circuit.h(0) circuit.cx(0, 1) # Retrieve the statevector_simulator backend backend = Aer.get_backend('statevector_simulator') result = execute(circuit, backend, shots=1000).result() # Get the statevector from result(). statevector = result.get_statevector(circuit) # Normalize statevector to receive the true probabilities.
+
+---CODE_BLOCK---
+
+circuit = QuantumCircuit(2) circuit.h(0) circuit.cx(0, 1) # Retrieve the statevector_simulator backend backend = Aer.get_backend('statevector_simulator') result = execute(circuit, backend, shots=1000).result() # Get the statevector from result(). statevector = result.get_statevector(circuit) # Normalize statevector to receive the true probabilities.
+
+---CODE_BLOCK---
+
+[0.70710678+0.j 0. +0.j 0. +0.j 0.70710678+0.j]
+
+---CODE_BLOCK---
+
+00
+
+---CODE_BLOCK---
+
+01
+
+---CODE_BLOCK---
+
+10
+
+---CODE_BLOCK---
+
+11
+
+---CODE_BLOCK---
+
+00
+
+---CODE_BLOCK---
+
+11

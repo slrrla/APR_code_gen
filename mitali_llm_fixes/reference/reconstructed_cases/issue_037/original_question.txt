@@ -1,0 +1,168 @@
+Title:
+How to call EnergyInput() function in Qiskit python?
+
+Category:
+Category: Import Error / Deprecated Qiskit Aqua Interfaces  
+Winner: AI  
+Why AI Is Better: AI provides a modern solution using the `qiskit-machine-learning` library, avoids deprecated Aqua APIs, and offers a clean, correct implementation of QSVM with `QuantumInstance`. This ensures compatibility with Qiskit 1.0+ and follows best practices.  
+Why AI Performs Well in This Category: AI effectively navigates transitions between old and new APIs and emphasizes forward-compatible tools. It also gives clearer installation and usage guidance for evolving Qiskit modules.
+
+
+Question:
+Title: How to call EnergyInput() function in Qiskit python?
+
+I want to implement SVM with Qiskit. I used this following code. 
+
+ from qiskit import Aer
+from qiskit.aqua.utils import split_dataset_to_data_and_labels
+from qiskit.aqua.input import get_input_instance 
+from qiskit.aqua import run_algorithm
+
+n = 2 # dimension of each data point
+sample_Total, training_input, test_input, class_labels = Breast_cancer(training_size=40,
+ test_size=10, n=n, PLOT_DATA=True)
+
+temp = [test_input[k] for k in test_input]
+total_array = np.concatenate(temp)
+
+aqua_dict = {
+ 'problem': {'name': 'svm_classification', 'random_seed': 100},
+ 'algorithm': {
+ 'name': 'QSVM.Kernel'
+ },
+ 'feature_map': {'name': 'SecondOrderExpansion', 'depth': 2, 'entangler_map': {0: [1]}},
+ 'multiclass_extension': {'name': 'AllPairs'},
+ 'backend': {'name': 'qasm_simulator', 'shots': 256}
+}
+
+algo_input = get_input_instance('SVMInput')
+algo_input.training_dataset = training_input
+algo_input.test_dataset = test_input
+algo_input.datapoints = total_array
+
+result = run_algorithm(aqua_dict, algo_input)
+for k,v in result.items():
+ print("'{}' : {}".format(k, v))
+
+ But this code shows this error 
+
+ ImportError: cannot import name 'get_input_instance' 
+
+ This is because this method is removed from Qiskit. I got this piece of information from this github issue. They have suggested to use EnergyInput() instead of get_input_instance() in a similar way. So I modified the previous code in the following way. 
+
+ !pip install qiskit
+from qiskit import Aer
+from qiskit.aqua.utils import split_dataset_to_data_and_labels
+from qiskit.aqua.input import EnergyInput
+from qiskit.aqua import run_algorithm
+
+algo_input = EnergyInput('SVMInput')
+algo_input.training_dataset = training_input
+algo_input.test_dataset = test_input
+algo_input.datapoints = total_array
+
+ Now this code shows that EnergyInput cannot take anykind of String input. This generates the following error. 
+
+ AttributeError: 'str' object has no attribute 'to_dict' 
+
+ I can show the whole error in this screenshot.
+
+```
+from qiskit import Aer
+from qiskit.aqua.utils import split_dataset_to_data_and_labels
+from qiskit.aqua.input import get_input_instance     
+from qiskit.aqua import run_algorithm
+
+n = 2  # dimension of each data point
+sample_Total, training_input, test_input, class_labels = Breast_cancer(training_size=40,
+                                                              test_size=10, n=n, PLOT_DATA=True)
+
+temp = [test_input[k] for k in test_input]
+total_array = np.concatenate(temp)
+
+aqua_dict = {
+    'problem': {'name': 'svm_classification', 'random_seed': 100},
+    'algorithm': {
+        'name': 'QSVM.Kernel'
+    },
+    'feature_map': {'name': 'SecondOrderExpansion', 'depth': 2, 'entangler_map': {0: [1]}},
+    'multiclass_extension': {'name': 'AllPairs'},
+    'backend': {'name': 'qasm_simulator', 'shots': 256}
+}
+
+algo_input = get_input_instance('SVMInput')
+algo_input.training_dataset = training_input
+algo_input.test_dataset = test_input
+algo_input.datapoints = total_array
+
+result = run_algorithm(aqua_dict, algo_input)
+for k,v in result.items():
+    print("'{}' : {}".format(k, v))
+```
+
+```
+!pip install qiskit
+from qiskit import Aer
+from qiskit.aqua.utils import split_dataset_to_data_and_labels
+from qiskit.aqua.input import EnergyInput
+from qiskit.aqua import run_algorithm
+
+algo_input = EnergyInput('SVMInput')
+algo_input.training_dataset = training_input
+algo_input.test_dataset = test_input
+algo_input.datapoints = total_array
+```
+
+Original buggy code:
+from qiskit import Aer
+from qiskit.aqua.utils import split_dataset_to_data_and_labels
+from qiskit.aqua.input import get_input_instance     
+from qiskit.aqua import run_algorithm
+
+n = 2  # dimension of each data point
+sample_Total, training_input, test_input, class_labels = Breast_cancer(training_size=40,
+                                                              test_size=10, n=n, PLOT_DATA=True)
+
+temp = [test_input[k] for k in test_input]
+total_array = np.concatenate(temp)
+
+aqua_dict = {
+    'problem': {'name': 'svm_classification', 'random_seed': 100},
+    'algorithm': {
+        'name': 'QSVM.Kernel'
+    },
+    'feature_map': {'name': 'SecondOrderExpansion', 'depth': 2, 'entangler_map': {0: [1]}},
+    'multiclass_extension': {'name': 'AllPairs'},
+    'backend': {'name': 'qasm_simulator', 'shots': 256}
+}
+
+algo_input = get_input_instance('SVMInput')
+algo_input.training_dataset = training_input
+algo_input.test_dataset = test_input
+algo_input.datapoints = total_array
+
+result = run_algorithm(aqua_dict, algo_input)
+for k,v in result.items():
+    print("'{}' : {}".format(k, v))
+
+---CODE_BLOCK---
+
+!pip install qiskit
+from qiskit import Aer
+from qiskit.aqua.utils import split_dataset_to_data_and_labels
+from qiskit.aqua.input import EnergyInput
+from qiskit.aqua import run_algorithm
+
+algo_input = EnergyInput('SVMInput')
+algo_input.training_dataset = training_input
+algo_input.test_dataset = test_input
+algo_input.datapoints = total_array
+
+Solution explanation:
+Have a look at this tutorial about creating QSVMs. Instead of EnergyInput() they use a class called ClassificationInput() to which they pass their data. 
+
+ This makes the overall expression: 
+ algo_input = ClassificationInput(training_input, test_input, datapoints[0])
+
+Original fixed code:
+algo_input = ClassificationInput(training_input, test_input, datapoints[0])

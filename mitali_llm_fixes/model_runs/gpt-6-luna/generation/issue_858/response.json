@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWW1Y3aEdJHbwmXCheOYcV4Atp2Vm",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nfrom qiskit import IBMQ\n\nprovider = IBMQ.load_account()\n# FIX: the default backend lookup excludes retired systems -> include non-operational backends, because retired systems are not operational\nbackend = provider.get_backend('ibm_oslo', operational=False)\n\nsystem = backend\nprint(system.properties().backend_version)\nprint(system.properties().last_update_date)\nprint(system.properties().qubits)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791418304,
+  "model": "gpt-6-luna",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 1464,
+    "prompt_tokens": 627,
+    "total_tokens": 2091,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 1359,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

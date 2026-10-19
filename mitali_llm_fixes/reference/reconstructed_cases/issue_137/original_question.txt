@@ -1,0 +1,35 @@
+Title:
+How to deal with job submission error in IBM? [closed]
+
+Category:
+Category:
+Error / Backend Job Submission / Network Timeout
+
+Why AI Wins in This Category:
+In backend submission errors involving multiple potential failure points—network, backend, authentication, or token—the most effective response is a multi-pronged diagnostic approach. The AI solution:
+
+Covers more possible root causes.
+
+Provides testable fallback strategies (like simulator execution).
+
+Guides the user through Qiskit upgrades, token refresh, and debug logging.
+
+It not only resolves the immediate issue but equips the user with tools to handle similar errors in future, making it more practical and educational.
+
+Question:
+Title: How to deal with job submission error in IBM? [closed]
+
+Closed. This question needs details or clarity. It is not currently accepting answers. Want to improve this question? As written, this question is lacking some of the information it needs to be answered. If the author adds details in comments, consider editing them into the question. Once there's sufficient detail to answer, vote to reopen the question. Closed 4 years ago. Improve this question I keep on getting this error no matter how many circuits I run in the backend 'ibmq_athens'. It says 'Max retries exceeded with URL'. Can someone explain why I am getting this error message. The main error message is as follows: IBMQBackendApiError: 'Error submitting job: 'HTTPSConnectionPool(host=\'s3.us-east.cloud-object-storage.appdomain.cloud\', port=443): Max retries exceeded with url: /us-east-quantum-computing-user-jobs-prod/qObject-5ffc48c0c3d09157546c8092.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=21ce861c64cc417e9a95f95263ecf8f7%2F20210111%2Fus-east%2Fs3%2Faws4_request&X-Amz-Date=20210111T124657Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=6715779f30e144ac7e6e1f8ae316960473e57b251c6360b02d881fb8e9a47333 (Caused by SSLError(SSLError("bad handshake: SysCallError(60, \'ETIMEDOUT\')")))''
+
+Original buggy code:
+Closed. This question needs details or clarity. It is not currently accepting answers. Want to improve this question? As written, this question is lacking some of the information it needs to be answered. If the author adds details in comments, consider editing them into the question. Once there's sufficient detail to answer, vote to reopen the question. Closed 4 years ago. Improve this question I keep on getting this error no matter how many circuits I run in the backend 'ibmq_athens'. It says 'Max retries exceeded with URL'. Can someone explain why I am getting this error message. The main error message is as follows: IBMQBackendApiError: 'Error submitting job: 'HTTPSConnectionPool(host=\'s3.us-east.cloud-object-storage.appdomain.cloud\', port=443): Max retries exceeded with url: /us-east-quantum-computing-user-jobs-prod/qObject-5ffc48c0c3d09157546c8092.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=21ce861c64cc417e9a95f95263ecf8f7%2F20210111%2Fus-east%2Fs3%2Faws4_request&X-Amz-Date=20210111T124657Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=6715779f30e144ac7e6e1f8ae316960473e57b251c6360b02d881fb8e9a47333 (Caused by SSLError(SSLError("bad handshake: SysCallError(60, \'ETIMEDOUT\')")))''
+
+Solution explanation:
+This is duplicate of Error while trying to execute the Quantum Circuits in IBMQ . It's caused by your ISP blocking IBM Cloud object storage URL (used by IBM Q). My answer from the other post: This is caused by blocking the url and sending back a http response (which the client interpreted as a TLS version it didn't understand). Unfortunately safebrowse.io doesn't allow whitelisting a single url, so you'll need to disable it entirely. Here’s a link on how to do it: https://howtoremove.guide/safebrowse-io-virus/#:~:text=What%20is%20Safebrowse.io%3F,compromise%20their%20system%20and%20privacy
+
+```
+safebrowse.io
+```
+
+Original fixed code:
+safebrowse.io

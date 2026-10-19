@@ -1,0 +1,7 @@
+Title: Is it possible to express $U_1(\lambda)$ through the gates $R_x, R_y, R_z$ while maintaining the phase? In Qiskit for example
+
+Is it possible to express gate $U_1(\lambda)$ through the gates $R_x, R_y, R_z$ while maintaining the phase? Both in principle and in practice (in Qiskit for example)? The single gate $R_z(\lambda)$ is not suitable, because it loses phase. In qiskit the function throws an error: Cannot unroll the circuit to the given basis, ['rx', 'ry', 'rz']. No rule to expand instruction u1.
+
+```
+transpile
+```

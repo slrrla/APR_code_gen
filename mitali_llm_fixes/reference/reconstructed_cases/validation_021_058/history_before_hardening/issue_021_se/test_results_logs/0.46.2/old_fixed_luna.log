@@ -1,0 +1,25 @@
+COMMAND: ["C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_2\\python.exe", "-X", "utf8", "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_021_se\\test.py", "-v"]
+MUT: C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\fixed_luna.py
+
+STDOUT:
+
+STDERR:
+test_custom_gate_execution_and_amplitudes (__main__.TestIntent.test_custom_gate_execution_and_amplitudes) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_2\Lib\site-packages\qiskit_aer\backends\statevector_simulator.py:246: PendingDeprecationWarning: The `StatevectorSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend. To obtain legacy functionality initialize with `AerSimulator(method="statevector")` and append run circuits with the `save_state` instruction.
+  warn(
+ERROR
+
+======================================================================
+ERROR: test_custom_gate_execution_and_amplitudes (__main__.TestIntent.test_custom_gate_execution_and_amplitudes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_021_se\test.py", line 28, in test_custom_gate_execution_and_amplitudes
+    self.assertTrue(Statevector(ns["result"]).equiv(Statevector(expected)))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_2\Lib\site-packages\qiskit\quantum_info\states\statevector.py", line 94, in __init__
+    raise QiskitError("Invalid input data format for Statevector")
+qiskit.exceptions.QiskitError: 'Invalid input data format for Statevector'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.124s
+
+FAILED (errors=1)

@@ -1,0 +1,75 @@
+Title:
+Some of the qubits are not evaluated at Qiskit
+
+Category:
+
+
+Question:
+Title: Some of the qubits are not evaluated at Qiskit
+
+When I implement a 3-qubit circuit in Qiskit, circuit is executed smoothly at the simulator but counts I read back as results does not contain all of the qubits that are defined and included in the circuit. 000,011,010 and 001 are not evaluated and some statevectors are empty. What is the reason of this result ?
+
+```
+from qiskit import QuantumRegister, ClassicalRegister, assemble, Aer from qiskit import QuantumCircuit, execute,IBMQ from qiskit.tools.monitor import job_monitor backend = Aer.get_backend('aer_simulator') q = QuantumRegister(3,'q') c = ClassicalRegister(3,'c') circuit = QuantumCircuit(q,c) circuit.h(q[0]) circuit.x(q[0]) circuit.y(q[0]) circuit.z(q[0]) circuit.x(q[1]) circuit.h(q[1]) circuit.z(q[1]) circuit.y(q[2]) circuit.measure(q,c) job = execute(circuit, backend, shots=1024) counts = job.result().get_counts() circuit.save_statevector() qobj = assemble(circuit) state = backend.run(qobj).result().get_statevector() print(counts) print(state)
+```
+
+```
+from qiskit import QuantumRegister, ClassicalRegister, assemble, Aer from qiskit import QuantumCircuit, execute,IBMQ from qiskit.tools.monitor import job_monitor backend = Aer.get_backend('aer_simulator') q = QuantumRegister(3,'q') c = ClassicalRegister(3,'c') circuit = QuantumCircuit(q,c) circuit.h(q[0]) circuit.x(q[0]) circuit.y(q[0]) circuit.z(q[0]) circuit.x(q[1]) circuit.h(q[1]) circuit.z(q[1]) circuit.y(q[2]) circuit.measure(q,c) job = execute(circuit, backend, shots=1024) counts = job.result().get_counts() circuit.save_statevector() qobj = assemble(circuit) state = backend.run(qobj).result().get_statevector() print(counts) print(state)
+```
+
+```
+{'111': 2065, '100': 2062, '101': 2051, '110': 2014} Statevector([0.+0.0000000e+00j, 0.+0.0000000e+00j, 0.+0.0000000e+00j, 0.+0.0000000e+00j, 1.-1.2246468e-16j, 0.+0.0000000e+00j, 0.+0.0000000e+00j, 0.+0.0000000e+00j], dims=(2, 2, 2))
+```
+
+```
+{'111': 2065, '100': 2062, '101': 2051, '110': 2014} Statevector([0.+0.0000000e+00j, 0.+0.0000000e+00j, 0.+0.0000000e+00j, 0.+0.0000000e+00j, 1.-1.2246468e-16j, 0.+0.0000000e+00j, 0.+0.0000000e+00j, 0.+0.0000000e+00j], dims=(2, 2, 2))
+```
+
+Original buggy code:
+from qiskit import QuantumRegister, ClassicalRegister, assemble, Aer from qiskit import QuantumCircuit, execute,IBMQ from qiskit.tools.monitor import job_monitor backend = Aer.get_backend('aer_simulator') q = QuantumRegister(3,'q') c = ClassicalRegister(3,'c') circuit = QuantumCircuit(q,c) circuit.h(q[0]) circuit.x(q[0]) circuit.y(q[0]) circuit.z(q[0]) circuit.x(q[1]) circuit.h(q[1]) circuit.z(q[1]) circuit.y(q[2]) circuit.measure(q,c) job = execute(circuit, backend, shots=1024) counts = job.result().get_counts() circuit.save_statevector() qobj = assemble(circuit) state = backend.run(qobj).result().get_statevector() print(counts) print(state)
+
+---CODE_BLOCK---
+
+from qiskit import QuantumRegister, ClassicalRegister, assemble, Aer from qiskit import QuantumCircuit, execute,IBMQ from qiskit.tools.monitor import job_monitor backend = Aer.get_backend('aer_simulator') q = QuantumRegister(3,'q') c = ClassicalRegister(3,'c') circuit = QuantumCircuit(q,c) circuit.h(q[0]) circuit.x(q[0]) circuit.y(q[0]) circuit.z(q[0]) circuit.x(q[1]) circuit.h(q[1]) circuit.z(q[1]) circuit.y(q[2]) circuit.measure(q,c) job = execute(circuit, backend, shots=1024) counts = job.result().get_counts() circuit.save_statevector() qobj = assemble(circuit) state = backend.run(qobj).result().get_statevector() print(counts) print(state)
+
+---CODE_BLOCK---
+
+{'111': 2065, '100': 2062, '101': 2051, '110': 2014} Statevector([0.+0.0000000e+00j, 0.+0.0000000e+00j, 0.+0.0000000e+00j, 0.+0.0000000e+00j, 1.-1.2246468e-16j, 0.+0.0000000e+00j, 0.+0.0000000e+00j, 0.+0.0000000e+00j], dims=(2, 2, 2))
+
+---CODE_BLOCK---
+
+{'111': 2065, '100': 2062, '101': 2051, '110': 2014} Statevector([0.+0.0000000e+00j, 0.+0.0000000e+00j, 0.+0.0000000e+00j, 0.+0.0000000e+00j, 1.-1.2246468e-16j, 0.+0.0000000e+00j, 0.+0.0000000e+00j, 0.+0.0000000e+00j], dims=(2, 2, 2))
+
+Solution explanation:
+As the only transformation you apply on the third qubit is a $Y$ gate, the probability of observing it in the $|0\rangle$ state is 0. Thereby, all the states where this qubit is in the state $|0\rangle$ (the 4 states that are missing in your result) will not be observed and won't appear in qiskit result. Here's a Quirk of your circuit so you can see it more clearly : Your circuit The final state (before measurement) is $\frac{1}{\sqrt{2}}(|100\rangle + |101\rangle + |110\rangle + |111\rangle)$ The statevector given by the qiskit simulator is not this one because you perform a measurement at the end of your circuit. If you just execute the code without the measurement, you wont be able to get the counts but will have a description of the state that explain properly the counts you have : This code will give you the state vector : which corresponds to the counts you get when you performs a measurement at the end of the circuit.
+
+```
+backend = Aer.get_backend('aer_simulator') q = QuantumRegister(3,'q') c = ClassicalRegister(3,'c') circuit = QuantumCircuit(q,c) circuit.h(q[0]) circuit.x(q[0]) circuit.y(q[0]) circuit.z(q[0]) circuit.x(q[1]) circuit.h(q[1]) circuit.z(q[1]) circuit.y(q[2]) # circuit.measure(q,c) <- remove measurement job = execute(circuit, backend, shots=1024) # counts = job.result().get_counts() <- this won't work circuit.save_statevector() qobj = assemble(circuit) state = backend.run(qobj).result().get_statevector() # print(counts) <- this neither print(state)
+```
+
+```
+backend = Aer.get_backend('aer_simulator') q = QuantumRegister(3,'q') c = ClassicalRegister(3,'c') circuit = QuantumCircuit(q,c) circuit.h(q[0]) circuit.x(q[0]) circuit.y(q[0]) circuit.z(q[0]) circuit.x(q[1]) circuit.h(q[1]) circuit.z(q[1]) circuit.y(q[2]) # circuit.measure(q,c) <- remove measurement job = execute(circuit, backend, shots=1024) # counts = job.result().get_counts() <- this won't work circuit.save_statevector() qobj = assemble(circuit) state = backend.run(qobj).result().get_statevector() # print(counts) <- this neither print(state)
+```
+
+```
+Statevector([0. -0.000000e+00j, 0. -0.000000e+00j, 0. +0.000000e+00j, 0. +0.000000e+00j, 0.5-6.123234e-17j, 0.5-6.123234e-17j, 0.5-6.123234e-17j, 0.5-6.123234e-17j], dims=(2, 2, 2))
+```
+
+```
+Statevector([0. -0.000000e+00j, 0. -0.000000e+00j, 0. +0.000000e+00j, 0. +0.000000e+00j, 0.5-6.123234e-17j, 0.5-6.123234e-17j, 0.5-6.123234e-17j, 0.5-6.123234e-17j], dims=(2, 2, 2))
+```
+
+Original fixed code:
+backend = Aer.get_backend('aer_simulator') q = QuantumRegister(3,'q') c = ClassicalRegister(3,'c') circuit = QuantumCircuit(q,c) circuit.h(q[0]) circuit.x(q[0]) circuit.y(q[0]) circuit.z(q[0]) circuit.x(q[1]) circuit.h(q[1]) circuit.z(q[1]) circuit.y(q[2]) # circuit.measure(q,c) <- remove measurement job = execute(circuit, backend, shots=1024) # counts = job.result().get_counts() <- this won't work circuit.save_statevector() qobj = assemble(circuit) state = backend.run(qobj).result().get_statevector() # print(counts) <- this neither print(state)
+
+---CODE_BLOCK---
+
+backend = Aer.get_backend('aer_simulator') q = QuantumRegister(3,'q') c = ClassicalRegister(3,'c') circuit = QuantumCircuit(q,c) circuit.h(q[0]) circuit.x(q[0]) circuit.y(q[0]) circuit.z(q[0]) circuit.x(q[1]) circuit.h(q[1]) circuit.z(q[1]) circuit.y(q[2]) # circuit.measure(q,c) <- remove measurement job = execute(circuit, backend, shots=1024) # counts = job.result().get_counts() <- this won't work circuit.save_statevector() qobj = assemble(circuit) state = backend.run(qobj).result().get_statevector() # print(counts) <- this neither print(state)
+
+---CODE_BLOCK---
+
+Statevector([0. -0.000000e+00j, 0. -0.000000e+00j, 0. +0.000000e+00j, 0. +0.000000e+00j, 0.5-6.123234e-17j, 0.5-6.123234e-17j, 0.5-6.123234e-17j, 0.5-6.123234e-17j], dims=(2, 2, 2))
+
+---CODE_BLOCK---
+
+Statevector([0. -0.000000e+00j, 0. -0.000000e+00j, 0. +0.000000e+00j, 0. +0.000000e+00j, 0.5-6.123234e-17j, 0.5-6.123234e-17j, 0.5-6.123234e-17j, 0.5-6.123234e-17j], dims=(2, 2, 2))

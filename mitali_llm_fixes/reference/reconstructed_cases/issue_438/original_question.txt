@@ -1,0 +1,38 @@
+Title:
+Computational cost of a circuit in Qiskit
+
+Category:
+Category: Circuit Construction / Logic / Gates
+
+Why AI Solution Wins in This Category:
+This issue is about analyzing and comparing quantum circuits, which requires considering multiple metrics like gate complexity, parallelism, and backend-specific behavior. The AI solution excels here by offering a toolkit of metrics (depth, weighted count, transpilation, execution time) along with runnable code. The Stack Overflow solution, while correct, only introduces .depth() without deeper analysis or tooling. Hence, the AI solution offers superior breadth, depth, and usability in this context
+
+Question:
+Title: Computational cost of a circuit in Qiskit
+
+I would like to see, in terms of complexity, the cost of a circuit. For example: I have written two algorithm that does the same thing, but in one of them I initialize data differently, so I would like to compare them. I've seen that there is a function called , but it return only the number of each gate and I think it is not useful for my purpose, because is not an appropriate metric (i.e it is possible that one circuit is computationally more expensive but has less gate than the other). I am wondering if there is a function which calculate the complexity, given the gate, or something like that. Thanks very much.
+
+```
+count_ops()
+```
+
+Original buggy code:
+count_ops()
+
+Solution explanation:
+I think what you are looking for is the notion of circuit depth - which is basically the amount of steps being done by the quantum computer that runs the circuit. Some gate operations can be executed in parallel and therefore we count them as 1 step. The exact implementation of each circuit depends both on the physical properties of the hardware and on the structure of the circuit. In qiskit a QuantumCircuit object has a method called (Just like the method that you have mentioned) - So you can easily test the circuit depth of any circuit. In addition, needed to mention here that for a qunatum hardware to run a circuit we need to transpile it first to a circuit with only "native gates" (which are gates that a given quantum computer can physically perform) - so the depth of a circuit and its transpiled version are usually not the same. I think this post explains the issue well.
+
+```
+depth()
+```
+
+```
+count_ops()
+```
+
+Original fixed code:
+depth()
+
+---CODE_BLOCK---
+
+count_ops()

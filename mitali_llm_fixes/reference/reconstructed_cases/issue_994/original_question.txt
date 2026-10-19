@@ -1,0 +1,139 @@
+Title:
+How to get state vector from QasmSimulator in Qiskit
+
+Category:
+
+
+Question:
+Title: How to get state vector from QasmSimulator in Qiskit
+
+I'm currently able to get state vector in Qiskit using state_vector backend using something like : But now I would like to get state vector using qasm_backend, I have seen in the Qiskit doc this sample code : So I tried this backend implementation then trying to get state vector with : But it still gives me an error saying that get_statevector is not available, what is the right way to do that ? Thank you.
+
+```
+backend = Aer.get_backend('statevector_simulator') job = execute(qc, backend=backend, shots=1, memory=True) job_result = job.result() print(job_result.get_statevector(qc))
+```
+
+```
+backend = Aer.get_backend('statevector_simulator') job = execute(qc, backend=backend, shots=1, memory=True) job_result = job.result() print(job_result.get_statevector(qc))
+```
+
+```
+backend = QasmSimulator() backend_options = {"method": "statevector"} # Circuit execution job = execute(qc, backend, backend_options=backend_options)
+```
+
+```
+backend = QasmSimulator() backend_options = {"method": "statevector"} # Circuit execution job = execute(qc, backend, backend_options=backend_options)
+```
+
+```
+job_result = job.result() print(job_result.get_statevector(qc))
+```
+
+```
+job_result = job.result() print(job_result.get_statevector(qc))
+```
+
+Original buggy code:
+backend = Aer.get_backend('statevector_simulator') job = execute(qc, backend=backend, shots=1, memory=True) job_result = job.result() print(job_result.get_statevector(qc))
+
+---CODE_BLOCK---
+
+backend = Aer.get_backend('statevector_simulator') job = execute(qc, backend=backend, shots=1, memory=True) job_result = job.result() print(job_result.get_statevector(qc))
+
+---CODE_BLOCK---
+
+backend = QasmSimulator() backend_options = {"method": "statevector"} # Circuit execution job = execute(qc, backend, backend_options=backend_options)
+
+---CODE_BLOCK---
+
+backend = QasmSimulator() backend_options = {"method": "statevector"} # Circuit execution job = execute(qc, backend, backend_options=backend_options)
+
+---CODE_BLOCK---
+
+job_result = job.result() print(job_result.get_statevector(qc))
+
+---CODE_BLOCK---
+
+job_result = job.result() print(job_result.get_statevector(qc))
+
+Solution explanation:
+If you're using the class from Aer it does not generate a state vector result. The method you passed in as a backend option is the simulation method/technique that Aer will use for simulating the circuit, but it is still the QASM simulator which is expected to return measurement counts not a statevector. You can see a description of the different simulation methods in the Docs. When you were calling that returns a backend object which will simulate the circuit and return the state vector at the end of the execution and return that in the result, which is why works there. If you want to get the state vector while using the you can use the instruction in your circuit which will return the state vector at that point in the circuit. Although, if you do this the state vector won't be returned by (that will still fail) it will be in the snapshots under .
+
+```
+QasmSimulator
+```
+
+```
+statevector
+```
+
+```
+QasmSimulator
+```
+
+```
+Aer.get_backend('statevector_simulator')
+```
+
+```
+StateVectorSimulator
+```
+
+```
+get_statevector
+```
+
+```
+QasmSimulator
+```
+
+```
+SnapshotStatevector
+```
+
+```
+get_statevector
+```
+
+```
+Result.data
+```
+
+Original fixed code:
+QasmSimulator
+
+---CODE_BLOCK---
+
+statevector
+
+---CODE_BLOCK---
+
+QasmSimulator
+
+---CODE_BLOCK---
+
+Aer.get_backend('statevector_simulator')
+
+---CODE_BLOCK---
+
+StateVectorSimulator
+
+---CODE_BLOCK---
+
+get_statevector
+
+---CODE_BLOCK---
+
+QasmSimulator
+
+---CODE_BLOCK---
+
+SnapshotStatevector
+
+---CODE_BLOCK---
+
+get_statevector
+
+---CODE_BLOCK---
+
+Result.data

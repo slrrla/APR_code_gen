@@ -1,0 +1,12 @@
+import os
+
+home = os.path.expanduser("~")
+settings_path = os.path.join(home, ".qiskit", "settings.conf")
+
+# FIX: the Qiskit directory and settings file may not exist -> create them and read from the beginning, because opening in read-only mode fails when they are absent
+os.makedirs(os.path.dirname(settings_path), exist_ok=True)
+with open(settings_path, "a+") as f:
+    f.seek(0)
+    contents = f.read()
+
+print(contents)

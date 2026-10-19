@@ -1,0 +1,13 @@
+from qiskit.quantum_info import Statevector
+from qiskit.circuit.library import GroverOperator
+# FIX: QuantumCircuit is required to construct a multi-solution phase oracle -> import QuantumCircuit, because GroverOperator requires an oracle circuit
+from qiskit import QuantumCircuit
+
+targets = ['101', '110']
+
+# FIX: Statevector.from_label accepts one state and does not create an oracle -> build a diagonal oracle marking both targets, because both states must receive a phase flip
+oracle = QuantumCircuit(3)
+oracle.diagonal([1, 1, 1, 1, 1, -1, -1, 1], [0, 1, 2])
+
+grover_op = GroverOperator(oracle)
+print(grover_op)

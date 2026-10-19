@@ -1,0 +1,74 @@
+Title:
+How to execute many circuits on an IBMQ backend?
+
+Category:
+Category:
+Backend Usage / Simulation / Output
+
+Why AI Wins in This Category:
+In the "Backend Usage" category, solutions must address practical runtime limits, job splitting strategies, and execution monitoring. The AI-generated response excels by:
+
+Explaining backend constraints and how to work within them.
+
+Providing fully working, reproducible code with batch execution.
+
+Offering a scalable and flexible solution that is immediately useful.
+The Stack Overflow suggestion is correct but underexplained, making the AI answer significantly more helpful and actionable for users running large workloads on real quantum devices.
+
+Question:
+Title: How to execute many circuits on an IBMQ backend?
+
+I attempted to a list of $3200$ s in Qiskit, each with the of $8096$ as follows: and got the following response: Job Status: job has been cancelled Furthermore, I successfully performed the exact same execution locally using the Aer . Presumably this is because there is a runtime timeout on the IBMQ backend device which is triggered as one might expect for such a large list. Is this correct? and if so how can I bypass this limitation? This is a summary of the job on IBMQ:
+
+```
+execute
+```
+
+```
+QuantumCircuit
+```
+
+```
+max_shots
+```
+
+```
+ibmq_manhattan = provider.get_backend('ibmq_manhattan') job = execute(all_qc, backend=ibmq_manhattan, shots=8096) job_monitor(job)
+```
+
+```
+ibmq_manhattan = provider.get_backend('ibmq_manhattan') job = execute(all_qc, backend=ibmq_manhattan, shots=8096) job_monitor(job)
+```
+
+```
+qasm_simulator
+```
+
+Original buggy code:
+execute
+
+---CODE_BLOCK---
+
+QuantumCircuit
+
+---CODE_BLOCK---
+
+max_shots
+
+---CODE_BLOCK---
+
+ibmq_manhattan = provider.get_backend('ibmq_manhattan') job = execute(all_qc, backend=ibmq_manhattan, shots=8096) job_monitor(job)
+
+---CODE_BLOCK---
+
+ibmq_manhattan = provider.get_backend('ibmq_manhattan') job = execute(all_qc, backend=ibmq_manhattan, shots=8096) job_monitor(job)
+
+---CODE_BLOCK---
+
+qasm_simulator
+
+Solution explanation:
+If you have more circuits than what the backend allows, consider using IBMQJobManager, which will divide the circuits and collect results for you.
+
+Original fixed code:
+If you have more circuits than what the backend allows, consider using IBMQJobManager, which will divide the circuits and collect results for you.

@@ -1,0 +1,45 @@
+{
+  "id": "chatcmpl-EWWFlxf0hm7GNqcr75QGgcP7KWslo",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "```python\nimport numpy as np\n# FIX: Custom gates need backend translation before assembly -> import transpile, because Aer cannot execute CNOTNOT directly.\nfrom qiskit import QuantumCircuit, QuantumRegister, assemble, Aer, transpile\n\ndef cnotnot(gate_label='CNOTNOT'):\n    gate_circuit = QuantumCircuit(3, name=gate_label)\n    gate_circuit.cnot(0, 1)\n    gate_circuit.cnot(0, 2)\n    gate = gate_circuit.to_gate()\n    gate.label = gate_label\n    return gate\n\nq = QuantumRegister(3, name='q')\ncircuit = QuantumCircuit(q)\n\ninitial_state = [1. / np.sqrt(2.), 1. / np.sqrt(2.)]\ncircuit.initialize(initial_state, 0)\ncircuit.append(cnotnot(), [q[0], q[1], q[2]])\ncircuit.draw(plot_barriers=False)\n\nsvsim = Aer.get_backend('statevector_simulator')\n\n# FIX: Assembly preserved the unsupported CNOTNOT instruction -> transpile before assembly, because this translates it into gates supported by svsim.\nqobj = assemble(transpile(circuit, svsim))\n\nresult = svsim.run(qobj).result().get_statevector()\n\nfinal_state = [result[0], result[1]]\nprint('a and b coefficients before simulation:', initial_state)\nprint('a and b coefficients after simulation:', final_state)\n\n```",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1791419185,
+  "model": "gpt-6-astra",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": "default",
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 432,
+    "prompt_tokens": 1395,
+    "total_tokens": 1827,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 122,
+      "rejected_prediction_tokens": 0,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 1392,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  }
+}

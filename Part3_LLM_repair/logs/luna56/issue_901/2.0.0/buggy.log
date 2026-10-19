@@ -47,7 +47,7 @@ Traceback (most recent call last):
   File "C:\qiskit_envs\q200\Lib\site-packages\qiskit\transpiler\passes\basis\basis_translator.py", line 130, in run
     return base_run(
            ^^^^^^^^^
-qiskit.transpiler.exceptions.TranspilerError: 'Unable to translate the operations in the circuit: ["h", "s", "cx"] to the backend\'s (or manually specified) target basis: {"cx", "h", "if_else", "reset", "while_loop", "for_loop", "switch_case", "box", "delay", "measure", "id", "t", "barrier", "snapshot", "store"}. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes. BasisTranslator#translation-errors'
+qiskit.transpiler.exceptions.TranspilerError: 'Unable to translate the operations in the circuit: ["h", "s", "cx"] to the backend\'s (or manually specified) target basis: {"box", "h", "reset", "cx", "measure", "while_loop", "if_else", "switch_case", "for_loop", "delay", "t", "id", "barrier", "snapshot", "store"}. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes. BasisTranslator#translation-errors'
 
 ======================================================================
 ERROR: test_output_uses_requested_discrete_basis (__main__.Regression.test_output_uses_requested_discrete_basis)
@@ -94,9 +94,9 @@ Traceback (most recent call last):
   File "C:\qiskit_envs\q200\Lib\site-packages\qiskit\transpiler\passes\basis\basis_translator.py", line 130, in run
     return base_run(
            ^^^^^^^^^
-qiskit.transpiler.exceptions.TranspilerError: 'Unable to translate the operations in the circuit: ["h", "s", "cx"] to the backend\'s (or manually specified) target basis: {"cx", "h", "if_else", "reset", "while_loop", "for_loop", "switch_case", "box", "delay", "measure", "id", "t", "barrier", "snapshot", "store"}. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes. BasisTranslator#translation-errors'
+qiskit.transpiler.exceptions.TranspilerError: 'Unable to translate the operations in the circuit: ["h", "s", "cx"] to the backend\'s (or manually specified) target basis: {"box", "h", "reset", "cx", "measure", "while_loop", "if_else", "switch_case", "for_loop", "delay", "t", "id", "barrier", "snapshot", "store"}. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://docs.quantum.ibm.com/api/qiskit/qiskit.transpiler.passes. BasisTranslator#translation-errors'
 
 ----------------------------------------------------------------------
-Ran 2 tests in 0.135s
+Ran 2 tests in 0.144s
 
 FAILED (errors=2)
