@@ -1,0 +1,143 @@
+{
+  "case": "issue_876",
+  "python": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+  "support": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\Multi agent testing remaining P\\support\\py312_batch05",
+  "test_before_sha256": "97547773b5429ea2f0f030f1d5047bf216c404a29b26f059700578a7267e983f",
+  "test_after_sha256": "a5d96bd8ff480cd39697df35767328968e3cd259ef3bb41b1892a370bed4182c",
+  "candidate_sha256": {
+    "human": "b646c8d8d121a463a2738ca9caa8a2808ee8610685c1b5843c30761fbdea2353",
+    "buggy": "c5687ba978a19e9a5b69bb81f6895d43afe37c0f13d23588a520232685b33742",
+    "luna_phase0": "542f2d15c83333ae696171a9cb482f6c6992079005f9372e842b06aa5e524340",
+    "luna_phase1": "3c68e571e7e807b43cb344a131e33db0cba599728e8e10c3bad377426dbcb8e4",
+    "wrong_self_fidelity": "65e5189d61d8622fa30a2c5af9b6ab1271657f0cb0620bf2d225395c9c8180d2",
+    "wrong_unused_noise_model": "54ffac82c4c7eaeee90f859504558a7516a9b59464e7562c0cc5c3c2090f84d4"
+  },
+  "runs": [
+    {
+      "stage": "before",
+      "candidate": "human",
+      "mut": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\fixed.py",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py.before_strictness_review",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 6.53,
+      "stdout": "",
+      "stderr": "test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state) ... C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\fixed.py:15: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)\n  qc = QFT(6)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\circuit\\library\\basis_change\\qft.py:108: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.\n  super().__init__(name=name)\nok\ntest_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 5.748s\n\nOK\n"
+    },
+    {
+      "stage": "before",
+      "candidate": "luna_phase0",
+      "mut": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\Multi agent testing remaining P\\gpt-6-luna\\tasks\\issue_876\\phase0\\patched.py",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py.before_strictness_review",
+        "-v"
+      ],
+      "exit_code": 1,
+      "seconds": 6.31,
+      "stdout": "",
+      "stderr": "test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state) ... C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\Multi agent testing remaining P\\gpt-6-luna\\tasks\\issue_876\\phase0\\patched.py:13: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)\n  qc = QFT(6)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\circuit\\library\\basis_change\\qft.py:108: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.\n  super().__init__(name=name)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit_aer\\backends\\aer_simulator.py:853: DeprecationWarning: max_circuits is deprecated as of qiskit-ibm-runtime 0.37.0 and will be removed no sooner than 3 months after the release date. Please see our documentation on job limits https://quantum.cloud.ibm.com/docs/guides/job-limits#job-limits.\n  max_experiments=backend.max_circuits,\nERROR\ntest_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical) ... ERROR\n\n======================================================================\nERROR: test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py.before_strictness_review\", line 33, in test_fidelity_matches_independent_uniform_state\n    rho = np.asarray(m[\"rho_real\"])\n                     ~^^^^^^^^^^^^\nKeyError: 'rho_real'\n\n======================================================================\nERROR: test_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py.before_strictness_review\", line 22, in test_real_noisy_density_matrix_is_physical\n    rho = np.asarray(m[\"rho_real\"])\n                     ~^^^^^^^^^^^^\nKeyError: 'rho_real'\n\n----------------------------------------------------------------------\nRan 2 tests in 5.563s\n\nFAILED (errors=2)\n"
+    },
+    {
+      "stage": "before",
+      "candidate": "luna_phase1",
+      "mut": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\Multi agent testing remaining P\\gpt-6-luna\\tasks\\issue_876\\phase1\\patched.py",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py.before_strictness_review",
+        "-v"
+      ],
+      "exit_code": 1,
+      "seconds": 6.16,
+      "stdout": "",
+      "stderr": "test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state) ... C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\Multi agent testing remaining P\\gpt-6-luna\\tasks\\issue_876\\phase1\\patched.py:13: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)\n  qc = QFT(6)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\circuit\\library\\basis_change\\qft.py:108: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.\n  super().__init__(name=name)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit_aer\\backends\\aer_simulator.py:853: DeprecationWarning: max_circuits is deprecated as of qiskit-ibm-runtime 0.37.0 and will be removed no sooner than 3 months after the release date. Please see our documentation on job limits https://quantum.cloud.ibm.com/docs/guides/job-limits#job-limits.\n  max_experiments=backend.max_circuits,\nERROR\ntest_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical) ... ERROR\n\n======================================================================\nERROR: test_fidelity_matches_independent_uniform_state (__main__.Regression.test_fidelity_matches_independent_uniform_state)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py.before_strictness_review\", line 38, in test_fidelity_matches_independent_uniform_state\n    self.assertEqual(m[\"qc_t\"].num_qubits, 6)\n                     ~^^^^^^^^\nKeyError: 'qc_t'\n\n======================================================================\nERROR: test_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py.before_strictness_review\", line 27, in test_real_noisy_density_matrix_is_physical\n    self.assertFalse(m[\"noise_model\"].is_ideal())\n                     ~^^^^^^^^^^^^^^^\nKeyError: 'noise_model'\n\n----------------------------------------------------------------------\nRan 2 tests in 5.407s\n\nFAILED (errors=2)\n"
+    },
+    {
+      "stage": "after",
+      "candidate": "human",
+      "mut": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\fixed.py",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 6.25,
+      "stdout": "",
+      "stderr": "test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression.test_fidelity_compares_ideal_qft_with_actual_noisy_result) ... C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\fixed.py:15: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)\n  qc = QFT(6)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\circuit\\library\\basis_change\\qft.py:108: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.\n  super().__init__(name=name)\nok\ntest_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 5.429s\n\nOK\n"
+    },
+    {
+      "stage": "after",
+      "candidate": "buggy",
+      "mut": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\buggy.py",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py",
+        "-v"
+      ],
+      "exit_code": 1,
+      "seconds": 4.0,
+      "stdout": "",
+      "stderr": "test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression.test_fidelity_compares_ideal_qft_with_actual_noisy_result) ... C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\buggy.py:12: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)\n  qc = QFT(6)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\circuit\\library\\basis_change\\qft.py:108: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.\n  super().__init__(name=name)\nERROR\ntest_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical) ... C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\buggy.py:12: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)\n  qc = QFT(6)\nERROR\n\n======================================================================\nERROR: test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression.test_fidelity_compares_ideal_qft_with_actual_noisy_result)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\result\\result.py\", line 301, in get_statevector\n    self.data(experiment)[\"statevector\"], decimals=decimals\n    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^\nKeyError: 'statevector'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py\", line 82, in test_fidelity_compares_ideal_qft_with_actual_noisy_result\n    states = noisy_saved_states()\n             ^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py\", line 47, in noisy_saved_states\n    runs, _ = target()\n              ^^^^^^^^\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py\", line 35, in target\n    runpy.run_path(os.environ.get(\"MUT\", str(Path(__file__).with_name(\"fixed.py\"))))\n  File \"<frozen runpy>\", line 287, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\buggy.py\", line 28, in <module>\n    statevector_real = job_real.result().get_statevector()\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\result\\result.py\", line 304, in get_statevector\n    raise QiskitError(f'No statevector for experiment \"{experiment!r}\"') from ex\nqiskit.exceptions.QiskitError: 'No statevector for experiment \"None\"'\n\n======================================================================\nERROR: test_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\result\\result.py\", line 301, in get_statevector\n    self.data(experiment)[\"statevector\"], decimals=decimals\n    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^\nKeyError: 'statevector'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py\", line 70, in test_real_noisy_density_matrix_is_physical\n    states = noisy_saved_states()\n             ^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py\", line 47, in noisy_saved_states\n    runs, _ = target()\n              ^^^^^^^^\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py\", line 35, in target\n    runpy.run_path(os.environ.get(\"MUT\", str(Path(__file__).with_name(\"fixed.py\"))))\n  File \"<frozen runpy>\", line 287, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\buggy.py\", line 28, in <module>\n    statevector_real = job_real.result().get_statevector()\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\result\\result.py\", line 304, in get_statevector\n    raise QiskitError(f'No statevector for experiment \"{experiment!r}\"') from ex\nqiskit.exceptions.QiskitError: 'No statevector for experiment \"None\"'\n\n----------------------------------------------------------------------\nRan 2 tests in 3.509s\n\nFAILED (errors=2)\n"
+    },
+    {
+      "stage": "after",
+      "candidate": "luna_phase0",
+      "mut": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\Multi agent testing remaining P\\gpt-6-luna\\tasks\\issue_876\\phase0\\patched.py",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 6.06,
+      "stdout": "",
+      "stderr": "test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression.test_fidelity_compares_ideal_qft_with_actual_noisy_result) ... C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\Multi agent testing remaining P\\gpt-6-luna\\tasks\\issue_876\\phase0\\patched.py:13: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)\n  qc = QFT(6)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\circuit\\library\\basis_change\\qft.py:108: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.\n  super().__init__(name=name)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit_aer\\backends\\aer_simulator.py:853: DeprecationWarning: max_circuits is deprecated as of qiskit-ibm-runtime 0.37.0 and will be removed no sooner than 3 months after the release date. Please see our documentation on job limits https://quantum.cloud.ibm.com/docs/guides/job-limits#job-limits.\n  max_experiments=backend.max_circuits,\nok\ntest_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 5.211s\n\nOK\n"
+    },
+    {
+      "stage": "after",
+      "candidate": "luna_phase1",
+      "mut": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\Multi agent testing remaining P\\gpt-6-luna\\tasks\\issue_876\\phase1\\patched.py",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 6.7,
+      "stdout": "",
+      "stderr": "test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression.test_fidelity_compares_ideal_qft_with_actual_noisy_result) ... C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\Multi agent testing remaining P\\gpt-6-luna\\tasks\\issue_876\\phase1\\patched.py:13: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)\n  qc = QFT(6)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\circuit\\library\\basis_change\\qft.py:108: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.\n  super().__init__(name=name)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit_aer\\backends\\aer_simulator.py:853: DeprecationWarning: max_circuits is deprecated as of qiskit-ibm-runtime 0.37.0 and will be removed no sooner than 3 months after the release date. Please see our documentation on job limits https://quantum.cloud.ibm.com/docs/guides/job-limits#job-limits.\n  max_experiments=backend.max_circuits,\nok\ntest_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 5.865s\n\nOK\n"
+    },
+    {
+      "stage": "after",
+      "candidate": "wrong_self_fidelity",
+      "mut": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\strictness_review\\wrong_self_fidelity.py",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py",
+        "-v"
+      ],
+      "exit_code": 1,
+      "seconds": 9.45,
+      "stdout": "",
+      "stderr": "test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression.test_fidelity_compares_ideal_qft_with_actual_noisy_result) ... C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\strictness_review\\wrong_self_fidelity.py:15: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)\n  qc = QFT(6)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\circuit\\library\\basis_change\\qft.py:108: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.\n  super().__init__(name=name)\nFAIL\ntest_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical) ... ok\n\n======================================================================\nFAIL: test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression.test_fidelity_compares_ideal_qft_with_actual_noisy_result)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py\", line 106, in test_fidelity_compares_ideal_qft_with_actual_noisy_result\n    self.assertTrue(matches, \"Compare the ideal QFT state with the saved noisy state\")\nAssertionError: [] is not true : Compare the ideal QFT state with the saved noisy state\n\n----------------------------------------------------------------------\nRan 2 tests in 8.472s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "stage": "after",
+      "candidate": "wrong_unused_noise_model",
+      "mut": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\strictness_review\\wrong_unused_noise_model.py",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py",
+        "-v"
+      ],
+      "exit_code": 1,
+      "seconds": 6.12,
+      "stdout": "",
+      "stderr": "test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression.test_fidelity_compares_ideal_qft_with_actual_noisy_result) ... C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\strictness_review\\wrong_unused_noise_model.py:15: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)\n  qc = QFT(6)\nC:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\circuit\\library\\basis_change\\qft.py:108: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.\n  super().__init__(name=name)\nFAIL\ntest_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical) ... FAIL\n\n======================================================================\nFAIL: test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression.test_fidelity_compares_ideal_qft_with_actual_noisy_result)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py\", line 106, in test_fidelity_compares_ideal_qft_with_actual_noisy_result\n    self.assertTrue(matches, \"Compare the ideal QFT state with the saved noisy state\")\nAssertionError: [] is not true : Compare the ideal QFT state with the saved noisy state\n\n======================================================================\nFAIL: test_real_noisy_density_matrix_is_physical (__main__.Regression.test_real_noisy_density_matrix_is_physical)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py\", line 71, in test_real_noisy_density_matrix_is_physical\n    self.assertTrue(states, \"A real noisy Aer run must save its density matrix\")\nAssertionError: [] is not true : A real noisy Aer run must save its density matrix\n\n----------------------------------------------------------------------\nRan 2 tests in 5.290s\n\nFAILED (failures=2)\n"
+    }
+  ]
+}

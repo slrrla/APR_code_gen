@@ -1,0 +1,99 @@
+total 8
+drwxr-xr-x 1 haha9 197609    0 Oct  8 10:12 .
+drwxr-xr-x 1 haha9 197609    0 Oct  8 10:12 ..
+drwxr-xr-x 1 haha9 197609    0 Oct  8 10:12 .agent-bin
+-rw-r--r-- 1 haha9 197609 2425 Oct  8 10:01 buggy.py
+from qiskit import pulse, assemble
+from qiskit.pulse import Play, Schedule, DriveChannel, Gaussian, AcquireChannel, Waveform
+from qiskit.providers.aer import PulseSimulator
+from qiskit.test.mock import FakeArmonk
+import numpy as np
+
+# Constants and units
+job_params = {
+    'meas_level': 1,
+    'meas_return': 'avg',
+    'shots': 512
+}
+spec_range = 0.300  # GHz
+num_spec01_freqs = 71
+GHz = 1.0e9  # Gigahertz
+
+# Helper functions
+def get_exc_chans(gv):
+    return [AcquireChannel(i) for i in range(gv['backend_config'].n_qubits)]
+
+def get_spec01_freqs(center_freqs, qubit):
+    center_freq = round(center_freqs[qubit], -8)  # 2 significant digits
+    return np.linspace(center_freq/GHz - spec_range/2,
+                        center_freq/GHz + spec_range/2,
+                        num_spec01_freqs)
+
+# Set up backend and config (local simulator instead of real hardware)
+backend_real = FakeArmonk()
+backend = PulseSimulator.from_backend(backend_real)
+qubit = 0
+backend_config = backend.configuration()
+exc_chans = get_exc_chans(globals())
+dt = backend_config.dt
+backend_defaults = backend.defaults()
+center_frequency = backend_defaults.qubit_freq_est
+inst_sched_map = backend_defaults.instruction_schedule_map
+
+# Retrieve calibrated measurement pulse from backend
+meas = inst_sched_map.get('measure', qubits=[qubit])
+
+# The same spec pulse for both 01 and 12 spec
+drive_amp = 0.25
+drive_duration = inst_sched_map.get('x', qubits=[qubit]).duration
+drive_sigma = drive_duration // 4  # DRAG pulses typically 4*sigma long.
+spec_pulse = Gaussian(duration=drive_duration, amp=drive_amp, sigma=drive_sigma,
+                       name=f"Spec drive amplitude = {drive_amp}")
+
+# Construct an np array of the frequencies for our experiment
+spec_freqs_GHz = get_spec01_freqs(center_frequency, qubit)
+
+# Create the base schedule
+spec01_scheds = []
+for freq in spec_freqs_GHz:
+    with pulse.build(name="Spec Pulse at %.3f GHz" % freq) as spec01_sched:
+        with pulse.align_sequential():
+            # This set_frequency call is not supported by PulseSimulator
+            pulse.set_frequency(freq*GHz, DriveChannel(qubit))
+            pulse.play(spec_pulse, DriveChannel(qubit))
+            pulse.call(meas)
+    spec01_scheds.append(spec01_sched)
+
+qobj = assemble(spec01_scheds, backend=backend, **job_params)
+spec01_job = backend.run(qobj)
+print(spec01_job.result())
+
+--- run ---
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\providers\aer\pulse\system_models\string_model_parser\string_model_parser.py:280: DeprecationWarning: Using the `__mul__` operator `A * B` as shorthand for `A.dot(B)` is deprecated as of version 0.17.0 and will be  removed no earlier than 3 months after the release date. As an alternative, use the compose operator `B & A` in place of `A * B` as a replacement.
+  stack.append(op1 * op2)
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\gpt6lunap30\tasks\issue_436\workspace\buggy.py", line 64, in <module>
+    print(spec01_job.result())
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\providers\aer\aerjob.py", line 43, in _wrapper
+    return func(self, *args, **kwargs)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\providers\aer\aerjob.py", line 102, in result
+    return self._future.result(timeout=timeout)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\concurrent\futures\_base.py", line 439, in result
+    return self.__get_result()
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\concurrent\futures\_base.py", line 391, in __get_result
+    raise self._exception
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\providers\aer\backends\aerbackend.py", line 265, in _run
+    output = self._execute(qobj)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\providers\aer\backends\pulse_simulator.py", line 276, in _execute
+    return pulse_controller(qobj)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\providers\aer\pulse\controllers\pulse_controller.py", line 110, in pulse_controller
+    digested_qobj = digest_pulse_qobj(qobj,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\providers\aer\pulse\controllers\digest_pulse_qobj.py", line 120, in digest_pulse_qobj
+    exp_struct = experiment_to_structs(exp,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\providers\aer\pulse\controllers\digest_pulse_qobj.py", line 358, in experiment_to_structs
+    pulse_int = pulse_to_int[inst['name']]
+KeyError: 'setf'

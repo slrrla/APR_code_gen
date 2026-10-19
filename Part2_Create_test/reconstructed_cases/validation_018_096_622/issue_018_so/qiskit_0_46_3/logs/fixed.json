@@ -1,0 +1,59 @@
+{
+  "case": "issue_018_so",
+  "version": "0.46.3",
+  "variant": "fixed",
+  "source_sha256": "b09d419742b029751a9a729ac6a306d72acb0f23eb53b582834fd81e7aafcbb8",
+  "test_sha256": "eaf76f34d4c8f82acbd91e811c142cc98d5d1babe47bb7955c494b10f779a6e7",
+  "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+  "support_path": null,
+  "command": [
+    "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+    "-X",
+    "utf8",
+    "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_so\\test.py",
+    "-v"
+  ],
+  "runtime_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_018_so\\qiskit_0_46_3\\runtime\\fixed_w5ddjmxe",
+  "status": "PASS",
+  "returncode": 0,
+  "tests_run": 1,
+  "skipped": 0,
+  "seconds": 2.828,
+  "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_018_so\\qiskit_0_46_3\\logs\\fixed.stdout.txt",
+  "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_018_so\\qiskit_0_46_3\\logs\\fixed.stderr.txt",
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "tests_passed": 1,
+  "source_unchanged": true,
+  "test_unchanged": true,
+  "environment": {
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+      "-B",
+      "-X",
+      "utf8",
+      "-c",
+      "import sys, json, importlib.metadata as metadata\nversions = {}\nfor package in ('qiskit', 'qiskit-terra', 'qiskit-aer', 'numpy', 'scipy', 'psutil'):\n    try:\n        versions[package] = metadata.version(package)\n    except metadata.PackageNotFoundError:\n        versions[package] = None\nimport qiskit, qiskit_aer\nprint(json.dumps({'executable': sys.executable, 'python': sys.version, 'packages': versions,\n                  'qiskit_file': qiskit.__file__, 'aer_file': qiskit_aer.__file__}))\n"
+    ],
+    "returncode": 0,
+    "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+    "support_path": null,
+    "executable": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+    "python": "3.11.15 | packaged by Anaconda, Inc. | (main, Jun 11 2026, 15:12:53) [MSC v.1942 64 bit (AMD64)]",
+    "packages": {
+      "qiskit": "0.46.3",
+      "qiskit-terra": "0.46.3",
+      "qiskit-aer": "0.14.2",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "psutil": "7.2.2"
+    },
+    "qiskit_file": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\Lib\\site-packages\\qiskit\\__init__.py",
+    "aer_file": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\Lib\\site-packages\\qiskit_aer\\__init__.py"
+  },
+  "native_child_exit_hex": [],
+  "check_outcomes": {
+    "test_aer_import_and_backend": "PASS"
+  }
+}

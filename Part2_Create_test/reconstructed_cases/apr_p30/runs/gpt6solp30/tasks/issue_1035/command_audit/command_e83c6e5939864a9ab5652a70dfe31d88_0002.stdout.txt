@@ -1,0 +1,24 @@
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import SparsePauliOp
+from qiskit_ibm_runtime import QiskitRuntimeService, Options, Session, Estimator
+
+# prepare the state |Psi>
+qc = QuantumCircuit(1)
+
+# define the operator/observable O
+O = SparsePauliOp(['Z'])
+
+# This requires a real IBM Quantum account/network connection,
+# and only runs on a real (or cloud) simulator backend, not a local fake backend.
+service = QiskitRuntimeService()
+backend = 'ibmq_qasm_simulator'
+options = Options(resilience_level=0)
+
+with Session(service=service, backend=backend) as session:
+    estimator = Estimator(session=session, options=options)
+    job = estimator.run(circuits=[qc], observables=[O])
+    print(job.result().values)
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\gpt6solp30\tasks\issue_1035\workspace\buggy.py", line 3, in <module>
+    from qiskit_ibm_runtime import QiskitRuntimeService, Options, Session, Estimator
+ModuleNotFoundError: No module named 'qiskit_ibm_runtime'

@@ -1,0 +1,21 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -1,13 +1,12 @@
+ from qiskit import QuantumCircuit
+ 
+-# Attempt to build a controlled initialization gate.
+-# QuantumCircuit.initialize() is not a Gate, so calling .to_gate()
+-# on a circuit that contains an Initialize instruction fails.
++# Use unitary state preparation: initialize also resets the qubits,
++# which is non-unitary and cannot be made into a controlled gate.
++# The target qubits must start in |00> for this to prepare the state.
+ state = [0.5, 0.5, 0.5, 0.5]
+ 
+ qc_gate = QuantumCircuit(2)
+-qc_gate.initialize(state, [0, 1])
++qc_gate.prepare_state(state, [0, 1])
+ 
+-# This raises an error because Initialize is not a Gate and
+-# cannot be converted with .to_gate()/.control()
++# Prepare the target state only when both control qubits are |1>.
+ gate = qc_gate.to_gate().control(2)

@@ -1,0 +1,23 @@
+from qiskit import QuantumCircuit
+
+# Attempt to build a controlled initialization gate.
+# QuantumCircuit.initialize() is not a Gate, so calling .to_gate()
+# on a circuit that contains an Initialize instruction fails.
+state = [0.5, 0.5, 0.5, 0.5]
+
+qc_gate = QuantumCircuit(2)
+qc_gate.initialize(state, [0, 1])
+
+# This raises an error because Initialize is not a Gate and
+# cannot be converted with .to_gate()/.control()
+gate = qc_gate.to_gate().control(2)
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\gpt6astrap30\tasks\issue_157\workspace\buggy.py", line 13, in <module>
+    gate = qc_gate.to_gate().control(2)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\circuit\quantumcircuit.py", line 1566, in to_gate
+    return circuit_to_gate(self, parameter_map, label=label)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\converters\circuit_to_gate.py", line 64, in circuit_to_gate
+    raise QiskitError(
+qiskit.exceptions.QiskitError: 'One or more instructions cannot be converted to a gate. "initialize" is not a gate instruction'

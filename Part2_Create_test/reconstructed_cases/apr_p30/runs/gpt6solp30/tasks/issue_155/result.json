@@ -1,0 +1,88 @@
+{
+  "case": "issue_155",
+  "version": "0.46.3",
+  "row": 26,
+  "original": {
+    "case": "issue_155",
+    "version": "0.46.3",
+    "variant": "original",
+    "source_sha256": "33a86c419956a0d1ae1b2783a8642b009209f5c7e671d2fa120579707301693e",
+    "test_sha256": "a38c0b0f765323e1edbf1e1ae8d89eb8e837d91e9f37f630eb2741a2ee6c495d",
+    "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\gpt6solp30\\tasks\\issue_155\\validator\\test.py",
+      "-v"
+    ],
+    "runtime_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\gpt6solp30\\tasks\\issue_155\\runtime\\original_14qd6amt",
+    "status": "ERROR",
+    "returncode": 1,
+    "tests_run": 1,
+    "skipped": 0,
+    "seconds": 2.875,
+    "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\gpt6solp30\\tasks\\issue_155\\logs\\original.stdout.txt",
+    "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\gpt6solp30\\tasks\\issue_155\\logs\\original.stderr.txt"
+  },
+  "reference": {
+    "case": "issue_155",
+    "version": "0.46.3",
+    "variant": "reference",
+    "source_sha256": "70f9635ea52aa527f25c48f086e8b86f0e20c8f0426c4760b8b54e03e4a7fd61",
+    "test_sha256": "a38c0b0f765323e1edbf1e1ae8d89eb8e837d91e9f37f630eb2741a2ee6c495d",
+    "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\gpt6solp30\\tasks\\issue_155\\validator\\test.py",
+      "-v"
+    ],
+    "runtime_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\gpt6solp30\\tasks\\issue_155\\runtime\\reference_qa0403ix",
+    "status": "PASS",
+    "returncode": 0,
+    "tests_run": 1,
+    "skipped": 0,
+    "seconds": 3.0,
+    "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\gpt6solp30\\tasks\\issue_155\\logs\\reference.stdout.txt",
+    "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\gpt6solp30\\tasks\\issue_155\\logs\\reference.stderr.txt"
+  },
+  "baseline_valid": true,
+  "candidate": {
+    "case": "issue_155",
+    "version": "0.46.3",
+    "variant": "candidate",
+    "source_sha256": "52570fd733ae4ce077fe6df346d5983f4324d6fe6410191ab924a4d5c9cc83c6",
+    "test_sha256": "a38c0b0f765323e1edbf1e1ae8d89eb8e837d91e9f37f630eb2741a2ee6c495d",
+    "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+    "support_path": null,
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\gpt6solp30\\tasks\\issue_155\\validator\\test.py",
+      "-v"
+    ],
+    "runtime_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\gpt6solp30\\tasks\\issue_155\\runtime\\candidate_szjhq4gm",
+    "status": "PASS",
+    "returncode": 0,
+    "tests_run": 1,
+    "skipped": 0,
+    "seconds": 2.813,
+    "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\gpt6solp30\\tasks\\issue_155\\logs\\candidate.stdout.txt",
+    "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\gpt6solp30\\tasks\\issue_155\\logs\\candidate.stderr.txt"
+  },
+  "audit": {
+    "syntax_ok": true,
+    "changed": true,
+    "adds_broad_except": false,
+    "length_ratio": 1.045,
+    "suspicious": false,
+    "reasons": []
+  },
+  "candidate_missing": false,
+  "repaired": true
+}

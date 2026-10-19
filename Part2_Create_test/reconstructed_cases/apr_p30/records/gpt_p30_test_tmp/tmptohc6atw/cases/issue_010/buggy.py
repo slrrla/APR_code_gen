@@ -1,0 +1,1 @@
+synthetic buggy.pyissue_010

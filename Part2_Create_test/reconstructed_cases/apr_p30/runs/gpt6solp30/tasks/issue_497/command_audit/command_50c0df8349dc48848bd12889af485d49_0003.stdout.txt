@@ -1,0 +1,23 @@
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+(oplist: List[qiskit.aqua.operators.operator_base.OperatorBase], combo_fn: Callable = <function ListOp.<lambda> at 0x000001F62CEB50D0>, coeff: Union[int, float, complex, qiskit.circuit.parameterexpression.ParameterExpression] = 1.0, abelian: bool = False, grad_combo_fn: Optional[Callable] = None) -> None
+
+    A Class for manipulating List Operators, and parent class to ``SummedOp``, ``ComposedOp``,
+    and ``TensoredOp``.
+
+    List Operators are classes for storing and manipulating lists of Operators, State functions,
+    or Measurements, and include some rule or ``combo_fn`` defining how the Operator functions
+    of the list constituents should be combined to form to cumulative Operator function of the
+    ``ListOp``. For example, a ``SummedOp`` has an addition-based ``combo_fn``, so once the
+    Operators in its list are evaluated against some bitstring to produce a list of results,
+    we know to add up those results to produce the final result of the ``SummedOp``'s
+    evaluation. In theory, this ``combo_fn`` can be any function over classical complex values,
+    but for convenience we've chosen for them to be defined over NumPy arrays and values. This way,
+    large numbers of evaluations, such as after calling ``to_matrix`` on the list constituents,
+    can be efficiently combined. While the combination function is defined over classical
+    values, it should be understood as the operation by which each Operators' underlying
+    function is combined to form the underlying Operator function of the ``ListOp``. In this
+    way, the ``ListOps`` are the basis for constructing large and sophisticated Operators,
+    State Functions, and Measurements in Aqua.
+
+    The base ``Lis

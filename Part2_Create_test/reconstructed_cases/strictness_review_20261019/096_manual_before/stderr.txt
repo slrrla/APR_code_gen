@@ -1,0 +1,45 @@
+test_clean_home (__main__.TestIntent.test_clean_home) ... FAIL
+test_existing_profile_missing_kernel_config (__main__.TestIntent.test_existing_profile_missing_kernel_config) ... FAIL
+test_preserves_existing_qiskit_settings (__main__.TestIntent.test_preserves_existing_qiskit_settings) ... ERROR
+
+======================================================================
+ERROR: test_preserves_existing_qiskit_settings (__main__.TestIntent.test_preserves_existing_qiskit_settings)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_096\test.py.before_strictness_review", line 60, in test_preserves_existing_qiskit_settings
+    self.check_configuration(existing_settings=True)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_096\test.py.before_strictness_review", line 52, in check_configuration
+    self.assertEqual(ns["contents"], expected)
+                     ~~^^^^^^^^^^^^
+KeyError: 'contents'
+
+======================================================================
+FAIL: test_clean_home (__main__.TestIntent.test_clean_home)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_096\test.py.before_strictness_review", line 57, in test_clean_home
+    self.check_configuration()
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_096\test.py.before_strictness_review", line 51, in check_configuration
+    self.assertEqual(settings.read_text(encoding="utf-8"), expected)
+AssertionError: '[default]\ncircuit_drawer = text\n' != '[default]\n'
+  [default]
+- circuit_drawer = text
+
+
+======================================================================
+FAIL: test_existing_profile_missing_kernel_config (__main__.TestIntent.test_existing_profile_missing_kernel_config)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_096\test.py.before_strictness_review", line 63, in test_existing_profile_missing_kernel_config
+    self.check_configuration(existing_profile=True)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_096\test.py.before_strictness_review", line 51, in check_configuration
+    self.assertEqual(settings.read_text(encoding="utf-8"), expected)
+AssertionError: '[default]\ncircuit_drawer = text\n' != '[default]\n'
+  [default]
+- circuit_drawer = text
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.085s
+
+FAILED (failures=2, errors=1)

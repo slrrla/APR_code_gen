@@ -1,0 +1,139 @@
+{
+  "case": "issue_096",
+  "python_executable": "C:\\Users\\haha9\\anaconda3\\python.exe",
+  "python_version": "3.11.5 | packaged by Anaconda, Inc. | (main, Sep 11 2023, 13:26:23) [MSC v.1916 64 bit (AMD64)]",
+  "ipython_version": "8.15.0",
+  "runtime_note": "Configuration-file tests use a disposable home and a real IPython subprocess. No Qiskit computation or installation is required.",
+  "source_sha256_before": {
+    "test.py": "5e78e63e1a33e4ae48537132955a0134fd3ce8c2d420287f5fa84671d83bba6c",
+    "fixed.py": "9b10d9c774a2fbf01b8a252cb110932dcab87bb28bd1f12199152f5c9982c23b",
+    "fixed_before.py": "1d56fa3fdf31b245ff7b1e183fa6ec332e4c0a696950e21d7cee83bf5578da0c",
+    "buggy.py": "2022c35c60fd2d8016b10802adeb75c6a6b358778ec81abf724aa9d850910429",
+    "original_question.txt": "f4698aa741ade032e778d81acad2b53680fb871b1638036dbdc275adb088cc70"
+  },
+  "source_sha256_after": {
+    "test.py": "5e78e63e1a33e4ae48537132955a0134fd3ce8c2d420287f5fa84671d83bba6c",
+    "fixed.py": "9b10d9c774a2fbf01b8a252cb110932dcab87bb28bd1f12199152f5c9982c23b",
+    "fixed_before.py": "1d56fa3fdf31b245ff7b1e183fa6ec332e4c0a696950e21d7cee83bf5578da0c",
+    "buggy.py": "2022c35c60fd2d8016b10802adeb75c6a6b358778ec81abf724aa9d850910429",
+    "original_question.txt": "f4698aa741ade032e778d81acad2b53680fb871b1638036dbdc275adb088cc70"
+  },
+  "sources_unchanged": true,
+  "results": [
+    {
+      "target": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_096\\fixed.py",
+      "source_sha256": "9b10d9c774a2fbf01b8a252cb110932dcab87bb28bd1f12199152f5c9982c23b",
+      "command": [
+        "C:\\Users\\haha9\\anaconda3\\python.exe",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_096\\test.py",
+        "-v"
+      ],
+      "environment_overrides": {
+        "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_096\\fixed.py",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONIOENCODING": "utf-8",
+        "TEMP": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\fixed\\temp",
+        "TMP": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\fixed\\temp",
+        "USERPROFILE": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\fixed",
+        "HOME": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\fixed",
+        "IPYTHONDIR": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\fixed\\.ipython"
+      },
+      "cwd": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\fixed",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_run": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "duration_seconds": 6.5,
+      "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\fixed.stdout.log",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\fixed.stderr.log",
+      "variant": "fixed.py",
+      "interpreter": "C:\\Users\\haha9\\anaconda3\\python.exe",
+      "test_sha256": "5e78e63e1a33e4ae48537132955a0134fd3ce8c2d420287f5fa84671d83bba6c",
+      "skips": 0,
+      "tests_passed": 3,
+      "reason": "All three existing configuration creation/preservation tests passed."
+    },
+    {
+      "target": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_096\\buggy.py",
+      "source_sha256": "2022c35c60fd2d8016b10802adeb75c6a6b358778ec81abf724aa9d850910429",
+      "command": [
+        "C:\\Users\\haha9\\anaconda3\\python.exe",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_096\\test.py",
+        "-v"
+      ],
+      "environment_overrides": {
+        "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_096\\buggy.py",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONIOENCODING": "utf-8",
+        "TEMP": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\buggy\\temp",
+        "TMP": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\buggy\\temp",
+        "USERPROFILE": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\buggy",
+        "HOME": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\buggy",
+        "IPYTHONDIR": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\buggy\\.ipython"
+      },
+      "cwd": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\buggy",
+      "status": "FAIL",
+      "exit_code": 1,
+      "tests_run": 3,
+      "failures": 1,
+      "errors": 2,
+      "skipped": 0,
+      "duration_seconds": 0.21899999999732245,
+      "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\buggy.stdout.log",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\buggy.stderr.log",
+      "variant": "buggy.py",
+      "interpreter": "C:\\Users\\haha9\\anaconda3\\python.exe",
+      "test_sha256": "5e78e63e1a33e4ae48537132955a0134fd3ce8c2d420287f5fa84671d83bba6c",
+      "skips": 0,
+      "tests_passed": 0,
+      "reason": "Two FileNotFoundError errors for absent Qiskit settings and one assertion failure for absent IPython kernel config."
+    },
+    {
+      "target": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_096\\fixed_before.py",
+      "source_sha256": "1d56fa3fdf31b245ff7b1e183fa6ec332e4c0a696950e21d7cee83bf5578da0c",
+      "command": [
+        "C:\\Users\\haha9\\anaconda3\\python.exe",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_096\\test.py",
+        "-v"
+      ],
+      "environment_overrides": {
+        "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_096\\fixed_before.py",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONIOENCODING": "utf-8",
+        "TEMP": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\fixed_before\\temp",
+        "TMP": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\fixed_before\\temp",
+        "USERPROFILE": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\fixed_before",
+        "HOME": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\fixed_before",
+        "IPYTHONDIR": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\fixed_before\\.ipython"
+      },
+      "cwd": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\runtime\\fixed_before",
+      "status": "FAIL",
+      "exit_code": 1,
+      "tests_run": 3,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "duration_seconds": 4.062999999994645,
+      "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\fixed_before.stdout.log",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_096\\run_20261008_015007_561\\fixed_before.stderr.log",
+      "variant": "fixed_before.py",
+      "interpreter": "C:\\Users\\haha9\\anaconda3\\python.exe",
+      "test_sha256": "5e78e63e1a33e4ae48537132955a0134fd3ce8c2d420287f5fa84671d83bba6c",
+      "skips": 0,
+      "tests_passed": 2,
+      "reason": "Existing profile directory with missing kernel config is not repaired."
+    }
+  ],
+  "limitations": [
+    "Results establish correctness against the existing three unittest cases only."
+  ],
+  "interpreter": "C:\\Users\\haha9\\anaconda3\\python.exe",
+  "environment": {
+    "python": "3.11.5",
+    "IPython": "8.15.0",
+    "Qiskit": "not used"
+  },
+  "source_unchanged": true
+}

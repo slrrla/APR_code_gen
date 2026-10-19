@@ -1,0 +1,45 @@
+{
+  "models": [
+    {
+      "folder": "gpt6astrap30",
+      "requested_model": "GPT 6 Astra",
+      "actual_model": "gpt-6-astra",
+      "cases": 30,
+      "test_pass": 23,
+      "repaired": 23,
+      "submitted_repaired": 23,
+      "submitted": 30,
+      "steps": 99,
+      "cost_usd": 1.920862
+    },
+    {
+      "folder": "gpt6lunap30",
+      "requested_model": "GPT 6 Luna",
+      "actual_model": "gpt-6-luna",
+      "cases": 30,
+      "test_pass": 22,
+      "repaired": 22,
+      "submitted_repaired": 22,
+      "submitted": 30,
+      "steps": 115,
+      "cost_usd": 0.027372
+    },
+    {
+      "folder": "gpt6solp30",
+      "requested_model": "GPT 6 Sol",
+      "actual_model": "gpt-6-sol",
+      "cases": 30,
+      "test_pass": 22,
+      "repaired": 22,
+      "submitted_repaired": 22,
+      "submitted": 29,
+      "steps": 137,
+      "cost_usd": 0.47361
+    }
+  ],
+  "same_30_cases": true,
+  "mcp_used": false,
+  "candidate_test_feedback": false,
+  "pipeline": "Actual DefaultAgent; same Claude prompts, guards, limits and final tests",
+  "not_directly_equivalent_to_prior_codex_run": true
+}

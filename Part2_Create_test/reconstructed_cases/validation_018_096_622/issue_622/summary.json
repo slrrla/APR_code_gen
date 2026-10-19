@@ -1,0 +1,199 @@
+{
+  "case": "issue_622",
+  "started_utc": "2026-10-08T01:50:32.412378+00:00",
+  "source_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_622",
+  "hashes_before": {
+    "fixed.py": "a13a2a00ff02bb6bf35294d97db495040305b17750c75ff02218ce36e0fe3d81",
+    "buggy.py": "45649f29d03794c56eb929bf64313bf7134d6034815f7d798fa1477ead4a7b35",
+    "test.py": "4ba24ad9bf70eb4a31edf6f4b17f8f8e5d57522c67433072ed0fd8ae520b3f29",
+    "original_question.txt": "53cc0b66f0bd4dc274cb64920599b32b158cd05851d401b038d036c1af4cf35b"
+  },
+  "runs": [
+    {
+      "case": "issue_622",
+      "version": "0.46.3",
+      "variant": "fixed",
+      "source_sha256": "a13a2a00ff02bb6bf35294d97db495040305b17750c75ff02218ce36e0fe3d81",
+      "test_sha256": "4ba24ad9bf70eb4a31edf6f4b17f8f8e5d57522c67433072ed0fd8ae520b3f29",
+      "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+      "support_path": null,
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+        "-X",
+        "utf8",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_622\\test.py",
+        "-v"
+      ],
+      "runtime_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_622\\0.46.3\\runtime\\fixed_x3q71f70",
+      "status": "PASS",
+      "returncode": 0,
+      "tests_run": 1,
+      "skipped": 0,
+      "seconds": 7.766,
+      "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_622\\0.46.3\\logs\\fixed.stdout.txt",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_622\\0.46.3\\logs\\fixed.stderr.txt",
+      "purpose": "representative legacy validation",
+      "failed": 0,
+      "errors": 0,
+      "passed": 1,
+      "source_unchanged": true,
+      "reason": "Existing Bell-circuit test passed: backend >= 2 qubits, successful 1024 shots, only 00/11 counts near 50%, and correct Bell statevector."
+    },
+    {
+      "case": "issue_622",
+      "version": "0.46.3",
+      "variant": "buggy",
+      "source_sha256": "45649f29d03794c56eb929bf64313bf7134d6034815f7d798fa1477ead4a7b35",
+      "test_sha256": "4ba24ad9bf70eb4a31edf6f4b17f8f8e5d57522c67433072ed0fd8ae520b3f29",
+      "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+      "support_path": null,
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+        "-X",
+        "utf8",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_622\\test.py",
+        "-v"
+      ],
+      "runtime_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_622\\0.46.3\\runtime\\buggy_hi40josf",
+      "status": "ERROR",
+      "returncode": 1,
+      "tests_run": 1,
+      "skipped": 0,
+      "seconds": 2.781,
+      "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_622\\0.46.3\\logs\\buggy.stdout.txt",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_622\\0.46.3\\logs\\buggy.stderr.txt",
+      "purpose": "representative legacy validation",
+      "failed": 0,
+      "errors": 1,
+      "passed": 0,
+      "source_unchanged": true,
+      "reason": "TranspilerError: 2-qubit circuit exceeds the 1-qubit FakeArmonk backend capacity."
+    },
+    {
+      "case": "issue_622",
+      "version": "2.5.0",
+      "variant": "fixed",
+      "source_sha256": "a13a2a00ff02bb6bf35294d97db495040305b17750c75ff02218ce36e0fe3d81",
+      "test_sha256": "4ba24ad9bf70eb4a31edf6f4b17f8f8e5d57522c67433072ed0fd8ae520b3f29",
+      "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+      "support_path": null,
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "-X",
+        "utf8",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_622\\test.py",
+        "-v"
+      ],
+      "runtime_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_622\\2.5.0\\runtime\\fixed_f7vs00aa",
+      "status": "ERROR",
+      "returncode": 1,
+      "tests_run": 1,
+      "skipped": 0,
+      "seconds": 0.781,
+      "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_622\\2.5.0\\logs\\fixed.stdout.txt",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_622\\2.5.0\\logs\\fixed.stderr.txt",
+      "purpose": "modern API compatibility",
+      "failed": 0,
+      "errors": 1,
+      "passed": 0,
+      "source_unchanged": true,
+      "reason": "ImportError: qiskit.Aer removed; legacy API incompatibility."
+    },
+    {
+      "case": "issue_622",
+      "version": "2.5.0",
+      "variant": "buggy",
+      "source_sha256": "45649f29d03794c56eb929bf64313bf7134d6034815f7d798fa1477ead4a7b35",
+      "test_sha256": "4ba24ad9bf70eb4a31edf6f4b17f8f8e5d57522c67433072ed0fd8ae520b3f29",
+      "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+      "support_path": null,
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "-X",
+        "utf8",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_622\\test.py",
+        "-v"
+      ],
+      "runtime_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_622\\2.5.0\\runtime\\buggy_3jr1_zxu",
+      "status": "ERROR",
+      "returncode": 1,
+      "tests_run": 1,
+      "skipped": 0,
+      "seconds": 0.75,
+      "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_622\\2.5.0\\logs\\buggy.stdout.txt",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_622\\2.5.0\\logs\\buggy.stderr.txt",
+      "purpose": "modern API compatibility",
+      "failed": 0,
+      "errors": 1,
+      "passed": 0,
+      "source_unchanged": true,
+      "reason": "ModuleNotFoundError: qiskit.test removed; legacy API incompatibility."
+    }
+  ],
+  "environment_probes": [
+    {
+      "requested": "0.46.3",
+      "purpose": "representative legacy validation",
+      "returncode": 0,
+      "stdout": "{\"python\": \"3.11.15 | packaged by Anaconda, Inc. | (main, Jun 11 2026, 15:12:53) [MSC v.1942 64 bit (AMD64)]\", \"executable\": \"C:\\\\personal_webpage\\\\my-portfolio\\\\APR_code_gen\\\\Part1_Create_code\\\\envs\\\\qiskit_0_46_3\\\\python.exe\", \"packages\": {\"qiskit\": \"0.46.3\", \"qiskit-terra\": \"0.46.3\", \"qiskit-aer\": \"0.14.2\", \"numpy\": \"2.4.6\"}}\n",
+      "stderr": "",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "-c",
+        "import json,sys,importlib.metadata as m; packages=(\"qiskit\",\"qiskit-terra\",\"qiskit-aer\",\"numpy\"); result={\"python\":sys.version,\"executable\":sys.executable,\"packages\":{}};\nfor p in packages:\n try: result[\"packages\"][p]=m.version(p)\n except m.PackageNotFoundError: result[\"packages\"][p]=None\nprint(json.dumps(result))"
+      ],
+      "metadata": {
+        "python": "3.11.15 | packaged by Anaconda, Inc. | (main, Jun 11 2026, 15:12:53) [MSC v.1942 64 bit (AMD64)]",
+        "executable": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\python.exe",
+        "packages": {
+          "qiskit": "0.46.3",
+          "qiskit-terra": "0.46.3",
+          "qiskit-aer": "0.14.2",
+          "numpy": "2.4.6"
+        }
+      }
+    },
+    {
+      "requested": "2.5.0",
+      "purpose": "modern API compatibility",
+      "returncode": 0,
+      "stdout": "{\"python\": \"3.12.13 | packaged by Anaconda, Inc. | (main, Jul  9 2026, 14:26:47) [MSC v.1942 64 bit (AMD64)]\", \"executable\": \"C:\\\\personal_webpage\\\\my-portfolio\\\\APR_code_gen\\\\Part1_Create_code\\\\envs\\\\qiskit_2_5_0\\\\python.exe\", \"packages\": {\"qiskit\": \"2.5.0\", \"qiskit-terra\": null, \"qiskit-aer\": \"0.17.2\", \"numpy\": \"2.5.2\"}}\n",
+      "stderr": "",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "-c",
+        "import json,sys,importlib.metadata as m; packages=(\"qiskit\",\"qiskit-terra\",\"qiskit-aer\",\"numpy\"); result={\"python\":sys.version,\"executable\":sys.executable,\"packages\":{}};\nfor p in packages:\n try: result[\"packages\"][p]=m.version(p)\n except m.PackageNotFoundError: result[\"packages\"][p]=None\nprint(json.dumps(result))"
+      ],
+      "metadata": {
+        "python": "3.12.13 | packaged by Anaconda, Inc. | (main, Jul  9 2026, 14:26:47) [MSC v.1942 64 bit (AMD64)]",
+        "executable": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "packages": {
+          "qiskit": "2.5.0",
+          "qiskit-terra": null,
+          "qiskit-aer": "0.17.2",
+          "numpy": "2.5.2"
+        }
+      }
+    }
+  ],
+  "methodology": "Unmodified existing test.py run directly with MUT set to fixed.py or buggy.py. Existing adapter.execute_test controls subprocess, captures logs, and classifies only executed non-skipped unittest OK as PASS. No installs or source edits.",
+  "limitations": [
+    "Results establish behavior against the existing single Bell-circuit test only.",
+    "Qiskit 2.5.0 is a separate compatibility probe; legacy API removal is not treated as failure of the legacy repair."
+  ],
+  "hashes_after": {
+    "fixed.py": "a13a2a00ff02bb6bf35294d97db495040305b17750c75ff02218ce36e0fe3d81",
+    "buggy.py": "45649f29d03794c56eb929bf64313bf7134d6034815f7d798fa1477ead4a7b35",
+    "test.py": "4ba24ad9bf70eb4a31edf6f4b17f8f8e5d57522c67433072ed0fd8ae520b3f29",
+    "original_question.txt": "53cc0b66f0bd4dc274cb64920599b32b158cd05851d401b038d036c1af4cf35b"
+  },
+  "source_files_unchanged": true,
+  "finished_utc": "2026-10-08T01:50:45.344768+00:00",
+  "source_unchanged": true
+}

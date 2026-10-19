@@ -1,0 +1,25 @@
+{
+  "requested": "2.5.0",
+  "purpose": "modern API compatibility",
+  "returncode": 0,
+  "stdout": "{\"python\": \"3.12.13 | packaged by Anaconda, Inc. | (main, Jul  9 2026, 14:26:47) [MSC v.1942 64 bit (AMD64)]\", \"executable\": \"C:\\\\personal_webpage\\\\my-portfolio\\\\APR_code_gen\\\\Part1_Create_code\\\\envs\\\\qiskit_2_5_0\\\\python.exe\", \"packages\": {\"qiskit\": \"2.5.0\", \"qiskit-terra\": null, \"qiskit-aer\": \"0.17.2\", \"numpy\": \"2.5.2\"}}\n",
+  "stderr": "",
+  "command": [
+    "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+    "-B",
+    "-X",
+    "utf8",
+    "-c",
+    "import json,sys,importlib.metadata as m; packages=(\"qiskit\",\"qiskit-terra\",\"qiskit-aer\",\"numpy\"); result={\"python\":sys.version,\"executable\":sys.executable,\"packages\":{}};\nfor p in packages:\n try: result[\"packages\"][p]=m.version(p)\n except m.PackageNotFoundError: result[\"packages\"][p]=None\nprint(json.dumps(result))"
+  ],
+  "metadata": {
+    "python": "3.12.13 | packaged by Anaconda, Inc. | (main, Jul  9 2026, 14:26:47) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+    "packages": {
+      "qiskit": "2.5.0",
+      "qiskit-terra": null,
+      "qiskit-aer": "0.17.2",
+      "numpy": "2.5.2"
+    }
+  }
+}

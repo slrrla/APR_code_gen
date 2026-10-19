@@ -1,0 +1,30 @@
+from qiskit import QuantumCircuit
+from qiskit.providers.basic_provider import BasicProvider
+
+qc_combine = QuantumCircuit(2)
+qc_combine.h(0)
+qc_combine.cx(0, 1)
+qc_combine.measure_all()
+
+shots_used = 1024
+
+backend = BasicProvider().get_backend("basic_simulator")
+
+# How to define the number of processors that are used by simulator?
+backend.set_options(
+    max_parallel_threads=0,        # Use all CPU cores
+    max_parallel_experiments=0,
+    max_parallel_shots=42,
+    statevector_parallel_threshold=16
+)
+
+job = backend.run(qc_combine, shots=shots_used)
+result = job.result()
+counts = result.get_counts(qc_combine)
+print(counts)
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\apr_p30\runs\gpt6solp30\tasks\issue_315\workspace\buggy.py", line 14, in <module>
+    backend.set_options(
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\providers\backend.py", line 286, in set_options
+    raise AttributeError(f"Options field {field} is not valid for this backend")
+AttributeError: Options field max_parallel_threads is not valid for this backend

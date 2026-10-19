@@ -1,0 +1,144 @@
+{
+  "case": "issue_453",
+  "version": "2.5.0",
+  "test_sha256_before": "646dea5a260bf0a4507fd043d82481c01ffa0c957342b173dbe3f48b82e627f6",
+  "test_sha256_after": "623d7c80ceffbf8cf959d371f58c341baed33003bfb7128971df84e6d0744dde",
+  "runs": [
+    {
+      "label": "human",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "-X",
+        "utf8",
+        "-W",
+        "ignore",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\test.py",
+        "-v"
+      ],
+      "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\fixed.py",
+      "source_sha256": "7566eef07084812f582c02d0395920ddedc35422c4355cbd9754b5853481a365",
+      "returncode": 0,
+      "status": "PASS",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\strictness_review\\human.stderr.txt"
+    },
+    {
+      "label": "buggy",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "-X",
+        "utf8",
+        "-W",
+        "ignore",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\test.py",
+        "-v"
+      ],
+      "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\buggy.py",
+      "source_sha256": "d7b296fe08e726e113be7fb35b2fc4a43df39ad6f24608509c65913b5a35a55e",
+      "returncode": 1,
+      "status": "REJECTED",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\strictness_review\\buggy.stderr.txt"
+    },
+    {
+      "label": "luna",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "-X",
+        "utf8",
+        "-W",
+        "ignore",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\test.py",
+        "-v"
+      ],
+      "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\gpt6lunap30\\tasks\\issue_453\\patched.py",
+      "source_sha256": "83d33e30abdf99edd3bda5dff57a17498624299606c271c8b8a7d3321e01f57d",
+      "returncode": 0,
+      "status": "PASS",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\strictness_review\\luna.stderr.txt"
+    },
+    {
+      "label": "positive_global_phase",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "-X",
+        "utf8",
+        "-W",
+        "ignore",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\test.py",
+        "-v"
+      ],
+      "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\strictness_review\\positive_global_phase.py",
+      "source_sha256": "2769e9e5f94f07cdcc30f02440ae0272704d4979f99b2e5d2f6c50ca7fda5828",
+      "returncode": 0,
+      "status": "PASS",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\strictness_review\\positive_global_phase.stderr.txt"
+    },
+    {
+      "label": "positive_extra_workspace",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "-X",
+        "utf8",
+        "-W",
+        "ignore",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\test.py",
+        "-v"
+      ],
+      "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\strictness_review\\positive_extra_workspace.py",
+      "source_sha256": "ead3cfa9358e71c192863d7d83bc02f59cc04a5b3c1a0a6bab98e6841437d5f1",
+      "returncode": 0,
+      "status": "PASS",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\strictness_review\\positive_extra_workspace.stderr.txt"
+    },
+    {
+      "label": "negative_omitted_composition",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "-X",
+        "utf8",
+        "-W",
+        "ignore",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\test.py",
+        "-v"
+      ],
+      "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\strictness_review\\negative_omitted_composition.py",
+      "source_sha256": "73c818bd04af9a931e8fb38aa5a34276ec67ee7dae51b5b6cd7c5897a97f3c02",
+      "returncode": 1,
+      "status": "REJECTED",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\strictness_review\\negative_omitted_composition.stderr.txt"
+    },
+    {
+      "label": "negative_dirty_workspace",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "-X",
+        "utf8",
+        "-W",
+        "ignore",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\test.py",
+        "-v"
+      ],
+      "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\strictness_review\\negative_dirty_workspace.py",
+      "source_sha256": "4ae6d510ded15494e75e41ca575894d3c6cbb6726a5f123fd0c6a003681750cf",
+      "returncode": 1,
+      "status": "REJECTED",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\strictness_review\\negative_dirty_workspace.stderr.txt"
+    },
+    {
+      "label": "negative_wrong_mapping",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+        "-X",
+        "utf8",
+        "-W",
+        "ignore",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\test.py",
+        "-v"
+      ],
+      "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\strictness_review\\negative_wrong_mapping.py",
+      "source_sha256": "51b17d0c5ce76eeaeb13d599ac38153ecff21f40e84303904eca0f0b7731ab16",
+      "returncode": 1,
+      "status": "REJECTED",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_453\\strictness_review\\negative_wrong_mapping.stderr.txt"
+    }
+  ]
+}

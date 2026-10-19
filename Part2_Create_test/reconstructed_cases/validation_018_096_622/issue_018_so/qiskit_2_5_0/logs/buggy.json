@@ -1,0 +1,59 @@
+{
+  "case": "issue_018_so",
+  "version": "2.5.0",
+  "variant": "buggy",
+  "source_sha256": "e178b8f3d322d68343e6d22b72a26d857567cee75d3c5295c4b89b8d2b7818bd",
+  "test_sha256": "eaf76f34d4c8f82acbd91e811c142cc98d5d1babe47bb7955c494b10f779a6e7",
+  "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+  "support_path": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\support\\py312",
+  "command": [
+    "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+    "-X",
+    "utf8",
+    "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_018_so\\test.py",
+    "-v"
+  ],
+  "runtime_dir": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_018_so\\qiskit_2_5_0\\runtime\\buggy_yqzjbulo",
+  "status": "ERROR",
+  "returncode": 1,
+  "tests_run": 1,
+  "skipped": 0,
+  "seconds": 1.078,
+  "stdout_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_018_so\\qiskit_2_5_0\\logs\\buggy.stdout.txt",
+  "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\validation_018_096_622\\issue_018_so\\qiskit_2_5_0\\logs\\buggy.stderr.txt",
+  "failures": 0,
+  "errors": 1,
+  "skips": 0,
+  "tests_passed": 0,
+  "source_unchanged": true,
+  "test_unchanged": true,
+  "environment": {
+    "command": [
+      "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+      "-B",
+      "-X",
+      "utf8",
+      "-c",
+      "import sys, json, importlib.metadata as metadata\nversions = {}\nfor package in ('qiskit', 'qiskit-terra', 'qiskit-aer', 'numpy', 'scipy', 'psutil'):\n    try:\n        versions[package] = metadata.version(package)\n    except metadata.PackageNotFoundError:\n        versions[package] = None\nimport qiskit, qiskit_aer\nprint(json.dumps({'executable': sys.executable, 'python': sys.version, 'packages': versions,\n                  'qiskit_file': qiskit.__file__, 'aer_file': qiskit_aer.__file__}))\n"
+    ],
+    "returncode": 0,
+    "interpreter": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+    "support_path": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\support\\py312",
+    "executable": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\python.exe",
+    "python": "3.12.13 | packaged by Anaconda, Inc. | (main, Jul  9 2026, 14:26:47) [MSC v.1942 64 bit (AMD64)]",
+    "packages": {
+      "qiskit": "2.5.0",
+      "qiskit-terra": null,
+      "qiskit-aer": "0.17.2",
+      "numpy": "2.5.2",
+      "scipy": "1.18.0",
+      "psutil": "7.2.2"
+    },
+    "qiskit_file": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit\\__init__.py",
+    "aer_file": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_2_5_0\\Lib\\site-packages\\qiskit_aer\\__init__.py"
+  },
+  "native_child_exit_hex": [],
+  "check_outcomes": {
+    "test_aer_import_and_backend": "ERROR"
+  }
+}

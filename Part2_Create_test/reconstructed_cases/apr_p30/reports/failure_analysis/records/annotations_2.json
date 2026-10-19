@@ -1,0 +1,2013 @@
+{
+  "bundle": 2,
+  "cases": [
+    {
+      "case": "issue_009",
+      "question_category": "circuit_construction_and_transpilation",
+      "question_tags": [
+        "layout_selection",
+        "CSP",
+        "transpiler"
+      ],
+      "question_summary": "Select or force CSP layout in a transpilation pipeline.",
+      "category_rationale": "The question asks which layout pass is selected and why csp_layout is rejected as a layout selector."
+    },
+    {
+      "case": "issue_034",
+      "question_category": "api_migration",
+      "question_tags": [
+        "import_namespace",
+        "Aer",
+        "Colab"
+      ],
+      "question_summary": "Resolve an Aer import failure in a Colab Qiskit installation.",
+      "category_rationale": "The requested change concerns where the Aer public API is imported."
+    },
+    {
+      "case": "issue_072",
+      "question_category": "simulation_noise_and_backends",
+      "question_tags": [
+        "measurement_calibration",
+        "physical_layout"
+      ],
+      "question_summary": "Use consistent physical-qubit layouts for calibration and a real-device experiment.",
+      "category_rationale": "The question centers on readout-error mitigation and mapping calibration circuits to physical qubits."
+    },
+    {
+      "case": "issue_096",
+      "question_category": "simulation_noise_and_backends",
+      "question_tags": [
+        "local_environment_configuration",
+        "IPython",
+        "not_quantum_computation"
+      ],
+      "question_summary": "Create missing Qiskit and IPython user configuration files.",
+      "category_rationale": "This is environment configuration, the closest supplied category; the question contains no quantum computation."
+    },
+    {
+      "case": "issue_155",
+      "question_category": "operators_and_quantum_semantics",
+      "question_tags": [
+        "partial_trace",
+        "register_to_qubit_mapping"
+      ],
+      "question_summary": "Trace out a whole quantum register rather than naming individual qubit indices.",
+      "category_rationale": "Selecting subsystems for a partial trace determines the reduced quantum state."
+    },
+    {
+      "case": "issue_225",
+      "question_category": "algorithms_and_numerics",
+      "question_tags": [
+        "expressibility",
+        "entanglement",
+        "statevector_array"
+      ],
+      "question_summary": "Compute expressibility and entanglement capability of parameterized circuits.",
+      "category_rationale": "The requested outputs are numerical circuit-quality measures; statevector array handling is a secondary implementation issue."
+    },
+    {
+      "case": "issue_280",
+      "question_category": "simulation_noise_and_backends",
+      "question_tags": [
+        "depolarizing_noise",
+        "gate_arity"
+      ],
+      "question_summary": "Apply depolarizing error to two-qubit operations.",
+      "category_rationale": "The central issue is matching a noise channel to the arity of the affected gate."
+    },
+    {
+      "case": "issue_362",
+      "question_category": "results_and_data_representation",
+      "question_tags": [
+        "AerSimulator",
+        "save_instructions",
+        "unitary",
+        "statevector",
+        "density_matrix"
+      ],
+      "question_summary": "Retrieve unitary, statevector and density-matrix outputs from AerSimulator.",
+      "category_rationale": "The question concerns extracting simulator result data."
+    },
+    {
+      "case": "issue_436",
+      "question_category": "simulation_noise_and_backends",
+      "question_tags": [
+        "pulse_simulation",
+        "frequency_modulation"
+      ],
+      "question_summary": "Work around an unsupported set_frequency instruction in PulseSimulator.",
+      "category_rationale": "The question concerns simulator support and pulse-frequency execution."
+    },
+    {
+      "case": "issue_443",
+      "question_category": "circuit_construction_and_transpilation",
+      "question_tags": [
+        "append",
+        "register_flattening",
+        "wire_order"
+      ],
+      "question_summary": "Append an instruction with variable-length quantum registers as its arguments.",
+      "category_rationale": "The question asks how to supply one ordered qubit argument per instruction wire."
+    },
+    {
+      "case": "issue_453",
+      "question_category": "circuit_construction_and_transpilation",
+      "question_tags": [
+        "compose",
+        "automatic_ancillas",
+        "reuse"
+      ],
+      "question_summary": "Compose a wider subroutine by mapping data qubits and allocating its extra ancillas.",
+      "category_rationale": "Circuit composition, register allocation and ancilla mapping are the stated task."
+    },
+    {
+      "case": "issue_595",
+      "question_category": "results_and_data_representation",
+      "question_tags": [
+        "unitary_extraction",
+        "simulator_save_instruction"
+      ],
+      "question_summary": "Obtain the unitary matrix for a quantum circuit.",
+      "category_rationale": "The requested deliverable is a circuit matrix extracted from execution."
+    },
+    {
+      "case": "issue_622",
+      "question_category": "simulation_noise_and_backends",
+      "question_tags": [
+        "backend_capacity",
+        "coupling_map",
+        "Bell_state"
+      ],
+      "question_summary": "Run a two-qubit Bell experiment despite a one-qubit backend capacity error.",
+      "category_rationale": "The reported failure is insufficient backend/coupling-map capacity."
+    },
+    {
+      "case": "issue_635",
+      "question_category": "circuit_construction_and_transpilation",
+      "question_tags": [
+        "classical_control",
+        "measurement_condition"
+      ],
+      "question_summary": "Condition quantum operations on multiple classical measurement results.",
+      "category_rationale": "The question asks how to express a classical condition in circuit construction."
+    },
+    {
+      "case": "issue_742",
+      "question_category": "simulation_noise_and_backends",
+      "question_tags": [
+        "noisy_expectation",
+        "observable_conversion"
+      ],
+      "question_summary": "Compute a noisy expectation value for a general non-Pauli observable.",
+      "category_rationale": "Noisy simulation of an observable is primary; converting it to a supported operator form is secondary."
+    },
+    {
+      "case": "issue_747",
+      "question_category": "results_and_data_representation",
+      "question_tags": [
+        "measurement",
+        "counts",
+        "classical_registers"
+      ],
+      "question_summary": "Understand when measurements are needed to obtain qasm-simulator counts.",
+      "category_rationale": "The question is about the relationship between measurement operations and reported outcomes."
+    },
+    {
+      "case": "issue_769",
+      "question_category": "operators_and_quantum_semantics",
+      "question_tags": [
+        "matrix_recognition",
+        "standard_gates",
+        "global_phase"
+      ],
+      "question_summary": "Identify a standard gate from its unitary matrix.",
+      "category_rationale": "The core task is matching mathematical operators to standard gate names."
+    },
+    {
+      "case": "issue_773",
+      "question_category": "simulation_noise_and_backends",
+      "question_tags": [
+        "job_monitoring",
+        "import_namespaces"
+      ],
+      "question_summary": "Explain which of multiple Qiskit job-monitor interfaces to use.",
+      "category_rationale": "The original question concerns monitoring execution; it is not primarily a request to migrate a removed API."
+    },
+    {
+      "case": "issue_775",
+      "question_category": "circuit_construction_and_transpilation",
+      "question_tags": [
+        "OpenQASM2",
+        "parsing",
+        "execution"
+      ],
+      "question_summary": "Load and simulate an OpenQASM 2 program in Python with Qiskit.",
+      "category_rationale": "Parsing QASM into the intended executable circuit is the central task."
+    },
+    {
+      "case": "issue_810",
+      "question_category": "results_and_data_representation",
+      "question_tags": [
+        "raw_shots",
+        "counts",
+        "coin_flip"
+      ],
+      "question_summary": "Extract raw 0/1 outcomes from a Hadamard coin-flip experiment for a GUI.",
+      "category_rationale": "The question asks for usable result data instead of a Result-object representation."
+    },
+    {
+      "case": "issue_889",
+      "question_category": "operators_and_quantum_semantics",
+      "question_tags": [
+        "Pauli_sum",
+        "Hamiltonian",
+        "time_evolution",
+        "reconstruction_conflict"
+      ],
+      "question_summary": "Build a tight-binding Hamiltonian from tensor products of Pauli operators and use it as a gate.",
+      "category_rationale": "The question concerns the mathematical construction and meaning of the operator and its evolution."
+    },
+    {
+      "case": "issue_901",
+      "question_category": "circuit_construction_and_transpilation",
+      "question_tags": [
+        "approximate_synthesis",
+        "universal_basis"
+      ],
+      "question_summary": "Transpile a circuit to the H, T and CNOT universal gate set.",
+      "category_rationale": "The question asks for compilation into a restricted universal basis."
+    },
+    {
+      "case": "issue_950",
+      "question_category": "operators_and_quantum_semantics",
+      "question_tags": [
+        "operator_embedding",
+        "tensor_order",
+        "addition_vs_composition"
+      ],
+      "question_summary": "Construct a Z string acting on a specified interval of qubits within an N-qubit system.",
+      "category_rationale": "The mathematical support and embedding of the operator are the requested behavior."
+    },
+    {
+      "case": "issue_985",
+      "question_category": "operators_and_quantum_semantics",
+      "question_tags": [
+        "global_phase",
+        "SU2",
+        "rotation_basis",
+        "conceptual_no_go"
+      ],
+      "question_summary": "Express U1 using Rx, Ry and Rz while preserving its phase, or establish why that is impossible.",
+      "category_rationale": "The question explicitly distinguishes exact matrix equality from equality up to global phase."
+    }
+  ],
+  "failures": [
+    {
+      "case": "issue_072",
+      "model": "gpt-6-luna",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "layout_coverage",
+        "logical_vs_compiled_container",
+        "later_test_only_contract"
+      ],
+      "requirement_support": "explicit_in_question",
+      "initial_failure_explanation": "The initial plan allowed omitting unmapped virtual qubits, and the coder reduced the supplied seven-qubit layout to three entries. The evaluator rejects len(layout)=3; this is separate from the duplicate physical-index bug.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "followed",
+      "final_failure_category": "output_or_interface_contract",
+      "final_failure_explanation": "The feedback correctly restored seven unique mappings but also told the coder to retain the transpile result. The coder overwrote meas_calibs with the physically expanded circuits. The evaluator expects meas_calibs to remain the original seven-qubit logical calibration collection, so its statevector comparison sees 262144 rather than 128 entries. This final container distinction is evidenced by the test, not an explicit naming contract in the question.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_072/agent_input.json",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_072/original.py",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_072/orchestrator/step0.json",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_072/phase0/patched.py",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_072/phase0/validation.json",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_072/orchestrator/step1.json",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_072/phase1/patched.py",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_072/phase1/validation.json",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_072/validator/test.py"
+      ],
+      "evidence_excerpt": "Initial: \"AssertionError: 3 != 7\". Final: \"(shapes (262144,), (128,) mismatch)\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_096",
+      "model": "gpt-6-astra",
+      "initial_failure_category": "incomplete_or_unchanged_repair",
+      "secondary_failure_tags": [
+        "missing_requested_configuration"
+      ],
+      "requirement_support": "explicit_in_question",
+      "initial_failure_explanation": "The candidate creates Qiskit settings but never creates the IPython kernel configuration explicitly mentioned in the question. The initial orchestrator deliberately narrowed scope to the Qiskit-only executable reproduction; all three failures are missing IPython configuration.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed all three saved tests after adding the missing IPython file and creating the exact settings header when absent. The feedback addressed both observed failures; preexisting nonempty settings are preserved in the tested scenario.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/agent_input.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/original.py",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/orchestrator/step0.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/phase0/patched.py",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/phase0/validation.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/orchestrator/step1.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/phase1/patched.py",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/phase1/validation.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/validator/test.py"
+      ],
+      "evidence_excerpt": "\"Missing ipython_kernel_config.py (even when the profile directory already exists)\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_096",
+      "model": "gpt-6-luna",
+      "initial_failure_category": "incomplete_or_unchanged_repair",
+      "secondary_failure_tags": [
+        "missing_requested_configuration",
+        "exact_default_text_test_contract"
+      ],
+      "requirement_support": "explicit_in_question",
+      "initial_failure_explanation": "The candidate creates Qiskit settings but never creates the IPython kernel configuration explicitly mentioned in the question. It additionally initializes an empty settings file, whereas two tests require exactly [default] followed by a newline. That exact default content is a test-only contract; the separate missing IPython file remains an explicit question requirement.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed all three saved tests after adding the missing IPython file and creating the exact settings header when absent. The feedback addressed both observed failures; preexisting nonempty settings are preserved in the tested scenario.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_096/agent_input.json",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_096/original.py",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_096/orchestrator/step0.json",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_096/phase0/patched.py",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_096/phase0/validation.json",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_096/orchestrator/step1.json",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_096/phase1/patched.py",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_096/phase1/validation.json",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_096/validator/test.py"
+      ],
+      "evidence_excerpt": "\"Missing ipython_kernel_config.py (even when the profile directory already exists)\"; expected new settings: \"[default]\\n\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_096",
+      "model": "gpt-6.1-sol",
+      "initial_failure_category": "incomplete_or_unchanged_repair",
+      "secondary_failure_tags": [
+        "missing_requested_configuration"
+      ],
+      "requirement_support": "explicit_in_question",
+      "initial_failure_explanation": "The candidate creates Qiskit settings but never creates the IPython kernel configuration explicitly mentioned in the question. The initial orchestrator deliberately narrowed scope to the Qiskit-only executable reproduction; all three failures are missing IPython configuration.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed all three saved tests after adding the missing IPython file and creating the exact settings header when absent. The feedback addressed both observed failures; preexisting nonempty settings are preserved in the tested scenario.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_096/agent_input.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_096/original.py",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_096/orchestrator/step0.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_096/phase0/patched.py",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_096/phase0/validation.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_096/orchestrator/step1.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_096/phase1/patched.py",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_096/phase1/validation.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_096/validator/test.py"
+      ],
+      "evidence_excerpt": "\"Missing ipython_kernel_config.py (even when the profile directory already exists)\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_096",
+      "model": "claude-opus-5-5",
+      "initial_failure_category": "incomplete_or_unchanged_repair",
+      "secondary_failure_tags": [
+        "missing_requested_configuration",
+        "exact_default_text_test_contract"
+      ],
+      "requirement_support": "explicit_in_question",
+      "initial_failure_explanation": "The candidate creates Qiskit settings but never creates the IPython kernel configuration explicitly mentioned in the question. It additionally writes circuit_drawer = mpl, whereas two tests require exactly [default] followed by a newline. That exact default content is a test-only contract; the separate missing IPython file remains an explicit question requirement.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed all three saved tests after adding the missing IPython file and creating the exact settings header when absent. The feedback addressed both observed failures; preexisting nonempty settings are preserved in the tested scenario.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_096/agent_input.json",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_096/original.py",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_096/orchestrator/step0.json",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_096/phase0/patched.py",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_096/phase0/validation.json",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_096/orchestrator/step1.json",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_096/phase1/patched.py",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_096/phase1/validation.json",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_096/validator/test.py"
+      ],
+      "evidence_excerpt": "\"Missing ipython_kernel_config.py (even when the profile directory already exists)\"; expected new settings: \"[default]\\n\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_096",
+      "model": "claude-sonnet-5-5",
+      "initial_failure_category": "incomplete_or_unchanged_repair",
+      "secondary_failure_tags": [
+        "missing_requested_configuration",
+        "exact_default_text_test_contract"
+      ],
+      "requirement_support": "explicit_in_question",
+      "initial_failure_explanation": "The candidate creates Qiskit settings but never creates the IPython kernel configuration explicitly mentioned in the question. It additionally writes circuit_drawer = mpl, whereas two tests require exactly [default] followed by a newline. That exact default content is a test-only contract; the separate missing IPython file remains an explicit question requirement.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed all three saved tests after adding the missing IPython file and creating the exact settings header when absent. The feedback addressed both observed failures; preexisting nonempty settings are preserved in the tested scenario.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_096/agent_input.json",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_096/original.py",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_096/orchestrator/step0.json",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_096/phase0/patched.py",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_096/phase0/validation.json",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_096/orchestrator/step1.json",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_096/phase1/patched.py",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_096/phase1/validation.json",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_096/validator/test.py"
+      ],
+      "evidence_excerpt": "\"Missing ipython_kernel_config.py (even when the profile directory already exists)\"; expected new settings: \"[default]\\n\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_096",
+      "model": "claude-haiku-5-5",
+      "initial_failure_category": "incomplete_or_unchanged_repair",
+      "secondary_failure_tags": [
+        "missing_requested_configuration",
+        "exact_default_text_test_contract"
+      ],
+      "requirement_support": "explicit_in_question",
+      "initial_failure_explanation": "The candidate creates Qiskit settings but never creates the IPython kernel configuration explicitly mentioned in the question. It additionally initializes an empty settings file, whereas two tests require exactly [default] followed by a newline. That exact default content is a test-only contract; the separate missing IPython file remains an explicit question requirement.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed all three saved tests after adding the missing IPython file and creating the exact settings header when absent. The feedback addressed both observed failures; preexisting nonempty settings are preserved in the tested scenario. The requested empty-file rewrite is broader than the demonstrated failure; preservation of a preexisting empty settings file was not tested.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_096/agent_input.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_096/original.py",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_096/orchestrator/step0.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_096/phase0/patched.py",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_096/phase0/validation.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_096/orchestrator/step1.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_096/phase1/patched.py",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_096/phase1/validation.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_096/validator/test.py"
+      ],
+      "evidence_excerpt": "\"Missing ipython_kernel_config.py (even when the profile directory already exists)\"; expected new settings: \"[default]\\n\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_443",
+      "model": "gpt-6-astra",
+      "initial_failure_category": "unrelated_change_or_regression",
+      "secondary_failure_tags": [
+        "register_aliasing",
+        "gate_placement_changed",
+        "initial_plan_scope_expansion"
+      ],
+      "requirement_support": "implied_by_task",
+      "initial_failure_explanation": "The initial orchestrator and coder flattened append arguments, but also reversed or removed the original [control, train_register] aliasing. That changes which qubits receive H and the oracle X: the evaluator preserves the original snippet mapping. The register names are misleading, but changing them alters the reconstructed circuit beyond the append repair.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after restoring the original aliasing while retaining the flat ordered qubit list, as the feedback instructed.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_443/agent_input.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_443/original.py",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_443/orchestrator/step0.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_443/phase0/patched.py",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_443/phase0/validation.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_443/orchestrator/step1.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_443/phase1/patched.py",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_443/phase1/validation.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_443/validator/test.py"
+      ],
+      "evidence_excerpt": "Test operator mismatch: \"Mismatched elements: 144 / 256\". Feedback restores \"[control, train_register] = circ.qregs\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_443",
+      "model": "gpt-6.1-sol",
+      "initial_failure_category": "unrelated_change_or_regression",
+      "secondary_failure_tags": [
+        "register_aliasing",
+        "gate_placement_changed",
+        "initial_plan_scope_expansion"
+      ],
+      "requirement_support": "implied_by_task",
+      "initial_failure_explanation": "The initial orchestrator and coder flattened append arguments, but also reversed or removed the original [control, train_register] aliasing. That changes which qubits receive H and the oracle X: the evaluator preserves the original snippet mapping. The register names are misleading, but changing them alters the reconstructed circuit beyond the append repair.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after restoring the original aliasing while retaining the flat ordered qubit list, as the feedback instructed.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_443/agent_input.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_443/original.py",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_443/orchestrator/step0.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_443/phase0/patched.py",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_443/phase0/validation.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_443/orchestrator/step1.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_443/phase1/patched.py",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_443/phase1/validation.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_443/validator/test.py"
+      ],
+      "evidence_excerpt": "Test operator mismatch: \"Mismatched elements: 144 / 256\". Feedback restores \"[control, train_register] = circ.qregs\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_443",
+      "model": "claude-opus-5-5",
+      "initial_failure_category": "unrelated_change_or_regression",
+      "secondary_failure_tags": [
+        "register_aliasing",
+        "gate_placement_changed",
+        "initial_plan_scope_expansion"
+      ],
+      "requirement_support": "implied_by_task",
+      "initial_failure_explanation": "The initial orchestrator and coder flattened append arguments, but also reversed or removed the original [control, train_register] aliasing. That changes which qubits receive H and the oracle X: the evaluator preserves the original snippet mapping. The register names are misleading, but changing them alters the reconstructed circuit beyond the append repair.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after restoring the original aliasing while retaining the flat ordered qubit list, as the feedback instructed.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_443/agent_input.json",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_443/original.py",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_443/orchestrator/step0.json",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_443/phase0/patched.py",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_443/phase0/validation.json",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_443/orchestrator/step1.json",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_443/phase1/patched.py",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_443/phase1/validation.json",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_443/validator/test.py"
+      ],
+      "evidence_excerpt": "Test operator mismatch: \"Mismatched elements: 144 / 256\". Feedback restores \"[control, train_register] = circ.qregs\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_443",
+      "model": "claude-sonnet-5-5",
+      "initial_failure_category": "unrelated_change_or_regression",
+      "secondary_failure_tags": [
+        "register_aliasing",
+        "gate_placement_changed",
+        "initial_plan_scope_expansion"
+      ],
+      "requirement_support": "implied_by_task",
+      "initial_failure_explanation": "The initial orchestrator and coder flattened append arguments, but also reversed or removed the original [control, train_register] aliasing. That changes which qubits receive H and the oracle X: the evaluator preserves the original snippet mapping. The register names are misleading, but changing them alters the reconstructed circuit beyond the append repair.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after restoring the original aliasing while retaining the flat ordered qubit list, as the feedback instructed.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_443/agent_input.json",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_443/original.py",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_443/orchestrator/step0.json",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_443/phase0/patched.py",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_443/phase0/validation.json",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_443/orchestrator/step1.json",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_443/phase1/patched.py",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_443/phase1/validation.json",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_443/validator/test.py"
+      ],
+      "evidence_excerpt": "Test operator mismatch: \"Mismatched elements: 144 / 256\". Feedback restores \"[control, train_register] = circ.qregs\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_443",
+      "model": "claude-haiku-5-5",
+      "initial_failure_category": "unrelated_change_or_regression",
+      "secondary_failure_tags": [
+        "register_aliasing",
+        "gate_placement_changed",
+        "initial_plan_scope_expansion"
+      ],
+      "requirement_support": "implied_by_task",
+      "initial_failure_explanation": "The initial orchestrator and coder flattened append arguments, but also reversed or removed the original [control, train_register] aliasing. That changes which qubits receive H and the oracle X: the evaluator preserves the original snippet mapping. The register names are misleading, but changing them alters the reconstructed circuit beyond the append repair.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "not_followed",
+      "final_failure_category": "incomplete_or_unchanged_repair",
+      "final_failure_explanation": "The saved feedback correctly asks to restore the original register aliasing. The coder explicitly refuses that change after local execution/inspection and submits identical source; the same operator mismatch remains. This is supported by the dialogue, not inferred solely from an unchanged file.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/agent_input.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/original.py",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/orchestrator/step0.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/phase0/patched.py",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/phase0/validation.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/orchestrator/step1.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/phase1/patched.py",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/phase1/validation.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/validator/test.py",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/phase1/traj.json"
+      ],
+      "evidence_excerpt": "Test operator mismatch: \"Mismatched elements: 144 / 256\". Coder: \"I'm not applying the orchestrator's proposed swap.\"",
+      "coding_trace_inspected": true
+    },
+    {
+      "case": "issue_453",
+      "model": "gpt-6-astra",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_extension",
+        "automatic_ancilla_interface",
+        "inplace_return_contract",
+        "orchestrator_prescribed_wrong_return"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The candidate repairs the demonstrated six-to-four compose width mismatch by allocating two ancillas explicitly, but exports no compose_with_auto_ancillas method on ordinary QuantumCircuit instances. Automatic ancilla handling is requested, while that exact method name, monkeypatch location and return contract occur only in the evaluator.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "followed",
+      "final_failure_category": "output_or_interface_contract",
+      "final_failure_explanation": "The coder implements the requested reusable QuantumCircuit helper, including ancilla reuse, but follows the orchestrator instruction to return the destination circuit for inplace=True. The evaluator requires None. Thus the remaining failure is the return contract, not missing allocation or ignored feedback.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_453/agent_input.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_453/original.py",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_453/orchestrator/step0.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_453/phase0/patched.py",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_453/phase0/validation.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_453/orchestrator/step1.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_453/phase1/patched.py",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_453/phase1/validation.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_453/validator/test.py"
+      ],
+      "evidence_excerpt": "\"AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'\". Final: \"self.assertIsNone(returned)\"; \"is not None\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_453",
+      "model": "gpt-6-luna",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_extension",
+        "automatic_ancilla_interface",
+        "subclass_vs_base_class"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The candidate repairs the demonstrated six-to-four compose width mismatch by allocating two ancillas explicitly, but exports no compose_with_auto_ancillas method on ordinary QuantumCircuit instances. Automatic ancilla handling is requested, while that exact method name, monkeypatch location and return contract occur only in the evaluator.",
+      "orchestrator_assessment": "incorrect_or_misleading",
+      "feedback_following": "followed",
+      "final_failure_category": "output_or_interface_contract",
+      "final_failure_explanation": "The feedback recommends a subclass and the coder supplies AutoAncillaCircuit, but the evaluator constructs a fresh ordinary QuantumCircuit and still cannot find the helper. The proposed attachment strategy does not meet the observed plain-circuit interface; the coder followed it.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_453/agent_input.json",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_453/original.py",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_453/orchestrator/step0.json",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_453/phase0/patched.py",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_453/phase0/validation.json",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_453/orchestrator/step1.json",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_453/phase1/patched.py",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_453/phase1/validation.json",
+        "Multi agent tesiting/gpt-6-luna/tasks/issue_453/validator/test.py"
+      ],
+      "evidence_excerpt": "\"AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_453",
+      "model": "gpt-6.1-sol",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_extension",
+        "automatic_ancilla_interface",
+        "inplace_return_contract",
+        "orchestrator_prescribed_wrong_return"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The candidate repairs the demonstrated six-to-four compose width mismatch by allocating two ancillas explicitly, but exports no compose_with_auto_ancillas method on ordinary QuantumCircuit instances. Automatic ancilla handling is requested, while that exact method name, monkeypatch location and return contract occur only in the evaluator.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "followed",
+      "final_failure_category": "output_or_interface_contract",
+      "final_failure_explanation": "The coder implements the requested reusable QuantumCircuit helper, including ancilla reuse, but follows the orchestrator instruction to return the destination circuit for inplace=True. The evaluator requires None. Thus the remaining failure is the return contract, not missing allocation or ignored feedback.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/agent_input.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/original.py",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/orchestrator/step0.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/phase0/patched.py",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/phase0/validation.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/orchestrator/step1.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/phase1/patched.py",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/phase1/validation.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/validator/test.py"
+      ],
+      "evidence_excerpt": "\"AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'\". Final: \"self.assertIsNone(returned)\"; \"is not None\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_453",
+      "model": "claude-opus-5-5",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_extension",
+        "automatic_ancilla_interface"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The candidate repairs the demonstrated six-to-four compose width mismatch by allocating two ancillas explicitly, but exports no compose_with_auto_ancillas method on ordinary QuantumCircuit instances. Automatic ancilla handling is requested, while that exact method name, monkeypatch location and return contract occur only in the evaluator.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after attaching the helper to ordinary QuantumCircuit instances, allocating/reusing the needed ancillas and returning None for inplace=True, as the repair instructions specify.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_453/agent_input.json",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_453/original.py",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_453/orchestrator/step0.json",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_453/phase0/patched.py",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_453/phase0/validation.json",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_453/orchestrator/step1.json",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_453/phase1/patched.py",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_453/phase1/validation.json",
+        "Multi agent tesiting/claude-opus-5-5/tasks/issue_453/validator/test.py"
+      ],
+      "evidence_excerpt": "\"AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_453",
+      "model": "claude-sonnet-5-5",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_extension",
+        "automatic_ancilla_interface"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The candidate repairs the demonstrated six-to-four compose width mismatch by allocating two ancillas explicitly, but exports no compose_with_auto_ancillas method on ordinary QuantumCircuit instances. Automatic ancilla handling is requested, while that exact method name, monkeypatch location and return contract occur only in the evaluator.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after attaching the helper to ordinary QuantumCircuit instances, allocating/reusing the needed ancillas and returning None for inplace=True, as the repair instructions specify.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_453/agent_input.json",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_453/original.py",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_453/orchestrator/step0.json",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_453/phase0/patched.py",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_453/phase0/validation.json",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_453/orchestrator/step1.json",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_453/phase1/patched.py",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_453/phase1/validation.json",
+        "Multi agent tesiting/claude-sonnet-5-5/tasks/issue_453/validator/test.py"
+      ],
+      "evidence_excerpt": "\"AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_453",
+      "model": "claude-haiku-5-5",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_extension",
+        "automatic_ancilla_interface",
+        "forbidden_test_inspection_instruction",
+        "exit_zero_confused_with_validation"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The candidate repairs the demonstrated six-to-four compose width mismatch by allocating two ancillas explicitly, but exports no compose_with_auto_ancillas method on ordinary QuantumCircuit instances. Automatic ancilla handling is requested, while that exact method name, monkeypatch location and return contract occur only in the evaluator.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "not_followed",
+      "final_failure_category": "incomplete_or_unchanged_repair",
+      "final_failure_explanation": "The diagnosis correctly identifies the missing helper but directs the coder to inspect withheld validator source, contrary to the workspace rules. The attempted validator listing is blocked; the coder then only verifies the script exits 0 and explicitly submits without edits. The method remains absent.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_453/agent_input.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_453/original.py",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_453/orchestrator/step0.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_453/phase0/patched.py",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_453/phase0/validation.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_453/orchestrator/step1.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_453/phase1/patched.py",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_453/phase1/validation.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_453/validator/test.py",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_453/phase1/traj.json"
+      ],
+      "evidence_excerpt": "\"AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'\". Policy: \"withheld tests, reference solutions, or prior runs are prohibited\". Coder: \"I'm not making any edits.\"",
+      "coding_trace_inspected": true
+    },
+    {
+      "case": "issue_622",
+      "model": "gpt-6-astra",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "numeric_backend_metadata",
+        "capacity_bug_already_repaired"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "BasicSimulator executes the two-qubit program, but its configuration reports n_qubits=None. The evaluator directly compares that metadata with 2 and raises TypeError; this is not evidence of inadequate simulation capacity.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after switching to a genuine noiseless simulator with numeric capacity metadata while preserving the Bell circuit and 1024 shots. The feedback correctly distinguishes the newly exposed evaluator requirement from the original width bug.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_622/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_622/original.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_622/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_622/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_622/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_622/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_622/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_622/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_622/validator/test.py"
+      ],
+      "evidence_excerpt": "\"TypeError: '>=' not supported between instances of 'NoneType' and 'int'\"",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_622",
+      "model": "claude-opus-5-5",
+      "initial_failure_category": "backend_execution_or_configuration",
+      "secondary_failure_tags": [
+        "ideal_vs_noisy_backend",
+        "capacity_bug_already_repaired"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The chosen multi-qubit fake backend fixes the original capacity error, but yields noisy Bell counts containing 01 and 10. The evaluator requires exclusively ideal 00/11 outcomes. Noiseless execution is not specified by the capacity-error question, whose original example also uses a fake device.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after switching to a genuine noiseless simulator with numeric capacity metadata while preserving the Bell circuit and 1024 shots. The feedback correctly distinguishes the newly exposed evaluator requirement from the original width bug.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_622/agent_input.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_622/original.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_622/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_622/phase0/patched.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_622/phase0/validation.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_622/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_622/phase1/patched.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_622/phase1/validation.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_622/validator/test.py"
+      ],
+      "evidence_excerpt": "\"self.assertEqual(set(counts), {\"00\", \"11\"})\"; extra keys \"01\", \"10\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_622",
+      "model": "claude-sonnet-5-5",
+      "initial_failure_category": "backend_execution_or_configuration",
+      "secondary_failure_tags": [
+        "ideal_vs_noisy_backend",
+        "capacity_bug_already_repaired"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The chosen multi-qubit fake backend fixes the original capacity error, but yields noisy Bell counts containing 01 and 10. The evaluator requires exclusively ideal 00/11 outcomes. Noiseless execution is not specified by the capacity-error question, whose original example also uses a fake device.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after switching to a genuine noiseless simulator with numeric capacity metadata while preserving the Bell circuit and 1024 shots. The feedback correctly distinguishes the newly exposed evaluator requirement from the original width bug.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_622/agent_input.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_622/original.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_622/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_622/phase0/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_622/phase0/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_622/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_622/phase1/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_622/phase1/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_622/validator/test.py"
+      ],
+      "evidence_excerpt": "\"self.assertEqual(set(counts), {\"00\", \"11\"})\"; extra keys \"01\", \"10\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_747",
+      "model": "gpt-6-luna",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "extra_classical_register",
+        "count_key_format"
+      ],
+      "requirement_support": "implied_by_task",
+      "initial_failure_explanation": "measure_all() adds a new three-bit classical register to a circuit already containing three classical bits. The GHZ outcomes are present, but formatted as 000 000 and 111 000 rather than the evaluator's three-bit keys. The failure concerns classical output representation, not GHZ preparation.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after measuring qubits into the existing three classical bits, exactly as the feedback requests.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_747/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_747/original.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_747/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_747/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_747/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_747/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_747/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_747/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_747/validator/test.py"
+      ],
+      "evidence_excerpt": "Observed extra keys: \"000 000\", \"111 000\"; expected \"000\", \"111\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_769",
+      "model": "gpt-6-astra",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_function",
+        "invalid_dimension_return_contract"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The evaluator looks up the unadvertised module function get_qiskit_gate, while the candidate provides identify_gate. It fails before recognition assertions run. The original question requests identifying a gate, but supplies no function signature.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "followed",
+      "final_failure_category": "output_or_interface_contract",
+      "final_failure_explanation": "The minimal rename is applied as instructed and known-gate checks pass, but the unchanged UnitaryGate constructor rejects the evaluator's 3x3 identity before the function can return None. The remaining invalid-dimension return behavior was not in the question; the feedback did not address it.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_769/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_769/original.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_769/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_769/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_769/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_769/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_769/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_769/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_769/validator/test.py"
+      ],
+      "evidence_excerpt": "\"KeyError: 'get_qiskit_gate'\". Final: \"ValueError: Input matrix is not an N-qubit operator.\"",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_769",
+      "model": "gpt-6-luna",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_function",
+        "gate_name_format",
+        "one_qubit_catalog"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The evaluator looks up the unadvertised module function get_qiskit_gate, while the candidate provides a script-level loop. It fails before recognition assertions run. The original question requests identifying a gate, but supplies no function signature.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "followed",
+      "final_failure_category": "output_or_interface_contract",
+      "final_failure_explanation": "The function is added as instructed, but the orchestrator preserves short names (X) rather than the class-name format (XGate) shown in the original source comment and demanded by the test. The final observed failure is X != XGate, not evidence that the X matrix was misidentified; two-qubit coverage also remains absent.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_769/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_769/original.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_769/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_769/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_769/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_769/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_769/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_769/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_769/validator/test.py"
+      ],
+      "evidence_excerpt": "\"KeyError: 'get_qiskit_gate'\". Final: \"AssertionError: 'X' != 'XGate'\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_769",
+      "model": "gpt-6.1-sol",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_function"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The evaluator looks up the unadvertised module function get_qiskit_gate, while the candidate provides standard_gate_name. It fails before recognition assertions run. The original question requests identifying a gate, but supplies no function signature.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after exposing get_qiskit_gate and satisfying the unknown-input return contract; the feedback is consistent with the resulting implementation.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_769/agent_input.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_769/original.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_769/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_769/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_769/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_769/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_769/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_769/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_769/validator/test.py"
+      ],
+      "evidence_excerpt": "\"KeyError: 'get_qiskit_gate'\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_769",
+      "model": "claude-opus-5-5",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_function"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The evaluator looks up the unadvertised module function get_qiskit_gate, while the candidate provides get_gate_name. It fails before recognition assertions run. The original question requests identifying a gate, but supplies no function signature.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after exposing get_qiskit_gate and satisfying the unknown-input return contract; the feedback is consistent with the resulting implementation.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_769/agent_input.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_769/original.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_769/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_769/phase0/patched.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_769/phase0/validation.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_769/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_769/phase1/patched.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_769/phase1/validation.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_769/validator/test.py"
+      ],
+      "evidence_excerpt": "\"KeyError: 'get_qiskit_gate'\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_769",
+      "model": "claude-sonnet-5-5",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_function"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The evaluator looks up the unadvertised module function get_qiskit_gate, while the candidate provides identify_gate. It fails before recognition assertions run. The original question requests identifying a gate, but supplies no function signature.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after exposing get_qiskit_gate and satisfying the unknown-input return contract; the feedback is consistent with the resulting implementation.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_769/agent_input.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_769/original.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_769/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_769/phase0/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_769/phase0/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_769/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_769/phase1/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_769/phase1/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_769/validator/test.py"
+      ],
+      "evidence_excerpt": "\"KeyError: 'get_qiskit_gate'\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_769",
+      "model": "claude-haiku-5-5",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_function",
+        "incomplete_gate_catalog",
+        "initial_recognition_logic_missing"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The evaluator looks up the unadvertised module function get_qiskit_gate, while the candidate provides only UnitaryGate.name. It fails before recognition assertions run. The original question requests identifying a gate, but supplies no function signature.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "followed",
+      "final_failure_category": "quantum_or_algorithm_semantics",
+      "final_failure_explanation": "The coder follows the feedback by adding its specified one-qubit fixed-gate catalog. The evaluator then reaches CX and gets None because two-qubit gates were omitted from the plan and implementation. This is incomplete standard-gate recognition, not ignored feedback.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_769/agent_input.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_769/original.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_769/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_769/phase0/patched.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_769/phase0/validation.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_769/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_769/phase1/patched.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_769/phase1/validation.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_769/validator/test.py"
+      ],
+      "evidence_excerpt": "\"KeyError: 'get_qiskit_gate'\". Final: \"AssertionError: unexpectedly None : CXGate\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_775",
+      "model": "gpt-6-astra",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_variable"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The candidate correctly parses QASM but stores its circuit in circuit; the evaluator looks up qc, a variable name absent from the supplied buggy program and question. The initial error occurs before operator assertions.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after exposing qc with the original parsed gates. Only the variable binding and its use needed changing.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/original.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/validator/test.py"
+      ],
+      "evidence_excerpt": "\"KeyError: 'qc'\"; evaluator: \"circuit = ns[\"qc\"]\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_775",
+      "model": "gpt-6-luna",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_variable"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The candidate correctly parses QASM but stores its circuit in circuit; the evaluator looks up qc, a variable name absent from the supplied buggy program and question. The initial error occurs before operator assertions.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after exposing qc with the original parsed gates. Only the variable binding and its use needed changing.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_775/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_775/original.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_775/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_775/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_775/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_775/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_775/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_775/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_775/validator/test.py"
+      ],
+      "evidence_excerpt": "\"KeyError: 'qc'\"; evaluator: \"circuit = ns[\"qc\"]\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_775",
+      "model": "gpt-6.1-sol",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_variable",
+        "unrequested_measurements"
+      ],
+      "requirement_support": "test_only_contract",
+      "initial_failure_explanation": "The candidate correctly parses QASM but stores its circuit in circuit; the evaluator looks up qc, a variable name absent from the supplied buggy program and question. The initial error occurs before operator assertions. It also adds measurements and count printing beyond the unmeasured input circuit, a separate scope expansion not yet reached by the failing assertion.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after exposing qc with the original parsed gates. The feedback also correctly removes the unnecessary measurements/count output to preserve the original QASM computation.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_775/agent_input.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_775/original.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_775/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_775/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_775/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_775/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_775/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_775/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_775/validator/test.py"
+      ],
+      "evidence_excerpt": "\"KeyError: 'qc'\"; evaluator: \"circuit = ns[\"qc\"]\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_810",
+      "model": "gpt-6-astra",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_variable",
+        "shot_count_specification_conflict",
+        "raw_memory_vs_histogram"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate returns real per-shot memory in a, but the evaluator reads m.get(\"counts_dict\"), a name not supplied in the question. All runs therefore fail on None before statistical checks. The evaluator additionally demands 100 shots despite the question and original snippet using 1024. Per-shot data is a plausible reading of the GUI coin-flip request; this rejection does not establish a quantum computation error.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "followed",
+      "final_failure_category": "output_or_interface_contract",
+      "final_failure_explanation": "The feedback guesses counts (or a) as the missing binding, and the coder exposes those names. counts_dict remains absent, so the same assertion fails; the unseen 100-shot requirement would remain inconsistent with the retained 1024-shot source. The final result is unresolved evaluator-interface adaptation, not fabricated or mathematically wrong counts.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_810/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_810/original.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_810/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_810/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_810/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_810/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_810/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_810/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_810/validator/test.py"
+      ],
+      "evidence_excerpt": "Question: \"shots=1024\". Test: \"counts = m.get(\"counts_dict\")\" and \"self.assertEqual(sum(counts.values()), 100)\". Failure: \"None is not an instance of <class 'dict'>\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_810",
+      "model": "gpt-6-luna",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_variable",
+        "shot_count_specification_conflict",
+        "raw_memory_vs_histogram"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate returns real printed per-shot memory, but the evaluator reads m.get(\"counts_dict\"), a name not supplied in the question. All runs therefore fail on None before statistical checks. The evaluator additionally demands 100 shots despite the question and original snippet using 1024. Per-shot data is a plausible reading of the GUI coin-flip request; this rejection does not establish a quantum computation error.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "followed",
+      "final_failure_category": "output_or_interface_contract",
+      "final_failure_explanation": "The feedback guesses counts (or a) as the missing binding, and the coder exposes those names. counts_dict remains absent, so the same assertion fails; the unseen 100-shot requirement would remain inconsistent with the retained 1024-shot source. The final result is unresolved evaluator-interface adaptation, not fabricated or mathematically wrong counts.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_810/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_810/original.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_810/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_810/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_810/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_810/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_810/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_810/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_810/validator/test.py"
+      ],
+      "evidence_excerpt": "Question: \"shots=1024\". Test: \"counts = m.get(\"counts_dict\")\" and \"self.assertEqual(sum(counts.values()), 100)\". Failure: \"None is not an instance of <class 'dict'>\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_810",
+      "model": "gpt-6.1-sol",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_variable",
+        "shot_count_specification_conflict",
+        "raw_memory_vs_histogram"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate returns real counts in a, but the evaluator reads m.get(\"counts_dict\"), a name not supplied in the question. All runs therefore fail on None before statistical checks. The evaluator additionally demands 100 shots despite the question and original snippet using 1024. Per-shot data is a plausible reading of the GUI coin-flip request; this rejection does not establish a quantum computation error.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "followed",
+      "final_failure_category": "output_or_interface_contract",
+      "final_failure_explanation": "The feedback guesses counts (or a) as the missing binding, and the coder exposes those names. counts_dict remains absent, so the same assertion fails; the unseen 100-shot requirement would remain inconsistent with the retained 1024-shot source. The final result is unresolved evaluator-interface adaptation, not fabricated or mathematically wrong counts.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_810/agent_input.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_810/original.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_810/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_810/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_810/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_810/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_810/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_810/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_810/validator/test.py"
+      ],
+      "evidence_excerpt": "Question: \"shots=1024\". Test: \"counts = m.get(\"counts_dict\")\" and \"self.assertEqual(sum(counts.values()), 100)\". Failure: \"None is not an instance of <class 'dict'>\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_810",
+      "model": "claude-opus-5-5",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_variable",
+        "shot_count_specification_conflict",
+        "raw_memory_vs_histogram"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate returns real both counts and per-shot memory, but the evaluator reads m.get(\"counts_dict\"), a name not supplied in the question. All runs therefore fail on None before statistical checks. The evaluator additionally demands 100 shots despite the question and original snippet using 1024. Per-shot data is a plausible reading of the GUI coin-flip request; this rejection does not establish a quantum computation error.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "followed",
+      "final_failure_category": "output_or_interface_contract",
+      "final_failure_explanation": "The feedback guesses counts (or a) as the missing binding, and the coder exposes those names. counts_dict remains absent, so the same assertion fails; the unseen 100-shot requirement would remain inconsistent with the retained 1024-shot source. The final result is unresolved evaluator-interface adaptation, not fabricated or mathematically wrong counts. The orchestrator additionally speculates that multiple stdout lines cause the failure; the actual test reads a module binding, so that speculation is not supported.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_810/agent_input.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_810/original.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_810/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_810/phase0/patched.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_810/phase0/validation.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_810/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_810/phase1/patched.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_810/phase1/validation.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_810/validator/test.py"
+      ],
+      "evidence_excerpt": "Question: \"shots=1024\". Test: \"counts = m.get(\"counts_dict\")\" and \"self.assertEqual(sum(counts.values()), 100)\". Failure: \"None is not an instance of <class 'dict'>\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_810",
+      "model": "claude-sonnet-5-5",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_variable",
+        "shot_count_specification_conflict",
+        "raw_memory_vs_histogram",
+        "attempted_edit_not_applied"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate returns real both counts and per-shot memory, but the evaluator reads m.get(\"counts_dict\"), a name not supplied in the question. All runs therefore fail on None before statistical checks. The evaluator additionally demands 100 shots despite the question and original snippet using 1024. Per-shot data is a plausible reading of the GUI coin-flip request; this rejection does not establish a quantum computation error.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "partly_followed",
+      "final_failure_category": "output_or_interface_contract",
+      "final_failure_explanation": "The coder tries a sed substitution to add a and a counts alias, but the submitted file is unchanged; its verification output does not establish the alias exists. This is attempted but ineffective editing, not evidence of intentional refusal. Even the proposed aliases would not satisfy the actual counts_dict lookup or conflicting 100-shot requirement.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/agent_input.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/original.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/phase0/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/phase0/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/phase1/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/phase1/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/validator/test.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/phase1/traj.json"
+      ],
+      "evidence_excerpt": "Question: \"shots=1024\". Test: \"counts = m.get(\"counts_dict\")\" and \"self.assertEqual(sum(counts.values()), 100)\". Failure: \"None is not an instance of <class 'dict'>\". Trajectory attempts \"sed -i\" to introduce \"a = dict(result.get_counts(circuit))\"; phase1 source contains no a assignment.",
+      "coding_trace_inspected": true
+    },
+    {
+      "case": "issue_810",
+      "model": "claude-haiku-5-5",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "test_named_variable",
+        "shot_count_specification_conflict",
+        "raw_memory_vs_histogram"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate returns real counts in a, but the evaluator reads m.get(\"counts_dict\"), a name not supplied in the question. All runs therefore fail on None before statistical checks. The evaluator additionally demands 100 shots despite the question and original snippet using 1024. Per-shot data is a plausible reading of the GUI coin-flip request; this rejection does not establish a quantum computation error.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "followed",
+      "final_failure_category": "output_or_interface_contract",
+      "final_failure_explanation": "The feedback guesses counts (or a) as the missing binding, and the coder exposes those names. counts_dict remains absent, so the same assertion fails; the unseen 100-shot requirement would remain inconsistent with the retained 1024-shot source. The final result is unresolved evaluator-interface adaptation, not fabricated or mathematically wrong counts.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_810/agent_input.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_810/original.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_810/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_810/phase0/patched.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_810/phase0/validation.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_810/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_810/phase1/patched.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_810/phase1/validation.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_810/validator/test.py"
+      ],
+      "evidence_excerpt": "Question: \"shots=1024\". Test: \"counts = m.get(\"counts_dict\")\" and \"self.assertEqual(sum(counts.values()), 100)\". Failure: \"None is not an instance of <class 'dict'>\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_889",
+      "model": "gpt-6-astra",
+      "initial_failure_category": "quantum_or_algorithm_semantics",
+      "secondary_failure_tags": [
+        "question_reconstruction_conflict",
+        "approximate_vs_exact_evolution"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate retains the reconstructed Z + XX Hamiltonian, but PauliEvolutionGate uses an approximate product formula; Operator(circ) differs from the evaluator's exact exp(-iH) by up to 0.99011644. This is an observed numerical semantic mismatch. The original question asks for a ladder-operator tight-binding model without first constructing a matrix; the test instead freezes the reconstructed approximation and a strict exact-exponential target.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after the feedback-directed exact evolution synthesis of the evaluator's reconstructed Z + XX Hamiltonian. This establishes agreement with that evaluator, not correctness of the original tight-binding derivation or a fully matrix-free method.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_889/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_889/original.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_889/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_889/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_889/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_889/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_889/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_889/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_889/validator/test.py"
+      ],
+      "evidence_excerpt": "Validator: \"Independent dense oracle for the RECONSTRUCTED Z + XX model.\" Initial evolution: \"Max absolute difference among violations: 0.99011644\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_889",
+      "model": "gpt-6-luna",
+      "initial_failure_category": "quantum_or_algorithm_semantics",
+      "secondary_failure_tags": [
+        "question_reconstruction_conflict",
+        "Hamiltonian_target_mismatch"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate changes the reconstructed Z + XX Hamiltonian to onsite/ladder-operator hopping terms inspired by the original question. The evaluator explicitly compares H against the RECONSTRUCTED Z + XX model, so it rejects H before evolution is checked. The original question and the reconstructed buggy approximation specify different mathematical targets.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after replacing the question-derived terms with Z + XX and using HamiltonianGate for exact evolution. The feedback correctly interprets the displayed evaluator matrix, but this recovery adopts the reconstructed test target; it does not resolve the original question's differing Hamiltonian.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_889/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_889/original.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_889/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_889/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_889/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_889/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_889/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_889/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_889/validator/test.py"
+      ],
+      "evidence_excerpt": "Validator: \"Independent dense oracle for the RECONSTRUCTED Z + XX model.\" Initial H comparison fails.",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_889",
+      "model": "gpt-6.1-sol",
+      "initial_failure_category": "quantum_or_algorithm_semantics",
+      "secondary_failure_tags": [
+        "question_reconstruction_conflict",
+        "approximate_vs_exact_evolution"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate retains the reconstructed Z + XX Hamiltonian, but PauliEvolutionGate uses an approximate product formula; Operator(circ) differs from the evaluator's exact exp(-iH) by up to 0.99011644. This is an observed numerical semantic mismatch. The original question asks for a ladder-operator tight-binding model without first constructing a matrix; the test instead freezes the reconstructed approximation and a strict exact-exponential target.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after the feedback-directed exact evolution synthesis of the evaluator's reconstructed Z + XX Hamiltonian. This establishes agreement with that evaluator, not correctness of the original tight-binding derivation or a fully matrix-free method.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_889/agent_input.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_889/original.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_889/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_889/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_889/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_889/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_889/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_889/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_889/validator/test.py"
+      ],
+      "evidence_excerpt": "Validator: \"Independent dense oracle for the RECONSTRUCTED Z + XX model.\" Initial evolution: \"Max absolute difference among violations: 0.99011644\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_889",
+      "model": "claude-opus-5-5",
+      "initial_failure_category": "quantum_or_algorithm_semantics",
+      "secondary_failure_tags": [
+        "question_reconstruction_conflict",
+        "approximate_vs_exact_evolution"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate retains the reconstructed Z + XX Hamiltonian, but PauliEvolutionGate uses an approximate product formula; Operator(circ) differs from the evaluator's exact exp(-iH) by up to 0.99011644. This is an observed numerical semantic mismatch. The original question asks for a ladder-operator tight-binding model without first constructing a matrix; the test instead freezes the reconstructed approximation and a strict exact-exponential target.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after the feedback-directed exact evolution synthesis of the evaluator's reconstructed Z + XX Hamiltonian. This establishes agreement with that evaluator, not correctness of the original tight-binding derivation or a fully matrix-free method.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_889/agent_input.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_889/original.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_889/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_889/phase0/patched.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_889/phase0/validation.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_889/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_889/phase1/patched.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_889/phase1/validation.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_889/validator/test.py"
+      ],
+      "evidence_excerpt": "Validator: \"Independent dense oracle for the RECONSTRUCTED Z + XX model.\" Initial evolution: \"Max absolute difference among violations: 0.99011644\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_889",
+      "model": "claude-sonnet-5-5",
+      "initial_failure_category": "quantum_or_algorithm_semantics",
+      "secondary_failure_tags": [
+        "question_reconstruction_conflict",
+        "approximate_vs_exact_evolution",
+        "feedback_changes_previously_accepted_H"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate retains the reconstructed Z + XX Hamiltonian, but PauliEvolutionGate uses an approximate product formula; Operator(circ) differs from the evaluator's exact exp(-iH) by up to 0.99011644. This is an observed numerical semantic mismatch. The original question asks for a ladder-operator tight-binding model without first constructing a matrix; the test instead freezes the reconstructed approximation and a strict exact-exponential target.",
+      "orchestrator_assessment": "incorrect_or_misleading",
+      "feedback_following": "followed",
+      "final_failure_category": "quantum_or_algorithm_semantics",
+      "final_failure_explanation": "The feedback correctly requests exact evolution but also directs replacement of H with ladder-operator terms although phase0 already passed the H assertion. The coder follows both instructions. The final test now fails on H itself (17/64 entries), before evolution; the plan conflates the original question with the different reconstructed evaluator target.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/agent_input.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/original.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/phase0/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/phase0/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/phase1/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/phase1/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/validator/test.py"
+      ],
+      "evidence_excerpt": "Validator: \"Independent dense oracle for the RECONSTRUCTED Z + XX model.\" Initial evolution: \"Max absolute difference among violations: 0.99011644\". Final: \"Mismatched elements: 17 / 64\" in H comparison.",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_889",
+      "model": "claude-haiku-5-5",
+      "initial_failure_category": "quantum_or_algorithm_semantics",
+      "secondary_failure_tags": [
+        "question_reconstruction_conflict",
+        "Hamiltonian_target_mismatch",
+        "warning_instead_of_assertion",
+        "requested_math_repair_not_applied"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate changes the reconstructed Z + XX Hamiltonian to onsite/ladder-operator hopping terms inspired by the original question. The evaluator explicitly compares H against the RECONSTRUCTED Z + XX model, so it rejects H before evolution is checked. The original question and the reconstructed buggy approximation specify different mathematical targets.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "not_followed",
+      "final_failure_category": "quantum_or_algorithm_semantics",
+      "final_failure_explanation": "The feedback requests derivation/reconciliation of H and exact synthesis but does not resolve the incompatible question/test targets. The coder instead treats a deprecation warning as the only problem and migrates PauliSumOp to SparsePauliOp, leaving the terms and SuzukiTrotter approximation unchanged. The same H mismatch remains. The dialogue supports non-application of the requested mathematical investigation, while the target ambiguity still limits attribution.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_889/agent_input.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_889/original.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_889/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_889/phase0/patched.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_889/phase0/validation.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_889/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_889/phase1/patched.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_889/phase1/validation.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_889/validator/test.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_889/phase1/traj.json"
+      ],
+      "evidence_excerpt": "Validator: \"Independent dense oracle for the RECONSTRUCTED Z + XX model.\" Initial H comparison fails. Coder: \"The only problem is the qiskit.opflow DeprecationWarning\"; \"The Pauli terms and coefficients stay the same.\"",
+      "coding_trace_inspected": true
+    },
+    {
+      "case": "issue_950",
+      "model": "gpt-6-astra",
+      "initial_failure_category": "quantum_or_algorithm_semantics",
+      "secondary_failure_tags": [
+        "addition_vs_embedding"
+      ],
+      "requirement_support": "explicit_in_question",
+      "initial_failure_explanation": "The candidate corrects the operator dimension but retains identity plus the embedded Z string, yielding diagonal values 0 and 2. The question asks for a Z string on qubits i+1 through j-1, whose eigenvalues are -1 and +1. Support is already correctly on qubits 3..7; the original _add call was the mistaken construction.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after removing the extra additive identity and retaining the correct support on qubits 3..7.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_950/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_950/original.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_950/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_950/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_950/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_950/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_950/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_950/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_950/validator/test.py"
+      ],
+      "evidence_excerpt": "Actual diagonal: \"2.+0.j\" / \"0.+0.j\"; expected \"+1\" / \"-1\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_950",
+      "model": "gpt-6-luna",
+      "initial_failure_category": "quantum_or_algorithm_semantics",
+      "secondary_failure_tags": [
+        "addition_vs_embedding",
+        "static_assertion_message_misread"
+      ],
+      "requirement_support": "explicit_in_question",
+      "initial_failure_explanation": "The candidate corrects the operator dimension but retains identity plus the embedded Z string, yielding diagonal values 0 and 2. The question asks for a Z string on qubits i+1 through j-1, whose eigenvalues are -1 and +1. Support is already correctly on qubits 3..7; the original _add call was the mistaken construction.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after removing the extra additive identity and retaining the correct support on qubits 3..7. The orchestrator also incorrectly treated the assertion's static \"not on qubits 2..6\" message as evidence of an actual indexing offset. The code already used 3..7; the successful patch changes only the addition.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/original.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/validator/test.py"
+      ],
+      "evidence_excerpt": "Actual diagonal: \"2.+0.j\" / \"0.+0.j\"; expected \"+1\" / \"-1\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_950",
+      "model": "gpt-6.1-sol",
+      "initial_failure_category": "quantum_or_algorithm_semantics",
+      "secondary_failure_tags": [
+        "addition_vs_embedding"
+      ],
+      "requirement_support": "explicit_in_question",
+      "initial_failure_explanation": "The candidate corrects the operator dimension but retains identity plus the embedded Z string, yielding diagonal values 0 and 2. The question asks for a Z string on qubits i+1 through j-1, whose eigenvalues are -1 and +1. Support is already correctly on qubits 3..7; the original _add call was the mistaken construction.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after removing the extra additive identity and retaining the correct support on qubits 3..7.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_950/agent_input.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_950/original.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_950/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_950/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_950/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_950/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_950/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_950/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_950/validator/test.py"
+      ],
+      "evidence_excerpt": "Actual diagonal: \"2.+0.j\" / \"0.+0.j\"; expected \"+1\" / \"-1\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_950",
+      "model": "claude-opus-5-5",
+      "initial_failure_category": "quantum_or_algorithm_semantics",
+      "secondary_failure_tags": [
+        "addition_vs_embedding"
+      ],
+      "requirement_support": "explicit_in_question",
+      "initial_failure_explanation": "The candidate corrects the operator dimension but retains identity plus the embedded Z string, yielding diagonal values 0 and 2. The question asks for a Z string on qubits i+1 through j-1, whose eigenvalues are -1 and +1. Support is already correctly on qubits 3..7; the original _add call was the mistaken construction.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after removing the extra additive identity and retaining the correct support on qubits 3..7.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_950/agent_input.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_950/original.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_950/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_950/phase0/patched.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_950/phase0/validation.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_950/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_950/phase1/patched.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_950/phase1/validation.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_950/validator/test.py"
+      ],
+      "evidence_excerpt": "Actual diagonal: \"2.+0.j\" / \"0.+0.j\"; expected \"+1\" / \"-1\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_950",
+      "model": "claude-sonnet-5-5",
+      "initial_failure_category": "quantum_or_algorithm_semantics",
+      "secondary_failure_tags": [
+        "addition_vs_embedding"
+      ],
+      "requirement_support": "explicit_in_question",
+      "initial_failure_explanation": "The candidate corrects the operator dimension but retains identity plus the embedded Z string, yielding diagonal values 0 and 2. The question asks for a Z string on qubits i+1 through j-1, whose eigenvalues are -1 and +1. Support is already correctly on qubits 3..7; the original _add call was the mistaken construction.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after removing the extra additive identity and retaining the correct support on qubits 3..7.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_950/agent_input.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_950/original.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_950/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_950/phase0/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_950/phase0/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_950/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_950/phase1/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_950/phase1/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_950/validator/test.py"
+      ],
+      "evidence_excerpt": "Actual diagonal: \"2.+0.j\" / \"0.+0.j\"; expected \"+1\" / \"-1\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_950",
+      "model": "claude-haiku-5-5",
+      "initial_failure_category": "quantum_or_algorithm_semantics",
+      "secondary_failure_tags": [
+        "addition_vs_embedding"
+      ],
+      "requirement_support": "explicit_in_question",
+      "initial_failure_explanation": "The candidate corrects the operator dimension but retains identity plus the embedded Z string, yielding diagonal values 0 and 2. The question asks for a Z string on qubits i+1 through j-1, whose eigenvalues are -1 and +1. Support is already correctly on qubits 3..7; the original _add call was the mistaken construction.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "not_followed",
+      "final_failure_category": "incomplete_or_unchanged_repair",
+      "final_failure_explanation": "The coder explicitly refuses to remove identity after checking that I+Z runs and reproduces its own formula, then submits unchanged. The evaluator still observes 0/2 instead of the requested Z operator. The refusal is documented in the trajectory.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_950/agent_input.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_950/original.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_950/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_950/phase0/patched.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_950/phase0/validation.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_950/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_950/phase1/patched.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_950/phase1/validation.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_950/validator/test.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_950/phase1/traj.json"
+      ],
+      "evidence_excerpt": "Actual diagonal: \"2.+0.j\" / \"0.+0.j\"; expected \"+1\" / \"-1\". Coder: \"I'm not applying the orchestrator's proposed change.\"",
+      "coding_trace_inspected": true
+    },
+    {
+      "case": "issue_985",
+      "model": "gpt-6-astra",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "global_phase",
+        "conceptual_example_not_standard_APR",
+        "question_evaluator_conflict"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate retains the U1 global phase through Qiskit circuit metadata, so its determinant is exp(0.5i), as required by exact U1 semantics. The evaluator instead demands determinant 1 and explicitly rejects equality to U1. Its docstring calls this a conceptual no-go example, not an exact-phase APR repair. This is a conflicting representation/target contract, not evidence that the candidate lost the requested phase.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after the feedback separates the rotation-only circuit (zero global phase) from a stored/reported scalar correction. The coder retains and checks the phase separately. The pass measures the evaluator's no-go demonstration, not an exact U1 matrix in the variable transpiled.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_985/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_985/original.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_985/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_985/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_985/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_985/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_985/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_985/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_985/validator/test.py"
+      ],
+      "evidence_excerpt": "Question: \"is not suitable, because it loses phase.\" Test docstring: \"NOT an exact-phase U1 repair or standard APR sample\"; assertion: \"np.linalg.det(actual), 1\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_985",
+      "model": "gpt-6-luna",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "global_phase",
+        "conceptual_example_not_standard_APR",
+        "question_evaluator_conflict",
+        "contradictory_feedback_representation"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate retains the U1 global phase through Qiskit circuit metadata, so its determinant is exp(0.5i), as required by exact U1 semantics. The evaluator instead demands determinant 1 and explicitly rejects equality to U1. Its docstring calls this a conceptual no-go example, not an exact-phase APR repair. This is a conflicting representation/target contract, not evidence that the candidate lost the requested phase.",
+      "orchestrator_assessment": "incorrect_or_misleading",
+      "feedback_following": "followed",
+      "final_failure_category": "output_or_interface_contract",
+      "final_failure_explanation": "The feedback simultaneously requests determinant-one rotations and putting the missing phase back into circuit global_phase without separating the tested output. The coder follows that instruction with Rz plus global_phase=lam/2, preserving exact U1 and repeating the determinant mismatch. The plan is internally incompatible with the evaluator target; this is not a failure to apply the requested patch.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_985/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_985/original.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_985/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_985/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_985/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_985/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_985/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_985/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_985/validator/test.py"
+      ],
+      "evidence_excerpt": "Question: \"is not suitable, because it loses phase.\" Test docstring: \"NOT an exact-phase U1 repair or standard APR sample\"; assertion: \"np.linalg.det(actual), 1\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_985",
+      "model": "gpt-6.1-sol",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "global_phase",
+        "conceptual_example_not_standard_APR",
+        "question_evaluator_conflict"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate retains the U1 global phase through Qiskit circuit metadata, so its determinant is exp(0.5i), as required by exact U1 semantics. The evaluator instead demands determinant 1 and explicitly rejects equality to U1. Its docstring calls this a conceptual no-go example, not an exact-phase APR repair. This is a conflicting representation/target contract, not evidence that the candidate lost the requested phase.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after the feedback separates the rotation-only circuit (zero global phase) from a stored/reported scalar correction. The coder retains and checks the phase separately. The pass measures the evaluator's no-go demonstration, not an exact U1 matrix in the variable transpiled.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_985/agent_input.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_985/original.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_985/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_985/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_985/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_985/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_985/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_985/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6.1-sol/tasks/issue_985/validator/test.py"
+      ],
+      "evidence_excerpt": "Question: \"is not suitable, because it loses phase.\" Test docstring: \"NOT an exact-phase U1 repair or standard APR sample\"; assertion: \"np.linalg.det(actual), 1\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_985",
+      "model": "claude-opus-5-5",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "global_phase",
+        "conceptual_example_not_standard_APR",
+        "question_evaluator_conflict"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate retains the U1 global phase through Qiskit circuit metadata, so its determinant is exp(0.5i), as required by exact U1 semantics. The evaluator instead demands determinant 1 and explicitly rejects equality to U1. Its docstring calls this a conceptual no-go example, not an exact-phase APR repair. This is a conflicting representation/target contract, not evidence that the candidate lost the requested phase.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "followed",
+      "final_failure_category": "none",
+      "final_failure_explanation": "Passed after the feedback separates the rotation-only circuit (zero global phase) from a stored/reported scalar correction. The coder retains and checks the phase separately. The pass measures the evaluator's no-go demonstration, not an exact U1 matrix in the variable transpiled.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_985/agent_input.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_985/original.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_985/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_985/phase0/patched.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_985/phase0/validation.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_985/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_985/phase1/patched.py",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_985/phase1/validation.json",
+        "Multi agent testing remaining P/claude-opus-5-5/tasks/issue_985/validator/test.py"
+      ],
+      "evidence_excerpt": "Question: \"is not suitable, because it loses phase.\" Test docstring: \"NOT an exact-phase U1 repair or standard APR sample\"; assertion: \"np.linalg.det(actual), 1\".",
+      "coding_trace_inspected": false
+    },
+    {
+      "case": "issue_985",
+      "model": "claude-sonnet-5-5",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "global_phase",
+        "conceptual_example_not_standard_APR",
+        "question_evaluator_conflict"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate retains the U1 global phase through Qiskit circuit metadata, so its determinant is exp(0.5i), as required by exact U1 semantics. The evaluator instead demands determinant 1 and explicitly rejects equality to U1. Its docstring calls this a conceptual no-go example, not an exact-phase APR repair. This is a conflicting representation/target contract, not evidence that the candidate lost the requested phase.",
+      "orchestrator_assessment": "correct_and_actionable",
+      "feedback_following": "not_followed",
+      "final_failure_category": "output_or_interface_contract",
+      "final_failure_explanation": "The feedback clearly requests separating out the scalar phase, but the coder only checks exact operator equality and submits unchanged. The determinant remains exp(0.5i). The trajectory shows no attempted edit; it does not state a reason for ignoring the requested representation split.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_985/agent_input.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_985/original.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_985/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_985/phase0/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_985/phase0/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_985/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_985/phase1/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_985/phase1/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_985/validator/test.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_985/phase1/traj.json"
+      ],
+      "evidence_excerpt": "Question: \"is not suitable, because it loses phase.\" Test docstring: \"NOT an exact-phase U1 repair or standard APR sample\"; assertion: \"np.linalg.det(actual), 1\".",
+      "coding_trace_inspected": true
+    },
+    {
+      "case": "issue_985",
+      "model": "claude-haiku-5-5",
+      "initial_failure_category": "output_or_interface_contract",
+      "secondary_failure_tags": [
+        "global_phase",
+        "conceptual_example_not_standard_APR",
+        "question_evaluator_conflict"
+      ],
+      "requirement_support": "ambiguous_or_conflicting",
+      "initial_failure_explanation": "The candidate retains the U1 global phase through Qiskit circuit metadata, so its determinant is exp(0.5i), as required by exact U1 semantics. The evaluator instead demands determinant 1 and explicitly rejects equality to U1. Its docstring calls this a conceptual no-go example, not an exact-phase APR repair. This is a conflicting representation/target contract, not evidence that the candidate lost the requested phase.",
+      "orchestrator_assessment": "partly_correct_or_underspecified",
+      "feedback_following": "not_followed",
+      "final_failure_category": "output_or_interface_contract",
+      "final_failure_explanation": "The feedback accurately identifies the no-go/evaluator target but asks to remove the phase and weaken exact-equality checks. The coder explicitly refuses because the question requires maintaining phase, verifies exact U1 equality, and submits unchanged. The evaluator still fails determinant 1. This is documented non-following with a defensible specification-conflict rationale, not automatically a mathematical weakness.",
+      "confidence": "high",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/agent_input.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/original.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/phase0/patched.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/phase0/validation.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/phase1/patched.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/phase1/validation.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/validator/test.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/phase1/traj.json"
+      ],
+      "evidence_excerpt": "Question: \"is not suitable, because it loses phase.\" Test docstring: \"NOT an exact-phase U1 repair or standard APR sample\"; assertion: \"np.linalg.det(actual), 1\". Coder: \"Its fix conflicts with the task.\"",
+      "coding_trace_inspected": true
+    }
+  ],
+  "notable_cases": [
+    {
+      "case": "issue_096",
+      "finding": "The question explicitly asks for two configuration files, but several initial plans scope the repair to the Qiskit-only reproduction. Missing IPython handling and the evaluator-only exact settings header are separate causes.",
+      "evidence_paths": [
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/agent_input.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/original.py",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/orchestrator/step0.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/phase0/patched.py",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/phase0/validation.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/orchestrator/step1.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/phase1/patched.py",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/phase1/validation.json",
+        "Multi agent tesiting/gpt-6-astra/tasks/issue_096/validator/test.py"
+      ]
+    },
+    {
+      "case": "issue_443",
+      "finding": "Initial plans correct misleading register names and change the reconstructed computation. Four repair agents restore the original aliasing; Haiku explicitly refuses.",
+      "evidence_paths": [
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/agent_input.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/original.py",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/orchestrator/step0.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/phase0/patched.py",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/phase0/validation.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/orchestrator/step1.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/phase1/patched.py",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/phase1/validation.json",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/validator/test.py",
+        "Multi agent tesiting/claude-haiku-5-5/tasks/issue_443/phase1/traj.json"
+      ]
+    },
+    {
+      "case": "issue_453",
+      "finding": "All six initial candidates repair the local width error yet fail an unadvertised QuantumCircuit extension API. Return-None, base-class attachment, and forbidden-test-access instructions distinguish the repair outcomes.",
+      "evidence_paths": [
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/agent_input.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/original.py",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/orchestrator/step0.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/phase0/patched.py",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/phase0/validation.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/orchestrator/step1.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/phase1/patched.py",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/phase1/validation.json",
+        "Multi agent tesiting/gpt-6.1-sol/tasks/issue_453/validator/test.py"
+      ]
+    },
+    {
+      "case": "issue_775",
+      "finding": "Astra and Luna recover by renaming an otherwise parsed circuit from circuit to qc. These are naming-contract recoveries rather than new quantum reasoning.",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/original.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-astra/tasks/issue_775/validator/test.py"
+      ]
+    },
+    {
+      "case": "issue_810",
+      "finding": "The evaluator requires counts_dict and 100 shots although the question provides neither name nor shot count (it uses 1024). All six final rejections occur before statistics. Sonnet tries an ineffective sed edit; unchanged source alone would misclassify its behavior.",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/agent_input.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/original.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/phase0/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/phase0/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/phase1/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/phase1/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/validator/test.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_810/phase1/traj.json"
+      ]
+    },
+    {
+      "case": "issue_889",
+      "finding": "The evaluator deliberately freezes a reconstructed Z + XX approximation, distinct from the original ladder-operator tight-binding question, and demands exact evolution. A recovery here cannot establish correctness of the original physical model.",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/agent_input.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/original.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/phase0/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/phase0/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/phase1/patched.py",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/phase1/validation.json",
+        "Multi agent testing remaining P/claude-sonnet-5-5/tasks/issue_889/validator/test.py"
+      ]
+    },
+    {
+      "case": "issue_950",
+      "finding": "The actual semantic error is I+Z versus Z, not qubit support. Luna feedback misreads a static assertion message as a measured off-by-one error; Haiku explicitly retains I+Z.",
+      "evidence_paths": [
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/agent_input.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/original.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/orchestrator/step0.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/phase0/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/phase0/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/orchestrator/step1.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/phase1/patched.py",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/phase1/validation.json",
+        "Multi agent testing remaining P/gpt-6-luna/tasks/issue_950/validator/test.py"
+      ]
+    },
+    {
+      "case": "issue_985",
+      "finding": "The test labels itself a conceptual no-go example, not an exact-phase APR repair, and requires the tested circuit to differ from U1. All initial candidates retain the requested phase; Haiku explicitly declines phase removal for that reason. Report these outcomes as specification-conflicted.",
+      "evidence_paths": [
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/agent_input.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/original.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/orchestrator/step0.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/phase0/patched.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/phase0/validation.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/orchestrator/step1.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/phase1/patched.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/phase1/validation.json",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/validator/test.py",
+        "Multi agent testing remaining P/claude-haiku-5-5/tasks/issue_985/phase1/traj.json"
+      ]
+    }
+  ]
+}

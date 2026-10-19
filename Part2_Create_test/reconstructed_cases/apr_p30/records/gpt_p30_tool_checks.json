@@ -1,0 +1,38 @@
+{
+  "recorded_at": "2026-10-08T14:14:55.447740+00:00",
+  "full_suite": {
+    "command": "python -B -X utf8 -m unittest discover -s tests -t . -q",
+    "passed": true,
+    "tests": 136,
+    "seconds": 91.494,
+    "environment": "Normal Windows user process via Codex sandbox escalation; real Git Bash tests, mocked APIs"
+  },
+  "subsequent_targeted_suites": [
+    {
+      "module": "tests.test_gpt_driver",
+      "passed": true,
+      "tests": 13,
+      "added_after_full_suite": 2
+    },
+    {
+      "module": "tests.test_audit_gpt_runs",
+      "passed": true,
+      "tests": 13,
+      "added_after_full_suite": 3
+    }
+  ],
+  "current_total_tests": 141,
+  "live_api_in_tool_tests": false,
+  "test_source_sha256": {
+    "test_adapter.py": "5dd9cc1e972e35dfaa0f15a489ebbc4c09b5663a284b9a5a7ac0c98bef9348b2",
+    "test_audit_claude_runs.py": "c0a23ceaa44c8b436b4159a1ef8db746f197424485692590971ba94bd80c37d9",
+    "test_audit_gpt_runs.py": "b122ddd0e8e7123f368465ca4ff49f206370ab57a7e2504c3d8c89ec0f9c910c",
+    "test_candidate_snapshot.py": "5a3aff0d50704a7ac80b0ffbe43cc2c9c8d2ba09cb59126c938f5def282fccad",
+    "test_claude_driver.py": "fee47c760fa9ff11262693c5075ef6d0feef9072f84d5e87a496b4792352663a",
+    "test_claude_environment.py": "c89e67be007f269e3d36d8a92862552359ba74892d9bc25fa23eee5a37f8423c",
+    "test_claude_model.py": "d4b1b8bad9faa475906e9645217c47fcc6e2291b0312ab9d843e36226897f50e",
+    "test_gpt_driver.py": "ee0a17520115bbdb9f47ad02e39361f1121be857afa37abaa3a6b571531c8cbd",
+    "test_openai_api_broker.py": "3ec9e20e5c1fbe6343e984c56c9790dcc20ca264577d8fbfd516591b9dada7c7",
+    "test_openai_model.py": "f0eb7293ab9c2f927aa6cfdbf37ebf78c0911e129b1b21ed9c0de15fa033b663"
+  }
+}

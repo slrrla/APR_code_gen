@@ -1,0 +1,84 @@
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_3\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+<class 'qiskit.circuit.library.standard_gates.iswap.iSwapGate'>
+    def _convert_to_block(self, layer: Union[str, type, Gate, QuantumCircuit]) -> QuantumCircuit:
+        """For a layer provided as str (e.g. 'ry') or type (e.g. RYGate) this function returns the
+        according layer type along with the number of parameters (e.g. (RYGate, 1)).
+
+        Args:
+            layer: The qubit layer.
+
+        Returns:
+            The specified layer with the required number of parameters.
+
+        Raises:
+            TypeError: The type of `layer` is invalid.
+            ValueError: The type of `layer` is str but the name is unknown.
+            ValueError: The type of `layer` is type but the layer type is unknown.
+
+        Note:
+            Outlook: If layers knew their number of parameters as static property, we could also
+            allow custom layer types.
+        """
+        if isinstance(layer, QuantumCircuit):
+            return layer
+
+        # check the list of valid layers
+        # this could be a lot easier if the standard layers would have `name` and `num_params`
+        # as static types, which might be something they should have anyways
+        theta = Parameter('θ')
+        valid_layers = {
+            'ch': CHGate(),
+            'cx': CXGate(),
+            'cy': CYGate(),
+            'cz': CZGate(),
+            'crx': CRXGate(theta),
+            'cry': CRYGate(theta),
+            'crz': CRZGate(theta),
+            'h': HGate(),
+            'i': IGate(),
+            'id': IGate(),
+            'iden': IGate(),
+            'rx': RXGate(theta),
+            'rxx': RXXGate(theta),
+            'ry': RYGate(theta),
+            'ryy': RYYGate(theta),
+            'rz': RZGate(theta),
+            'rzx': RZXGate(theta),
+            'rzz': RZZGate(theta),
+            's': SGate(),
+            'sdg': SdgGate(),
+            'swap': SwapGate(),
+            'x': XGate(),
+            'y': YGate(),
+            'z': ZGate(),
+            't': TGate(),
+            'tdg': TdgGate(),
+        }
+
+        # try to exchange `layer` from a string to a gate instance
+        if isinstance(layer, str):
+            try:
+                layer = valid_layers[layer]
+            except KeyError as ex:
+                raise ValueError(f'Unknown layer name `{layer}`.') from ex
+
+        # try to exchange `layer` from a type to a gate instance
+        if isinstance(layer, type):
+            # iterate over the layer types and look for the specified layer
+            instance = None
+            for gate in valid_layers.values():
+                if isinstance(gate, layer):
+                    instance = gate
+            if instance is None:
+                raise ValueError('Unknown layer type`{}`.'.format(layer))
+            layer = instance
+
+        if isinstance(layer, Instruction):
+            circuit = QuantumCircuit(layer.num_qubits)
+            circuit.append(layer, list(range(layer.num_qubits)))
+            return circuit
+
+        raise TypeError('Invalid input type {}. '.format(type(layer))
+                        + '`layer` must be a type, str or QuantumCircuit.')
+

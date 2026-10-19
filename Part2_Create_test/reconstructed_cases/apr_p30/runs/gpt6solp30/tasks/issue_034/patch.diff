@@ -1,0 +1,22 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -1,9 +1,10 @@
+-from qiskit import Aer, ClassicalRegister, QuantumCircuit, QuantumRegister
+-
+-qr = QuantumRegister(1)
+-cr = ClassicalRegister(1)
+-qc = QuantumCircuit(qr, cr)
+-qc.h(qr[0])
+-qc.measure(qr, cr)
+-
+-backend = Aer.get_backend('qasm_simulator')
++from qiskit import ClassicalRegister, QuantumCircuit, QuantumRegister
++from qiskit_aer import Aer
++
++qr = QuantumRegister(1)
++cr = ClassicalRegister(1)
++qc = QuantumCircuit(qr, cr)
++qc.h(qr[0])
++qc.measure(qr, cr)
++
++backend = Aer.get_backend('qasm_simulator')

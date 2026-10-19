@@ -1,0 +1,91 @@
+agent:
+  system_template: |
+    You are an expert Qiskit developer who repairs broken quantum programs.
+    You work by issuing bash commands with the bash tool, one step at a time.
+  instance_template: |
+    # Task
+    The Python script `/work/buggy.py` (your current directory) fails when run with **Qiskit {{qiskit_version}}**.
+    It comes from a user question titled: "{{title}}"
+
+    Observed error when running it on Qiskit {{qiskit_version}}:
+    ```
+    {{error_text}}
+    ```
+
+    Repair `buggy.py` **in place** so that it runs successfully on Qiskit {{qiskit_version}}
+    and still does what the original author intended (same circuit / computation).
+
+    ## Rules
+    - Run the script with `$PY buggy.py` (Qiskit {{qiskit_version}} is installed only in that interpreter).
+      Do not pip install, downgrade or upgrade packages. There is no internet access from the shell.
+    - Fix the root cause. Do NOT hide the error with try/except, do NOT delete the failing logic,
+      and do NOT replace the program with something unrelated.
+    - Keep the change minimal. Plots may be produced, but the script must not block or need a display.
+    {%- if mcp_enabled %}
+
+    ## Qiskit MCP tools
+    A `qmcp` command gives you the official Qiskit documentation and circuit tools. It must be the
+    entire command (no pipes, `&&` or redirects):
+    - `qmcp list` shows all tools and their arguments.
+    - `qmcp docs search_docs_tool '{"query": "<what you need>"}'` searches the API docs, migration guides
+      and release notes. Useful for removed or renamed APIs (e.g. `execute`, `Aer`, `qasm()`, `ignis`).
+    - `qmcp docs get_page_tool '{"url": "api/qiskit/qiskit.circuit.QuantumCircuit"}'` reads a docs page
+      (relative path or a quantum.cloud.ibm.com URL).
+    - `qmcp qiskit analyze_circuit_tool '{"circuit": "<OpenQASM 2/3 string>"}'` checks a circuit and returns
+      its gate counts and depth.
+    {%- endif %}
+
+    ## Workflow
+    1. Read `buggy.py` and reproduce the error with `$PY buggy.py`.
+    2. Work out why it fails on Qiskit {{qiskit_version}}{% if mcp_enabled %} (look up the API with `qmcp` when unsure){% endif %}.
+    3. Edit `buggy.py` (e.g. with `cat <<'EOF' > buggy.py` or `sed -i`).
+    4. Re-run `$PY buggy.py` until it exits with status 0.
+    5. When done, submit by running exactly `echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT` as a separate command.
+       You cannot continue after submitting.
+
+    Each command runs in a fresh subshell; `cd` and environment changes do not persist.
+  step_limit: 40
+  cost_limit: 1.0
+  wall_time_limit_seconds: 1200
+environment:
+  timeout: 120
+  env:
+    PAGER: cat
+    MANPAGER: cat
+    PIP_PROGRESS_BAR: 'off'
+    TQDM_DISABLE: '1'
+    MPLBACKEND: Agg
+    PYTHONDONTWRITEBYTECODE: '1'
+model:
+  model_name: anthropic/claude-sonnet-5-5
+  model_kwargs:
+    drop_params: true
+    max_tokens: 8192
+  observation_template: |
+    {%- if output.output | length < 10000 -%}
+    {
+      "returncode": {{ output.returncode }},
+      "output": {{ output.output | tojson }}
+      {%- if output.exception_info %}, "exception_info": {{ output.exception_info | tojson }}{% endif %}
+    }
+    {%- else -%}
+    {
+      "returncode": {{ output.returncode }},
+      "output_head": {{ output.output[:5000] | tojson }},
+      "output_tail": {{ output.output[-5000:] | tojson }},
+      "elided_chars": {{ output.output | length - 10000 }},
+      "warning": "Output too long."
+      {%- if output.exception_info %}, "exception_info": {{ output.exception_info | tojson }}{% endif %}
+    }
+    {%- endif -%}
+  format_error_template: |
+    {% if finish_reason is defined and (finish_reason == "length" or (finish_reason == "tool_calls" and not has_tool_calls)) -%}
+    Your previous response hit the output token limit before a tool call. Be more concise and finish with exactly one bash tool call.
+    {%- else -%}
+    Tool call error:
+    <error>
+    {{error}}
+    </error>
+    Every response must call the `bash` tool with {"command": "..."}.
+    To finish, run `echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT` on its own.
+    {%- endif %}

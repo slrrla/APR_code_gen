@@ -1,0 +1,11 @@
+     1	from qiskit.opflow import I, X, Y, Z
+     2	
+     3	def read_hamiltonian_from_file():
+     4	    # placeholder for the user's file-reading function
+     5	    return "1*(X^X^X) - 2*(X^Z^X) + 3*(X^I^X)"
+     6	
+     7	hamiltonian_string = read_hamiltonian_from_file()
+     8	
+     9	# TypeError: PauliOp can only be instantiated with Paulis, not <class 'str'>
+    10	hamiltonian = PauliOp(hamiltonian_string)
+    11	print(type(hamiltonian))

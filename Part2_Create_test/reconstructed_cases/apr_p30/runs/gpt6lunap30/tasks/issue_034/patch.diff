@@ -1,0 +1,9 @@
+--- a/buggy.py
++++ b/buggy.py
+@@ -1,4 +1,5 @@
+-from qiskit import Aer, ClassicalRegister, QuantumCircuit, QuantumRegister
++from qiskit import ClassicalRegister, QuantumCircuit, QuantumRegister
++from qiskit_aer import Aer
+ 
+ qr = QuantumRegister(1)
+ cr = ClassicalRegister(1)

@@ -1,0 +1,127 @@
+{
+  "case": "issue_497",
+  "version": "0.25.3",
+  "test_sha256_before": "1c25db21600061642b9c785b19b6c7d3cfcfc13202bd729a949999852bd664a0",
+  "test_sha256_after": "35ab520584837096bedf23437db5d263d7fa6ae4070bd032756aa4dec75929f9",
+  "runs": [
+    {
+      "label": "human",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
+        "-X",
+        "utf8",
+        "-W",
+        "ignore",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\test.py",
+        "-v"
+      ],
+      "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\fixed.py",
+      "source_sha256": "21af46f8e327620f0849041164b5b7ff70829ffe20e7180ea701bd494324d635",
+      "returncode": 0,
+      "status": "PASS",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\strictness_review\\human.stderr.txt"
+    },
+    {
+      "label": "buggy",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
+        "-X",
+        "utf8",
+        "-W",
+        "ignore",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\test.py",
+        "-v"
+      ],
+      "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\buggy.py",
+      "source_sha256": "20e7870a90f1790ec3183453113f933cc4012d07fe6b862712c15cddd0c9b3c2",
+      "returncode": 1,
+      "status": "REJECTED",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\strictness_review\\buggy.stderr.txt"
+    },
+    {
+      "label": "luna",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
+        "-X",
+        "utf8",
+        "-W",
+        "ignore",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\test.py",
+        "-v"
+      ],
+      "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\apr_p30\\runs\\gpt6lunap30\\tasks\\issue_497\\patched.py",
+      "source_sha256": "b5196f4e140ccb264857a8db49b6e1d99db3b97d412dcde53626a9ae377d4115",
+      "returncode": 0,
+      "status": "PASS",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\strictness_review\\luna.stderr.txt"
+    },
+    {
+      "label": "positive_renamed_result",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
+        "-X",
+        "utf8",
+        "-W",
+        "ignore",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\test.py",
+        "-v"
+      ],
+      "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\strictness_review\\positive_renamed_result.py",
+      "source_sha256": "bf311e129d6ffd35b64b464e5d7510140b8917e3e26467af79df07dd54ca2e26",
+      "returncode": 0,
+      "status": "PASS",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\strictness_review\\positive_renamed_result.stderr.txt"
+    },
+    {
+      "label": "negative_separate_submissions",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
+        "-X",
+        "utf8",
+        "-W",
+        "ignore",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\test.py",
+        "-v"
+      ],
+      "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\strictness_review\\negative_separate_submissions.py",
+      "source_sha256": "c9ae4a56c4b8cca141d53590ba694ac0ede36325d544d503c39d386b12da4397",
+      "returncode": 1,
+      "status": "REJECTED",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\strictness_review\\negative_separate_submissions.stderr.txt"
+    },
+    {
+      "label": "negative_wrong_observable",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
+        "-X",
+        "utf8",
+        "-W",
+        "ignore",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\test.py",
+        "-v"
+      ],
+      "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\strictness_review\\negative_wrong_observable.py",
+      "source_sha256": "de13d84c5b450dde8a3daf0b53a076fabbff7d0916a9ddbff7fc470495381a1d",
+      "returncode": 1,
+      "status": "REJECTED",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\strictness_review\\negative_wrong_observable.stderr.txt"
+    },
+    {
+      "label": "negative_missing_expectation",
+      "command": [
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_25_3\\python.exe",
+        "-X",
+        "utf8",
+        "-W",
+        "ignore",
+        "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\test.py",
+        "-v"
+      ],
+      "MUT": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\strictness_review\\negative_missing_expectation.py",
+      "source_sha256": "38f941232434c426cb819160bbc326830fb413603caf68750272d46031d137ab",
+      "returncode": 1,
+      "status": "REJECTED",
+      "stderr_log": "C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part2_Create_test\\reconstructed_cases\\issue_497\\strictness_review\\negative_missing_expectation.stderr.txt"
+    }
+  ]
+}

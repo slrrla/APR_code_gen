@@ -1,0 +1,48 @@
+Aer installed: ModuleSpec(name='qiskit_aer', loader=<_frozen_importlib_external.SourceFileLoader object at 0x000001492F14C850>, origin='C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\Lib\\site-packages\\qiskit_aer\\__init__.py', submodule_search_locations=['C:\\personal_webpage\\my-portfolio\\APR_code_gen\\Part1_Create_code\\envs\\qiskit_0_46_3\\Lib\\site-packages\\qiskit_aer'])
+(backend: 'BackendV1 | BackendV2', options: 'dict | None' = None, abelian_grouping: 'bool' = True, bound_pass_manager: 'PassManager | None' = None, skip_transpilation: 'bool' = False)
+    def run(self, run_input, **kwargs):
+        """Main job in simulator"""
+        circuits = run_input
+        pulse_job = None
+        if isinstance(circuits, (pulse.Schedule, pulse.ScheduleBlock)):
+            pulse_job = True
+        elif isinstance(circuits, circuit.QuantumCircuit):
+            pulse_job = False
+        elif isinstance(circuits, list):
+            if circuits:
+                if all(isinstance(x, (pulse.Schedule, pulse.ScheduleBlock)) for x in circuits):
+                    pulse_job = True
+                elif all(isinstance(x, circuit.QuantumCircuit) for x in circuits):
+                    pulse_job = False
+        if pulse_job is None:
+            raise QiskitError(
+                "Invalid input object %s, must be either a "
+                "QuantumCircuit, Schedule, or a list of either" % circuits
+            )
+        if pulse_job:
+            warnings.warn(
+                "Simulating pulse jobs on fake backends is deprecated as of Qiskit 0.46,"
+                " and the functionality will be removed in Qiskit 1.0, due to Qiskit Aer removing"
+                " its pulse-simulation capabilities in its most recent versions."
+                " You can try using Qiskit Dynamics instead.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+            if _optionals.HAS_AER:
+                import qiskit_aer
+                from qiskit_aer.pulse import PulseSystemModel
+
+                system_model = PulseSystemModel.from_backend(self)
+                sim = qiskit_aer.Aer.get_backend("pulse_simulator")
+                job = sim.run(circuits, system_model=system_model, **kwargs)
+            else:
+                raise QiskitError("Unable to run pulse schedules without qiskit-aer installed")
+        else:
+            if self.sim is None:
+                self._setup_sim()
+            if not _optionals.HAS_AER:
+                warnings.warn("Aer not found using BasicSimulator and no noise", RuntimeWarning)
+            self.sim._options = self._options
+            job = self.sim.run(circuits, **kwargs)
+        return job
+
