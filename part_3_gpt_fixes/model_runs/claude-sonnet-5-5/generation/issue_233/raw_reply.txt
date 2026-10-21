@@ -1,0 +1,40 @@
+The root cause is that `TwoLocal` is a `BlueprintCircuit`, which is built lazily. Composing into it in place does not behave as expected, so the combined circuit reports only one block's parameters.
+
+The smallest fix is to compose into a plain `QuantumCircuit`, which does track the parameters of both circuits. Because `compose` is non-in-place by default, this means changing the call to `rot = rot.compose(var)`. That returns a new `QuantumCircuit`, so the later `num_parameters_settable()` call would not exist on it.
+
+A plain `QuantumCircuit` has no `num_parameters_settable`. That method belongs to `TwoLocal`, which is also why it is the method the user called. A `QuantumCircuit` does have `num_parameters`, so the later print would have to use that instead.
+
+I kept both prints and changed the second one to use `num_parameters`. The first print stays on `rot`, which is still a `TwoLocal` at that point.
+
+Both circuits have distinct parameter names. `rot` uses the prefix `p` and `var` uses the default `θ`. Composing them should therefore give 4 parameters.
+
+```python
+from qiskit.circuit.library import TwoLocal
+import numpy as np
+
+num_qubits = 2
+
+rot = TwoLocal(
+    int(np.sum(num_qubits)),
+    "ry",
+    [],
+    reps=1,
+    skip_final_rotation_layer=True,
+    parameter_prefix="p",
+)
+var = TwoLocal(
+    int(np.sum(num_qubits)),
+    "ry",
+    "cx",
+    entanglement="linear",
+    reps=1,
+    skip_final_rotation_layer=True,
+)
+
+print(rot.num_parameters_settable())
+
+# FIX: in-place compose on a lazily built BlueprintCircuit kept only one block's parameters -> compose into a new plain QuantumCircuit and count its parameters, because a plain circuit tracks parameters from both composed circuits
+rot = rot.compose(var)
+
+print(rot.num_parameters)
+```

@@ -1,0 +1,26 @@
+CASE=issue_790
+QISKIT=2.5.0
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-sonnet-5-5\generation\issue_790\fix_790.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_790\test.py
+
+E
+======================================================================
+ERROR: test_hamiltonian_and_evolution (__main__.TestOriginalHamiltonianEvolution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_790\test.py", line 65, in test_hamiltonian_and_evolution
+    namespace = runpy.run_path(MUT)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_250\lib\runpy.py", line 289, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_250\lib\runpy.py", line 96, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_250\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-sonnet-5-5\generation\issue_790\fix_790.py", line 23, in <module>
+    H = (U * Z ^ Z) - (J * X ^ X) - (J * Y ^ Y)
+TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (errors=1)

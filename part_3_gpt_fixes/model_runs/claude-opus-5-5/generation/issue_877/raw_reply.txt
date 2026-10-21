@@ -1,0 +1,14 @@
+The bug is that `backend` is never defined, so `NoiseModel.from_backend(backend)` raises a `NameError`. You can't load a real large device without access to it. The fix uses a fake backend from `qiskit_ibm_runtime.fake_provider` instead. Fake backends are snapshots of real devices and include their calibration and noise data. `FakeSherbrooke` is a snapshot of the 127-qubit `ibm_sherbrooke`.
+
+Note that this adds a dependency on `qiskit-ibm-runtime`. The fix can't work without it, because the device-specific fake backends were removed from Qiskit itself in 1.0.
+
+```python
+from qiskit_aer.noise import NoiseModel
+# FIX: backend was never defined (no access to large real devices) -> import a fake snapshot of a large IBM device, because fake backends carry the real device's calibration/noise data
+from qiskit_ibm_runtime.fake_provider import FakeSherbrooke
+
+# FIX: undefined name `backend` -> instantiate the fake 127-qubit backend, because NoiseModel.from_backend needs an actual backend object
+backend = FakeSherbrooke()
+noise_model = NoiseModel.from_backend(backend)
+
+```

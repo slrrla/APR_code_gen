@@ -1,0 +1,17 @@
+The gate acts on 4 qubits (`2 ** 4`), and the two slices supply 1 + 3 = 4 qubits. The bug is in how they are passed. `circ.append(gate, qr1[1:2], qr2[0:3])` treats the second slice as `cargs`, which expects classical bits, so the call fails. Concatenating both slices into a single qubit list fixes it.
+
+```python
+from qiskit import QuantumRegister, QuantumCircuit
+from qiskit.extensions import UnitaryGate
+from qiskit.quantum_info import random_unitary
+
+gate = UnitaryGate(random_unitary(2 ** 4).data, 'RND-U16')
+
+qr1 = QuantumRegister(2, 'q')
+qr2 = QuantumRegister(3, 'a')
+
+circ = QuantumCircuit(qr1, qr2)
+
+# FIX: second register slice was passed as cargs (classical bits) -> concatenated both qubit slices into one qargs list, because the gate needs all 4 qubits as quantum arguments
+circ.append(gate, qr1[1:2] + qr2[0:3])
+```

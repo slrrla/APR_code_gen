@@ -1,0 +1,17 @@
+The error occurs because `2 ** k` raises a `TypeError`: `Parameter` does not support a number raised to a power of a parameter (`__rpow__`). I rewrote the term as `2**k = exp(k·ln2)`, which uses only operations the parameter supports, and used the already-imported `numpy`. I have not run this, so it depends on `numpy.exp` accepting a `ParameterExpression`, which I'm not certain of.
+
+```python
+import numpy
+from math import pi
+from qiskit import QuantumCircuit, QuantumRegister
+from qiskit.circuit import Parameter
+
+k = Parameter('k')
+
+q = QuantumRegister(2)
+CROT_circ = QuantumCircuit(q, name='CROT')
+
+# FIX: 2 ** k is unsupported for a Parameter (no __rpow__) -> rewrote 1/2**k as exp(-k*ln2) using numpy, because it only needs multiplication and exp of the parameter expression
+theta = 2 * pi * numpy.exp(-k * numpy.log(2))
+CROT_circ.cp(theta, 0, 1)
+```

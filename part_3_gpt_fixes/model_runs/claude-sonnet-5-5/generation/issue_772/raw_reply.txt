@@ -1,0 +1,23 @@
+The gate acts on 4 qubits (a 16x16 unitary), but the call passes the qubits as two separate positional arguments. `append` takes `(instruction, qargs, cargs)`, so the second list is treated as classical bits, which is the bug.
+
+The qubits must be given as one list. `qr1[1:2]` is only one qubit, and `qr2[0:3]` is three, which makes four in total, so the count matches. The `qr1` slice was probably meant to cover both qubits, but the count works as written, so I keep it. Changing the slice would be a guess about intent.
+
+The fix is to combine the two slices into one list: `qr1[1:2] + qr2[0:3]`. Slicing a register returns a list, so `+` concatenates them.
+
+The import `from qiskit.extensions import UnitaryGate` is deprecated in newer Qiskit, but it isn't the cause of this bug, so I leave it.
+
+```python
+from qiskit import QuantumRegister, QuantumCircuit
+from qiskit.extensions import UnitaryGate
+from qiskit.quantum_info import random_unitary
+
+gate = UnitaryGate(random_unitary(2 ** 4).data, 'RND-U16')
+
+qr1 = QuantumRegister(2, 'q')
+qr2 = QuantumRegister(3, 'a')
+
+circ = QuantumCircuit(qr1, qr2)
+
+# FIX: qubits passed as two separate arguments (second treated as clbits) -> concatenated into a single qargs list, because append expects one qubit list for the 4-qubit gate
+circ.append(gate, qr1[1:2] + qr2[0:3])
+```

@@ -1,0 +1,14 @@
+CASE=issue_772
+QISKIT=0.46.1
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_772\fixed.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_772\test.py
+
+C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_772\fixed.py:2: DeprecationWarning: The qiskit.extensions module is deprecated since Qiskit 0.46.0. It will be removed in the Qiskit 1.0 release.
+  from qiskit.extensions import UnitaryGate
+C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_772\fixed.py:15: DeprecationWarning: The method ``qiskit.circuit.quantumcircuit.QuantumCircuit.mct()`` is deprecated as of qiskit 0.45.0. It will be removed in the Qiskit 1.0.0 release. Use QuantumCircuit.mcx as direct replacement.
+  circ.mct(qr1[0:2] + qr2[0:2], qr2[2])
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.592s
+
+OK

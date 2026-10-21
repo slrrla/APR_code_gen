@@ -1,0 +1,26 @@
+The bug is in the `compose` call. `qc1` has 6 qubits (4 in `qr1` plus 2 ancillas), but `circ` has only 4 and the call maps just 4 qubits. `compose` needs one target qubit per qubit of `qc1`, so it fails.
+
+The smallest fix keeps `circ`'s own qubits as they are and gives it the two ancillas the subcircuit needs. That means adding an `AncillaRegister` to `circ`, then composing onto all 6 qubits.
+
+Changing `QuantumCircuit(4)` to `QuantumCircuit(4)` plus `circ.add_register(AncillaRegister(2))` would add a line, so I instead declare the registers in the constructor: `QuantumCircuit(QuantumRegister(4), AncillaRegister(2))`. The `h` gate still acts on qubits 0–3, and the compose call becomes `[0, 1, 2, 3, 4, 5]`.
+
+```python
+from qiskit.circuit import QuantumRegister, AncillaRegister, QuantumCircuit
+
+qr1 = QuantumRegister(4)
+anc1 = AncillaRegister(2)
+qc1 = QuantumCircuit(qr1, anc1)
+qc1.ccx(qr1[0], qr1[1], anc1[0])
+qc1.ccx(qr1[2], anc1[0], anc1[1])
+qc1.cx(anc1[1], qr1[3])
+qc1.ccx(qr1[2], anc1[0], anc1[1])
+qc1.ccx(qr1[0], qr1[1], anc1[0])
+
+# FIX: circ had only 4 qubits but qc1 has 6 -> add a 2-qubit ancilla register to circ, because compose needs a target qubit for every qubit of qc1
+circ = QuantumCircuit(QuantumRegister(4), AncillaRegister(2))
+circ.h([0, 1, 2, 3])
+circ.barrier()
+
+# FIX: qubit list mapped only 4 of qc1's 6 qubits -> map all 6 including the ancillas, because compose requires one target per source qubit
+circ.compose(qc1, [0, 1, 2, 3, 4, 5], inplace=True)
+```

@@ -1,0 +1,28 @@
+CASE=issue_772
+QISKIT=0.25.0
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-opus-5-5\generation\issue_772\fix_772.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_772\test.py
+
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  import pkg_resources
+E
+======================================================================
+ERROR: test_gate_and_qubit_order (__main__.TestCustomGateAcrossRegisters)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_772\test.py", line 35, in test_gate_and_qubit_order
+    namespace = runpy.run_path(MUT)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-opus-5-5\generation\issue_772\fix_772.py", line 3, in <module>
+    from qiskit.circuit.library import UnitaryGate
+ImportError: cannot import name 'UnitaryGate' from 'qiskit.circuit.library' (C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\qiskit\circuit\library\__init__.py)
+
+----------------------------------------------------------------------
+Ran 1 test in 0.015s
+
+FAILED (errors=1)

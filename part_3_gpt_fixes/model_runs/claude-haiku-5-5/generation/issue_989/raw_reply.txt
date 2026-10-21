@@ -1,0 +1,10 @@
+The root cause is that `Aer` is no longer exported from `qiskit` in Qiskit 1.0 and later. It lives in the separate `qiskit_aer` package, so the import fails. I changed only that import line.
+
+```python
+from qiskit import QuantumCircuit
+# FIX: `Aer` imported from `qiskit` (removed in Qiskit 1.0+) -> import it from `qiskit_aer`, because the Aer provider now ships in the separate qiskit-aer package
+from qiskit_aer import Aer
+
+print(Aer.backends())
+
+```

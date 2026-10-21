@@ -1,0 +1,22 @@
+The circuit has no measurements, so the simulator has no classical results to report. The fix is to add measurements before running. The question's title suggests `measure_all()`, but the circuit already has 3 classical bits. `measure_all()` would add a second classical register, so `circ.measure([0, 1, 2], [0, 1, 2])` is the smaller change.
+
+The `Aer` and `execute` imports are deprecated or removed in recent Qiskit versions. However, the instructions say to keep the APIs the code already uses unless the API is the bug. The bug here is the missing measurement, so I left those imports alone.
+
+```python
+from qiskit import Aer
+from qiskit import execute
+from qiskit import QuantumCircuit
+
+circ = QuantumCircuit(3, 3)
+circ.h(0)
+circ.cx(0, 1)
+circ.cx(0, 2)
+# FIX: circuit had no measurements, so no classical outcomes were recorded -> added measure of all qubits into the classical bits, because get_counts needs measured classical results
+circ.measure([0, 1, 2], [0, 1, 2])
+
+backend = Aer.get_backend("qasm_simulator")
+job = execute(circ, backend, shots=100000)
+result = job.result()
+counts = result.get_counts(circ)
+print(counts)
+```

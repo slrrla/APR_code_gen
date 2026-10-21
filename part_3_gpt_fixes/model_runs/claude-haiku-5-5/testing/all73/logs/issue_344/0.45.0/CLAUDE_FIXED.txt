@@ -1,0 +1,22 @@
+CASE=issue_344
+QISKIT=0.45.0
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-haiku-5-5\generation\issue_344\fix_344.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_344\test.py
+
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_045\lib\site-packages\qiskit\utils\algorithm_globals.py:170: DeprecationWarning: The class ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+  algorithm_globals = QiskitAlgorithmGlobals()
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_045\lib\site-packages\qiskit\utils\algorithm_globals.py:49: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  self.num_processes = settings.get("num_processes", QiskitAlgorithmGlobals.CPU_COUNT)
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_045\lib\site-packages\qiskit\utils\algorithm_globals.py:120: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  parallel.CPU_COUNT = self.num_processes
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_045\lib\site-packages\qiskit\utils\deprecation.py:183: PendingDeprecationWarning: Building a flow controller with keyword arguments is going to be deprecated. Custom controllers must be explicitly instantiated and appended to the task list.
+  return func(*args, **kwargs)
+<class 'qiskit.quantum_info.states.statevector.Statevector'>
+<class 'numpy.ndarray'>
+[ 0.62054458+0.j -0.33900505+0.j  0.33900505+0.j  0.62054458+0.j]
+0
+.
+----------------------------------------------------------------------
+Ran 1 test in 1.766s
+
+OK

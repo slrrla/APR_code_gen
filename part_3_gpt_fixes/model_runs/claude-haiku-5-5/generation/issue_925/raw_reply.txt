@@ -1,0 +1,1 @@
+# NO BUG: The code correctly calls Aqua's Shor on a 15-qubit device; the 18-qubit transpiler error comes from the algorithm's circuit size exceeding the backend, and the rules forbid changing the backend to work around it.

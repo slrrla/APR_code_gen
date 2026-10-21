@@ -1,0 +1,34 @@
+{
+  "id": "msg_011Cg2xtcdJPKvosRqoE17Cx",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "The grover operator acts on 6 qubits, so the controlled gate has 7 qubits. The qubit list `qp` has length `n+lg+2-(n-j) = lg+2+j`, which is 7 for j=1, 8 for j=2, and 9 for j=3. The list therefore only matches the gate's width on the first iteration.\n\nThe intended layout is one control qubit plus 6 target qubits. The control is the i-th counting qubit, and the targets are the last 6 qubits, `n+lg+2-6 = 3` through 8. The control qubit is `n-j`, which is 2, 1, 0 for i = 0, 1, 2, so the controls run in a sensible order. The targets should therefore be `range(n, n+lg+2)`, which has length 6.\n\nThe fix is to build `qp` as `[n-j] + list(range(n, n+lg+2))`, giving 7 qubits each iteration.\n\nThe question's \"first iteration not appending\" description is just the symptom of the mismatch: the first iteration works (7 args) and the second fails (8 args).\n\n```python\nimport numpy as np\nfrom qiskit import QuantumCircuit\nfrom qiskit.circuit.library import GroverOperator\nfrom qiskit.transpiler.passes import RemoveBarriers\nfrom qiskit.converters import circuit_to_gate\n\noracle = QuantumCircuit(6)\noracle.z(5)\ngrover_operator = GroverOperator(oracle)\ngrover_operator = RemoveBarriers()(grover_operator)\n\nn = 3\nlg = 4\nqpe = QuantumCircuit(n + lg + 2)\n\nfor i in range(n):\n    Q = circuit_to_gate(grover_operator).control().power(2 ** ((n - 1) - i))\n    j = i + 1\n    # FIX: qubit list grew with each iteration (7, 8, 9 qubits) -> use one control qubit plus the fixed 6 target qubits, because the controlled gate always expects 7 qubits\n    qp = [n - j] + list(np.arange(n, n + lg + 2))\n    for l in range(len(qp)):\n        print(qp[l])\n    print(\" \")\n    qpe.append(Q, qp)\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 2252,
+    "output_tokens": 729,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

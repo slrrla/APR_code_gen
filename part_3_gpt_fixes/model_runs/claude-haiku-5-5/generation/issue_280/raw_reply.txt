@@ -1,0 +1,15 @@
+The bug is that a 1-qubit depolarizing error is attached to the 2-qubit `cx` gate. The error's qubit count doesn't match the gate, so Qiskit rejects it. I'm adding a separate 2-qubit depolarizing error for `cx` and leaving the single-qubit error unchanged.
+
+```python
+from qiskit.providers.aer.noise import NoiseModel, depolarizing_error
+
+noise_model = NoiseModel()
+
+error = depolarizing_error(0.05, 1)
+noise_model.add_all_qubit_quantum_error(error, ['u1', 'u2', 'u3'])
+
+# FIX: 1-qubit depolarizing error was applied to the 2-qubit 'cx' gate -> use a 2-qubit depolarizing error for 'cx', because the error's qubit count must match the gate's qubit count
+noise_model.add_all_qubit_quantum_error(depolarizing_error(0.05, 2), ['cx'])
+
+print(noise_model)
+```

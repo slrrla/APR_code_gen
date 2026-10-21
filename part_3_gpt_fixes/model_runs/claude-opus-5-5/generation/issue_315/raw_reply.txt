@@ -1,0 +1,25 @@
+```python
+from qiskit import QuantumCircuit
+from qiskit.providers.basic_provider import BasicProvider
+
+qc_combine = QuantumCircuit(2)
+qc_combine.h(0)
+qc_combine.cx(0, 1)
+qc_combine.measure_all()
+
+shots_used = 1024
+
+backend = BasicProvider().get_backend("basic_simulator")
+
+# FIX: set_options passed Aer-only parallelism fields (max_parallel_threads, etc.) -> removed the call, because BasicSimulator is a single-threaded pure-Python simulator that does not define these options and raises AttributeError
+job = backend.run(qc_combine, shots=shots_used)
+result = job.result()
+counts = result.get_counts(qc_combine)
+print(counts)
+```
+
+The crash comes from `backend.set_options(...)`. `max_parallel_threads`, `max_parallel_experiments`, `max_parallel_shots` and `statevector_parallel_threshold` are options of Qiskit Aer's `AerSimulator`. The `basic_simulator` from `BasicProvider` is a simple single-threaded Python simulator, so those fields don't exist on it and `set_options` raises `AttributeError`.
+
+The fix removes the call. The circuit then runs and prints counts.
+
+This also means the code no longer controls parallelism, because the basic simulator has no way to use more than one core. If you need multi-core simulation, install `qiskit-aer` and use `AerSimulator`, which accepts those same option names. I didn't make that switch here because it changes the backend and adds a dependency.

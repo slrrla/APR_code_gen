@@ -1,0 +1,14 @@
+The bug is the call `qc.u1(...)`. `QuantumCircuit.u1` was removed in Qiskit 1.0, so the script fails before transpilation. The equivalent current API is the phase gate `qc.p(...)`, which is the same operation as U1(λ) = diag(1, e^{iλ}). I kept the transpile call and its basis unchanged; the transpiler tracks the global phase when it rewrites the gate.
+
+```python
+from qiskit import QuantumCircuit, transpile
+
+lam = 0.5
+
+qc = QuantumCircuit(1)
+# FIX: qc.u1 was removed from QuantumCircuit in Qiskit 1.0 -> use the equivalent phase gate qc.p, because P(lam) is the same operation as U1(lam)
+qc.p(lam, 0)
+
+transpiled = transpile(qc, basis_gates=['rx', 'ry', 'rz'])
+print(transpiled)
+```

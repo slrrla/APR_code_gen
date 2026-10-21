@@ -1,0 +1,34 @@
+{
+  "id": "msg_011Cg2xuVooaSm58gn1jpyee",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "The root cause is that `TwoLocal` is a `BlueprintCircuit`, which is built lazily. Composing into it in place does not behave as expected, so the combined circuit reports only one block's parameters.\n\nThe smallest fix is to compose into a plain `QuantumCircuit`, which does track the parameters of both circuits. Because `compose` is non-in-place by default, this means changing the call to `rot = rot.compose(var)`. That returns a new `QuantumCircuit`, so the later `num_parameters_settable()` call would not exist on it.\n\nA plain `QuantumCircuit` has no `num_parameters_settable`. That method belongs to `TwoLocal`, which is also why it is the method the user called. A `QuantumCircuit` does have `num_parameters`, so the later print would have to use that instead.\n\nI kept both prints and changed the second one to use `num_parameters`. The first print stays on `rot`, which is still a `TwoLocal` at that point.\n\nBoth circuits have distinct parameter names. `rot` uses the prefix `p` and `var` uses the default `θ`. Composing them should therefore give 4 parameters.\n\n```python\nfrom qiskit.circuit.library import TwoLocal\nimport numpy as np\n\nnum_qubits = 2\n\nrot = TwoLocal(\n    int(np.sum(num_qubits)),\n    \"ry\",\n    [],\n    reps=1,\n    skip_final_rotation_layer=True,\n    parameter_prefix=\"p\",\n)\nvar = TwoLocal(\n    int(np.sum(num_qubits)),\n    \"ry\",\n    \"cx\",\n    entanglement=\"linear\",\n    reps=1,\n    skip_final_rotation_layer=True,\n)\n\nprint(rot.num_parameters_settable())\n\n# FIX: in-place compose on a lazily built BlueprintCircuit kept only one block's parameters -> compose into a new plain QuantumCircuit and count its parameters, because a plain circuit tracks parameters from both composed circuits\nrot = rot.compose(var)\n\nprint(rot.num_parameters)\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 1399,
+    "output_tokens": 681,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

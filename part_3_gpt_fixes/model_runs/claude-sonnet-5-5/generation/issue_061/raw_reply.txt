@@ -1,0 +1,19 @@
+The deprecated `qbit.register` and `qbit.index` back-references should be replaced with `qc.find_bit(qbit)`. It returns a `BitLocations` named tuple with `index` and `registers`, where `registers` is a list of `(register, index)` pairs.
+
+The smallest change keeps the two prints. They now read from the `find_bit` result and print the register and the index within it. The loop also unpacks `qc.data` as tuples, which still works because the circuit instructions support tuple unpacking.
+
+```python
+import qiskit
+from qiskit import QuantumCircuit, QuantumRegister
+
+qr = QuantumRegister(2, 'q')
+qc = QuantumCircuit(qr)
+qc.h(0)
+qc.cx(0, 1)
+
+for instruction, qargs, cargs in qc.data:
+    qbit: qiskit.circuit.Qubit = qargs[0]
+    # FIX: deprecated Bit.register/Bit.index back-references -> use qc.find_bit(qbit) locations, because the circuit tracks which registers contain each bit
+    print(qc.find_bit(qbit).registers[0][0])
+    print(qc.find_bit(qbit).registers[0][1])
+```

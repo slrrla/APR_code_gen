@@ -1,0 +1,32 @@
+The script fails on current `qiskit-ibm-runtime` for several reasons:
+- `Options` and the V1 `Estimator` call `run(circuits=..., observables=...)` with `.result().values` have been removed.
+- The cloud simulator `ibmq_qasm_simulator` has been retired.
+- `QiskitRuntimeService()` needs saved IBM credentials.
+
+As the question asks, the fix runs the same Estimator locally on a fake backend:
+- **Backend:** use `FakeManilaV2` from `qiskit_ibm_runtime.fake_provider`. It includes a noise model built from the real device.
+- **Primitive:** switch to `EstimatorV2`. A `Session` given a fake backend runs in local testing mode, so no service is needed.
+- **Circuit and observable:** transpile the circuit for the backend, then map the observable onto the transpiled circuit's layout.
+
+```python
+from qiskit import QuantumCircuit, transpile
+from qiskit.quantum_info import SparsePauliOp
+# FIX: Options/V1 Estimator and QiskitRuntimeService are removed/unneeded -> import EstimatorV2 and a fake backend, because fake backends run locally in local testing mode
+from qiskit_ibm_runtime import Session, EstimatorV2 as Estimator
+from qiskit_ibm_runtime.fake_provider import FakeManilaV2
+
+qc = QuantumCircuit(1)
+
+O = SparsePauliOp(['Z'])
+
+# FIX: retired cloud simulator string + service credentials -> FakeManilaV2 instance with ISA transpilation, because local fake backends require ISA circuits and matching observables
+backend = FakeManilaV2()
+isa_qc = transpile(qc, backend)
+isa_O = O.apply_layout(isa_qc.layout)
+
+# FIX: Session(service=..., backend=str) and V1 run signature -> Session(backend=fake), Estimator(mode=...), PUB-based run and V2 result access, because the V1 API was removed
+with Session(backend=backend) as session:
+    estimator = Estimator(mode=session)
+    job = estimator.run([(isa_qc, isa_O)])
+    print(job.result()[0].data.evs)
+```

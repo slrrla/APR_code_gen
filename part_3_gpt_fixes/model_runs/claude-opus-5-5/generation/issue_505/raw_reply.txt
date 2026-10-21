@@ -1,0 +1,19 @@
+The root cause is the type of `x`. `np.sqrt` returns a `numpy.float64`, not a Python `float`. When a numpy scalar is on the left of `*`, numpy's own `__mul__` runs first. It treats the operator as a sequence and broadcasts over it, which produces the deeply nested object array and the deprecation warning. Converting `x` to a plain Python `float` makes Python fall through to the operator's `__rmul__`, so the result stays a `PauliSumOp`.
+
+```python
+from qiskit.opflow.primitive_ops import PrimitiveOp
+from qiskit.quantum_info import Pauli
+import numpy as np
+
+# FIX: x was a numpy.float64 whose __mul__ broadcasts over the operator -> cast to Python float, because then PauliSumOp.__rmul__ handles the scalar multiplication
+x = float(3.5 * np.sqrt(3.0 / 2))
+print(x)
+
+annih_op = PrimitiveOp(Pauli('X')) + 1.0j * PrimitiveOp(Pauli('Y'))
+creat_op = PrimitiveOp(Pauli('X')) - 1.0j * PrimitiveOp(Pauli('Y'))
+
+my_op = x * creat_op.compose(annih_op, front=True)
+
+print('type(my_op) = ', type(my_op))
+print('my_op)= ', my_op)
+```

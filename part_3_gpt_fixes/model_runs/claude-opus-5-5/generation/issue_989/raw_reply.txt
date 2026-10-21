@@ -1,0 +1,9 @@
+The bug is the import: `from qiskit import Aer` was removed in Qiskit 1.0. Aer now ships as the separate `qiskit_aer` package, so I changed only that import. `Aer.backends()` then lists the available simulators, including `aer_simulator`.
+
+```python
+from qiskit import QuantumCircuit
+# FIX: `from qiskit import Aer` was removed in Qiskit 1.0 -> import Aer from qiskit_aer, because Aer now lives in the separate qiskit_aer package (which provides aer_simulator)
+from qiskit_aer import Aer
+
+print(Aer.backends())
+```

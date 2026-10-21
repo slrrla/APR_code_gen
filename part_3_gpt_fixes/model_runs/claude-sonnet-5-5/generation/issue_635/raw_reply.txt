@@ -1,0 +1,26 @@
+The question asks for multiple operations conditioned on `c[0]==1 and c[1]==1`. The code instead applies each X gate on its own bit, so the AND condition is never expressed.
+
+The usual way to condition on several bits is to compare the whole classical register. With `c_if(c, 3)`, the register value 0b011 means c[0]=1, c[1]=1, c[2]=0. The original condition said nothing about c[2], so a strict match on the register would only cover the case where c[2]=0. Following the question's literal condition, the closest register-level condition is `c_if(c, 3)`, which I'll use here.
+
+Note that `c_if` on a single `Clbit` is also deprecated or removed in newer versions, and the register form works in both.
+
+I kept the original `execute` and `Aer` imports, since they are not the bug in the question.
+
+```python
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, execute, Aer
+
+q = QuantumRegister(3)
+c = ClassicalRegister(3)
+qc = QuantumCircuit(q, c)
+
+qc.measure(q, c)
+
+# FIX: gates were conditioned on single bits separately, not jointly -> condition both X gates on the register value 3 (c[0]=1 and c[1]=1, c[2]=0), because c_if on a register can express the AND of several bits for multiple operations
+qc.x(q[0]).c_if(c, 3)
+qc.x(q[1]).c_if(c, 3)
+
+backend = Aer.get_backend('qasm_simulator')
+job = execute(qc, backend, shots=1024)
+result = job.result()
+print(result.get_counts(qc))
+```

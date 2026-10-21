@@ -1,0 +1,38 @@
+The error occurs because the custom gate CNOTNOT is not in the simulator's basis gates, so the simulator rejects it. The fix is to transpile the circuit against the backend, which decomposes the custom gate, before running it.
+
+The original code runs `assemble(circuit)` directly. I changed it to `assemble(transpile(circuit, svsim))`, which requires importing `transpile`. That is the minimal change that keeps the existing API style.
+
+The final state would be read from the whole statevector, with `result[0]` and `result[1]` taken as the code already does. That indexing is still correct for the first qubit only when the other qubits are in |0>. With the initial state (|0>+|1>)/√2 on qubit 0, CNOTNOT gives (|000>+|111>)/√2, so `result[1]` is 0 rather than the amplitude of |001>. That is the original behavior, not part of the crash, so I leave it alone.
+
+```python
+import numpy as np
+# FIX: transpile was not imported -> added it to the import, because the circuit must be transpiled to decompose the custom gate
+from qiskit import QuantumCircuit, QuantumRegister, assemble, Aer, transpile
+
+def cnotnot(gate_label='CNOTNOT'):
+    gate_circuit = QuantumCircuit(3, name=gate_label)
+    gate_circuit.cnot(0, 1)
+    gate_circuit.cnot(0, 2)
+    gate = gate_circuit.to_gate()
+    gate.label = gate_label
+    return gate
+
+q = QuantumRegister(3, name='q')
+circuit = QuantumCircuit(q)
+
+initial_state = [1. / np.sqrt(2.), 1. / np.sqrt(2.)]
+circuit.initialize(initial_state, 0)
+circuit.append(cnotnot(), [q[0], q[1], q[2]])
+circuit.draw(plot_barriers=False)
+
+svsim = Aer.get_backend('statevector_simulator')
+
+# FIX: assembled the circuit without decomposing the custom gate -> transpile the circuit for the backend first, because the simulator only accepts basis gates and transpile expands CNOTNOT into CNOTs
+qobj = assemble(transpile(circuit, svsim))
+
+result = svsim.run(qobj).result().get_statevector()
+
+final_state = [result[0], result[1]]
+print('a and b coefficients before simulation:', initial_state)
+print('a and b coefficients after simulation:', final_state)
+```

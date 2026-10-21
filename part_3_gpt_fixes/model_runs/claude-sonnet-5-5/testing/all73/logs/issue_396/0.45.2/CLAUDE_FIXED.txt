@@ -1,0 +1,36 @@
+CASE=issue_396
+QISKIT=0.45.2
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-sonnet-5-5\generation\issue_396\fix_396.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_396\test.py
+
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0452_exact\lib\site-packages\qiskit\utils\algorithm_globals.py:170: DeprecationWarning: The class ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+  algorithm_globals = QiskitAlgorithmGlobals()
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0452_exact\lib\site-packages\qiskit\utils\algorithm_globals.py:49: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  self.num_processes = settings.get("num_processes", QiskitAlgorithmGlobals.CPU_COUNT)
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0452_exact\lib\site-packages\qiskit\utils\algorithm_globals.py:120: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  parallel.CPU_COUNT = self.num_processes
+E
+======================================================================
+ERROR: test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_396\test.py", line 14, in test_exact_marked_phases_and_grover_amplification
+    m = load_target()
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_396\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0452_exact\lib\runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0452_exact\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0452_exact\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-sonnet-5-5\generation\issue_396\fix_396.py", line 1, in <module>
+    diag = [-1 if format(i, '03b') in targets else 1 for i in range(8)]
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-sonnet-5-5\generation\issue_396\fix_396.py", line 1, in <listcomp>
+    diag = [-1 if format(i, '03b') in targets else 1 for i in range(8)]
+NameError: name 'targets' is not defined
+
+----------------------------------------------------------------------
+Ran 1 test in 1.679s
+
+FAILED (errors=1)

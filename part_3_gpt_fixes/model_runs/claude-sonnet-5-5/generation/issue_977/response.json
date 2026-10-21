@@ -1,0 +1,34 @@
+{
+  "id": "msg_011Cg2yEvZcjhznhmDpYW9D4",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "```python\nfrom qiskit.quantum_info import SparsePauliOp, Operator\n\nHamiltonian = [\n    [ 4.07981221, -3.6713615 , 1.3943662 , -1.05164319],\n    [-3.6713615 , 5.88262911, -4.14084507, 1.37558685],\n    [ 1.3943662 , -4.14084507, 5.83098592, -3.54929577],\n    [-1.05164319, 1.37558685, -3.54929577, 3.79812207]\n]\n\n# FIX: SparsePauliOp was given a matrix, but it expects Pauli label strings -> build it from the matrix with SparsePauliOp.from_operator, because that decomposes the matrix into Pauli terms (the old MatrixOp.to_pauli_op equivalent)\nH_op = SparsePauliOp.from_operator(Operator(Hamiltonian)).to_operator()\nprint(H_op)\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 1464,
+    "output_tokens": 312,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

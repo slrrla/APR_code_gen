@@ -1,0 +1,50 @@
+CASE=issue_958
+QISKIT=0.45.1
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-opus-5-5\generation\issue_958\fix_958.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_958\test.py
+
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\qiskit\utils\algorithm_globals.py:170: DeprecationWarning: The class ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+  algorithm_globals = QiskitAlgorithmGlobals()
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\qiskit\utils\algorithm_globals.py:49: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  self.num_processes = settings.get("num_processes", QiskitAlgorithmGlobals.CPU_COUNT)
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\qiskit\utils\algorithm_globals.py:120: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed no earlier than 3 months after the release date. This algorithm utility belongs to a legacy workflow and has no replacement.
+  parallel.CPU_COUNT = self.num_processes
+
+======================================================================
+ERROR: test_exact_negative_h_tensor_h_not_just_global_equivalence (__main__.Regression) (circuit='qc2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_958\test.py", line 27, in test_exact_negative_h_tensor_h_not_just_global_equivalence
+    np.testing.assert_allclose(Operator(m[name]).data, expected, atol=1e-12)
+KeyError: 'qc2'
+
+======================================================================
+FAIL: test_exact_negative_h_tensor_h_not_just_global_equivalence (__main__.Regression) (circuit='qc')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_958\test.py", line 27, in test_exact_negative_h_tensor_h_not_just_global_equivalence
+    np.testing.assert_allclose(Operator(m[name]).data, expected, atol=1e-12)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\numpy\testing\_private\utils.py", line 1592, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\contextlib.py", line 75, in inner
+    return func(*args, **kwds)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\numpy\testing\_private\utils.py", line 862, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+Mismatched elements: 16 / 16 (100%)
+Max absolute difference: 1.20710678
+Max relative difference: 2.41421356
+ x: array([[-0.707107+8.659561e-17j, -0.707107+8.659561e-17j,
+         0.      +0.000000e+00j,  0.      +0.000000e+00j],
+       [-0.707107+8.659561e-17j,  0.707107-8.659561e-17j,...
+ y: array([[-0.5, -0.5, -0.5, -0.5],
+       [-0.5,  0.5, -0.5,  0.5],
+       [-0.5, -0.5,  0.5,  0.5],
+       [-0.5,  0.5,  0.5, -0.5]])
+
+----------------------------------------------------------------------
+Ran 1 test in 2.213s
+
+FAILED (failures=1, errors=1)

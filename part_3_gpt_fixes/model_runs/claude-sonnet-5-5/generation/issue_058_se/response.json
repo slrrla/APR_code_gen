@@ -1,0 +1,34 @@
+{
+  "id": "msg_011Cg2xrRyYV5mctKsFXF8Qq",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "The simulator rejects the custom gate `U$_s$` because it is never decomposed into basis gates. The usual fix is to transpile the circuit against the backend before running it. That needs an import, but `transpile` comes from qiskit, which the file already imports from.\n\nThe smallest change is to call `backend.run(transpile(circuit, backend))`, which decomposes the custom gate. The other option, `circuit.decompose()`, would only unroll one level, and the `mct` gate inside might remain. Transpiling handles all levels.\n\n```python\nfrom qiskit import QuantumCircuit, QuantumRegister, Aer, transpile\n\ndef diffuser(nqubits):\n    qc = QuantumCircuit(nqubits)\n    for qubit in range(nqubits):\n        qc.h(qubit)\n    for qubit in range(nqubits):\n        qc.x(qubit)\n    qc.h(nqubits-1)\n    qc.mct(list(range(nqubits-1)), nqubits-1)\n    qc.h(nqubits-1)\n    for qubit in range(nqubits):\n        qc.x(qubit)\n    for qubit in range(nqubits):\n        qc.h(qubit)\n    U_s = qc.to_gate()\n    U_s.name = \"U$_s$\"\n    return U_s\n\npsi = QuantumRegister(3, 'psi')\n\nbackend = Aer.get_backend(\"statevector_simulator\")\ncircuit = QuantumCircuit(psi)\ncircuit.append(diffuser(3), psi)\n\n# FIX: circuit was run with the undecomposed custom gate U$_s$ -> transpile the circuit for the backend before running, because the simulator only accepts basis gates and transpiling unrolls the custom gate\njob = backend.run(transpile(circuit, backend))\n\nv = job.result().get_statevector(circuit)\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 2239,
+    "output_tokens": 610,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

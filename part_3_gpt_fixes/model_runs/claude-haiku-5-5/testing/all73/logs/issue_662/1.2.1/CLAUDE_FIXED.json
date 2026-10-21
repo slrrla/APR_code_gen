@@ -1,0 +1,19 @@
+{
+  "case": "issue_662",
+  "version": "1.2.1",
+  "target": "CLAUDE_FIXED",
+  "exit_code": 1,
+  "raw_result": "FAIL",
+  "classification": "ERROR",
+  "reason": "(runtime error: AttributeError: 'qiskit._accelerate.circuit.DAGOpNode' object has no attribute 'type' Traceback includes the target program; review test guards/environment before attributing blame.)",
+  "review_required": true,
+  "seconds": 1.507,
+  "started_utc": "2026-10-20T01:58:27.276369+00:00",
+  "test": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_662\\test.py",
+  "test_sha256": "64c5a8a7de9bc1cab616b1024fd5d79ae43eadae4fa96b52cb470ab846019139",
+  "target_file": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\model_runs\\claude-haiku-5-5\\generation\\issue_662\\fix_662.py",
+  "target_sha256": "8e52d9e17c2dd982a6df347a25b69805c720ffe814e9276824c9213ecab039d6",
+  "log": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\model_runs\\claude-haiku-5-5\\testing\\all73\\logs\\issue_662\\1.2.1\\CLAUDE_FIXED.txt",
+  "log_sha256": "69e6f931c191ef118eb11b5f4ebac3c46ba8fba036edf56a86da010a2d966adb",
+  "timed_out": false
+}

@@ -1,0 +1,34 @@
+{
+  "id": "msg_011Cg2yFY7H5uCsC3WNDseak",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "The QasmSimulator only returns counts unless the circuit asks it to save the state. The fix is to add `qc.save_statevector()` after building the circuit, which needs the `qiskit.providers.aer` import to register the instruction. `get_statevector` is still available on the result, and it reads the saved statevector from the result data.\n\nThe circuit has no measurements, so `get_statevector` needs the saved state to find anything. Adding `save_statevector` is the smallest change that makes the call work. Calling `execute` with `backend_options` is left as is.\n\n```python\nfrom qiskit import QuantumCircuit, execute\nfrom qiskit.providers.aer import QasmSimulator\n\nqc = QuantumCircuit(2)\nqc.h(0)\nqc.cx(0, 1)\n# FIX: statevector was never saved in the circuit -> added qc.save_statevector(), because QasmSimulator only stores the state in the result when a save instruction is present\nqc.save_statevector()\n\nbackend = QasmSimulator()\nbackend_options = {\"method\": \"statevector\"}\n\njob = execute(qc, backend, backend_options=backend_options)\njob_result = job.result()\nprint(job_result.get_statevector(qc))\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 1212,
+    "output_tokens": 396,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

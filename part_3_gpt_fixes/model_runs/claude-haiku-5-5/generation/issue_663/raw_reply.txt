@@ -1,0 +1,24 @@
+The circuit has no measurement instructions, so the classical register is never written and every shot reads back as `'000'`. Adding a measurement of all qubits into the matching classical bits fixes this.
+
+```python
+import numpy as np
+import qiskit
+from qiskit import *
+
+number_of_qubits = 3
+backend_sim = Aer.get_backend('qasm_simulator')
+
+input_circuit = QuantumCircuit(number_of_qubits, number_of_qubits)
+input_circuit.x(0)
+input_circuit.h(1)
+input_circuit.cx(0,1)
+input_circuit.i(1)
+input_circuit.x(1)
+# FIX: circuit had no measurement, so the classical register stayed 0 and every shot returned '000' -> added measure of all qubits into the matching classical bits, because get_counts only reports values stored in classical bits
+input_circuit.measure(range(number_of_qubits), range(number_of_qubits))
+
+job_sim = execute(input_circuit, backend_sim, shots=1024)
+result_sim = job_sim.result()
+counts = result_sim.get_counts(input_circuit)
+print(counts)
+```

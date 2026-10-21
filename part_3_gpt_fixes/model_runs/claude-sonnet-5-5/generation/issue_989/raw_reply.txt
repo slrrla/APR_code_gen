@@ -1,0 +1,7 @@
+```python
+from qiskit import QuantumCircuit
+# FIX: `Aer` was removed from the `qiskit` top-level namespace -> import `Aer` from `qiskit_aer`, because Aer now lives in the separate qiskit_aer package, which provides the Aer provider and `aer_simulator`
+from qiskit_aer import Aer
+
+print(Aer.backends())
+```

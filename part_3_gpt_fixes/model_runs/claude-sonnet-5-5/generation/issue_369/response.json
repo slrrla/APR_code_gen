@@ -1,0 +1,34 @@
+{
+  "id": "msg_011Cg2xwfZjZKwMQdNVgMfdt",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "The bug is in the `compose` call. `sub.control(1)` returns a gate acting on 17 qubits (1 control + 16 target), but `compose` was given only one qubit, `[i]`. `compose` on a `QuantumCircuit` also expects a circuit, not a gate.\n\nThe smallest fix is to use `circ.append(csub, list(range(17)))`. Here the control is qubit 0 and the targets are qubits 1–16. The control qubit is `i`, and the targets should be all the remaining qubits, so the qubit list is `[i] + [q for q in range(17) if q != i]`. With `i = 0` that is the same as `range(17)`.\n\n`compose` can accept a gate in some versions, but `append` is the safe choice. It keeps the `circ.compose(...)` call shape, but `compose` needs a circuit, so I switch to `append`.\n\n```python\nfrom qiskit import QuantumCircuit\nfrom qiskit.circuit.library import C3XGate, C4XGate\n\nsub = QuantumCircuit(16)\nsub.cx(12, 4)\nsub.ccx(12, 4, 5)\nsub.append(C3XGate(), [4, 12, 5, 6])\nsub.append(C4XGate(), [4, 12, 5, 6, 7])\nsub.cx(13, 5)\nsub.ccx(13, 5, 6)\nsub.append(C3XGate(), [13, 5, 6, 7])\nsub.cx(14, 6)\nsub.ccx(14, 6, 7)\nsub.cx(15, 7)\n\ncsub = sub.control(1)\n\ni = 0\ncirc = QuantumCircuit(17)\n# FIX: composed a 17-qubit controlled gate onto only one qubit -> append it on the control qubit plus all 16 target qubits, because the controlled gate needs 17 qubits (1 control + 16 targets)\ncirc.append(csub, [i] + [q for q in range(17) if q != i])\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 1468,
+    "output_tokens": 651,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

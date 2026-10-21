@@ -1,0 +1,34 @@
+{
+  "id": "msg_011Cg2yB7JfHniv43xF5qm5V",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "The root cause is that the circuit sent to AerSimulator never saves a statevector, so `get_statevector()` raises \"No statevector for experiment\". The fix is to add `save_statevector()` to the transpiled circuit before running it.\n\nTwo related details:\n- The transpiled circuit is mapped onto 127 qubits, so the resulting statevector would be too large to compare with the 6-qubit ideal one. I therefore transpile against the simulator's basis gates instead of the hardware, so the circuit keeps 6 qubits.\n- `QFT(6)` is a circuit that has to be decomposed first, because AerSimulator may not accept it as a single block. Transpiling handles that.\n\nThe minimal change is to transpile with `ideal_sim` as the backend, then call `save_statevector()` on the transpiled circuit. Transpiling to the hardware would map onto 127 physical qubits, which is impractical for a statevector. Using the Brisbane basis gates and coupling map would also inflate the circuit, so I stay with the simulator target.\n\n```python\nfrom qiskit import transpile\nfrom qiskit.quantum_info import Statevector, state_fidelity\nfrom qiskit.circuit.library import QFT\nfrom qiskit_aer import AerSimulator\nfrom qiskit_ibm_runtime.fake_provider import FakeBrisbane\n\nbackend_brisbane = FakeBrisbane()\n\nqc = QFT(6)\n\nqc.remove_final_measurements()\n\nideal_sim = AerSimulator(method=\"statevector\")\n\nstatevector_ideal = Statevector(qc)\n\n# FIX: transpiled for 127-qubit hardware and no statevector saved -> transpile for the simulator and call save_statevector(), because the result only contains a statevector if one is saved and the 6-qubit circuit stays small\nqc_transpiled = transpile(qc, ideal_sim, optimization_level=1)\nqc_transpiled.save_statevector()\n\njob_real = ideal_sim.run(qc_transpiled)\nstatevector_real = job_real.result().get_statevector()\n\nfidelity = state_fidelity(statevector_ideal, statevector_real)\nprint(f\"Fidelity tra stato ideale e rumoroso: {fidelity:.4f}\")\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 2199,
+    "output_tokens": 745,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

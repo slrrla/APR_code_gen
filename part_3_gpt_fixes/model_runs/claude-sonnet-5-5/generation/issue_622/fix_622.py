@@ -1,0 +1,15 @@
+import qiskit
+# FIX: FakeArmonk has only 1 qubit -> import FakeAthens (5 qubits), because the 2-qubit circuit needs a backend with at least 2 qubits
+from qiskit.test.mock import FakeAthens
+
+# FIX: backend had 1 qubit -> use FakeAthens, because it can hold the 2-qubit circuit
+backend = FakeAthens()
+
+q = qiskit.QuantumRegister(2)
+c = qiskit.ClassicalRegister(2)
+qc = qiskit.QuantumCircuit(q, c)
+qc.h(q[0])
+qc.cx(q[0], q[1])
+qc.measure(q, c)
+
+job_exp = qiskit.execute(qc, backend=backend, shots=1024, max_credits=3)

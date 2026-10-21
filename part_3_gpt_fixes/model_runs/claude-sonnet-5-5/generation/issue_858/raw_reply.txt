@@ -1,0 +1,20 @@
+The root cause is that `ibm_oslo` is retired, so `provider.get_backend('ibm_oslo')` fails. The question asks whether its properties can still be read, and the answer is no. A retired backend can't be queried through the provider, and `IBMQ` itself has been removed from current Qiskit, so the import is broken as well.
+
+The smallest sensible change is to use the current runtime service, which still exposes backend properties for active devices. This doesn't make the retired system reachable. It only removes the removed API and points the code at a backend that can be reached.
+
+Alternatively, keep the same structure and swap in `QiskitRuntimeService`, which is the current replacement for `IBMQ.load_account()`. Because `ibm_oslo` can't be fetched, I'd pick an active backend instead, but changing the backend name changes the example's inputs. So I'll only fix the API and keep the name. The call will then fail with a clear "backend not found" error, which is the honest outcome for a retired device.
+
+In the current API, `properties()` is also gone from `BackendV2`. The qubit T1 values come from `backend.target.qubit_properties`, and the version from `backend.backend_version`.
+
+```python
+from qiskit_ibm_runtime import QiskitRuntimeService
+
+# FIX: IBMQ provider was removed from Qiskit -> use QiskitRuntimeService, because it is the current way to load an account and get backends
+service = QiskitRuntimeService()
+backend = service.backend('ibm_oslo')
+
+system = backend
+print(system.backend_version)
+# FIX: BackendV2 has no properties() -> use target.qubit_properties, because it holds per-qubit T1/T2 data
+print(system.target.qubit_properties)
+```

@@ -1,0 +1,11 @@
+The code uses `backend` without ever defining it, so it raises a `NameError`. The question is about getting a large device's noise model without access to the device. The smallest fix is to use a fake backend from `qiskit_ibm_runtime.fake_provider`, which ships a snapshot of a real device's properties and needs no account. I chose `FakeSherbrooke` (127 qubits) as the large device, which is an assumption since the question names no specific one.
+
+```python
+from qiskit_aer.noise import NoiseModel
+from qiskit_ibm_runtime.fake_provider import FakeSherbrooke
+
+# FIX: `backend` was never defined -> create a fake backend from a stored snapshot of a large IBM device, because NoiseModel.from_backend needs a backend object and fake backends need no device access
+backend = FakeSherbrooke()
+
+noise_model = NoiseModel.from_backend(backend)
+```

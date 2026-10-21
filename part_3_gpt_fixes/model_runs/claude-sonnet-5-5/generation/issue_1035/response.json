@@ -1,0 +1,34 @@
+{
+  "id": "msg_011Cg2yFnNGStqZ5CqvGzhTW",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "The question asks how to run the primitive on a fake backend or a custom noise model, but the code is wired to the cloud service. The smallest fix keeps the Estimator workflow and swaps in a local noisy primitive, but this needs a different import and call pattern.\n\nThe problem is that Qiskit Runtime primitives with `QiskitRuntimeService` can't take a fake backend. The standard answer is to use `qiskit_aer.primitives.Estimator` with a noise model built from the fake backend. Alternatively, `Options` supports `simulator={\"noise_model\": ...}` on the `ibmq_qasm_simulator` backend, which keeps the Runtime code and only adds the noise model. That is the smaller change, so I use it.\n\nThe options become `Options(resilience_level=0, simulator={\"noise_model\": noise_model})`, where the noise model comes from `NoiseModel.from_backend(FakeManila())`. This requires imports of `NoiseModel` and `FakeManila`.\n\n```python\nfrom qiskit import QuantumCircuit\nfrom qiskit.quantum_info import SparsePauliOp\nfrom qiskit_ibm_runtime import QiskitRuntimeService, Options, Session, Estimator\nfrom qiskit_aer.noise import NoiseModel\nfrom qiskit.providers.fake_provider import FakeManila\n\nqc = QuantumCircuit(1)\n\nO = SparsePauliOp(['Z'])\n\nservice = QiskitRuntimeService()\nbackend = 'ibmq_qasm_simulator'\n# FIX: options ran the cloud simulator noiselessly, with no fake backend noise -> pass a noise model built from FakeManila via the simulator option, because the Runtime simulator accepts a custom noise model this way\noptions = Options(resilience_level=0, simulator={\"noise_model\": NoiseModel.from_backend(FakeManila())})\n\nwith Session(service=service, backend=backend) as session:\n    estimator = Estimator(session=session, options=options)\n    job = estimator.run(circuits=[qc], observables=[O])\n    print(job.result().values)\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 1537,
+    "output_tokens": 694,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

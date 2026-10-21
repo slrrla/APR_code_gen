@@ -1,0 +1,26 @@
+The bug is that `Statevector.from_label` accepts only a single label string, so passing a list fails. Marking several targets needs a phase oracle built from a statevector with equal amplitudes on both targets, or a `PhaseOracle` from a boolean expression.
+
+The smallest fix keeps `Statevector` and `GroverOperator`, but GroverOperator needs a circuit-like oracle. It accepts a `QuantumCircuit` or `Statevector` as the oracle. A Statevector oracle is treated as a state to flip (its `Operator` is built from the state's phase), so it must be a diagonal operator, not a plain state.
+
+The simplest approach is to build the oracle as a `Statevector` with -1 phase on the targets, wrapped in a `Diagonal` gate. The `Diagonal` gate takes the list of diagonal entries, so I build that list:
+
+```python
+diag = [-1 if format(i, '03b') in targets else 1 for i in range(8)]
+oracle = Diagonal(diag)
+```
+
+`Diagonal` is in `qiskit.circuit.library`, and the little-endian ordering is symmetric here only partly. Bit-order matters: '101' is symmetric under reversal, but '110' reversed is '011', which is a different state. The index `i` in a diagonal corresponds to the integer value of the basis state, and Qiskit's integer index already follows the label string (the label is read as the binary number with qubit 0 as the rightmost bit). So `format(i, '03b')` matches the label directly.
+
+I also drop the unused `Statevector` import, since it is no longer used, and add `Diagonal`.
+
+```python
+from qiskit.circuit.library import GroverOperator, Diagonal
+
+targets = ['101', '110']
+
+# FIX: Statevector.from_label cannot take a list of labels -> build a diagonal phase oracle with -1 on each target, because this flips the phase of all target states at once and gives GroverOperator a valid circuit oracle
+oracle = Diagonal([-1 if format(i, '03b') in targets else 1 for i in range(8)])
+
+grover_op = GroverOperator(oracle)
+print(grover_op)
+```

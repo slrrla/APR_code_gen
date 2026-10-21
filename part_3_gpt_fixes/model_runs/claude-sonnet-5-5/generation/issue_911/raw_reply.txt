@@ -1,0 +1,27 @@
+The root cause is that newer Qiskit versions removed `Qubit.register` and `Qubit.index`. The qubit's index has to come from `qc.find_bit(qubit)`, which returns the index plus the registers it belongs to.
+
+There is a second problem in the loop. Single-qubit gates have only one entry in `qargs`, so `qargs[1]` raises an `IndexError` for them. The question's own output shows the first gate is a `u` on one qubit. The smallest fix is to use `qargs[-1]`, which exists for both gate types. I kept the printed labels the same.
+
+`qc.find_bit(q)` returns a `BitLocations(index, registers)`, where `registers` is a list of `(register, index)` tuples. I replaced the invalid `qargs[1][1]` with the index in that register, and `.register` with the register object.
+
+```python
+import qiskit
+from qiskit.circuit.random import random_circuit
+
+num_qubits = 3
+depth = 1
+max_operands = 2
+qc = random_circuit(num_qubits, depth, max_operands=max_operands, seed=1)
+qc = qc.decompose(reps=3)
+
+for name_of_gate, qargs, cargs in qc.data:
+    print("name of gate : ", name_of_gate)
+    print("qargs : ", qargs, "\n")
+
+    # FIX: single-qubit gates have no qargs[1] and Qubit has no subscript/register/index -> use the last qubit and qc.find_bit(), because find_bit returns the index and register of a bit
+    loc = qc.find_bit(qargs[-1])
+    print("qargs[-1] : ", qargs[-1])
+    print("qargs[1][1] : ", loc.registers[0][1])
+    print("qargs[1].register : ", loc.registers[0][0])
+    print("qargs[1].index : ", loc.index)
+```

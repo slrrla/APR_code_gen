@@ -1,0 +1,30 @@
+The script fails on current Qiskit, and its conditional logic doesn't match what you asked for.
+
+1. **Removed API (the crash):** `execute` and `Aer` can no longer be imported from `qiskit` (removed in Qiskit 1.0). The fix imports `Aer` from `qiskit_aer` and runs the transpiled circuit with `backend.run`.
+2. **Wrong logic:** you want `if c[0]==1 and c[1]==1:` to flip both `q[0]` and `q[1]`. The original code puts a separate `c_if` on each gate: `x(q[0])` depends only on `c[0]` and `x(q[1])` only on `c[1]`. That is not a joint condition. Also, `c_if` itself was removed in Qiskit 2.0.
+
+To answer your question: `c_if` attaches to a single gate, so it can't group several operations under one `if`. Nested `qc.if_test` blocks can. Everything inside them runs only when both bits equal 1, and you can put as many gates there as you need. Here the qubits start in |0⟩, so the measurement gives 000 and neither X fires. The printed counts are therefore `{'000': 1024}`.
+
+```python
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, transpile
+# FIX: execute/Aer no longer importable from qiskit -> import Aer from qiskit_aer, because they were removed from qiskit in 1.0
+from qiskit_aer import Aer
+
+q = QuantumRegister(3)
+c = ClassicalRegister(3)
+qc = QuantumCircuit(q, c)
+
+qc.measure(q, c)
+
+# FIX: separate per-gate c_if conditions (c_if also removed) -> nested if_test blocks applying both X gates, because the recovery must run only when c[0]==1 and c[1]==1 jointly
+with qc.if_test((c[0], 1)):
+    with qc.if_test((c[1], 1)):
+        qc.x(q[0])
+        qc.x(q[1])
+
+backend = Aer.get_backend('qasm_simulator')
+# FIX: execute(...) removed -> backend.run on transpiled circuit, because execute no longer exists in Qiskit
+job = backend.run(transpile(qc, backend), shots=1024)
+result = job.result()
+print(result.get_counts(qc))
+```

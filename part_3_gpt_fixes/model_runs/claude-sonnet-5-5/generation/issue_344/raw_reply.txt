@@ -1,0 +1,28 @@
+The root cause is that `result6.get_statevector(circuit6, decimals=3)` rounds the amplitudes to 3 decimals. The rounded state is no longer normalized, so `entropy` rejects it as an invalid quantum state. The values `0.447`, `0`, `0.632`, `0.632` give squared amplitudes that sum to about 0.9998.
+
+The smallest fix is to stop rounding by dropping `decimals=3`. The exact statevector is normalized, so `entropy` accepts it.
+
+Entropy of a pure state is 0, which is the expected result. Passing the raw ndarray should also work, since `entropy` converts it with `DensityMatrix`/`Statevector` semantics. To be safe, I pass `outstatevector`, which is already a `Statevector`, instead of the ndarray.
+
+```python
+import numpy as np
+from qiskit import QuantumCircuit, BasicAer, execute
+from qiskit import quantum_info
+
+circuit6 = QuantumCircuit(2)
+circuit6.h(0)
+circuit6.cx(0, 1)
+circuit6.ry(1.0, 1)
+
+simulator = BasicAer.get_backend('statevector_simulator')
+result6 = execute(circuit6, simulator).result()
+# FIX: statevector was rounded with decimals=3 -> removed the rounding, because rounding breaks normalization and entropy rejects the state as invalid
+outputstate6 = result6.get_statevector(circuit6)
+probability = np.abs(np.array(outputstate6))**2
+outstatevector = quantum_info.states.Statevector(outputstate6)
+print(type(outstatevector))
+print(type(outputstate6))
+print(outputstate6)
+# FIX: passed raw ndarray -> pass the Statevector object, because entropy validates a proper quantum state object
+print(quantum_info.entropy(outstatevector))
+```

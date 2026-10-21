@@ -1,4 +1,4 @@
-"""Regression tests against the unmodified MUT (default: sibling fixed.py)."""
+"""Offline calibration noise from any IBM-style backend larger than seven qubits."""
 import contextlib
 import functools
 import io
@@ -19,7 +19,13 @@ def target():
 class Regression(unittest.TestCase):
     def test_offline_large_backend_calibration_noise(self):
         m = target()
-        self.assertEqual(m["backend"].configuration().n_qubits, 27)
+        device = m["backend"]
+        # Kolkata (27) is the answer's example, not a requirement of the question.
+        # BackendV2 exposes num_qubits, while the original BackendV1 uses config.
+        qubits = getattr(device, "num_qubits", None)
+        if qubits is None:
+            qubits = device.configuration().n_qubits
+        self.assertGreater(qubits, 7)
         self.assertFalse(m["noise_model"].is_ideal())
         errors = m["noise_model"].to_dict()["errors"]
         self.assertTrue(any(e["type"] == "roerror" for e in errors))

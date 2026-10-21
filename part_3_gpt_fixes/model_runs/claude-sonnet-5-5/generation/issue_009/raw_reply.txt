@@ -1,0 +1,26 @@
+The `layout_method` argument only accepts `trivial`, `dense`, `noise_adaptive`, `sabre`, and `default`, so `'csp_layout'` raises the "Invalid layout method" error. `CSPLayout` is a separate transpiler pass, not a named layout method. At optimization level 3 the preset pass manager already runs it first, before falling back to the chosen method.
+
+To force CSP layout, the smallest fix is to drop the invalid `layout_method` and let the preset pipeline do its default thing. Forcing `CSPLayout` explicitly would need a custom pass manager, and that goes beyond a minimal change. I'm choosing `layout_method='sabre'`, which is valid and still lets CSP run first at level 3. Removing the argument would work equally well, but I'm keeping a valid value so the call keeps the same shape.
+
+```python
+from qiskit import QuantumCircuit, transpile
+from qiskit.providers.fake_provider import FakeVigo
+
+qc = QuantumCircuit(3)
+qc.h(0)
+qc.cx(0, 1)
+qc.cx(1, 2)
+qc.measure_all()
+
+backend = FakeVigo()
+
+transpiled = transpile(
+    qc,
+    backend=backend,
+    optimization_level=3,
+    # FIX: invalid layout_method 'csp_layout' -> use valid 'sabre', because CSPLayout is a pass, not a layout_method option, and at optimization_level=3 it is already tried first automatically
+    layout_method='sabre'
+)
+
+print(transpiled)
+```

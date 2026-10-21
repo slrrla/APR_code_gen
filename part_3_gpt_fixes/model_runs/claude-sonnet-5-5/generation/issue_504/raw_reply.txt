@@ -1,0 +1,58 @@
+The root cause is that `QuantumRegister(n)` is called repeatedly, and each call creates a new register that is not in the circuit. The fix is to create one register, add it to the circuit, and reuse it everywhere.
+
+The code has a second bug: `transpile` returns a circuit, which has no `.result()`. The circuit has to be run with `backend.run`.
+
+The marked-state logic is also questionable. The oracle applies a CZ on only two qubits, and the diffusion uses a 2-qubit CX. I am leaving that logic alone, since the task is to fix the crash with minimal changes. I do keep the `transpile` and `run` fix so the code works.
+
+The changes:
+- Define `qr = QuantumRegister(n)` and build the circuit from it.
+- Replace every `QuantumRegister(n)` use with `qr`.
+- Call `backend.run(job).result()` on the transpiled circuit.
+
+```python
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, transpile
+from qiskit_aer import Aer
+
+def oracle(circuit, register, marked_state):
+    for i in range(len(marked_state)):
+        if marked_state[i] == '1':
+            circuit.x(register[i])
+    circuit.cz(register[0], register[1])
+    for i in range(len(marked_state)):
+        if marked_state[i] == '1':
+            circuit.x(register[i])
+
+def grover_diffusion(circuit, register):
+    circuit.h(register)
+    circuit.x(register)
+    circuit.h(register[1])
+    circuit.cx(register[0], register[1])
+    circuit.h(register[1])
+    circuit.x(register)
+    circuit.h(register)
+
+def grover(marked_state):
+    n = len(marked_state)
+    cr = ClassicalRegister(n)
+    # FIX: created a new register that is never in the circuit -> create one register and reuse it, because the circuit only accepts qubits from its own register
+    qr = QuantumRegister(n)
+    circuit = QuantumCircuit(qr, cr)
+    print(qr)
+    circuit.h(qr)
+    num_iterations = int(round((2 ** n) ** 0.5))
+    for i in range(num_iterations):
+        oracle(circuit, qr, marked_state)
+        grover_diffusion(circuit, qr)
+    circuit.measure(qr, cr)
+    backend = Aer.get_backend('qasm_simulator')
+    job = transpile(circuit, backend)
+    # FIX: called result() on a transpiled circuit -> run it on the backend first, because transpile returns a circuit, not a job
+    result = backend.run(job).result()
+    counts = result.get_counts()
+    x = list(counts.keys())[0]
+    return x
+
+marked_state = '101'
+result = grover(marked_state)
+print(f"The marked state is {result}")
+```

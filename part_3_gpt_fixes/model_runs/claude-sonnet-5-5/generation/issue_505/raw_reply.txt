@@ -1,0 +1,21 @@
+The root cause is that `x` is a `numpy.float64`. When `x * op` runs, NumPy's `__mul__` takes precedence and tries to broadcast over the operator as a sequence. That produces the deeply nested object array. A plain Python float uses the operator's `__rmul__`, which is why `x = 2.0` works.
+
+The smallest fix is to convert `x` to a Python float, which leaves the value unchanged.
+
+```python
+from qiskit.opflow.primitive_ops import PrimitiveOp
+from qiskit.quantum_info import Pauli
+import numpy as np
+
+# FIX: x was a numpy.float64, so x * op was handled by NumPy and built a nested ndarray -> wrap in float(), because a Python float defers to the operator's __rmul__
+x = float(3.5 * np.sqrt(3.0 / 2))
+print(x)
+
+annih_op = PrimitiveOp(Pauli('X')) + 1.0j * PrimitiveOp(Pauli('Y'))
+creat_op = PrimitiveOp(Pauli('X')) - 1.0j * PrimitiveOp(Pauli('Y'))
+
+my_op = x * creat_op.compose(annih_op, front=True)
+
+print('type(my_op) = ', type(my_op))
+print('my_op)= ', my_op)
+```

@@ -1,0 +1,34 @@
+{
+  "id": "msg_011Cg2yD5TMJ1skFCJoBmuyc",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "The bug is the problem name casing. In the Aqua dictionary-based API, `'problem': {'name': 'ising'}` is the expected form in older versions, but `EnergyInput` is paired with the `'EnergyInput'` input name. In later 0.6 versions, the problem name `'ising'` was valid, and the input class was `EnergyInput`. The `ExactEigensolver` in Aqua 0.6 also returned a result dict.\n\nThe more likely failure is in the Pauli label. The label \"ZZII\" with the dictionary form is fine, but `from_dict` expects the key `'paulis'` with `'coeff'` and `'label'` entries, and that is what the code has. The coefficient is given as a dict `{\"imag\": 0.0, \"real\": 1.0}`, which `from_dict` parses into a complex number, so that is also fine.\n\nThat leaves the import path. `qiskit.aqua.input` is where `EnergyInput` lives, so that is also fine.\n\nI could not identify a definite failure in these lines. The remaining candidate is `run_algorithm` itself: it was deprecated in Aqua 0.6, and the intended replacement is to instantiate the algorithm directly. The question asks why the `'problem'` key is needed for an exact eigensolver. The `'ising'` problem name is only used to select the post-processing of the result. In Aqua, the valid problem names are `'energy'`, `'ising'`, `'chemistry'` and so on. The default `'energy'` handles a plain operator without Ising-specific post-processing, so `'ising'` is a valid but unneeded choice.\n\nThe one concrete mismatch is the input type. `EnergyInput` is the input class for the `'energy'` problem, while `'ising'` expects Ising-style handling of the same energy input. Changing the problem name to `'energy'` makes it match the `EnergyInput` object and is the smallest change.\n\n```python\nfrom qiskit.aqua import run_algorithm\nfrom qiskit.aqua.input import EnergyInput\nfrom qiskit.aqua.operators import WeightedPauliOperator\n\npauli_dict = {\n    'paulis': [{\"coeff\": {\"imag\": 0.0, \"real\": 1.0}, \"label\": \"ZZII\"}]\n}\nqubitOp = WeightedPauliOperator.from_dict(pauli_dict)\nalgo_input = EnergyInput(qubitOp)\n\nalgorithm_cfg = {\n    'name': 'ExactEigensolver',\n}\nparams = {\n    # FIX: problem name 'ising' did not match the EnergyInput operator input -> changed it to 'energy', because EnergyInput is the input for the 'energy' problem and this needs no Ising-specific handling\n    'problem': {'name': 'energy'},\n    'algorithm': algorithm_cfg\n}\nresult = run_algorithm(params, algo_input)\nprint(result)\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 1449,
+    "output_tokens": 953,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

@@ -1,0 +1,20 @@
+The error comes from computing `2 ** k`. In the Qiskit version this question targets, `Parameter`/`ParameterExpression` has no `__rpow__`, so Python can't evaluate an integer raised to a `Parameter`. (Newer Qiskit versions may support this; I haven't checked that here.)
+
+The fix rewrites `2**k` as `exp(k * ln 2)`. `ParameterExpression` supports multiplication by a float and has an `.exp()` method, and dividing a float by a `ParameterExpression` also works. So `theta` stays the same value, `2*pi/2**k`, as a symbolic expression.
+
+```python
+import numpy
+from math import pi
+from qiskit import QuantumCircuit, QuantumRegister
+from qiskit.circuit import Parameter
+
+k = Parameter('k')
+
+q = QuantumRegister(2)
+CROT_circ = QuantumCircuit(q, name='CROT')
+
+# FIX: 2 ** k raises TypeError (int ** Parameter unsupported) -> rewrite 2**k as exp(k*ln2), because ParameterExpression supports multiplication and .exp()
+theta = 2 * pi / (k * numpy.log(2)).exp()
+CROT_circ.cp(theta, 0, 1)
+
+```

@@ -1,0 +1,19 @@
+{
+  "case": "issue_803",
+  "version": "0.25.1",
+  "target": "CLAUDE_FIXED",
+  "exit_code": 1,
+  "raw_result": "FAIL",
+  "classification": "FAIL",
+  "reason": "Test failure: ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all() / AssertionError: array([list([46, 54]), list([100]), list([100])], dtype=object) is not an instance of <class 'list'> No target frame establishes a target execution exception. Review output/interface expectations against the question.",
+  "review_required": true,
+  "seconds": 3.127,
+  "started_utc": "2026-10-20T02:12:55.365474+00:00",
+  "test": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_803\\test.py",
+  "test_sha256": "7ad27bf80439be2f953af7db5250b6c7d539e036d92482d613a464730ec78635",
+  "target_file": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\model_runs\\claude-haiku-5-5\\generation\\issue_803\\fix_803.py",
+  "target_sha256": "5b096a8ef80b4b93e502607aff3499f8a6e26b8dc35fa47c0255ffc43dd6907b",
+  "log": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\model_runs\\claude-haiku-5-5\\testing\\all73\\logs\\issue_803\\0.25.1\\CLAUDE_FIXED.txt",
+  "log_sha256": "1d96349158c2646403358ea41568761175efb431bd1b6347d4bac567a179c9ff",
+  "timed_out": false
+}

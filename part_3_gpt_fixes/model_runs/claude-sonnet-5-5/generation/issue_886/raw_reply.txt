@@ -1,0 +1,20 @@
+The error `unknown instruction: crx` comes from Aer being given a circuit with gates it cannot run directly. When the circuit is not transpiled, Aer may not recognize `crx` as a basis gate. The standard fix is to transpile the circuit for the backend before running it.
+
+The code also has a second problem: `measure_all()` on a circuit that already has classical bits adds a new register. That is harmless but wasteful, and I'm leaving it as it is because it isn't the cause of the error.
+
+The smallest change is to import `transpile` and pass the transpiled circuit to `run`.
+
+```python
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import Aer
+import numpy as np
+
+circ = QuantumCircuit(2, 2)
+circ.crx(np.pi/2, 0, 1)
+circ.measure_all()
+
+backend = Aer.get_backend('qasm_simulator')
+# FIX: circuit was run without transpiling -> transpile the circuit for the backend before running, because Aer then receives only gates it supports instead of the unknown 'crx' instruction
+job = backend.run(transpile(circ, backend))
+job.result().get_counts()
+```

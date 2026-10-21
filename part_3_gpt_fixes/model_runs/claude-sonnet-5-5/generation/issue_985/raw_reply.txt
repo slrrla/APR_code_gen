@@ -1,0 +1,16 @@
+The code fails because `qc.u1` has been removed from recent Qiskit versions. The question also describes a transpile failure: the basis `['rx','ry','rz']` cannot represent global phase as a gate, though the circuit's global_phase attribute can hold it. Transpiling with that basis works for `p` or `rz`, since the translator tracks global phase. `u1(λ)` equals `p(λ)`, which equals `rz(λ)` times `e^{iλ/2}`, and the transpiler keeps that phase in `global_phase`.
+
+The smallest fix is to replace `qc.u1` with `qc.p`, the modern equivalent. The transpiler can then translate `p` to `rz` and record the global phase λ/2.
+
+```python
+from qiskit import QuantumCircuit, transpile
+
+lam = 0.5
+
+qc = QuantumCircuit(1)
+# FIX: u1 gate was removed from Qiskit -> use the equivalent p gate, because p(lam) is the same operation as u1(lam) and can be translated to rz with a tracked global phase
+qc.p(lam, 0)
+
+transpiled = transpile(qc, basis_gates=['rx', 'ry', 'rz'])
+print(transpiled)
+```

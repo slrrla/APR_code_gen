@@ -1,0 +1,117 @@
+The symptom is 100% wins when x == y and about 50% otherwise. That points to a mismatch between the bit order of the measured string and the way the code indexes it, or between the row/column roles.
+
+Qiskit's count strings are little-endian: `outcome_str[0]` is the highest classical bit, c3. The code assigns `q0 = outcome_str[0]`, but q0 is measured into c0, which is the last character of the string. The indices are therefore reversed. The correct mapping is q0 = outcome_str[3], q1 = outcome_str[2], q2 = outcome_str[1], q3 = outcome_str[0].
+
+Reversing the string fixes the order within each pair, but I also need to check the pairing of x and y. Alice's two qubits are 0 and 1, and she is asked for row x. Bob's are 2 and 3, and he is asked for column y. Alice's third entry is a3 and Bob's is b3. The common cell is Alice's entry at column y, which is `a`, compared with Bob's entry at row x, which is `b`. The code's `a` and `b` selections follow that, so the pairing is consistent.
+
+With the current reversal, q0 and q1 are actually Bob's qubits and q2 and q3 are Alice's. Since x == y gives 100% wins in the question's output, a swap of the two players' registers would still be consistent there, so that symptom alone doesn't discriminate. Fixing the index order is the minimal change.
+
+The parity bits also need checking. Each row of the square must have even parity, so a3 = q0 xor q1, and the code sets a3 = 1 when q0 + q1 == 1, which is correct. Each column must have odd parity, so b3 = 1 xor q2 xor q3, which is 0 when q2 + q3 == 1 and 1 otherwise. That matches the code too.
+
+The fix is to reverse the string indices.
+
+```python
+import numpy, random
+from qiskit import QuantumCircuit, transpile
+from qiskit.quantum_info import Operator
+from qiskit_aer import StatevectorSimulator
+
+
+def define_initial_state():
+    psi = numpy.zeros(16, dtype=complex)
+    psi[3] = +0.5
+    psi[6] = -0.5
+    psi[9] = -0.5
+    psi[12] = +0.5
+    return psi
+
+
+def define_unitary_operators():
+    A1_matrix = (1 / numpy.sqrt(2)) * numpy.array([
+        [1j, 0, 0, 1], [0, -1j, 1, 0], [0, 1j, 1, 0], [1, 0, 0, 1j]], dtype=complex)
+    A2_matrix = (1 / 2) * numpy.array([
+        [1j, 1, 1, 1j], [-1j, 1, -1, 1j], [1j, 1, -1, -1j], [-1j, 1, 1, -1j]], dtype=complex)
+    A3_matrix = (1 / 2) * numpy.array([
+        [-1, -1, -1, 1], [1, 1, -1, 1], [1, -1, 1, 1], [1, -1, -1, -1]], dtype=complex)
+    B1_matrix = (1 / 2) * numpy.array([
+        [1j, -1j, 1, 1], [-1j, -1j, 1, -1], [1, 1, -1j, 1j], [-1j, 1j, 1, 1]], dtype=complex)
+    B2_matrix = (1 / 2) * numpy.array([
+        [-1, 1j, 1, 1j], [1, 1j, 1, -1j], [1, -1j, 1, 1j], [-1, -1j, 1, -1j]], dtype=complex)
+    B3_matrix = (1 / numpy.sqrt(2)) * numpy.array([
+        [1, 0, 0, 1], [-1, 0, 0, 1], [0, 1, 1, 0], [0, 1, -1, 0]], dtype=complex)
+    return {
+        "A1": Operator(A1_matrix), "A2": Operator(A2_matrix), "A3": Operator(A3_matrix),
+        "B1": Operator(B1_matrix), "B2": Operator(B2_matrix), "B3": Operator(B3_matrix),
+    }
+
+
+def create_quantum_circuit(psi, operators, x, y):
+    qc = QuantumCircuit(4, 4)
+    qc.initialize(psi, [0, 1, 2, 3])
+    if x == 1:
+        qc.unitary(operators["A1"], [0, 1], label="A1")
+    elif x == 2:
+        qc.unitary(operators["A2"], [0, 1], label="A2")
+    elif x == 3:
+        qc.unitary(operators["A3"], [0, 1], label="A3")
+    if y == 1:
+        qc.unitary(operators["B1"], [2, 3], label="B1")
+    elif y == 2:
+        qc.unitary(operators["B2"], [2, 3], label="B2")
+    elif y == 3:
+        qc.unitary(operators["B3"], [2, 3], label="B3")
+    qc.measure([0, 1, 2, 3], [0, 1, 2, 3])
+    return qc
+
+
+def execute_circuit_ideal(qc, shots=2 ** 7):
+    backend = StatevectorSimulator(precision="single")
+    job = backend.run(transpile(qc, backend), shots=shots)
+    return job.result().get_counts()
+
+
+def interpret_magic_square_ideal(counts, x, y):
+    wins = 0
+    losses = 0
+    for outcome_str, freq in counts.items():
+        # FIX: bit indices were reversed -> index the string from the right, because Qiskit count strings put c0 last
+        q3 = int(outcome_str[0])
+        q2 = int(outcome_str[1])
+        q1 = int(outcome_str[2])
+        q0 = int(outcome_str[3])
+        a3 = 0
+        if q0 + q1 == 1:
+            a3 = 1
+        b3 = 1
+        if q2 + q3 == 1:
+            b3 = 0
+        if y == 1:
+            a = q0
+        elif y == 2:
+            a = q1
+        elif y == 3:
+            a = a3
+        if x == 1:
+            b = q2
+        elif x == 2:
+            b = q3
+        elif x == 3:
+            b = b3
+        if a == b:
+            wins += freq
+        else:
+            losses += freq
+    return wins, losses
+
+
+if __name__ == "__main__":
+    random.seed(0)
+    psi = define_initial_state()
+    operators = define_unitary_operators()
+    x = 1 + random.randrange(3)
+    y = 1 + random.randrange(3)
+    qc = create_quantum_circuit(psi, operators, x, y)
+    counts = execute_circuit_ideal(qc)
+    wins, losses = interpret_magic_square_ideal(counts, x, y)
+    print(x, y, wins, losses)
+```

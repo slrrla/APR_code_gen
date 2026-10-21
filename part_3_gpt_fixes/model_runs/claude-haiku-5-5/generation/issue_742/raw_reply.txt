@@ -1,0 +1,31 @@
+The root cause is that `EstimatorV2` only accepts Pauli-based observables (`SparsePauliOp` or Pauli strings), not a general `Operator`. I convert the operator to a `SparsePauliOp` with `from_operator`, which decomposes any Hermitian matrix into Pauli terms, and add the import it needs.
+
+```python
+from math import pi
+from qiskit import QuantumCircuit, transpile
+# FIX: SparsePauliOp was not imported -> added it to the quantum_info import, because the observable must be converted to a SparsePauliOp for EstimatorV2
+from qiskit.quantum_info import Operator, SparsePauliOp
+from qiskit_aer import AerSimulator
+from qiskit_ibm_runtime import EstimatorV2
+
+backend = AerSimulator()
+estimator = EstimatorV2(mode=backend)
+
+O = Operator([[1,0,0,-2j],
+              [0,0,0,0],
+              [0,0,0,0],
+              [2j,0,0,1]])
+
+# FIX: EstimatorV2 rejects a raw Operator observable -> convert it to a SparsePauliOp via from_operator, because it decomposes the matrix into Pauli terms the Estimator accepts
+obs = SparsePauliOp.from_operator(O)
+
+qc = QuantumCircuit(2)
+qc.rx(pi/3,1)
+qc.cx(1,0)
+
+qc_t = transpile(qc,backend)
+
+job = estimator.run([(qc_t,[obs])])
+exp_vals = job.result()[0].data.evs
+print(exp_vals)
+```

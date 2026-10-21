@@ -1,0 +1,19 @@
+The failure comes from how `TwoLocal` resolves string block names. It only recognizes names in its own built-in list of layers, and `'iswap'` is not in that list in the versions shown in the traceback. `TwoLocal` also accepts gate objects as blocks, so passing an `iSwapGate()` instance avoids the name lookup altogether.
+
+```python
+from qiskit.circuit.library import TwoLocal
+# FIX: iSwapGate was not imported -> import it, because the block must be passed as a gate object
+from qiskit.circuit.library import iSwapGate
+
+num_spin_orbitals = 4
+
+ansatz = TwoLocal(
+    num_spin_orbitals,
+    ['ry', 'rz'],
+    # FIX: string 'iswap' is not a recognized layer name -> pass iSwapGate(), because TwoLocal accepts Instruction objects directly as blocks
+    entanglement_blocks=iSwapGate(),
+    entanglement='linear'
+)
+
+print(ansatz.decompose())
+```

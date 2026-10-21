@@ -1,0 +1,19 @@
+The Aer unitary simulator no longer saves the unitary automatically. Unless the circuit contains an explicit `save_unitary` instruction, the result has no unitary data, so `get_unitary()` fails. The fix adds `circuit.save_unitary()` after the gates. This instruction is available on `QuantumCircuit` because `qiskit_aer` is already imported.
+
+```python
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
+from qiskit_aer import AerSimulator
+
+qreg_q = QuantumRegister(1, 'q')
+creg_c = ClassicalRegister(1, 'c')
+circuit = QuantumCircuit(qreg_q, creg_c)
+circuit.h(0)
+# FIX: unitary was never saved in the circuit -> added circuit.save_unitary(), because AerSimulator only returns a unitary when an explicit save instruction is present
+circuit.save_unitary()
+
+backend = AerSimulator(method='unitary')
+job = backend.run(circuit).result()
+
+unitary = job.get_unitary()
+print(unitary)
+```

@@ -1,0 +1,19 @@
+{
+  "case": "issue_901",
+  "version": "1.0.2",
+  "target": "CLAUDE_FIXED",
+  "exit_code": 1,
+  "raw_result": "FAIL",
+  "classification": "FAIL",
+  "reason": "Test failure: AssertionError: {'s'} is not false : Output still contains gates outside {H, T, CNOT, I}: s No target frame establishes a target execution exception. Review output/interface expectations against the question.",
+  "review_required": true,
+  "seconds": 2.944,
+  "started_utc": "2026-10-20T00:17:43.414186+00:00",
+  "test": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_901\\test.py",
+  "test_sha256": "bf85068e977ed14627d067cab17ba58642d6890da81ab41f9bfdd52e0c34ddc2",
+  "target_file": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\model_runs\\claude-sonnet-5-5\\generation\\issue_901\\fix_901.py",
+  "target_sha256": "1db62f29266b6323d011669f51256e15ed30343d9a95d88fb654ba588eead08a",
+  "log": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\model_runs\\claude-sonnet-5-5\\testing\\all73\\logs\\issue_901\\1.0.2\\CLAUDE_FIXED.txt",
+  "log_sha256": "4abb2a7928bee563c312dde47090cad6966689338097ed3d4f6f3b12db2e07ea",
+  "timed_out": false
+}

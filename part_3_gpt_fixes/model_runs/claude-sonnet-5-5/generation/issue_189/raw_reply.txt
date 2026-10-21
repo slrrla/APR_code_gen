@@ -1,0 +1,34 @@
+The grover operator acts on 6 qubits, so the controlled gate has 7 qubits. The qubit list `qp` has length `n+lg+2-(n-j) = lg+2+j`, which is 7 for j=1, 8 for j=2, and 9 for j=3. The list therefore only matches the gate's width on the first iteration.
+
+The intended layout is one control qubit plus 6 target qubits. The control is the i-th counting qubit, and the targets are the last 6 qubits, `n+lg+2-6 = 3` through 8. The control qubit is `n-j`, which is 2, 1, 0 for i = 0, 1, 2, so the controls run in a sensible order. The targets should therefore be `range(n, n+lg+2)`, which has length 6.
+
+The fix is to build `qp` as `[n-j] + list(range(n, n+lg+2))`, giving 7 qubits each iteration.
+
+The question's "first iteration not appending" description is just the symptom of the mismatch: the first iteration works (7 args) and the second fails (8 args).
+
+```python
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.circuit.library import GroverOperator
+from qiskit.transpiler.passes import RemoveBarriers
+from qiskit.converters import circuit_to_gate
+
+oracle = QuantumCircuit(6)
+oracle.z(5)
+grover_operator = GroverOperator(oracle)
+grover_operator = RemoveBarriers()(grover_operator)
+
+n = 3
+lg = 4
+qpe = QuantumCircuit(n + lg + 2)
+
+for i in range(n):
+    Q = circuit_to_gate(grover_operator).control().power(2 ** ((n - 1) - i))
+    j = i + 1
+    # FIX: qubit list grew with each iteration (7, 8, 9 qubits) -> use one control qubit plus the fixed 6 target qubits, because the controlled gate always expects 7 qubits
+    qp = [n - j] + list(np.arange(n, n + lg + 2))
+    for l in range(len(qp)):
+        print(qp[l])
+    print(" ")
+    qpe.append(Q, qp)
+```

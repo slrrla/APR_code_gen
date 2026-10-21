@@ -1,0 +1,37 @@
+CASE=issue_595
+QISKIT=1.2.0
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-haiku-5-5\generation\issue_595\fix_595.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_595\test.py
+
+E
+======================================================================
+ERROR: test_saved_unitary_from_aer (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_120_exact\lib\site-packages\qiskit\result\result.py", line 331, in get_unitary
+    return postprocess.format_unitary(self.data(experiment)["unitary"], decimals=decimals)
+KeyError: 'unitary'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_595\test.py", line 21, in test_saved_unitary_from_aer
+    ns = load_target()
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_595\test.py", line 15, in load_target
+    return runpy.run_path(MUT)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_120_exact\lib\runpy.py", line 289, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_120_exact\lib\runpy.py", line 96, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_120_exact\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-haiku-5-5\generation\issue_595\fix_595.py", line 13, in <module>
+    unitary = result.get_unitary(circ)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_120_exact\lib\site-packages\qiskit\result\result.py", line 333, in get_unitary
+    raise QiskitError(f'No unitary for experiment "{repr(experiment)}"') from ex
+qiskit.exceptions.QiskitError: 'No unitary for experiment "<qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x00000286241AE8C0>"'
+
+----------------------------------------------------------------------
+Ran 1 test in 2.455s
+
+FAILED (errors=1)

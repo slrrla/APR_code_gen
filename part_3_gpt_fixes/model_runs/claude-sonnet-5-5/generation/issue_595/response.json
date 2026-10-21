@@ -1,0 +1,34 @@
+{
+  "id": "msg_011Cg2y2ggrcgjwgecD7zVMt",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "The root cause is that `AerSimulator` has no unitary result by default. The circuit needs a `save_unitary()` instruction, and the simulation method must be set to `unitary`. Without the save instruction, `result.get_unitary` fails because no unitary was stored.\n\nThe smallest fix:\n- Create the simulator with `method='unitary'`.\n- Add `circ.save_unitary()` before transpiling.\n\n`save_unitary` is a method on `QuantumCircuit` that becomes available once `qiskit_aer` is imported, and the import is already there. `result.get_unitary(circ)` still works after that.\n\n```python\nfrom qiskit_aer import AerSimulator\nfrom qiskit import QuantumCircuit, transpile\n\ncirc = QuantumCircuit(2)\ncirc.h(0)\ncirc.cx(0, 1)\n# FIX: no unitary was saved in the circuit -> added circ.save_unitary(), because AerSimulator only returns the unitary if a save_unitary instruction is present\ncirc.save_unitary()\n\n# FIX: default simulator method cannot produce a unitary -> set method='unitary', because the unitary simulation method is needed for save_unitary\nsimulator = AerSimulator(method='unitary')\ncirc = transpile(circ, simulator)\n\nresult = simulator.run(circ).result()\nunitary = result.get_unitary(circ)\nprint(\"Circuit unitary:\\n\", unitary)\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 888,
+    "output_tokens": 471,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

@@ -1,0 +1,21 @@
+The code fails for two reasons:
+
+- **`IBMQ` no longer exists.** It was removed in Qiskit 1.0.
+- **The device is retired.** `ibm_oslo` can't be reached through any live provider, so `get_backend('ibm_oslo')` fails.
+
+The fix is to load a saved snapshot of Oslo's calibration data, `FakeOslo` from `qiskit_ibm_runtime.fake_provider`. Its `properties()` returns the same object as before, so the three print lines stay unchanged. I haven't run the corrected code.
+
+The snapshot holds the calibration recorded when it was captured. Its T1 values may differ slightly from the published mean at the time of your experiment.
+
+```python
+# FIX: legacy IBMQ provider (removed) cannot reach retired ibm_oslo -> import FakeOslo snapshot, because it stores the device's recorded calibration properties
+from qiskit_ibm_runtime.fake_provider import FakeOslo
+
+# FIX: provider.get_backend('ibm_oslo') on a retired device -> instantiate FakeOslo(), because it exposes the archived properties offline
+backend = FakeOslo()
+
+system = backend
+print(system.properties().backend_version)
+print(system.properties().last_update_date)
+print(system.properties().qubits)
+```

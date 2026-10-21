@@ -1,0 +1,21 @@
+The BasicProvider simulator (`basic_simulator`) has no parallelism options. Those options (`max_parallel_threads` and the others) belong to Aer's simulators, so `set_options` raises an `AttributeError`. The smallest fix is to remove the `set_options` call. Switching to Aer would add a new dependency, which the rules forbid. The BasicProvider backend is pure Python and has no thread settings to configure.
+
+```python
+from qiskit import QuantumCircuit
+from qiskit.providers.basic_provider import BasicProvider
+
+qc_combine = QuantumCircuit(2)
+qc_combine.h(0)
+qc_combine.cx(0, 1)
+qc_combine.measure_all()
+
+shots_used = 1024
+
+backend = BasicProvider().get_backend("basic_simulator")
+
+# FIX: set_options with Aer-only parallelism fields -> removed the call, because BasicSimulator does not define these options and raises AttributeError
+job = backend.run(qc_combine, shots=shots_used)
+result = job.result()
+counts = result.get_counts(qc_combine)
+print(counts)
+```

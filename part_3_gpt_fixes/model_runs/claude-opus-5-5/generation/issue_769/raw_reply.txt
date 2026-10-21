@@ -1,0 +1,14 @@
+The crash comes from the import. `qiskit.extensions` was removed in Qiskit 1.0, so `from qiskit.extensions import UnitaryGate` fails before any of the code runs. `UnitaryGate` now lives in `qiskit.circuit.library`, and only that import line needs to change.
+
+This only fixes the crash. After the fix, `gate.name` prints `"unitary"` for any `UnitaryGate`, not `"x"`. The code still does not do what the question asks, which is to recognise the matrix as the Pauli X gate. That would need extra logic, such as comparing the matrix against the standard gates, and I have not added it.
+
+```python
+import numpy as np
+# FIX: qiskit.extensions was removed in Qiskit 1.0 -> import UnitaryGate from qiskit.circuit.library, because that is where the class now lives
+from qiskit.circuit.library import UnitaryGate
+
+unitary = np.array([[0, 1], [1, 0]])
+gate = UnitaryGate(unitary)
+print(gate.name)
+
+```

@@ -1,0 +1,30 @@
+CASE=issue_295
+QISKIT=0.45.0
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-haiku-5-5\generation\issue_295\fix_295.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_295\test.py
+
+E
+======================================================================
+ERROR: test_all_four_boolean_oracles (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_295\test.py", line 23, in test_all_four_boolean_oracles
+    ns = load_target()
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_295\test.py", line 14, in load_target
+    return runpy.run_path(MUT)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_045\lib\runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_045\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_045\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-haiku-5-5\generation\issue_295\fix_295.py", line 22, in <module>
+    circuit = deutsch_circuit(constant_oracle())
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-haiku-5-5\generation\issue_295\fix_295.py", line 8, in deutsch_circuit
+    circuit += oracle
+TypeError: unsupported operand type(s) for +=: 'QuantumCircuit' and 'QuantumCircuit'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.021s
+
+FAILED (errors=1)

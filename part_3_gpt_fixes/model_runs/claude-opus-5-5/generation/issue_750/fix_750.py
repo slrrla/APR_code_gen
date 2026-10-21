@@ -1,0 +1,8 @@
+import numpy as np
+from qiskit.quantum_info import Operator, Pauli
+
+op = Operator(np.eye(2 ** 3))
+# FIX: Pauli(label='XZ') uses the removed 'label' keyword -> pass the label positionally as Pauli('XZ'), because current Qiskit's Pauli constructor no longer accepts label= and raises a TypeError
+XZ = Operator(Pauli('XZ'))
+result = op.compose(XZ, qargs=[0, 2])
+print(result)

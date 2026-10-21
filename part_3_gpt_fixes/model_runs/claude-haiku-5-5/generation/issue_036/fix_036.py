@@ -1,0 +1,10 @@
+import qiskit
+# FIX: qiskit.qasm2 was not explicitly imported -> added "import qiskit.qasm2", because the OpenQASM 2 exporter lives in that submodule and must be loaded before use
+import qiskit.qasm2
+
+c = qiskit.QuantumCircuit(1)
+c.h(0)
+
+# FIX: QuantumCircuit.qasm() was removed in Qiskit 1.0 -> replaced with qiskit.qasm2.dumps(c), because that is the Qiskit 1.0 way to export a circuit to OpenQASM 2.0 text
+qasm_str = qiskit.qasm2.dumps(c)
+print(qasm_str)

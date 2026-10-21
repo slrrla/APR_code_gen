@@ -1,0 +1,27 @@
+The circuit fails to transpile because Qiskit's `BasisTranslator` has no rule that turns `s` into gates from `{h, t, cx}`. It only translates gates by following rules in the `EquivalenceLibrary`. The standard library rewrites `S` toward `U1`/phase gates, but it has no rule that leads back to `T`. So even though `{H, T, CNOT}` is universal, there is no translation path.
+
+Since S = T·T exactly (diag(1, i), with no global phase difference), the smallest fix is to register that equivalence in the session equivalence library. The default preset pass managers use that library, so the circuit, the basis gates and the `transpile` call all stay unchanged.
+
+```python
+from qiskit.circuit import QuantumCircuit
+from qiskit import transpile
+# FIX: no equivalence rule maps S into {h, t, cx} -> import SGate and SessionEquivalenceLibrary, because we need to register S = T·T
+from qiskit.circuit.library import SGate
+from qiskit.circuit.equivalence_library import SessionEquivalenceLibrary
+
+qc = QuantumCircuit(2)
+qc.h(0)
+qc.s(0)
+qc.cx(0, 1)
+
+# FIX: BasisTranslator had no path from 's' to the target basis -> add the exact equivalence S = T·T to the session library, because transpile uses SessionEquivalenceLibrary by default
+s_equiv = QuantumCircuit(1)
+s_equiv.t(0)
+s_equiv.t(0)
+SessionEquivalenceLibrary.add_equivalence(SGate(), s_equiv)
+
+basis_gates = ["h", "t", "cx", "id"]
+qc_transpiled = transpile(qc, basis_gates=basis_gates)
+```
+
+This only fixes the circuit in the question. Gates like an arbitrary `RX` cannot be written exactly in `{H, T, CNOT}`, so no equivalence rule will cover them. For those you need an approximate synthesis such as Qiskit's Solovay–Kitaev pass rather than basis translation.

@@ -1,0 +1,33 @@
+The controlled Grover gate acts on 7 qubits: 1 control plus the 6 qubits of the operator. But `np.arange(n - j, n + lg + 2)` builds a contiguous range that starts at the control index, so its length grows each iteration.
+
+- When `i = 0`, it gives `2..8`, which is 7 qubits. This works by coincidence.
+- When `i = 1`, it gives `1..8`, which is 8 qubits. This causes the mismatch error.
+
+The loop is not skipping the first iteration. The first `append` succeeds, and the error appears on the second one. The qubit list should be the single control qubit `n - j` followed by the fixed target register `n .. n + lg + 1`.
+
+```python
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.circuit.library import GroverOperator
+from qiskit.transpiler.passes import RemoveBarriers
+from qiskit.converters import circuit_to_gate
+
+oracle = QuantumCircuit(6)
+oracle.z(5)
+grover_operator = GroverOperator(oracle)
+grover_operator = RemoveBarriers()(grover_operator)
+
+n = 3
+lg = 4
+qpe = QuantumCircuit(n + lg + 2)
+
+for i in range(n):
+    Q = circuit_to_gate(grover_operator).control().power(2 ** ((n - 1) - i))
+    j = i + 1
+    # FIX: contiguous range from control index grew in length each iteration (7, 8, 9 qubits) -> use single control qubit n-j plus fixed target qubits n..n+lg+1, because the controlled gate always expects exactly 1 control + 6 target qubits
+    qp = [n - j] + list(np.arange(n, n + lg + 2))
+    for l in range(len(qp)):
+        print(qp[l])
+    print(" ")
+    qpe.append(Q, qp)
+```

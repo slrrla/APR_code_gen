@@ -1,0 +1,18 @@
+CASE=issue_453
+QISKIT=1.2.1
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-opus-5-5\generation\issue_453\fix_453.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_453\test.py
+
+E.
+======================================================================
+ERROR: test_allocate_reuse_and_all_basis_inputs (__main__.TestAutomaticAncillas)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_453\test.py", line 27, in test_allocate_reuse_and_all_basis_inputs
+    returned=main.compose_with_auto_ancillas(m['qc1'],[0,1,2,3],inplace=True)
+AttributeError: 'QuantumCircuit' object has no attribute 'compose_with_auto_ancillas'
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.108s
+
+FAILED (errors=1)

@@ -1,0 +1,21 @@
+The QasmSimulator only returns counts unless the circuit asks it to save the state. The fix is to add `qc.save_statevector()` after building the circuit, which needs the `qiskit.providers.aer` import to register the instruction. `get_statevector` is still available on the result, and it reads the saved statevector from the result data.
+
+The circuit has no measurements, so `get_statevector` needs the saved state to find anything. Adding `save_statevector` is the smallest change that makes the call work. Calling `execute` with `backend_options` is left as is.
+
+```python
+from qiskit import QuantumCircuit, execute
+from qiskit.providers.aer import QasmSimulator
+
+qc = QuantumCircuit(2)
+qc.h(0)
+qc.cx(0, 1)
+# FIX: statevector was never saved in the circuit -> added qc.save_statevector(), because QasmSimulator only stores the state in the result when a save instruction is present
+qc.save_statevector()
+
+backend = QasmSimulator()
+backend_options = {"method": "statevector"}
+
+job = execute(qc, backend, backend_options=backend_options)
+job_result = job.result()
+print(job_result.get_statevector(qc))
+```

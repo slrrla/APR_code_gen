@@ -1,0 +1,25 @@
+The `QiskitError` comes from the rounding, not from the `Statevector` or `DensityMatrix` types. `get_statevector(circuit6, decimals=3)` rounds each amplitude to 3 decimals, so the vector is no longer exactly normalised. `quantum_info.entropy` checks that its input is a valid quantum state, sees a norm that isn't 1, and raises the error.
+
+The fix is to fetch the statevector without rounding. One side effect: `print(outputstate6)` will now show full-precision amplitudes instead of 3-decimal ones. For this pure state the entropy should come out as 0.
+
+```python
+import numpy as np
+from qiskit import QuantumCircuit, BasicAer, execute
+from qiskit import quantum_info
+
+circuit6 = QuantumCircuit(2)
+circuit6.h(0)
+circuit6.cx(0, 1)
+circuit6.ry(1.0, 1)
+
+simulator = BasicAer.get_backend('statevector_simulator')
+result6 = execute(circuit6, simulator).result()
+# FIX: statevector rounded with decimals=3 -> get the unrounded statevector, because rounding breaks normalization and entropy rejects it as an invalid state
+outputstate6 = result6.get_statevector(circuit6)
+probability = np.abs(np.array(outputstate6))**2
+outstatevector = quantum_info.states.Statevector(outputstate6)
+print(type(outstatevector))
+print(type(outputstate6))
+print(outputstate6)
+print(quantum_info.entropy(outputstate6))
+```

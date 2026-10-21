@@ -1,0 +1,39 @@
+{
+  "id": "msg_011Cg2wxKk3XDQZPgfxyeX5V",
+  "container": null,
+  "content": [
+    {
+      "signature": "CAQS0wYKEAgSGAI4AUIIdGhpbmtpbmcSDCosAralC2fJ83Fr8xoMs5DqoRs2gWt5NoUTIjALPcSI2pk/dC0JdFxhwAflJ67+YIYM+KbY6EISx+4ZmTBGiBnaM5BoEfcO8KuRT04q8AUyLuxXbTvHhP3AuWh9ArZ4XiRrHJEp+hznuvyMWL24FTgupqr/mOnVXE7rimLCGJjZvbFZGfm8PhbWGQm3u0d9hUF5dD/JWqiauDMBtfxokoP4b50g5i67//fnLux9ELevceXfvWk2LKZMTe+S0m5/QLL5A7id5/eneDi5y8ER7gKaz2+u5ykLV/KUlpSEP+MSWXY4Pb7P5w+nzCRZvm6kwFxq4PFF0LRoezJAYYCPus8pDIzVXFYMbYHcxFbakxwGIsFa+EI6coFKRSjV0aPF7RE9NKa2+7pqghxHFvVbpardlUP7AwWVoL0BtiDVcyo3t64H/pab3OwpZ+tiSdvVBVLOM8tVtgXw6NiBNwdj7DmpvWqozGAYSbRwkpVyeL9iczmu1E2+M7ljjj/ReHO5HPG0032Z1D+sO34Fb8QJilC5XDWg81I8qn03VyzmplDIUiiba+b6ZATBL07j6cYqpS5zGN8x0gDTVcZ0v3mS86BiajMZRzBFiONiL4OWQjr+N4Ahb9Ta6VrA3e9cr2L/yXHuzlx/56pCT8g4AxVnCSpSogoLPdAVmkY5PU2MDCul5lzeQqUeOF6IMPpm1/YLSyynqnhmwaYu/Rz0S1C50118vsPwoohyEFvzhEYvryzckNn3njglS985NHtK6qToMcSO21gAL1RVdKlGCKrt2E0WLL/gQMmVHQW8y3mqIfEu7Sae+GiijLxK2MHKIwGjc0sb2HvqeCaMfDXdlk40nHIRzsgluKuW3MM/e0HnXhpJrwPpC8zdeLzYBW6rK5K9iyEKcPLbflNBCF6u97dT29XxKxJTpRDOuih83kkLTaAA52fem9hr80jeejYKKeyaHdbTaFMqdEwpwjaORmzP4qTY0hPhw9L1NMvndxk2IYGhk6xfuaSSY0K7R0vq6GVkgyMG/ZXt67YdW2YIWupb18GTgbHtP759tKvCFZ/wC/kMRKoypEBtqvnndl4IwG+LUwUgcEI1ybPqtH034TPzrBgB",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "citations": null,
+      "text": "```python\nfrom qiskit import QuantumCircuit\n\nstate = [0.5, 0.5, 0.5, 0.5]\n\nqc_gate = QuantumCircuit(2)\n# FIX: initialize contains non-unitary reset operations so to_gate()/control() fails -> use prepare_state, because StatePreparation is a unitary gate that can be converted to a gate and controlled\nqc_gate.prepare_state(state, [0, 1])\n\ngate = qc_gate.to_gate().control(2)\n\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 1156,
+    "output_tokens": 275,
+    "output_tokens_details": {
+      "thinking_tokens": 106
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

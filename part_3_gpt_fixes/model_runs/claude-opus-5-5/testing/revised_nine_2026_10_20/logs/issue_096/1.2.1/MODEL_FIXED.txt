@@ -1,0 +1,52 @@
+CASE=issue_096
+QISKIT=1.2.1
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-opus-5-5\generation\issue_096\fix_096.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_096\test.py
+
+FF.F
+======================================================================
+FAIL: test_clean_home (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_096\test.py", line 68, in test_clean_home
+    self.check_configuration()
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_096\test.py", line 58, in check_configuration
+    self.assertTrue(kernel.is_file(), "Missing ipython_kernel_config.py\n" + process.stdout + process.stderr)
+AssertionError: False is not true : Missing ipython_kernel_config.py
+[default]
+circuit_drawer = mpl
+
+
+
+======================================================================
+FAIL: test_existing_profile_missing_kernel_config (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_096\test.py", line 74, in test_existing_profile_missing_kernel_config
+    self.check_configuration(existing_profile=True)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_096\test.py", line 58, in check_configuration
+    self.assertTrue(kernel.is_file(), "Missing ipython_kernel_config.py\n" + process.stdout + process.stderr)
+AssertionError: False is not true : Missing ipython_kernel_config.py
+[default]
+circuit_drawer = mpl
+
+
+
+======================================================================
+FAIL: test_preserves_existing_qiskit_settings (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_096\test.py", line 71, in test_preserves_existing_qiskit_settings
+    self.check_configuration(existing_settings=True)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_096\test.py", line 58, in check_configuration
+    self.assertTrue(kernel.is_file(), "Missing ipython_kernel_config.py\n" + process.stdout + process.stderr)
+AssertionError: False is not true : Missing ipython_kernel_config.py
+[default]
+circuit_drawer = text
+
+
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.259s
+
+FAILED (failures=3)

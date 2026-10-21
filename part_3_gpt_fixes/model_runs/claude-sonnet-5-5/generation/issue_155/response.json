@@ -1,0 +1,34 @@
+{
+  "id": "msg_011Cg2xsjkeY6wx6sKSg6J6Z",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "The root cause is that `partial_trace` takes integer qubit indices, not `QuantumRegister` objects. Each register has 2 qubits, laid out in order, so the indices are:\n\n- reg2: 2, 3\n- reg4: 6, 7\n\nThe smallest fix is to build the index list from the circuit with `qc.find_bit`, which keeps the code tied to the registers instead of hardcoding numbers.\n\n```python\nfrom qiskit import Aer, QuantumCircuit, QuantumRegister, transpile\nfrom qiskit.quantum_info import partial_trace\n\nqc = QuantumCircuit()\nreg1 = QuantumRegister(2)\nqc.add_register(reg1)\nreg2 = QuantumRegister(2)\nqc.add_register(reg2)\nreg3 = QuantumRegister(2)\nqc.add_register(reg3)\nreg4 = QuantumRegister(2)\nqc.add_register(reg4)\n\nqc.h(reg1[0])\nqc.cnot(reg1[0], reg2[0])\nqc.h(reg3[0])\nqc.x(reg4[0])\nqc.cnot(reg3[0], reg4[0])\n\nsimulator = Aer.get_backend(\"aer_simulator\")\nqc.save_statevector()\ntranspiled_qc = transpile(qc, simulator)\nresult = simulator.run(transpiled_qc).result()\n\n# FIX: passed QuantumRegister objects to partial_trace -> pass the integer qubit indices of those registers, because partial_trace only accepts qubit indices\ntraced_over_registers = [qc.find_bit(q).index for reg in (reg2, reg4) for q in reg]\ndensity_matrix = partial_trace(result.get_statevector(), traced_over_registers)\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 2528,
+    "output_tokens": 586,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

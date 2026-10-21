@@ -1,0 +1,18 @@
+The root cause is that `0.5*I - 1j*sqrt(...)*Y` is an opflow operator, not a gate. When it is appended, it gets wrapped as a generic instruction, so `to_gate()` fails. Opflow is also deprecated.
+
+The operator is 0.5·I − i·(√3/2)·Y. Because exp(-iθY/2) = cos(θ/2)·I − i·sin(θ/2)·Y, this is an RY rotation with cos(θ/2) = 0.5, so θ = 2·arccos(0.5) = 2π/3.
+
+The smallest fix is to append an `Operator` built from the matrix as a unitary gate. `QuantumCircuit.unitary` appends a `UnitaryGate`, which is a real Gate, so `to_gate()` works. This also removes the need for `qiskit.opflow`, but I'll keep the import line as it is.
+
+The matrix has to be built without opflow's `.to_matrix()` on the composed operator. That call would still work if opflow is installed, so I'll use `(0.5*I - 1j*np.sqrt(1-0.5**2)*Y).to_matrix()` and pass it to `circuit.unitary`. This keeps the expression unchanged and only changes how it is appended.
+
+```python
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.opflow import I, X, Y, Z
+
+circuit = QuantumCircuit(1, name='R')
+# FIX: appended an opflow operator, which is not a Gate -> append its matrix as a unitary gate, because UnitaryGate is a Gate so to_gate() succeeds
+circuit.unitary((0.5*I - 1j*np.sqrt(1-0.5**2)*Y).to_matrix(), [0])
+circuit.to_gate()
+```

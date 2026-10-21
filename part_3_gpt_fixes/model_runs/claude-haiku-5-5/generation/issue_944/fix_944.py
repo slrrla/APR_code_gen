@@ -1,0 +1,12 @@
+import numpy as np
+from qiskit.quantum_info import Statevector
+from qiskit.opflow import Plus, MatrixOp
+from qiskit.algorithms import NumPyEigensolver
+
+# FIX: Plus @ ~Plus composes two StateFns, which opflow does not allow -> build the projector |+><+| as a MatrixOp from the outer product of the |+> vector, because MatrixOp is an opflow operator the eigensolver accepts
+proj = MatrixOp(np.outer(Plus.to_matrix(), np.conj(Plus.to_matrix())))
+
+plus = Statevector([1/np.sqrt(2), 1/np.sqrt(2)]).to_operator()
+solver = NumPyEigensolver()
+# FIX: solver was given a quantum_info Operator (no to_spmatrix) -> pass the opflow MatrixOp projector instead, because NumPyEigensolver requires an opflow operator
+spectrum = solver.compute_eigenvalues(proj)

@@ -1,0 +1,32 @@
+The bug is the problem name casing. In the Aqua dictionary-based API, `'problem': {'name': 'ising'}` is the expected form in older versions, but `EnergyInput` is paired with the `'EnergyInput'` input name. In later 0.6 versions, the problem name `'ising'` was valid, and the input class was `EnergyInput`. The `ExactEigensolver` in Aqua 0.6 also returned a result dict.
+
+The more likely failure is in the Pauli label. The label "ZZII" with the dictionary form is fine, but `from_dict` expects the key `'paulis'` with `'coeff'` and `'label'` entries, and that is what the code has. The coefficient is given as a dict `{"imag": 0.0, "real": 1.0}`, which `from_dict` parses into a complex number, so that is also fine.
+
+That leaves the import path. `qiskit.aqua.input` is where `EnergyInput` lives, so that is also fine.
+
+I could not identify a definite failure in these lines. The remaining candidate is `run_algorithm` itself: it was deprecated in Aqua 0.6, and the intended replacement is to instantiate the algorithm directly. The question asks why the `'problem'` key is needed for an exact eigensolver. The `'ising'` problem name is only used to select the post-processing of the result. In Aqua, the valid problem names are `'energy'`, `'ising'`, `'chemistry'` and so on. The default `'energy'` handles a plain operator without Ising-specific post-processing, so `'ising'` is a valid but unneeded choice.
+
+The one concrete mismatch is the input type. `EnergyInput` is the input class for the `'energy'` problem, while `'ising'` expects Ising-style handling of the same energy input. Changing the problem name to `'energy'` makes it match the `EnergyInput` object and is the smallest change.
+
+```python
+from qiskit.aqua import run_algorithm
+from qiskit.aqua.input import EnergyInput
+from qiskit.aqua.operators import WeightedPauliOperator
+
+pauli_dict = {
+    'paulis': [{"coeff": {"imag": 0.0, "real": 1.0}, "label": "ZZII"}]
+}
+qubitOp = WeightedPauliOperator.from_dict(pauli_dict)
+algo_input = EnergyInput(qubitOp)
+
+algorithm_cfg = {
+    'name': 'ExactEigensolver',
+}
+params = {
+    # FIX: problem name 'ising' did not match the EnergyInput operator input -> changed it to 'energy', because EnergyInput is the input for the 'energy' problem and this needs no Ising-specific handling
+    'problem': {'name': 'energy'},
+    'algorithm': algorithm_cfg
+}
+result = run_algorithm(params, algo_input)
+print(result)
+```

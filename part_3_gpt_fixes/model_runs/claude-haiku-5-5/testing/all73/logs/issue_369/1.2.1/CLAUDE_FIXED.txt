@@ -1,0 +1,12 @@
+CASE=issue_369
+QISKIT=1.2.1
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-haiku-5-5\generation\issue_369\fix_369.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_369\test.py
+
+C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_369\test.py:18: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 2.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  instruction, qargs, _ = circuit.data[0]
+.
+----------------------------------------------------------------------
+Ran 1 test in 2.524s
+
+OK

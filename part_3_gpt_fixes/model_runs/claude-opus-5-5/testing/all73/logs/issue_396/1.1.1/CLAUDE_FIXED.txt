@@ -1,0 +1,40 @@
+CASE=issue_396
+QISKIT=1.1.1
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-opus-5-5\generation\issue_396\fix_396.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_396\test.py
+
+         ┌────┐
+state_0: ┤0   ├
+         │    │
+state_1: ┤1 Q ├
+         │    │
+state_2: ┤2   ├
+         └────┘
+F
+======================================================================
+FAIL: test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_396\test.py", line 17, in test_exact_marked_phases_and_grover_amplification
+    np.testing.assert_allclose(Operator(m['oracle']).data, expected_oracle, atol=1e-12)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_111\lib\site-packages\numpy\testing\_private\utils.py", line 1715, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_111\lib\site-packages\numpy\testing\_private\utils.py", line 921, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+Mismatched elements: 10 / 64 (15.6%)
+Max absolute difference among violations: 2.
+Max relative difference among violations: 2.
+ ACTUAL: array([[0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],
+       [0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],
+       [0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],...
+ DESIRED: array([[ 1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+       [ 0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.],
+       [ 0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.],...
+
+----------------------------------------------------------------------
+Ran 1 test in 1.390s
+
+FAILED (failures=1)

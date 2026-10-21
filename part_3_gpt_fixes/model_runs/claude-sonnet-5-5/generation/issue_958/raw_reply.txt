@@ -1,0 +1,20 @@
+The code multiplies a bound method by -1, which raises a TypeError. The user wants to apply a gate and its negative, and in Qiskit that means a global phase of π. The smallest change is to build the gate as an object, `HGate()`, and apply `-1 * gate` as a phase-shifted copy.
+
+The minimal fix is to make gate1 a real gate and build its negative with a global phase. A circuit with global phase π, converted to a gate, gives -H. That means building a one-qubit circuit with H and `global_phase = pi`, then converting it with `to_gate()`. The result can be appended to the qubits that need the negated gate.
+
+```python
+from qiskit import QuantumCircuit
+from math import pi
+
+qc = QuantumCircuit(2)
+qc.h([0, 1])
+
+# FIX: gate1 was a bound method (qc.h) and `-1 * gate1` is invalid -> build the gate from a circuit and make the negative with a global phase of pi, then append it, because -U equals U with global phase pi
+sub = QuantumCircuit(1)
+sub.h(0)
+gate1 = sub.to_gate()
+neg_sub = QuantumCircuit(1, global_phase=pi)
+neg_sub.h(0)
+neg_gate1 = neg_sub.to_gate()
+qc.append(neg_gate1, [1])
+```

@@ -1,0 +1,34 @@
+{
+  "id": "msg_011Cg2wzdhqPhrzYkx8gR2Td",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "Root cause: in this Qiskit version, `result.get_statevector(...)` returns a `Statevector` object, not a NumPy array. That object has no `.reshape` method, so the call fails with `AttributeError`. The fix is to convert it to a NumPy array with `np.asarray(...)` before reshaping. The rest of the program, including the old `execute`/`Aer` imports, stays as the user wrote it.\n\n```python\nimport numpy as np\nimport scipy as sp\nfrom qiskit import QuantumCircuit, execute, Aer\n\ndef random_unitary(N):\n    \"\"\" Return a Haar distributed random unitary from U(N) \"\"\"\n    Z = np.random.randn(N, N) + 1.0j * np.random.randn(N, N)\n    [Q, R] = sp.linalg.qr(Z)\n    D = np.diag(np.diagonal(R) / np.abs(np.diagonal(R)))\n    return np.dot(Q, D)\n\ndef haar_integral(num_qubits, samples):\n    \"\"\" Return calculation of Haar Integral for a specified number of samples. \"\"\"\n    N = 2**num_qubits\n    randunit_density = np.zeros((N, N), dtype=complex)\n    zero_state = np.zeros(N, dtype=complex)\n    zero_state[0] = 1\n    for _ in range(samples):\n        A = np.matmul(zero_state, random_unitary(N)).reshape(-1, 1)\n        randunit_density += np.kron(A, A.conj().T)\n    randunit_density /= samples\n    return randunit_density\n\ndef pqc_integral(num_qubits, ansatze, size, samples):\n    \"\"\" Return calculation of Integral for a PQC over the uniformly sampled the parameters theta for the specified number of samples. \"\"\"\n    N = num_qubits\n    randunit_density = np.zeros((2**N, 2**N), dtype=complex)\n    for _ in range(samples):\n        params = np.random.uniform(-np.pi, np.pi, size)\n        ansatz = ansatze(params, N)\n        result = execute(ansatz, backend=Aer.get_backend('statevector_simulator')).result()\n        # FIX: Statevector object has no reshape -> wrap with np.asarray, because it converts the Statevector to a numpy array that supports reshape\n        U = np.asarray(result.get_statevector(ansatz, decimals=5)).reshape(-1, 1)\n        randunit_density += np.kron(U, U.conj().T)\n    return randunit_density / samples\n\ndef ansatz2(params, num_qubits):\n    params = np.array(params).reshape(1)\n    ansatz = QuantumCircuit(num_qubits, num_qubits)\n    ansatz.h(0)\n    ansatz.cx(0, 1)\n    ansatz.rx(params[0], 0)\n    return ansatz\n\nprint(np.linalg.norm(haar_integral(2, 2048) - pqc_integral(2, ansatz2, 1, 2048)))\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 3107,
+    "output_tokens": 991,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

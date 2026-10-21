@@ -1,0 +1,62 @@
+CASE=issue_876
+QISKIT=1.0.2
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-haiku-5-5\generation\issue_876\fix_876.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_876\test.py
+
+Simulation failed and returned the following error message:
+ERROR:  [Experiment 0] Insufficient memory to run circuit QFT using the statevector simulator. Required memory: 18446744073709551615M, max memory: 16081M
+ESimulation failed and returned the following error message:
+ERROR:  [Experiment 0] Insufficient memory to run circuit QFT using the statevector simulator. Required memory: 18446744073709551615M, max memory: 16081M
+E
+======================================================================
+ERROR: test_fidelity_matches_independent_uniform_state (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 31, in test_fidelity_matches_independent_uniform_state
+    m = target()
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\runpy.py", line 289, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\runpy.py", line 96, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-haiku-5-5\generation\issue_876\fix_876.py", line 22, in <module>
+    statevector_real = job_real.result().get_statevector()
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\site-packages\qiskit\result\result.py", line 314, in get_statevector
+    self.data(experiment)["statevector"], decimals=decimals
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\site-packages\qiskit\result\result.py", line 187, in data
+    return self._get_experiment(experiment).data.to_dict()
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\site-packages\qiskit\result\result.py", line 397, in _get_experiment
+    raise QiskitError(result_status, ", ", exp_status)
+qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Insufficient memory to run circuit QFT using the statevector simulator. Required memory: 18446744073709551615M, max memory: 16081M ,  ERROR: Insufficient memory to run circuit QFT using the statevector simulator. Required memory: 18446744073709551615M, max memory: 16081M'
+
+======================================================================
+ERROR: test_real_noisy_density_matrix_is_physical (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 21, in test_real_noisy_density_matrix_is_physical
+    m = target()
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_876\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\runpy.py", line 289, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\runpy.py", line 96, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-haiku-5-5\generation\issue_876\fix_876.py", line 22, in <module>
+    statevector_real = job_real.result().get_statevector()
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\site-packages\qiskit\result\result.py", line 314, in get_statevector
+    self.data(experiment)["statevector"], decimals=decimals
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\site-packages\qiskit\result\result.py", line 187, in data
+    return self._get_experiment(experiment).data.to_dict()
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_102_exact\lib\site-packages\qiskit\result\result.py", line 397, in _get_experiment
+    raise QiskitError(result_status, ", ", exp_status)
+qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Insufficient memory to run circuit QFT using the statevector simulator. Required memory: 18446744073709551615M, max memory: 16081M ,  ERROR: Insufficient memory to run circuit QFT using the statevector simulator. Required memory: 18446744073709551615M, max memory: 16081M'
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.810s
+
+FAILED (errors=2)

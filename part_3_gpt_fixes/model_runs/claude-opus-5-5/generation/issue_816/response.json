@@ -1,0 +1,34 @@
+{
+  "id": "msg_011Cg2xY6r6wTwknxT7WGfLo",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "Root cause: `simulator.run(...)` is called without `memory=True`, so the simulator never records the per-shot outcomes. Calling `result.get_memory(circ)` afterwards then fails because there is no memory data in the result. The fix is to pass `memory=True` to `run`.\n\n```python\nfrom qiskit import QuantumCircuit\nfrom qiskit_aer import AerSimulator\n\ncirc = QuantumCircuit(2, 2)\ncirc.h(0)\ncirc.cx(0, 1)\ncirc.measure([0, 1], [0, 1])\n\nsimulator = AerSimulator()\n\n# FIX: run was called without memory=True -> added memory=True, because get_memory requires per-shot results to be stored by the simulator\nresult = simulator.run(circ, shots=10, memory=True).result()\nmemory = result.get_memory(circ)\nprint(memory)\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 1182,
+    "output_tokens": 286,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

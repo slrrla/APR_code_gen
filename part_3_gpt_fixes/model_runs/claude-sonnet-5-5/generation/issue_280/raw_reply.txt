@@ -1,0 +1,18 @@
+The bug is that a 1-qubit depolarizing error is registered on `cx`, which acts on 2 qubits. Aer rejects this because the error's qubit count doesn't match the gate. The question asks how to get a proper two-qubit depolarizing error on the CNOT. The fix is to build a 2-qubit error with `depolarizing_error(0.05, 2)` and add that to `cx`.
+
+I left the `qiskit.providers.aer` import unchanged, since the code already uses that style.
+
+```python
+from qiskit.providers.aer.noise import NoiseModel, depolarizing_error
+
+noise_model = NoiseModel()
+
+error = depolarizing_error(0.05, 1)
+noise_model.add_all_qubit_quantum_error(error, ['u1', 'u2', 'u3'])
+
+# FIX: 1-qubit error was applied to the 2-qubit 'cx' gate -> use a 2-qubit depolarizing error, because the error's qubit count must match the gate's qubit count
+error_2q = depolarizing_error(0.05, 2)
+noise_model.add_all_qubit_quantum_error(error_2q, ['cx'])
+
+print(noise_model)
+```

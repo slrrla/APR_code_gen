@@ -1,0 +1,35 @@
+The root cause is that the circuit sent to AerSimulator never saves a statevector, so `get_statevector()` raises "No statevector for experiment". The fix is to add `save_statevector()` to the transpiled circuit before running it.
+
+Two related details:
+- The transpiled circuit is mapped onto 127 qubits, so the resulting statevector would be too large to compare with the 6-qubit ideal one. I therefore transpile against the simulator's basis gates instead of the hardware, so the circuit keeps 6 qubits.
+- `QFT(6)` is a circuit that has to be decomposed first, because AerSimulator may not accept it as a single block. Transpiling handles that.
+
+The minimal change is to transpile with `ideal_sim` as the backend, then call `save_statevector()` on the transpiled circuit. Transpiling to the hardware would map onto 127 physical qubits, which is impractical for a statevector. Using the Brisbane basis gates and coupling map would also inflate the circuit, so I stay with the simulator target.
+
+```python
+from qiskit import transpile
+from qiskit.quantum_info import Statevector, state_fidelity
+from qiskit.circuit.library import QFT
+from qiskit_aer import AerSimulator
+from qiskit_ibm_runtime.fake_provider import FakeBrisbane
+
+backend_brisbane = FakeBrisbane()
+
+qc = QFT(6)
+
+qc.remove_final_measurements()
+
+ideal_sim = AerSimulator(method="statevector")
+
+statevector_ideal = Statevector(qc)
+
+# FIX: transpiled for 127-qubit hardware and no statevector saved -> transpile for the simulator and call save_statevector(), because the result only contains a statevector if one is saved and the 6-qubit circuit stays small
+qc_transpiled = transpile(qc, ideal_sim, optimization_level=1)
+qc_transpiled.save_statevector()
+
+job_real = ideal_sim.run(qc_transpiled)
+statevector_real = job_real.result().get_statevector()
+
+fidelity = state_fidelity(statevector_ideal, statevector_real)
+print(f"Fidelity tra stato ideale e rumoroso: {fidelity:.4f}")
+```

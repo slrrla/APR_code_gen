@@ -1,0 +1,24 @@
+The real bug is `a = job.result(job)`. `result()` returns a `Result` object, which is a summary of the run, not the individual 0/1 outcomes. Passing `job` as an argument is also wrong, because that slot is the timeout parameter. To get the raw per-shot bits, the backend has to be asked to keep them with `memory=True`, and you then read them with `get_memory()`.
+
+I also replaced `execute` and the `Aer` import from `qiskit`, because newer Qiskit versions removed them and the script would crash. `qiskit_aer` and `backend.run` should also work on older versions, though I haven't run this against a specific install.
+
+```python
+from qiskit import *
+# FIX: Aer is no longer importable from qiskit -> import it from qiskit_aer, because Aer was moved to the separate qiskit_aer package
+from qiskit_aer import Aer
+
+simulator = Aer.get_backend('qasm_simulator')
+qr = QuantumRegister(1)
+cr = ClassicalRegister(1)
+circuit = QuantumCircuit(qr, cr)
+circuit.h(qr[0])
+circuit.measure(qr, cr)
+
+# FIX: removed execute() and no per-shot memory requested -> use simulator.run on the transpiled circuit with memory=True, because execute was removed and memory=True makes the backend keep every shot's raw bit
+job = simulator.run(transpile(circuit, simulator), shots=1024, memory=True)
+# FIX: job.result(job) passed job as the timeout and returned only the Result summary -> job.result().get_memory(), because get_memory() returns the raw list of measured '0'/'1' outcomes per shot
+a = job.result().get_memory()
+print(a)
+```
+
+`a` is now a list like `['0', '1', '1', '0', ...]` with one entry per shot. For the coin flip GUI, you can map each `'0'` to "Head" and each `'1'` to "Tail".

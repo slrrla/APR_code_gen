@@ -1,0 +1,39 @@
+{
+  "id": "msg_011Cg2xFnNebpvQQGuu9fhLX",
+  "container": null,
+  "content": [
+    {
+      "signature": "CAQSqAcKEAgSGAI4AUIIdGhpbmtpbmcSDHtHg+eqZAp7+uO91RoM2embDifH94yXHtZ2IjB6u6fKyfV/YYy2XBBhA6jAilkLms7HTLfcB9EWOAZMcKNytxxKrhLoejXqNlWDB20qxQaHdfl9w7O1daIknQj0EywzDQ8SHNjTrL4TEYLsVGdrUX9XP7A62PUNSHNeyB4vFA89Y7qr3Bb3DTBWM6zAs6mUYmOFj7MaUlIxnEpblHV0nfC/dJDYZYurcwWYxsUkefE0EajbTMkLfktRCDnUdHm4qE74PDK4rO7Dq/08H5+p6FshFXpEsX3gfKpoyH7wenmhx1TkMg65o45kkxzM538DGnhArvHvA3Rb72RaD3sDwyxpJXHTEfrNyT9VtDLIRGiUsOJLle8vu8o/0Km2RvkhjLTmuNGYjaJtfnEs1NAhlwp4wIatCZfVONv60JQYngQy8hDVB4/ADaoawEuBdoNOs0n6dCMI4OBk8Xak8CRjP5yZzUI2yD4QMTVyMAX3D3QuKRKtnvQF55mEauaZ5k/ioXQ98s6CwUdjHJkOtEXWy90p4qqPS5RP4RwLf8wsO0f1v1KjncWyMHW7cRuDIyuEcUZZyeI9ktZxvTrEr6ClghBBIPM8oJGfQdFPkDtdXipPPfHgODUKib1v8rWSroillPGCGm/T3a9XO/dpMUrBPBvseWeuRypabG7B7+L4xPe2D4ov5T5TFj/WNQqjE1L7z5CmBTkZPHdgZQvjAtBi6CQGTAxwKdCRtqjOsZgMZsiwCE1Vr2kDhG5nlVMS7NbsDZV9tAfW9ACdwqz/oUOwWynpSVAvCYA5ts20JCdRuakMNyuYp0QP7PWItVXAkQhhWls4TnTBk2nAKA0wIkkXWmrpoxFXnHoESLWBZRYzxXF3a4vQHutQJoh3zPyahMm8Nirej1VSXJUcbmJZWVI3YcRb3SSqSUyNZ+JGKDFPHbhcagxDzvknLBYo0GFupK21N2Yqxm4nO9gDpmPB0va1gmJu+rL7tgMpl09EW4YOYZdDa/4+i4jai4ZSr9WekvFyhJlJuWn3I9bRW6HnhTbEjk/pzH9kukPA1CORvisbi74TunwCVjxWIqrJxxgMuakCWE+pYmG5o/TSOeVEvkWIXGMOrBvf0mikQLzUM/Vk70M+znahUTQeO6tM2pkCA+Qt8c+B7pkq60eD3dRElSP5KmdRyTCmrDPtfGs4mofUmqZJ7t/6qFB2UmZM97E/rqnwLfxWeX8YAQ==",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "citations": null,
+      "text": "The default `AerSimulator()` runs a statevector-style simulation and stores no unitary, so `result.get_unitary(circ)` fails. Two things are missing, and both are required:\n\n- **Unitary method:** the simulator must be created with `method='unitary'`.\n- **Save instruction:** the circuit must contain a `save_unitary()` instruction, which tells Aer to store the matrix in the result.\n\n```python\nfrom qiskit_aer import AerSimulator\nfrom qiskit import QuantumCircuit, transpile\n\ncirc = QuantumCircuit(2)\ncirc.h(0)\ncirc.cx(0, 1)\n# FIX: no unitary was saved in the circuit -> added circ.save_unitary(), because Aer only returns a unitary in the result when a save_unitary instruction is present\ncirc.save_unitary()\n\n# FIX: default AerSimulator() uses an automatic (statevector-like) method -> set method='unitary', because the unitary can only be computed and saved by the unitary simulation method\nsimulator = AerSimulator(method='unitary')\ncirc = transpile(circ, simulator)\n\nresult = simulator.run(circ).result()\nunitary = result.get_unitary(circ)\nprint(\"Circuit unitary:\\n\", unitary)\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-opus-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 888,
+    "output_tokens": 543,
+    "output_tokens_details": {
+      "thinking_tokens": 127
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

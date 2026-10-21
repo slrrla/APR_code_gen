@@ -1,0 +1,34 @@
+{
+  "id": "msg_011Cg2y7Ty1uJcfk18ShNGkX",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "The gate acts on 4 qubits (a 16x16 unitary), but the call passes the qubits as two separate positional arguments. `append` takes `(instruction, qargs, cargs)`, so the second list is treated as classical bits, which is the bug.\n\nThe qubits must be given as one list. `qr1[1:2]` is only one qubit, and `qr2[0:3]` is three, which makes four in total, so the count matches. The `qr1` slice was probably meant to cover both qubits, but the count works as written, so I keep it. Changing the slice would be a guess about intent.\n\nThe fix is to combine the two slices into one list: `qr1[1:2] + qr2[0:3]`. Slicing a register returns a list, so `+` concatenates them.\n\nThe import `from qiskit.extensions import UnitaryGate` is deprecated in newer Qiskit, but it isn't the cause of this bug, so I leave it.\n\n```python\nfrom qiskit import QuantumRegister, QuantumCircuit\nfrom qiskit.extensions import UnitaryGate\nfrom qiskit.quantum_info import random_unitary\n\ngate = UnitaryGate(random_unitary(2 ** 4).data, 'RND-U16')\n\nqr1 = QuantumRegister(2, 'q')\nqr2 = QuantumRegister(3, 'a')\n\ncirc = QuantumCircuit(qr1, qr2)\n\n# FIX: qubits passed as two separate arguments (second treated as clbits) -> concatenated into a single qargs list, because append expects one qubit list for the 4-qubit gate\ncirc.append(gate, qr1[1:2] + qr2[0:3])\n```",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 952,
+    "output_tokens": 547,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+  }
+}

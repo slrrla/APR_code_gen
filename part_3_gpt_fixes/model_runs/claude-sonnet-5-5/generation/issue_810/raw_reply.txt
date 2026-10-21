@@ -1,0 +1,19 @@
+The bug is that `job.result(job)` passes the job to `result()` as a timeout argument, and `print(a)` shows the whole Result object instead of the raw data. The user wants the raw measurement data, so the fix is to call `result()` with no arguments and read the counts from it.
+
+I kept the `a` variable and the `print`, and changed only the assignment so `a` holds the counts dictionary.
+
+```python
+from qiskit import *
+
+simulator = Aer.get_backend('qasm_simulator')
+qr = QuantumRegister(1)
+cr = ClassicalRegister(1)
+circuit = QuantumCircuit(qr, cr)
+circuit.h(qr[0])
+circuit.measure(qr, cr)
+
+job = execute(circuit, backend=simulator, shots=1024)
+# FIX: job.result(job) passed the job as a timeout and printed the Result object -> call job.result().get_counts(circuit), because this returns the raw counts dictionary
+a = job.result().get_counts(circuit)
+print(a)
+```

@@ -1,0 +1,21 @@
+The code wraps the matrix in a `UnitaryGate`, whose name is always "unitary". That never identifies the matrix as the X gate, so the program doesn't do what the question asks.
+
+The smallest fix is to compare the matrix against the standard gates in `qiskit.circuit.library`. The `qiskit.extensions` import is also removed in newer Qiskit versions. `UnitaryGate` is available from `qiskit.circuit.library`, so I'll change the import. The loop over candidate gates keeps the structure of the original as much as possible.
+
+I'll keep `gate = UnitaryGate(unitary)` and change how the name is found. The loop uses `Operator`, because `gate.to_matrix()` works for standard gates directly. Standard gates with no parameters are tried, and the first one whose matrix matches is printed. If none match, the program falls back to `gate.name`.
+
+```python
+import numpy as np
+from qiskit.circuit.library import UnitaryGate
+from qiskit.circuit.library import IGate, XGate, YGate, ZGate, HGate, SGate, TGate
+
+unitary = np.array([[0, 1], [1, 0]])
+gate = UnitaryGate(unitary)
+# FIX: printed the generic name "unitary" -> compare the matrix against standard gates and print the matching gate's name, because UnitaryGate.name is always "unitary" and never identifies the standard gate
+name = gate.name
+for std in [IGate(), XGate(), YGate(), ZGate(), HGate(), SGate(), TGate()]:
+    if np.allclose(std.to_matrix(), unitary):
+        name = std.name
+        break
+print(name)
+```

@@ -1,0 +1,17 @@
+TwoLocal looks up string block names as `Instruction` attributes in its own gate-name table. The table has no `'iswap'` entry, so it raises `ValueError`. The fix is to pass the gate object instead of a string. `iSwapGate` from `qiskit.circuit.library` is a two-qubit gate, which TwoLocal accepts as a block.
+
+```python
+from qiskit.circuit.library import TwoLocal, iSwapGate
+
+num_spin_orbitals = 4
+
+ansatz = TwoLocal(
+    num_spin_orbitals,
+    ['ry', 'rz'],
+    # FIX: 'iswap' string is not a recognized TwoLocal layer name -> pass iSwapGate() instance, because TwoLocal accepts gate objects as blocks and only a fixed set of names as strings
+    entanglement_blocks=iSwapGate(),
+    entanglement='linear'
+)
+
+print(ansatz.decompose())
+```

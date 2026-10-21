@@ -1,0 +1,20 @@
+The circuit never measures its qubits, so the simulator has no classical results to report and `get_counts` returns no meaningful GHZ distribution. I added an explicit measurement into the existing 3-bit classical register. I used `measure` rather than `measure_all()` because `measure_all()` would add a new register and change the count keys.
+
+```python
+from qiskit import Aer
+from qiskit import execute
+from qiskit import QuantumCircuit
+
+circ = QuantumCircuit(3, 3)
+circ.h(0)
+circ.cx(0, 1)
+circ.cx(0, 2)
+# FIX: circuit had no measurement operations -> added measure of qubits 0,1,2 into classical bits 0,1,2, because counts only exist for measured classical bits
+circ.measure([0, 1, 2], [0, 1, 2])
+
+backend = Aer.get_backend("qasm_simulator")
+job = execute(circ, backend, shots=100000)
+result = job.result()
+counts = result.get_counts(circ)
+print(counts)
+```

@@ -1,0 +1,17 @@
+The question asks why `op.compose(XZ, qargs=[0, 2])` gives that output. Qiskit documents this exact tutorial example and the output is correct for it, so the code looks like it has no bug.
+
+Checking the math: `Pauli('XZ')` has X on qubit 1 and Z on qubit 0. With `qargs=[0, 2]`, Z acts on qubit 0 and X acts on qubit 2. The result is the identity composed with X⊗I⊗Z, which gives X on qubit 2 and Z on qubit 0. In the 8x8 matrix, the X on the most significant bit (qubit 2) swaps the two 4-blocks. Z on qubit 0 gives the alternating signs +1, -1, +1, -1 within each block. That matches the output in the question: the top-right block is diag(1, -1, 1, -1) and the bottom-left block is the same.
+
+The code matches the tutorial, so I'm returning it unchanged with the required no-bug comment.
+
+```python
+# NO BUG: The code matches the documented tutorial example, and its output is correct (Z on qubit 0 and X on qubit 2).
+import numpy as np
+from qiskit.quantum_info import Operator, Pauli
+
+op = Operator(np.eye(2 ** 3))
+XZ = Operator(Pauli(label='XZ'))
+result = op.compose(XZ, qargs=[0, 2])
+print(result)
+
+```

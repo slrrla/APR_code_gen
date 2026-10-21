@@ -1,0 +1,13 @@
+The root cause is that `circuit.append` received an opflow operator (a non-gate `PauliSumOp`), which Qiskit wraps as a non-gate instruction named `circuit-304`, so `to_gate()` rejects it. The operator is a real 2x2 unitary (a rotation by 2π/3 about Y), so I convert it to its matrix and add it with `circuit.unitary`, which creates a proper `UnitaryGate`.
+
+```python
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.opflow import I, X, Y, Z
+
+circuit = QuantumCircuit(1, name='R')
+# FIX: appended a non-gate opflow operator (becomes a generic instruction that to_gate() rejects) -> convert it to a matrix and add it with circuit.unitary, which creates a UnitaryGate, because a unitary gate can be converted by to_gate()
+circuit.unitary((0.5*I - 1j*np.sqrt(1-0.5**2)*Y).to_matrix(), [0])
+circuit.to_gate()
+
+```

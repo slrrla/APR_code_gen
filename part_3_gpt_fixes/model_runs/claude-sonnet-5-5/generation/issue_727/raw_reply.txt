@@ -1,0 +1,21 @@
+The crash comes from `2 ** k`, where `k` is a `Parameter`: Python's `int.__pow__` does not support a `Parameter` exponent. `Parameter` has no `__rpow__`, so the expression raises the TypeError.
+
+A minimal fix is to express `2**k` as `exp(k*ln2)`, which `ParameterExpression` supports through its `.exp()` method. That gives `theta = 2*pi / (k * ln2).exp()`, or equivalently `2*pi * (-k * ln2).exp()`. This works because `ParameterExpression` has `exp()`, and `numpy` is already imported but is not needed for it.
+
+I use `(k * numpy.log(2)).exp()`: `Parameter * float` returns a `ParameterExpression`, and `2*pi / expr` uses `__rtruediv__`, which is supported.
+
+```python
+import numpy
+from math import pi
+from qiskit import QuantumCircuit, QuantumRegister
+from qiskit.circuit import Parameter
+
+k = Parameter('k')
+
+q = QuantumRegister(2)
+CROT_circ = QuantumCircuit(q, name='CROT')
+
+# FIX: int ** Parameter is unsupported -> rewrote 2**k as exp(k*ln(2)) using ParameterExpression.exp(), because it is mathematically equal and supported symbolically
+theta = 2 * pi / (k * numpy.log(2)).exp()
+CROT_circ.cp(theta, 0, 1)
+```

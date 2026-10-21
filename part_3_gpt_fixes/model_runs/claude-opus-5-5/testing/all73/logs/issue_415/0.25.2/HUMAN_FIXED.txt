@@ -1,0 +1,20 @@
+CASE=issue_415
+QISKIT=0.25.2
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_415\fixed.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_415\test.py
+
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0252_exact\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  import pkg_resources
+[0.57735027+0.57735027j 0.        -0.57735027j]
+theta :  1.2309594173407747
+phi :  3.9269908169872414
+C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_415\fixed.py:23: DeprecationWarning: The QuantumCircuit.u3 method is deprecated as of 0.16.0. It will be removed no earlier than 3 months after the release date. You should use QuantumCircuit.u instead, which acts identically. Alternatively, you can decompose u3 in terms of QuantumCircuit.p and QuantumCircuit.sx: u3(ϴ,φ,λ) = p(φ+π) sx p(ϴ+π) sx p(λ) (2 pulses on hardware).
+  circ.u3(theta, phi, 0, 0)
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0252_exact\lib\site-packages\qiskit\providers\aer\backends\statevector_simulator.py:152: PendingDeprecationWarning: The `StatevectorSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend. To obtain legacy functionality initalize with `AerSimulator(method="statevector")` and append run circuits with the `save_state` instruction.
+  warn('The `StatevectorSimulator` backend will be deprecated in the'
+[ 0.816+0.j    -0.408-0.408j]
+.
+----------------------------------------------------------------------
+Ran 1 test in 4.071s
+
+OK

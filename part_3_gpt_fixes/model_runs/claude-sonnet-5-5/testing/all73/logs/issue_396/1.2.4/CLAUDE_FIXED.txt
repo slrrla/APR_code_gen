@@ -1,0 +1,30 @@
+CASE=issue_396
+QISKIT=1.2.4
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-sonnet-5-5\generation\issue_396\fix_396.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_396\test.py
+
+E
+======================================================================
+ERROR: test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_396\test.py", line 14, in test_exact_marked_phases_and_grover_amplification
+    m = load_target()
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_396\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_124\lib\runpy.py", line 289, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_124\lib\runpy.py", line 96, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_124\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-sonnet-5-5\generation\issue_396\fix_396.py", line 1, in <module>
+    diag = [-1 if format(i, '03b') in targets else 1 for i in range(8)]
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-sonnet-5-5\generation\issue_396\fix_396.py", line 1, in <listcomp>
+    diag = [-1 if format(i, '03b') in targets else 1 for i in range(8)]
+NameError: name 'targets' is not defined
+
+----------------------------------------------------------------------
+Ran 1 test in 1.195s
+
+FAILED (errors=1)

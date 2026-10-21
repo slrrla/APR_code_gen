@@ -1,0 +1,44 @@
+CASE=issue_803
+QISKIT=0.25.3
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\claude-opus-5-5\generation\issue_803\fix_803.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_803\test.py
+
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  import pkg_resources
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\providers\aer\backends\qasm_simulator.py:329: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn('The `QasmSimulator` backend will be deprecated in the'
+counts [[64  0  0  0]
+ [ 0  0  0 64]
+ [64  0  0  0]]
+result.values [[64], [64], [64]]
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\unittest\case.py:902: DeprecationWarning: elementwise comparison failed; this will raise an error in the future.
+  if not first == second:
+Fcounts [[ 46  54]
+ [  0 100]
+ [100   0]]
+result.values [[46, 54], [100], [100]]
+F
+======================================================================
+FAIL: test_batch_order_and_two_qubit_outcomes (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_803\test.py", line 36, in test_batch_order_and_two_qubit_outcomes
+    self.assertEqual(counts, [{"00":64}, {"11":64}, {"00":64}])
+AssertionError: array([[64,  0,  0,  0],
+       [ 0,  0,  0, 64],
+       [64,  0,  0,  0]]) != [{'00': 64}, {'11': 64}, {'00': 64}]
+
+======================================================================
+FAIL: test_multiple_circuits_return_separate_histograms (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_803\test.py", line 23, in test_multiple_circuits_return_separate_histograms
+    self.assertIsInstance(counts, list)
+AssertionError: array([[ 46,  54],
+       [  0, 100],
+       [100,   0]]) is not an instance of <class 'list'>
+
+----------------------------------------------------------------------
+Ran 2 tests in 3.731s
+
+FAILED (failures=2)

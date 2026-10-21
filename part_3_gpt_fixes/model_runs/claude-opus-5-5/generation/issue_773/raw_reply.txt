@@ -1,0 +1,20 @@
+The crash comes from the second import, `from qiskit.providers.ibmq.job import job_monitor`. The `qiskit.providers.ibmq` package belongs to the separate `qiskit-ibmq-provider`, which is deprecated and usually not installed. Even when it is installed, that line overwrites the `job_monitor` imported just before it.
+
+The general monitor in `qiskit.tools.monitor` works with any backend's job, including this Aer simulator job. So the fix is to delete the redundant provider-specific import.
+
+This assumes an older Qiskit version where `execute`, `Aer` and `qiskit.tools` still exist. Those were all removed in Qiskit 1.0, so on 1.x the file still won't run, and that would need a larger change.
+
+```python
+from qiskit import QuantumCircuit, execute, Aer
+# FIX: duplicate import from removed/deprecated qiskit.providers.ibmq.job (which also shadowed this one) -> deleted it and kept only qiskit.tools.monitor, because the generic monitor works for any backend job and the ibmq module is not available
+from qiskit.tools.monitor import job_monitor
+
+qc = QuantumCircuit(1, 1)
+qc.h(0)
+qc.measure(0, 0)
+
+backend = Aer.get_backend('qasm_simulator')
+job = execute(qc, backend)
+
+job_monitor(job)
+```

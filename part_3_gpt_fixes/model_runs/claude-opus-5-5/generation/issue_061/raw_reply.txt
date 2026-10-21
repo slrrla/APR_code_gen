@@ -1,0 +1,22 @@
+The warning comes from `qbit.register` and `qbit.index`. These are back-references from a `Qubit` to the register that contains it. They were deprecated and are removed in Qiskit 1.0+, where they raise an `AttributeError`.
+
+The supported way is to ask the circuit where the bit is located. `qc.find_bit(qbit)` returns a `BitLocations` object. Its `.registers` field is a list of `(register, index_in_register)` pairs.
+
+I also changed the loop header. Unpacking `qc.data` entries as `(instruction, qargs, cargs)` tuples is deprecated, and that also produces a warning. The loop now reads the qubits from the `CircuitInstruction` via its `.qubits` attribute.
+
+```python
+import qiskit
+from qiskit import QuantumCircuit, QuantumRegister
+
+qr = QuantumRegister(2, 'q')
+qc = QuantumCircuit(qr)
+qc.h(0)
+qc.cx(0, 1)
+
+# FIX: legacy tuple unpacking of CircuitInstruction is deprecated -> iterate instructions and use .qubits, because CircuitInstruction exposes qubits as an attribute
+for instruction in qc.data:
+    qbit: qiskit.circuit.Qubit = instruction.qubits[0]
+    # FIX: Bit.register/Bit.index back-references are deprecated/removed -> use qc.find_bit(qbit).registers, because the circuit maps each bit to its (register, index) pairs
+    print(qc.find_bit(qbit).registers[0][0])
+    print(qc.find_bit(qbit).registers[0][1])
+```

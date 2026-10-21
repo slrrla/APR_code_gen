@@ -1,0 +1,17 @@
+The error comes from TwoLocal's string-name lookup, which doesn't resolve `'iswap'`. Passing the `iSwapGate` object directly avoids the lookup, and TwoLocal accepts gate instances as entanglement blocks.
+
+```python
+from qiskit.circuit.library import TwoLocal, iSwapGate
+
+num_spin_orbitals = 4
+
+# FIX: entanglement block given as the string 'iswap', which TwoLocal's name lookup does not resolve -> pass an iSwapGate instance, because TwoLocal accepts gate objects as entanglement blocks
+ansatz = TwoLocal(
+    num_spin_orbitals,
+    ['ry', 'rz'],
+    entanglement_blocks=iSwapGate(),
+    entanglement='linear'
+)
+
+print(ansatz.decompose())
+```

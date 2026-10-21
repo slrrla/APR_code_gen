@@ -1,0 +1,37 @@
+`get_counts()` returns a list of count dicts here, one per bound circuit, so calling `.values()` on it raises `AttributeError`. It only returns a single dict when you run a single circuit.
+
+The fix builds the counts array from each circuit's dict. I index each dict by every possible bitstring because the key order differs between results (sometimes `'1'` comes first, sometimes `'0'`), and a bitstring that never appears is missing from the dict. Indexing this way keeps the columns aligned and every row the same length. The debug `print` that called `result.values()` had the same problem, so it now prints the values of each dict.
+
+```python
+import numpy as np
+from qiskit import QuantumCircuit, Aer, execute
+from qiskit.circuit import Parameter
+
+class QuantumCircuitWrapper:
+    def __init__(self, n_qubits, backend, shots):
+        self._circuit = QuantumCircuit(n_qubits)
+        self.theta = Parameter('theta')
+        all_qubits = list(range(n_qubits))
+        self._circuit.h(all_qubits)
+        self._circuit.barrier()
+        self._circuit.ry(self.theta, all_qubits)
+        self._circuit.measure_all()
+        self.backend = backend
+        self.shots = shots
+
+    def run(self, thetas):
+        circuits = [self._circuit.bind_parameters({self.theta: theta}) for theta in thetas]
+        job = execute(circuits, self.backend, shots=self.shots)
+        result = job.result().get_counts()
+        # FIX: get_counts() returns a list of dicts for multiple circuits, so .values() fails -> build counts per circuit dict over all bitstrings, because each dict must be read individually with a consistent key order
+        counts = np.array([[r.get(format(i, '0%db' % self._circuit.num_qubits), 0) for i in range(2 ** self._circuit.num_qubits)] for r in result])
+        print('counts', counts)
+        # FIX: result is a list, not a dict -> print values of each dict, because list has no .values()
+        print('result.values', [list(r.values()) for r in result])
+        return counts
+
+backend = Aer.get_backend('qasm_simulator')
+qc = QuantumCircuitWrapper(1, backend, 100)
+thetas = [0.1, 0.2, 0.3]
+print(qc.run(thetas))
+```

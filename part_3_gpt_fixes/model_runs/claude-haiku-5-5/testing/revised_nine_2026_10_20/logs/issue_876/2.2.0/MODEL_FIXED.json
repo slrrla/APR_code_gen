@@ -1,0 +1,19 @@
+{
+  "case": "issue_876",
+  "version": "2.2.0",
+  "target": "MODEL_FIXED",
+  "exit_code": 1,
+  "raw_result": "FAIL",
+  "classification": "ERROR",
+  "reason": "(runtime error: qiskit.exceptions.QiskitError: 'ERROR:  [Experiment 0] Insufficient memory to run circuit QFT using the statevector simulator. Required memory: 18446744073709551615M, max memory: 16081M ,  ERROR: Insufficient memory to run circuit QFT using the statevector simulator. Required memory: 18446744073709551615M, max memory: 16081M' Traceback includes the target program; review test guards/environment before attributing blame.)",
+  "review_required": true,
+  "seconds": 3.719,
+  "started_utc": "2026-10-21T14:43:13.463343+00:00",
+  "test": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\reconstructed_cases\\issue_876\\test.py",
+  "test_sha256": "a5d96bd8ff480cd39697df35767328968e3cd259ef3bb41b1892a370bed4182c",
+  "target_file": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\model_runs\\claude-haiku-5-5\\generation\\issue_876\\fix_876.py",
+  "target_sha256": "e7e4e1c953bc1a172f4b63b8e3c74a874f9ea39d1c3ce4cdc68b1b34b083e8f5",
+  "log": "C:\\Users\\Mitali Hukkeri\\Downloads\\APR_code_gen-main (3)\\APR_code_gen-main\\Part2_Create_test\\model_runs\\claude-haiku-5-5\\testing\\revised_nine_2026_10_20\\logs\\issue_876\\2.2.0\\MODEL_FIXED.txt",
+  "log_sha256": "b0cf987441ea82f3d942658562533814271b6c1c0e8b47ed36997c6f492b3203",
+  "timed_out": false
+}

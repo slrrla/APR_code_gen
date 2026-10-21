@@ -1,0 +1,13 @@
+# FIX: qiskit.aqua (run_algorithm/EnergyInput/WeightedPauliOperator) was removed -> import SparsePauliOp and NumPyMinimumEigensolver, because these are the current replacements for the operator and the ExactEigensolver
+from qiskit.quantum_info import SparsePauliOp
+from qiskit_algorithms import NumPyMinimumEigensolver
+
+pauli_dict = {
+    'paulis': [{"coeff": {"imag": 0.0, "real": 1.0}, "label": "ZZII"}]
+}
+# FIX: WeightedPauliOperator.from_dict/EnergyInput no longer exist -> build a SparsePauliOp from the same dict entries, because the solver now takes the operator directly
+qubitOp = SparsePauliOp.from_list([(p["label"], complex(p["coeff"]["real"], p["coeff"]["imag"])) for p in pauli_dict['paulis']])
+
+# FIX: run_algorithm with an 'ExactEigensolver' config dict was removed -> instantiate NumPyMinimumEigensolver and call compute_minimum_eigenvalue, because that is the direct exact-eigensolver replacement
+result = NumPyMinimumEigensolver().compute_minimum_eigenvalue(qubitOp)
+print(result)

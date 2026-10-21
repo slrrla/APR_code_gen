@@ -1,0 +1,22 @@
+The bug is the order of the projector composition. In opflow, `Plus @ ~Plus` composes a StateFn with a dual StateFn, which raises the error. The outer product should be written `(~Plus)` as the bra and `Plus` as the ket, so `Plus.to_matrix_op()` must be used or the operator built with `OperatorBase`. The usual approach is `proj = (Plus ^ 1) ...` (not needed), or `Plus.to_density_matrix()` wrapped in `MatrixOp`.
+
+The second problem is that `NumPyEigensolver.compute_eigenvalues` calls `to_spmatrix` on the operator, which `quantum_info.Operator` lacks. The fix is to pass an opflow `MatrixOp` instead. Wrapping the same operator in `MatrixOp` keeps the code close to the original and works with the solver.
+
+I changed `proj` to the `MatrixOp` version, since the original line raises the ValueError. I also wrapped `plus` in `MatrixOp` and passed it to the solver.
+
+```python
+import numpy as np
+from qiskit.quantum_info import Statevector
+from qiskit.opflow import Plus
+from qiskit.opflow import MatrixOp
+from qiskit.algorithms import NumPyEigensolver
+
+# FIX: Plus @ ~Plus raises ValueError (StateFn cannot be composed first) -> use the outer product as a MatrixOp via to_density_matrix, because MatrixOp is a valid opflow operator
+proj = MatrixOp(Plus.to_density_matrix())
+
+plus = Statevector([1/np.sqrt(2), 1/np.sqrt(2)]).to_operator()
+# FIX: quantum_info Operator lacks to_spmatrix needed by the solver -> wrap its matrix in an opflow MatrixOp, because MatrixOp provides the interface NumPyEigensolver expects
+plus = MatrixOp(plus.data)
+solver = NumPyEigensolver()
+spectrum = solver.compute_eigenvalues(plus)
+```

@@ -1,0 +1,16 @@
+The bug is that `initialize` includes a reset, which is not unitary, so `to_gate()` fails. The usual workaround is to build a unitary state-preparation circuit with `StatePreparation` (or `prepare_state`) instead of `initialize`. That can be converted to a gate and controlled.
+
+The smallest change is to import `StatePreparation` from `qiskit.circuit.library` and use it in place of `initialize`. Appending it is simple: `qc_gate.append(StatePreparation(state), [0, 1])`.
+
+```python
+from qiskit import QuantumCircuit
+from qiskit.circuit.library import StatePreparation
+
+state = [0.5, 0.5, 0.5, 0.5]
+
+qc_gate = QuantumCircuit(2)
+# FIX: initialize includes a non-unitary reset so it cannot become a controlled gate -> use StatePreparation, because it is a unitary gate that supports to_gate().control()
+qc_gate.append(StatePreparation(state), [0, 1])
+
+gate = qc_gate.to_gate().control(2)
+```

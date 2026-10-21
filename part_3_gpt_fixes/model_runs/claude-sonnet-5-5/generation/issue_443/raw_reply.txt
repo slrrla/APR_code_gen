@@ -1,0 +1,32 @@
+Two things go wrong in the code:
+
+1. `circ.append(oracle, [train_register, control])` passes a list of two registers. Qiskit sees 2 qubit arguments, but the oracle expects 4, so it raises the `CircuitError`.
+2. `[control, train_register] = circ.qregs` unpacks the registers in the wrong order. The circuit was built as `QuantumCircuit(train_register, control)`, so `qregs[0]` is `train_register` and `qregs[1]` is `control`. The swap makes `control` refer to the 3-qubit register, and `circ.h(control)` then applies H to the wrong qubits.
+
+The smallest fix is to correct the unpacking order and flatten the registers into one list of qubits. The oracle's width is still `len(train_register) + len(control)` = 4, and `[*train_register, *control]` gives exactly 4 qubits.
+
+The same-line `append` call needs only that one change. Qubit order follows the original `[train_register, control]` intent.
+
+```python
+from qiskit import QuantumCircuit, QuantumRegister
+from qiskit.circuit import Gate
+
+def create_oracle(train_register, control):
+    n = len(train_register) + len(control)
+    qc = QuantumCircuit(n, name="oracle")
+    qc.x(n - 1)
+    return qc.to_instruction()
+
+train_register = QuantumRegister(3, name="train_register")
+control = QuantumRegister(1, name="control")
+
+circ = QuantumCircuit(train_register, control)
+
+# FIX: registers unpacked in the wrong order -> swapped to match the order they were added to the circuit, because circ.qregs is [train_register, control]
+[train_register, control] = circ.qregs
+circ.h(control)
+
+oracle = create_oracle(train_register, control)
+# FIX: passed a list of two registers (2 qargs) -> flatten the registers into a list of individual qubits, because the 4-qubit instruction needs 4 qubit arguments
+circ.append(oracle, [*train_register, *control])
+```
