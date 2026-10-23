@@ -36,9 +36,3 @@ labels and test-sensitive notes should be read alongside those logs.
 Reproducing the runs requires the appropriate Python/Qiskit environments and
 model API credentials. Some historical scripts and logs contain
 machine-specific paths, so paths must be adjusted on another computer.
-
-For workbook export, install Node.js and make it available on `PATH`, or set
-`APR_NODE_EXE` to its executable. Exporters using `@oai/artifact-tool` also
-accept `APR_NODE_MODULES` pointing to a directory containing that package.
-The two derived review JSON files have local attachment paths redacted;
-their classifications and the raw test logs are unchanged.
