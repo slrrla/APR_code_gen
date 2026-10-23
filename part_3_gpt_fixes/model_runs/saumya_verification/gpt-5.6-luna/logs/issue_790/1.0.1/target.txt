@@ -1,0 +1,23 @@
+
+test_hamiltonian_and_evolution (__main__.TestOriginalHamiltonianEvolution) ... ERROR
+
+======================================================================
+ERROR: test_hamiltonian_and_evolution (__main__.TestOriginalHamiltonianEvolution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_790\test.py", line 65, in test_hamiltonian_and_evolution
+    namespace = runpy.run_path(MUT)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_101_exact\lib\runpy.py", line 289, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_101_exact\lib\runpy.py", line 96, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_101_exact\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\llm_fixes\issue_790\llm_luna56_fix.py", line 23, in <module>
+    H = (U * Z ^ Z) - (J * X ^ X) - (J * Y ^ Y)
+TypeError: unsupported operand type(s) for -: 'Pauli' and 'Pauli'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+FAILED (errors=1)

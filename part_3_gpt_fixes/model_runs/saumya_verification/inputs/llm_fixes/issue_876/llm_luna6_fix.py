@@ -1,0 +1,27 @@
+from qiskit import transpile
+from qiskit.quantum_info import Statevector, state_fidelity
+from qiskit.circuit.library import QFT
+from qiskit_aer import AerSimulator
+from qiskit_ibm_runtime.fake_provider import FakeBrisbane
+
+backend_brisbane = FakeBrisbane()
+
+qc = QFT(6)
+
+qc.remove_final_measurements()
+
+# FIX: ideal-only simulator omitted hardware noise -> build a density-matrix simulator from the backend, because fidelity should compare against the noisy output.
+ideal_sim = AerSimulator.from_backend(backend_brisbane, method="density_matrix")
+
+statevector_ideal = Statevector(qc)
+
+qc_transpiled = transpile(qc, backend_brisbane, optimization_level=1)
+
+# FIX: no save instruction meant no state data was returned -> save the density matrix, because the noisy output can be mixed.
+qc_transpiled.save_density_matrix()
+job_real = ideal_sim.run(qc_transpiled)
+# FIX: requested statevector was not saved and noisy output is a density matrix -> retrieve the saved density matrix, because it represents the noisy state.
+statevector_real = job_real.result().get_density_matrix()
+
+fidelity = state_fidelity(statevector_ideal, statevector_real)
+print(f"Fidelity tra stato ideale e rumoroso: {fidelity:.4f}")

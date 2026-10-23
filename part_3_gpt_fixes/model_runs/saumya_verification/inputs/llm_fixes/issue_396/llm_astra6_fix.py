@@ -1,0 +1,12 @@
+# FIX: Statevector.from_label accepts one state label, not multiple targets -> import Diagonal, because a diagonal circuit can phase-flip each target independently.
+from qiskit.circuit.library import Diagonal
+from qiskit.circuit.library import GroverOperator
+
+targets = ['101', '110']
+
+# FIX: A list of labels is not a phase oracle -> assign -1 to target diagonal entries and +1 elsewhere, because this flips exactly the requested amplitudes in Qiskit's basis order.
+oracle = Diagonal([-1 if format(i, f'0{len(targets[0])}b') in targets else 1 for i in range(2 ** len(targets[0]))])
+
+grover_op = GroverOperator(oracle)
+print(grover_op)
+

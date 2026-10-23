@@ -1,0 +1,147 @@
+Title:
+Existence of multiple job monitor in qiskit
+
+Category:
+
+
+Question:
+Title: Existence of multiple job monitor in qiskit
+
+I can see in example code of qiskit, to implement job monitors on IBM Quantum machines, example uses any of the following I have downloaded qiskit in my laptop and used both of them. Could not see any differences. What is the difference between them? Does the invocation vary depending on the Quantum machine on which job is being executed?
+
+```
+from qiskit.tools.monitor import job_monitor from qiskit.providers.ibmq.job import job_monitor
+```
+
+```
+from qiskit.tools.monitor import job_monitor from qiskit.providers.ibmq.job import job_monitor
+```
+
+Original buggy code:
+from qiskit.tools.monitor import job_monitor from qiskit.providers.ibmq.job import job_monitor
+
+---CODE_BLOCK---
+
+from qiskit.tools.monitor import job_monitor from qiskit.providers.ibmq.job import job_monitor
+
+Solution explanation:
+They both are (almost) identical: https://qiskit.org/documentation/_modules/qiskit/tools/monitor/job_monitor.html https://qiskit.org/documentation/_modules/qiskit/providers/ibmq/job/job_monitor.html The only difference is that have a argument named , which is set to by default: If we set to to , it will not print any status message. As a best practice, you can use function. If we import the first version: Corrosponding output shows: Now, if we import the second version: Corrosponding output shows:
+
+```
+qiskit.tools.monitor.job_monitor()
+```
+
+```
+quiet
+```
+
+```
+false
+```
+
+```
+job_monitor(job, interval=None, quiet=False, output=sys.stdout)
+```
+
+```
+job_monitor(job, interval=None, quiet=False, output=sys.stdout)
+```
+
+```
+true
+```
+
+```
+help()
+```
+
+```
+from qiskit.tools.monitor import job_monitor help(job_monitor)
+```
+
+```
+from qiskit.tools.monitor import job_monitor help(job_monitor)
+```
+
+```
+Help on function job_monitor in module qiskit.tools.monitor.job_monitor: job_monitor(job, interval=None, quiet=False, output=<ipykernel.iostream.OutStream object at 0x7fa9383ff7c0>) Monitor the status of a IBMQJob instance. Args: job (BaseJob): Job to monitor. interval (int): Time interval between status queries. quiet (bool): If True, do not print status messages. output (file): The file like object to write status messages to. By default this is sys.stdout.
+```
+
+```
+Help on function job_monitor in module qiskit.tools.monitor.job_monitor: job_monitor(job, interval=None, quiet=False, output=<ipykernel.iostream.OutStream object at 0x7fa9383ff7c0>) Monitor the status of a IBMQJob instance. Args: job (BaseJob): Job to monitor. interval (int): Time interval between status queries. quiet (bool): If True, do not print status messages. output (file): The file like object to write status messages to. By default this is sys.stdout.
+```
+
+```
+from qiskit.providers.ibmq.job import job_monitor help(job_monitor)
+```
+
+```
+from qiskit.providers.ibmq.job import job_monitor help(job_monitor)
+```
+
+```
+Help on function job_monitor in module qiskit.providers.ibmq.job.job_monitor: job_monitor(job: qiskit.providers.ibmq.job.ibmqjob.IBMQJob, interval: Union[float, NoneType] = None, output: <class 'TextIO'> = <ipykernel.iostream.OutStream object at 0x7fa9383ff7c0>) -> None Monitor the status of an ``IBMQJob`` instance. Args: job: Job to monitor. interval: Time interval between status queries. output: The file like object to write status messages to. By default this is sys.stdout.
+```
+
+```
+Help on function job_monitor in module qiskit.providers.ibmq.job.job_monitor: job_monitor(job: qiskit.providers.ibmq.job.ibmqjob.IBMQJob, interval: Union[float, NoneType] = None, output: <class 'TextIO'> = <ipykernel.iostream.OutStream object at 0x7fa9383ff7c0>) -> None Monitor the status of an ``IBMQJob`` instance. Args: job: Job to monitor. interval: Time interval between status queries. output: The file like object to write status messages to. By default this is sys.stdout.
+```
+
+Original fixed code:
+qiskit.tools.monitor.job_monitor()
+
+---CODE_BLOCK---
+
+quiet
+
+---CODE_BLOCK---
+
+false
+
+---CODE_BLOCK---
+
+job_monitor(job, interval=None, quiet=False, output=sys.stdout)
+
+---CODE_BLOCK---
+
+job_monitor(job, interval=None, quiet=False, output=sys.stdout)
+
+---CODE_BLOCK---
+
+true
+
+---CODE_BLOCK---
+
+help()
+
+---CODE_BLOCK---
+
+from qiskit.tools.monitor import job_monitor help(job_monitor)
+
+---CODE_BLOCK---
+
+from qiskit.tools.monitor import job_monitor help(job_monitor)
+
+---CODE_BLOCK---
+
+Help on function job_monitor in module qiskit.tools.monitor.job_monitor: job_monitor(job, interval=None, quiet=False, output=<ipykernel.iostream.OutStream object at 0x7fa9383ff7c0>) Monitor the status of a IBMQJob instance. Args: job (BaseJob): Job to monitor. interval (int): Time interval between status queries. quiet (bool): If True, do not print status messages. output (file): The file like object to write status messages to. By default this is sys.stdout.
+
+---CODE_BLOCK---
+
+Help on function job_monitor in module qiskit.tools.monitor.job_monitor: job_monitor(job, interval=None, quiet=False, output=<ipykernel.iostream.OutStream object at 0x7fa9383ff7c0>) Monitor the status of a IBMQJob instance. Args: job (BaseJob): Job to monitor. interval (int): Time interval between status queries. quiet (bool): If True, do not print status messages. output (file): The file like object to write status messages to. By default this is sys.stdout.
+
+---CODE_BLOCK---
+
+from qiskit.providers.ibmq.job import job_monitor help(job_monitor)
+
+---CODE_BLOCK---
+
+from qiskit.providers.ibmq.job import job_monitor help(job_monitor)
+
+---CODE_BLOCK---
+
+Help on function job_monitor in module qiskit.providers.ibmq.job.job_monitor: job_monitor(job: qiskit.providers.ibmq.job.ibmqjob.IBMQJob, interval: Union[float, NoneType] = None, output: <class 'TextIO'> = <ipykernel.iostream.OutStream object at 0x7fa9383ff7c0>) -> None Monitor the status of an ``IBMQJob`` instance. Args: job: Job to monitor. interval: Time interval between status queries. output: The file like object to write status messages to. By default this is sys.stdout.
+
+---CODE_BLOCK---
+
+Help on function job_monitor in module qiskit.providers.ibmq.job.job_monitor: job_monitor(job: qiskit.providers.ibmq.job.ibmqjob.IBMQJob, interval: Union[float, NoneType] = None, output: <class 'TextIO'> = <ipykernel.iostream.OutStream object at 0x7fa9383ff7c0>) -> None Monitor the status of an ``IBMQJob`` instance. Args: job: Job to monitor. interval: Time interval between status queries. output: The file like object to write status messages to. By default this is sys.stdout.

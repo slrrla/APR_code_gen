@@ -1,0 +1,19 @@
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, transpile
+# FIX: removed `execute` and top-level `Aer` import (removed in Qiskit 1.0) -> import Aer from qiskit_aer, because the Aer backend now lives in that package
+from qiskit_aer import Aer
+
+q = QuantumRegister(3)
+c = ClassicalRegister(3)
+qc = QuantumCircuit(q, c)
+
+qc.measure(q, c)
+
+qc.x(q[0]).c_if(c[0], 1)
+qc.x(q[1]).c_if(c[1], 1)
+
+backend = Aer.get_backend('qasm_simulator')
+# FIX: replaced `execute(qc, backend, shots=1024)` (removed API) -> transpile the circuit and call backend.run, because this is the supported replacement for execute
+job = backend.run(transpile(qc, backend), shots=1024)
+result = job.result()
+print(result.get_counts(qc))
+

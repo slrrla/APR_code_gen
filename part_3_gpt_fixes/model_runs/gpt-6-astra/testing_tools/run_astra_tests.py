@@ -6,6 +6,7 @@ import io
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -177,9 +178,9 @@ def save_results(plan, batch, rows):
 
 
 def export_workbook(plan, batch):
-    node = Path.home() / ".cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe"
-    if not node.is_file():
-        raise FileNotFoundError(f"Bundled Node is missing: {node}. Logs/CSV are saved.")
+    node = os.environ.get('APR_NODE_EXE') or shutil.which('node')
+    if not node:
+        raise FileNotFoundError('Node.js missing: set APR_NODE_EXE or add node to PATH. Logs/CSV are saved.')
     exporter = Path(__file__).with_name("export_astra_results.mjs")
     proc = subprocess.run([str(node), str(exporter), str(batch / "results.json")])
     if proc.returncode:

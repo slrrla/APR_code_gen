@@ -1,0 +1,12 @@
+from qiskit import IBMQ
+from qiskit.providers.fake_provider import FakeOslo
+
+provider = IBMQ.load_account()
+# FIX: retired IBM Quantum backend cannot be retrieved -> use its archived fake backend, because it preserves the published system properties
+backend = FakeOslo()
+
+system = backend
+print(system.properties().backend_version)
+print(system.properties().last_update_date)
+print(system.properties().qubits)
+

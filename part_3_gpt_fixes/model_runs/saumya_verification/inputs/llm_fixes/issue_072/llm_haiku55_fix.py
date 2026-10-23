@@ -1,0 +1,14 @@
+import qiskit as qk
+from qiskit import Aer
+from qiskit.ignis.mitigation.measurement import complete_meas_cal
+
+_backend = Aer.get_backend('qasm_simulator')
+
+qreg = qk.QuantumRegister(7)
+# FIX: layout mapped two logical qubits (qreg[0] and qreg[5]) to the same physical qubit 12 -> changed qreg[5] to unused physical qubit 5, because an initial layout must assign each logical qubit to a distinct physical qubit
+layout = {qreg[0]: 12, qreg[1]: 11, qreg[2]: 13, qreg[3]: 17, qreg[4]: 14, qreg[5]: 5, qreg[6]: 6}
+
+meas_calibs, state_labels = complete_meas_cal(
+    qubit_list=[0, 1, 2], qr=qreg, circlabel='mcal')
+print(meas_calibs[0])
+qk.compiler.transpile(meas_calibs, backend=_backend, initial_layout=layout)

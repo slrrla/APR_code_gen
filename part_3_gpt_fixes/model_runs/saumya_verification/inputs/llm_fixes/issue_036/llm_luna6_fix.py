@@ -1,0 +1,11 @@
+import qiskit
+# FIX: QuantumCircuit.qasm() was removed in Qiskit 1.0 -> import qasm2, because its dumps API exports OpenQASM 2.0.
+from qiskit import qasm2
+
+c = qiskit.QuantumCircuit(1)
+c.h(0)
+
+# FIX: c.qasm() is no longer available -> use qasm2.dumps(c), because it serializes the circuit to OpenQASM 2.0.
+qasm_str = qasm2.dumps(c)
+print(qasm_str)
+

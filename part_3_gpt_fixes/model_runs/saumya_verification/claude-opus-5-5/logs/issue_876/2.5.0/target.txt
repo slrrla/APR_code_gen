@@ -1,0 +1,28 @@
+
+test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression) ... C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\llm_fixes\issue_876\llm_opus55_fix.py:9: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)
+  qc = QFT(6)
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_250\lib\site-packages\qiskit\circuit\library\basis_change\qft.py:108: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.
+  super().__init__(name=name)
+FAIL
+test_real_noisy_density_matrix_is_physical (__main__.Regression) ... FAIL
+
+======================================================================
+FAIL: test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_876\test.py", line 106, in test_fidelity_compares_ideal_qft_with_actual_noisy_result
+    self.assertTrue(matches, "Compare the ideal QFT state with the saved noisy state")
+AssertionError: [] is not true : Compare the ideal QFT state with the saved noisy state
+
+======================================================================
+FAIL: test_real_noisy_density_matrix_is_physical (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_876\test.py", line 71, in test_real_noisy_density_matrix_is_physical
+    self.assertTrue(states, "A real noisy Aer run must save its density matrix")
+AssertionError: [] is not true : A real noisy Aer run must save its density matrix
+
+----------------------------------------------------------------------
+Ran 2 tests in 3.463s
+
+FAILED (failures=2)

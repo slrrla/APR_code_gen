@@ -1,0 +1,175 @@
+Title:
+Qiskit PrimitiveOp compose function giving weird output
+
+Category:
+Category:
+Error / Debugging
+
+Why Stack Overflow Wins in This Category:
+For debugging, the best answer is the one that identifies the root cause and provides generalizable fixes. Stack Overflow explained the problem clearly, traced it to Qiskit’s type handling, and gave reproducible solutions. The AI’s answer avoided the deeper explanation and only suggested workarounds, making Stack Overflow clearly better here.
+
+Question:
+Title: Qiskit PrimitiveOp compose function giving weird output
+
+I am executing the following code. It gives a warning and a very deeply nested numpy array. But if I set to be something else for example 2.0, I am getting the expected output and no warning. Is it a possible bug in Qiskit?
+
+```
+[ins] In [1]: from qiskit.opflow.primitive_ops import PrimitiveOp ...: from qiskit.quantum_info import Pauli ...: import numpy as np ...: x = 3.5*np.sqrt(3.0/2) ...: print(x) ...: annih_op=PrimitiveOp(Pauli('X')) + 1.0j*PrimitiveOp(Pauli('Y')) ...: creat_op = PrimitiveOp(Pauli('X')) - 1.0j*PrimitiveOp(Pauli('Y')) ...: my_op = x*creat_op.compose(annih_op, front=True) ...: print('type(my_op) = ', type(my_op)) ...: print('my_op)= ', my_op)
+```
+
+```
+[ins] In [1]: from qiskit.opflow.primitive_ops import PrimitiveOp ...: from qiskit.quantum_info import Pauli ...: import numpy as np ...: x = 3.5*np.sqrt(3.0/2) ...: print(x) ...: annih_op=PrimitiveOp(Pauli('X')) + 1.0j*PrimitiveOp(Pauli('Y')) ...: creat_op = PrimitiveOp(Pauli('X')) - 1.0j*PrimitiveOp(Pauli('Y')) ...: my_op = x*creat_op.compose(annih_op, front=True) ...: print('type(my_op) = ', type(my_op)) ...: print('my_op)= ', my_op)
+```
+
+```
+4.286607049870561 <ipython-input-1-583b34f24f0c>:8: VisibleDeprecationWarning: Creating an ndarray from nested sequences exceeding the maximum number of dimensions of 32 is deprecated. If you mean to do this, you must specify 'dtype=object' when creating the ndarray. my_op = x*creat_op.compose(annih_op, front=True) type(my_op) = <class 'numpy.ndarray'> my_op)= [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['I'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['Z'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['Z'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['I'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+```
+
+```
+4.286607049870561 <ipython-input-1-583b34f24f0c>:8: VisibleDeprecationWarning: Creating an ndarray from nested sequences exceeding the maximum number of dimensions of 32 is deprecated. If you mean to do this, you must specify 'dtype=object' when creating the ndarray. my_op = x*creat_op.compose(annih_op, front=True) type(my_op) = <class 'numpy.ndarray'> my_op)= [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['I'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['Z'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['Z'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['I'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+```
+
+```
+x
+```
+
+```
+[nav] In [2]: from qiskit.opflow.primitive_ops import PrimitiveOp ...: from qiskit.quantum_info import Pauli ...: import numpy as np ...: #x = 3.5*np.sqrt(3.0/2) ...: x=2.0 ...: print(x) ...: annih_op=PrimitiveOp(Pauli('X')) + 1.0j*PrimitiveOp(Pauli('Y')) ...: creat_op = PrimitiveOp(Pauli('X')) - 1.0j*PrimitiveOp(Pauli('Y')) ...: my_op = x*creat_op.compose(annih_op, front=True) ...: print('type(my_op) = ', type(my_op)) ...: print('my_op)= ', my_op) 2.0 type(my_op) = <class 'qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp'> my_op)= 2.0 * I + 2.0 * Z + 2.0 * Z + 2.0 * I
+```
+
+```
+[nav] In [2]: from qiskit.opflow.primitive_ops import PrimitiveOp ...: from qiskit.quantum_info import Pauli ...: import numpy as np ...: #x = 3.5*np.sqrt(3.0/2) ...: x=2.0 ...: print(x) ...: annih_op=PrimitiveOp(Pauli('X')) + 1.0j*PrimitiveOp(Pauli('Y')) ...: creat_op = PrimitiveOp(Pauli('X')) - 1.0j*PrimitiveOp(Pauli('Y')) ...: my_op = x*creat_op.compose(annih_op, front=True) ...: print('type(my_op) = ', type(my_op)) ...: print('my_op)= ', my_op) 2.0 type(my_op) = <class 'qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp'> my_op)= 2.0 * I + 2.0 * Z + 2.0 * Z + 2.0 * I
+```
+
+Original buggy code:
+[ins] In [1]: from qiskit.opflow.primitive_ops import PrimitiveOp ...: from qiskit.quantum_info import Pauli ...: import numpy as np ...: x = 3.5*np.sqrt(3.0/2) ...: print(x) ...: annih_op=PrimitiveOp(Pauli('X')) + 1.0j*PrimitiveOp(Pauli('Y')) ...: creat_op = PrimitiveOp(Pauli('X')) - 1.0j*PrimitiveOp(Pauli('Y')) ...: my_op = x*creat_op.compose(annih_op, front=True) ...: print('type(my_op) = ', type(my_op)) ...: print('my_op)= ', my_op)
+
+---CODE_BLOCK---
+
+[ins] In [1]: from qiskit.opflow.primitive_ops import PrimitiveOp ...: from qiskit.quantum_info import Pauli ...: import numpy as np ...: x = 3.5*np.sqrt(3.0/2) ...: print(x) ...: annih_op=PrimitiveOp(Pauli('X')) + 1.0j*PrimitiveOp(Pauli('Y')) ...: creat_op = PrimitiveOp(Pauli('X')) - 1.0j*PrimitiveOp(Pauli('Y')) ...: my_op = x*creat_op.compose(annih_op, front=True) ...: print('type(my_op) = ', type(my_op)) ...: print('my_op)= ', my_op)
+
+---CODE_BLOCK---
+
+4.286607049870561 <ipython-input-1-583b34f24f0c>:8: VisibleDeprecationWarning: Creating an ndarray from nested sequences exceeding the maximum number of dimensions of 32 is deprecated. If you mean to do this, you must specify 'dtype=object' when creating the ndarray. my_op = x*creat_op.compose(annih_op, front=True) type(my_op) = <class 'numpy.ndarray'> my_op)= [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['I'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['Z'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['Z'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['I'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+
+---CODE_BLOCK---
+
+4.286607049870561 <ipython-input-1-583b34f24f0c>:8: VisibleDeprecationWarning: Creating an ndarray from nested sequences exceeding the maximum number of dimensions of 32 is deprecated. If you mean to do this, you must specify 'dtype=object' when creating the ndarray. my_op = x*creat_op.compose(annih_op, front=True) type(my_op) = <class 'numpy.ndarray'> my_op)= [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['I'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['Z'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['Z'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[PauliSumOp(SparsePauliOp(['I'], coeffs=[4.28660705+0.j]), coeff=1.0)]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+
+---CODE_BLOCK---
+
+x
+
+---CODE_BLOCK---
+
+[nav] In [2]: from qiskit.opflow.primitive_ops import PrimitiveOp ...: from qiskit.quantum_info import Pauli ...: import numpy as np ...: #x = 3.5*np.sqrt(3.0/2) ...: x=2.0 ...: print(x) ...: annih_op=PrimitiveOp(Pauli('X')) + 1.0j*PrimitiveOp(Pauli('Y')) ...: creat_op = PrimitiveOp(Pauli('X')) - 1.0j*PrimitiveOp(Pauli('Y')) ...: my_op = x*creat_op.compose(annih_op, front=True) ...: print('type(my_op) = ', type(my_op)) ...: print('my_op)= ', my_op) 2.0 type(my_op) = <class 'qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp'> my_op)= 2.0 * I + 2.0 * Z + 2.0 * Z + 2.0 * I
+
+---CODE_BLOCK---
+
+[nav] In [2]: from qiskit.opflow.primitive_ops import PrimitiveOp ...: from qiskit.quantum_info import Pauli ...: import numpy as np ...: #x = 3.5*np.sqrt(3.0/2) ...: x=2.0 ...: print(x) ...: annih_op=PrimitiveOp(Pauli('X')) + 1.0j*PrimitiveOp(Pauli('Y')) ...: creat_op = PrimitiveOp(Pauli('X')) - 1.0j*PrimitiveOp(Pauli('Y')) ...: my_op = x*creat_op.compose(annih_op, front=True) ...: print('type(my_op) = ', type(my_op)) ...: print('my_op)= ', my_op) 2.0 type(my_op) = <class 'qiskit.opflow.primitive_ops.pauli_sum_op.PauliSumOp'> my_op)= 2.0 * I + 2.0 * Z + 2.0 * Z + 2.0 * I
+
+Solution explanation:
+If you checked the type of your coefficient , you will find that its value is . And if you checked how multiplication by scalar is implemented in class [1], you will notice that only scalars of type , , and are supported. Otherwise, the multiplication by scalar will be handled by the primitive class ( in our case) which inherits from [2]. This is where the issue happens. So, to avoid the issue, just cast your coefficient, Or change the order of multiplication,
+
+```
+x
+```
+
+```
+numpy.float64
+```
+
+```
+PauliSumOp
+```
+
+```
+int
+```
+
+```
+float
+```
+
+```
+complex
+```
+
+```
+SparsePauliOp
+```
+
+```
+__rmul__
+```
+
+```
+MultiplyMixin
+```
+
+```
+x = float(3.5 * np.sqrt(3.0/2))
+```
+
+```
+x = float(3.5 * np.sqrt(3.0/2))
+```
+
+```
+my_op = creat_op.compose(annih_op, front=True) * x
+```
+
+```
+my_op = creat_op.compose(annih_op, front=True) * x
+```
+
+Original fixed code:
+x
+
+---CODE_BLOCK---
+
+numpy.float64
+
+---CODE_BLOCK---
+
+PauliSumOp
+
+---CODE_BLOCK---
+
+int
+
+---CODE_BLOCK---
+
+float
+
+---CODE_BLOCK---
+
+complex
+
+---CODE_BLOCK---
+
+SparsePauliOp
+
+---CODE_BLOCK---
+
+__rmul__
+
+---CODE_BLOCK---
+
+MultiplyMixin
+
+---CODE_BLOCK---
+
+x = float(3.5 * np.sqrt(3.0/2))
+
+---CODE_BLOCK---
+
+x = float(3.5 * np.sqrt(3.0/2))
+
+---CODE_BLOCK---
+
+my_op = creat_op.compose(annih_op, front=True) * x
+
+---CODE_BLOCK---
+
+my_op = creat_op.compose(annih_op, front=True) * x

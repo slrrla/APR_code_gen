@@ -1,0 +1,30 @@
+
+test_registered_bits_and_full_permutation (__main__.TestIntent) ... FAIL
+
+======================================================================
+FAIL: test_registered_bits_and_full_permutation (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_671\test.py", line 36, in test_registered_bits_and_full_permutation
+    np.testing.assert_allclose(matrix,expected,atol=1e-10)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_240_exact\lib\site-packages\numpy\testing\_private\utils.py", line 1715, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_240_exact\lib\site-packages\numpy\testing\_private\utils.py", line 921, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-10
+
+Mismatched elements: 1024 / 262144 (0.391%)
+Max absolute difference among violations: 1.
+Max relative difference among violations: 1.
+ ACTUAL: array([[1.+0.j, 0.+0.j, 0.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],
+       [0.+0.j, 1.+0.j, 0.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],
+       [0.+0.j, 0.+0.j, 1.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],...
+ DESIRED: array([[0.+0.j, 0.+0.j, 1.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],
+       [0.+0.j, 0.+0.j, 0.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],
+       [1.+0.j, 0.+0.j, 0.+0.j, ..., 0.+0.j, 0.+0.j, 0.+0.j],...
+
+----------------------------------------------------------------------
+Ran 1 test in 1.232s
+
+FAILED (failures=1)

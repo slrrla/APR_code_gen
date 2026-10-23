@@ -1,0 +1,49 @@
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, transpile
+from qiskit_aer import Aer
+
+def oracle(circuit, register, marked_state):
+    for i in range(len(marked_state)):
+        if marked_state[i] == '1':
+            circuit.x(register[i])
+    circuit.cz(register[0], register[1])
+    for i in range(len(marked_state)):
+        if marked_state[i] == '1':
+            circuit.x(register[i])
+
+def grover_diffusion(circuit, register):
+    circuit.h(register)
+    circuit.x(register)
+    circuit.h(register[1])
+    circuit.cx(register[0], register[1])
+    circuit.h(register[1])
+    circuit.x(register)
+    circuit.h(register)
+
+def grover(marked_state):
+    n = len(marked_state)
+    cr = ClassicalRegister(n)
+    # FIX: the circuit used a register that was never stored, and each later QuantumRegister(n) made a new, different register -> create one register `qr` and build the circuit with it, because only registers added to the circuit have qubits it recognizes
+    qr = QuantumRegister(n)
+    circuit = QuantumCircuit(qr, cr)
+    print(QuantumRegister(n))
+    # FIX: used a fresh QuantumRegister(n) that is not in the circuit -> use qr, because its qubits belong to the circuit
+    circuit.h(qr)
+    num_iterations = int(round((2 ** n) ** 0.5))
+    for i in range(num_iterations):
+        # FIX: fresh QuantumRegister(n) is not in the circuit -> pass qr, because its qubits belong to the circuit
+        oracle(circuit, qr, marked_state)
+        # FIX: fresh QuantumRegister(n) is not in the circuit -> pass qr, because its qubits belong to the circuit
+        grover_diffusion(circuit, qr)
+    # FIX: fresh QuantumRegister(n) is not in the circuit -> use qr, because its qubits belong to the circuit
+    circuit.measure(qr, cr)
+    backend = Aer.get_backend('qasm_simulator')
+    # FIX: transpile returns a circuit, not a job, so .result() would fail -> run the transpiled circuit on the backend, because backend.run returns a job that has .result()
+    job = backend.run(transpile(circuit, backend))
+    result = job.result()
+    counts = result.get_counts()
+    x = list(counts.keys())[0]
+    return x
+
+marked_state = '101'
+result = grover(marked_state)
+print(f"The marked state is {result}")

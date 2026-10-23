@@ -1,0 +1,40 @@
+counts [[64]
+ [64]
+ [64]]
+result.values [dict_values([64]), dict_values([64]), dict_values([64])]
+counts [list([50, 50]) list([100]) list([100])]
+result.values [dict_values([50, 50]), dict_values([100]), dict_values([100])]
+
+test_batch_order_and_two_qubit_outcomes (__main__.Regression) ... C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  import pkg_resources
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\providers\aer\backends\qasm_simulator.py:329: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn('The `QasmSimulator` backend will be deprecated in the'
+ERROR
+test_multiple_circuits_return_separate_histograms (__main__.Regression) ... C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\llm_fixes\issue_803\llm_haiku55_fix.py:22: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray.
+  counts = np.array([list(r.values()) for r in result])
+FAIL
+
+======================================================================
+ERROR: test_batch_order_and_two_qubit_outcomes (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_803\test.py", line 36, in test_batch_order_and_two_qubit_outcomes
+    self.assertEqual(counts, [{"00":64}, {"11":64}, {"00":64}])
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\unittest\case.py", line 912, in assertEqual
+    assertion_func(first, second, msg=msg)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\unittest\case.py", line 902, in _baseAssertEqual
+    if not first == second:
+ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+
+======================================================================
+FAIL: test_multiple_circuits_return_separate_histograms (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_803\test.py", line 23, in test_multiple_circuits_return_separate_histograms
+    self.assertIsInstance(counts, list)
+AssertionError: array([list([50, 50]), list([100]), list([100])], dtype=object) is not an instance of <class 'list'>
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.737s
+
+FAILED (failures=1, errors=1)

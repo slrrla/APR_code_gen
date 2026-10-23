@@ -1,0 +1,32 @@
+
+test_operator_conversion_and_qaoa_execution (__main__.TestIntent) ... C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  import pkg_resources
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\pkg_resources\__init__.py:3154: DeprecationWarning: Deprecated call to `pkg_resources.declare_namespace('mpl_toolkits')`.
+Implementing implicit namespace packages (as specified in PEP 420) is preferred to `pkg_resources.declare_namespace`. See https://setuptools.pypa.io/en/latest/references/keywords.html#keyword-namespace-packages
+  declare_namespace(pkg)
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\spnego\_ntlm_raw\crypto.py:22: CryptographyDeprecationWarning: Python 3.8 is no longer supported by the Python core team and support for it is deprecated in cryptography. The next release of cryptography will remove support for Python 3.8.
+  from cryptography.hazmat.backends import default_backend
+ERROR
+
+======================================================================
+ERROR: test_operator_conversion_and_qaoa_execution (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_624\test.py", line 34, in test_operator_conversion_and_qaoa_execution
+    ns = load_target()
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_624\test.py", line 17, in load_target
+    return runpy.run_path(MUT)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\llm_fixes\issue_624\llm_luna6_fix.py", line 19, in <module>
+    print(qaoa.compute_minimum_eigenvalue(PauliSumOp.from_operator(Operator(H))))
+AttributeError: type object 'PauliSumOp' has no attribute 'from_operator'
+
+----------------------------------------------------------------------
+Ran 1 test in 7.025s
+
+FAILED (errors=1)

@@ -1,0 +1,15 @@
+
+test_aer_backend_and_hadamard (__main__.TestIntent) ... C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_240_exact\lib\site-packages\qiskit_aer\backends\qasm_simulator.py:433: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn(
+C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_034\test.py:25: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  self.assertEqual([op.name for op, _, _ in qc.data], ["h", "measure"])
+C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_034\test.py:26: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  self.assertEqual(qc.data[-1][1], [qc.qubits[0]])
+C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_034\test.py:27: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  self.assertEqual(qc.data[-1][2], [qc.clbits[0]])
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.377s
+
+OK

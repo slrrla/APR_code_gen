@@ -1,0 +1,17 @@
+global phase: π
+                   ┌───┐          ┌───┐┌───┐┌───┐          ┌───┐┌───┐     
+state_0: ───────■──┤ X ├───────■──┤ X ├┤ H ├┤ X ├───────■──┤ X ├┤ H ├─────
+         ┌───┐  │  ├───┤       │  ├───┤├───┤└───┘       │  ├───┤├───┤     
+state_1: ┤ X ├──■──┤ X ├───────■──┤ H ├┤ X ├────────────■──┤ X ├┤ H ├─────
+         ├───┤┌─┴─┐├───┤┌───┐┌─┴─┐├───┤├───┤┌───┐┌───┐┌─┴─┐├───┤├───┤┌───┐
+state_2: ┤ H ├┤ X ├┤ H ├┤ H ├┤ X ├┤ H ├┤ H ├┤ X ├┤ H ├┤ X ├┤ H ├┤ X ├┤ H ├
+         └───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘
+
+test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle) ... C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  import pkg_resources
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.585s
+
+OK

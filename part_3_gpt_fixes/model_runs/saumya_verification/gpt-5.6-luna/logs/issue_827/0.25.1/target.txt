@@ -1,0 +1,25 @@
+
+test_all_five_one_hot_circuit_results_are_retrieved (__main__.Regression) ... C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0251_exact\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  import pkg_resources
+ERROR
+
+======================================================================
+ERROR: test_all_five_one_hot_circuit_results_are_retrieved (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_827\test.py", line 67, in test_all_five_one_hot_circuit_results_are_retrieved
+    namespace = runpy.run_path(path, run_name="__main__")
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0251_exact\lib\runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0251_exact\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0251_exact\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\llm_fixes\issue_827\llm_luna56_fix.py", line 6, in <module>
+    from qiskit.backends.jobstatus import JOB_FINAL_STATES
+ModuleNotFoundError: No module named 'qiskit.backends'
+
+----------------------------------------------------------------------
+Ran 1 test in 2.174s
+
+FAILED (errors=1)

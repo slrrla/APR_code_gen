@@ -1,0 +1,19 @@
+from qiskit import QuantumCircuit, transpile
+from qiskit.providers.fake_provider import FakeVigo
+
+qc = QuantumCircuit(3)
+qc.h(0)
+qc.cx(0, 1)
+qc.cx(1, 2)
+qc.measure_all()
+
+backend = FakeVigo()
+
+# FIX: passed an invalid layout_method='csp_layout' (CSP is not a public layout method) -> removed the argument so the optimization_level=3 preset chooses the layout internally, because transpile only accepts trivial, dense, noise_adaptive, or sabre here
+transpiled = transpile(
+    qc,
+    backend=backend,
+    optimization_level=3
+)
+
+print(transpiled)

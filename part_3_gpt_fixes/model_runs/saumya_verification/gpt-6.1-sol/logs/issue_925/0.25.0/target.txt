@@ -1,0 +1,48 @@
+
+test_actual_shor_factors_and_simulator_capacity (__main__.Regression) ... C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  import pkg_resources
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\pkg_resources\__init__.py:3154: DeprecationWarning: Deprecated call to `pkg_resources.declare_namespace('mpl_toolkits')`.
+Implementing implicit namespace packages (as specified in PEP 420) is preferred to `pkg_resources.declare_namespace`. See https://setuptools.pypa.io/en/latest/references/keywords.html#keyword-namespace-packages
+  declare_namespace(pkg)
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\qiskit\aqua\quantum_instance.py:135: DeprecationWarning: The class qiskit.aqua.QuantumInstance is deprecated. It was moved/refactored to qiskit.utils.QuantumInstance (pip install qiskit-terra). For more information see <https://github.com/Qiskit/qiskit-aqua/blob/master/README.md#migration-guide>
+  warn_class('aqua.QuantumInstance',
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\spnego\_ntlm_raw\crypto.py:22: CryptographyDeprecationWarning: Python 3.8 is no longer supported by the Python core team and support for it is deprecated in cryptography. The next release of cryptography will remove support for Python 3.8.
+  from cryptography.hazmat.backends import default_backend
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\qiskit\aqua\algorithms\factorizers\shor.py:69: DeprecationWarning: The package qiskit.aqua.algorithms.factorizers is deprecated. It was moved/refactored to qiskit.algorithms.factorizers (pip install qiskit-terra). For more information see <https://github.com/Qiskit/qiskit-aqua/blob/master/README.md#migration-guide>
+  warn_package('aqua.algorithms.factorizers',
+ERROR
+
+======================================================================
+ERROR: test_actual_shor_factors_and_simulator_capacity (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_925\test.py", line 21, in test_actual_shor_factors_and_simulator_capacity
+    m = target()
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_925\test.py", line 15, in target
+    namespace = runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\llm_fixes\issue_925\llm_sol61_fix.py", line 12, in <module>
+    res = shor.run(quantum_instance)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\qiskit\aqua\algorithms\quantum_algorithm.py", line 71, in run
+    return self._run()
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\qiskit\aqua\algorithms\factorizers\shor.py", line 403, in _run
+    counts = self._quantum_instance.execute(circuit).get_counts(circuit)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\qiskit\aqua\quantum_instance.py", line 305, in execute
+    circuits = self.transpile(circuits)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\qiskit\aqua\quantum_instance.py", line 261, in transpile
+    transpiled_circuits = compiler.transpile(circuits,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\qiskit\compiler\transpiler.py", line 242, in transpile
+    _check_circuits_coupling_map(circuits, transpile_args, backend)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\qiskit\compiler\transpiler.py", line 279, in _check_circuits_coupling_map
+    raise TranspilerError('Number of qubits ({}) '.format(num_qubits) +
+qiskit.transpiler.exceptions.TranspilerError: 'Number of qubits (18) in Shor(N=15, a=2) is greater than maximum (14) in the coupling_map'
+
+----------------------------------------------------------------------
+Ran 1 test in 5.688s
+
+FAILED (errors=1)

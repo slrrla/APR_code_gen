@@ -1,0 +1,21 @@
+import numpy as np
+from qiskit import BasicAer, QuantumCircuit
+from qiskit.algorithms import QAOA
+from qiskit.algorithms.optimizers import COBYLA
+# FIX: observable was missing (a QuantumCircuit mixer was passed where an operator is required) -> added SparsePauliOp import, because compute_minimum_eigenvalue needs a Pauli-sum operator
+from qiskit.quantum_info import SparsePauliOp
+
+nqubits = 4
+H = QuantumCircuit(nqubits)
+for i in range(nqubits):
+    H.z(i)
+
+# FIX: added a Pauli-sum observable (sum of Z on each qubit) -> QAOA can only evaluate an operator, because a circuit is not a valid observable
+cost_op = SparsePauliOp.from_list([("".join("Z" if j == i else "I" for j in range(nqubits)), 1.0) for i in range(nqubits)])
+
+qaoa = QAOA(optimizer=COBYLA(), reps=1, mixer=H,
+            initial_point=np.array([1.0]),
+            quantum_instance=BasicAer.get_backend('statevector_simulator'))
+
+# FIX: passed the circuit H as the observable -> pass the cost_op operator, because compute_minimum_eigenvalue requires an operator
+print(qaoa.compute_minimum_eigenvalue(cost_op))

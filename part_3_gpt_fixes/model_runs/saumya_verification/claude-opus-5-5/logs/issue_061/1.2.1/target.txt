@@ -1,0 +1,24 @@
+
+test_public_bit_locations (__main__.TestIntent) ... C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\bit_location_oracle.py:120: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 2.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  instructions = [(item[0].name, tuple(item[1])) for item in circuit.data]
+C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\bit_location_oracle.py:120: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 2.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  instructions = [(item[0].name, tuple(item[1])) for item in circuit.data]
+C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\bit_location_oracle.py:120: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 2.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  instructions = [(item[0].name, tuple(item[1])) for item in circuit.data]
+C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\bit_location_oracle.py:120: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 2.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  instructions = [(item[0].name, tuple(item[1])) for item in circuit.data]
+
+======================================================================
+FAIL: test_public_bit_locations (__main__.TestIntent) (h_index=1, control_index=0, prefix_size=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_061\test_new.py", line 22, in test_public_bit_locations
+    check_bit_reporting(MUT, h_index=h_index, control_index=control_index, prefix_size=prefix_size)
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\bit_location_oracle.py", line 136, in check_bit_reporting
+    raise AssertionError("Printed register/index records do not match the actual instruction bits.")
+AssertionError: Printed register/index records do not match the actual instruction bits.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.012s
+
+FAILED (failures=1)

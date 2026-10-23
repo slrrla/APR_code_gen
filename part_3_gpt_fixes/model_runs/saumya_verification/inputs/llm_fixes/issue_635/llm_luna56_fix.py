@@ -1,0 +1,17 @@
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, execute, Aer
+
+q = QuantumRegister(3)
+c = ClassicalRegister(3)
+qc = QuantumCircuit(q, c)
+
+qc.measure(q, c)
+
+# FIX: a classical bit is not a valid c_if condition in this API -> use the classical register and its integer value, because c_if compares register values
+qc.x(q[0]).c_if(c, 1)
+# FIX: a classical bit is not a valid c_if condition in this API -> use the classical register and the bit-1 integer value, because c[1] corresponds to value 2
+qc.x(q[1]).c_if(c, 2)
+
+backend = Aer.get_backend('qasm_simulator')
+job = execute(qc, backend, shots=1024)
+result = job.result()
+print(result.get_counts(qc))

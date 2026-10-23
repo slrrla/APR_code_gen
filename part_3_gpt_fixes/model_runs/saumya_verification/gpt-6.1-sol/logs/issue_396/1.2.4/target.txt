@@ -1,0 +1,37 @@
+         ┌────┐
+state_0: ┤0   ├
+         │    │
+state_1: ┤1 Q ├
+         │    │
+state_2: ┤2   ├
+         └────┘
+
+test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle) ... FAIL
+
+======================================================================
+FAIL: test_exact_marked_phases_and_grover_amplification (__main__.TestMultiTargetOracle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_396\test.py", line 19, in test_exact_marked_phases_and_grover_amplification
+    np.testing.assert_allclose(Operator(m['grover_op']).data, expected_grover, atol=1e-12)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_124\lib\site-packages\numpy\testing\_private\utils.py", line 1715, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_124\lib\site-packages\numpy\testing\_private\utils.py", line 921, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+Mismatched elements: 64 / 64 (100%)
+Max absolute difference among violations: 0.57402515
+Max relative difference among violations: 0.76536686
+ ACTUAL: array([[-0.53033 +0.53033j ,  0.176777-0.176777j,  0.176777-0.176777j,
+         0.176777-0.176777j,  0.176777-0.176777j, -0.176777+0.176777j,
+        -0.176777+0.176777j,  0.176777-0.176777j],...
+ DESIRED: array([[-0.75,  0.25,  0.25,  0.25,  0.25, -0.25, -0.25,  0.25],
+       [ 0.25, -0.75,  0.25,  0.25,  0.25, -0.25, -0.25,  0.25],
+       [ 0.25,  0.25, -0.75,  0.25,  0.25, -0.25, -0.25,  0.25],...
+
+----------------------------------------------------------------------
+Ran 1 test in 1.596s
+
+FAILED (failures=1)

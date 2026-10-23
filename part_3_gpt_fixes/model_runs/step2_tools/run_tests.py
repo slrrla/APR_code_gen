@@ -297,9 +297,9 @@ def save_results(plan, batch, data=None):
 
 
 def export_workbook(batch):
-    node = Path.home() / '.cache' / 'codex-runtimes' / 'codex-primary-runtime' / 'dependencies' / 'node' / 'bin' / 'node.exe'
-    if not node.is_file():
-        raise FileNotFoundError(f'Bundled Node missing: {node}. JSON/CSV/logs remain saved.')
+    node = os.environ.get('APR_NODE_EXE') or shutil.which('node')
+    if not node:
+        raise FileNotFoundError('Node.js missing: set APR_NODE_EXE or add node to PATH. JSON/CSV/logs remain saved.')
     process = subprocess.run([str(node), str(Path(__file__).with_name('export_results.mjs')), str(batch / 'results.json')])
     if process.returncode:
         raise RuntimeError('Workbook export failed (possibly open in Excel). Logs and CSV are safe; use --report-only.')

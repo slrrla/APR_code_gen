@@ -1,0 +1,11 @@
+import qiskit
+# FIX: QASM 2 export is no longer a circuit method -> import qiskit.qasm2, because it provides the supported exporter.
+import qiskit.qasm2
+
+c = qiskit.QuantumCircuit(1)
+c.h(0)
+
+# FIX: c.qasm() was removed -> use qiskit.qasm2.dumps(c), because it returns the circuit as an OpenQASM 2.0 string.
+qasm_str = qiskit.qasm2.dumps(c)
+print(qasm_str)
+

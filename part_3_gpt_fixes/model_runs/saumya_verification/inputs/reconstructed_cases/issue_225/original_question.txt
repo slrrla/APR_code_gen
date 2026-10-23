@@ -1,0 +1,152 @@
+Title:
+Expressibility and Entanglement Capability of the Parameterized Quantum Circuits
+
+Category:
+Category: Circuit Construction / Logic / Gates
+Why AI Wins in This Category:
+
+This category requires a combination of correct logic implementation and educational clarity. The AI wins because it:
+
+Offers functional code
+
+Explains theoretical background on expressibility
+
+Covers debugging and versioning tips
+
+Delivers more value for learning and implementation
+
+StackOverflow provided the minimal fix but missed the deeper contextual and conceptual explanation needed for effective use of parameterized quantum circuits.
+
+Question:
+Title: Expressibility and Entanglement Capability of the Parameterized Quantum Circuits
+
+I am trying to calculate the expressibility and entangling capability of a quantum state resulting from a circuit as defined in reference I. One of my attempts was to follow reference II which gives us some Python code using Qiskit like this: To create the ansatz test, reference II did: And to instantiate: However, the code is not compiling and the output is: My question is: does anyone know how to solve this problem? is there any other way to coherently calculate the expressibility of a circuit? I tried to use medium fidelity but had issues with sanity checks. References: (I) https://arxiv.org/abs/1905.10876 (II) https://obliviateandsurrender.github.io/blogs/expr.html
+
+```
+def random_unitary(N): """ Return a Haar distributed random unitary from U(N) """ Z = np.random.randn(N, N) + 1.0j * np.random.randn(N, N) [Q, R] = sp.linalg.qr(Z) D = np.diag(np.diagonal(R) / np.abs(np.diagonal(R))) return np.dot(Q, D) def haar_integral(num_qubits, samples): """ Return calculation of Haar Integral for a specified number of samples. """ N = 2**num_qubits randunit_density = np.zeros((N, N), dtype=complex) zero_state = np.zeros(N, dtype=complex) zero_state[0] = 1 for _ in range(samples): A = np.matmul(zero_state, random_unitary(N)).reshape(-1,1) randunit_density += np.kron(A, A.conj().T) randunit_density/=samples return randunit_density def pqc_integral(num_qubits, ansatze, size, samples): """ Return calculation of Integral for a PQC over the uniformly sampled the parameters θ for the specified number of samples. """ N = num_qubits randunit_density = np.zeros((2**N, 2**N), dtype=complex) for _ in range(samples): params = np.random.uniform(-np.pi, np.pi, size) ansatz = ansatze(params, N) result = execute(ansatz, backend=Aer.get_backend('statevector_simulator')).result() U = result.get_statevector(ansatz, decimals=5).reshape(-1,1) randunit_density += np.kron(U, U.conj().T) return randunit_density/samples
+```
+
+```
+def random_unitary(N): """ Return a Haar distributed random unitary from U(N) """ Z = np.random.randn(N, N) + 1.0j * np.random.randn(N, N) [Q, R] = sp.linalg.qr(Z) D = np.diag(np.diagonal(R) / np.abs(np.diagonal(R))) return np.dot(Q, D) def haar_integral(num_qubits, samples): """ Return calculation of Haar Integral for a specified number of samples. """ N = 2**num_qubits randunit_density = np.zeros((N, N), dtype=complex) zero_state = np.zeros(N, dtype=complex) zero_state[0] = 1 for _ in range(samples): A = np.matmul(zero_state, random_unitary(N)).reshape(-1,1) randunit_density += np.kron(A, A.conj().T) randunit_density/=samples return randunit_density def pqc_integral(num_qubits, ansatze, size, samples): """ Return calculation of Integral for a PQC over the uniformly sampled the parameters θ for the specified number of samples. """ N = num_qubits randunit_density = np.zeros((2**N, 2**N), dtype=complex) for _ in range(samples): params = np.random.uniform(-np.pi, np.pi, size) ansatz = ansatze(params, N) result = execute(ansatz, backend=Aer.get_backend('statevector_simulator')).result() U = result.get_statevector(ansatz, decimals=5).reshape(-1,1) randunit_density += np.kron(U, U.conj().T) return randunit_density/samples
+```
+
+```
+def ansatz2(params, num_qubits): params = np.array(params).reshape(1) ansatz = QuantumCircuit(num_qubits, num_qubits) ansatz.h(0) ansatz.cx(0, 1) ansatz.rx(params[0], 0) return ansatz
+```
+
+```
+def ansatz2(params, num_qubits): params = np.array(params).reshape(1) ansatz = QuantumCircuit(num_qubits, num_qubits) ansatz.h(0) ansatz.cx(0, 1) ansatz.rx(params[0], 0) return ansatz
+```
+
+```
+np.linalg.norm(haar_integral(2, 2048) - pqc_integral(2, ansatz2, 1, 2048))
+```
+
+```
+np.linalg.norm(haar_integral(2, 2048) - pqc_integral(2, ansatz2, 1, 2048))
+```
+
+```
+AttributeError: 'Statevector' object has no attribute 'reshape'
+```
+
+```
+AttributeError: 'Statevector' object has no attribute 'reshape'
+```
+
+Original buggy code:
+def random_unitary(N): """ Return a Haar distributed random unitary from U(N) """ Z = np.random.randn(N, N) + 1.0j * np.random.randn(N, N) [Q, R] = sp.linalg.qr(Z) D = np.diag(np.diagonal(R) / np.abs(np.diagonal(R))) return np.dot(Q, D) def haar_integral(num_qubits, samples): """ Return calculation of Haar Integral for a specified number of samples. """ N = 2**num_qubits randunit_density = np.zeros((N, N), dtype=complex) zero_state = np.zeros(N, dtype=complex) zero_state[0] = 1 for _ in range(samples): A = np.matmul(zero_state, random_unitary(N)).reshape(-1,1) randunit_density += np.kron(A, A.conj().T) randunit_density/=samples return randunit_density def pqc_integral(num_qubits, ansatze, size, samples): """ Return calculation of Integral for a PQC over the uniformly sampled the parameters θ for the specified number of samples. """ N = num_qubits randunit_density = np.zeros((2**N, 2**N), dtype=complex) for _ in range(samples): params = np.random.uniform(-np.pi, np.pi, size) ansatz = ansatze(params, N) result = execute(ansatz, backend=Aer.get_backend('statevector_simulator')).result() U = result.get_statevector(ansatz, decimals=5).reshape(-1,1) randunit_density += np.kron(U, U.conj().T) return randunit_density/samples
+
+---CODE_BLOCK---
+
+def random_unitary(N): """ Return a Haar distributed random unitary from U(N) """ Z = np.random.randn(N, N) + 1.0j * np.random.randn(N, N) [Q, R] = sp.linalg.qr(Z) D = np.diag(np.diagonal(R) / np.abs(np.diagonal(R))) return np.dot(Q, D) def haar_integral(num_qubits, samples): """ Return calculation of Haar Integral for a specified number of samples. """ N = 2**num_qubits randunit_density = np.zeros((N, N), dtype=complex) zero_state = np.zeros(N, dtype=complex) zero_state[0] = 1 for _ in range(samples): A = np.matmul(zero_state, random_unitary(N)).reshape(-1,1) randunit_density += np.kron(A, A.conj().T) randunit_density/=samples return randunit_density def pqc_integral(num_qubits, ansatze, size, samples): """ Return calculation of Integral for a PQC over the uniformly sampled the parameters θ for the specified number of samples. """ N = num_qubits randunit_density = np.zeros((2**N, 2**N), dtype=complex) for _ in range(samples): params = np.random.uniform(-np.pi, np.pi, size) ansatz = ansatze(params, N) result = execute(ansatz, backend=Aer.get_backend('statevector_simulator')).result() U = result.get_statevector(ansatz, decimals=5).reshape(-1,1) randunit_density += np.kron(U, U.conj().T) return randunit_density/samples
+
+---CODE_BLOCK---
+
+def ansatz2(params, num_qubits): params = np.array(params).reshape(1) ansatz = QuantumCircuit(num_qubits, num_qubits) ansatz.h(0) ansatz.cx(0, 1) ansatz.rx(params[0], 0) return ansatz
+
+---CODE_BLOCK---
+
+def ansatz2(params, num_qubits): params = np.array(params).reshape(1) ansatz = QuantumCircuit(num_qubits, num_qubits) ansatz.h(0) ansatz.cx(0, 1) ansatz.rx(params[0], 0) return ansatz
+
+---CODE_BLOCK---
+
+np.linalg.norm(haar_integral(2, 2048) - pqc_integral(2, ansatz2, 1, 2048))
+
+---CODE_BLOCK---
+
+np.linalg.norm(haar_integral(2, 2048) - pqc_integral(2, ansatz2, 1, 2048))
+
+---CODE_BLOCK---
+
+AttributeError: 'Statevector' object has no attribute 'reshape'
+
+---CODE_BLOCK---
+
+AttributeError: 'Statevector' object has no attribute 'reshape'
+
+Solution explanation:
+The underlying issue from that error is that the class being returned by doesn't have the reshape method defined on it. Based on the code it looks like you're expecting a numpy array object instead of . A object can be used in place of a numpy array for numpy functions. So you can do something like: or alternatively cast the statevector to an array: either approach does basically the same thing and will let you call reshape on the statevector which should unblock you on that failure. I didn't run the full code example though, so I can't say whether that's enough to fix everything. But that's the immediate error your
+
+```
+Statevector
+```
+
+```
+get_statevector()
+```
+
+```
+Statevector
+```
+
+```
+Statevector
+```
+
+```
+np.reshape(result.get_statevector(ansatz, decimals=5), (-1,1))
+```
+
+```
+np.reshape(result.get_statevector(ansatz, decimals=5), (-1,1))
+```
+
+```
+np.asarray(result.get_statevector(ansatz, decimals=5)).reshape(-1,1)
+```
+
+```
+np.asarray(result.get_statevector(ansatz, decimals=5)).reshape(-1,1)
+```
+
+Original fixed code:
+Statevector
+
+---CODE_BLOCK---
+
+get_statevector()
+
+---CODE_BLOCK---
+
+Statevector
+
+---CODE_BLOCK---
+
+Statevector
+
+---CODE_BLOCK---
+
+np.reshape(result.get_statevector(ansatz, decimals=5), (-1,1))
+
+---CODE_BLOCK---
+
+np.reshape(result.get_statevector(ansatz, decimals=5), (-1,1))
+
+---CODE_BLOCK---
+
+np.asarray(result.get_statevector(ansatz, decimals=5)).reshape(-1,1)
+
+---CODE_BLOCK---
+
+np.asarray(result.get_statevector(ansatz, decimals=5)).reshape(-1,1)

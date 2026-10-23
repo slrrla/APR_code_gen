@@ -1,0 +1,82 @@
+
+test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression) ... C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\llm_fixes\issue_876\llm_luna6_fix.py:9: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)
+  qc = QFT(6)
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\site-packages\qiskit\circuit\library\basis_change\qft.py:107: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.
+  super().__init__(name=name)
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\site-packages\qiskit_aer\backends\aer_simulator.py:853: DeprecationWarning: max_circuits is deprecated as of qiskit-ibm-runtime 0.37.0 and will be removed no sooner than 3 months after the release date. Please see our documentation on job limits https://docs.quantum.ibm.com/guides/job-limits#job-limits.
+  max_experiments=backend.max_circuits,
+Simulation failed and returned the following error message:
+ERROR:  [Experiment 0] Insufficient memory to run circuit QFT using the density_matrix simulator. Required memory: 18446744073709551615M, max memory: 16081M
+ERROR
+test_real_noisy_density_matrix_is_physical (__main__.Regression) ... C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\llm_fixes\issue_876\llm_luna6_fix.py:9: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)
+  qc = QFT(6)
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\site-packages\qiskit\circuit\library\basis_change\qft.py:107: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.
+  super().__init__(name=name)
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\site-packages\qiskit_aer\backends\aer_simulator.py:853: DeprecationWarning: max_circuits is deprecated as of qiskit-ibm-runtime 0.37.0 and will be removed no sooner than 3 months after the release date. Please see our documentation on job limits https://docs.quantum.ibm.com/guides/job-limits#job-limits.
+  max_experiments=backend.max_circuits,
+Simulation failed and returned the following error message:
+ERROR:  [Experiment 0] Insufficient memory to run circuit QFT using the density_matrix simulator. Required memory: 18446744073709551615M, max memory: 16081M
+ERROR
+
+======================================================================
+ERROR: test_fidelity_compares_ideal_qft_with_actual_noisy_result (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\site-packages\qiskit\result\result.py", line 105, in __getattr__
+    return self._metadata[name]
+KeyError: 'get_density_matrix'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_876\test.py", line 82, in test_fidelity_compares_ideal_qft_with_actual_noisy_result
+    states = noisy_saved_states()
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_876\test.py", line 47, in noisy_saved_states
+    runs, _ = target()
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_876\test.py", line 35, in target
+    runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\runpy.py", line 289, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\runpy.py", line 96, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\llm_fixes\issue_876\llm_luna6_fix.py", line 24, in <module>
+    statevector_real = job_real.result().get_density_matrix()
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\site-packages\qiskit\result\result.py", line 107, in __getattr__
+    raise AttributeError(f"Attribute {name} is not defined") from ex
+AttributeError: Attribute get_density_matrix is not defined
+
+======================================================================
+ERROR: test_real_noisy_density_matrix_is_physical (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\site-packages\qiskit\result\result.py", line 105, in __getattr__
+    return self._metadata[name]
+KeyError: 'get_density_matrix'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_876\test.py", line 70, in test_real_noisy_density_matrix_is_physical
+    states = noisy_saved_states()
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_876\test.py", line 47, in noisy_saved_states
+    runs, _ = target()
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_876\test.py", line 35, in target
+    runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))))
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\runpy.py", line 289, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\runpy.py", line 96, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\llm_fixes\issue_876\llm_luna6_fix.py", line 24, in <module>
+    statevector_real = job_real.result().get_density_matrix()
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\site-packages\qiskit\result\result.py", line 107, in __getattr__
+    raise AttributeError(f"Attribute {name} is not defined") from ex
+AttributeError: Attribute get_density_matrix is not defined
+
+----------------------------------------------------------------------
+Ran 2 tests in 12.140s
+
+FAILED (errors=2)

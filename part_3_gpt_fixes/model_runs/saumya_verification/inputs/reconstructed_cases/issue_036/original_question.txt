@@ -1,0 +1,58 @@
+Title:
+How to convert QuantumCircuit to OpenQasm 2.0 in qiskit 1.0+
+
+Category:
+Category: Circuit Conversion / Qiskit API Change  
+Winner: Stack Overflow  
+Why AI Performs Well in This Category: Not applicable here. AI used an incorrect module (`qasm3.dump`) for QASM 2.0 export. The correct method in Qiskit 1.0+ is `qiskit.qasm2.dumps()`, which Stack Overflow provides clearly and accurately.
+
+
+Question:
+Title: How to convert QuantumCircuit to OpenQasm 2.0 in qiskit 1.0+
+
+I need to convert a QuantumCircuit to a string of the equivalent OpenQasm 2.0 circuit in qiskit. 
+ It seems like the method .qasm() disappeared from the QuantumCircuit class in qiskit 1.0
+And I wasn't able to find an alternative. 
+ I need the qiskit 1.0 version of this: 
+ c = qiskit.QuantumCircuit(1)
+c.h(0)
+
+c.qasm()
+
+```
+c  = qiskit.QuantumCircuit(1)
+c.h(0)
+
+c.qasm()
+```
+
+Original buggy code:
+c  = qiskit.QuantumCircuit(1)
+c.h(0)
+
+c.qasm()
+
+Solution explanation:
+This changed in Qiskit 1.0. You can still export to QASM code, but there is no more QuantumCircuit.qasm() method. 
+ https://docs.quantum.ibm.com/api/migration-guides/qiskit-1.0-features#quantumcircuitqasm 
+ The new method is 
+ from qiskit import QuantumCircuit
+qc = QuantumCircuit(1)
+
+from qiskit.qasm2 import dumps
+qasm_str = dumps(qc)
+
+```
+from qiskit import QuantumCircuit
+qc = QuantumCircuit(1)
+ 
+from qiskit.qasm2 import dumps
+qasm_str = dumps(qc)
+```
+
+Original fixed code:
+from qiskit import QuantumCircuit
+qc = QuantumCircuit(1)
+ 
+from qiskit.qasm2 import dumps
+qasm_str = dumps(qc)

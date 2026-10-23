@@ -1,0 +1,38 @@
+
+test_full_sweep_and_modulated_waveforms (__main__.TestPulseFrequencyWorkaround) ... C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0251_exact\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  import pkg_resources
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0251_exact\lib\site-packages\qiskit\providers\aer\pulse\system_models\string_model_parser\string_model_parser.py:280: DeprecationWarning: Using the `__mul__` operator `A * B` as shorthand for `A.dot(B)` is deprecated as of version 0.17.0 and will be  removed no earlier than 3 months after the release date. As an alternative, use the compose operator `B & A` in place of `A * B` as a replacement.
+  stack.append(op1 * op2)
+ERROR
+
+======================================================================
+ERROR: test_full_sweep_and_modulated_waveforms (__main__.TestPulseFrequencyWorkaround)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0251_exact\lib\site-packages\qiskit\providers\models\backendconfiguration.py", line 339, in __getattr__
+    return self._data[name]
+KeyError: 'qubit_lo_freq'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_436\test.py", line 15, in test_full_sweep_and_modulated_waveforms
+    m = load_target()
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_436\test.py", line 9, in load_target
+    return runpy.run_path(os.environ.get("MUT", str(Path(__file__).with_name("fixed.py"))), run_name="__main__")
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0251_exact\lib\runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0251_exact\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0251_exact\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\llm_fixes\issue_436\llm_haiku55_fix.py", line 52, in <module>
+    2j * np.pi * (freq*GHz - backend_config.qubit_lo_freq[qubit]*GHz) * t)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0251_exact\lib\site-packages\qiskit\providers\models\backendconfiguration.py", line 341, in __getattr__
+    raise AttributeError(f'Attribute {name} is not defined') from ex
+AttributeError: Attribute qubit_lo_freq is not defined
+
+----------------------------------------------------------------------
+Ran 1 test in 2.561s
+
+FAILED (errors=1)

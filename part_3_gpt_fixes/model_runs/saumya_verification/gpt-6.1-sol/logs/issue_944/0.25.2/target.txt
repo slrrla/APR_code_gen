@@ -1,0 +1,17 @@
+
+test_projector_and_solver_conversion (__main__.Regression) ... C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0252_exact\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  import pkg_resources
+ERROR
+
+======================================================================
+ERROR: test_projector_and_solver_conversion (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_944\test.py", line 23, in test_projector_and_solver_conversion
+    np.testing.assert_allclose(m["proj"].data, expected, atol=1e-12)
+AttributeError: 'MatrixOp' object has no attribute 'data'
+
+----------------------------------------------------------------------
+Ran 1 test in 3.055s
+
+FAILED (errors=1)

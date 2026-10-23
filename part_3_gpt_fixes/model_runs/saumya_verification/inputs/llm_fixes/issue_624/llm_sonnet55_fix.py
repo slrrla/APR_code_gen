@@ -1,0 +1,17 @@
+import numpy as np
+from qiskit import BasicAer, QuantumCircuit
+from qiskit.algorithms import QAOA
+from qiskit.algorithms.optimizers import COBYLA
+from qiskit.opflow import Z
+
+nqubits = 4
+H = QuantumCircuit(nqubits)
+for i in range(nqubits):
+    H.z(i)
+
+qaoa = QAOA(optimizer=COBYLA(), reps=1, mixer=H,
+            initial_point=np.array([1.0]),
+            quantum_instance=BasicAer.get_backend('statevector_simulator'))
+
+# FIX: passed a QuantumCircuit as the observable -> pass the equivalent Pauli operator Z^Z^Z^Z, because compute_minimum_eigenvalue needs an OperatorBase, not a circuit
+print(qaoa.compute_minimum_eigenvalue(Z ^ Z ^ Z ^ Z))

@@ -1,0 +1,39 @@
+import qiskit
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, Aer
+import numpy as np
+from qiskit.aqua import QuantumInstance
+# FIX: separate expressions were not grouped -> import ListOp, because CircuitSampler can batch its contained expressions.
+from qiskit.aqua.operators import PauliExpectation, CircuitSampler, StateFn, CircuitOp, CircuitStateFn, ListOp
+
+qctl = QuantumRegister(1)
+psi = QuantumCircuit(qctl)
+psi = CircuitStateFn(psi)
+
+qctl = QuantumRegister(2)
+op1 = QuantumCircuit(qctl)
+op1.z(0)
+op1.ry(np.pi/4, 0)
+op1 = CircuitOp(op1)
+
+qctl = QuantumRegister(2)
+op2 = QuantumCircuit(qctl)
+op2.x(0)
+op2.ry(np.pi/3, 0)
+op2 = CircuitOp(op2)
+
+backend = Aer.get_backend('qasm_simulator')
+q_instance = QuantumInstance(backend, shots=1024)
+
+measurable_expression1 = StateFn(op1, is_measurement=True).compose(psi)
+expectation1 = PauliExpectation().convert(measurable_expression1)
+
+measurable_expression2 = StateFn(op2, is_measurement=True).compose(psi)
+expectation2 = PauliExpectation().convert(measurable_expression2)
+# FIX: separate conversions submitted circuits independently -> convert both expectations in one ListOp, because CircuitSampler collects their circuits for batched execution.
+sampler1, sampler2 = CircuitSampler(q_instance).convert(ListOp([expectation1, expectation2])).oplist
+# FIX: the first result was printed before both expectations were prepared -> print it after the shared conversion, because both results now come from that batch.
+print('Expectation Value 1 = ', sampler1.eval())
+print('Expectation Value 2 = ', sampler2.eval())
+
+# FIX: IBMQJobManager() was undefined and submitted nothing -> remove it, because CircuitSampler already executes the grouped circuits through QuantumInstance.
+

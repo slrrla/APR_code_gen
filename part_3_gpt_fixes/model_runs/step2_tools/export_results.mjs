@@ -1,12 +1,11 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import os from 'node:os';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
 
-// Resolve the public entry point from the bundled runtime, not repository packages.
-const modules = path.join(os.homedir(), '.cache', 'codex-runtimes', 'codex-primary-runtime', 'dependencies', 'node', 'node_modules');
-const require = createRequire(path.join(modules, '_apr_loader.cjs'));
+const require = createRequire(process.env.APR_NODE_MODULES
+  ? path.join(process.env.APR_NODE_MODULES, '_apr_loader.cjs')
+  : import.meta.url);
 const { Workbook, SpreadsheetFile } = await import(pathToFileURL(require.resolve('@oai/artifact-tool')).href);
 const input = path.resolve(process.argv[2]);
 const payload = JSON.parse(await fs.readFile(input, 'utf8'));

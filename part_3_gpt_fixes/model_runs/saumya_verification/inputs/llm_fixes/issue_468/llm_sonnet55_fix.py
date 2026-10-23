@@ -1,0 +1,15 @@
+# FIX: removed the legacy Aqua import -> dropped it, because qiskit.aqua is removed and its commutator only accepts legacy operators, not DensityMatrix
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import DensityMatrix
+
+circ0 = QuantumCircuit(1)
+circ1 = QuantumCircuit(1)
+
+circ0.x(0)
+dm0 = DensityMatrix.from_instruction(circ0)
+
+circ1.z(0)
+dm1 = DensityMatrix.from_instruction(circ1)
+
+# FIX: called the legacy Aqua commutator on DensityMatrix objects -> compute [A, B] = AB - BA directly on the matrix data, because this works on plain matrices
+dm0.data @ dm1.data - dm1.data @ dm0.data

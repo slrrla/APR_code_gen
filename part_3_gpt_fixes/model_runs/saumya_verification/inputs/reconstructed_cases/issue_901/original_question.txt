@@ -1,0 +1,147 @@
+Title:
+How to transpile a quantum circuit using the $\{H,T,CNOT\}$ universal set of gates?
+
+Category:
+
+
+Question:
+Title: How to transpile a quantum circuit using the $\{H,T,CNOT\}$ universal set of gates?
+
+If I'm not mistaken, the $\{H,T,CNOT\}$ set of gates is universal in the sense that any unitary can be approximated arbiratrily close by a combination of these gates. The function of Qiskit allows to decompose a quantum circuit into a universal set of gates. But it seems that it fails to do so for basic circuits: This code results in a . This is neither the same problem as in this question, since I've added the gate to my set, nor as this one since this gate set is supposed to approximate any unitary. Is there something I can do to help Qiskit transpile this circuit? Of course, the one I've linked as an example is easy enough, but I'd like it to transpile more complex gates, like arbitrary $RX$ gates for instance. If it helps, the version of Qiskit I'm using is:
+
+```
+transpile
+```
+
+```
+from qiskit.circuit import QuantumCircuit from qiskit import transpile qc = QuantumCircuit(2) qc.h(0) qc.s(0) qc.cx(0, 1) basis_gates = ["h", "t", "cx", "id"] qc_transpiled = transpile(qc, basis_gates=basis_gates)
+```
+
+```
+from qiskit.circuit import QuantumCircuit from qiskit import transpile qc = QuantumCircuit(2) qc.h(0) qc.s(0) qc.cx(0, 1) basis_gates = ["h", "t", "cx", "id"] qc_transpiled = transpile(qc, basis_gates=basis_gates)
+```
+
+```
+TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['reset', 'cx', 'delay', 'barrier', 't', 'snapshot', 'h', 'measure', 'id']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used.
+```
+
+```
+"id"
+```
+
+```
+{'qiskit': '0.45.1', 'qiskit-aer': '0.13.0', 'qiskit-ignis': None, 'qiskit-ibmq-provider': None, 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+```
+
+```
+{'qiskit': '0.45.1', 'qiskit-aer': '0.13.0', 'qiskit-ignis': None, 'qiskit-ibmq-provider': None, 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+```
+
+Original buggy code:
+transpile
+
+---CODE_BLOCK---
+
+from qiskit.circuit import QuantumCircuit from qiskit import transpile qc = QuantumCircuit(2) qc.h(0) qc.s(0) qc.cx(0, 1) basis_gates = ["h", "t", "cx", "id"] qc_transpiled = transpile(qc, basis_gates=basis_gates)
+
+---CODE_BLOCK---
+
+from qiskit.circuit import QuantumCircuit from qiskit import transpile qc = QuantumCircuit(2) qc.h(0) qc.s(0) qc.cx(0, 1) basis_gates = ["h", "t", "cx", "id"] qc_transpiled = transpile(qc, basis_gates=basis_gates)
+
+---CODE_BLOCK---
+
+TranspilerError: "Unable to translate the operations in the circuit: ['h', 's', 'cx'] to the backend's (or manually specified) target basis: ['reset', 'cx', 'delay', 'barrier', 't', 'snapshot', 'h', 'measure', 'id']. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used.
+
+---CODE_BLOCK---
+
+"id"
+
+---CODE_BLOCK---
+
+{'qiskit': '0.45.1', 'qiskit-aer': '0.13.0', 'qiskit-ignis': None, 'qiskit-ibmq-provider': None, 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+
+---CODE_BLOCK---
+
+{'qiskit': '0.45.1', 'qiskit-aer': '0.13.0', 'qiskit-ignis': None, 'qiskit-ibmq-provider': None, 'qiskit-nature': None, 'qiskit-finance': None, 'qiskit-optimization': None, 'qiskit-machine-learning': None}
+
+Solution explanation:
+Solovay-Kitaev algorithm is implemented in class. You can use it by transpiling your circuit using Then run on the transpiled circuit: The result will be Note: according to the documentation, is invoked by method when the parameter is set to . However, it didn't work with me.
+
+```
+SolovayKitaev
+```
+
+```
+basis_gates = ["u", "cx"]
+```
+
+```
+basis_gates = ["u", "cx"]
+```
+
+```
+SolovayKitaev
+```
+
+```
+from qiskit.transpiler.passes.synthesis import SolovayKitaev skd = SolovayKitaev() discretized = skd(qc_transpiled)
+```
+
+```
+from qiskit.transpiler.passes.synthesis import SolovayKitaev skd = SolovayKitaev() discretized = skd(qc_transpiled)
+```
+
+```
+SolovayKitaevSynthesis
+```
+
+```
+transpile()
+```
+
+```
+unitary_synthesis_method
+```
+
+```
+"sk"
+```
+
+Original fixed code:
+SolovayKitaev
+
+---CODE_BLOCK---
+
+basis_gates = ["u", "cx"]
+
+---CODE_BLOCK---
+
+basis_gates = ["u", "cx"]
+
+---CODE_BLOCK---
+
+SolovayKitaev
+
+---CODE_BLOCK---
+
+from qiskit.transpiler.passes.synthesis import SolovayKitaev skd = SolovayKitaev() discretized = skd(qc_transpiled)
+
+---CODE_BLOCK---
+
+from qiskit.transpiler.passes.synthesis import SolovayKitaev skd = SolovayKitaev() discretized = skd(qc_transpiled)
+
+---CODE_BLOCK---
+
+SolovayKitaevSynthesis
+
+---CODE_BLOCK---
+
+transpile()
+
+---CODE_BLOCK---
+
+unitary_synthesis_method
+
+---CODE_BLOCK---
+
+"sk"

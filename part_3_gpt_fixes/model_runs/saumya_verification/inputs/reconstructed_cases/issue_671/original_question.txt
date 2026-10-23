@@ -1,0 +1,58 @@
+Title:
+QuantumCircuit with list of qbits as an argument
+
+Category:
+Category:
+Circuit
+Why AI Wins in This Category:
+The AI-generated solution demonstrates:
+Cleaner syntax (*v unpacking),
+Better scalability,
+Direct alignment with the user's use-case (dynamically creating and inserting multiple registers).
+In the Circuit category, where clarity and scalability in register management matter, the AI solution offers a more modern and maintainable approach.
+
+Question:
+Title: QuantumCircuit with list of qbits as an argument
+
+How to create a variable qbit QuantumCirciut like this ? I need to put v list on QuantumCircuit() method
+
+```
+n = 4 #number of vector to encode v = list() #list of register qbits to encode 4 vectors a = QuantumRegister(1,"a") #ancilla qbit for i in range(n): v.append(QuantumRegister(2,"v"+str(i))) #creates n QuantumRegister b = ClassicalRegister(1,"b") #classical bit c = QuantumCircuit(a,?,b)
+```
+
+```
+n = 4 #number of vector to encode v = list() #list of register qbits to encode 4 vectors a = QuantumRegister(1,"a") #ancilla qbit for i in range(n): v.append(QuantumRegister(2,"v"+str(i))) #creates n QuantumRegister b = ClassicalRegister(1,"b") #classical bit c = QuantumCircuit(a,?,b)
+```
+
+Original buggy code:
+n = 4 #number of vector to encode v = list() #list of register qbits to encode 4 vectors a = QuantumRegister(1,"a") #ancilla qbit for i in range(n): v.append(QuantumRegister(2,"v"+str(i))) #creates n QuantumRegister b = ClassicalRegister(1,"b") #classical bit c = QuantumCircuit(a,?,b)
+
+---CODE_BLOCK---
+
+n = 4 #number of vector to encode v = list() #list of register qbits to encode 4 vectors a = QuantumRegister(1,"a") #ancilla qbit for i in range(n): v.append(QuantumRegister(2,"v"+str(i))) #creates n QuantumRegister b = ClassicalRegister(1,"b") #classical bit c = QuantumCircuit(a,?,b)
+
+Solution explanation:
+You can use to add a new register (classical or quantum) whenever there is a need:
+
+```
+QuantumCircuit.add_register()
+```
+
+```
+a = QuantumRegister(1, "a") #ancilla qbit b = ClassicalRegister(1, "b") #classical bit c = QuantumCircuit(a, b) v0 = QuantumRegister(2, "v0") c.add_register(v0) c.x(v0[0]) # You can add more registers even if the circuit already contains some gates: v1 = QuantumRegister(2, "v1") c.add_register(v1) # You can use registers the same way regardless of how they added to the circuit: c.cx(v1[0], a[0])
+```
+
+```
+a = QuantumRegister(1, "a") #ancilla qbit b = ClassicalRegister(1, "b") #classical bit c = QuantumCircuit(a, b) v0 = QuantumRegister(2, "v0") c.add_register(v0) c.x(v0[0]) # You can add more registers even if the circuit already contains some gates: v1 = QuantumRegister(2, "v1") c.add_register(v1) # You can use registers the same way regardless of how they added to the circuit: c.cx(v1[0], a[0])
+```
+
+Original fixed code:
+QuantumCircuit.add_register()
+
+---CODE_BLOCK---
+
+a = QuantumRegister(1, "a") #ancilla qbit b = ClassicalRegister(1, "b") #classical bit c = QuantumCircuit(a, b) v0 = QuantumRegister(2, "v0") c.add_register(v0) c.x(v0[0]) # You can add more registers even if the circuit already contains some gates: v1 = QuantumRegister(2, "v1") c.add_register(v1) # You can use registers the same way regardless of how they added to the circuit: c.cx(v1[0], a[0])
+
+---CODE_BLOCK---
+
+a = QuantumRegister(1, "a") #ancilla qbit b = ClassicalRegister(1, "b") #classical bit c = QuantumCircuit(a, b) v0 = QuantumRegister(2, "v0") c.add_register(v0) c.x(v0[0]) # You can add more registers even if the circuit already contains some gates: v1 = QuantumRegister(2, "v1") c.add_register(v1) # You can use registers the same way regardless of how they added to the circuit: c.cx(v1[0], a[0])

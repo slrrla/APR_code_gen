@@ -1,0 +1,35 @@
+
+test_flattened_order_and_complete_circuit_operator (__main__.TestRegisterQargs) ... C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  import pkg_resources
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\pkg_resources\__init__.py:3154: DeprecationWarning: Deprecated call to `pkg_resources.declare_namespace('mpl_toolkits')`.
+Implementing implicit namespace packages (as specified in PEP 420) is preferred to `pkg_resources.declare_namespace`. See https://setuptools.pypa.io/en/latest/references/keywords.html#keyword-namespace-packages
+  declare_namespace(pkg)
+FAIL
+
+======================================================================
+FAIL: test_flattened_order_and_complete_circuit_operator (__main__.TestRegisterQargs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_443\test.py", line 27, in test_flattened_order_and_complete_circuit_operator
+    np.testing.assert_allclose(Operator(circuit).data,expected,atol=1e-12)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\numpy\testing\_private\utils.py", line 1528, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0250\lib\site-packages\numpy\testing\_private\utils.py", line 842, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+Mismatched elements: 144 / 256 (56.2%)
+Max absolute difference: 1.06066017
+Max relative difference: 3.
+ x: array([[ 0.707107+0.j,  0.      +0.j,  0.      +0.j,  0.      +0.j,
+         0.      +0.j,  0.      +0.j,  0.      +0.j,  0.      +0.j,
+        -0.707107+0.j,  0.      +0.j,  0.      +0.j,  0.      +0.j,...
+ y: array([[ 0.353553,  0.353553,  0.353553,  0.353553, -0.353553, -0.353553,
+        -0.353553, -0.353553,  0.      ,  0.      ,  0.      ,  0.      ,
+        -0.      , -0.      , -0.      , -0.      ],...
+
+----------------------------------------------------------------------
+Ran 1 test in 1.479s
+
+FAILED (failures=1)

@@ -1,0 +1,28 @@
+from qiskit import QuantumCircuit, transpile
+from qiskit.providers.fake_provider import FakeVigo
+# FIX: CSPLayout is not a registered layout method -> import the explicit pass and its utilities, because it must be run through a pass manager.
+from qiskit.transpiler import CouplingMap, PassManager
+from qiskit.transpiler.passes import CSPLayout
+
+qc = QuantumCircuit(3)
+qc.h(0)
+qc.cx(0, 1)
+qc.cx(1, 2)
+qc.measure_all()
+
+backend = FakeVigo()
+
+# FIX: The invalid method name did not run CSPLayout -> run the pass explicitly, because it computes the layout for this circuit and backend.
+csp_layout = CSPLayout(CouplingMap(backend.configuration().coupling_map))
+PassManager(csp_layout).run(qc)
+
+transpiled = transpile(
+    qc,
+    backend=backend,
+    optimization_level=3,
+    # FIX: 'csp_layout' is not a valid layout_method -> supply the computed initial_layout, because transpile accepts an explicit layout.
+    initial_layout=csp_layout.property_set['layout']
+)
+
+print(transpiled)
+

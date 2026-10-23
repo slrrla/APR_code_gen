@@ -1,0 +1,13 @@
+import os
+
+home = os.path.expanduser("~")
+settings_path = os.path.join(home, ".qiskit", "settings.conf")
+
+# FIX: The config directory and file may not exist -> create them and rewind before reading, because first-use configs are not created automatically.
+os.makedirs(os.path.dirname(settings_path), exist_ok=True)
+with open(settings_path, "a+") as f:
+    f.seek(0)
+    contents = f.read()
+
+print(contents)
+

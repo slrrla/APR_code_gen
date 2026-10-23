@@ -330,7 +330,9 @@ def reports(plan, out, excel=False):
     except PermissionError:
         print('Close results.csv in Excel. Individual result.json files remain saved.', flush=True)
     if excel:
-        node = Path.home() / '.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe'
+        node = os.environ.get('APR_NODE_EXE') or shutil.which('node')
+        if not node:
+            raise FileNotFoundError('Node.js missing: set APR_NODE_EXE or add node to PATH.')
         command = [str(node), str(HERE / 'export_test_results.mjs'), str(out / 'results.json'),
                    str(out / f'{plan["model"]}_{plan["batch"]}_results.xlsx')]
         p = subprocess.run(command, capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=180)

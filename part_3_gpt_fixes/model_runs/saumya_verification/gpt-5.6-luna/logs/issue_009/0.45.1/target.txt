@@ -1,0 +1,57 @@
+
+test_transpiled_ghz_measurement_distribution (__main__.TestIntent) ... ERROR
+
+======================================================================
+ERROR: test_transpiled_ghz_measurement_distribution (__main__.TestIntent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\qiskit\transpiler\runningpassmanager.py", line 161, in wrapper
+    return meth(*meth_args, **meth_kwargs)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\qiskit\passmanager\base_tasks.py", line 218, in execute
+    passmanager_ir, state = next_task.execute(
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\qiskit\transpiler\basepasses.py", line 195, in execute
+    new_dag, state = super().execute(
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\qiskit\passmanager\base_tasks.py", line 98, in execute
+    ret = self.run(passmanager_ir)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\qiskit\transpiler\passes\layout\apply_layout.py", line 56, in run
+    raise TranspilerError("The 'layout' must be full (with ancilla).")
+qiskit.transpiler.exceptions.TranspilerError: "The 'layout' must be full (with ancilla)."
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\qiskit\transpiler\passmanager.py", line 553, in wrapper
+    return meth(*meth_args, **meth_kwargs)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\qiskit\transpiler\passmanager.py", line 291, in run
+    return super().run(
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\qiskit\passmanager\passmanager.py", line 222, in run
+    out_program = _run_workflow(
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\qiskit\passmanager\passmanager.py", line 284, in _run_workflow
+    passmanager_ir, _ = flow_controller.execute(
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\qiskit\transpiler\runningpassmanager.py", line 163, in wrapper
+    raise TranspilerError(ex.message) from ex
+qiskit.transpiler.exceptions.TranspilerError: "The 'layout' must be full (with ancilla)."
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_009\test.py", line 21, in test_transpiled_ghz_measurement_distribution
+    ns = load_target()
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_009\test.py", line 14, in load_target
+    return runpy.run_path(MUT)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\llm_fixes\issue_009\llm_luna56_fix.py", line 20, in <module>
+    transpiled = pass_manager.run(qc)
+  File "C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0451_exact\lib\site-packages\qiskit\transpiler\passmanager.py", line 555, in wrapper
+    raise TranspilerError(ex.message) from ex
+qiskit.transpiler.exceptions.TranspilerError: "The 'layout' must be full (with ancilla)."
+
+----------------------------------------------------------------------
+Ran 1 test in 0.299s
+
+FAILED (errors=1)

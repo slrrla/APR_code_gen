@@ -1,0 +1,115 @@
+Title:
+Reading a classical register in OPENQASM
+
+Category:
+Category:
+Version Compatibility / Deprecated API
+
+Why Stack Overflow Wins in This Category:
+The question is about QASM 2.0 syntax, and strict version correctness is critical. Stack Overflow adheres to the specification and highlights the limitations, whereas the AI mixes in QASM 3 features. Therefore, Stack Overflow provides the reliable answer in this version-specific context.
+
+Question:
+Title: Reading a classical register in OPENQASM
+
+The IBM OpenQASM program below clones a state selected from an orthogonal pair. It seems to work but there is a mystery. I declare the classical register as an array c[1] but when I try to test its contents, the assembler will not allow me to index it. That is, it rejects "c[0]". I get similar results if there is an array of two registers; I always have to use the array name rather than a reference to an array element. My question is, how do you reference one classical register within an array, for example in an "if" statement. There is a second question, less pressing but important. I don't know who to make a block of code that is executed when the "if" test passes. I am forced to repeat the test for each line in the block. How do you declare a block of code or, equivalently, use a branch statement to skip a block?
+
+```
+cloner1 = """ OPENQASM 2.0; include "qelib1.inc"; qreg q[5]; creg c[1]; x q[2]; x q[4]; x q[0]; //Set up input measure q[0] -> c[0]; if (c==1) CX q[1],q[2]; if (c==1) CX q[2],q[1]; if (c==1) CX q[1],q[2]; if (c==1) CX q[3],q[4]; if (c==1) CX q[4],q[3]; if (c==1) CX q[3],q[4]; measure q[1]->c[0]; measure q[3]->c[0]; """ ```
+```
+
+```
+cloner1 = """ OPENQASM 2.0; include "qelib1.inc"; qreg q[5]; creg c[1]; x q[2]; x q[4]; x q[0]; //Set up input measure q[0] -> c[0]; if (c==1) CX q[1],q[2]; if (c==1) CX q[2],q[1]; if (c==1) CX q[1],q[2]; if (c==1) CX q[3],q[4]; if (c==1) CX q[4],q[3]; if (c==1) CX q[3],q[4]; measure q[1]->c[0]; measure q[3]->c[0]; """ ```
+```
+
+Original buggy code:
+cloner1 = """ OPENQASM 2.0; include "qelib1.inc"; qreg q[5]; creg c[1]; x q[2]; x q[4]; x q[0]; //Set up input measure q[0] -> c[0]; if (c==1) CX q[1],q[2]; if (c==1) CX q[2],q[1]; if (c==1) CX q[1],q[2]; if (c==1) CX q[3],q[4]; if (c==1) CX q[4],q[3]; if (c==1) CX q[3],q[4]; measure q[1]->c[0]; measure q[3]->c[0]; """
+
+Solution explanation:
+In OpenQASM 2, statement conditionally executes a single quantum operation based on the integer value stored across the classical register rather than on the individual bits. As per the language specs (arXiv:1707.03429): The statement conditionally executes a quantum operation based on the value of a classical register. This allows measurement outcomes to determine future quantum operations. We choose to have one decision register for simplicity. This register is interpreted as an integer, using the bit at index zero as the low order bit. The quantum operation executes only if the register has the given integer value. Only quantum operations, i.e. builtin gates, gate (and opaque) subroutines, preparation, and measurement, can be prefaced by . This fact is repeated in OpenQASM 3 document also (arXiv:2104.14722): The only control flow supported by OpenQASM2 are statements. These can be used to compare the value of a classical bit-register (interpreted as a little-endian representation of an integer) to an integer, and conditionally execute a single gate. An example of such a statement is which would test whether a classical register c (of length three or more) stores a bit-string $c_{n-1} ... c_3c_2c_1c_0$ equal to $0...0101$, to determine whether to execute . If-statements (and classical register comparisons) of this kind are supported in OpenQASM3, as is more general syntax for statements and other forms of control-flow. Also, see this answer: https://quantumcomputing.stackexchange.com/a/4516/9474 Note that, in OpenQASM 3 you can condition on the value of single classical bit: See the example in page 20 in the language specs. Moreover, the document states that: We also extend the if statement syntax to allow for multiple instructions within the body of the , and to allow for an block to accompany it.
+
+```
+if
+```
+
+```
+if
+```
+
+```
+if
+```
+
+```
+if
+```
+
+```
+if (c == 5) mygate q, r, s;
+```
+
+```
+mygate q, r, s
+```
+
+```
+if
+```
+
+```
+if (c[0] == 1) p(-𝜋/4) q[2]; if (c[1] == 1) p(-𝜋/2) q[2];
+```
+
+```
+if (c[0] == 1) p(-𝜋/4) q[2]; if (c[1] == 1) p(-𝜋/2) q[2];
+```
+
+```
+if
+```
+
+```
+else
+```
+
+Original fixed code:
+if
+
+---CODE_BLOCK---
+
+if
+
+---CODE_BLOCK---
+
+if
+
+---CODE_BLOCK---
+
+if
+
+---CODE_BLOCK---
+
+if (c == 5) mygate q, r, s;
+
+---CODE_BLOCK---
+
+mygate q, r, s
+
+---CODE_BLOCK---
+
+if
+
+---CODE_BLOCK---
+
+if (c[0] == 1) p(-𝜋/4) q[2]; if (c[1] == 1) p(-𝜋/2) q[2];
+
+---CODE_BLOCK---
+
+if (c[0] == 1) p(-𝜋/4) q[2]; if (c[1] == 1) p(-𝜋/2) q[2];
+
+---CODE_BLOCK---
+
+if
+
+---CODE_BLOCK---
+
+else

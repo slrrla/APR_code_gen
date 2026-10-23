@@ -1,0 +1,41 @@
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.circuit.library import PauliEvolutionGate
+from qiskit.quantum_info import Pauli, SparsePauliOp
+from qiskit.synthesis import SuzukiTrotter
+
+N_qubit = 4
+U = 1.0
+J = 1.0
+t = 1.0
+h = [1.0] * N_qubit
+
+X = Pauli("X")
+Y = Pauli("Y")
+Z = Pauli("Z")
+
+qc = QuantumCircuit(N_qubit)
+
+# FIX: SuzukiTrotter must be attached to the evolution gates, not called on the circuit -> define the synthesis object before building the gates, because synthesize() only accepts evolution operators
+st = SuzukiTrotter(order=2, reps=6)
+
+for j in range(0, N_qubit, 2):
+    # FIX: Pauli objects don't support scalar arithmetic -> wrap each term in SparsePauliOp, because SparsePauliOp supports scalar multiplication and addition
+    H = SparsePauliOp(Z ^ Z) * U - SparsePauliOp(X ^ X) * J - SparsePauliOp(Y ^ Y) * J
+    # FIX: pass the Suzuki-Trotter synthesis to the gate -> the evolution is Trotterized per gate, because PauliEvolutionGate accepts a synthesis argument
+    pauli_ev_gate = PauliEvolutionGate(H, time=t, synthesis=st)
+    if j != N_qubit - 1:
+        qc.append(pauli_ev_gate, [j, j + 1])
+
+for j in range(1, N_qubit, 2):
+    # FIX: same SparsePauliOp wrapping as above -> valid Pauli sum arithmetic
+    H = SparsePauliOp(Z ^ Z) * U - SparsePauliOp(X ^ X) * J - SparsePauliOp(Y ^ Y) * J
+    # FIX: same synthesis attachment as above -> Trotterized evolution for odd bonds
+    pauli_ev_gate = PauliEvolutionGate(H, time=t, synthesis=st)
+    if j != N_qubit - 1:
+        qc.append(pauli_ev_gate, [j, j + 1])
+
+for j in range(N_qubit):
+    # FIX: wrap the scalar-times-Pauli term in SparsePauliOp -> valid operator arithmetic, because Pauli has no scalar multiplication
+    pauli_ev_gate = PauliEvolutionGate(SparsePauliOp(Z) * h[j], time=t, synthesis=st)
+    qc.append(pauli_ev_gate, [j])

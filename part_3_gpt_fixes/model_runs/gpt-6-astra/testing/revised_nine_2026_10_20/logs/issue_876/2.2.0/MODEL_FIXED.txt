@@ -1,0 +1,16 @@
+CASE=issue_876
+QISKIT=2.2.0
+TARGET=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\gpt-6-astra\generation\issue_876\fix_876.py
+TEST=C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\reconstructed_cases\issue_876\test.py
+
+C:\Users\Mitali Hukkeri\Downloads\APR_code_gen-main (3)\APR_code_gen-main\Part2_Create_test\model_runs\gpt-6-astra\generation\issue_876\fix_876.py:9: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)
+  qc = QFT(6)
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\site-packages\qiskit\circuit\library\basis_change\qft.py:107: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.
+  super().__init__(name=name)
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_220_exact\lib\site-packages\qiskit_aer\backends\aer_simulator.py:853: DeprecationWarning: max_circuits is deprecated as of qiskit-ibm-runtime 0.37.0 and will be removed no sooner than 3 months after the release date. Please see our documentation on job limits https://docs.quantum.ibm.com/guides/job-limits#job-limits.
+  max_experiments=backend.max_circuits,
+..
+----------------------------------------------------------------------
+Ran 2 tests in 6.131s
+
+OK

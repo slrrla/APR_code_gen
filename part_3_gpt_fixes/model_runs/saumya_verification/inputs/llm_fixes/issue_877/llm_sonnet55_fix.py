@@ -1,0 +1,7 @@
+from qiskit_aer.noise import NoiseModel
+# FIX: `backend` was never defined, so NoiseModel.from_backend raised a NameError -> import and instantiate a fake 127-qubit backend, because fake backends carry snapshots of real device calibration data and need no account or device access
+from qiskit_ibm_runtime.fake_provider import FakeSherbrooke
+
+backend = FakeSherbrooke()
+
+noise_model = NoiseModel.from_backend(backend)

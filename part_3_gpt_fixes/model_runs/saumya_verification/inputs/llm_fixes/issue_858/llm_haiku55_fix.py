@@ -1,0 +1,10 @@
+# NO BUG: The code correctly uses the Qiskit API; the failure is because ibm_oslo has been retired and is no longer reachable through the provider, which no code change can fix.
+from qiskit import IBMQ
+
+provider = IBMQ.load_account()
+backend = provider.get_backend('ibm_oslo')
+
+system = backend
+print(system.properties().backend_version)
+print(system.properties().last_update_date)
+print(system.properties().qubits)

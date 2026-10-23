@@ -1,0 +1,21 @@
+
+test_actual_qasm_snapshot_contains_bell_state (__main__.Regression) ... C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\version.py:20: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  import pkg_resources
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\providers\aer\backends\qasm_simulator.py:329: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn('The `QasmSimulator` backend will be deprecated in the'
+C:\Users\Mitali Hukkeri\miniconda3\envs\qiskit_0253_exact\lib\site-packages\qiskit\execute_function.py:343: DeprecationWarning: Using `backend_options` kwarg has been deprecated as of qiskit-aer 0.7.0 and will be removed no earlier than 3 months from that release date. Runtime backend options should now be added directly using kwargs for each option.
+  job = backend.run(experiments, **run_kwargs)
+ERROR
+
+======================================================================
+ERROR: test_actual_qasm_snapshot_contains_bell_state (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Mitali Hukkeri\OneDrive\Apps\APR\APR_new_experiment\saumya_verification\inputs\reconstructed_cases\issue_994\test.py", line 23, in test_actual_qasm_snapshot_contains_bell_state
+    state=np.asarray(m["statevector"],dtype=complex)
+KeyError: 'statevector'
+
+----------------------------------------------------------------------
+Ran 1 test in 5.337s
+
+FAILED (errors=1)

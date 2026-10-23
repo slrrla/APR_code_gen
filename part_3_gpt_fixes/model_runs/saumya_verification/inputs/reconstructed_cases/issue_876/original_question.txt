@@ -1,0 +1,99 @@
+Title:
+Studying QFT circuit noise in Qiskit comparing statevectors with state_fidelity
+
+Category:
+
+
+Question:
+Title: Studying QFT circuit noise in Qiskit comparing statevectors with state_fidelity
+
+I am using Qiskit latest version and I am trying to compare the noise of a QFT circuit. I already managed to do so with circuits like the one for the Bernstein-Vazirani Algorithm, where i get to . But with a QFT circuit, since I can't measure the qubits or I would lose the Quantum information that I am trying to compare, I am using an ideal statevector and one obtained transpiling my circuit based on a real hardware, yet I am having some trouble. In particular if i use code like this: It doesn't work because "it exceeds the maximum dimension" since is too big to be able to use I then looked for another solution and it is suggested to use Aersimulator to get the SV like so: In this case I get QiskitError: 'No statevector for experiment "None"' caused by line and I tried to fix it in many way, but couldn't make it work So my question is if there is a way to fix the code to make it work for what I want it to do? or paraphs there is another better way to compare the noise of a QFT circuit? Thanks
+
+```
+qc.measure_all()
+```
+
+```
+# to be sure there is no measurement qc.remove_final_measurements() # get ideal SV statevector_ideal = Statevector(qc) # transpile my QFT circuit based on real hardware qc_transpiled = transpile(qc, backend_brisbane, optimization_level=1) # get SV with real hardware noise statevector_real = Statevector(qc_transpiled) #Compare them fidelity = state_fidelity(statevector_real, statevector_real) print(f"Fidelity: {fidelity:.4f}")
+```
+
+```
+# to be sure there is no measurement qc.remove_final_measurements() # get ideal SV statevector_ideal = Statevector(qc) # transpile my QFT circuit based on real hardware qc_transpiled = transpile(qc, backend_brisbane, optimization_level=1) # get SV with real hardware noise statevector_real = Statevector(qc_transpiled) #Compare them fidelity = state_fidelity(statevector_real, statevector_real) print(f"Fidelity: {fidelity:.4f}")
+```
+
+```
+qc_transpiled
+```
+
+```
+Statevector(qc_transpiled)
+```
+
+```
+# to be sure there is no measurement qc.remove_final_measurements() ideal_sim = AerSimulator(method="statevector") # Ideal SV obtained as before statevector_ideal = Statevector(qc) # transpile my QFT circuit based on real hardware qc_transpiled = transpile(qc, backend_brisbane, optimization_level=1) # get SV with real hardware noise using Aersimulator ideal_sim job_real = ideal_sim.run(qc_transpiled) statevector_real = job_real.result().get_statevector() #Compare them fidelity = state_fidelity(statevector_ideal, statevector_real) print(f"Fidelity tra stato ideale e rumoroso: {fidelity:.4f}")
+```
+
+```
+# to be sure there is no measurement qc.remove_final_measurements() ideal_sim = AerSimulator(method="statevector") # Ideal SV obtained as before statevector_ideal = Statevector(qc) # transpile my QFT circuit based on real hardware qc_transpiled = transpile(qc, backend_brisbane, optimization_level=1) # get SV with real hardware noise using Aersimulator ideal_sim job_real = ideal_sim.run(qc_transpiled) statevector_real = job_real.result().get_statevector() #Compare them fidelity = state_fidelity(statevector_ideal, statevector_real) print(f"Fidelity tra stato ideale e rumoroso: {fidelity:.4f}")
+```
+
+```
+statevector_real = job_real.result().get_statevector()
+```
+
+Original buggy code:
+qc.measure_all()
+
+---CODE_BLOCK---
+
+# to be sure there is no measurement qc.remove_final_measurements() # get ideal SV statevector_ideal = Statevector(qc) # transpile my QFT circuit based on real hardware qc_transpiled = transpile(qc, backend_brisbane, optimization_level=1) # get SV with real hardware noise statevector_real = Statevector(qc_transpiled) #Compare them fidelity = state_fidelity(statevector_real, statevector_real) print(f"Fidelity: {fidelity:.4f}")
+
+---CODE_BLOCK---
+
+# to be sure there is no measurement qc.remove_final_measurements() # get ideal SV statevector_ideal = Statevector(qc) # transpile my QFT circuit based on real hardware qc_transpiled = transpile(qc, backend_brisbane, optimization_level=1) # get SV with real hardware noise statevector_real = Statevector(qc_transpiled) #Compare them fidelity = state_fidelity(statevector_real, statevector_real) print(f"Fidelity: {fidelity:.4f}")
+
+---CODE_BLOCK---
+
+qc_transpiled
+
+---CODE_BLOCK---
+
+Statevector(qc_transpiled)
+
+---CODE_BLOCK---
+
+# to be sure there is no measurement qc.remove_final_measurements() ideal_sim = AerSimulator(method="statevector") # Ideal SV obtained as before statevector_ideal = Statevector(qc) # transpile my QFT circuit based on real hardware qc_transpiled = transpile(qc, backend_brisbane, optimization_level=1) # get SV with real hardware noise using Aersimulator ideal_sim job_real = ideal_sim.run(qc_transpiled) statevector_real = job_real.result().get_statevector() #Compare them fidelity = state_fidelity(statevector_ideal, statevector_real) print(f"Fidelity tra stato ideale e rumoroso: {fidelity:.4f}")
+
+---CODE_BLOCK---
+
+# to be sure there is no measurement qc.remove_final_measurements() ideal_sim = AerSimulator(method="statevector") # Ideal SV obtained as before statevector_ideal = Statevector(qc) # transpile my QFT circuit based on real hardware qc_transpiled = transpile(qc, backend_brisbane, optimization_level=1) # get SV with real hardware noise using Aersimulator ideal_sim job_real = ideal_sim.run(qc_transpiled) statevector_real = job_real.result().get_statevector() #Compare them fidelity = state_fidelity(statevector_ideal, statevector_real) print(f"Fidelity tra stato ideale e rumoroso: {fidelity:.4f}")
+
+---CODE_BLOCK---
+
+statevector_real = job_real.result().get_statevector()
+
+Solution explanation:
+You don't need to transpile your circuit using the actual QPU as the backend. All you need to do is make sure that you create your noise model using the QPU's noise properties. Now, the thing is that for this to work, you need switch to density matrices rather than statevectors; otherwise you are not really capturing the effect of noise. Here's how you do it: This should print a fidelity of about
+
+```
+# imports from qiskit import QuantumCircuit, transpile from qiskit.quantum_info import DensityMatrix, state_fidelity from qiskit.circuit.library import QFT from qiskit_aer import AerSimulator from qiskit_aer.noise import NoiseModel from qiskit_ibm_runtime import QiskitRuntimeService # define noisy simulator backend = QiskitRuntimeService().backend('ibm_brisbane') noise_model = NoiseModel.from_backend(backend) simulator = AerSimulator(noise_model=noise_model) # Create circuit and ideal state qc = QFT(6) ρ_ideal = DensityMatrix(qc) qc.save_density_matrix() # Transpile and simulate noisy state qc_t = transpile(qc, simulator) ρ_real = simulator.run(qc_t).result().data()['density_matrix'] # Compare fidelity = state_fidelity(ρ_ideal, ρ_real) print(f"Fidelity tra stato ideale e rumoroso: {fidelity:.4f}")
+```
+
+```
+# imports from qiskit import QuantumCircuit, transpile from qiskit.quantum_info import DensityMatrix, state_fidelity from qiskit.circuit.library import QFT from qiskit_aer import AerSimulator from qiskit_aer.noise import NoiseModel from qiskit_ibm_runtime import QiskitRuntimeService # define noisy simulator backend = QiskitRuntimeService().backend('ibm_brisbane') noise_model = NoiseModel.from_backend(backend) simulator = AerSimulator(noise_model=noise_model) # Create circuit and ideal state qc = QFT(6) ρ_ideal = DensityMatrix(qc) qc.save_density_matrix() # Transpile and simulate noisy state qc_t = transpile(qc, simulator) ρ_real = simulator.run(qc_t).result().data()['density_matrix'] # Compare fidelity = state_fidelity(ρ_ideal, ρ_real) print(f"Fidelity tra stato ideale e rumoroso: {fidelity:.4f}")
+```
+
+```
+0.91
+```
+
+Original fixed code:
+# imports from qiskit import QuantumCircuit, transpile from qiskit.quantum_info import DensityMatrix, state_fidelity from qiskit.circuit.library import QFT from qiskit_aer import AerSimulator from qiskit_aer.noise import NoiseModel from qiskit_ibm_runtime import QiskitRuntimeService # define noisy simulator backend = QiskitRuntimeService().backend('ibm_brisbane') noise_model = NoiseModel.from_backend(backend) simulator = AerSimulator(noise_model=noise_model) # Create circuit and ideal state qc = QFT(6) ρ_ideal = DensityMatrix(qc) qc.save_density_matrix() # Transpile and simulate noisy state qc_t = transpile(qc, simulator) ρ_real = simulator.run(qc_t).result().data()['density_matrix'] # Compare fidelity = state_fidelity(ρ_ideal, ρ_real) print(f"Fidelity tra stato ideale e rumoroso: {fidelity:.4f}")
+
+---CODE_BLOCK---
+
+# imports from qiskit import QuantumCircuit, transpile from qiskit.quantum_info import DensityMatrix, state_fidelity from qiskit.circuit.library import QFT from qiskit_aer import AerSimulator from qiskit_aer.noise import NoiseModel from qiskit_ibm_runtime import QiskitRuntimeService # define noisy simulator backend = QiskitRuntimeService().backend('ibm_brisbane') noise_model = NoiseModel.from_backend(backend) simulator = AerSimulator(noise_model=noise_model) # Create circuit and ideal state qc = QFT(6) ρ_ideal = DensityMatrix(qc) qc.save_density_matrix() # Transpile and simulate noisy state qc_t = transpile(qc, simulator) ρ_real = simulator.run(qc_t).result().data()['density_matrix'] # Compare fidelity = state_fidelity(ρ_ideal, ρ_real) print(f"Fidelity tra stato ideale e rumoroso: {fidelity:.4f}")
+
+---CODE_BLOCK---
+
+0.91
