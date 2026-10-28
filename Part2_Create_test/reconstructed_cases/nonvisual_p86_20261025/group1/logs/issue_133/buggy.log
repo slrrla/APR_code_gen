@@ -1,0 +1,25 @@
+
+test_modern_imports_and_real_bell_simulation (__main__.Regression.test_modern_imports_and_real_bell_simulation) ... ERROR
+
+======================================================================
+ERROR: test_modern_imports_and_real_bell_simulation (__main__.Regression.test_modern_imports_and_real_bell_simulation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_133\test.py", line 23, in test_modern_imports_and_real_bell_simulation
+    m = load_target()
+        ^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_133\test.py", line 17, in load_target
+    namespace = runpy.run_path(MUT)
+                ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_133\buggy.py", line 10, in <module>
+    from qiskit import execute, Aer  # execute/Aer no longer exist in qiskit>=1.0
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'execute' from 'qiskit' (C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\__init__.py)
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+FAILED (errors=1)

@@ -1,0 +1,14 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\circuit\library\arithmetic\adders\draper_qft_adder.py:103: DeprecationWarning: The class ``qiskit.circuit.library.arithmetic.adders.adder.Adder`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use the adder gates provided in qiskit.circuit.library.arithmetic instead. The gate type depends on the adder kind: fixed, half, full are represented by ModularAdderGate, HalfAdderGate, FullAdderGate, respectively. For different adder implementations, see https://quantum.cloud.ibm.com/docs/api/qiskit/synthesis.',)
+  super().__init__(num_state_qubits, name=name)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\circuit\library\arithmetic\adders\draper_qft_adder.py:123: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)
+  circuit.append(QFT(num_qubits_qft, do_swaps=False).to_gate(), qr_sum[:])
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\circuit\library\basis_change\qft.py:108: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.
+  super().__init__(name=name)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\circuit\library\arithmetic\adders\draper_qft_adder.py:135: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)
+  circuit.append(QFT(num_qubits_qft, do_swaps=False).inverse().to_gate(), qr_sum[:])
+.
+----------------------------------------------------------------------
+Ran 1 test in 4.278s
+
+OK

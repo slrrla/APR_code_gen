@@ -1,0 +1,10 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_077_so\test.py:30: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  for item in qc.data if item[0].name == "measure"]
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_077_so\test.py:29: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  measurements = [(qc.qubits.index(item[1][0]), qc.clbits.index(item[2][0]))
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.068s
+
+OK

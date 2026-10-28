@@ -1,0 +1,27 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_024_se\buggy.py:14: DeprecationWarning: The method ``qiskit.circuit.quantumcircuit.QuantumCircuit.qasm()`` is deprecated as of qiskit 0.46. It will be removed in the 1.0.0 release. Instead use the qiskit.qasm2.dump() or qiskit.qasm2.dumps() function
+  qasm_str = qc.qasm()
+F
+======================================================================
+FAIL: test_export_ungroups_custom_gate_and_preserves_full_operator (__main__.Regression.test_export_ungroups_custom_gate_and_preserves_full_operator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_024_se\test.py", line 25, in test_export_ungroups_custom_gate_and_preserves_full_operator
+    self.assertEqual([item[0].name for item in qc.data], ["h", "cx"])
+AssertionError: Lists differ: ['my_gate'] != ['h', 'cx']
+
+First differing element 0:
+'my_gate'
+'h'
+
+Second list contains 1 additional elements.
+First extra element 1:
+'cx'
+
+- ['my_gate']
++ ['h', 'cx']
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+FAILED (failures=1)

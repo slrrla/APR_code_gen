@@ -1,0 +1,33 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\utils\deprecation.py:56: PendingDeprecationWarning: Using a qobj for run() is deprecated and will be removed in a future release.
+  return func(*args, **kwargs)
+F
+======================================================================
+FAIL: test_inverse_shadow_map_matches_every_actual_local_measurement (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_015\test.py", line 69, in test_inverse_shadow_map_matches_every_actual_local_measurement
+    np.testing.assert_allclose(m["record_rho"], expected, atol=1e-12,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\numpy\testing\_private\utils.py", line 1528, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\numpy\testing\_private\utils.py", line 842, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+Each inverse-map factor must use its own qubit outcome in Qiskit little-endian order
+Mismatched elements: 12 / 16 (75%)
+Max absolute difference: 0.195
+Max relative difference: 2.83823106
+ x: array([[ 0.365 +0.j    , -0.5075+0.4625j, -0.195 +0.015j ,
+         0.4875+0.4425j],
+       [-0.5075-0.4625j,  0.24  +0.j    ,  0.0975+0.0975j,...
+ y: array([[ 3.60000e-01+0.j    , -4.65000e-01+0.495j , -1.67500e-01+0.0475j,
+         4.87500e-01+0.4425j],
+       [-4.65000e-01-0.495j ,  2.40000e-01+0.j    ,  9.75000e-02-0.0975j,...
+
+----------------------------------------------------------------------
+Ran 1 test in 0.985s
+
+FAILED (failures=1)

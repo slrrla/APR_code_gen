@@ -1,0 +1,16 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+F
+======================================================================
+FAIL: test_angles_reconstruct_the_requested_matrix (__main__.Test)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_705\test.py", line 34, in test_angles_reconstruct_the_requested_matrix
+    self.assertTrue(Operator(matrix).equiv(Operator(target)), 'U3 angles must reconstruct the requested matrix.')
+AssertionError: False is not true : U3 angles must reconstruct the requested matrix.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (failures=1)

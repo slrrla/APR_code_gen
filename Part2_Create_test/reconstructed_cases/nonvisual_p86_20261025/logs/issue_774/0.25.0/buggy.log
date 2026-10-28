@@ -1,0 +1,21 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\pkg_resources\__init__.py:3146: DeprecationWarning: Deprecated call to `pkg_resources.declare_namespace('mpl_toolkits')`.
+Implementing implicit namespace packages (as specified in PEP 420) is preferred to `pkg_resources.declare_namespace`. See https://setuptools.pypa.io/en/latest/references/keywords.html#keyword-namespace-packages
+  declare_namespace(pkg)
+Simulation failed and returned the following error message:
+ERROR: Failed to load qobj: Unable to cast Python instance to C++ type (compile in debug mode for details)
+F
+======================================================================
+FAIL: test_backend_completes_with_prepared_state (__main__.Test)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_774\test.py", line 36, in test_backend_completes_with_prepared_state
+    self.assertTrue(result.success, str(result))
+AssertionError: False is not true : Result(backend_name='statevector_simulator', backend_version='0.8.0', qobj_id='', job_id='9ea4be7c-ddd1-439e-9d16-8ce9a4d87755', success=False, results=[], date=2026-10-25T18:12:22.258341, status=ERROR: Failed to load qobj: Unable to cast Python instance to C++ type (compile in debug mode for details), metadata={}, time_taken=0.0)
+
+----------------------------------------------------------------------
+Ran 1 test in 3.404s
+
+FAILED (failures=1)

@@ -1,9 +1,0 @@
-<stdin>:2: DeprecationWarning: The class ``qiskit.circuit.library.n_local.two_local.TwoLocal`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use the function qiskit.circuit.library.n_local instead.
-<stdin>:3: DeprecationWarning: The class ``qiskit.circuit.library.n_local.two_local.TwoLocal`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use the function qiskit.circuit.library.n_local instead.
-before 2 2 ParameterView([ParameterVectorElement(p[0]), ParameterVectorElement(p[1])])
-after 4 2 ParameterView([ParameterVectorElement(p[0]), ParameterVectorElement(p[1]), ParameterVectorElement(θ[0]), ParameterVectorElement(θ[1])])
-     ┌──────────┐┌──────────┐     
-q_0: ┤ Ry(p[0]) ├┤ Ry(θ[0]) ├──■──
-     ├──────────┤├──────────┤┌─┴─┐
-q_1: ┤ Ry(p[1]) ├┤ Ry(θ[1]) ├┤ X ├
-     └──────────┘└──────────┘└───┘

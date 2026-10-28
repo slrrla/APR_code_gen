@@ -1,0 +1,21 @@
+
+F
+======================================================================
+FAIL: test_shor_21_resources_and_controlled_modular_exponentiation (__main__.Regression.test_shor_21_resources_and_controlled_modular_exponentiation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_011\test.py", line 25, in test_shor_21_resources_and_controlled_modular_exponentiation
+    self.assertEqual((qc.num_qubits, qc.num_clbits), (15, 10))
+AssertionError: Tuples differ: (5, 2) != (15, 10)
+
+First differing element 0:
+5
+15
+
+- (5, 2)
++ (15, 10)
+
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+
+FAILED (failures=1)

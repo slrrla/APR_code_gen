@@ -1,0 +1,16 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_572\buggy.py:22: DeprecationWarning: The method ``qiskit.circuit.quantumcircuit.QuantumCircuit.bind_parameters()`` is deprecated as of qiskit 0.45.0. It will be removed in the Qiskit 1.0.0 release. Use assign_parameters() instead
+  circ = qc.bind_parameters({theta: val})
+F
+======================================================================
+FAIL: test_xy_operator_for_multiple_angles (__main__.Test.test_xy_operator_for_multiple_angles)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_572\test.py", line 26, in test_xy_operator_for_multiple_angles
+    self.assertTrue(Operator(bound).equiv(expected), 'Wrong XY operator at theta=' + str(angle))
+AssertionError: False is not true : Wrong XY operator at theta=0.2243994752564138
+
+----------------------------------------------------------------------
+Ran 1 test in 0.074s
+
+FAILED (failures=1)

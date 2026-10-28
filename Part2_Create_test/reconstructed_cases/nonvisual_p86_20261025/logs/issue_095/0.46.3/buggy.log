@@ -1,0 +1,30 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_095\buggy.py:12: DeprecationWarning: The 'qiskit.Aer' entry point is deprecated and will be removed in Qiskit 1.0. You should use 'qiskit_aer.Aer' directly instead.
+  backend = Aer.get_backend('qasm_simulator')
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit_aer\backends\qasm_simulator.py:435: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn(
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_095\buggy.py:13: DeprecationWarning: The function ``qiskit.execute_function.execute()`` is deprecated as of qiskit 0.46.0. It will be removed in the Qiskit 1.0 release. This function combines ``transpile`` and ``backend.run``, which is covered by ``Sampler`` :mod:`~qiskit.primitives`. Alternatively, you can also run :func:`.transpile` followed by ``backend.run()``.
+  result = execute(qc, backend, shots=1).result()
+FC:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_095\buggy.py:13: DeprecationWarning: The function ``qiskit.execute_function.execute()`` is deprecated as of qiskit 0.46.0. It will be removed in the Qiskit 1.0 release. This function combines ``transpile`` and ``backend.run``, which is covered by ``Sampler`` :mod:`~qiskit.primitives`. Alternatively, you can also run :func:`.transpile` followed by ``backend.run()``.
+  result = execute(qc, backend, shots=1).result()
+F
+======================================================================
+FAIL: test_observation_samples_both_branches_without_measuring_state (__main__.Regression.test_observation_samples_both_branches_without_measuring_state) (random_value=0.25)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_095\test.py", line 28, in test_observation_samples_both_branches_without_measuring_state
+    self.assertNotIn("measure", m["qc"].count_ops())
+AssertionError: 'measure' unexpectedly found in OrderedDict([('h', 1), ('measure', 1)])
+
+======================================================================
+FAIL: test_observation_samples_both_branches_without_measuring_state (__main__.Regression.test_observation_samples_both_branches_without_measuring_state) (random_value=0.75)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_095\test.py", line 28, in test_observation_samples_both_branches_without_measuring_state
+    self.assertNotIn("measure", m["qc"].count_ops())
+AssertionError: 'measure' unexpectedly found in OrderedDict([('h', 1), ('measure', 1)])
+
+----------------------------------------------------------------------
+Ran 1 test in 0.168s
+
+FAILED (failures=2)

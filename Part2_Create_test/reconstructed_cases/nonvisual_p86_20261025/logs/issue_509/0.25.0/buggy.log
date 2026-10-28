@@ -1,0 +1,27 @@
+
+F
+======================================================================
+FAIL: test_reported_conjugation (__main__.Test)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_509\test.py", line 23, in test_reported_conjugation
+    np.testing.assert_allclose(printed[-1], [[0,1],[1,0]], atol=1e-12, rtol=0)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\numpy\testing\_private\utils.py", line 1528, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\numpy\testing\_private\utils.py", line 842, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=0, atol=1e-12
+
+Mismatched elements: 4 / 4 (100%)
+Max absolute difference: 1.
+Max relative difference: 1.
+ x: array([[0.+1.j, 0.+0.j],
+       [0.+0.j, 0.+1.j]])
+ y: array([[0, 1],
+       [1, 0]])
+
+----------------------------------------------------------------------
+Ran 1 test in 0.010s
+
+FAILED (failures=1)

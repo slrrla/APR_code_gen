@@ -1,0 +1,20 @@
+
+E
+======================================================================
+ERROR: test_aer_import_and_backend (__main__.Test.test_aer_import_and_backend)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_018_so\test.py", line 13, in test_aer_import_and_backend
+    namespace = runpy.run_path(MUT)
+                ^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_018_so\buggy.py", line 1, in <module>
+    from qiskit import Aer
+ImportError: cannot import name 'Aer' from 'qiskit' (C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\__init__.py)
+
+----------------------------------------------------------------------
+Ran 1 test in 1.155s
+
+FAILED (errors=1)

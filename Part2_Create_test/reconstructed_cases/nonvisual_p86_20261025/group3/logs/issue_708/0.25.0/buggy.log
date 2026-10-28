@@ -1,0 +1,14 @@
+
+F
+======================================================================
+FAIL: test_utc_timestamp (__main__.Test)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_708\test.py", line 20, in test_utc_timestamp
+    self.assertIsNotNone(actual.tzinfo, 'The supplied +00:00 offset must not be discarded.')
+AssertionError: unexpectedly None : The supplied +00:00 offset must not be discarded.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.008s
+
+FAILED (failures=1)

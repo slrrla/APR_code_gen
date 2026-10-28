@@ -1,1 +1,0 @@
-synthetic unexecuted harness bytes

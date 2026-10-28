@@ -1,0 +1,34 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\pkg_resources\__init__.py:3146: DeprecationWarning: Deprecated call to `pkg_resources.declare_namespace('mpl_toolkits')`.
+Implementing implicit namespace packages (as specified in PEP 420) is preferred to `pkg_resources.declare_namespace`. See https://setuptools.pypa.io/en/latest/references/keywords.html#keyword-namespace-packages
+  declare_namespace(pkg)
+F
+======================================================================
+FAIL: test_hermitian_generator_and_evolution (__main__.Test)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_472\test.py", line 21, in test_hermitian_generator_and_evolution
+    np.testing.assert_allclose(h, h.conj().T, atol=1e-8, rtol=0)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\numpy\testing\_private\utils.py", line 1528, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\numpy\testing\_private\utils.py", line 842, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=0, atol=1e-08
+
+Mismatched elements: 255 / 256 (99.6%)
+Max absolute difference: 0.96953856
+Max relative difference: 56.16572177
+ x: array([[-1.178097+8.954203e-18j,  0.44038 +1.909240e-02j,
+         0.382649-1.262704e-01j,  0.16661 +2.679649e-01j,
+         0.483101-2.628610e-02j,  0.386326-3.830780e-01j,...
+ y: array([[-1.178097-8.954203e-18j,  0.392699+4.541516e-18j,
+         0.392699-3.875721e-18j,  0.392699-3.497290e-19j,
+         0.392699-2.812018e-18j,  0.392699+5.300295e-18j,...
+
+----------------------------------------------------------------------
+Ran 1 test in 1.305s
+
+FAILED (failures=1)

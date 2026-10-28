@@ -1,0 +1,21 @@
+
+F
+======================================================================
+FAIL: test_results_retain_submission_order_under_reverse_completion (__main__.Regression.test_results_retain_submission_order_under_reverse_completion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_010_se\test.py", line 30, in test_results_retain_submission_order_under_reverse_completion
+    self.assertEqual([r["name"] for r in m["results"]],
+AssertionError: Lists differ: ['circuit_3', 'circuit_2', 'circuit_1', 'circuit_0'] != ['circuit_0', 'circuit_1', 'circuit_2', 'circuit_3']
+
+First differing element 0:
+'circuit_3'
+'circuit_0'
+
+- ['circuit_3', 'circuit_2', 'circuit_1', 'circuit_0']
++ ['circuit_0', 'circuit_1', 'circuit_2', 'circuit_3']
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+FAILED (failures=1)

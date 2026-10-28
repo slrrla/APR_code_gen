@@ -1,0 +1,39 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_015\fixed.py:9: DeprecationWarning: The 'qiskit.Aer' entry point is deprecated and will be removed in Qiskit 1.0. You should use 'qiskit_aer.Aer' directly instead.
+  sim = Aer.get_backend("aer_simulator")
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_015\fixed.py:20: DeprecationWarning: Using a qobj for run() is deprecated as of qiskit-aer 0.14 and will be removed no sooner than 3 months from that release date. Transpiled circuits should now be passed directly using `backend.run(circuits, **run_options).
+  result = sim.run(qobj).result().get_counts()
+F
+======================================================================
+FAIL: test_inverse_shadow_map_matches_every_actual_local_measurement (__main__.Regression.test_inverse_shadow_map_matches_every_actual_local_measurement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_015\test.py", line 69, in test_inverse_shadow_map_matches_every_actual_local_measurement
+    np.testing.assert_allclose(m["record_rho"], expected, atol=1e-12,
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\numpy\testing\_private\utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\numpy\testing\_private\utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+Each inverse-map factor must use its own qubit outcome in Qiskit little-endian order
+Mismatched elements: 12 / 16 (75%)
+First 5 mismatches are at indices:
+ [0, 0]: (0.365+0j) (ACTUAL), (0.36+0j) (DESIRED)
+ [0, 1]: (-0.5075+0.4624999999999999j) (ACTUAL), (-0.4649999999999999+0.49499999999999994j) (DESIRED)
+ [0, 2]: (-0.19499999999999998+0.015000000000000051j) (ACTUAL), (-0.16749999999999998+0.04750000000000003j) (DESIRED)
+ [1, 0]: (-0.5075-0.4624999999999999j) (ACTUAL), (-0.4649999999999999-0.49499999999999994j) (DESIRED)
+ [1, 2]: (0.09749999999999999+0.09749999999999999j) (ACTUAL), (0.09749999999999999-0.09749999999999999j) (DESIRED)
+Max absolute difference among violations: 0.195
+Max relative difference among violations: 2.83823106
+ ACTUAL: array([[ 0.365 +0.j    , -0.5075+0.4625j, -0.195 +0.015j ,
+         0.4875+0.4425j],
+       [-0.5075-0.4625j,  0.24  +0.j    ,  0.0975+0.0975j,...
+ DESIRED: array([[ 3.60000e-01+0.j    , -4.65000e-01+0.495j , -1.67500e-01+0.0475j,
+         4.87500e-01+0.4425j],
+       [-4.65000e-01-0.495j ,  2.40000e-01+0.j    ,  9.75000e-02-0.0975j,...
+
+----------------------------------------------------------------------
+Ran 1 test in 0.773s
+
+FAILED (failures=1)

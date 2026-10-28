@@ -1,0 +1,16 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_791\buggy.py:19: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 2.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  for instruction, qarg, carg in circuit:
+F
+======================================================================
+FAIL: test_printed_gates_are_constituents (__main__.Test.test_printed_gates_are_constituents)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_791\test.py", line 36, in test_printed_gates_are_constituents
+    self.assertEqual(len(operations), 6, 'Two opaque subcircuits hide the six constituent operations.')
+AssertionError: 2 != 6 : Two opaque subcircuits hide the six constituent operations.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.957s
+
+FAILED (failures=1)

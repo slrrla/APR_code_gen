@@ -1,0 +1,26 @@
+
+test_half_adder_records_sum_zero_and_carry_one_for_one_plus_one (__main__.Regression.test_half_adder_records_sum_zero_and_carry_one_for_one_plus_one) ... FAIL
+
+======================================================================
+FAIL: test_half_adder_records_sum_zero_and_carry_one_for_one_plus_one (__main__.Regression.test_half_adder_records_sum_zero_and_carry_one_for_one_plus_one)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_077_so\test.py", line 24, in test_half_adder_records_sum_zero_and_carry_one_for_one_plus_one
+    self.assertEqual((qc.num_qubits, qc.num_clbits), (3, 2))
+AssertionError: Tuples differ: (2, 2) != (3, 2)
+
+First differing element 0:
+2
+3
+
+- (2, 2)
+?  ^
+
++ (3, 2)
+?  ^
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (failures=1)

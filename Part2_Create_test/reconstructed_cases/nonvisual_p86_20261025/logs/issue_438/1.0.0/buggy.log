@@ -1,0 +1,14 @@
+
+F
+======================================================================
+FAIL: test_reported_depth (__main__.Test.test_reported_depth)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_438\test.py", line 29, in test_reported_depth
+    self.assertTrue(4 in printed or any(line.strip() == '4' for line in lines) or labeled,
+AssertionError: False is not true : Report numeric depth four, with or without a descriptive label.
+
+----------------------------------------------------------------------
+Ran 1 test in 1.171s
+
+FAILED (failures=1)

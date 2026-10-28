@@ -1,0 +1,30 @@
+
+FFF
+======================================================================
+FAIL: test_average_fidelity (__main__.Test.test_average_fidelity) (probabilities=(0.02, 0.03, 0.05))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_171\test.py", line 56, in test_average_fidelity
+    self.assertAlmostEqual(function(*probabilities), expected, places=12)
+AssertionError: 0.9 != 0.9333333333333333 within 12 places (0.033333333333333326 difference)
+
+======================================================================
+FAIL: test_average_fidelity (__main__.Test.test_average_fidelity) (probabilities=(1, 0, 0))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_171\test.py", line 56, in test_average_fidelity
+    self.assertAlmostEqual(function(*probabilities), expected, places=12)
+AssertionError: 0 != 0.3333333333333333 within 12 places (0.3333333333333333 difference)
+
+======================================================================
+FAIL: test_average_fidelity (__main__.Test.test_average_fidelity) (probabilities=(0, 0.3, 0.3))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_171\test.py", line 56, in test_average_fidelity
+    self.assertAlmostEqual(function(*probabilities), expected, places=12)
+AssertionError: 0.4 != 0.6 within 12 places (0.19999999999999996 difference)
+
+----------------------------------------------------------------------
+Ran 1 test in 1.447s
+
+FAILED (failures=3)

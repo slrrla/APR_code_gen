@@ -1,0 +1,14 @@
+
+F
+======================================================================
+FAIL: test_mean_amplitude_observable (__main__.Test.test_mean_amplitude_observable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_406\test.py", line 55, in test_mean_amplitude_observable
+    self.assertAlmostEqual(float(ns['absolute_average']), 1/(2*math.sqrt(2)), places=12)
+AssertionError: 0.49999999999999994 != 0.35355339059327373 within 12 places (0.1464466094067262 difference)
+
+----------------------------------------------------------------------
+Ran 1 test in 1.176s
+
+FAILED (failures=1)

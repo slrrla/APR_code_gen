@@ -1,0 +1,25 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_462\test.py:15: DeprecationWarning: Importing from 'qiskit.providers.aer' is deprecated. Import from 'qiskit_aer' instead, which should work identically.
+  from qiskit.providers.aer.backends.aerbackend import AerBackend
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_462\buggy.py:20: DeprecationWarning: The 'qiskit.Aer' entry point is deprecated and will be removed in Qiskit 1.0. You should use 'qiskit_aer.Aer' directly instead.
+  job = execute(mycircuit1, Aer.get_backend('qasm_simulator'), shots=1000)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit_aer\backends\qasm_simulator.py:435: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn(
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_462\buggy.py:20: DeprecationWarning: The function ``qiskit.execute_function.execute()`` is deprecated as of qiskit 0.46.0. It will be removed in the Qiskit 1.0 release. This function combines ``transpile`` and ``backend.run``, which is covered by ``Sampler`` :mod:`~qiskit.primitives`. Alternatively, you can also run :func:`.transpile` followed by ``backend.run()``.
+  job = execute(mycircuit1, Aer.get_backend('qasm_simulator'), shots=1000)
+F
+======================================================================
+FAIL: test_all_eight_inputs (__main__.Test.test_all_eight_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_462\test.py", line 32, in test_all_eight_inputs
+    self.assertEqual(set(counts), {expected}, 'Input ' + bits + ' must include its third bit.')
+AssertionError: Items in the first set but not the second:
+'0'
+Items in the second set but not the first:
+'1' : Input 001 must include its third bit.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.124s
+
+FAILED (failures=1)

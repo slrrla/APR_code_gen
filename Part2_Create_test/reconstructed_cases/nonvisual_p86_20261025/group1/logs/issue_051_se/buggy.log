@@ -1,0 +1,40 @@
+
+test_oracle_marks_only_eleven_and_grover_finds_it (__main__.Regression.test_oracle_marks_only_eleven_and_grover_finds_it) ... C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_051_se\buggy.py:28: DeprecationWarning: The 'qiskit.Aer' entry point is deprecated and will be removed in Qiskit 1.0. You should use 'qiskit_aer.Aer' directly instead.
+  backend = Aer.get_backend('qasm_simulator')
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit_aer\backends\qasm_simulator.py:435: PendingDeprecationWarning: The `QasmSimulator` backend will be deprecated in the future. It has been superseded by the `AerSimulator` backend.
+  warn(
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_051_se\buggy.py:29: DeprecationWarning: The function ``qiskit.execute_function.execute()`` is deprecated as of qiskit 0.46.0. It will be removed in the Qiskit 1.0 release. This function combines ``transpile`` and ``backend.run``, which is covered by ``Sampler`` :mod:`~qiskit.primitives`. Alternatively, you can also run :func:`.transpile` followed by ``backend.run()``.
+  result = execute(qc, backend, shots=1024).result()
+FAIL
+
+======================================================================
+FAIL: test_oracle_marks_only_eleven_and_grover_finds_it (__main__.Regression.test_oracle_marks_only_eleven_and_grover_finds_it)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_051_se\test.py", line 24, in test_oracle_marks_only_eleven_and_grover_finds_it
+    np.testing.assert_allclose(Operator(m["oracle"]()).data, np.diag([1,1,1,-1]), atol=1e-12)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\numpy\testing\_private\utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\numpy\testing\_private\utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+Mismatched elements: 1 / 16 (6.25%)
+Mismatch at index:
+ [2, 2]: (-1+0j) (ACTUAL), 1 (DESIRED)
+Max absolute difference among violations: 2.
+Max relative difference among violations: 2.
+ ACTUAL: array([[ 1.+0.j,  0.+0.j,  0.+0.j,  0.+0.j],
+       [ 0.+0.j,  1.+0.j,  0.+0.j,  0.+0.j],
+       [ 0.+0.j,  0.+0.j, -1.+0.j,  0.+0.j],
+       [ 0.+0.j,  0.+0.j,  0.+0.j, -1.+0.j]])
+ DESIRED: array([[ 1,  0,  0,  0],
+       [ 0,  1,  0,  0],
+       [ 0,  0,  1,  0],
+       [ 0,  0,  0, -1]])
+
+----------------------------------------------------------------------
+Ran 1 test in 0.234s
+
+FAILED (failures=1)

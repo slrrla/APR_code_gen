@@ -1,0 +1,16 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_433\buggy.py:5: DeprecationWarning: The qiskit.extensions module is deprecated since Qiskit 0.46.0. It will be removed in the Qiskit 1.0 release.
+  from qiskit.extensions import UnitaryGate
+F
+======================================================================
+FAIL: test_manual_controlled_x_action (__main__.Test.test_manual_controlled_x_action)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_433\test.py", line 29, in test_manual_controlled_x_action
+    self.assertTrue(Operator(manual).equiv(Operator(expected)), 'q0=1 flips q1: |01> maps to |11>.')
+AssertionError: False is not true : q0=1 flips q1: |01> maps to |11>.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.025s
+
+FAILED (failures=1)

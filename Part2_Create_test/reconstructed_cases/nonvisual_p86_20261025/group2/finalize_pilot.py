@@ -1,0 +1,55 @@
+"""Consolidate the final per-case logs after targeted reruns."""
+from pathlib import Path
+import hashlib
+import json
+import re
+from run_pilot import CASES, versions, ROOT, BASE
+
+records=[]
+for number in CASES:
+    for variant in ('fixed','buggy'):
+        version=versions[number]
+        log=BASE/'logs'/('issue_'+number)/version/(variant+'.log')
+        output=log.read_text(encoding='utf8')
+        if re.search(r'\nOK\s*$',output):
+            status='PASS'
+        elif 'AssertionError:' in output:
+            status='FAIL'
+        elif 'Ran 1 test' in output:
+            status='ERROR'
+        else:
+            status='INVALID_RUN'
+        errors=[line for line in output.splitlines() if re.match(r'^(?:\w*Error|AssertionError):',line)]
+        source=ROOT/('issue_'+number)/(variant+'.py')
+        test=source.with_name('test.py')
+        compile(test.read_text(encoding='utf8'),str(test),'exec')
+        records.append(dict(case='issue_'+number,variant=variant,version=version,status=status,
+                            detail='; '.join(errors)[-2000:],log=str(log),
+                            source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),
+                            test_sha256=hashlib.sha256(test.read_bytes()).hexdigest()))
+(BASE/'pilot_results.json').write_text(json.dumps(records,indent=2),encoding='utf8')
+limitations={
+    'cases_created':22,
+    'pilot_executions':44,
+    'differential_cases':20,
+    'no_source_edits':True,
+    'limitations':[
+        {'case':'issue_163','classification':'INVALID_HUMAN_FIX',
+         'detail':'The intended two-level unitary swaps |01> and |10> and preserves |00> and |11>. Human fixed.py instead implements CX(q1,q0), exchanging |10> and |11>. Uniform initial amplitudes conceal this defect; the oracle checks the full post-initialization operator. Both sources are rejected.'},
+        {'case':'issue_165','classification':'NONSEPARATING_IN_LISTED_ENVIRONMENT',
+         'detail':'Both implementations produce valid low-energy results in listed Qiskit0.46.3. The source question concerns migration to Qiskit1.x; old APIs are still available in0.46.3. The test intentionally accepts correct legacy computation rather than manufacture an API-style failure.'}
+    ],
+    'oracle_notes':[
+        {'case':'issue_151','detail':'The fixed source batches ten successful unmeasured Grover circuits. The batching oracle checks job/experiment counts without requiring a classical readout that the question never requested.'},
+        {'case':'issue_201','detail':'theta=1/3 accidentally masks the bit reversal for three counting qubits. The test also calls the exported qft_dagger on a fresh3-qubit circuit and checks its complete inverse Fourier operator.'},
+        {'case':'issue_221','detail':'Contrary to the spreadsheet note, vars(circ.data) is valid in Qiskit0.25.0 because QuantumCircuitData has a __dict__. Fixed passes and buggy fails the instruction-data-output oracle.'},
+        {'case':'issue_275','detail':'Uses public Aqua op_converter.to_matrix_operator to read WeightedPauliOperator. Checks preservation of the source-chosen3x3 matrix after zero-padding, permitting the different constants in the existing pair.'},
+        {'case':'issue_401','detail':'Ideal Aer gives Delay no drift and makes both scripts succeed. The oracle evaluates the exported sequence under three explicit static-phase drift rates, retaining its real gate actions and interpreting each delay as physical phase accumulation.'}
+    ],
+    'validation_environment':{'0.25.0':{'python':'3.9.25','qiskit_distribution':'0.25.0','qiskit_terra':'0.17.0','aer':'0.8.0'},'0.46.3':{'python':'3.11.15','qiskit':'0.46.3','aer':'0.14.2'}},
+    'sandbox_note':'Initial sandbox runs could not register existing SciPy DLL directories. Final logs are from the approved identical local validation command outside the sandbox; no dependencies were installed or modified.'
+}
+(BASE/'limitations.json').write_text(json.dumps(limitations,indent=2),encoding='utf8')
+for number in CASES:
+    pair=[record['status'] for record in records if record['case']=='issue_'+number]
+    print(number,*pair)

@@ -1,0 +1,20 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\pkg_resources\__init__.py:3146: DeprecationWarning: Deprecated call to `pkg_resources.declare_namespace('mpl_toolkits')`.
+Implementing implicit namespace packages (as specified in PEP 420) is preferred to `pkg_resources.declare_namespace`. See https://setuptools.pypa.io/en/latest/references/keywords.html#keyword-namespace-packages
+  declare_namespace(pkg)
+F
+======================================================================
+FAIL: test_individual_terms_are_accessible (__main__.Test)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_974\test.py", line 40, in test_individual_terms_are_accessible
+    self.assertIsInstance(primitive, Pauli, 'A one-element PauliSumOp still hides the individual Pauli.')
+AssertionError: SparsePauliOp([[False,  True,  True, False, False, False]],
+              coeffs=[1.+0.j]) is not an instance of <class 'qiskit.quantum_info.operators.symplectic.pauli.Pauli'> : A one-element PauliSumOp still hides the individual Pauli.
+
+----------------------------------------------------------------------
+Ran 1 test in 2.207s
+
+FAILED (failures=1)

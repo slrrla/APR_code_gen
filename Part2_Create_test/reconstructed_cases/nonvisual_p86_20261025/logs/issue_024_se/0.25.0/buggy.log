@@ -1,0 +1,27 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+F
+======================================================================
+FAIL: test_export_ungroups_custom_gate_and_preserves_full_operator (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_024_se\test.py", line 25, in test_export_ungroups_custom_gate_and_preserves_full_operator
+    self.assertEqual([item[0].name for item in qc.data], ["h", "cx"])
+AssertionError: Lists differ: ['my_gate'] != ['h', 'cx']
+
+First differing element 0:
+'my_gate'
+'h'
+
+Second list contains 1 additional elements.
+First extra element 1:
+'cx'
+
+- ['my_gate']
++ ['h', 'cx']
+
+----------------------------------------------------------------------
+Ran 1 test in 0.062s
+
+FAILED (failures=1)

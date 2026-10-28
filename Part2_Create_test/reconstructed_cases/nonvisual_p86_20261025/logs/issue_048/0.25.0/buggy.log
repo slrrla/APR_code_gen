@@ -1,0 +1,33 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_048\buggy.py:8: DeprecationWarning: The QuantumCircuit.cu1 method is deprecated as of 0.16.0. It will be removed no earlier than 3 months after the release date. You should use the QuantumCircuit.cp method instead, which acts identically.
+  circuit.cu1(theta=math.pi/2, control_qubit=0, target_qubit=1)
+F
+======================================================================
+FAIL: test_controlled_s_and_t_have_exact_relative_phases (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_048\test.py", line 25, in test_controlled_s_and_t_have_exact_relative_phases
+    np.testing.assert_allclose(Operator(m["circuit"]).data, expected, atol=1e-12)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\numpy\testing\_private\utils.py", line 1528, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\numpy\testing\_private\utils.py", line 842, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-12
+
+Mismatched elements: 1 / 16 (6.25%)
+Max absolute difference: 0.76536686
+Max relative difference: 0.76536686
+ x: array([[ 1.      +0.j      ,  0.      +0.j      ,  0.      +0.j      ,
+         0.      +0.j      ],
+       [ 0.      +0.j      ,  0.707107-0.707107j,  0.      +0.j      ,...
+ y: array([[ 1.      +0.j      ,  0.      +0.j      ,  0.      +0.j      ,
+         0.      +0.j      ],
+       [ 0.      +0.j      ,  1.      +0.j      ,  0.      +0.j      ,...
+
+----------------------------------------------------------------------
+Ran 1 test in 0.012s
+
+FAILED (failures=1)

@@ -1,0 +1,33 @@
+{
+  "group": "group1",
+  "scope": "21 newly authored standalone unittest test.py files and preserved issue_018_so/test.py. Additional focused quality repair to issue_1009/test.py at parent request.",
+  "sources_modified": false,
+  "pilot_results": {
+    "path": "results.json",
+    "executions": 44,
+    "fixed": {"PASS": 21, "FAIL": 1},
+    "buggy": {"FAIL": 16, "ERROR": 4, "PASS": 2},
+    "scope_note": "These are supplemental relevant-version pilots using Qiskit 0.46.3 and 2.5.0. Some pilots deliberately use an available version outside a case's workbook-listed set. The parent matrix is authoritative for exact source-workbook coverage."
+  },
+  "limitations": {
+    "issue_015": "Human fixed source still mis-associates Qiskit little-endian measurement bits with the local basis inverses. The test observes all 300 real assembled circuits and counts, checks the H*S-dagger Y-basis transform, then independently reconstructs each local inverse map with bit q read from key[-1-q] and tensor order q1 then q0. The human fix passes the basis rotation check but fails exact reconstructed rho; buggy fails missing H. A fixed simulator seed is supplied through assemble for deterministic reproducibility. No measurements are fabricated.",
+    "issue_058_so": "Both unmodified sources successfully execute three circuits in one real local job on Qiskit 0.46.3/Aer 0.14.2. This simulator accepts the buggy tuple as well as the fixed list. The test does not manufacture a failure from container type or irrelevant shot-count differences. Original remote IBM backend tuple rejection is outside this offline reconstruction.",
+    "issue_125": "Both sources return exactly 1,000,001 actual shots on Qiskit 0.46.3/Aer 0.14.2. The simulator does not enforce the claimed default limit in this release. The behavioral oracle accepts either valid high-shot execution rather than requiring private configuration mutation.",
+    "issue_029_so": "Subprocess installation is mocked. This is an offline command-construction test verifying the current interpreter's -m pip invocation; it does not claim a package was installed or Jupyter environment repaired.",
+    "issue_093": "Every subprocess.run call is mocked. The test verifies that the notebook-containing repository is cloned before installation from its local package source; no network, git clone, pip or shell command actually runs, and availability of fetched notebooks is not validated.",
+    "issue_048": "Oracle follows the original question's intended controlled S and T operations, checking their complete composed operator. The reconstructed source pair changes operations as the spreadsheet notes; this is retained as a scope caveat, rather than treating both snippets as factually identical algorithms.",
+    "issue_018_so": "Preexisting test preserved exactly as requested; it checks backend import and selection, not a real simulator execution."
+  },
+  "additional_quality_repair": {
+    "issue": "issue_1009",
+    "results": "results_1009.json",
+    "outcomes": {"0.25.0": {"fixed": "PASS", "buggy": "PASS"}, "0.46.3": {"fixed": "PASS", "buggy": "FAIL"}},
+    "description": "Observe real QuantumInstance.execute circuits and returned simulator Result. Require actual measurement sampling with ten returned counts per experiment, reject exact expectation snapshots, retain Bell-correlation checks, and accept a legitimate sampled ZI mean of zero. No specific converter class is required.",
+    "qiskit_0_25_0_note": "The legacy SciPy DLL directory is blocked by the sandbox; the same four local tests were rerun with approved normal filesystem access. On this old release even the buggy source actually takes a ten-shot measurement path, so it legitimately passes the behavioral sampling oracle. No shared environment or source was changed."
+  },
+  "group4_read_only_audit": {
+    "reviewed_cases": [736,752,774,791,797,814,823,859,863,870,879,892,902,924,974,981,992,1001,1009,1033],
+    "primary_finding": "The original 1009 test accepted exact and sampled expectations alike, missing the finite-shot requirement. Repaired at parent request.",
+    "other_notes": "No external command or remote authentication paths found in those source fixtures. Seeded stochastic tests use actual simulator outcomes or physical invariants. 1033 intentionally checks identical GHZ preparation rather than requiring full operators to coincide; the reconstructed op2 typo remains separate from the original initial-state question. Parent is handling 892 legacy API limitations, 981 source Hamiltonian discrepancy, and 1001 legacy QuantumError conversion."
+  }
+}

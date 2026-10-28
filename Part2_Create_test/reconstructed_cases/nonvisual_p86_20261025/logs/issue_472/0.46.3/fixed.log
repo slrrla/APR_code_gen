@@ -1,0 +1,49 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\utils\algorithm_globals.py:20: DeprecationWarning: Accessing 'parallel' from 'qiskit.tools' is deprecated since Qiskit 0.46.0 and will be removed in Qiskit 1.0.0. Import from 'qiskit.utils.parallel' instead 
+  from qiskit.tools import parallel
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\utils\parallel.py:58: DeprecationWarning: qiskit.tools.events is deprecated and will be removed in Qiskit 1.0.0
+  from qiskit.tools.events.pubsub import Publisher
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\utils\algorithm_globals.py:20: DeprecationWarning: 'qiskit.tools.parallel' is deprecated and is now located at 'qiskit.utils.parallel'. This path will no longer work in Qiskit 1.0.0
+  from qiskit.tools import parallel
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\utils\algorithm_globals.py:178: DeprecationWarning: The class ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals`` is deprecated as of qiskit 0.45.0. It will be removed in the Qiskit 1.0 release. This algorithm utility has been migrated to an independent package: https://github.com/qiskit-community/qiskit-algorithms. You can run ``pip install qiskit_algorithms`` and import ``from qiskit_algorithms.utils`` instead. 
+  algorithm_globals = QiskitAlgorithmGlobals()
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\utils\algorithm_globals.py:50: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed in the Qiskit 1.0 release. This algorithm utility belongs to a legacy workflow and has no replacement.
+  self.num_processes = settings.get("num_processes", QiskitAlgorithmGlobals.CPU_COUNT)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\utils\algorithm_globals.py:125: DeprecationWarning: The property ``qiskit.utils.algorithm_globals.QiskitAlgorithmGlobals.num_processes`` is deprecated as of qiskit 0.45.0. It will be removed in the Qiskit 1.0 release. This algorithm utility belongs to a legacy workflow and has no replacement.
+  parallel.CPU_COUNT = self.num_processes
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\qiskit\converters\ast_to_dag.py:23: DeprecationWarning: The `qiskit.qasm` has been deprecated and superseded by the `qiskit.qasm2` module. `qiskit.qasm` will be removed in the Qiskit 1.0.0 release.
+  from qiskit.qasm.node.real import Real
+F
+======================================================================
+FAIL: test_hermitian_generator_and_evolution (__main__.Test.test_hermitian_generator_and_evolution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_472\test.py", line 21, in test_hermitian_generator_and_evolution
+    np.testing.assert_allclose(h, h.conj().T, atol=1e-8, rtol=0)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\numpy\testing\_private\utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_46_3\Lib\site-packages\numpy\testing\_private\utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=0, atol=1e-08
+
+Mismatched elements: 255 / 256 (99.6%)
+First 5 mismatches are at indices:
+ [0, 1]: (0.11321819598015223-0.08291041362559055j) (ACTUAL), (0.3926990816987243-9.361655039330582e-18j) (DESIRED)
+ [0, 2]: (0.7635885386578255+0.21601943638743812j) (ACTUAL), (0.3926990816987242+1.0161864021870738e-17j) (DESIRED)
+ [0, 3]: (0.7177944622269952-0.21223003471699842j) (ACTUAL), (0.3926990816987242+6.599139493965737e-18j) (DESIRED)
+ [0, 4]: (0.5358248901972581+0.08364454394981582j) (ACTUAL), (0.3926990816987242+8.525769509707864e-18j) (DESIRED)
+ [0, 5]: (0.24658433334043148+0.315791858970149j) (ACTUAL), (0.3926990816987242-1.6166506863821508e-17j) (DESIRED)
+Max absolute difference among violations: 1.65105531
+Max relative difference among violations: 7.32386616
+ ACTUAL: array([[-1.178097+1.955967e-18j,  0.113218-8.291041e-02j,
+         0.763589+2.160194e-01j,  0.717794-2.122300e-01j,
+         0.535825+8.364454e-02j,  0.246584+3.157919e-01j,...
+ DESIRED: array([[-1.178097-1.955967e-18j,  0.392699-9.361655e-18j,
+         0.392699+1.016186e-17j,  0.392699+6.599139e-18j,
+         0.392699+8.525770e-18j,  0.392699-1.616651e-17j,...
+
+----------------------------------------------------------------------
+Ran 1 test in 2.611s
+
+FAILED (failures=1)

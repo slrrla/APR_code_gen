@@ -1,0 +1,25 @@
+
+E
+======================================================================
+ERROR: test_actual_aer_result_exposes_saved_bell_statevector (__main__.Regression.test_actual_aer_result_exposes_saved_bell_statevector)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_0_0\Lib\site-packages\qiskit\result\result.py", line 314, in get_statevector
+    self.data(experiment)["statevector"], decimals=decimals
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+KeyError: 'statevector'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_117\test.py", line 26, in test_actual_aer_result_exposes_saved_bell_statevector
+    state = np.asarray(result.get_statevector(), complex)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_0_0\Lib\site-packages\qiskit\result\result.py", line 317, in get_statevector
+    raise QiskitError(f'No statevector for experiment "{repr(experiment)}"') from ex
+qiskit.exceptions.QiskitError: 'No statevector for experiment "None"'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.157s
+
+FAILED (errors=1)

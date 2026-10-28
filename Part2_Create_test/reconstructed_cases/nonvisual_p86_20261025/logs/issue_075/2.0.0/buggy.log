@@ -1,0 +1,16 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_075\test.py:26: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+  op, qargs = item[0], item[1]
+F
+======================================================================
+FAIL: test_full_register_barrier_separates_the_two_gate_layers (__main__.Regression.test_full_register_barrier_separates_the_two_gate_layers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_075\test.py", line 35, in test_full_register_barrier_separates_the_two_gate_layers
+    self.assertTrue(seen, "A barrier must prevent scheduling across the two requested steps")
+AssertionError: False is not true : A barrier must prevent scheduling across the two requested steps
+
+----------------------------------------------------------------------
+Ran 1 test in 0.046s
+
+FAILED (failures=1)

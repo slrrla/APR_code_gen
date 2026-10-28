@@ -1,0 +1,14 @@
+
+F
+======================================================================
+FAIL: test_marginal_counts_sum_actual_qubits_zero_and_one (__main__.Regression.test_marginal_counts_sum_actual_qubits_zero_and_one)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_059_se\test.py", line 37, in test_marginal_counts_sum_actual_qubits_zero_and_one
+    self.assertEqual(m["new_counts"], dict(expected))
+AssertionError: {'1001': 57, '1010': 70, '0010': 63, '1100'[144 chars]: 54} != {'01': 248, '10': 273, '00': 256, '11': 247}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.017s
+
+FAILED (failures=1)

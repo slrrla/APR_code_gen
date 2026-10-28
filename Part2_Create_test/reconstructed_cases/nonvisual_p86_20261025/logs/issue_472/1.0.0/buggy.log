@@ -1,0 +1,32 @@
+
+F
+======================================================================
+FAIL: test_hermitian_generator_and_evolution (__main__.Test.test_hermitian_generator_and_evolution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_472\test.py", line 21, in test_hermitian_generator_and_evolution
+    np.testing.assert_allclose(h, h.conj().T, atol=1e-8, rtol=0)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_0_0\Lib\site-packages\numpy\testing\_private\utils.py", line 1504, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_0_0\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_1_0_0\Lib\site-packages\numpy\testing\_private\utils.py", line 797, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=0, atol=1e-08
+
+Mismatched elements: 255 / 256 (99.6%)
+Max absolute difference: 1.8575007
+Max relative difference: 4.41995597
+ x: array([[ 1.178097-5.201173e-16j, -0.103981+1.382293e-01j,
+        -0.800548-2.476677e-01j, -0.659683+6.198517e-03j,
+        -0.5316  +2.515787e-02j, -0.367164-4.171900e-01j,...
+ y: array([[ 1.178097+5.201173e-16j, -0.392699+1.343518e-17j,
+        -0.392699+1.343518e-17j, -0.392699+1.343518e-17j,
+        -0.392699+1.343518e-17j, -0.392699+1.343518e-17j,...
+
+----------------------------------------------------------------------
+Ran 1 test in 2.050s
+
+FAILED (failures=1)

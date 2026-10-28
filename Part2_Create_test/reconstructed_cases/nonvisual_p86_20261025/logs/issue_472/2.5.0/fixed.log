@@ -1,0 +1,39 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_472\fixed.py:6: DeprecationWarning: The class ``qiskit.circuit.library.basis_change.qft.QFT`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. ('Use qiskit.circuit.library.QFTGate or qiskit.synthesis.qft.synth_qft_full instead, for access to all previous arguments.',)
+  circuit = QFT(num_qubits=4, do_swaps=True)
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\qiskit\circuit\library\basis_change\qft.py:108: DeprecationWarning: The class ``qiskit.circuit.library.blueprintcircuit.BlueprintCircuit`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. There is no direct replacement other than the QuantumCircuit class.
+  super().__init__(name=name)
+F
+======================================================================
+FAIL: test_hermitian_generator_and_evolution (__main__.Test.test_hermitian_generator_and_evolution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_472\test.py", line 21, in test_hermitian_generator_and_evolution
+    np.testing.assert_allclose(h, h.conj().T, atol=1e-8, rtol=0)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\numpy\testing\_private\utils.py", line 1780, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_2_5_0\Lib\site-packages\numpy\testing\_private\utils.py", line 988, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=0, atol=1e-08
+
+Mismatched elements: 255 / 256 (99.6%)
+First 5 mismatches are at indices:
+ [0, 1]: (-0.33427779823373843-0.0027151192223742286j) (ACTUAL), (-0.3926990816987243+6.242506874095072e-19j) (DESIRED)
+ [0, 2]: (-0.49258473438867284+0.00992907395460688j) (ACTUAL), (-0.3926990816987242-2.6416806927943903e-19j) (DESIRED)
+ [0, 3]: (-0.38787184570585026-0.013789440345815989j) (ACTUAL), (-0.3926990816987242-3.314622443324361e-18j) (DESIRED)
+ [0, 4]: (-0.4775675695819932-0.005040928757435774j) (ACTUAL), (-0.3926990816987242+3.5211306964495176e-19j) (DESIRED)
+ [0, 5]: (-0.33389530794632716+0.040001149967384804j) (ACTUAL), (-0.3926990816987242+1.8022152327038543e-18j) (DESIRED)
+Max absolute difference among violations: 0.17003613
+Max relative difference among violations: 4.31911082
+ ACTUAL: array([[ 1.178097-2.887410e-19j, -0.334278-2.715119e-03j,
+        -0.492585+9.929074e-03j, -0.387872-1.378944e-02j,
+        -0.477568-5.040929e-03j, -0.333895+4.000115e-02j,...
+ DESIRED: array([[ 1.178097+2.887410e-19j, -0.392699+6.242507e-19j,
+        -0.392699-2.641681e-19j, -0.392699-3.314622e-18j,
+        -0.392699+3.521131e-19j, -0.392699+1.802215e-18j,...
+
+----------------------------------------------------------------------
+Ran 1 test in 0.521s
+
+FAILED (failures=1)

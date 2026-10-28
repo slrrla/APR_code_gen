@@ -1,0 +1,14 @@
+
+F
+======================================================================
+FAIL: test_projection_for_reproducible_random_streams (__main__.Test.test_projection_for_reproducible_random_streams)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_859\test.py", line 42, in test_projection_for_reproducible_random_streams
+    self.assertTrue(states[-1].equiv(Statevector([1,0,0,0])), 'Reset is not postselection.')
+AssertionError: False is not true : Reset is not postselection.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.552s
+
+FAILED (failures=1)

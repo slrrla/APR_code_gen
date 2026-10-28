@@ -1,0 +1,19 @@
+
+test_reports_actual_resolved_simulation_method (__main__.Regression.test_reports_actual_resolved_simulation_method) ... FAIL
+
+======================================================================
+FAIL: test_reports_actual_resolved_simulation_method (__main__.Regression.test_reports_actual_resolved_simulation_method)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_050\test.py", line 29, in test_reports_actual_resolved_simulation_method
+    self.assertEqual(m["_stdout"].strip(), method)
+AssertionError: 'aer_simulator\nautomatic' != 'stabilizer'
++ stabilizer
+- aer_simulator
+- automatic
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.590s
+
+FAILED (failures=1)

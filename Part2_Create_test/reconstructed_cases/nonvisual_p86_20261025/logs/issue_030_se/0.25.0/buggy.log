@@ -1,0 +1,31 @@
+
+C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\qiskit\version.py:20: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+F
+======================================================================
+FAIL: test_all_ten_compositions_accumulate_on_qubits_two_and_three (__main__.Regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part2_Create_test\reconstructed_cases\issue_030_se\test.py", line 30, in test_all_ten_compositions_accumulate_on_qubits_two_and_three
+    np.testing.assert_allclose(Operator(qc).data, expected, atol=1e-11)
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\numpy\testing\_private\utils.py", line 1528, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\personal_webpage\my-portfolio\APR_code_gen\Part1_Create_code\envs\qiskit_0_25_0\lib\site-packages\numpy\testing\_private\utils.py", line 842, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-11
+
+Mismatched elements: 512 / 65536 (0.781%)
+Max absolute difference: 1.64906048
+Max relative difference: 2.99254592
+ x: array([[ 0.707107+0.j ,  0.      +0.j ,  0.      +0.j , ...,
+         0.      +0.j ,  0.      +0.j ,  0.      +0.j ],
+       [ 0.      +0.j ,  0.707107+0.j ,  0.      +0.j , ...,...
+ y: array([[0.463388-0.838388j, 0.      +0.j      , 0.      +0.j      , ...,
+        0.      +0.j      , 0.      +0.j      , 0.      +0.j      ],
+       [0.      +0.j      , 0.463388-0.838388j, 0.      +0.j      , ...,...
+
+----------------------------------------------------------------------
+Ran 1 test in 0.018s
+
+FAILED (failures=1)
